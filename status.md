@@ -8,8 +8,8 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, floor 6 Smith (post-upgrade)
-- **Floor:** 6 / Act 1
+- **Last update:** 2026-04-20, floor 7 Shop (post-purchase)
+- **Floor:** 7 / Act 1
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
@@ -17,37 +17,39 @@
 ## Resources
 
 - **HP:** 77 / 80
-- **Gold:** 258
+- **Gold:** ~40 (after shop: -143 Marbles, -75 removal)
 - **Potion slots:** 3 (Fire Potion / Elixir / empty)
   - Fire Potion: deal 20 dmg to one enemy. Save for elite/boss or a near-killing blow.
   - Elixir: Exhaust any number of cards in your hand. Save for: kill turns
     where you need to dump dead Strikes/Defends, or to nuke Wounds/Burns
     if you pick up pollute cards. Also great vs. Hexaghost (clear Burns).
 
-## Deck (12 cards)
+## Deck (11 cards after F7 Shop removal)
 
 ```
-5 × Strike
+4 × Strike            ← removed 1 Strike at F7 shop
 4 × Defend
-1 × Bash            ← upgrading to Bash+ at this Smith (10 dmg / 3 Vuln)
-1 × Iron Wave       (cost 1: block 5 + dmg 5)
-1 × Pommel Strike   (cost 1: dmg 9 + draw 1)
+1 × Bash+             (10 dmg / 3 Vuln, cost 2)
+1 × Iron Wave         (cost 1: block 5 + dmg 5)
+1 × Pommel Strike     (cost 1: dmg 9 + draw 1)
 ```
 
-**Card count:** 12
-**Upgrade count:** 0 → 1 (Bash+)
+**Card count:** 11
+**Upgrade count:** 1 (Bash+)
 
 ## Relics
 
 - Burning Blood (starter): heal 6 at end of combat.
-- **Ornamental Fan** (uncommon, tier C- for Ironclad): every 3 Attacks
-  in a single turn → gain 4 Block. Nudges us toward attack-spam (Strike-tribal,
-  Strength) decks. Worth ~+4 block per attack-heavy turn — modest.
+- **Ornamental Fan** (uncommon, tier C-): every 3 Attacks per turn → +4 Block.
+- **Bag of Marbles** (common, tier **A** for Ironclad, bought F7 for 143g):
+  start of combat → 1 Vulnerable to ALL enemies. Stacks with Bash+ (4 turns
+  Vuln total). Massive upgrade to every fight, especially turn-1 burst.
 
 ## Active plan / archetype
 
-- **Archetype:** **leaning Strength / Strike-tribal** (Ornamental Fan rewards
-  3-attacks-per-turn). Still uncommitted; pivot freely on a strong offer.
+- **Archetype:** **Strength / Vulnerable burst** is now the natural lane —
+  Bash+ + Bag of Marbles = guaranteed Vulnerable on every fight. Pivot freely
+  if a strong Block or Exhaust payoff appears.
 - **Win condition:** TBD — first archetype-defining card will set the lane:
   - `Heavy Blade / Demon Form / Inflame / Limit Break` → Strength (best fit with Ornamental Fan)
   - `Perfected Strike` → Strike-tribal (great fit; Pommel Strike already in deck)
@@ -65,9 +67,14 @@
 
 ## Recent decisions
 
-- [F6] Smith: upgrade **Bash → Bash+** (10 dmg / 3 Vuln). Reason:
-  no archetype committed yet, Bash is universal, +1 Vulnerable stack
-  compounds with every other Attack and pre-enables Strength picks.
+- [F7] Shop:
+  - Bought **Bag of Marbles** (143g) — A-tier, Vuln-on-combat-start.
+  - Bought card removal **−1 Strike** (75g). Removes the worst card type;
+    deck is now 11.
+  - Skipped Anchor (B+ but no block-persistence plan), Membership Card
+    (sunk-cost), Warcry/Headbutt/Feel No Pain (bad fit), all potions.
+- [F6] Smith: upgrade **Bash → Bash+** (10 dmg / 3 Vuln). Universal, sets up
+  Strength lane.
 
 ## Open questions / risks
 
