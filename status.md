@@ -8,19 +8,17 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F18 Act-2 card reward (Dodge and Roll+)
-- **Floor:** 18 / Act 2
-- **Boss seen (act 1):** defeated (post-fight HP 30/80; took 43 dmg total)
-- **Boss seen (act 2):** —
+- **Last update:** 2026-04-20, F45 Act-3 shop
+- **Floor:** 45 / Act 3
+- **Boss seen (act 1):** defeated
+- **Boss seen (act 2):** defeated
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 43 / 80 (post-F22 combat, -13 from 56) — campfire priority now
-- **Gold:** 51 (post-shop 31 + F22 combat gold)
-- **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
-  cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
-  unupgraded cards; do NOT waste on T1 or short fights)
+- **HP:** 36 / 80 (critically low — 45%; healing is top priority)
+- **Gold:** 212 (pre-shop)
+- **Potion slots:** Dexterity potion, Duplicate potion, Blood 20% potion
 
 ## Deck (17 cards, post-F21 shop buys)
 
@@ -47,32 +45,26 @@ Perfected Strike+). Deva Form is a Power — Toxic Egg does NOT upgrade it.
 **Strike-named count:** 4 (Strike, Pommel Strike+, Twin Strike+, Perfected
 Strike+) → Perfected Strike+ currently deals **6 + 3×4 = 18 dmg**.
 
-## Relics
+## Relics (current — confirmed F45)
 
-- Burning Blood (starter): heal 6 at end of combat.
-- **Ornamental Fan** (uncommon, tier C-): every 3 Attacks per turn → +4 Block.
-- **Bag of Marbles** (common, tier **A** for Ironclad, bought F7 for 143g):
-  start of combat → 1 Vulnerable to ALL enemies. Stacks with Bash+ (4 turns
-  Vuln total). Massive upgrade to every fight, especially turn-1 burst.
-- **Toxic Egg** (uncommon, tier **A-** for Ironclad, found post-F8):
-  every newly added **Skill** is pre-upgraded. Changes draft priorities —
-  Skills are now significantly more valuable. Does NOT retroactively upgrade
-  Skills already in deck.
-- **Paper Phrog** (uncommon, tier **A** for Ironclad, found post-Smith #2):
-  Vulnerable enemies take **75% more damage** instead of 50%. Synergises
-  with everything we have — Bash+ (3 Vuln), Bag of Marbles (1 Vuln combat
-  start). Effectively a +15-20% damage multiplier on the whole deck.
-- **Prismatic Shard** (Boss tier, bought F13 for 147g): every combat reward
-  now also includes a colorless / other-class card option. **Big synergy
-  with Toxic Egg** — auto-upgrades any Skill from any class. Unlocks
-  Master of Strategy, Apparition, Madness, J.A.X., Bandage Up, Bite,
-  Footwork, A Thousand Cuts, etc. as draftable picks.
-- **Gambling Chip** (rare, tier **A-**, elite drop F14): at combat start,
-  discard any number of cards and draw that many. Effectively a mulligan
-  every fight — lets us seek Bash+/Pommel+/Deva Form on turn 1.
-- **Astrolabe** (Boss tier, F16 boss drop): transformed 3 basic Strikes
-  into 3 random pre-upgraded Ironclad cards. Specific cards TBD — check
-  deck after transformation and log them.
+- **Bronze Scale**: deal 3 Thorns damage when you take unblocked damage.
+- **Centennial Puzzle**: first time you lose HP in combat, draw 3 cards.
+- **Dolly's Mirror**: at combat start, add a copy of the last card added to
+  your deck to your hand. **Key:** whatever card was most recently drafted/
+  bought is the card that appears in hand every fight — track this carefully.
+
+> NOTE: Relic list may be incomplete. Earlier relics (Burning Blood, Bag of
+> Marbles, Toxic Egg, Paper Phrog, Prismatic Shard, Gambling Chip, Astrolabe,
+> Ornamental Fan) status unknown — confirm from next screenshot.
+
+## Recent decisions
+
+- [F45] Shop: **Buy Reaper (136g)** + **Carnage SALE (39g)**. Reaper = A-tier
+  healing attack, critical at 36/80 HP. Carnage = B+ burst at sale price.
+  Dolly's Mirror: if Reaper is last card added, it appears in hand every
+  combat (free 4×N dmg + heal). Skip Dark Embrace (D+), Havoc+ (C-),
+  Armaments+ (already in deck), Flash of Steel, Metamorphosis+ (overpriced).
+  Card Removal (125g) unaffordable after Reaper+Carnage. Gold: 212→37.
 
 ## Active plan / archetype
 
