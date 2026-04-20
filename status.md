@@ -23,22 +23,23 @@
   - Regen Potion: gain 5 Regen (heal 5, 4, 3, 2, 1 over 5 turns = 15 HP).
     Use early in long elite/boss fights to maximise total heal.
 
-## Deck (14 cards, post-F16 boss reward)
+## Deck (14 cards, post-F16 boss + Astrolabe transform)
 
 ```
-4 × Strike
+1 × Strike            (3 transformed → 3 random upgraded, TBD)
 4 × Defend
 1 × Bash+             (10 dmg / 3 Vuln, cost 2)
 1 × Iron Wave         (cost 1: block 5 + dmg 5)
 1 × Pommel Strike+    (cost 1: dmg 10 + draw 2)
 1 × Shrug It Off      (cost 1: block 8 + draw 1)
 1 × True Grit+        (cost 1: block 9 + targeted Exhaust)
-1 × Deva Form         ← picked F16 boss reward (cost 3, Ethereal, Power:
-                        +1 energy/turn, increasing by 1 each turn)
+1 × Deva Form         (cost 3, Ethereal, Power: +1 energy/turn, ramping)
+3 × ???+              ← Astrolabe random pre-upgraded, pending screenshot
 ```
 
 **Card count:** 14
-**Upgrade count:** 3 (Bash+, Pommel Strike+, True Grit+ via Toxic Egg).
+**Upgrade count:** 3 committed (Bash+, Pommel Strike+, True Grit+) +
+3 pending (Astrolabe targets) = 6 upgrades.
 Deva Form is a **Power**, not a Skill — Toxic Egg does NOT upgrade it.
 
 ## Relics
@@ -63,7 +64,10 @@ Deva Form is a **Power**, not a Skill — Toxic Egg does NOT upgrade it.
   Footwork, A Thousand Cuts, etc. as draftable picks.
 - **Gambling Chip** (rare, tier **A-**, elite drop F14): at combat start,
   discard any number of cards and draw that many. Effectively a mulligan
-  every fight — lets us seek Bash+/Pommel+ on turn 1.
+  every fight — lets us seek Bash+/Pommel+/Deva Form on turn 1.
+- **Astrolabe** (Boss tier, F16 boss drop): transformed 3 basic Strikes
+  into 3 random pre-upgraded Ironclad cards. Specific cards TBD — check
+  deck after transformation and log them.
 
 ## Active plan / archetype
 
@@ -118,6 +122,12 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 - [F16] **Act-1 boss defeated.** HP 73 → 30 (43 dmg taken; Fire + Elixir
   potions used). Gold 29 → 125. Gained Regen Potion along the way (2/3).
+- [F16] Boss relic: **Astrolabe** (transform 3 cards, upgrade them).
+  Target: 3 basic Strikes → 3 random pre-upgraded Ironclad cards.
+  Beats Busted Crown (+1 energy, but only 1-card rewards → torpedoes
+  Prismatic Shard + Toxic Egg synergy), and beats Sacred Bark (doubles
+  potions — narrow effect felt ~6-10 times vs. Astrolabe felt every combat).
+  Variance is real (~20% all-mediocre rolls) but floor strictly ≥ 3 Strikes.
 - [F16] Card reward (PShard colorless pool): **Take Deva Form**.
   Reasoning revised after user noted HP will refill at act transition.
   With HP constraint relaxed, the energy-ramp scaling is worth the T1
