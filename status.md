@@ -16,12 +16,14 @@
 
 ## Resources
 
-- **HP:** 30 / 80 ← **CRITICAL, 37%**. Rest site is top priority in Act 2.
+- **HP:** 30 / 80 (will refill at act transition per user confirmation)
 - **Gold:** 125 (+96 from boss)
-- **Potion slots:** 3 / 3 (contents TBD — confirm on next screen; likely
-  some combo of Fire / Elixir / Fear was used in boss fight)
+- **Potion slots:** 2 / 3 — **Fear**, **Regen** (Fire + Elixir used in boss)
+  - Fear Potion: apply 3 Weak. Boss emergency mitigation (-25% atk dmg ×3).
+  - Regen Potion: gain 5 Regen (heal 5, 4, 3, 2, 1 over 5 turns = 15 HP).
+    Use early in long elite/boss fights to maximise total heal.
 
-## Deck (13 cards, post-F12 reward)
+## Deck (14 cards, post-F16 boss reward)
 
 ```
 4 × Strike
@@ -30,11 +32,14 @@
 1 × Iron Wave         (cost 1: block 5 + dmg 5)
 1 × Pommel Strike+    (cost 1: dmg 10 + draw 2)
 1 × Shrug It Off      (cost 1: block 8 + draw 1)
-1 × True Grit+        ← picked F12 (cost 1: block 9 + targeted Exhaust)
+1 × True Grit+        (cost 1: block 9 + targeted Exhaust)
+1 × Deva Form         ← picked F16 boss reward (cost 3, Ethereal, Power:
+                        +1 energy/turn, increasing by 1 each turn)
 ```
 
-**Card count:** 13
-**Upgrade count:** 3 (Bash+, Pommel Strike+, True Grit+ via Toxic Egg)
+**Card count:** 14
+**Upgrade count:** 3 (Bash+, Pommel Strike+, True Grit+ via Toxic Egg).
+Deva Form is a **Power**, not a Skill — Toxic Egg does NOT upgrade it.
 
 ## Relics
 
@@ -62,10 +67,15 @@
 
 ## Active plan / archetype
 
-- **Archetype:** **Aggressive Vulnerable / Strength**, fully committed.
-  Bash+ → 3 Vuln, Marbles → +1 Vuln combat start, Phrog → +75% dmg into Vuln.
-  Block plan is "kill them faster." Toxic Egg makes future Skills free upgrades.
-- **Win condition:** TBD — first archetype-defining card will set the lane:
+- **Archetype:** **Aggressive Vulnerable / Strength + Energy ramp**.
+  Bash+ → 3 Vuln, Marbles → +1 Vuln combat start, Phrog → +75% dmg into Vuln,
+  **Deva Form** → exponential energy scaling for long fights. Block plan is
+  "kill them faster." Toxic Egg makes future Skills free upgrades.
+- **Win condition:** Deva Form ramp into multi-card turns. Ideal payoff
+  would still be Heavy Blade / Whirlwind / Demon Form / Reaper — with 6–7
+  energy mid-fight, any of these one-shots a boss.
+- **Win condition (archival — if found):** the first archetype-defining
+  card for each lane:
   - `Heavy Blade / Demon Form / Inflame / Limit Break` → Strength (best fit with Ornamental Fan)
   - `Perfected Strike` → Strike-tribal (great fit; Pommel Strike already in deck)
   - `Barricade / Body Slam / Juggernaut` → Block
@@ -106,12 +116,16 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
-- [F16] **Act-1 boss defeated.** HP 73 → 30 (43 dmg taken). Gold 29 → 125.
-- [F16] Card reward (PShard colorless pool): **Skip**.
-  Offers were Metamorphosis+ (one-shot random attacks, self-exhaust),
-  Magnetism (random colorless/turn, not auto-upgraded — Power not Skill),
-  Deva Form (3-cost Ethereal — too risky at 30 HP, exhausts if not played T1).
-  None fit aggressive Vuln/Strength; lean 13-card deck preserved.
+- [F16] **Act-1 boss defeated.** HP 73 → 30 (43 dmg taken; Fire + Elixir
+  potions used). Gold 29 → 125. Gained Regen Potion along the way (2/3).
+- [F16] Card reward (PShard colorless pool): **Take Deva Form**.
+  Reasoning revised after user noted HP will refill at act transition.
+  With HP constraint relaxed, the energy-ramp scaling is worth the T1
+  sacrifice. Deva Form is a Power (no Toxic Egg upgrade), Ethereal, cost 3 —
+  but Gambling Chip ≈77% T1 see-rate makes it reliably playable. Substitutes
+  for the missing Demon Form scaler. Metamorphosis+ (one-shot, self-exhaust)
+  and Magnetism (random colorless variance) don't solve the scaler gap.
+  Deck: 13 → 14.
 - [F??] Rest: **Rest** over Smith. Rule: < 70% HP → rest. +24 HP (49→73)
   > any marginal smith upgrade. Key cards already upgraded
   (Bash+/Pommel+/True Grit+).
