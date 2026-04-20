@@ -18,8 +18,9 @@
 
 - **HP:** 74 / 80 (act transition refilled HP from 30 — user ruleset)
 - **Gold:** 139 (+14 from first Act-2 monster)
-- **Potion slots:** 3 / 3 — Fear, Regen, + 1 new (TBD, looked star-shaped —
-  possibly Strength / Attack / Blood Potion, confirm next screen)
+- **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
+  cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
+  unupgraded cards; do NOT waste on T1 or short fights)
 
 ## Deck (15 cards, post-F18 Dodge and Roll+)
 
