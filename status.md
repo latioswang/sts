@@ -8,16 +8,16 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F14 post-elite card reward
-- **Floor:** 14 / Act 1
+- **Last update:** 2026-04-20, F?? rest (post-rest)
+- **Floor:** 15+ / Act 1 (heading toward boss)
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 49 / 80 (took 25 HP in F14 elite)
-- **Gold:** 29 (+28 elite drop)
+- **HP:** 73 / 80 (rested: +24)
+- **Gold:** 29
 - **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
   - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
   - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
@@ -104,6 +104,9 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F??] Rest: **Rest** over Smith. Rule: < 70% HP → rest. +24 HP (49→73)
+  > any marginal smith upgrade. Key cards already upgraded
+  (Bash+/Pommel+/True Grit+).
 - [F14] Elite: won, took 25 HP (74→49). Gained 28g and a new relic (TBD).
 - [F14] Card reward: **Skip** — Sentinel+ (no Corruption), Auto-Shields+
   (anti-synergy with Ornamental Fan), Ragnarok (3-cost crowds Bash turns,
