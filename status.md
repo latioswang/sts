@@ -8,22 +8,20 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F16 Act-1 boss defeated → card reward (skipped)
-- **Floor:** 16 → 17 (entering Act 2)
+- **Last update:** 2026-04-20, F18 Act-2 card reward (Dodge and Roll+)
+- **Floor:** 18 / Act 2
 - **Boss seen (act 1):** defeated (post-fight HP 30/80; took 43 dmg total)
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 30 / 80 (will refill at act transition per user confirmation)
-- **Gold:** 125 (+96 from boss)
-- **Potion slots:** 2 / 3 — **Fear**, **Regen** (Fire + Elixir used in boss)
-  - Fear Potion: apply 3 Weak. Boss emergency mitigation (-25% atk dmg ×3).
-  - Regen Potion: gain 5 Regen (heal 5, 4, 3, 2, 1 over 5 turns = 15 HP).
-    Use early in long elite/boss fights to maximise total heal.
+- **HP:** 74 / 80 (act transition refilled HP from 30 — user ruleset)
+- **Gold:** 139 (+14 from first Act-2 monster)
+- **Potion slots:** 3 / 3 — Fear, Regen, + 1 new (TBD, looked star-shaped —
+  possibly Strength / Attack / Blood Potion, confirm next screen)
 
-## Deck (14 cards, post-Astrolabe transform — rolls resolved)
+## Deck (15 cards, post-F18 Dodge and Roll+)
 
 ```
 1 × Strike            (3 basic Strikes transformed by Astrolabe)
@@ -37,9 +35,10 @@
 1 × Twin Strike+      (cost 1: 7 dmg × 2 = 14)                  [STRIKE-named]
 1 × Fiend Fire+       (cost 2: Exhaust hand, 10 dmg/Exhausted, self-Exhaust)
 1 × Perfected Strike+ (cost 2: 6 dmg + 3 per "Strike" card)     [STRIKE-named]
+1 × Dodge and Roll+   (cost 1, Silent colorless: block 6 + block 6 next turn)
 ```
 
-**Card count:** 14
+**Card count:** 15
 **Upgrade count:** 6 (Bash+, Pommel+, True Grit+, Twin Strike+, Fiend Fire+,
 Perfected Strike+). Deva Form is a Power — Toxic Egg does NOT upgrade it.
 **Strike-named count:** 4 (Strike, Pommel Strike+, Twin Strike+, Perfected
@@ -124,6 +123,12 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F18] Card reward (PShard pool): **Dodge and Roll+** (Silent, 1-cost, 6
+  block now + 6 block next turn). Halt+ is dead without Wrath (Watcher-only
+  stance); Dagger Throw isn't upgraded by Toxic Egg (Attack, not Skill) and
+  discard 1 is anti-synergy. Dodge and Roll+ directly fills block-density
+  gap for Act-2 elites. Deck 14 → 15.
+- [F17] Act-2 transition: HP refilled 30 → 74 (user-confirmed ruleset).
 - [F16] **Act-1 boss defeated.** HP 73 → 30 (43 dmg taken; Fire + Elixir
   potions used). Gold 29 → 125. Gained Regen Potion along the way (2/3).
 - [F16] Boss relic: **Astrolabe** (transform 3 cards, upgrade them).
