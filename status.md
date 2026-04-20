@@ -123,6 +123,10 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F19] Event: **Council of Ghosts → Refuse.** –40 Max HP is catastrophic
+  (50% pool, permanent); 5 Apparition+ uses are spread too thin and we
+  lack Exhaust-payoff engine (no Dark Embrace / Feel No Pain / Corruption)
+  to compound their value. Deck already has solid block plan post-Dodge+.
 - [F18] Card reward (PShard pool): **Dodge and Roll+** (Silent, 1-cost, 6
   block now + 6 block next turn). Halt+ is dead without Wrath (Watcher-only
   stance); Dagger Throw isn't upgraded by Toxic Egg (Attack, not Skill) and
