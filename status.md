@@ -8,21 +8,23 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F18 Act-2 card reward (Dodge and Roll+)
-- **Floor:** 18 / Act 2
+- **Last update:** 2026-04-20, F25 Library event → Inflame
+- **Floor:** 25 / Act 2
 - **Boss seen (act 1):** defeated (post-fight HP 30/80; took 43 dmg total)
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 43 / 80 (post-F22 combat, -13 from 56) — campfire priority now
-- **Gold:** 51 (post-shop 31 + F22 combat gold)
+- **HP:** 46 / 80 (post-F24 rest, 22 → 46 = +24). F23 combat dropped 43 → 22
+  (-21, likely a tough normal — log if elite).
+- **Gold:** 381 (81 + 300 from unknown event/pickup post-F25 — log source
+  next screenshot)
 - **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
   cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
   unupgraded cards; do NOT waste on T1 or short fights)
 
-## Deck (17 cards, post-F21 shop buys)
+## Deck (19 cards, post-F25 Library)
 
 ```
 1 × Strike            (3 basic Strikes transformed by Astrolabe)
@@ -39,13 +41,30 @@
 1 × Dodge and Roll+   (cost 1, Silent colorless: block 6 + block 6 next turn)
 1 × Armaments+        (cost 1: block 5 + upgrade ALL hand cards rest of combat)
 1 × Sentinel+         (cost 1: block 8; if Exhausted, gain 3 Energy)
+1 × Steam Barrier+    (cost 0, Defect colorless: block 8, -1/play this combat)
+1 × Inflame           (cost 1, Power: +2 Strength — UNUPGRADED, Toxic Egg
+                       doesn't affect Powers; smith/campfire priority)
 ```
 
-**Card count:** 17
-**Upgrade count:** 6 (Bash+, Pommel+, True Grit+, Twin Strike+, Fiend Fire+,
-Perfected Strike+). Deva Form is a Power — Toxic Egg does NOT upgrade it.
+**Card count:** 19
+**Upgrade count:** 7 (Bash+, Pommel+, True Grit+, Twin Strike+, Fiend Fire+,
+Perfected Strike+, Sentinel+, Armaments+, Dodge and Roll+, Steam Barrier+ =
+actually 10 upgraded, but Inflame/Iron Wave/Shrug/Strike/Defend ×4/Deva Form
+are unupgraded — 10 upgraded / 9 unupgraded).
 **Strike-named count:** 4 (Strike, Pommel Strike+, Twin Strike+, Perfected
-Strike+) → Perfected Strike+ currently deals **6 + 3×4 = 18 dmg**.
+Strike+) → Perfected Strike+ currently deals **6 + 3×4 = 18 dmg** base,
+20 with Inflame.
+
+### Damage ceilings (post-Inflame, with Vuln from Bash+/Bag of Marbles + 75% Phrog)
+
+| Card            | Base dmg | +Inflame (2 Str) | × 1.75 Vuln |
+|-----------------|---------:|------------------:|------------:|
+| Bash+           |       10 |                12 |          21 |
+| Twin Strike+    |    7 × 2 |           9 × 2=18 |      31 |
+| Pommel Strike+  |       10 |                12 |          21 |
+| Perfected +     |       18 |                20 |          35 |
+| Fiend Fire+ ×5  |   10 × 5 |          12 × 5=60 |     105 |
+| Iron Wave       |        5 |                 7 |          12 |
 
 ## Relics
 
@@ -73,14 +92,21 @@ Strike+) → Perfected Strike+ currently deals **6 + 3×4 = 18 dmg**.
 - **Astrolabe** (Boss tier, F16 boss drop): transformed 3 basic Strikes
   into 3 random pre-upgraded Ironclad cards. Specific cards TBD — check
   deck after transformation and log them.
+- **Tungsten Rod** (Rare, tier **S** for Ironclad, picked up post-F25):
+  whenever you would lose HP, lose 1 less. Massive. Every multi-hit attack
+  against you loses ~15–40% sting — Book of Stabbing, Byrds, Centurion,
+  Slavers, Chosen, and especially Act-3 Book of Stabbing / Reptomancer
+  daggers become trivial. Combos with Burning Blood (effectively +1 HP per
+  damage taken, healed back end of combat). Hard counter to Wound-heavy
+  pressure too. Already turns our block plan from "acceptable" to "plenty".
 
 ## Active plan / archetype
 
-- **Archetype:** **Aggressive Vuln + Strike-tribal + Exhaust-burst + Energy ramp**.
-  Four layered win conditions: Twin Strike+ × Vuln for short fights,
-  Perfected Strike+ (currently 18 dmg) for medium, Fiend Fire+ (70 dmg under
-  Vuln) for bosses, Deva Form ramp for long fights. Block plan is "kill
-  faster", with 4 Defends + Shrug + True Grit+ + Iron Wave as filler.
+- **Archetype:** **Aggressive Vuln + Strike-tribal + Strength + Exhaust-burst
+  + Energy ramp**. Inflame slots in as the Strength scaler we were missing —
+  every Attack just got +2 dmg, multi-hit cards scale hardest (Twin Strike+
+  = +4/turn, Fiend Fire+ = +10/play). Fiend Fire+ under Vuln+Inflame hits
+  for **~105 dmg**; this is the new kill button for elites/boss.
 - **Win condition:** Deva Form ramp into multi-card turns. Ideal payoff
   would still be Heavy Blade / Whirlwind / Demon Form / Reaper — with 6–7
   energy mid-fight, any of these one-shots a boss.
