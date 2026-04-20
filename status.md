@@ -16,13 +16,13 @@
 
 ## Resources
 
-- **HP:** 56 / 80 (post-F20 combat, -18 from 74)
-- **Gold:** 158 (+19 from F20 fight)
+- **HP:** 56 / 80 (post-F20 combat)
+- **Gold:** 31 (post-F21 shop: -127g for Armaments+ + Sentinel+)
 - **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
   cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
   unupgraded cards; do NOT waste on T1 or short fights)
 
-## Deck (15 cards, post-F18 Dodge and Roll+)
+## Deck (17 cards, post-F21 shop buys)
 
 ```
 1 × Strike            (3 basic Strikes transformed by Astrolabe)
@@ -37,9 +37,11 @@
 1 × Fiend Fire+       (cost 2: Exhaust hand, 10 dmg/Exhausted, self-Exhaust)
 1 × Perfected Strike+ (cost 2: 6 dmg + 3 per "Strike" card)     [STRIKE-named]
 1 × Dodge and Roll+   (cost 1, Silent colorless: block 6 + block 6 next turn)
+1 × Armaments+        (cost 1: block 5 + upgrade ALL hand cards rest of combat)
+1 × Sentinel+         (cost 1: block 8; if Exhausted, gain 3 Energy)
 ```
 
-**Card count:** 15
+**Card count:** 17
 **Upgrade count:** 6 (Bash+, Pommel+, True Grit+, Twin Strike+, Fiend Fire+,
 Perfected Strike+). Deva Form is a Power — Toxic Egg does NOT upgrade it.
 **Strike-named count:** 4 (Strike, Pommel Strike+, Twin Strike+, Perfected
@@ -124,6 +126,17 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F21] Shop: bought **Armaments+ (47g)** and **Sentinel+ (80g)**, 127g total.
+  - Armaments+ = permanent Blessing Potion. Upgrades all cards in hand for
+    rest of combat. Massive snowball on T2 of long fights.
+  - Sentinel+ = 8 block floor + exhaust trigger grants 3 Energy. Huge combo
+    with Fiend Fire+ (exhaust fuel → +10 dmg + 3 energy refund) and True
+    Grit+ (targeted exhaust → 17 block + 3 energy in one turn).
+  - Skipped Reckless Charge (Dazed pollution), Headbutt (good but not
+    upgraded), Rupture (no HP-loss enablers), Purity+ (no Exhaust payoffs),
+    Sadistic Nature (180g too expensive). All relics (Happy Flower C, Juzu
+    B, Hand Drill C+) below pick threshold at 146-153g. Potions unavailable
+    (slots full). Deck 15 → 17. Gold 158 → 31.
 - [F20] Card reward: **Skip.** Three 0-cost colorless attacks (Go for the
   Eyes / Consecrate / Just Lucky), none upgraded (Attacks bypass Toxic Egg),
   none archetype-defining. Deck dilution hurts Bash+ draw rate. Hold for
