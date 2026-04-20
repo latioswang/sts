@@ -1,0 +1,728 @@
+[
+  {
+    "name": "Apotheosis",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "Upgrade ALL of your cards for the rest of combat. Exhaust.",
+    "description_upgraded": "Upgrade ALL of your cards for the rest of combat. Exhaust.",
+    "tier": "A+",
+    "tags": [
+      "upgrade"
+    ],
+    "statement": "",
+    "index": 148
+  },
+  {
+    "name": "Apparition",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 1 Intangible. Exhaust. Ethereal.",
+    "description_upgraded": "Gain 1 Intangible. Exhaust.",
+    "tier": "A-",
+    "tags": [
+      "intangible",
+      "ethereal"
+    ],
+    "statement": "",
+    "index": 176
+  },
+  {
+    "name": "Bandage Up",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Heal 4 HP. Exhaust.",
+    "description_upgraded": "Heal 6 HP. Exhaust.",
+    "tier": "S-",
+    "tags": [
+      "heal",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 149
+  },
+  {
+    "name": "Beta",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "Shuffle an Omega into your draw pile. Exhaust.",
+    "description_upgraded": "Shuffle an Omega into your draw pile. Exhaust.",
+    "tier": "E",
+    "tags": [],
+    "statement": "",
+    "index": 348
+  },
+  {
+    "name": "Bite",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 7 damage. Heal 2 HP.",
+    "description_upgraded": "Deal 8 damage. Heal 3 HP.",
+    "tier": "B+",
+    "tags": [
+      "heal"
+    ],
+    "statement": "",
+    "index": 150
+  },
+  {
+    "name": "Blind",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Apply 2 Weak.",
+    "description_upgraded": "Apply 2 Weak to ALL enemies.",
+    "tier": "C+",
+    "tags": [
+      "weak",
+      "aoe"
+    ],
+    "statement": "",
+    "index": 151
+  },
+  {
+    "name": "Chrysalis",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Add 3 random Skills into your Draw Pile. They cost 0 this combat. Exhaust.",
+    "description_upgraded": "Add 5 random Skills into your Draw Pile. They cost 0 this combat. Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "create",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 182
+  },
+  {
+    "name": "Dark Shackles",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Enemy loses 9 Strength for the rest of this turn. Exhaust.",
+    "description_upgraded": "Enemy loses 15 Strength for the rest of this turn. Exhaust.",
+    "tier": "A-",
+    "tags": [
+      "exhaust",
+      "strengthdown"
+    ],
+    "statement": "",
+    "index": 152
+  },
+  {
+    "name": "Deep Breath",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Shuffle your discard pile into your draw pile. Draw 1 card.",
+    "description_upgraded": "Shuffle your discard pile into your draw pile. Draw 2 cards.",
+    "tier": "D",
+    "tags": [
+      "draw"
+    ],
+    "statement": "",
+    "index": 153
+  },
+  {
+    "name": "Discovery",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Choose 1 of 3 random cards to add to your hand. It costs 0 this turn. Exhaust.",
+    "description_upgraded": "Choose 1 of 3 random cards to add to your hand. It costs 0 this turn.",
+    "tier": "B+",
+    "tags": [
+      "exhaust",
+      "create"
+    ],
+    "statement": "",
+    "index": 178
+  },
+  {
+    "name": "Dramatic Entrance",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Innate. Deal 8 damage to ALL enemies. Exhaust.",
+    "description_upgraded": "Innate. Deal 12 damage to ALL enemies. Exhaust.",
+    "tier": "A+",
+    "tags": [
+      "innate",
+      "exhaust",
+      "aoe"
+    ],
+    "statement": "",
+    "index": 154
+  },
+  {
+    "name": "Enlightenment",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Reduce the cost of cards in your hand to 1 this turn.",
+    "description_upgraded": "Reduce the cost of cards in your hand to 1 this combat.",
+    "tier": "D+",
+    "tags": [],
+    "statement": "",
+    "index": 155
+  },
+  {
+    "name": "Finesse",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 2 Block. Draw 1 card.",
+    "description_upgraded": "Gain 4 Block. Draw 1 card.",
+    "tier": "C",
+    "tags": [
+      "dblock",
+      "draw"
+    ],
+    "statement": "",
+    "index": 156
+  },
+  {
+    "name": "Flash of Steel",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 3 damage. Draw 1 card.",
+    "description_upgraded": "Deal 6 damage. Draw 1 card.",
+    "tier": "C+",
+    "tags": [
+      "draw"
+    ],
+    "statement": "",
+    "index": 157
+  },
+  {
+    "name": "Forethought",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Put a card from your hand on the bottom of your draw pile. It costs 0 until it is played.",
+    "description_upgraded": "Put any number of cards from your hand on the bottom of your draw pile. They cost 0 until it is played.",
+    "tier": "C-",
+    "tags": [
+      "prepare"
+    ],
+    "statement": "",
+    "index": 179
+  },
+  {
+    "name": "Good Instincts",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 6 Block.",
+    "description_upgraded": "Gain 9 Block.",
+    "tier": "C+",
+    "tags": [
+      "dblock"
+    ],
+    "statement": "",
+    "index": 158
+  },
+  {
+    "name": "Hand of Greed",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Deal 20 damage. If Fatal, gain 20 Gold.",
+    "description_upgraded": "Deal 25 damage. If Fatal, gain 25 Gold.",
+    "tier": "B",
+    "tags": [
+      "gold"
+    ],
+    "statement": "Obvious as it may sound, remember to route lots of shops with this card. If hallway fights aren't posing a challenge, include plenty on your way to the shops. Since you can buy relics at the shops, elites become less necessary.",
+    "index": 183
+  },
+  {
+    "name": "Impatience",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "If you have no Attack cards in your hand, draw 2 cards.",
+    "description_upgraded": "If you have no Attack cards in your hand, draw 3 cards.",
+    "tier": "C",
+    "tags": [
+      "draw"
+    ],
+    "statement": "",
+    "index": 180
+  },
+  {
+    "name": "Insight",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Retain. Draw 2 cards. Exhaust.",
+    "description_upgraded": "Retain. Draw 3 cards. Exhaust.",
+    "tier": "S-",
+    "tags": [
+      "retain",
+      "draw",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 349
+  },
+  {
+    "name": "J.A.X.",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Lose 3 HP. Gain 2 Strength.",
+    "description_upgraded": "Lose 3 HP. Gain 3 Strength.",
+    "tier": "B+",
+    "tags": [
+      "sacrifice",
+      "strength",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 159
+  },
+  {
+    "name": "Jack Of All Trades",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Add 1 random Colorless card to your hand. Exhaust.",
+    "description_upgraded": "Add 2 random Colorless cards to your hand. Exhaust.",
+    "tier": "C",
+    "tags": [
+      "exhaust",
+      "create"
+    ],
+    "statement": "",
+    "index": 160
+  },
+  {
+    "name": "Madness",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Reduce the cost of a random card in your hand cost to 0 this combat. Exhaust.",
+    "description_upgraded": "Reduce the cost of a random card in your hand cost to 0 this combat. Exhaust.",
+    "tier": "C",
+    "tags": [
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 161
+  },
+  {
+    "name": "Magnetism",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "At the start of each turn, add a random colorless card to your hand.",
+    "description_upgraded": "At the start of each turn, add a random colorless card to your hand.",
+    "tier": "A-",
+    "tags": [
+      "create"
+    ],
+    "statement": "",
+    "index": 162
+  },
+  {
+    "name": "Master of Strategy",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Draw 3 cards. Exhaust.",
+    "description_upgraded": "Draw 4 cards. Exhaust.",
+    "tier": "A+",
+    "tags": [
+      "draw",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 163
+  },
+  {
+    "name": "Mayhem",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "At the start of your turn, play the top card of your draw pile.",
+    "description_upgraded": "At the start of your turn, play the top card of your draw pile.",
+    "tier": "D",
+    "tags": [],
+    "statement": "Looks strong at first, but often ends up backfiring. (Hitting enemies with thorns, wasting powerful abilities on the wrong targets, playing cards that debuff you on bad turns, etc.) The played cards count towards the total for the Time Eater and cause damage from the Heart.",
+    "index": 184
+  },
+  {
+    "name": "Metamorphosis",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Add 3 random Attacks into your Draw Pile. They cost 0 this combat. Exhaust.",
+    "description_upgraded": "Add 5 random Attacks into your Draw Pile. They cost 0 this combat. Exhaust.",
+    "tier": "B",
+    "tags": [
+      "create",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 185
+  },
+  {
+    "name": "Mind Blast",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "Innate. Deal damage equal to the number of cards in your draw pile.",
+    "description_upgraded": "Innate. Deal damage equal to the number of cards in your draw pile.",
+    "tier": "C",
+    "tags": [
+      "innate"
+    ],
+    "statement": "",
+    "index": 164
+  },
+  {
+    "name": "Miracle",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Retain. Gain [energy]. Exhaust.",
+    "description_upgraded": "Retain. Gain [energy] [energy]. Exhaust.",
+    "tier": "A",
+    "tags": [
+      "retain",
+      "managain",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 350
+  },
+  {
+    "name": "Omega",
+    "type": "power",
+    "rarity": "common",
+    "cost": 3,
+    "cost_upgraded": 3,
+    "description": "At the start of your turn deal 50 damage to ALL enemies.",
+    "description_upgraded": "At the start of your turn deal 60 damage to ALL enemies.",
+    "tier": "S",
+    "tags": [
+      "aoe"
+    ],
+    "statement": "",
+    "index": 351
+  },
+  {
+    "name": "Panacea",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 1 Artifact. Exhaust.",
+    "description_upgraded": "Gain 2 Artifact. Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "artifact",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 165
+  },
+  {
+    "name": "Panache",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Every time you play 5 cards in a single turn, deal 10 damage to ALL enemies.",
+    "description_upgraded": "Every time you play 5 cards in a single turn, deal 14 damage to ALL enemies.",
+    "tier": "D+",
+    "tags": [
+      "aoe"
+    ],
+    "statement": "",
+    "index": 166
+  },
+  {
+    "name": "Panic Button",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 30 Block. You cannot gain Block from cards for the next 2 turns. Exhaust.",
+    "description_upgraded": "Gain 40 Block. You cannot gain Block from cards for the next 2 turns. Exhaust.",
+    "tier": "C+",
+    "tags": [
+      "dblock",
+      "exhaust",
+      "noblock"
+    ],
+    "statement": "Note that the turn counter includes the current turn, meaning it is just this turn and next turn affected by the debuff. A well-timed intangible effect can cover the one turn of block downtime. Otherwise, it is best played when you know the enemy's next turn will not be high damage.",
+    "index": 181
+  },
+  {
+    "name": "Purity",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Choose and exhaust 3 cards in your hand. Exhaust.",
+    "description_upgraded": "Choose and exhaust 5 cards in your hand. Exhaust.",
+    "tier": "D-",
+    "tags": [
+      "exhaust",
+      "exhaustother"
+    ],
+    "statement": "",
+    "index": 167
+  },
+  {
+    "name": "Ritual Dagger",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 15 Damage. If this kills an enemy, permanently increase this card's damage by 3. Exhaust.",
+    "description_upgraded": "Deal 15 Damage. If this kills an enemy, permanently increase this card's damage by 5. Exhaust.",
+    "tier": "C+",
+    "tags": [
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 177
+  },
+  {
+    "name": "Sadistic Nature",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Whenever you apply a Debuff to an enemy, they take 5 damage.",
+    "description_upgraded": "Whenever you apply a Debuff to an enemy, they take 7 damage.",
+    "tier": "B",
+    "tags": [],
+    "statement": "",
+    "index": 168
+  },
+  {
+    "name": "Safety",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Retain. Gain 12 Block. Exhaust.",
+    "description_upgraded": "Retain. Gain 16 Block. Exhaust.",
+    "tier": "A",
+    "tags": [
+      "dblock",
+      "exhaust",
+      "retain"
+    ],
+    "statement": "",
+    "index": 352
+  },
+  {
+    "name": "Secret Technique",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Choose a Skill from your draw pile and place it into your hand. Exhaust.",
+    "description_upgraded": "Choose a Skill from your draw pile and place it into your hand.",
+    "tier": "A",
+    "tags": [
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 169
+  },
+  {
+    "name": "Secret Weapon",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Choose an Attack from your draw pile and place it into your hand. Exhaust.",
+    "description_upgraded": "Choose an Attack from your draw pile and place it into your hand.",
+    "tier": "A",
+    "tags": [
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 170
+  },
+  {
+    "name": "Shiv",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 4 damage. Exhaust.",
+    "description_upgraded": "Deal 6 damage. Exhaust.",
+    "tier": "B",
+    "tags": [
+      "exhaust",
+      "shiv"
+    ],
+    "statement": "",
+    "index": 171
+  },
+  {
+    "name": "Smite",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Retain. Deal 12 damage. Exhaust.",
+    "description_upgraded": "Retain. Deal 16 damage. Exhaust.",
+    "tier": "A-",
+    "tags": [
+      "exhaust",
+      "retain"
+    ],
+    "statement": "",
+    "index": 353
+  },
+  {
+    "name": "Swift Strike",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 7 damage.",
+    "description_upgraded": "Deal 10 damage.",
+    "tier": "C",
+    "tags": [],
+    "statement": "Fares well early, particularly in Ironclad who does not have many 0-energy cards nor ways to gain energy, but in the late game you might find yourself not being able to spend all your energy each turn with too low-cost cards. As a freebie, it's ok, but rarely worth spending money on except in an emergency.",
+    "index": 172
+  },
+  {
+    "name": "The Bomb",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "At the end of 3 turns, deal 40 damage to ALL enemies.",
+    "description_upgraded": "At the end of 3 turns, deal 50 damage to ALL enemies.",
+    "tier": "D+",
+    "tags": [
+      "aoe"
+    ],
+    "statement": "Although this card has the potential to one-shot an entire encounter, it takes 3 turns to pull off. If this card is in the bottom of your deck, you can end up needing 6-7 turns to finish the encounter, having not killed a single enemy until it triggers. This is because The Bomb is often picked alongside defensive cards in order to survive until the damage goes off. This often means you aren't drafting offensive cards to deal with enemies outside of The Bomb. This makes it particularly awkward versus bosses or other high health enemies, such as the Head, that need multiple plays of this card to kill. Best used with intangible effects. ",
+    "index": 186
+  },
+  {
+    "name": "Thinking Ahead",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Draw 2 cards. Place a card from your hand on top of your draw pile. Exhaust.",
+    "description_upgraded": "Draw 2 cards. Place a card from your hand on top of your draw pile.",
+    "tier": "B",
+    "tags": [
+      "draw",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 173
+  },
+  {
+    "name": "Through Violence",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Retain. Deal 20 damage. Exhaust.",
+    "description_upgraded": "Retain. Deal 30 damage. Exhaust.",
+    "tier": "S+",
+    "tags": [
+      "exhaust",
+      "retain"
+    ],
+    "statement": "",
+    "index": 354
+  },
+  {
+    "name": "Transmutation",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": -1,
+    "cost_upgraded": -1,
+    "description": "Add X random Colorless cards into your hand. They cost 0 this turn. Exhaust.",
+    "description_upgraded": "Add X random Upgraded Colorless cards into your hand. They cost 0 this turn. Exhaust.",
+    "tier": "C+",
+    "tags": [
+      "exhaust",
+      "create"
+    ],
+    "statement": "",
+    "index": 174
+  },
+  {
+    "name": "Trip",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Apply 2 Vulnerable.",
+    "description_upgraded": "Apply 2 Vulnerable to ALL enemies.",
+    "tier": "C+",
+    "tags": [
+      "vulnerable",
+      "aoe"
+    ],
+    "statement": "",
+    "index": 175
+  },
+  {
+    "name": "Violence",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Place 3 random Attack cards from your draw pile into your hand. Exhaust.",
+    "description_upgraded": "Place 4 random Attack cards from your draw pile into your hand. Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "draw",
+      "exhaust"
+    ],
+    "statement": "",
+    "index": 187
+  }
+]

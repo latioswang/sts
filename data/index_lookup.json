@@ -1,0 +1,3362 @@
+{
+  "0": {
+    "kind": "card",
+    "name": "Anger",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "1": {
+    "kind": "card",
+    "name": "Armaments",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "2": {
+    "kind": "card",
+    "name": "Barricade",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "3": {
+    "kind": "card",
+    "name": "Bash",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "starter"
+  },
+  "4": {
+    "kind": "card",
+    "name": "Battle Trance",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "5": {
+    "kind": "card",
+    "name": "Berserk",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "6": {
+    "kind": "card",
+    "name": "Blood for Blood",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "7": {
+    "kind": "card",
+    "name": "Bloodletting",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "8": {
+    "kind": "card",
+    "name": "Bludgeon",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "9": {
+    "kind": "card",
+    "name": "Body Slam",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "10": {
+    "kind": "card",
+    "name": "Brutality",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "11": {
+    "kind": "card",
+    "name": "Burning Pact",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "12": {
+    "kind": "card",
+    "name": "Carnage",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "13": {
+    "kind": "card",
+    "name": "Clash",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "14": {
+    "kind": "card",
+    "name": "Cleave",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "15": {
+    "kind": "card",
+    "name": "Clothesline",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "16": {
+    "kind": "card",
+    "name": "Combust",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "17": {
+    "kind": "card",
+    "name": "Corruption",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "18": {
+    "kind": "card",
+    "name": "Dark Embrace",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "19": {
+    "kind": "card",
+    "name": "Defend",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "starter"
+  },
+  "20": {
+    "kind": "card",
+    "name": "Demon Form",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "21": {
+    "kind": "card",
+    "name": "Disarm",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "22": {
+    "kind": "card",
+    "name": "Double Tap",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "23": {
+    "kind": "card",
+    "name": "Dropkick",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "24": {
+    "kind": "card",
+    "name": "Dual Wield",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "25": {
+    "kind": "card",
+    "name": "Entrench",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "26": {
+    "kind": "card",
+    "name": "Evolve",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "27": {
+    "kind": "card",
+    "name": "Exhume",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "28": {
+    "kind": "card",
+    "name": "Feed",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "29": {
+    "kind": "card",
+    "name": "Feel No Pain",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "30": {
+    "kind": "card",
+    "name": "Fiend Fire",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "31": {
+    "kind": "card",
+    "name": "Fire Breathing",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "32": {
+    "kind": "card",
+    "name": "Flame Barrier",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "33": {
+    "kind": "card",
+    "name": "Flex",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "34": {
+    "kind": "card",
+    "name": "Ghostly Armor",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "35": {
+    "kind": "card",
+    "name": "Havoc",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "36": {
+    "kind": "card",
+    "name": "Headbutt",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "37": {
+    "kind": "card",
+    "name": "Heavy Blade",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "38": {
+    "kind": "card",
+    "name": "Hemokinesis",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "39": {
+    "kind": "card",
+    "name": "Immolate",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "40": {
+    "kind": "card",
+    "name": "Impervious",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "41": {
+    "kind": "card",
+    "name": "Infernal Blade",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "42": {
+    "kind": "card",
+    "name": "Inflame",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "43": {
+    "kind": "card",
+    "name": "Intimidate",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "44": {
+    "kind": "card",
+    "name": "Iron Wave",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "45": {
+    "kind": "card",
+    "name": "Juggernaut",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "46": {
+    "kind": "card",
+    "name": "Limit Break",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "47": {
+    "kind": "card",
+    "name": "Metallicize",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "48": {
+    "kind": "card",
+    "name": "Offering",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "49": {
+    "kind": "card",
+    "name": "Perfected Strike",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "50": {
+    "kind": "card",
+    "name": "Pommel Strike",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "51": {
+    "kind": "card",
+    "name": "Power Through",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "52": {
+    "kind": "card",
+    "name": "Pummel",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "53": {
+    "kind": "card",
+    "name": "Rage",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "54": {
+    "kind": "card",
+    "name": "Rampage",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "55": {
+    "kind": "card",
+    "name": "Reaper",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "56": {
+    "kind": "card",
+    "name": "Reckless Charge",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "57": {
+    "kind": "card",
+    "name": "Rupture",
+    "character": "ironclad",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "58": {
+    "kind": "card",
+    "name": "Searing Blow",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "59": {
+    "kind": "card",
+    "name": "Second Wind",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "60": {
+    "kind": "card",
+    "name": "Seeing Red",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "61": {
+    "kind": "card",
+    "name": "Sentinel",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "62": {
+    "kind": "card",
+    "name": "Sever Soul",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "63": {
+    "kind": "card",
+    "name": "Shockwave",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "64": {
+    "kind": "card",
+    "name": "Shrug It Off",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "65": {
+    "kind": "card",
+    "name": "Spot Weakness",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "66": {
+    "kind": "card",
+    "name": "Strike",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "starter"
+  },
+  "67": {
+    "kind": "card",
+    "name": "Sword Boomerang",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "68": {
+    "kind": "card",
+    "name": "Thunderclap",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "69": {
+    "kind": "card",
+    "name": "True Grit",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "70": {
+    "kind": "card",
+    "name": "Twin Strike",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "71": {
+    "kind": "card",
+    "name": "Uppercut",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "72": {
+    "kind": "card",
+    "name": "Warcry",
+    "character": "ironclad",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "73": {
+    "kind": "card",
+    "name": "Whirlwind",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "74": {
+    "kind": "card",
+    "name": "Wild Strike",
+    "character": "ironclad",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "75": {
+    "kind": "card",
+    "name": "A Thousand Cuts",
+    "character": "silent",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "76": {
+    "kind": "card",
+    "name": "Accuracy",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "77": {
+    "kind": "card",
+    "name": "Acrobatics",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "78": {
+    "kind": "card",
+    "name": "Adrenaline",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "79": {
+    "kind": "card",
+    "name": "After Image",
+    "character": "silent",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "80": {
+    "kind": "card",
+    "name": "Alchemize",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "81": {
+    "kind": "card",
+    "name": "All-Out Attack",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "82": {
+    "kind": "card",
+    "name": "Backflip",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "83": {
+    "kind": "card",
+    "name": "Backstab",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "84": {
+    "kind": "card",
+    "name": "Bane",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "85": {
+    "kind": "card",
+    "name": "Blade Dance",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "86": {
+    "kind": "card",
+    "name": "Blur",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "87": {
+    "kind": "card",
+    "name": "Bouncing Flask",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "88": {
+    "kind": "card",
+    "name": "Bullet Time",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "89": {
+    "kind": "card",
+    "name": "Burst",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "90": {
+    "kind": "card",
+    "name": "Calculated Gamble",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "91": {
+    "kind": "card",
+    "name": "Caltrops",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "92": {
+    "kind": "card",
+    "name": "Catalyst",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "93": {
+    "kind": "card",
+    "name": "Choke",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "94": {
+    "kind": "card",
+    "name": "Cloak And Dagger",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "95": {
+    "kind": "card",
+    "name": "Concentrate",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "96": {
+    "kind": "card",
+    "name": "Corpse Explosion",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "97": {
+    "kind": "card",
+    "name": "Crippling Cloud",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "98": {
+    "kind": "card",
+    "name": "Dagger Spray",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "99": {
+    "kind": "card",
+    "name": "Dagger Throw",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "100": {
+    "kind": "card",
+    "name": "Dash",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "101": {
+    "kind": "card",
+    "name": "Deadly Poison",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "102": {
+    "kind": "card",
+    "name": "Deflect",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "103": {
+    "kind": "card",
+    "name": "Die Die Die",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "104": {
+    "kind": "card",
+    "name": "Distraction",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "105": {
+    "kind": "card",
+    "name": "Dodge and Roll",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "106": {
+    "kind": "card",
+    "name": "Doppelganger",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "107": {
+    "kind": "card",
+    "name": "Endless Agony",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "108": {
+    "kind": "card",
+    "name": "Envenom",
+    "character": "silent",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "109": {
+    "kind": "card",
+    "name": "Escape Plan",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "110": {
+    "kind": "card",
+    "name": "Eviscerate",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "111": {
+    "kind": "card",
+    "name": "Expertise",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "112": {
+    "kind": "card",
+    "name": "Finisher",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "113": {
+    "kind": "card",
+    "name": "Flechettes",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "114": {
+    "kind": "card",
+    "name": "Flying Knee",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "115": {
+    "kind": "card",
+    "name": "Footwork",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "116": {
+    "kind": "card",
+    "name": "Glass Knife",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "117": {
+    "kind": "card",
+    "name": "Grand Finale",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "118": {
+    "kind": "card",
+    "name": "Heel Hook",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "119": {
+    "kind": "card",
+    "name": "Infinite Blades",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "120": {
+    "kind": "card",
+    "name": "Leg Sweep",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "121": {
+    "kind": "card",
+    "name": "Malaise",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "122": {
+    "kind": "card",
+    "name": "Masterful Stab",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "123": {
+    "kind": "card",
+    "name": "Neutralize",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "starter"
+  },
+  "124": {
+    "kind": "card",
+    "name": "Nightmare",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "125": {
+    "kind": "card",
+    "name": "Noxious Fumes",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "126": {
+    "kind": "card",
+    "name": "Outmaneuver",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "127": {
+    "kind": "card",
+    "name": "Phantasmal Killer",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "128": {
+    "kind": "card",
+    "name": "Piercing Wail",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "129": {
+    "kind": "card",
+    "name": "Poisoned Stab",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "130": {
+    "kind": "card",
+    "name": "Predator",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "131": {
+    "kind": "card",
+    "name": "Prepared",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "132": {
+    "kind": "card",
+    "name": "Quick Slash",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "133": {
+    "kind": "card",
+    "name": "Reflex",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "134": {
+    "kind": "card",
+    "name": "Riddle with Holes",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "135": {
+    "kind": "card",
+    "name": "Setup",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "136": {
+    "kind": "card",
+    "name": "Skewer",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "137": {
+    "kind": "card",
+    "name": "Slice",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "138": {
+    "kind": "card",
+    "name": "Sneaky Strike",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "139": {
+    "kind": "card",
+    "name": "Storm of Steel",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "140": {
+    "kind": "card",
+    "name": "Sucker Punch",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "141": {
+    "kind": "card",
+    "name": "Survivor",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "starter"
+  },
+  "142": {
+    "kind": "card",
+    "name": "Tactician",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "143": {
+    "kind": "card",
+    "name": "Terror",
+    "character": "silent",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "144": {
+    "kind": "card",
+    "name": "Tools of the Trade",
+    "character": "silent",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "145": {
+    "kind": "card",
+    "name": "Unload",
+    "character": "silent",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "146": {
+    "kind": "card",
+    "name": "Well-Laid Plans",
+    "character": "silent",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "147": {
+    "kind": "card",
+    "name": "Wraith Form",
+    "character": "silent",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "148": {
+    "kind": "card",
+    "name": "Apotheosis",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "149": {
+    "kind": "card",
+    "name": "Bandage Up",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "150": {
+    "kind": "card",
+    "name": "Bite",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "151": {
+    "kind": "card",
+    "name": "Blind",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "152": {
+    "kind": "card",
+    "name": "Dark Shackles",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "153": {
+    "kind": "card",
+    "name": "Deep Breath",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "154": {
+    "kind": "card",
+    "name": "Dramatic Entrance",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "155": {
+    "kind": "card",
+    "name": "Enlightenment",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "156": {
+    "kind": "card",
+    "name": "Finesse",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "157": {
+    "kind": "card",
+    "name": "Flash of Steel",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "158": {
+    "kind": "card",
+    "name": "Good Instincts",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "159": {
+    "kind": "card",
+    "name": "J.A.X.",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "160": {
+    "kind": "card",
+    "name": "Jack Of All Trades",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "161": {
+    "kind": "card",
+    "name": "Madness",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "162": {
+    "kind": "card",
+    "name": "Magnetism",
+    "character": "colorless",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "163": {
+    "kind": "card",
+    "name": "Master of Strategy",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "164": {
+    "kind": "card",
+    "name": "Mind Blast",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "165": {
+    "kind": "card",
+    "name": "Panacea",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "166": {
+    "kind": "card",
+    "name": "Panache",
+    "character": "colorless",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "167": {
+    "kind": "card",
+    "name": "Purity",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "168": {
+    "kind": "card",
+    "name": "Sadistic Nature",
+    "character": "colorless",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "169": {
+    "kind": "card",
+    "name": "Secret Technique",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "170": {
+    "kind": "card",
+    "name": "Secret Weapon",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "171": {
+    "kind": "card",
+    "name": "Shiv",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "172": {
+    "kind": "card",
+    "name": "Swift Strike",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "173": {
+    "kind": "card",
+    "name": "Thinking Ahead",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "174": {
+    "kind": "card",
+    "name": "Transmutation",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "175": {
+    "kind": "card",
+    "name": "Trip",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "176": {
+    "kind": "card",
+    "name": "Apparition",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "177": {
+    "kind": "card",
+    "name": "Ritual Dagger",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "178": {
+    "kind": "card",
+    "name": "Discovery",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "179": {
+    "kind": "card",
+    "name": "Forethought",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "180": {
+    "kind": "card",
+    "name": "Impatience",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "181": {
+    "kind": "card",
+    "name": "Panic Button",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "182": {
+    "kind": "card",
+    "name": "Chrysalis",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "183": {
+    "kind": "card",
+    "name": "Hand of Greed",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "184": {
+    "kind": "card",
+    "name": "Mayhem",
+    "character": "colorless",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "185": {
+    "kind": "card",
+    "name": "Metamorphosis",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "186": {
+    "kind": "card",
+    "name": "The Bomb",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "187": {
+    "kind": "card",
+    "name": "Violence",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "188": {
+    "kind": "card",
+    "name": "Ascender's Bane",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "189": {
+    "kind": "card",
+    "name": "Clumsy",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "190": {
+    "kind": "card",
+    "name": "Decay",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "191": {
+    "kind": "card",
+    "name": "Doubt",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "192": {
+    "kind": "card",
+    "name": "Injury",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "193": {
+    "kind": "card",
+    "name": "Necronomicurse",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "194": {
+    "kind": "card",
+    "name": "Normality",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "195": {
+    "kind": "card",
+    "name": "Pain",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "196": {
+    "kind": "card",
+    "name": "Parasite",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "197": {
+    "kind": "card",
+    "name": "Regret",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "198": {
+    "kind": "card",
+    "name": "Writhe",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "199": {
+    "kind": "card",
+    "name": "Shame",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "200": {
+    "kind": "card",
+    "name": "Pride",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "201": {
+    "kind": "card",
+    "name": "Curse of the Bell",
+    "character": "curse",
+    "type": "curse",
+    "rarity": "common"
+  },
+  "202": {
+    "kind": "card",
+    "name": "Aggregate",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "203": {
+    "kind": "card",
+    "name": "All For One",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "204": {
+    "kind": "card",
+    "name": "Amplify",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "205": {
+    "kind": "card",
+    "name": "Auto-Shields",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "206": {
+    "kind": "card",
+    "name": "Ball Lightning",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "207": {
+    "kind": "card",
+    "name": "Barrage",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "208": {
+    "kind": "card",
+    "name": "Beam Cell",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "209": {
+    "kind": "card",
+    "name": "Biased Cognition",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "210": {
+    "kind": "card",
+    "name": "Blizzard",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "211": {
+    "kind": "card",
+    "name": "Boot Sequence",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "212": {
+    "kind": "card",
+    "name": "Buffer",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "213": {
+    "kind": "card",
+    "name": "Capacitor",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "214": {
+    "kind": "card",
+    "name": "Chaos",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "215": {
+    "kind": "card",
+    "name": "Chill",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "216": {
+    "kind": "card",
+    "name": "Claw",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "217": {
+    "kind": "card",
+    "name": "Cold Snap",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "218": {
+    "kind": "card",
+    "name": "Charge Battery",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "219": {
+    "kind": "card",
+    "name": "Consume",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "220": {
+    "kind": "card",
+    "name": "Coolheaded",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "221": {
+    "kind": "card",
+    "name": "Creative AI",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "222": {
+    "kind": "card",
+    "name": "Darkness",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "223": {
+    "kind": "card",
+    "name": "Defragment",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "224": {
+    "kind": "card",
+    "name": "Doom and Gloom",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "225": {
+    "kind": "card",
+    "name": "Double Energy",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "226": {
+    "kind": "card",
+    "name": "Dualcast",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "starter"
+  },
+  "227": {
+    "kind": "card",
+    "name": "Echo Form",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "228": {
+    "kind": "card",
+    "name": "Fission",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "229": {
+    "kind": "card",
+    "name": "Force Field",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "230": {
+    "kind": "card",
+    "name": "FTL",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "231": {
+    "kind": "card",
+    "name": "Fusion",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "232": {
+    "kind": "card",
+    "name": "Genetic Algorithm",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "233": {
+    "kind": "card",
+    "name": "Glacier",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "234": {
+    "kind": "card",
+    "name": "Go for the Eyes",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "235": {
+    "kind": "card",
+    "name": "Heatsinks",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "236": {
+    "kind": "card",
+    "name": "Hello World",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "237": {
+    "kind": "card",
+    "name": "Hologram",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "238": {
+    "kind": "card",
+    "name": "Hyperbeam",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "239": {
+    "kind": "card",
+    "name": "Leap",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "240": {
+    "kind": "card",
+    "name": "Bullseye",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "241": {
+    "kind": "card",
+    "name": "Loop",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "242": {
+    "kind": "card",
+    "name": "Machine Learning",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "243": {
+    "kind": "card",
+    "name": "Melter",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "244": {
+    "kind": "card",
+    "name": "Meteor Strike",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "245": {
+    "kind": "card",
+    "name": "Multi-Cast",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "246": {
+    "kind": "card",
+    "name": "Overclock",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "247": {
+    "kind": "card",
+    "name": "Rainbow",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "248": {
+    "kind": "card",
+    "name": "Reboot",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "249": {
+    "kind": "card",
+    "name": "Rebound",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "250": {
+    "kind": "card",
+    "name": "Recursion",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "251": {
+    "kind": "card",
+    "name": "Recycle",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "252": {
+    "kind": "card",
+    "name": "Reinforced Body",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "253": {
+    "kind": "card",
+    "name": "Reprogram",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "254": {
+    "kind": "card",
+    "name": "Rip and Tear",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "255": {
+    "kind": "card",
+    "name": "Scrape",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "256": {
+    "kind": "card",
+    "name": "Seek",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "257": {
+    "kind": "card",
+    "name": "Self Repair",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "258": {
+    "kind": "card",
+    "name": "Skim",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "259": {
+    "kind": "card",
+    "name": "Stack",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "260": {
+    "kind": "card",
+    "name": "Static Discharge",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "261": {
+    "kind": "card",
+    "name": "Steam Barrier",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "262": {
+    "kind": "card",
+    "name": "Storm",
+    "character": "defect",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "263": {
+    "kind": "card",
+    "name": "Streamline",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "264": {
+    "kind": "card",
+    "name": "Sunder",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "265": {
+    "kind": "card",
+    "name": "Sweeping Beam",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "266": {
+    "kind": "card",
+    "name": "Tempest",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "267": {
+    "kind": "card",
+    "name": "Thunder Strike",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "268": {
+    "kind": "card",
+    "name": "TURBO",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "269": {
+    "kind": "card",
+    "name": "White Noise",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "270": {
+    "kind": "card",
+    "name": "Zap",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "starter"
+  },
+  "271": {
+    "kind": "card",
+    "name": "Equilibrium",
+    "character": "defect",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "272": {
+    "kind": "card",
+    "name": "Compile Driver",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "273": {
+    "kind": "card",
+    "name": "Electrodynamics",
+    "character": "defect",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "274": {
+    "kind": "card",
+    "name": "Core Surge",
+    "character": "defect",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "275": {
+    "kind": "card",
+    "name": "Alpha",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "276": {
+    "kind": "card",
+    "name": "Battle Hymn",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "277": {
+    "kind": "card",
+    "name": "Blasphemy",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "278": {
+    "kind": "card",
+    "name": "Bowling Bash",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "279": {
+    "kind": "card",
+    "name": "Brilliance",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "280": {
+    "kind": "card",
+    "name": "Carve Reality",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "281": {
+    "kind": "card",
+    "name": "Collect",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "282": {
+    "kind": "card",
+    "name": "Conclude",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "283": {
+    "kind": "card",
+    "name": "Conjure Blade",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "284": {
+    "kind": "card",
+    "name": "Consecrate",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "285": {
+    "kind": "card",
+    "name": "Crescendo",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "286": {
+    "kind": "card",
+    "name": "Crush Joints",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "287": {
+    "kind": "card",
+    "name": "Cut Through Fate",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "288": {
+    "kind": "card",
+    "name": "Deceive Reality",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "289": {
+    "kind": "card",
+    "name": "Deus Ex Machina",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "290": {
+    "kind": "card",
+    "name": "Deva Form",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "291": {
+    "kind": "card",
+    "name": "Devotion",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "292": {
+    "kind": "card",
+    "name": "Empty Body",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "293": {
+    "kind": "card",
+    "name": "Empty Fist",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "294": {
+    "kind": "card",
+    "name": "Empty Mind",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "295": {
+    "kind": "card",
+    "name": "Eruption",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "starter"
+  },
+  "296": {
+    "kind": "card",
+    "name": "Establishment",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "297": {
+    "kind": "card",
+    "name": "Evaluate",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "298": {
+    "kind": "card",
+    "name": "Fasting",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "299": {
+    "kind": "card",
+    "name": "Fear No Evil",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "300": {
+    "kind": "card",
+    "name": "Flurry Of Blows",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "301": {
+    "kind": "card",
+    "name": "Flying Sleeves",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "302": {
+    "kind": "card",
+    "name": "Follow-Up",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "303": {
+    "kind": "card",
+    "name": "Foreign Influence",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "304": {
+    "kind": "card",
+    "name": "Foresight",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "305": {
+    "kind": "card",
+    "name": "Halt",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "306": {
+    "kind": "card",
+    "name": "Indignation",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "307": {
+    "kind": "card",
+    "name": "Inner Peace",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "308": {
+    "kind": "card",
+    "name": "Judgment",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "309": {
+    "kind": "card",
+    "name": "Just Lucky",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "310": {
+    "kind": "card",
+    "name": "Lesson Learned",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "311": {
+    "kind": "card",
+    "name": "Like Water",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "312": {
+    "kind": "card",
+    "name": "Master Reality",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "rare"
+  },
+  "313": {
+    "kind": "card",
+    "name": "Meditate",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "314": {
+    "kind": "card",
+    "name": "Mental Fortress",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "315": {
+    "kind": "card",
+    "name": "Nirvana",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "316": {
+    "kind": "card",
+    "name": "Omniscience",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "317": {
+    "kind": "card",
+    "name": "Perseverance",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "318": {
+    "kind": "card",
+    "name": "Pray",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "319": {
+    "kind": "card",
+    "name": "Pressure Points",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "320": {
+    "kind": "card",
+    "name": "Prostrate",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "321": {
+    "kind": "card",
+    "name": "Protect",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "322": {
+    "kind": "card",
+    "name": "Ragnarok",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "rare"
+  },
+  "323": {
+    "kind": "card",
+    "name": "Reach Heaven",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "324": {
+    "kind": "card",
+    "name": "Rushdown",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "325": {
+    "kind": "card",
+    "name": "Sanctity",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "326": {
+    "kind": "card",
+    "name": "Sands of Time",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "327": {
+    "kind": "card",
+    "name": "Sash Whip",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "328": {
+    "kind": "card",
+    "name": "Scrawl",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "329": {
+    "kind": "card",
+    "name": "Signature Move",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "330": {
+    "kind": "card",
+    "name": "Simmering Fury",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "331": {
+    "kind": "card",
+    "name": "Spirit Shield",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "332": {
+    "kind": "card",
+    "name": "Study",
+    "character": "watcher",
+    "type": "power",
+    "rarity": "uncommon"
+  },
+  "333": {
+    "kind": "card",
+    "name": "Swivel",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "334": {
+    "kind": "card",
+    "name": "Talk to the Hand",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "335": {
+    "kind": "card",
+    "name": "Tantrum",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "336": {
+    "kind": "card",
+    "name": "Third Eye",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "337": {
+    "kind": "card",
+    "name": "Tranquility",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "338": {
+    "kind": "card",
+    "name": "Vault",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "339": {
+    "kind": "card",
+    "name": "Vigilance",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "starter"
+  },
+  "340": {
+    "kind": "card",
+    "name": "Wallop",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "341": {
+    "kind": "card",
+    "name": "Wave of the Hand",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "342": {
+    "kind": "card",
+    "name": "Weave",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "343": {
+    "kind": "card",
+    "name": "Wheel Kick",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "344": {
+    "kind": "card",
+    "name": "Windmill Strike",
+    "character": "watcher",
+    "type": "attack",
+    "rarity": "uncommon"
+  },
+  "345": {
+    "kind": "card",
+    "name": "Wish",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "rare"
+  },
+  "346": {
+    "kind": "card",
+    "name": "Worship",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "347": {
+    "kind": "card",
+    "name": "Wreath of Flame",
+    "character": "watcher",
+    "type": "skill",
+    "rarity": "uncommon"
+  },
+  "348": {
+    "kind": "card",
+    "name": "Beta",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "349": {
+    "kind": "card",
+    "name": "Insight",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "350": {
+    "kind": "card",
+    "name": "Miracle",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "351": {
+    "kind": "card",
+    "name": "Omega",
+    "character": "colorless",
+    "type": "power",
+    "rarity": "common"
+  },
+  "352": {
+    "kind": "card",
+    "name": "Safety",
+    "character": "colorless",
+    "type": "skill",
+    "rarity": "common"
+  },
+  "353": {
+    "kind": "card",
+    "name": "Smite",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "354": {
+    "kind": "card",
+    "name": "Through Violence",
+    "character": "colorless",
+    "type": "attack",
+    "rarity": "common"
+  },
+  "355": {
+    "kind": "relic",
+    "name": "Anchor",
+    "rarity": "common"
+  },
+  "356": {
+    "kind": "relic",
+    "name": "Ancient Tea Set",
+    "rarity": "common"
+  },
+  "357": {
+    "kind": "relic",
+    "name": "Art of War",
+    "rarity": "common"
+  },
+  "358": {
+    "kind": "relic",
+    "name": "Bag of Marbles",
+    "rarity": "common"
+  },
+  "359": {
+    "kind": "relic",
+    "name": "Bag of Preparation",
+    "rarity": "common"
+  },
+  "360": {
+    "kind": "relic",
+    "name": "Blood Vial",
+    "rarity": "common"
+  },
+  "361": {
+    "kind": "relic",
+    "name": "Bronze Scales",
+    "rarity": "common"
+  },
+  "362": {
+    "kind": "relic",
+    "name": "Dream Catcher",
+    "rarity": "common"
+  },
+  "363": {
+    "kind": "relic",
+    "name": "Happy Flower",
+    "rarity": "common"
+  },
+  "364": {
+    "kind": "relic",
+    "name": "Juzu Bracelet",
+    "rarity": "common"
+  },
+  "365": {
+    "kind": "relic",
+    "name": "Lantern",
+    "rarity": "common"
+  },
+  "366": {
+    "kind": "relic",
+    "name": "Oddly Smooth Stone",
+    "rarity": "common"
+  },
+  "367": {
+    "kind": "relic",
+    "name": "Omamori",
+    "rarity": "common"
+  },
+  "368": {
+    "kind": "relic",
+    "name": "Orichalcum",
+    "rarity": "common"
+  },
+  "369": {
+    "kind": "relic",
+    "name": "Pen Nib",
+    "rarity": "common"
+  },
+  "370": {
+    "kind": "relic",
+    "name": "Prayer Wheel",
+    "rarity": "common"
+  },
+  "371": {
+    "kind": "relic",
+    "name": "Regal Pillow",
+    "rarity": "common"
+  },
+  "372": {
+    "kind": "relic",
+    "name": "Singing Bowl",
+    "rarity": "common"
+  },
+  "373": {
+    "kind": "relic",
+    "name": "Strawberry",
+    "rarity": "common"
+  },
+  "374": {
+    "kind": "relic",
+    "name": "Tiny Chest",
+    "rarity": "common"
+  },
+  "375": {
+    "kind": "relic",
+    "name": "Vajra",
+    "rarity": "common"
+  },
+  "376": {
+    "kind": "relic",
+    "name": "War Paint",
+    "rarity": "common"
+  },
+  "377": {
+    "kind": "relic",
+    "name": "Whetstone",
+    "rarity": "common"
+  },
+  "378": {
+    "kind": "relic",
+    "name": "Blue Candle",
+    "rarity": "uncommon"
+  },
+  "379": {
+    "kind": "relic",
+    "name": "Bottled Flame",
+    "rarity": "uncommon"
+  },
+  "380": {
+    "kind": "relic",
+    "name": "Bottled Lightning",
+    "rarity": "uncommon"
+  },
+  "381": {
+    "kind": "relic",
+    "name": "Bottled Tornado",
+    "rarity": "uncommon"
+  },
+  "382": {
+    "kind": "relic",
+    "name": "Centennial Puzzle",
+    "rarity": "uncommon"
+  },
+  "383": {
+    "kind": "relic",
+    "name": "Darkstone Periapt",
+    "rarity": "uncommon"
+  },
+  "384": {
+    "kind": "relic",
+    "name": "Frozen Egg",
+    "rarity": "uncommon"
+  },
+  "385": {
+    "kind": "relic",
+    "name": "Gremlin Horn",
+    "rarity": "uncommon"
+  },
+  "386": {
+    "kind": "relic",
+    "name": "Kunai",
+    "rarity": "uncommon"
+  },
+  "387": {
+    "kind": "relic",
+    "name": "Letter Opener",
+    "rarity": "uncommon"
+  },
+  "388": {
+    "kind": "relic",
+    "name": "Matryoshka",
+    "rarity": "uncommon"
+  },
+  "389": {
+    "kind": "relic",
+    "name": "Meat on the Bone",
+    "rarity": "uncommon"
+  },
+  "390": {
+    "kind": "relic",
+    "name": "Mercury Hourglass",
+    "rarity": "uncommon"
+  },
+  "391": {
+    "kind": "relic",
+    "name": "Molten Egg",
+    "rarity": "uncommon"
+  },
+  "392": {
+    "kind": "relic",
+    "name": "Mummified Hand",
+    "rarity": "uncommon"
+  },
+  "393": {
+    "kind": "relic",
+    "name": "Ornamental Fan",
+    "rarity": "uncommon"
+  },
+  "394": {
+    "kind": "relic",
+    "name": "Pantograph",
+    "rarity": "uncommon"
+  },
+  "395": {
+    "kind": "relic",
+    "name": "Pear",
+    "rarity": "uncommon"
+  },
+  "396": {
+    "kind": "relic",
+    "name": "Runic Dodecahedron",
+    "rarity": "uncommon"
+  },
+  "397": {
+    "kind": "relic",
+    "name": "Shuriken",
+    "rarity": "uncommon"
+  },
+  "398": {
+    "kind": "relic",
+    "name": "Smiling Mask",
+    "rarity": "uncommon"
+  },
+  "399": {
+    "kind": "relic",
+    "name": "The Courier",
+    "rarity": "uncommon"
+  },
+  "400": {
+    "kind": "relic",
+    "name": "Toolbox",
+    "rarity": "uncommon"
+  },
+  "401": {
+    "kind": "relic",
+    "name": "Toxic Egg",
+    "rarity": "uncommon"
+  },
+  "402": {
+    "kind": "relic",
+    "name": "Bird-Faced Urn",
+    "rarity": "rare"
+  },
+  "403": {
+    "kind": "relic",
+    "name": "Calipers",
+    "rarity": "rare"
+  },
+  "404": {
+    "kind": "relic",
+    "name": "Dead Branch",
+    "rarity": "rare"
+  },
+  "405": {
+    "kind": "relic",
+    "name": "Du-Vu Doll",
+    "rarity": "rare"
+  },
+  "406": {
+    "kind": "relic",
+    "name": "Frozen Eye",
+    "rarity": "rare"
+  },
+  "407": {
+    "kind": "relic",
+    "name": "Gambling Chip",
+    "rarity": "rare"
+  },
+  "408": {
+    "kind": "relic",
+    "name": "Ginger",
+    "rarity": "rare"
+  },
+  "409": {
+    "kind": "relic",
+    "name": "Ice Cream",
+    "rarity": "rare"
+  },
+  "410": {
+    "kind": "relic",
+    "name": "Mango",
+    "rarity": "rare"
+  },
+  "411": {
+    "kind": "relic",
+    "name": "Old Coin",
+    "rarity": "rare"
+  },
+  "412": {
+    "kind": "relic",
+    "name": "Peace Pipe",
+    "rarity": "rare"
+  },
+  "413": {
+    "kind": "relic",
+    "name": "Shovel",
+    "rarity": "rare"
+  },
+  "414": {
+    "kind": "relic",
+    "name": "Sundial",
+    "rarity": "rare"
+  },
+  "415": {
+    "kind": "relic",
+    "name": "Thread and Needle",
+    "rarity": "rare"
+  },
+  "416": {
+    "kind": "relic",
+    "name": "Torii",
+    "rarity": "rare"
+  },
+  "417": {
+    "kind": "relic",
+    "name": "Unceasing Top",
+    "rarity": "rare"
+  },
+  "418": {
+    "kind": "relic",
+    "name": "Astrolabe",
+    "rarity": "boss"
+  },
+  "419": {
+    "kind": "relic",
+    "name": "Black Star",
+    "rarity": "boss"
+  },
+  "420": {
+    "kind": "relic",
+    "name": "Calling Bell",
+    "rarity": "boss"
+  },
+  "421": {
+    "kind": "relic",
+    "name": "Cursed Key",
+    "rarity": "boss"
+  },
+  "422": {
+    "kind": "relic",
+    "name": "Ectoplasm",
+    "rarity": "boss"
+  },
+  "423": {
+    "kind": "relic",
+    "name": "Eternal Feather",
+    "rarity": "uncommon"
+  },
+  "424": {
+    "kind": "relic",
+    "name": "Lizard Tail",
+    "rarity": "rare"
+  },
+  "425": {
+    "kind": "relic",
+    "name": "Orrery",
+    "rarity": "shop"
+  },
+  "426": {
+    "kind": "relic",
+    "name": "Pandora's Box",
+    "rarity": "boss"
+  },
+  "427": {
+    "kind": "relic",
+    "name": "Philosopher's Stone",
+    "rarity": "boss"
+  },
+  "428": {
+    "kind": "relic",
+    "name": "Question Card",
+    "rarity": "uncommon"
+  },
+  "429": {
+    "kind": "relic",
+    "name": "Runic Dome",
+    "rarity": "boss"
+  },
+  "430": {
+    "kind": "relic",
+    "name": "Runic Pyramid",
+    "rarity": "boss"
+  },
+  "431": {
+    "kind": "relic",
+    "name": "Snecko Eye",
+    "rarity": "boss"
+  },
+  "432": {
+    "kind": "relic",
+    "name": "Sozu",
+    "rarity": "boss"
+  },
+  "433": {
+    "kind": "relic",
+    "name": "Tiny House",
+    "rarity": "boss"
+  },
+  "434": {
+    "kind": "relic",
+    "name": "Velvet Choker",
+    "rarity": "boss"
+  },
+  "435": {
+    "kind": "relic",
+    "name": "White Beast Statue",
+    "rarity": "uncommon"
+  },
+  "436": {
+    "kind": "relic",
+    "name": "Bloody Idol",
+    "rarity": "event"
+  },
+  "437": {
+    "kind": "relic",
+    "name": "Enchiridion",
+    "rarity": "event"
+  },
+  "438": {
+    "kind": "relic",
+    "name": "Golden Idol",
+    "rarity": "event"
+  },
+  "439": {
+    "kind": "relic",
+    "name": "Necronomicon",
+    "rarity": "event"
+  },
+  "440": {
+    "kind": "relic",
+    "name": "Neow's Lament",
+    "rarity": "event"
+  },
+  "441": {
+    "kind": "relic",
+    "name": "Nilry's Codex",
+    "rarity": "event"
+  },
+  "442": {
+    "kind": "relic",
+    "name": "Nloth's Gift",
+    "rarity": "event"
+  },
+  "443": {
+    "kind": "relic",
+    "name": "Odd Mushroom",
+    "rarity": "event"
+  },
+  "444": {
+    "kind": "relic",
+    "name": "Red Mask",
+    "rarity": "event"
+  },
+  "445": {
+    "kind": "relic",
+    "name": "Spirit Poop",
+    "rarity": "event"
+  },
+  "446": {
+    "kind": "relic",
+    "name": "Cauldron",
+    "rarity": "shop"
+  },
+  "447": {
+    "kind": "relic",
+    "name": "Lee's Waffle",
+    "rarity": "shop"
+  },
+  "448": {
+    "kind": "relic",
+    "name": "Medical Kit",
+    "rarity": "shop"
+  },
+  "449": {
+    "kind": "relic",
+    "name": "Membership Card",
+    "rarity": "shop"
+  },
+  "450": {
+    "kind": "relic",
+    "name": "Strange Spoon",
+    "rarity": "shop"
+  },
+  "451": {
+    "kind": "relic",
+    "name": "Toy Ornithopter",
+    "rarity": "shop"
+  },
+  "452": {
+    "kind": "relic",
+    "name": "Potion Belt",
+    "rarity": "common"
+  },
+  "453": {
+    "kind": "relic",
+    "name": "Turnip",
+    "rarity": "rare"
+  },
+  "454": {
+    "kind": "relic",
+    "name": "The Boot",
+    "rarity": "common"
+  },
+  "455": {
+    "kind": "relic",
+    "name": "Busted Crown",
+    "rarity": "boss"
+  },
+  "456": {
+    "kind": "relic",
+    "name": "Mark of the Bloom",
+    "rarity": "event"
+  },
+  "457": {
+    "kind": "relic",
+    "name": "Fusion Hammer",
+    "rarity": "boss"
+  },
+  "458": {
+    "kind": "relic",
+    "name": "Coffee Dripper",
+    "rarity": "boss"
+  },
+  "459": {
+    "kind": "relic",
+    "name": "Empty Cage",
+    "rarity": "boss"
+  },
+  "460": {
+    "kind": "relic",
+    "name": "Incense Burner",
+    "rarity": "rare"
+  },
+  "461": {
+    "kind": "relic",
+    "name": "Ssserpent Head",
+    "rarity": "event"
+  },
+  "462": {
+    "kind": "relic",
+    "name": "Face of Cleric",
+    "rarity": "event"
+  },
+  "463": {
+    "kind": "relic",
+    "name": "N'Loth's Hungry Face",
+    "rarity": "event"
+  },
+  "464": {
+    "kind": "relic",
+    "name": "Gremlin Visage",
+    "rarity": "event"
+  },
+  "465": {
+    "kind": "relic",
+    "name": "Cultist Headpice",
+    "rarity": "event"
+  },
+  "466": {
+    "kind": "relic",
+    "name": "Hand Drill",
+    "rarity": "shop"
+  },
+  "467": {
+    "kind": "relic",
+    "name": "Orange Pellets",
+    "rarity": "shop"
+  },
+  "468": {
+    "kind": "relic",
+    "name": "Sling of Courage",
+    "rarity": "shop"
+  },
+  "469": {
+    "kind": "relic",
+    "name": "Meal Ticket",
+    "rarity": "shop"
+  },
+  "470": {
+    "kind": "relic",
+    "name": "Maw Bank",
+    "rarity": "common"
+  },
+  "471": {
+    "kind": "relic",
+    "name": "Stone Calendar",
+    "rarity": "rare"
+  },
+  "472": {
+    "kind": "relic",
+    "name": "Nunchaku",
+    "rarity": "rare"
+  },
+  "473": {
+    "kind": "relic",
+    "name": "Chemical X",
+    "rarity": "shop"
+  },
+  "474": {
+    "kind": "relic",
+    "name": "Clockwork Souvenir",
+    "rarity": "shop"
+  },
+  "475": {
+    "kind": "relic",
+    "name": "Dolly's Mirror",
+    "rarity": "shop"
+  },
+  "476": {
+    "kind": "relic",
+    "name": "The Abacus",
+    "rarity": "shop"
+  },
+  "477": {
+    "kind": "relic",
+    "name": "Pocketwatch",
+    "rarity": "rare"
+  },
+  "478": {
+    "kind": "relic",
+    "name": "Cracked Core",
+    "rarity": "starter"
+  },
+  "479": {
+    "kind": "relic",
+    "name": "Data Disk",
+    "rarity": "common"
+  },
+  "480": {
+    "kind": "relic",
+    "name": "Gold-Plated Cables",
+    "rarity": "uncommon"
+  },
+  "481": {
+    "kind": "relic",
+    "name": "Symbiotic Virus",
+    "rarity": "uncommon"
+  },
+  "482": {
+    "kind": "relic",
+    "name": "Emotion Chip",
+    "rarity": "rare"
+  },
+  "483": {
+    "kind": "relic",
+    "name": "Inserter",
+    "rarity": "boss"
+  },
+  "484": {
+    "kind": "relic",
+    "name": "Nuclear Battery",
+    "rarity": "boss"
+  },
+  "485": {
+    "kind": "relic",
+    "name": "Runic Capacitor",
+    "rarity": "shop"
+  },
+  "486": {
+    "kind": "relic",
+    "name": "Frozen Core",
+    "rarity": "boss"
+  },
+  "487": {
+    "kind": "relic",
+    "name": "Burning Blood",
+    "rarity": "starter"
+  },
+  "488": {
+    "kind": "relic",
+    "name": "Paper Phrog",
+    "rarity": "uncommon"
+  },
+  "489": {
+    "kind": "relic",
+    "name": "Runic Cube",
+    "rarity": "uncommon"
+  },
+  "490": {
+    "kind": "relic",
+    "name": "Self-Forming Clay",
+    "rarity": "uncommon"
+  },
+  "491": {
+    "kind": "relic",
+    "name": "Champion Belt",
+    "rarity": "rare"
+  },
+  "492": {
+    "kind": "relic",
+    "name": "Charon's Ashes",
+    "rarity": "rare"
+  },
+  "493": {
+    "kind": "relic",
+    "name": "Girya",
+    "rarity": "rare"
+  },
+  "494": {
+    "kind": "relic",
+    "name": "Magic Flower",
+    "rarity": "rare"
+  },
+  "495": {
+    "kind": "relic",
+    "name": "Red Skull",
+    "rarity": "rare"
+  },
+  "496": {
+    "kind": "relic",
+    "name": "Black Blood",
+    "rarity": "boss"
+  },
+  "497": {
+    "kind": "relic",
+    "name": "Mark of Pain",
+    "rarity": "boss"
+  },
+  "498": {
+    "kind": "relic",
+    "name": "Ring of the Snake",
+    "rarity": "starter"
+  },
+  "499": {
+    "kind": "relic",
+    "name": "Snecko Skull",
+    "rarity": "common"
+  },
+  "500": {
+    "kind": "relic",
+    "name": "Ninja Scroll",
+    "rarity": "uncommon"
+  },
+  "501": {
+    "kind": "relic",
+    "name": "Paper Krane",
+    "rarity": "uncommon"
+  },
+  "502": {
+    "kind": "relic",
+    "name": "Tough Bandages",
+    "rarity": "uncommon"
+  },
+  "503": {
+    "kind": "relic",
+    "name": "The Specimen",
+    "rarity": "rare"
+  },
+  "504": {
+    "kind": "relic",
+    "name": "Tingsha",
+    "rarity": "rare"
+  },
+  "505": {
+    "kind": "relic",
+    "name": "Ring of the Serpent",
+    "rarity": "boss"
+  },
+  "506": {
+    "kind": "relic",
+    "name": "Twisted Funnel",
+    "rarity": "shop"
+  },
+  "507": {
+    "kind": "relic",
+    "name": "Wrist Blade",
+    "rarity": "boss"
+  },
+  "508": {
+    "kind": "relic",
+    "name": "Hovering Kite",
+    "rarity": "boss"
+  },
+  "509": {
+    "kind": "relic",
+    "name": "Pure Water",
+    "rarity": "starter"
+  },
+  "510": {
+    "kind": "relic",
+    "name": "Holy Water",
+    "rarity": "boss"
+  },
+  "511": {
+    "kind": "relic",
+    "name": "Duality",
+    "rarity": "uncommon"
+  },
+  "512": {
+    "kind": "relic",
+    "name": "Damaru",
+    "rarity": "common"
+  },
+  "513": {
+    "kind": "relic",
+    "name": "Teardrop Locket",
+    "rarity": "uncommon"
+  },
+  "514": {
+    "kind": "relic",
+    "name": "Cloak Clasp",
+    "rarity": "rare"
+  },
+  "515": {
+    "kind": "relic",
+    "name": "Golden Eye",
+    "rarity": "rare"
+  },
+  "516": {
+    "kind": "relic",
+    "name": "Violet Lotus",
+    "rarity": "boss"
+  },
+  "517": {
+    "kind": "relic",
+    "name": "Melange",
+    "rarity": "shop"
+  },
+  "518": {
+    "kind": "relic",
+    "name": "Ceramic Fish",
+    "rarity": "common"
+  },
+  "519": {
+    "kind": "relic",
+    "name": "Horn Cleat",
+    "rarity": "uncommon"
+  },
+  "520": {
+    "kind": "relic",
+    "name": "Captain's Wheel",
+    "rarity": "rare"
+  },
+  "521": {
+    "kind": "relic",
+    "name": "Tungsten Rod",
+    "rarity": "rare"
+  },
+  "522": {
+    "kind": "relic",
+    "name": "Brimstone",
+    "rarity": "shop"
+  },
+  "523": {
+    "kind": "relic",
+    "name": "Ink Bottle",
+    "rarity": "uncommon"
+  },
+  "524": {
+    "kind": "relic",
+    "name": "Sacred Bark",
+    "rarity": "boss"
+  },
+  "525": {
+    "kind": "relic",
+    "name": "Akabeko",
+    "rarity": "common"
+  },
+  "526": {
+    "kind": "relic",
+    "name": "Strike Dummy",
+    "rarity": "uncommon"
+  },
+  "527": {
+    "kind": "relic",
+    "name": "Slaver's Collar",
+    "rarity": "boss"
+  },
+  "528": {
+    "kind": "relic",
+    "name": "Preserved Insect",
+    "rarity": "common"
+  },
+  "529": {
+    "kind": "relic",
+    "name": "Fossilized Helix",
+    "rarity": "rare"
+  }
+}

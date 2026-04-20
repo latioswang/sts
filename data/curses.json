@@ -1,0 +1,133 @@
+[
+  {
+    "name": "Ascender's Bane",
+    "description": "Unplayable. Ethereal. Cannot be removed from your deck.",
+    "tags": [
+      "ethereal"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 188
+  },
+  {
+    "name": "Clumsy",
+    "description": "Unplayable. Ethereal.",
+    "tags": [
+      "ethereal",
+      "exhaust"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 189
+  },
+  {
+    "name": "Curse of the Bell",
+    "description": "Unplayable. Cannot be removed from your deck.",
+    "tags": [],
+    "tier": "",
+    "statement": "",
+    "index": 201
+  },
+  {
+    "name": "Decay",
+    "description": "Unplayable. At the end of your turn, take 2 damage.",
+    "tags": [
+      "sacrifice"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 190
+  },
+  {
+    "name": "Doubt",
+    "description": "Unplayable. At the end of your turn, gain 1 Weak.",
+    "tags": [
+      "cripple"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 191
+  },
+  {
+    "name": "Injury",
+    "description": "Unplayable.",
+    "tags": [],
+    "tier": "",
+    "statement": "",
+    "index": 192
+  },
+  {
+    "name": "Necronomicurse",
+    "description": "Unplayable. There is no escape from this Curse.",
+    "tags": [],
+    "tier": "",
+    "statement": "",
+    "index": 193
+  },
+  {
+    "name": "Normality",
+    "description": "Unplayable. You cannot play more than 3 cards this turn.",
+    "tags": [],
+    "tier": "",
+    "statement": "",
+    "index": 194
+  },
+  {
+    "name": "Pain",
+    "description": "Unplayable. While in hand, lose 1 HP when other cards are played.",
+    "tags": [
+      "sacrifice"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 195
+  },
+  {
+    "name": "Parasite",
+    "description": "Unplayable. If transformed or removed from your deck, lose 3 Max HP.",
+    "tags": [],
+    "tier": "",
+    "statement": "",
+    "index": 196
+  },
+  {
+    "name": "Pride",
+    "description": "Innate. At the end of your turn, place a copy of this card on top of your draw pile.",
+    "tags": [
+      "pollute"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 200
+  },
+  {
+    "name": "Regret",
+    "description": "Unplayable. At the end of your turn, lose 1 HP for each card in your hand.",
+    "tags": [
+      "sacrifice"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 197
+  },
+  {
+    "name": "Shame",
+    "description": "Unplayable. At the end of your turn, gain 1 Frail.",
+    "tags": [
+      "frail"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 199
+  },
+  {
+    "name": "Writhe",
+    "description": "Unplayable. Innate.",
+    "tags": [
+      "innate"
+    ],
+    "tier": "",
+    "statement": "",
+    "index": 198
+  }
+]
