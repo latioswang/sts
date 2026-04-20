@@ -8,8 +8,8 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F12 card reward
-- **Floor:** 12 / Act 1
+- **Last update:** 2026-04-20, F13 shop (post-PShard)
+- **Floor:** 13 / Act 1
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
@@ -17,7 +17,7 @@
 ## Resources
 
 - **HP:** 74 / 80
-- **Gold:** 148
+- **Gold:** ~1 (after F13 shop: -147 Prismatic Shard)
 - **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
   - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
   - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
@@ -53,6 +53,11 @@
   Vulnerable enemies take **75% more damage** instead of 50%. Synergises
   with everything we have — Bash+ (3 Vuln), Bag of Marbles (1 Vuln combat
   start). Effectively a +15-20% damage multiplier on the whole deck.
+- **Prismatic Shard** (Boss tier, bought F13 for 147g): every combat reward
+  now also includes a colorless / other-class card option. **Big synergy
+  with Toxic Egg** — auto-upgrades any Skill from any class. Unlocks
+  Master of Strategy, Apparition, Madness, J.A.X., Bandage Up, Bite,
+  Footwork, A Thousand Cuts, etc. as draftable picks.
 
 ## Active plan / archetype
 
@@ -77,21 +82,28 @@
 
 ## Draft priorities under current relic set
 
-Toxic Egg + Paper Phrog + Bag of Marbles + Bash+ → all-in on Vuln/Strength.
+Toxic Egg + Paper Phrog + Bag of Marbles + Bash+ + Prismatic Shard →
+aggressive Vuln/Strength, Skills are king.
 
 | Tier | Skill picks (auto-upgrade!) | Attack / Power picks |
 |---|---|---|
-| Auto-pick | Battle Trance, Disarm, Spot Weakness, Limit Break | Demon Form, Inflame, Heavy Blade, Whirlwind |
-| Strong | Sentinel, Warcry, Impervious, Ghostly Armor, Shrug It Off #2 | Reaper, Bludgeon, Uppercut, Twin Strike, Sword Boomerang |
-| Situational | Flex (with Phrog ok), True Grit, Power Through, Bloodletting | Carnage, Clothesline, Sever Soul, Anger |
-| Skip | Dual Wield (no Powers yet), Rage, Entrench, Second Wind, Dark Embrace | Searing Blow, Combust, Wild Strike, Headbutt, Clash, Pummel |
+| Auto-pick | Battle Trance, Disarm, Spot Weakness, Limit Break, **Master of Strategy** (colorless: draw 4) | Demon Form, Inflame, Heavy Blade, Whirlwind |
+| Strong | Sentinel, Warcry, Impervious, Ghostly Armor, Shrug It Off #2, **Footwork** (Silent: +Dex), **A Thousand Cuts** (Silent: AoE on skill), **Apparition** (colorless: Intangible) | Reaper, Bludgeon, Uppercut, Twin Strike, Sword Boomerang, **Bite** (colorless: 7 dmg + heal 2) |
+| Situational | Flex, True Grit #2, Power Through, Bloodletting, **J.A.X.** (colorless: +2 Str / -3 HP), **Madness** (colorless: random card costs 0) | Carnage, Clothesline, Sever Soul, Anger, **Mind Blast** (colorless: X dmg = deck size, innate) |
+| Skip | Dual Wield (no Powers), Rage, Entrench, Second Wind, Dark Embrace | Searing Blow, Combust, Wild Strike, Headbutt, Clash, Pummel |
 
 **Multi-hit cards become elite picks** — Phrog applies to *every hit*.
-Twin Strike, Whirlwind, Sword Boomerang, Pummel (now reconsider — 4 hits),
-Heavy Blade (+3× Strength) all scale ferociously.
+Twin Strike, Whirlwind, Sword Boomerang, Pummel, Heavy Blade
+(+Str×3) all scale ferociously.
+
+**Curses to avoid even harder now** — PShard pool has zero curses but means
+fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F13] Shop: bought **Prismatic Shard** (147g). Skipped card removal (100g)
+  and all card offers. Reasoning: rare boss-tier relic, multiplies with Toxic
+  Egg (skills from all classes auto-upgrade), pays out 12-15 more rewards.
 - [F12] Reward: take **True Grit+** over Intimidate+ / Burning Pact+.
   Effectively a Defend+ with targeted-exhaust upside; the Toxic Egg upgrade
   is what unlocks the "choose which card" mode. Bumps deck to 13.
