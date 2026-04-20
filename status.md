@@ -17,7 +17,7 @@
 ## Resources
 
 - **HP:** 56 / 80 (post-F20 combat)
-- **Gold:** 31 (post-F21 shop: -127g for Armaments+ + Sentinel+)
+- **Gold:** 61 (post-F21 shop: -97g for Armaments+ + Headbutt)
 - **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
   cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
   unupgraded cards; do NOT waste on T1 or short fights)
@@ -38,7 +38,7 @@
 1 × Perfected Strike+ (cost 2: 6 dmg + 3 per "Strike" card)     [STRIKE-named]
 1 × Dodge and Roll+   (cost 1, Silent colorless: block 6 + block 6 next turn)
 1 × Armaments+        (cost 1: block 5 + upgrade ALL hand cards rest of combat)
-1 × Sentinel+         (cost 1: block 8; if Exhausted, gain 3 Energy)
+1 × Headbutt          (cost 1: dmg 9 + put 1 discard card on top of draw)
 ```
 
 **Card count:** 17
@@ -126,15 +126,20 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
-- [F21] Shop: bought **Armaments+ (47g)** and **Sentinel+ (80g)**, 127g total.
+- [F21] Shop: bought **Armaments+ (47g)** and **Headbutt (50g)**, 97g total.
   - Armaments+ = permanent Blessing Potion. Upgrades all cards in hand for
     rest of combat. Massive snowball on T2 of long fights.
-  - Sentinel+ = 8 block floor + exhaust trigger grants 3 Energy.
-  - **PRIMARY combo is True Grit+ → target-exhaust Sentinel+** for 17 block
-    (9+8) + 3 energy refund on a single turn, hand intact.
-  - Fiend Fire+ synergy is WEAKER than initially claimed: FF+ empties the
-    hand, so Sentinel+'s 3-energy refund is wasted there. Sentinel+ still
-    contributes +10 dmg (exhausted card count) but that's it.
+  - Headbutt = recursion enabler. Primary combo is **Headbutt → Bash+ to top
+    of draw** for continuous Vuln uptime on long fights. Also recurses
+    Armaments+ for re-upgrading new draws mid-combat. Headbutt is NOT
+    upgraded (Attack, Toxic Egg only upgrades Skills), but the recursion
+    utility is where the value lives, not the 9 base damage.
+  - **Swapped OUT Sentinel+ (80g)** after realising its Fiend Fire+ synergy
+    was overstated (FF+ empties hand, wasting Sentinel+'s 3-energy refund).
+    Sentinel+'s remaining value (8 block + True Grit+ combo for 17 block
+    and 3 energy) is good but redundant — our block plan is already
+    covered by 4 Defends + Shrug + True Grit+ + Iron Wave + Dodge and Roll+.
+    Saved 30g for Act 3 flexibility.
   - Skipped Reckless Charge (Dazed pollution), Headbutt (good but not
     upgraded), Rupture (no HP-loss enablers), Purity+ (no Exhaust payoffs),
     Sadistic Nature (180g too expensive). All relics (Happy Flower C, Juzu
