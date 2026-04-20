@@ -8,34 +8,35 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, post-Toxic Egg, F? Smith
-- **Floor:** 8+ / Act 1
+- **Last update:** 2026-04-20, F12 card reward
+- **Floor:** 12 / Act 1
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 80 / 80 (full)
-- **Gold:** 60
+- **HP:** 74 / 80
+- **Gold:** 148
 - **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
   - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
   - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
   - Fear Potion: apply 3 Weak. Boss emergency mitigation (-25% atk dmg ×3 turns).
 
-## Deck (12 cards, post-Smith #2)
+## Deck (13 cards, post-F12 reward)
 
 ```
 4 × Strike
 4 × Defend
 1 × Bash+             (10 dmg / 3 Vuln, cost 2)
 1 × Iron Wave         (cost 1: block 5 + dmg 5)
-1 × Pommel Strike+    ← upgraded F? (cost 1: dmg 10 + draw 2)
+1 × Pommel Strike+    (cost 1: dmg 10 + draw 2)
 1 × Shrug It Off      (cost 1: block 8 + draw 1)
+1 × True Grit+        ← picked F12 (cost 1: block 9 + targeted Exhaust)
 ```
 
-**Card count:** 12
-**Upgrade count:** 2 (Bash+, Pommel Strike+)
+**Card count:** 13
+**Upgrade count:** 3 (Bash+, Pommel Strike+, True Grit+ via Toxic Egg)
 
 ## Relics
 
@@ -91,6 +92,9 @@ Heavy Blade (+3× Strength) all scale ferociously.
 
 ## Recent decisions
 
+- [F12] Reward: take **True Grit+** over Intimidate+ / Burning Pact+.
+  Effectively a Defend+ with targeted-exhaust upside; the Toxic Egg upgrade
+  is what unlocks the "choose which card" mode. Bumps deck to 13.
 - [F?] Found **Paper Phrog** (A): Vuln boost 50% → 75%. Cements aggressive
   Vuln/Strength plan. Block-heavy picks demoted further.
 - [F?] Smith #2: upgrade **Pommel Strike → Pommel Strike+** (10 dmg / draw 2).
