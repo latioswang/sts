@@ -8,20 +8,18 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F16 Act-1 boss fight (turn 1)
-- **Floor:** 16 / Act 1 Boss
-- **Boss seen (act 1):** unknown
+- **Last update:** 2026-04-20, F16 Act-1 boss defeated → card reward (skipped)
+- **Floor:** 16 → 17 (entering Act 2)
+- **Boss seen (act 1):** defeated (post-fight HP 30/80; took 43 dmg total)
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 73 / 80 (rested: +24)
-- **Gold:** 29
-- **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
-  - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
-  - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
-  - Fear Potion: apply 3 Weak. Boss emergency mitigation (-25% atk dmg ×3 turns).
+- **HP:** 30 / 80 ← **CRITICAL, 37%**. Rest site is top priority in Act 2.
+- **Gold:** 125 (+96 from boss)
+- **Potion slots:** 3 / 3 (contents TBD — confirm on next screen; likely
+  some combo of Fire / Elixir / Fear was used in boss fight)
 
 ## Deck (13 cards, post-F12 reward)
 
@@ -75,13 +73,17 @@
   - `Whirlwind / Immolate (+ energy)` → Big-energy AoE
 - **Block plan:** 4 Defends + Iron Wave + Ornamental Fan procs.
   Acceptable for act 1; need a proper block payoff for act 2 elites.
-- **Next 2 milestones:**
-  1. Find a real Strength / Power scaler before act-1 boss:
-     Heavy Blade, Inflame, Demon Form, Limit Break, Spot Weakness, Disarm.
-     With Toxic Egg, prefer the Skills (Inflame is a Power not Skill, but
-     Spot Weakness/Disarm/Limit Break get auto-upgraded).
-  2. Save Fire + Elixir + Fear for the act-1 boss. Use any potion on an
-     elite only if HP would drop below ~40%.
+- **Next 2 milestones (Act 2):**
+  1. **Survive.** 30/80 HP = 1 rest-site priority. Route map to hit a campfire
+     ASAP; avoid elites until ≥55 HP. `?` events that heal (Golden Idol,
+     Scrap Ooze non-greedy, Big Fish heal branch) are gold.
+  2. **Find the Strength/Power scaler.** Still open: Heavy Blade, Inflame,
+     Demon Form, Limit Break, Spot Weakness, Disarm. With PShard pool open,
+     also welcome: Bite (Colorless, 7 dmg + heal 2 — would help heal too),
+     Apparition (Intangible), Bandage Up (heal 4). Toxic Egg auto-upgrades
+     the Skills (Disarm+, Spot Weakness+, Limit Break+, Bandage Up+).
+  3. **Block payoff** for Act-2 elites (Book of Stabbing, Gremlin Leader,
+     Slavers) — Ghostly Armor+, Sentinel, Impervious, Footwork all excellent.
 
 ## Draft priorities under current relic set
 
@@ -104,6 +106,12 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F16] **Act-1 boss defeated.** HP 73 → 30 (43 dmg taken). Gold 29 → 125.
+- [F16] Card reward (PShard colorless pool): **Skip**.
+  Offers were Metamorphosis+ (one-shot random attacks, self-exhaust),
+  Magnetism (random colorless/turn, not auto-upgraded — Power not Skill),
+  Deva Form (3-cost Ethereal — too risky at 30 HP, exhausts if not played T1).
+  None fit aggressive Vuln/Strength; lean 13-card deck preserved.
 - [F??] Rest: **Rest** over Smith. Rule: < 70% HP → rest. +24 HP (49→73)
   > any marginal smith upgrade. Key cards already upgraded
   (Bash+/Pommel+/True Grit+).
