@@ -48,12 +48,16 @@
   every newly added **Skill** is pre-upgraded. Changes draft priorities —
   Skills are now significantly more valuable. Does NOT retroactively upgrade
   Skills already in deck.
+- **Paper Phrog** (uncommon, tier **A** for Ironclad, found post-Smith #2):
+  Vulnerable enemies take **75% more damage** instead of 50%. Synergises
+  with everything we have — Bash+ (3 Vuln), Bag of Marbles (1 Vuln combat
+  start). Effectively a +15-20% damage multiplier on the whole deck.
 
 ## Active plan / archetype
 
-- **Archetype:** **Strength / Vulnerable burst** + skill-rich (Toxic Egg).
-  Bash+ + Bag of Marbles = guaranteed Vuln. Future Skill picks come
-  pre-upgraded — heavily favour Skill rewards going forward.
+- **Archetype:** **Aggressive Vulnerable / Strength**, fully committed.
+  Bash+ → 3 Vuln, Marbles → +1 Vuln combat start, Phrog → +75% dmg into Vuln.
+  Block plan is "kill them faster." Toxic Egg makes future Skills free upgrades.
 - **Win condition:** TBD — first archetype-defining card will set the lane:
   - `Heavy Blade / Demon Form / Inflame / Limit Break` → Strength (best fit with Ornamental Fan)
   - `Perfected Strike` → Strike-tribal (great fit; Pommel Strike already in deck)
@@ -72,17 +76,23 @@
 
 ## Draft priorities under current relic set
 
-Toxic Egg makes Skill picks much more attractive. Adjusted priorities:
+Toxic Egg + Paper Phrog + Bag of Marbles + Bash+ → all-in on Vuln/Strength.
 
 | Tier | Skill picks (auto-upgrade!) | Attack / Power picks |
 |---|---|---|
-| Auto-pick | Battle Trance, Disarm, Impervious | Demon Form, Inflame, Heavy Blade |
-| Strong | Spot Weakness, Limit Break, Sentinel, Warcry, Ghostly Armor, Shrug It Off #2 | Whirlwind, Reaper, Bludgeon, Uppercut |
-| Situational | True Grit, Flex, Power Through, Bloodletting | Carnage, Clothesline, Sever Soul |
-| Skip | Dual Wield (no powers), Rage, Entrench (no Block stack), Second Wind (no Exhaust) | Searing Blow, Combust, Wild Strike, Headbutt, Clash |
+| Auto-pick | Battle Trance, Disarm, Spot Weakness, Limit Break | Demon Form, Inflame, Heavy Blade, Whirlwind |
+| Strong | Sentinel, Warcry, Impervious, Ghostly Armor, Shrug It Off #2 | Reaper, Bludgeon, Uppercut, Twin Strike, Sword Boomerang |
+| Situational | Flex (with Phrog ok), True Grit, Power Through, Bloodletting | Carnage, Clothesline, Sever Soul, Anger |
+| Skip | Dual Wield (no Powers yet), Rage, Entrench, Second Wind, Dark Embrace | Searing Blow, Combust, Wild Strike, Headbutt, Clash, Pummel |
+
+**Multi-hit cards become elite picks** — Phrog applies to *every hit*.
+Twin Strike, Whirlwind, Sword Boomerang, Pummel (now reconsider — 4 hits),
+Heavy Blade (+3× Strength) all scale ferociously.
 
 ## Recent decisions
 
+- [F?] Found **Paper Phrog** (A): Vuln boost 50% → 75%. Cements aggressive
+  Vuln/Strength plan. Block-heavy picks demoted further.
 - [F?] Smith #2: upgrade **Pommel Strike → Pommel Strike+** (10 dmg / draw 2).
   Reason: Toxic Egg auto-upgrades any future Skill, so Smith spend should go
   to an Attack. Pommel's +1 draw is one of the best upgrades in the game.
