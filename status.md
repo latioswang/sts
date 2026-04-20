@@ -8,16 +8,16 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F13 shop (post-PShard)
-- **Floor:** 13 / Act 1
+- **Last update:** 2026-04-20, F14 post-elite card reward
+- **Floor:** 14 / Act 1
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 74 / 80
-- **Gold:** ~1 (after F13 shop: -147 Prismatic Shard)
+- **HP:** 49 / 80 (took 25 HP in F14 elite)
+- **Gold:** 29 (+28 elite drop)
 - **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
   - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
   - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
@@ -58,6 +58,9 @@
   with Toxic Egg** — auto-upgrades any Skill from any class. Unlocks
   Master of Strategy, Apparition, Madness, J.A.X., Bandage Up, Bite,
   Footwork, A Thousand Cuts, etc. as draftable picks.
+- **??? (elite relic F14):** speckled/painted orb icon, **please name**.
+  Likely candidate: Strawberry / Pear / Mango / Molten Egg / Frozen Egg /
+  Pandora's Box / Astrolabe.
 
 ## Active plan / archetype
 
@@ -101,6 +104,10 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F14] Elite: won, took 25 HP (74→49). Gained 28g and a new relic (TBD).
+- [F14] Card reward: **Skip** — Sentinel+ (no Corruption), Auto-Shields+
+  (anti-synergy with Ornamental Fan), Ragnarok (3-cost crowds Bash turns,
+  no Strength scaling yet). Lean deck preserved at 13 cards.
 - [F13] Shop: bought **Prismatic Shard** (147g). Skipped card removal (100g)
   and all card offers. Reasoning: rare boss-tier relic, multiplies with Toxic
   Egg (skills from all classes auto-upgrade), pays out 12-15 more rewards.
@@ -127,11 +134,12 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Open questions / risks
 
-- Iron Wave alone is not enough block scaling for act 2 — need a real block
-  payoff (Body Slam / Barricade / Juggernaut / Ghostly Armor / Shrug It Off /
-  Impervious) or commit hard to Strength so we kill before we die.
-- 12-card deck is small; great for finding key cards, weak for sustained fights.
-  Be cautious about adding low-tier cards just to "do something".
-- Act-1 boss unknown — Hexaghost is the worst matchup with this deck (low
-  block, no Wound removal). If it's Hexaghost, prioritise block & remove
-  one Strike.
+- **Name the elite relic** from F14 — changes prioritisation going forward
+  (Molten Egg would turbo our Strength plan; Pandora's Box would explode deck;
+  Strawberry/Pear/Mango are +HP and pure upside).
+- HP at 49/80 going toward act-1 boss. Need either a Rest or cautious
+  routing; one more "normal" enemy + Burning Blood puts us at ~55. If the
+  next ? is an event that heals or a rest, take it.
+- Act-1 boss unknown — Hexaghost is the worst matchup with this deck
+  (Wound pollution + big AoE). If it's Hexaghost, plan turn 1 around **not**
+  getting Bashed while applying Weak/Vuln.
