@@ -8,33 +8,33 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, floor 7 Shop (post-purchase)
-- **Floor:** 7 / Act 1
+- **Last update:** 2026-04-20, floor 8 card reward
+- **Floor:** 8 / Act 1
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 77 / 80
-- **Gold:** ~40 (after shop: -143 Marbles, -75 removal)
-- **Potion slots:** 3 (Fire Potion / Elixir / empty)
-  - Fire Potion: deal 20 dmg to one enemy. Save for elite/boss or a near-killing blow.
-  - Elixir: Exhaust any number of cards in your hand. Save for: kill turns
-    where you need to dump dead Strikes/Defends, or to nuke Wounds/Burns
-    if you pick up pollute cards. Also great vs. Hexaghost (clear Burns).
+- **HP:** 80 / 80 (full)
+- **Gold:** 60
+- **Potion slots:** 3 / 3 full (Fire / Elixir / Fear)
+  - Fire Potion: 20 dmg single target. Save for elite/boss or kill blow.
+  - Elixir: exhaust any number of cards in hand. Boss prep / Wound nuke.
+  - Fear Potion: apply 3 Weak. Boss emergency mitigation (-25% atk dmg ×3 turns).
 
-## Deck (11 cards after F7 Shop removal)
+## Deck (12 cards after F8 reward)
 
 ```
-4 × Strike            ← removed 1 Strike at F7 shop
+4 × Strike
 4 × Defend
 1 × Bash+             (10 dmg / 3 Vuln, cost 2)
 1 × Iron Wave         (cost 1: block 5 + dmg 5)
 1 × Pommel Strike     (cost 1: dmg 9 + draw 1)
+1 × Shrug It Off      ← picked F8 (cost 1: block 8 + draw 1)
 ```
 
-**Card count:** 11
+**Card count:** 12
 **Upgrade count:** 1 (Bash+)
 
 ## Relics
@@ -67,6 +67,9 @@
 
 ## Recent decisions
 
+- [F8] Reward: take **Shrug It Off** over Flex/Headbutt. Block + draw is the
+  highest-EV common in Ironclad; deck needed both.
+- [F8] Picked up **Fear Potion** (free drop): saved for boss / Lagavulin-class elite.
 - [F7] Shop:
   - Bought **Bag of Marbles** (143g) — A-tier, Vuln-on-combat-start.
   - Bought card removal **−1 Strike** (75g). Removes the worst card type;
