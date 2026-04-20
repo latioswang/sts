@@ -16,8 +16,8 @@
 
 ## Resources
 
-- **HP:** 74 / 80 (act transition refilled HP from 30 — user ruleset)
-- **Gold:** 139 (+14 from first Act-2 monster)
+- **HP:** 56 / 80 (post-F20 combat, -18 from 74)
+- **Gold:** 158 (+19 from F20 fight)
 - **Potion slots:** 3 / 3 — Fear, Regen, **Blessing** (upgrades all hand
   cards for rest of combat — save for boss/elite T2-T3 when hand is 3+
   unupgraded cards; do NOT waste on T1 or short fights)
@@ -124,6 +124,10 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 
 ## Recent decisions
 
+- [F20] Card reward: **Skip.** Three 0-cost colorless attacks (Go for the
+  Eyes / Consecrate / Just Lucky), none upgraded (Attacks bypass Toxic Egg),
+  none archetype-defining. Deck dilution hurts Bash+ draw rate. Hold for
+  Strength, block payoff, or Strike-named cards.
 - [F19] Event: **Council of Ghosts → Refuse.** –40 Max HP is catastrophic
   (50% pool, permanent); 5 Apparition+ uses are spread too thin and we
   lack Exhaust-payoff engine (no Dark Embrace / Feel No Pain / Corruption)
