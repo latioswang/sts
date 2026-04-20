@@ -8,8 +8,8 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-20
-- **Last update:** 2026-04-20, F?? rest (post-rest)
-- **Floor:** 15+ / Act 1 (heading toward boss)
+- **Last update:** 2026-04-20, F16 Act-1 boss fight (turn 1)
+- **Floor:** 16 / Act 1 Boss
 - **Boss seen (act 1):** unknown
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
@@ -58,9 +58,9 @@
   with Toxic Egg** — auto-upgrades any Skill from any class. Unlocks
   Master of Strategy, Apparition, Madness, J.A.X., Bandage Up, Bite,
   Footwork, A Thousand Cuts, etc. as draftable picks.
-- **??? (elite relic F14):** speckled/painted orb icon, **please name**.
-  Likely candidate: Strawberry / Pear / Mango / Molten Egg / Frozen Egg /
-  Pandora's Box / Astrolabe.
+- **Gambling Chip** (rare, tier **A-**, elite drop F14): at combat start,
+  discard any number of cards and draw that many. Effectively a mulligan
+  every fight — lets us seek Bash+/Pommel+ on turn 1.
 
 ## Active plan / archetype
 
