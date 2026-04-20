@@ -129,9 +129,12 @@ fewer Ironclad-class cards per reward, so each pick matters more.
 - [F21] Shop: bought **Armaments+ (47g)** and **Sentinel+ (80g)**, 127g total.
   - Armaments+ = permanent Blessing Potion. Upgrades all cards in hand for
     rest of combat. Massive snowball on T2 of long fights.
-  - Sentinel+ = 8 block floor + exhaust trigger grants 3 Energy. Huge combo
-    with Fiend Fire+ (exhaust fuel → +10 dmg + 3 energy refund) and True
-    Grit+ (targeted exhaust → 17 block + 3 energy in one turn).
+  - Sentinel+ = 8 block floor + exhaust trigger grants 3 Energy.
+  - **PRIMARY combo is True Grit+ → target-exhaust Sentinel+** for 17 block
+    (9+8) + 3 energy refund on a single turn, hand intact.
+  - Fiend Fire+ synergy is WEAKER than initially claimed: FF+ empties the
+    hand, so Sentinel+'s 3-energy refund is wasted there. Sentinel+ still
+    contributes +10 dmg (exhausted card count) but that's it.
   - Skipped Reckless Charge (Dazed pollution), Headbutt (good but not
     upgraded), Rupture (no HP-loss enablers), Purity+ (no Exhaust payoffs),
     Sadistic Nature (180g too expensive). All relics (Happy Flower C, Juzu
