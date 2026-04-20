@@ -23,24 +23,27 @@
   - Regen Potion: gain 5 Regen (heal 5, 4, 3, 2, 1 over 5 turns = 15 HP).
     Use early in long elite/boss fights to maximise total heal.
 
-## Deck (14 cards, post-F16 boss + Astrolabe transform)
+## Deck (14 cards, post-Astrolabe transform — rolls resolved)
 
 ```
-1 × Strike            (3 transformed → 3 random upgraded, TBD)
+1 × Strike            (3 basic Strikes transformed by Astrolabe)
 4 × Defend
-1 × Bash+             (10 dmg / 3 Vuln, cost 2)
+1 × Bash+             (cost 2: 10 dmg + 3 Vuln)
 1 × Iron Wave         (cost 1: block 5 + dmg 5)
-1 × Pommel Strike+    (cost 1: dmg 10 + draw 2)
+1 × Pommel Strike+    (cost 1: dmg 10 + draw 2)                 [STRIKE-named]
 1 × Shrug It Off      (cost 1: block 8 + draw 1)
 1 × True Grit+        (cost 1: block 9 + targeted Exhaust)
 1 × Deva Form         (cost 3, Ethereal, Power: +1 energy/turn, ramping)
-3 × ???+              ← Astrolabe random pre-upgraded, pending screenshot
+1 × Twin Strike+      (cost 1: 7 dmg × 2 = 14)                  [STRIKE-named]
+1 × Fiend Fire+       (cost 2: Exhaust hand, 10 dmg/Exhausted, self-Exhaust)
+1 × Perfected Strike+ (cost 2: 6 dmg + 3 per "Strike" card)     [STRIKE-named]
 ```
 
 **Card count:** 14
-**Upgrade count:** 3 committed (Bash+, Pommel Strike+, True Grit+) +
-3 pending (Astrolabe targets) = 6 upgrades.
-Deva Form is a **Power**, not a Skill — Toxic Egg does NOT upgrade it.
+**Upgrade count:** 6 (Bash+, Pommel+, True Grit+, Twin Strike+, Fiend Fire+,
+Perfected Strike+). Deva Form is a Power — Toxic Egg does NOT upgrade it.
+**Strike-named count:** 4 (Strike, Pommel Strike+, Twin Strike+, Perfected
+Strike+) → Perfected Strike+ currently deals **6 + 3×4 = 18 dmg**.
 
 ## Relics
 
@@ -71,10 +74,11 @@ Deva Form is a **Power**, not a Skill — Toxic Egg does NOT upgrade it.
 
 ## Active plan / archetype
 
-- **Archetype:** **Aggressive Vulnerable / Strength + Energy ramp**.
-  Bash+ → 3 Vuln, Marbles → +1 Vuln combat start, Phrog → +75% dmg into Vuln,
-  **Deva Form** → exponential energy scaling for long fights. Block plan is
-  "kill them faster." Toxic Egg makes future Skills free upgrades.
+- **Archetype:** **Aggressive Vuln + Strike-tribal + Exhaust-burst + Energy ramp**.
+  Four layered win conditions: Twin Strike+ × Vuln for short fights,
+  Perfected Strike+ (currently 18 dmg) for medium, Fiend Fire+ (70 dmg under
+  Vuln) for bosses, Deva Form ramp for long fights. Block plan is "kill
+  faster", with 4 Defends + Shrug + True Grit+ + Iron Wave as filler.
 - **Win condition:** Deva Form ramp into multi-card turns. Ideal payoff
   would still be Heavy Blade / Whirlwind / Demon Form / Reaper — with 6–7
   energy mid-fight, any of these one-shots a boss.
