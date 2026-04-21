@@ -8,19 +8,19 @@
 - **Character:** Ironclad
 - **Ascension:** 0 (Standard mode — no AscendersBane, no Asc modifiers)
 - **Run started:** 2026-04-21
-- **Last update:** 2026-04-21, F2 card reward (Pommel Strike chosen)
-- **Floor:** 3 / Act 1 (post-F2 combat reward)
+- **Last update:** 2026-04-21, F3 card reward (Shockwave chosen)
+- **Floor:** 4 / Act 1 (post-F3 combat reward)
 - **Boss seen (act 1):** —
 - **Boss seen (act 2):** —
 - **Boss seen (act 3):** —
 
 ## Resources
 
-- **HP:** 68 / 72 (post-F2 combat)
-- **Gold:** 131
-- **Potion slots:** 1 / 3 (Power Potion)
+- **HP:** 65 / 72 (post-F3 combat)
+- **Gold:** 144
+- **Potion slots:** 2 / 3 (Power Potion, Liquid Bronze)
 
-## Deck (12 cards, post-F2 reward)
+## Deck (13 cards, post-F3 reward)
 
 ```
 3 × Strike
@@ -30,9 +30,10 @@
 1 × Bloodletting
 1 × Cleave
 1 × Pommel Strike
+1 × Shockwave
 ```
 
-**Card count:** 12
+**Card count:** 13
 **Upgrade count:** 0
 **Strike-named count:** 4
 
@@ -46,9 +47,9 @@
 - **Win condition:** Short-term: faster frontloaded turns via Bloodletting; medium-term: add premium attacks/card draw, treat Fire Breathing as support unless status package appears.
 - **Block plan:** Starter Defends + early Skill pickups.
 - **Next 3 milestones (Act 1):**
-  1. Add one premium block card (Shrug/Flame Barrier/Power Through); frontloaded damage and draw are improved via Cleave + Pommel Strike.
+  1. Add one premium block card (Shrug/Flame Barrier/Power Through); debuff plan is now online with Shockwave.
   2. Prioritize first campfire upgrade on Bash; Bloodletting+ is acceptable if energy-starved with 2-cost hand clumps.
-  3. Route for 1 elite minimum; consider 2 elites only with good early rewards + potion support.
+  3. Route for 1-2 elites; with Shockwave + two potions, elite viability is improved.
 
 ## Draft priorities at run start
 
@@ -65,6 +66,8 @@
 - [F0] Transform results: **Fire Breathing** and **Bloodletting**.
 - [F1] Card reward: **Cleave** over Blood for Blood / Dark Embrace (best immediate Act-1 output and multi-enemy coverage).
 - [F2] Card reward: **Pommel Strike** over Evolve / Heavy Blade (best immediate consistency + damage; Heavy Blade needs Strength support, Evolve is too situational early).
+- [F3] Potion: picked up **Liquid Bronze**.
+- [F3] Card reward: **Shockwave** over Clothesline / Sword Boomerang (highest impact debuff tool, especially for multi-enemy and elite fights).
 
 ## Open questions / risks
 
