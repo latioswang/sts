@@ -137,15 +137,17 @@ For combat, recommend the **full play sequence** for the turn, in order, and
 show the math as the source:
 
 ```
-1. Bash → frontline (apply Vulnerable 2)
-2. Pommel Strike+ → frontline (10 dmg ×1.5 = 15, +1 card draw)
-3. Defend → block 8 (+5 from Ghostly Armor end-of-turn = 13)
+1. Bash → Jaw Worm (8 dmg, apply Vulnerable 2)
+2. Pommel Strike+ → Jaw Worm (10 ×1.5 Vuln = 15 dmg, draw 2)
+3. Defend → block 5
+End: 0 energy, 5 block.
 
-Math: incoming 12 (Cultist 6 + Jaw Worm 6). Block 13 → take 0.
+Math: incoming 11 (Cultist Dark Strike 6 + Looter Mug 5, both on-screen).
+       Block 5 → take 6.
 Sources:
-  - `cards.md` entries for Bash, Pommel Strike+, Defend (damage/block values)
-  - `relics.md §Ghostly Armor` — +5 block at end of turn
-  - On-screen intent reads (Cultist: Attack 6, Jaw Worm: Attack 6)
+  - `cards.md:606 §Bash` (8 dmg + 2 Vuln), `cards.md:856 §Pommel Strike`
+    upgraded ("Deal 10 damage. Draw 2 cards"), `cards.md` Defend (5 block)
+  - On-screen intents — Cultist Attack 6, Looter Attack 5
 ```
 
 If you are uncertain, say so and pick the safest option (preserve HP,
