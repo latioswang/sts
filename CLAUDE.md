@@ -113,24 +113,22 @@ with X", "you already have Y", "archetype wants Z") must cite a source.
 **Why:** B+ Power that opens the Strength lane; starter Bash already lands
 Vulnerable, so Inflame's +2 Str compounds on every Bash turn.
 **Sources:**
-  - `cards.md:268 §Inflame` — tier B+, "strength is relevant to every
+  - `cards.md:268` — Inflame, tier B+, "strength is relevant to every
     single ironclad deck"
-  - `archetypes.md:13 §1. Strength` — "Bash keeps Vulnerable up so Strength
-    translates into a bigger %"
-  - `status.md → Deck` — starter deck, Bash present (no line ref needed
-    on a fresh run; quote the section instead)
-  - `CLAUDE.md §Decision heuristics → Upgrade priority` — Powers ranked
-    above high-density commons
+  - `archetypes.md:13` — §1. Strength, "Bash keeps Vulnerable up so
+    Strength translates into a bigger %"
+  - `status.md → Deck` — starter deck, Bash present
+  - `CLAUDE.md:203` — Upgrade priority, Powers above high-density commons
 **Trade-off:** Inflame needs a free turn to land; if F2 is an elite without
 a block plan, prefer the attack/block hybrid.
 **Skip if:** the next floor is an elite and you have no block source beyond
 starter Defends.
 ```
 
-**Citation form.** Prefer `file:line` (e.g. `cards.md:268`); add `§Heading`
-only when the line alone is ambiguous or you want to flag the section for
-the reader. Don't write `cards.md:268 §Inflame` and `relics.md:185 §Pen Nib`
-in the same block — pick one style per recommendation and stay consistent.
+**Citation form.** `file:line — short description` per bullet (see example
+above). The description is where you put the heading name, the tier, the
+quoted phrase, etc. Don't bake the heading into the cite itself
+(`cards.md:268 §Inflame — B+...`); it's redundant with the description.
 
 **When there's no line to cite:**
 - `status.md` shifts every floor → cite the section (`status.md → Deck`,
