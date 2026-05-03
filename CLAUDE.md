@@ -110,18 +110,28 @@ with X", "you already have Y", "archetype wants Z") must cite a source.
 
 ```
 **Pick:** Inflame.
-**Why:** A-tier strength enabler that compounds with the Heavy Blade you
-already own; Demon Form is on offer next floor.
+**Why:** B+ Power that opens the Strength lane; starter Bash already lands
+Vulnerable, so Inflame's +2 Str compounds on every Bash turn.
 **Sources:**
-  - `cards.md §Tier A → Inflame` — tier + "scales Heavy Blade / Whirlwind"
-  - `status.md → Deck` — Heavy Blade present (line 14)
-  - `status.md → Map` — Demon Form visible on next card reward (line 22)
-  - `archetypes.md §Strength` — Inflame listed as core enabler
-  - `CLAUDE.md §Decision heuristics → Upgrade priority` — Powers > commons
-**Trade-off:** Iron Wave is the safer block/damage hybrid, but you have
-Shrug It Off + Ghostly Armor already (`status.md → Deck`, lines 11-12).
-**Skip if:** you're full HP and still need a block plan over the next 2 floors.
+  - `cards.md:268 §Inflame` — tier B+, "strength is relevant to every
+    single ironclad deck"
+  - `archetypes.md:13 §1. Strength` — "Bash keeps Vulnerable up so Strength
+    translates into a bigger %"
+  - `status.md → Deck` — starter deck, Bash present (no line ref needed
+    on a fresh run; quote the section instead)
+  - `CLAUDE.md §Decision heuristics → Upgrade priority` — Powers ranked
+    above high-density commons
+**Trade-off:** Inflame needs a free turn to land; if F2 is an elite without
+a block plan, prefer the attack/block hybrid.
+**Skip if:** the next floor is an elite and you have no block source beyond
+starter Defends.
 ```
+
+Cite real `file:line` refs when you can grep them. **Bootstrap caveat:** on
+a fresh run `status.md` has no line numbers to cite — quote the section
+name (`status.md → Deck (starter only)`) and skip the line ref. Same when a
+fact is on-screen rather than in a file: cite it as `(on-screen)` so the
+reader knows it's an observation, not a KB lookup.
 
 For combat, recommend the **full play sequence** for the turn, in order, and
 show the math as the source:
