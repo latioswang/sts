@@ -23,6 +23,7 @@ catch your own hallucinations.
 | `relics.md` | All Ironclad-relevant relics (134 shared + 12 ironclad-specific), grouped by Ironclad-specific tier, also indexed by rarity |
 | `colorless.md` | Colorless cards Ironclad can pick up via events / Prismatic Shard |
 | `curses.md` | The 14 curse cards |
+| `potions.md` | Common Ironclad-relevant potions (hand-curated, not from spirespy scrape — partial list) |
 | `archetypes.md` | Ironclad deck archetypes, payoffs, enablers, taxes; boss-relic checklist |
 | `glossary.md` | Keyword definitions, tag legend, tier shorthand, energy notation |
 | `data/ironclad_cards.json` | Same card data, machine-readable. Use `Grep` for fast name/tag lookup. |

@@ -19,6 +19,7 @@ exact workflow.
 ├── relics.md              ← 146 Ironclad-relevant relics by tier
 ├── colorless.md           ← colorless cards (Prismatic Shard, events)
 ├── curses.md              ← 14 curse cards
+├── potions.md             ← common potions (hand-curated, partial)
 ├── archetypes.md          ← deck themes, payoffs/enablers, boss-relic checklist
 ├── glossary.md            ← keywords, tag legend, tier shorthand
 │
