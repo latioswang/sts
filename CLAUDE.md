@@ -81,22 +81,20 @@ process the state before recommending, (c) it becomes the diff against
 "know" a card's tier or a relic's effect, open the file and confirm. The KB
 is the source of truth; your priors are not.
 
-For each thing on screen, do the lookup and **record the source as you go**
-(file + section/line, e.g. `cards.md §Tier A → Inflame` or
-`archetypes.md §Strength → enablers`). You will cite these in step 4.
+For each thing on screen, do the lookup and **record the line number as you
+go** — you will cite these as `file:line` in step 4.
 
-- For each card/relic on screen, look it up. Get the tier, statement,
-  super-synergies and antisynergies. → source: `cards.md` / `relics.md` /
-  `colorless.md` / `curses.md` entry.
-- Cross-reference against the player's existing deck and relics. → source:
-  `status.md` (quote the specific line).
-- Identify the active **archetype** and what it wants next. → source:
-  `archetypes.md` (name the archetype section).
-- Apply the relevant prior from this file. → source: `CLAUDE.md §Decision
-  heuristics → <bullet>`.
-- For combat decisions, run the math explicitly: damage available this turn
-  vs. incoming damage, accounting for Vulnerable, Strength, Block. Show the
-  arithmetic — that's the "source" for combat recommendations.
+- Each card/relic on screen → grep `cards.md` / `relics.md` / `colorless.md`
+  / `curses.md` for tier, super-synergies, antisynergies.
+- Cross-reference the player's deck and relics → `status.md` (cite by section,
+  e.g. `status.md → Deck`).
+- Identify the active **archetype** and what it wants next → `archetypes.md`
+  (line of the archetype heading).
+- Apply the relevant prior from this file → cite the heuristic by line
+  (e.g. `CLAUDE.md:203`).
+- For combat, run the math explicitly: damage available this turn vs.
+  incoming, accounting for Vulnerable, Strength, Block. The arithmetic is
+  the source.
 
 If a recommendation rests on a fact you can't find in the KB, say so out loud
 ("not in KB, going from general STS knowledge") rather than presenting it as
@@ -144,7 +142,7 @@ quoted phrase, etc. Don't bake the heading into the cite itself
   upgrade (Strike+ 9, Defend+ 8). No source needed for these two.
 
 **Many-item screens** (shops, big card-reward pools, bosses with 3 relics):
-one line per item is fine — `Pen Nib (180g) — `relics.md:185`, A-tier,
+one line per item is fine — `relics.md:185 — Pen Nib (180g), A-tier,
 super-syn Bludgeon`. Don't repeat the full Pick/Why/Sources block per item.
 For shops, lead with the **budget arithmetic** (`220g, removal 75g, Pen Nib
 180g → can't afford both; pick Pen Nib`) — the math is the source.
@@ -161,11 +159,11 @@ End: 0 energy, 5 block.
 Math: incoming 11 (Cultist Dark Strike 6 + Looter Mug 5, both on-screen).
        Block 5 → take 6.
 Sources:
-  - `cards.md:606 §Bash` (8 dmg + 2 Vuln); `cards.md:856 §Pommel Strike+`
-    ("Deal 10 damage. Draw 2 cards")
-  - `glossary.md:21 §Vulnerable` (×1.5 to attack damage)
+  - `cards.md:606` — Bash, 8 dmg + 2 Vuln
+  - `cards.md:856` — Pommel Strike+, "Deal 10 damage. Draw 2 cards"
+  - `glossary.md:21` — Vulnerable, ×1.5 to attack damage
   - On-screen intents — Cultist Attack 6, Looter Attack 5
-  - Defend is a starter, not in `cards.md` (see its line 3); 5 block standard
+  - Defend: starter, not in `cards.md` (see line 3); 5 block standard
 ```
 
 If you are uncertain, say so and pick the safest option (preserve HP,
