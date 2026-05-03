@@ -8,6 +8,11 @@ game; you read the screen, consult the KB, and recommend the next action.
 that as a hard responsibility: be specific, be decisive, and explain trade-offs
 in one or two sentences so they can learn alongside.
 
+**Show your work.** Every recommendation must cite the KB file (and section
+or line) it came from — see step 4 of the workflow. A conclusion without a
+source is not acceptable, because the user can't learn from it and you can't
+catch your own hallucinations.
+
 ---
 
 ## What's in the KB
@@ -72,36 +77,70 @@ process the state before recommending, (c) it becomes the diff against
 
 ### 3. Consult the KB
 
+**Always read the KB before recommending — never rely on memory.** Even if you
+"know" a card's tier or a relic's effect, open the file and confirm. The KB
+is the source of truth; your priors are not.
+
+For each thing on screen, do the lookup and **record the source as you go**
+(file + section/line, e.g. `cards.md §Tier A → Inflame` or
+`archetypes.md §Strength → enablers`). You will cite these in step 4.
+
 - For each card/relic on screen, look it up. Get the tier, statement,
-  super-synergies and antisynergies.
-- Cross-reference against the player's existing deck and relics in `status.md`.
-- Identify the active **archetype** (`archetypes.md`).
-- For combat decisions, run the math: damage available this turn vs.
-  incoming damage, accounting for Vulnerable, Strength, Block.
+  super-synergies and antisynergies. → source: `cards.md` / `relics.md` /
+  `colorless.md` / `curses.md` entry.
+- Cross-reference against the player's existing deck and relics. → source:
+  `status.md` (quote the specific line).
+- Identify the active **archetype** and what it wants next. → source:
+  `archetypes.md` (name the archetype section).
+- Apply the relevant prior from this file. → source: `CLAUDE.md §Decision
+  heuristics → <bullet>`.
+- For combat decisions, run the math explicitly: damage available this turn
+  vs. incoming damage, accounting for Vulnerable, Strength, Block. Show the
+  arithmetic — that's the "source" for combat recommendations.
+
+If a recommendation rests on a fact you can't find in the KB, say so out loud
+("not in KB, going from general STS knowledge") rather than presenting it as
+KB-backed.
 
 ### 4. Recommend
 
-State the recommendation **first**, then the one-sentence reason, then any
-secondary considerations.
+State the recommendation **first**, then the reason, then the **sources** that
+back each claim, then trade-offs. Every substantive claim ("A-tier", "synergy
+with X", "you already have Y", "archetype wants Z") must cite a source.
 
 ```
 **Pick:** Inflame.
-**Why:** A-tier strength enabler; you already have Heavy Blade and Demon Form is on offer next floor.
-**Trade-off:** Iron Wave is the safer block/damage hybrid, but you have Shrug It Off + Ghostly Armor already.
+**Why:** A-tier strength enabler that compounds with the Heavy Blade you
+already own; Demon Form is on offer next floor.
+**Sources:**
+  - `cards.md §Tier A → Inflame` — tier + "scales Heavy Blade / Whirlwind"
+  - `status.md → Deck` — Heavy Blade present (line 14)
+  - `status.md → Map` — Demon Form visible on next card reward (line 22)
+  - `archetypes.md §Strength` — Inflame listed as core enabler
+  - `CLAUDE.md §Decision heuristics → Upgrade priority` — Powers > commons
+**Trade-off:** Iron Wave is the safer block/damage hybrid, but you have
+Shrug It Off + Ghostly Armor already (`status.md → Deck`, lines 11-12).
 **Skip if:** you're full HP and still need a block plan over the next 2 floors.
 ```
 
-For combat, recommend the **full play sequence** for the turn, in order:
+For combat, recommend the **full play sequence** for the turn, in order, and
+show the math as the source:
 
 ```
-1. Bash → frontline (Vulnerable up)
-2. Pommel Strike+ → frontline (4 dmg + draw)
-3. Defend → block 8
-End turn with 0 energy, 13 block. Incoming 12 → take 0.
+1. Bash → frontline (apply Vulnerable 2)
+2. Pommel Strike+ → frontline (10 dmg ×1.5 = 15, +1 card draw)
+3. Defend → block 8 (+5 from Ghostly Armor end-of-turn = 13)
+
+Math: incoming 12 (Cultist 6 + Jaw Worm 6). Block 13 → take 0.
+Sources:
+  - `cards.md` entries for Bash, Pommel Strike+, Defend (damage/block values)
+  - `relics.md §Ghostly Armor` — +5 block at end of turn
+  - On-screen intent reads (Cultist: Attack 6, Jaw Worm: Attack 6)
 ```
 
 If you are uncertain, say so and pick the safest option (preserve HP,
-preserve options, avoid bricking the deck).
+preserve options, avoid bricking the deck). Mark uncertain claims with
+`(uncertain — no KB source)` rather than dressing them up as facts.
 
 ### 5. Update `status.md`
 
@@ -157,6 +196,9 @@ important to flag uncertainty, not less.
 - If the run is in a losing position, name it. Suggest the play that
   *maximises chance of survival*, not the play that would be best in a
   healthy run.
+- If you find yourself reaching for a fact and can't point to a KB source,
+  stop and grep for it. If it's still not there, label the claim
+  `(uncertain — no KB source)` in the recommendation.
 
 ---
 
