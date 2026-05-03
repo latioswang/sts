@@ -173,6 +173,14 @@ These are the priors to apply unless the situation overrides them:
   Make sure you have at least one "do something" card every turn.
 - **Boss-relic swaps.** Most class-specific energy-relics are good for that
   class. See the boss-relic checklist in `<char>_archetypes.md`.
+- **Conflict resolution: archetype > current deck > card Notes > tier letter.**
+  When sources disagree (e.g. Bane's Notes say "fine with 1-2 poison sources"
+  but the Poison archetype guide says "avoid"), respect the **archetype**
+  guide once the deck has committed (≥3 archetype cards). Always weigh
+  what the **current deck** actually needs over what the card looks like
+  in isolation. Tier letters are "average deck" evaluations and are the
+  weakest signal — Catalyst is A- on paper but S+ in a committed Poison
+  deck, and a B+ card can be a brick if the deck doesn't support it.
 
 ---
 
