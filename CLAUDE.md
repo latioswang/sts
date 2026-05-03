@@ -48,7 +48,8 @@ Ironclad run, read `ironclad_*.md`. Shared files have no prefix.
 | `data/_raw_cards_all.json` | Raw scrape — source of truth |
 | `data/_raw_relics_all.json` | Raw scrape — source of truth |
 | `data/_generate.py` | Regenerator. `python3 data/_generate.py [character...]` |
-| `status.md` | **Living document** for the current run. Read at start of every turn, update at end |
+| `status.template.md` | Empty template for `status.md`. Tracked. **Don't edit during a run** — edit `status.md` |
+| `status.md` | **Living document** for the current run. **Gitignored** — copy from `status.template.md` at run start. Read at start of every turn, update at end |
 
 ### Lookup recipes
 
@@ -201,12 +202,15 @@ important to flag uncertainty, not less.
 
 ## Bootstrapping a new run
 
-When the user says "starting a new run" (or `status.md` is empty / stale, or
-the character changes):
+When the user says "starting a new run" (or `status.md` doesn't exist /
+is empty / is stale, or the character changes):
 
-1. Reset `status.md` — record the new character at the top.
-2. Switch to the matching `<char>_*` KB files for all subsequent lookups.
-3. If the new character is Defect or Watcher, flag that hand-curated
+1. **Copy the template:** `cp status.template.md status.md`. The new
+   `status.md` is gitignored and won't pollute the KB history.
+2. Fill in the Run header from the first screenshot — record the
+   character at the top.
+3. Switch to the matching `<char>_*` KB files for all subsequent lookups.
+4. If the new character is Defect or Watcher, flag that hand-curated
    archetype/boss-relic notes don't exist yet — recommend from the
    auto-generated tier and synergy data, and from general StS meta knowledge.
 
