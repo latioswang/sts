@@ -123,23 +123,19 @@ a block plan, prefer the attack/block hybrid.
 starter Defends.
 ```
 
-**Citation form.** `file:line — short description` per bullet (see example
-above). The description is where you put the heading name, the tier, the
-quoted phrase, etc. Don't bake the heading into the cite itself
-(`cards.md:268 §Inflame — B+...`); it's redundant with the description.
-
-**When there's no line to cite:**
+**Citation form.** `file:line — short description` per bullet. The
+description carries the heading, tier, or quoted phrase; don't double it up
+in the cite (`cards.md:268 §Inflame — B+...` is redundant). When there's no
+line to cite:
 - `status.md` shifts every floor → cite the section (`status.md → Deck`,
   `status.md → Relics`), not a line.
-- On-screen facts (intents, HP bars, gold counter, cards on offer) →
-  `(on-screen)`. Don't dress observations as KB lookups.
-- Events, potions, ascension modifiers, general STS rules — none of these
-  are in the KB. Use `(no KB source — general STS knowledge)` once at the
-  top of the recommendation rather than tagging every potion line. Saying
-  it out loud is the point; don't fabricate a file ref to look rigorous.
+- On-screen facts (intents, HP bars, gold, cards on offer) → `(on-screen)`.
+  Don't dress observations as KB lookups.
+- Events, ascension modifiers, general STS rules → `(no KB source —
+  general STS knowledge)` once at the top of the recommendation, not per
+  line. Don't fabricate a file ref to look rigorous.
 - **Strike and Defend** are deliberately excluded from `cards.md` (see its
-  line 3). Don't cite them; assume 6 dmg / 5 block respectively, or note the
-  upgrade (Strike+ 9, Defend+ 8). No source needed for these two.
+  line 3). Assume 6 dmg / 5 block (Strike+ 9, Defend+ 8). No source needed.
 
 **Many-item screens** (shops, big card-reward pools, bosses with 3 relics):
 one line per item is fine — `relics.md:185 — Pen Nib (180g), A-tier,
@@ -148,20 +144,24 @@ For shops, lead with the **budget arithmetic** (`220g, removal 75g, Pen Nib
 180g → can't afford both; pick Pen Nib`) — the math is the source.
 
 For combat, recommend the **full play sequence** for the turn, in order, and
-show the math as the source:
+show the math as the source. Apply modifiers in this order: **base + Str,
+then × Vuln**.
 
 ```
-1. Bash → Jaw Worm (8 dmg, apply Vulnerable 2)
-2. Pommel Strike+ → Jaw Worm (10 ×1.5 Vuln = 15 dmg, draw 2)
+Player buffs: Strength 2 (from Inflame last turn).
+1. Bash → Jaw Worm  ((8 + 2 Str) × 1.5 Vuln = 15 dmg; apply Vulnerable 2)
+2. Pommel Strike+ → Jaw Worm  ((10 + 2 Str) × 1.5 Vuln = 18 dmg, draw 2)
 3. Defend → block 5
-End: 0 energy, 5 block.
+End: 0 energy, 5 block. Jaw Worm took 33; if it had ≤33 HP, it's dead.
 
 Math: incoming 11 (Cultist Dark Strike 6 + Looter Mug 5, both on-screen).
        Block 5 → take 6.
 Sources:
   - `cards.md:606` — Bash, 8 dmg + 2 Vuln
   - `cards.md:856` — Pommel Strike+, "Deal 10 damage. Draw 2 cards"
-  - `glossary.md:21` — Vulnerable, ×1.5 to attack damage
+  - `glossary.md:10` — Strength, "+1 Str = +1 damage per attack hit"
+  - `glossary.md:21` — Vulnerable, "target takes 50% more attack damage"
+  - `status.md → Player buffs` — Strength 2
   - On-screen intents — Cultist Attack 6, Looter Attack 5
   - Defend: starter, not in `cards.md` (see line 3); 5 block standard
 ```
