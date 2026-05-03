@@ -27,8 +27,7 @@
       "Molten Egg",
       "Ornamental Fan",
       "Shuriken",
-      "Nunchaku",
-      "Wrist Blade"
+      "Nunchaku"
     ],
     "antisynergies": [
       "Rampage",
@@ -93,8 +92,6 @@
       "Fusion Hammer",
       "Pocketwatch",
       "Runic Cube",
-      "Ring of the Snake",
-      "Ring of the Serpent",
       "Ink Bottle"
     ],
     "antisynergies": [
@@ -163,8 +160,6 @@
       "The Abacus",
       "Pocketwatch",
       "Self-Forming Clay",
-      "Tough Bandages",
-      "Cloak Clasp",
       "Horn Cleat",
       "Captain's Wheel"
     ],
@@ -253,8 +248,7 @@
       "Toxic Egg",
       "Frozen Eye",
       "Sundial",
-      "The Abacus",
-      "Melange"
+      "The Abacus"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -286,8 +280,6 @@
       "Velvet Choker",
       "Pocketwatch",
       "Runic Cube",
-      "Ring of the Snake",
-      "Ring of the Serpent",
       "Ink Bottle"
     ],
     "index": 4
@@ -419,8 +411,6 @@
       "Unceasing Top",
       "The Abacus",
       "Self-Forming Clay",
-      "Tough Bandages",
-      "Cloak Clasp",
       "Horn Cleat",
       "Captain's Wheel"
     ],
@@ -589,8 +579,6 @@
       "Thread and Needle",
       "The Abacus",
       "Self-Forming Clay",
-      "Tough Bandages",
-      "Cloak Clasp",
       "Horn Cleat",
       "Captain's Wheel"
     ],
@@ -663,8 +651,7 @@
       "Burning Blood",
       "Runic Cube",
       "Self-Forming Clay",
-      "Black Blood",
-      "Melange"
+      "Black Blood"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -721,8 +708,7 @@
       "Frozen Eye",
       "Sundial",
       "The Abacus",
-      "Charon's Ashes",
-      "Melange"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -810,8 +796,7 @@
       "Ornamental Fan",
       "Shuriken",
       "Unceasing Top",
-      "Nunchaku",
-      "Wrist Blade"
+      "Nunchaku"
     ],
     "antisynergies": [
       "Evolve",
@@ -901,8 +886,7 @@
       "Torii",
       "Snecko Eye",
       "Velvet Choker",
-      "Pocketwatch",
-      "Paper Krane"
+      "Pocketwatch"
     ],
     "antisynergies": [
       "Regret",
@@ -1113,10 +1097,7 @@
       "Sundial",
       "Medical Kit",
       "The Abacus",
-      "Charon's Ashes",
-      "Pure Water",
-      "Holy Water",
-      "Melange"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -1391,10 +1372,6 @@
       "Stone Calendar",
       "Nunchaku",
       "Mark of Pain",
-      "Hovering Kite",
-      "Pure Water",
-      "Holy Water",
-      "Violet Lotus",
       "Slaver's Collar"
     ],
     "antisynergies": [
@@ -1475,8 +1452,7 @@
       "Gambling Chip",
       "Sundial",
       "Nilry's Codex",
-      "The Abacus",
-      "Melange"
+      "The Abacus"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -1564,9 +1540,7 @@
       "Dead Branch",
       "Medical Kit",
       "Strange Spoon",
-      "Charon's Ashes",
-      "Pure Water",
-      "Holy Water"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Snecko Eye"
@@ -1715,9 +1689,7 @@
       "Torii",
       "Medical Kit",
       "Stone Calendar",
-      "Charon's Ashes",
-      "Pure Water",
-      "Holy Water"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Blood for Blood",
@@ -1855,8 +1827,6 @@
       "Runic Pyramid",
       "Pocketwatch",
       "Runic Cube",
-      "Ring of the Snake",
-      "Ring of the Serpent",
       "Ink Bottle"
     ],
     "antisynergies": [
@@ -2041,8 +2011,7 @@
       "Frozen Eye",
       "Sundial",
       "The Abacus",
-      "Charon's Ashes",
-      "Melange"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -2097,8 +2066,6 @@
       "Runic Pyramid",
       "Pocketwatch",
       "Runic Cube",
-      "Ring of the Snake",
-      "Ring of the Serpent",
       "Ink Bottle"
     ],
     "antisynergies": [
@@ -2448,8 +2415,7 @@
       "Torii",
       "Unceasing Top",
       "Strange Spoon",
-      "Charon's Ashes",
-      "Paper Krane"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Normality",
@@ -2540,8 +2506,6 @@
       "The Abacus",
       "Pocketwatch",
       "Self-Forming Clay",
-      "Tough Bandages",
-      "Cloak Clasp",
       "Horn Cleat",
       "Captain's Wheel"
     ],
@@ -2717,8 +2681,7 @@
       "Runic Cube",
       "Self-Forming Clay",
       "Charon's Ashes",
-      "Black Blood",
-      "Melange"
+      "Black Blood"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -2800,7 +2763,6 @@
       "Frozen Eye",
       "Sundial",
       "The Abacus",
-      "Melange",
       "Strike Dummy"
     ],
     "antisynergies": [
@@ -3039,10 +3001,6 @@
       "Pocketwatch",
       "Runic Cube",
       "Charon's Ashes",
-      "Ring of the Snake",
-      "Ring of the Serpent",
-      "Pure Water",
-      "Holy Water",
       "Ink Bottle"
     ],
     "antisynergies": [
@@ -3174,8 +3132,7 @@
       "Shuriken",
       "Nilry's Codex",
       "Nunchaku",
-      "Charon's Ashes",
-      "Wrist Blade"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Clash",
@@ -3390,10 +3347,6 @@
       "Nunchaku",
       "Pocketwatch",
       "Mark of Pain",
-      "Hovering Kite",
-      "Pure Water",
-      "Holy Water",
-      "Violet Lotus",
       "Slaver's Collar"
     ],
     "index": 60
@@ -3538,8 +3491,7 @@
       "Pocketwatch",
       "Paper Phrog",
       "Champion Belt",
-      "Charon's Ashes",
-      "Paper Krane"
+      "Charon's Ashes"
     ],
     "antisynergies": [
       "Regret",
@@ -3586,8 +3538,7 @@
       "Thread and Needle",
       "Torii",
       "Turnip",
-      "The Abacus",
-      "Melange"
+      "The Abacus"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -3853,8 +3804,7 @@
       "Hand Drill",
       "Pocketwatch",
       "Paper Phrog",
-      "Champion Belt",
-      "Paper Krane"
+      "Champion Belt"
     ],
     "antisynergies": [
       "Regret",
@@ -3901,8 +3851,7 @@
       "Frozen Eye",
       "Sundial",
       "Unceasing Top",
-      "The Abacus",
-      "Melange"
+      "The Abacus"
     ],
     "antisynergies": [
       "Battle Trance",
@@ -3963,7 +3912,6 @@
       "Chemical X",
       "Pocketwatch",
       "Girya",
-      "Wrist Blade",
       "Brimstone",
       "Akabeko"
     ],

@@ -1,8 +1,8 @@
-# Colorless cards (pickable by Ironclad)
+# Colorless cards
 
 
 
-47 colorless cards. Available from events, Prismatic Shard, Bottled Lightning shenanigans, etc.
+47 colorless cards. Available from events, Prismatic Shard, Bottled Lightning shenanigans, etc. Pickable by every character.
 
 
 

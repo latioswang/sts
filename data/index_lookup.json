@@ -2487,876 +2487,1051 @@
   "355": {
     "kind": "relic",
     "name": "Anchor",
+    "character": "any",
     "rarity": "common"
   },
   "356": {
     "kind": "relic",
     "name": "Ancient Tea Set",
+    "character": "any",
     "rarity": "common"
   },
   "357": {
     "kind": "relic",
     "name": "Art of War",
+    "character": "any",
     "rarity": "common"
   },
   "358": {
     "kind": "relic",
     "name": "Bag of Marbles",
+    "character": "any",
     "rarity": "common"
   },
   "359": {
     "kind": "relic",
     "name": "Bag of Preparation",
+    "character": "any",
     "rarity": "common"
   },
   "360": {
     "kind": "relic",
     "name": "Blood Vial",
+    "character": "any",
     "rarity": "common"
   },
   "361": {
     "kind": "relic",
     "name": "Bronze Scales",
+    "character": "any",
     "rarity": "common"
   },
   "362": {
     "kind": "relic",
     "name": "Dream Catcher",
+    "character": "any",
     "rarity": "common"
   },
   "363": {
     "kind": "relic",
     "name": "Happy Flower",
+    "character": "any",
     "rarity": "common"
   },
   "364": {
     "kind": "relic",
     "name": "Juzu Bracelet",
+    "character": "any",
     "rarity": "common"
   },
   "365": {
     "kind": "relic",
     "name": "Lantern",
+    "character": "any",
     "rarity": "common"
   },
   "366": {
     "kind": "relic",
     "name": "Oddly Smooth Stone",
+    "character": "any",
     "rarity": "common"
   },
   "367": {
     "kind": "relic",
     "name": "Omamori",
+    "character": "any",
     "rarity": "common"
   },
   "368": {
     "kind": "relic",
     "name": "Orichalcum",
+    "character": "any",
     "rarity": "common"
   },
   "369": {
     "kind": "relic",
     "name": "Pen Nib",
+    "character": "any",
     "rarity": "common"
   },
   "370": {
     "kind": "relic",
     "name": "Prayer Wheel",
+    "character": "any",
     "rarity": "common"
   },
   "371": {
     "kind": "relic",
     "name": "Regal Pillow",
+    "character": "any",
     "rarity": "common"
   },
   "372": {
     "kind": "relic",
     "name": "Singing Bowl",
+    "character": "any",
     "rarity": "common"
   },
   "373": {
     "kind": "relic",
     "name": "Strawberry",
+    "character": "any",
     "rarity": "common"
   },
   "374": {
     "kind": "relic",
     "name": "Tiny Chest",
+    "character": "any",
     "rarity": "common"
   },
   "375": {
     "kind": "relic",
     "name": "Vajra",
+    "character": "any",
     "rarity": "common"
   },
   "376": {
     "kind": "relic",
     "name": "War Paint",
+    "character": "any",
     "rarity": "common"
   },
   "377": {
     "kind": "relic",
     "name": "Whetstone",
+    "character": "any",
     "rarity": "common"
   },
   "378": {
     "kind": "relic",
     "name": "Blue Candle",
+    "character": "any",
     "rarity": "uncommon"
   },
   "379": {
     "kind": "relic",
     "name": "Bottled Flame",
+    "character": "any",
     "rarity": "uncommon"
   },
   "380": {
     "kind": "relic",
     "name": "Bottled Lightning",
+    "character": "any",
     "rarity": "uncommon"
   },
   "381": {
     "kind": "relic",
     "name": "Bottled Tornado",
+    "character": "any",
     "rarity": "uncommon"
   },
   "382": {
     "kind": "relic",
     "name": "Centennial Puzzle",
+    "character": "any",
     "rarity": "uncommon"
   },
   "383": {
     "kind": "relic",
     "name": "Darkstone Periapt",
+    "character": "any",
     "rarity": "uncommon"
   },
   "384": {
     "kind": "relic",
     "name": "Frozen Egg",
+    "character": "any",
     "rarity": "uncommon"
   },
   "385": {
     "kind": "relic",
     "name": "Gremlin Horn",
+    "character": "any",
     "rarity": "uncommon"
   },
   "386": {
     "kind": "relic",
     "name": "Kunai",
+    "character": "any",
     "rarity": "uncommon"
   },
   "387": {
     "kind": "relic",
     "name": "Letter Opener",
+    "character": "any",
     "rarity": "uncommon"
   },
   "388": {
     "kind": "relic",
     "name": "Matryoshka",
+    "character": "any",
     "rarity": "uncommon"
   },
   "389": {
     "kind": "relic",
     "name": "Meat on the Bone",
+    "character": "any",
     "rarity": "uncommon"
   },
   "390": {
     "kind": "relic",
     "name": "Mercury Hourglass",
+    "character": "any",
     "rarity": "uncommon"
   },
   "391": {
     "kind": "relic",
     "name": "Molten Egg",
+    "character": "any",
     "rarity": "uncommon"
   },
   "392": {
     "kind": "relic",
     "name": "Mummified Hand",
+    "character": "any",
     "rarity": "uncommon"
   },
   "393": {
     "kind": "relic",
     "name": "Ornamental Fan",
+    "character": "any",
     "rarity": "uncommon"
   },
   "394": {
     "kind": "relic",
     "name": "Pantograph",
+    "character": "any",
     "rarity": "uncommon"
   },
   "395": {
     "kind": "relic",
     "name": "Pear",
+    "character": "any",
     "rarity": "uncommon"
   },
   "396": {
     "kind": "relic",
     "name": "Runic Dodecahedron",
+    "character": "any",
     "rarity": "uncommon"
   },
   "397": {
     "kind": "relic",
     "name": "Shuriken",
+    "character": "any",
     "rarity": "uncommon"
   },
   "398": {
     "kind": "relic",
     "name": "Smiling Mask",
+    "character": "any",
     "rarity": "uncommon"
   },
   "399": {
     "kind": "relic",
     "name": "The Courier",
+    "character": "any",
     "rarity": "uncommon"
   },
   "400": {
     "kind": "relic",
     "name": "Toolbox",
+    "character": "any",
     "rarity": "uncommon"
   },
   "401": {
     "kind": "relic",
     "name": "Toxic Egg",
+    "character": "any",
     "rarity": "uncommon"
   },
   "402": {
     "kind": "relic",
     "name": "Bird-Faced Urn",
+    "character": "any",
     "rarity": "rare"
   },
   "403": {
     "kind": "relic",
     "name": "Calipers",
+    "character": "any",
     "rarity": "rare"
   },
   "404": {
     "kind": "relic",
     "name": "Dead Branch",
+    "character": "any",
     "rarity": "rare"
   },
   "405": {
     "kind": "relic",
     "name": "Du-Vu Doll",
+    "character": "any",
     "rarity": "rare"
   },
   "406": {
     "kind": "relic",
     "name": "Frozen Eye",
+    "character": "any",
     "rarity": "rare"
   },
   "407": {
     "kind": "relic",
     "name": "Gambling Chip",
+    "character": "any",
     "rarity": "rare"
   },
   "408": {
     "kind": "relic",
     "name": "Ginger",
+    "character": "any",
     "rarity": "rare"
   },
   "409": {
     "kind": "relic",
     "name": "Ice Cream",
+    "character": "any",
     "rarity": "rare"
   },
   "410": {
     "kind": "relic",
     "name": "Mango",
+    "character": "any",
     "rarity": "rare"
   },
   "411": {
     "kind": "relic",
     "name": "Old Coin",
+    "character": "any",
     "rarity": "rare"
   },
   "412": {
     "kind": "relic",
     "name": "Peace Pipe",
+    "character": "any",
     "rarity": "rare"
   },
   "413": {
     "kind": "relic",
     "name": "Shovel",
+    "character": "any",
     "rarity": "rare"
   },
   "414": {
     "kind": "relic",
     "name": "Sundial",
+    "character": "any",
     "rarity": "rare"
   },
   "415": {
     "kind": "relic",
     "name": "Thread and Needle",
+    "character": "any",
     "rarity": "rare"
   },
   "416": {
     "kind": "relic",
     "name": "Torii",
+    "character": "any",
     "rarity": "rare"
   },
   "417": {
     "kind": "relic",
     "name": "Unceasing Top",
+    "character": "any",
     "rarity": "rare"
   },
   "418": {
     "kind": "relic",
     "name": "Astrolabe",
+    "character": "any",
     "rarity": "boss"
   },
   "419": {
     "kind": "relic",
     "name": "Black Star",
+    "character": "any",
     "rarity": "boss"
   },
   "420": {
     "kind": "relic",
     "name": "Calling Bell",
+    "character": "any",
     "rarity": "boss"
   },
   "421": {
     "kind": "relic",
     "name": "Cursed Key",
+    "character": "any",
     "rarity": "boss"
   },
   "422": {
     "kind": "relic",
     "name": "Ectoplasm",
+    "character": "any",
     "rarity": "boss"
   },
   "423": {
     "kind": "relic",
     "name": "Eternal Feather",
+    "character": "any",
     "rarity": "uncommon"
   },
   "424": {
     "kind": "relic",
     "name": "Lizard Tail",
+    "character": "any",
     "rarity": "rare"
   },
   "425": {
     "kind": "relic",
     "name": "Orrery",
+    "character": "any",
     "rarity": "shop"
   },
   "426": {
     "kind": "relic",
     "name": "Pandora's Box",
+    "character": "any",
     "rarity": "boss"
   },
   "427": {
     "kind": "relic",
     "name": "Philosopher's Stone",
+    "character": "any",
     "rarity": "boss"
   },
   "428": {
     "kind": "relic",
     "name": "Question Card",
+    "character": "any",
     "rarity": "uncommon"
   },
   "429": {
     "kind": "relic",
     "name": "Runic Dome",
+    "character": "any",
     "rarity": "boss"
   },
   "430": {
     "kind": "relic",
     "name": "Runic Pyramid",
+    "character": "any",
     "rarity": "boss"
   },
   "431": {
     "kind": "relic",
     "name": "Snecko Eye",
+    "character": "any",
     "rarity": "boss"
   },
   "432": {
     "kind": "relic",
     "name": "Sozu",
+    "character": "any",
     "rarity": "boss"
   },
   "433": {
     "kind": "relic",
     "name": "Tiny House",
+    "character": "any",
     "rarity": "boss"
   },
   "434": {
     "kind": "relic",
     "name": "Velvet Choker",
+    "character": "any",
     "rarity": "boss"
   },
   "435": {
     "kind": "relic",
     "name": "White Beast Statue",
+    "character": "any",
     "rarity": "uncommon"
   },
   "436": {
     "kind": "relic",
     "name": "Bloody Idol",
+    "character": "any",
     "rarity": "event"
   },
   "437": {
     "kind": "relic",
     "name": "Enchiridion",
+    "character": "any",
     "rarity": "event"
   },
   "438": {
     "kind": "relic",
     "name": "Golden Idol",
+    "character": "any",
     "rarity": "event"
   },
   "439": {
     "kind": "relic",
     "name": "Necronomicon",
+    "character": "any",
     "rarity": "event"
   },
   "440": {
     "kind": "relic",
     "name": "Neow's Lament",
+    "character": "any",
     "rarity": "event"
   },
   "441": {
     "kind": "relic",
     "name": "Nilry's Codex",
+    "character": "any",
     "rarity": "event"
   },
   "442": {
     "kind": "relic",
     "name": "Nloth's Gift",
+    "character": "any",
     "rarity": "event"
   },
   "443": {
     "kind": "relic",
     "name": "Odd Mushroom",
+    "character": "any",
     "rarity": "event"
   },
   "444": {
     "kind": "relic",
     "name": "Red Mask",
+    "character": "any",
     "rarity": "event"
   },
   "445": {
     "kind": "relic",
     "name": "Spirit Poop",
+    "character": "any",
     "rarity": "event"
   },
   "446": {
     "kind": "relic",
     "name": "Cauldron",
+    "character": "any",
     "rarity": "shop"
   },
   "447": {
     "kind": "relic",
     "name": "Lee's Waffle",
+    "character": "any",
     "rarity": "shop"
   },
   "448": {
     "kind": "relic",
     "name": "Medical Kit",
+    "character": "any",
     "rarity": "shop"
   },
   "449": {
     "kind": "relic",
     "name": "Membership Card",
+    "character": "any",
     "rarity": "shop"
   },
   "450": {
     "kind": "relic",
     "name": "Strange Spoon",
+    "character": "any",
     "rarity": "shop"
   },
   "451": {
     "kind": "relic",
     "name": "Toy Ornithopter",
+    "character": "any",
     "rarity": "shop"
   },
   "452": {
     "kind": "relic",
     "name": "Potion Belt",
+    "character": "any",
     "rarity": "common"
   },
   "453": {
     "kind": "relic",
     "name": "Turnip",
+    "character": "any",
     "rarity": "rare"
   },
   "454": {
     "kind": "relic",
     "name": "The Boot",
+    "character": "any",
     "rarity": "common"
   },
   "455": {
     "kind": "relic",
     "name": "Busted Crown",
+    "character": "any",
     "rarity": "boss"
   },
   "456": {
     "kind": "relic",
     "name": "Mark of the Bloom",
+    "character": "any",
     "rarity": "event"
   },
   "457": {
     "kind": "relic",
     "name": "Fusion Hammer",
+    "character": "any",
     "rarity": "boss"
   },
   "458": {
     "kind": "relic",
     "name": "Coffee Dripper",
+    "character": "any",
     "rarity": "boss"
   },
   "459": {
     "kind": "relic",
     "name": "Empty Cage",
+    "character": "any",
     "rarity": "boss"
   },
   "460": {
     "kind": "relic",
     "name": "Incense Burner",
+    "character": "any",
     "rarity": "rare"
   },
   "461": {
     "kind": "relic",
     "name": "Ssserpent Head",
+    "character": "any",
     "rarity": "event"
   },
   "462": {
     "kind": "relic",
     "name": "Face of Cleric",
+    "character": "any",
     "rarity": "event"
   },
   "463": {
     "kind": "relic",
     "name": "N'Loth's Hungry Face",
+    "character": "any",
     "rarity": "event"
   },
   "464": {
     "kind": "relic",
     "name": "Gremlin Visage",
+    "character": "any",
     "rarity": "event"
   },
   "465": {
     "kind": "relic",
     "name": "Cultist Headpice",
+    "character": "any",
     "rarity": "event"
   },
   "466": {
     "kind": "relic",
     "name": "Hand Drill",
+    "character": "any",
     "rarity": "shop"
   },
   "467": {
     "kind": "relic",
     "name": "Orange Pellets",
+    "character": "any",
     "rarity": "shop"
   },
   "468": {
     "kind": "relic",
     "name": "Sling of Courage",
+    "character": "any",
     "rarity": "shop"
   },
   "469": {
     "kind": "relic",
     "name": "Meal Ticket",
+    "character": "any",
     "rarity": "shop"
   },
   "470": {
     "kind": "relic",
     "name": "Maw Bank",
+    "character": "any",
     "rarity": "common"
   },
   "471": {
     "kind": "relic",
     "name": "Stone Calendar",
+    "character": "any",
     "rarity": "rare"
   },
   "472": {
     "kind": "relic",
     "name": "Nunchaku",
+    "character": "any",
     "rarity": "rare"
   },
   "473": {
     "kind": "relic",
     "name": "Chemical X",
+    "character": "any",
     "rarity": "shop"
   },
   "474": {
     "kind": "relic",
     "name": "Clockwork Souvenir",
+    "character": "any",
     "rarity": "shop"
   },
   "475": {
     "kind": "relic",
     "name": "Dolly's Mirror",
+    "character": "any",
     "rarity": "shop"
   },
   "476": {
     "kind": "relic",
     "name": "The Abacus",
+    "character": "any",
     "rarity": "shop"
   },
   "477": {
     "kind": "relic",
     "name": "Pocketwatch",
+    "character": "any",
     "rarity": "rare"
   },
   "478": {
     "kind": "relic",
     "name": "Cracked Core",
+    "character": "defect",
     "rarity": "starter"
   },
   "479": {
     "kind": "relic",
     "name": "Data Disk",
+    "character": "defect",
     "rarity": "common"
   },
   "480": {
     "kind": "relic",
     "name": "Gold-Plated Cables",
+    "character": "defect",
     "rarity": "uncommon"
   },
   "481": {
     "kind": "relic",
     "name": "Symbiotic Virus",
+    "character": "defect",
     "rarity": "uncommon"
   },
   "482": {
     "kind": "relic",
     "name": "Emotion Chip",
+    "character": "defect",
     "rarity": "rare"
   },
   "483": {
     "kind": "relic",
     "name": "Inserter",
+    "character": "defect",
     "rarity": "boss"
   },
   "484": {
     "kind": "relic",
     "name": "Nuclear Battery",
+    "character": "defect",
     "rarity": "boss"
   },
   "485": {
     "kind": "relic",
     "name": "Runic Capacitor",
+    "character": "defect",
     "rarity": "shop"
   },
   "486": {
     "kind": "relic",
     "name": "Frozen Core",
+    "character": "defect",
     "rarity": "boss"
   },
   "487": {
     "kind": "relic",
     "name": "Burning Blood",
+    "character": "ironclad",
     "rarity": "starter"
   },
   "488": {
     "kind": "relic",
     "name": "Paper Phrog",
+    "character": "ironclad",
     "rarity": "uncommon"
   },
   "489": {
     "kind": "relic",
     "name": "Runic Cube",
+    "character": "ironclad",
     "rarity": "uncommon"
   },
   "490": {
     "kind": "relic",
     "name": "Self-Forming Clay",
+    "character": "ironclad",
     "rarity": "uncommon"
   },
   "491": {
     "kind": "relic",
     "name": "Champion Belt",
+    "character": "ironclad",
     "rarity": "rare"
   },
   "492": {
     "kind": "relic",
     "name": "Charon's Ashes",
+    "character": "ironclad",
     "rarity": "rare"
   },
   "493": {
     "kind": "relic",
     "name": "Girya",
+    "character": "ironclad",
     "rarity": "rare"
   },
   "494": {
     "kind": "relic",
     "name": "Magic Flower",
+    "character": "ironclad",
     "rarity": "rare"
   },
   "495": {
     "kind": "relic",
     "name": "Red Skull",
+    "character": "ironclad",
     "rarity": "rare"
   },
   "496": {
     "kind": "relic",
     "name": "Black Blood",
+    "character": "ironclad",
     "rarity": "boss"
   },
   "497": {
     "kind": "relic",
     "name": "Mark of Pain",
+    "character": "ironclad",
     "rarity": "boss"
   },
   "498": {
     "kind": "relic",
     "name": "Ring of the Snake",
+    "character": "silent",
     "rarity": "starter"
   },
   "499": {
     "kind": "relic",
     "name": "Snecko Skull",
+    "character": "silent",
     "rarity": "common"
   },
   "500": {
     "kind": "relic",
     "name": "Ninja Scroll",
+    "character": "silent",
     "rarity": "uncommon"
   },
   "501": {
     "kind": "relic",
     "name": "Paper Krane",
+    "character": "silent",
     "rarity": "uncommon"
   },
   "502": {
     "kind": "relic",
     "name": "Tough Bandages",
+    "character": "silent",
     "rarity": "uncommon"
   },
   "503": {
     "kind": "relic",
     "name": "The Specimen",
+    "character": "silent",
     "rarity": "rare"
   },
   "504": {
     "kind": "relic",
     "name": "Tingsha",
+    "character": "silent",
     "rarity": "rare"
   },
   "505": {
     "kind": "relic",
     "name": "Ring of the Serpent",
+    "character": "silent",
     "rarity": "boss"
   },
   "506": {
     "kind": "relic",
     "name": "Twisted Funnel",
+    "character": "silent",
     "rarity": "shop"
   },
   "507": {
     "kind": "relic",
     "name": "Wrist Blade",
+    "character": "silent",
     "rarity": "boss"
   },
   "508": {
     "kind": "relic",
     "name": "Hovering Kite",
+    "character": "silent",
     "rarity": "boss"
   },
   "509": {
     "kind": "relic",
     "name": "Pure Water",
+    "character": "watcher",
     "rarity": "starter"
   },
   "510": {
     "kind": "relic",
     "name": "Holy Water",
+    "character": "watcher",
     "rarity": "boss"
   },
   "511": {
     "kind": "relic",
     "name": "Duality",
+    "character": "watcher",
     "rarity": "uncommon"
   },
   "512": {
     "kind": "relic",
     "name": "Damaru",
+    "character": "watcher",
     "rarity": "common"
   },
   "513": {
     "kind": "relic",
     "name": "Teardrop Locket",
+    "character": "watcher",
     "rarity": "uncommon"
   },
   "514": {
     "kind": "relic",
     "name": "Cloak Clasp",
+    "character": "watcher",
     "rarity": "rare"
   },
   "515": {
     "kind": "relic",
     "name": "Golden Eye",
+    "character": "watcher",
     "rarity": "rare"
   },
   "516": {
     "kind": "relic",
     "name": "Violet Lotus",
+    "character": "watcher",
     "rarity": "boss"
   },
   "517": {
     "kind": "relic",
     "name": "Melange",
+    "character": "watcher",
     "rarity": "shop"
   },
   "518": {
     "kind": "relic",
     "name": "Ceramic Fish",
+    "character": "any",
     "rarity": "common"
   },
   "519": {
     "kind": "relic",
     "name": "Horn Cleat",
+    "character": "any",
     "rarity": "uncommon"
   },
   "520": {
     "kind": "relic",
     "name": "Captain's Wheel",
+    "character": "any",
     "rarity": "rare"
   },
   "521": {
     "kind": "relic",
     "name": "Tungsten Rod",
+    "character": "any",
     "rarity": "rare"
   },
   "522": {
     "kind": "relic",
     "name": "Brimstone",
+    "character": "ironclad",
     "rarity": "shop"
   },
   "523": {
     "kind": "relic",
     "name": "Ink Bottle",
+    "character": "any",
     "rarity": "uncommon"
   },
   "524": {
     "kind": "relic",
     "name": "Sacred Bark",
+    "character": "any",
     "rarity": "boss"
   },
   "525": {
     "kind": "relic",
     "name": "Akabeko",
+    "character": "any",
     "rarity": "common"
   },
   "526": {
     "kind": "relic",
     "name": "Strike Dummy",
+    "character": "any",
     "rarity": "uncommon"
   },
   "527": {
     "kind": "relic",
     "name": "Slaver's Collar",
+    "character": "any",
     "rarity": "boss"
   },
   "528": {
     "kind": "relic",
     "name": "Preserved Insect",
+    "character": "any",
     "rarity": "common"
   },
   "529": {
     "kind": "relic",
     "name": "Fossilized Helix",
+    "character": "any",
     "rarity": "rare"
   }
 }

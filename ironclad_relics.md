@@ -42,9 +42,9 @@ _tags_: create
 
 **★ Super-synergies.** Corruption, Second Wind, Sever Soul
 
-**Synergies (48).** Burning Pact, Carnage, Disarm, Exhume, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, …
+**Synergies (46).** Burning Pact, Carnage, Disarm, Exhume, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, …
 
-**Anti-synergies.** Rampage, Shiv, Velvet Choker, Ninja Scroll
+**Anti-synergies.** Rampage, Shiv, Velvet Choker
 
 ## Tier S
 
@@ -64,7 +64,7 @@ _tags_: heal, hpgain
 
 **★ Super-synergies.** Brutality, Combust
 
-**Synergies.** Apparition, Pain, Blue Candle, Centennial Puzzle, Torii, Incense Burner, Emotion Chip, Runic Cube, Self-Forming Clay
+**Synergies.** Apparition, Pain, Blue Candle, Centennial Puzzle, Torii, Incense Burner, Runic Cube, Self-Forming Clay
 
 **Anti-synergies.** Rupture
 
@@ -188,7 +188,7 @@ _tags_: vulnerable
 
 **★ Super-synergies.** Bludgeon
 
-**Synergies.** Bash, Blood for Blood, Carnage, Clothesline, Double Tap, Fiend Fire, Heavy Blade, Immolate, Perfected Strike, Reaper, Searing Blow, Sever Soul, Uppercut, Whirlwind, Shiv, Hand of Greed, Ninja Scroll
+**Synergies.** Bash, Blood for Blood, Carnage, Clothesline, Double Tap, Fiend Fire, Heavy Blade, Immolate, Perfected Strike, Reaper, Searing Blow, Sever Soul, Uppercut, Whirlwind, Shiv, Hand of Greed
 
 **Anti-synergies.** Velvet Choker
 
@@ -198,7 +198,7 @@ _tags_: draw
 
 **Effect.** Draw 2 additional cards each turn. Start each combat Confused.
 
-**Synergies (31).** Barricade, Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Fiend Fire, Flame Barrier, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Reaper, Searing Blow, Sever Soul, Shockwave, Uppercut, …
+**Synergies (30).** Barricade, Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Fiend Fire, Flame Barrier, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Reaper, Searing Blow, Sever Soul, Shockwave, Uppercut, …
 
 **Anti-synergies.** Anger, Armaments, Battle Trance, Berserk, Bloodletting, Body Slam, Brutality, Burning Pact, Clash, Cleave, Combust, Disarm, Double Tap, Dropkick, Dual Wield, Evolve, Exhume, Feed, Feel No Pain, Fire Breathing, Flex, Ghostly Armor, Havoc, Headbutt, Hemokinesis, Infernal Blade, Inflame, Intimidate, Iron Wave, Limit Break, Metallicize, Offering, Pommel Strike, Power Through, Pummel, Rage, Rampage, Reckless Charge, Rupture, Second Wind, Seeing Red, Sentinel, Shrug It Off, Spot Weakness, Sword Boomerang, Thunderclap, True Grit, Twin Strike, Warcry, Whirlwind, Wild Strike, Bandage Up, Bite, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, Finesse, Flash of Steel, Good Instincts, J.A.X., Jack Of All Trades, Madness, Master of Strategy, Panacea, Panache, Purity, Sadistic Nature, Secret Technique, Secret Weapon, Shiv, Swift Strike, Thinking Ahead, Transmutation, Trip, Apparition, Ritual Dagger, Discovery, Forethought, Impatience, Panic Button, Violence, Regret, Insight, Miracle, Safety, Smite, Through Violence, Velvet Choker
 
@@ -220,7 +220,7 @@ _tags_: managain
 
 **Synergies (28).** Barricade, Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Entrench, Fiend Fire, Flame Barrier, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Reaper, Searing Blow, Sever Soul, Shockwave, …
 
-**Anti-synergies.** Anger, Battle Trance, Berserk, Bloodletting, Brutality, Burning Pact, Clash, Dark Embrace, Dual Wield, Evolve, Flex, Havoc, Infernal Blade, Intimidate, Offering, Pommel Strike, Rage, Reckless Charge, Seeing Red, Shrug It Off, Warcry, Whirlwind, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, Finesse, Flash of Steel, Good Instincts, J.A.X., Jack Of All Trades, Magnetism, Master of Strategy, Panacea, Panache, Purity, Sadistic Nature, Secret Technique, Secret Weapon, Shiv, Swift Strike, Thinking Ahead, Transmutation, Trip, Discovery, Impatience, Panic Button, Chrysalis, Metamorphosis, Violence, Insight, Miracle, Through Violence, Bag of Preparation, Pen Nib, Centennial Puzzle, Gremlin Horn, Toolbox, Dead Branch, Unceasing Top, Runic Pyramid, Snecko Eye, Pocketwatch, Runic Cube, Ring of the Snake, Ninja Scroll, Ring of the Serpent, Ink Bottle
+**Anti-synergies.** Anger, Battle Trance, Berserk, Bloodletting, Brutality, Burning Pact, Clash, Dark Embrace, Dual Wield, Evolve, Flex, Havoc, Infernal Blade, Intimidate, Offering, Pommel Strike, Rage, Reckless Charge, Seeing Red, Shrug It Off, Warcry, Whirlwind, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, Finesse, Flash of Steel, Good Instincts, J.A.X., Jack Of All Trades, Magnetism, Master of Strategy, Panacea, Panache, Purity, Sadistic Nature, Secret Technique, Secret Weapon, Shiv, Swift Strike, Thinking Ahead, Transmutation, Trip, Discovery, Impatience, Panic Button, Chrysalis, Metamorphosis, Violence, Insight, Miracle, Through Violence, Bag of Preparation, Pen Nib, Centennial Puzzle, Gremlin Horn, Toolbox, Dead Branch, Unceasing Top, Runic Pyramid, Snecko Eye, Pocketwatch, Runic Cube, Ink Bottle
 
 ## Tier A-
 
@@ -240,7 +240,7 @@ _tags_: discard
 
 **Effect.** At the start of each combat, discard any number of cards then draw that many.
 
-**Synergies (28).** Barricade, Berserk, Brutality, Combust, Corruption, Dark Embrace, Demon Form, Evolve, Feel No Pain, Fire Breathing, Inflame, Juggernaut, Metallicize, Rupture, Magnetism, Panache, Sadistic Nature, Apparition, Mayhem, Decay, …
+**Synergies (26).** Barricade, Berserk, Brutality, Combust, Corruption, Dark Embrace, Demon Form, Evolve, Feel No Pain, Fire Breathing, Inflame, Juggernaut, Metallicize, Rupture, Magnetism, Panache, Sadistic Nature, Apparition, Mayhem, Decay, …
 
 ### Girya `rare` `tier A-`
 
@@ -284,7 +284,7 @@ _tags_: draw
 
 **Effect.** At the end of your turn, you no longer discard your hand.
 
-**Synergies.** Armaments, Double Tap, Fire Breathing, Headbutt, Rampage, Dark Shackles, Panache, Purity, Panic Button, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Gambling Chip, Sundial, The Abacus, Tingsha, Hovering Kite, Melange
+**Synergies.** Armaments, Double Tap, Fire Breathing, Headbutt, Rampage, Dark Shackles, Panache, Purity, Panic Button, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Gambling Chip, Sundial, The Abacus
 
 **Anti-synergies.** Battle Trance, Evolve, Immolate, Power Through, Reckless Charge, Wild Strike, Ascender's Bane, Clumsy, Decay, Doubt, Injury, Necronomicurse, Normality, Pain, Parasite, Regret, Writhe, Shame, Pride, Curse of the Bell, Insight, Miracle, Safety, Smite, Through Violence, Velvet Choker, Mark of Pain
 
@@ -294,7 +294,7 @@ _tags_: strength
 
 **Effect.** Every time you play 3 Attacks in a single turn, gain 1 Strength.
 
-**Synergies (49).** Anger, Berserk, Bloodletting, Clash, Cleave, Double Tap, Feed, Fiend Fire, Heavy Blade, Iron Wave, Offering, Pummel, Reaper, Reckless Charge, Seeing Red, Sword Boomerang, Thunderclap, Twin Strike, Whirlwind, Dramatic Entrance, …
+**Synergies (44).** Anger, Berserk, Bloodletting, Clash, Cleave, Double Tap, Feed, Fiend Fire, Heavy Blade, Iron Wave, Offering, Pummel, Reaper, Reckless Charge, Seeing Red, Sword Boomerang, Thunderclap, Twin Strike, Whirlwind, Dramatic Entrance, …
 
 **Anti-synergies.** The Boot
 
@@ -306,7 +306,7 @@ _tags_: block, platedarmor
 
 **★ Super-synergies.** Barricade, Juggernaut
 
-**Synergies (36).** Armaments, Body Slam, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Apparition, Panic Button, The Bomb, Safety, Anchor, …
+**Synergies (34).** Armaments, Body Slam, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Apparition, Panic Button, The Bomb, Safety, Anchor, …
 
 **Anti-synergies.** Blood for Blood
 
@@ -364,7 +364,7 @@ _tags_: aoe, exhaust, exhaustother
 
 **Effect.** Whenever you Exhaust a card, deal 3 damage to ALL enemies.
 
-**Synergies (65).** Burning Pact, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Feel No Pain, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Power Through, Pummel, Rampage, Reckless Charge, Second Wind, …
+**Synergies (63).** Burning Pact, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Feel No Pain, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Power Through, Pummel, Rampage, Reckless Charge, Second Wind, …
 
 **Anti-synergies.** Pride
 
@@ -402,9 +402,9 @@ _tags_: managain, draw
 
 **Effect.** Whenever an enemy dies, gain 1 Energy and draw 1 card.
 
-**Synergies.** Armaments, Entrench, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Kunai, Ornamental Fan, Shuriken, Frozen Eye, Ice Cream, Sundial, The Abacus, Melange
+**Synergies.** Armaments, Entrench, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Kunai, Ornamental Fan, Shuriken, Frozen Eye, Ice Cream, Sundial, The Abacus
 
-**Anti-synergies.** Battle Trance, Seeing Red, Regret, Velvet Choker, Pocketwatch, Snecko Skull, The Specimen, Twisted Funnel
+**Anti-synergies.** Battle Trance, Seeing Red, Regret, Velvet Choker, Pocketwatch
 
 ### Horn Cleat `uncommon` `tier B+`
 
@@ -422,7 +422,7 @@ _tags_: managain
 
 **Effect.** Gain 1 Energy on the first turn of each combat.
 
-**Synergies.** Entrench, Kunai, Ornamental Fan, Shuriken, Ice Cream, Ring of the Snake
+**Synergies.** Entrench, Kunai, Ornamental Fan, Shuriken, Ice Cream
 
 **Anti-synergies.** Seeing Red, Pocketwatch
 
@@ -438,7 +438,7 @@ _tags_: draw
 
 **Effect.** Whenever you lose HP, draw 1 card.
 
-**Synergies (24).** Armaments, Bloodletting, Brutality, Combust, Fire Breathing, Headbutt, Hemokinesis, Immolate, Offering, Rampage, J.A.X., Panache, Chrysalis, Metamorphosis, Decay, Pain, Beta, Happy Flower, Blue Candle, Frozen Eye, …
+**Synergies (23).** Armaments, Bloodletting, Brutality, Combust, Fire Breathing, Headbutt, Hemokinesis, Immolate, Offering, Rampage, J.A.X., Panache, Chrysalis, Metamorphosis, Decay, Pain, Beta, Happy Flower, Blue Candle, Frozen Eye, …
 
 **Anti-synergies.** Battle Trance, Regret, Velvet Choker
 
@@ -454,7 +454,7 @@ _tags_: draw
 
 **Synergies (28).** Carnage, Corruption, Disarm, Exhume, Fiend Fire, Ghostly Armor, Immolate, Impervious, Intimidate, Limit Break, Offering, Pummel, Seeing Red, Sentinel, Shockwave, Bandage Up, Dark Shackles, Dramatic Entrance, J.A.X., Jack Of All Trades, …
 
-**Anti-synergies.** Purity, Shiv, Clumsy, Blue Candle, Ninja Scroll
+**Anti-synergies.** Purity, Shiv, Clumsy, Blue Candle
 
 ## Tier B
 
@@ -464,7 +464,7 @@ _tags_: draw
 
 **Effect.** At the start of each combat, draw 2 additional cards.
 
-**Synergies.** Armaments, Fire Breathing, Headbutt, Rampage, Dramatic Entrance, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Sundial, The Abacus, Melange
+**Synergies.** Armaments, Fire Breathing, Headbutt, Rampage, Dramatic Entrance, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Sundial, The Abacus
 
 **Anti-synergies.** Battle Trance, Regret, Velvet Choker
 
@@ -474,7 +474,7 @@ _tags_: draw
 
 **Effect.** The first time you lose HP each combat, draw 3 cards.
 
-**Synergies (24).** Armaments, Bloodletting, Brutality, Combust, Fire Breathing, Headbutt, Hemokinesis, Immolate, Offering, Rampage, J.A.X., Panache, Chrysalis, Metamorphosis, Decay, Pain, Beta, Happy Flower, Blue Candle, Frozen Eye, …
+**Synergies (23).** Armaments, Bloodletting, Brutality, Combust, Fire Breathing, Headbutt, Hemokinesis, Immolate, Offering, Rampage, J.A.X., Panache, Chrysalis, Metamorphosis, Decay, Pain, Beta, Happy Flower, Blue Candle, Frozen Eye, …
 
 **Anti-synergies.** Battle Trance, Regret, Velvet Choker
 
@@ -614,7 +614,7 @@ _tags_: weak, vulnerable
 
 **Effect.** Whenever you apply Vulnerable, also apply 1 Weak.
 
-**Synergies.** Bash, Dropkick, Reaper, Shockwave, Thunderclap, Uppercut, Sadistic Nature, Trip, Ritual Dagger, Bag of Marbles, Torii, Odd Mushroom, Hand Drill, Paper Phrog, Paper Krane
+**Synergies.** Bash, Dropkick, Reaper, Shockwave, Thunderclap, Uppercut, Sadistic Nature, Trip, Ritual Dagger, Bag of Marbles, Torii, Odd Mushroom, Hand Drill, Paper Phrog
 
 ### Dolly's Mirror `shop` `tier B-`
 
@@ -642,7 +642,7 @@ _tags_: weak, vulnerable
 
 **★ Super-synergies.** Seeing Red
 
-**Synergies (26).** Berserk, Bloodletting, Corruption, Offering, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, …
+**Synergies (22).** Berserk, Bloodletting, Corruption, Offering, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, …
 
 ### Mango `rare` `tier B-`
 
@@ -776,7 +776,7 @@ _tags_: dexterity
 
 **Effect.** Every time you play 3 Attacks in a single turn, gain 1 Dexterity.
 
-**Synergies (38).** Anger, Berserk, Bloodletting, Clash, Double Tap, Iron Wave, Offering, Reckless Charge, Seeing Red, Dramatic Entrance, Flash of Steel, Shiv, Swift Strike, Miracle, Through Violence, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, …
+**Synergies (33).** Anger, Berserk, Bloodletting, Clash, Double Tap, Iron Wave, Offering, Reckless Charge, Seeing Red, Dramatic Entrance, Flash of Steel, Shiv, Swift Strike, Miracle, Through Violence, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, …
 
 **Anti-synergies.** Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Fiend Fire, Heavy Blade, Immolate, Perfected Strike, Reaper, Searing Blow, Sever Soul, Uppercut, Whirlwind, Apparition, Hand of Greed
 
@@ -786,9 +786,9 @@ _tags_: draw
 
 **Effect.** Whenever you play 3 or less cards in a turn, draw 3 additional cards at the start of your next turn.
 
-**Synergies (36).** Armaments, Barricade, Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Fiend Fire, Fire Breathing, Flame Barrier, Headbutt, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Rampage, Reaper, …
+**Synergies (35).** Armaments, Barricade, Bash, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Fiend Fire, Fire Breathing, Flame Barrier, Headbutt, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Rampage, Reaper, …
 
-**Anti-synergies.** Battle Trance, Berserk, Bloodletting, Offering, Seeing Red, Regret, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, Mark of Pain, Hovering Kite, Pure Water, Holy Water, Violet Lotus, Slaver's Collar
+**Anti-synergies.** Battle Trance, Berserk, Bloodletting, Offering, Seeing Red, Regret, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, Mark of Pain, Slaver's Collar
 
 ### Whetstone `common` `tier C+`
 
@@ -810,7 +810,7 @@ _tags_: managain
 
 **Effect.** When viewing your Draw Pile, the cards are now shown in order.
 
-**Synergies (30).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Mayhem, Violence, Insight, Bag of Preparation, …
+**Synergies (28).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Mayhem, Violence, Insight, Bag of Preparation, …
 
 ### Happy Flower `common` `tier C`
 
@@ -818,7 +818,7 @@ _tags_: managain
 
 **Effect.** Every 3 turns, gain 1 Energy.
 
-**Synergies (33).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Entrench, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, …
+**Synergies (31).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Entrench, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, …
 
 **Anti-synergies.** Seeing Red, Pocketwatch
 
@@ -838,7 +838,7 @@ _tags_: aoe
 
 **Effect.** At the start of your turn, deal 3 damage to ALL enemies.
 
-**Synergies (29).** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Trip, Panic Button, Safety, Anchor, Orichalcum, …
+**Synergies (27).** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Trip, Panic Button, Safety, Anchor, Orichalcum, …
 
 ### Orrery `shop` `tier C`
 
@@ -944,7 +944,7 @@ _tags_: block
 
 **Effect.** Every time you play 3 Attacks in a single turn, gain 4 Block.
 
-**Synergies (49).** Anger, Barricade, Berserk, Bloodletting, Body Slam, Clash, Juggernaut, Offering, Reckless Charge, Seeing Red, Whirlwind, Dramatic Entrance, Flash of Steel, Shiv, Swift Strike, Panic Button, The Bomb, Miracle, Through Violence, Ancient Tea Set, …
+**Synergies (44).** Anger, Barricade, Berserk, Bloodletting, Body Slam, Clash, Juggernaut, Offering, Reckless Charge, Seeing Red, Whirlwind, Dramatic Entrance, Flash of Steel, Shiv, Swift Strike, Panic Button, The Bomb, Miracle, Through Violence, Ancient Tea Set, …
 
 **Anti-synergies.** Blood for Blood
 
@@ -1000,7 +1000,7 @@ _tags_: create
 
 **Effect.** Whenever you would receive 5 or less unblocked Attack damage, reduce it to 1.
 
-**Synergies (37).** Armaments, Barricade, Clothesline, Entrench, Feel No Pain, Ghostly Armor, Impervious, Intimidate, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shockwave, Shrug It Off, True Grit, Uppercut, Blind, Finesse, Good Instincts, …
+**Synergies (34).** Armaments, Barricade, Clothesline, Entrench, Feel No Pain, Ghostly Armor, Impervious, Intimidate, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shockwave, Shrug It Off, True Grit, Uppercut, Blind, Finesse, Good Instincts, …
 
 **Anti-synergies.** Apparition, Incense Burner
 
@@ -1032,7 +1032,7 @@ _tags_: thorns
 
 **Effect.** Start each combat with 3 Thorns.
 
-**Synergies (29).** Armaments, Barricade, Entrench, Feel No Pain, Flame Barrier, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, …
+**Synergies (27).** Armaments, Barricade, Entrench, Feel No Pain, Flame Barrier, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, …
 
 ### Darkstone Periapt `uncommon` `tier D+`
 
@@ -1124,7 +1124,7 @@ _tags_: managain
 
 **Effect.** Every 3 times you shuffle your deck, gain 2 Energy.
 
-**Synergies (33).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Entrench, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, …
+**Synergies (31).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Entrench, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, …
 
 **Anti-synergies.** Seeing Red, Pocketwatch
 
@@ -1134,7 +1134,7 @@ _tags_: block
 
 **Effect.** Gain 6 Block whenever you shuffle your draw pile.
 
-**Synergies (41).** Barricade, Battle Trance, Body Slam, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Juggernaut, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Panic Button, …
+**Synergies (39).** Barricade, Battle Trance, Body Slam, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Juggernaut, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Panic Button, …
 
 **Anti-synergies.** Blood for Blood
 
@@ -1166,7 +1166,7 @@ _tags_: block
 
 **Effect.** At the start of your turn, lose 15 Block rather than all of your Block.
 
-**Synergies (36).** Armaments, Barricade, Body Slam, Corruption, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Juggernaut, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, The Bomb, …
+**Synergies (34).** Armaments, Barricade, Body Slam, Corruption, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Juggernaut, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, The Bomb, …
 
 **Anti-synergies.** Blood for Blood
 
@@ -1186,7 +1186,7 @@ _tags_: draw
 
 **Effect.** Whenever you play 10 cards, draw 1 card.
 
-**Synergies.** Armaments, Double Tap, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Sundial, The Abacus, Melange
+**Synergies.** Armaments, Double Tap, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Frozen Eye, Sundial, The Abacus
 
 **Anti-synergies.** Battle Trance, Regret, Velvet Choker
 
@@ -1230,7 +1230,7 @@ _tags_: managain
 
 **Effect.** If your HP is full, gain 1 Energy at the start of each turn.
 
-**Synergies (55).** Armaments, Barricade, Entrench, Feed, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Reaper, Second Wind, Shrug It Off, True Grit, Bandage Up, Bite, Finesse, Good Instincts, Panic Button, …
+**Synergies (53).** Armaments, Barricade, Entrench, Feed, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Reaper, Second Wind, Shrug It Off, True Grit, Bandage Up, Bite, Finesse, Good Instincts, Panic Button, …
 
 **Anti-synergies.** Bloodletting, Brutality, Combust, Hemokinesis, Immolate, Offering, Seeing Red, J.A.X., Decay, Pain, Regret, Blue Candle, Pocketwatch
 
@@ -1240,7 +1240,7 @@ _tags_: aoe
 
 **Effect.** At the end of turn 7, deal 52 damage to ALL enemies.
 
-**Synergies.** Barricade, Entrench, Feel No Pain, Metallicize, Rage, Trip, Apparition, The Bomb, Anchor, Orichalcum, Ornamental Fan, Calipers, Thread and Needle, Incense Burner, The Abacus, Self-Forming Clay, Tough Bandages, Cloak Clasp, Horn Cleat, Captain's Wheel
+**Synergies.** Barricade, Entrench, Feel No Pain, Metallicize, Rage, Trip, Apparition, The Bomb, Anchor, Orichalcum, Ornamental Fan, Calipers, Thread and Needle, Incense Burner, The Abacus, Self-Forming Clay, Horn Cleat, Captain's Wheel
 
 ## Tier D-
 
@@ -1260,7 +1260,7 @@ _tags_: aoe
 
 **Effect.** Whenever you would deal 4 or less unblocked Attack damage, increase it to 5.
 
-**Synergies.** Shiv, Doubt, Ninja Scroll
+**Synergies.** Shiv, Doubt
 
 **Anti-synergies.** Demon Form, Flex, Heavy Blade, Inflame, Limit Break, Rupture, Spot Weakness, J.A.X., Vajra, Shuriken, Sling of Courage, Girya, Brimstone
 
@@ -1272,7 +1272,7 @@ _tags_: draw
 
 **★ Super-synergies.** Anger
 
-**Synergies (49).** Armaments, Berserk, Bloodletting, Brutality, Clash, Fire Breathing, Flex, Headbutt, Intimidate, Offering, Rage, Rampage, Seeing Red, Warcry, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, …
+**Synergies (47).** Armaments, Berserk, Bloodletting, Brutality, Clash, Fire Breathing, Flex, Headbutt, Intimidate, Offering, Rage, Rampage, Seeing Red, Warcry, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, …
 
 **Anti-synergies.** Barricade, Bash, Battle Trance, Blood for Blood, Bludgeon, Carnage, Clothesline, Corruption, Demon Form, Evolve, Fiend Fire, Flame Barrier, Heavy Blade, Immolate, Impervious, Juggernaut, Perfected Strike, Power Through, Reaper, Reckless Charge, Searing Blow, Sever Soul, Shockwave, Uppercut, Whirlwind, Wild Strike, Transmutation, Chrysalis, Hand of Greed, Metamorphosis, The Bomb, Ascender's Bane, Clumsy, Decay, Doubt, Injury, Necronomicurse, Normality, Pain, Parasite, Regret, Writhe, Shame, Pride, Curse of the Bell, Omega, Velvet Choker, Mark of Pain
 
@@ -1300,7 +1300,7 @@ _tags_: weak
 
 **Effect.** Start each combat with 1 Weak.
 
-**Synergies.** Sadistic Nature, Writhe, Torii, Clockwork Souvenir, Paper Krane
+**Synergies.** Sadistic Nature, Writhe, Torii, Clockwork Souvenir
 
 **Anti-synergies.** Dramatic Entrance, Mind Blast
 

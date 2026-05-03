@@ -1,0 +1,3019 @@
+[
+  {
+    "name": "Alpha",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Shuffle a Beta into your draw pile. Exhaust.",
+    "description_upgraded": "Innate. Shuffle a Beta into your draw pile. Exhaust.",
+    "tier": "D",
+    "tags": [
+      "exhaust",
+      "aoe",
+      "innate"
+    ],
+    "statement": "Alpha is an extremely powerful albeit slow ability. The first part of the chain is easy to play as it only costs 1 energy, but the two and three energy Beta and Omega that follow can be much more difficult to play without being punished. This is why it is recommended to only take this with energy relics or other sources of energy gain. Furthermore, it fits best into a thin deck in order to keep it consistent. Since it is quite slow, you might find that hallway fights don't require you to use this and in fact will make you take more damage if you do. The actual effect is devastating when it comes online and can finish most foes in two to three turns. It is also exceptionally powerful versus bosses with high health totals. This card is a build around card , usually requiring you to turtle with plenty of defence until it is ready to play. For this reason you often don't need any other sources of damage. It is very all or nothing, and is usually a poor addition to a large deck as it shuffles two useless cards into your deck that do nothing until all three are played. Additional draw effects and scry abilities can help you pull it off faster. ",
+    "super_synergies": [
+      "Foresight"
+    ],
+    "synergies": [
+      "Deep Breath",
+      "Finesse",
+      "Flash of Steel",
+      "Master of Strategy",
+      "Thinking Ahead",
+      "Trip",
+      "Impatience",
+      "Violence",
+      "Collect",
+      "Cut Through Fate",
+      "Deva Form",
+      "Empty Mind",
+      "Evaluate",
+      "Follow-Up",
+      "Inner Peace",
+      "Just Lucky",
+      "Pray",
+      "Sanctity",
+      "Scrawl",
+      "Study",
+      "Third Eye",
+      "Wheel Kick",
+      "Insight",
+      "Miracle",
+      "Ancient Tea Set",
+      "Art of War",
+      "Bag of Preparation",
+      "Happy Flower",
+      "Lantern",
+      "Centennial Puzzle",
+      "Gremlin Horn",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Dead Branch",
+      "Sundial",
+      "Unceasing Top",
+      "Ectoplasm",
+      "Philosopher's Stone",
+      "Runic Pyramid",
+      "Sozu",
+      "Velvet Choker",
+      "Busted Crown",
+      "Fusion Hammer",
+      "Coffee Dripper",
+      "Nunchaku",
+      "Pocketwatch",
+      "Pure Water",
+      "Holy Water",
+      "Violet Lotus",
+      "Melange",
+      "Ink Bottle",
+      "Slaver's Collar"
+    ],
+    "antisynergies": [
+      "Bag of Marbles",
+      "Snecko Eye"
+    ],
+    "index": 275
+  },
+  {
+    "name": "Battle Hymn",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "At the start of each turn, add a Smite into your hand.",
+    "description_upgraded": "Innate. At the start of each turn, add a Smite into your hand.",
+    "tier": "B-",
+    "tags": [
+      "retain",
+      "exhaust"
+    ],
+    "statement": "Battle hymn is a very consistent and cost efficient power that is a decent addition to most decks. Since the attacks that it generates retain, they can easily be played on a wrath turn as a big finisher. This is also the case for divinity. It is usually never bad to have one copy, but be aware that if you play 3 or more copies of this power you might not be able to empty your hand enough to actually draw on the next turn due to the retain effect. ",
+    "super_synergies": [
+      "Establishment",
+      "Master Reality"
+    ],
+    "synergies": [
+      "Spirit Shield",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Dead Branch",
+      "Gambling Chip",
+      "Cloak Clasp"
+    ],
+    "antisynergies": [
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 276
+  },
+  {
+    "name": "Blasphemy",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Enter Divinity. Die next turn. Exhaust",
+    "description_upgraded": "Retain. Enter Divinity. Die next turn. Exhaust",
+    "tier": "S",
+    "tags": [
+      "divinity",
+      "stance"
+    ],
+    "statement": "Although blasphemy might look terrible and frightening at first, the sheer strength of divinity makes this card worth it. When upgraded, you can enter divinity and gain 2 energy by doing so on any turn you like. This makes it a brilliant finisher. It is exceptionally powerful in hallway fights but obviously can be lacklustre in boss battles. Note that the death can be prevented by intangible or buffer, as the death is coded as one large hit of damage. Also note that the blasphemy status cannot be stopped with artifact (since it is actually coded as a buff not a debuff).",
+    "super_synergies": [],
+    "synergies": [
+      "Flurry Of Blows",
+      "Flying Sleeves",
+      "Mental Fortress",
+      "Sands of Time",
+      "Windmill Strike",
+      "Wreath of Flame",
+      "Smite",
+      "Through Violence",
+      "Toxic Egg",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Mayhem",
+      "Snecko Eye"
+    ],
+    "index": 277
+  },
+  {
+    "name": "Bowling Bash",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 7 damage for each enemy in combat.",
+    "description_upgraded": "Deal 10 damage for each enemy in combat.",
+    "tier": "C+",
+    "tags": [
+      "multihit"
+    ],
+    "statement": "I like to take one copy of this card in my deck, particularly if I am offered one during act one. It makes multi enemy hallway fights a breeze if drawn early and can deal relevant damage in most boss fights as well. It's not exciting, but is a source of fast damage versus bandits, byrds or gremlins etc. ",
+    "super_synergies": [],
+    "synergies": [
+      "J.A.X.",
+      "Talk to the Hand",
+      "Wish",
+      "Wreath of Flame",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Sling of Courage",
+      "Akabeko"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 278
+  },
+  {
+    "name": "Brilliance",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 12 damage. Deals additional damage equal to Mantra gained this combat.",
+    "description_upgraded": "Deal 16 damage. Deals additional damage equal to Mantra gained this combat.",
+    "tier": "C-",
+    "tags": [],
+    "statement": "Brilliance is an all or nothing card. Typically, if you have enough sources of divinity brilliance is fine to take. It has okay damage for its cost even without any divinity, and tends to scale very quickly. note that if your deck is running divinity, it is usually a good idea to make sure your brilliance is played whilst in divinity for a huge hit. you will know if this card is good to take or not based on the rest of your deck. This card has a low rating overall as often other rares are better. ",
+    "super_synergies": [],
+    "synergies": [
+      "Devotion",
+      "Pray",
+      "Prostrate",
+      "Worship",
+      "Molten Egg",
+      "Damaru"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 279
+  },
+  {
+    "name": "Carve Reality",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 6 damage. Add a Smite to your hand.",
+    "description_upgraded": "Deal 10 damage. Add a Smite to your hand.",
+    "tier": "C",
+    "tags": [
+      "create",
+      "exhaust"
+    ],
+    "statement": "Carve reality is an OK card that has fair damage. It isn't that spectacular, but its strength lies in being able to generate multiple smites . The smites will retain, allowing you to use them on a turn in wrath or in divinity for a big finisher. If this isn't how your deck works, I would recommend taking other sources of damage instead.",
+    "super_synergies": [],
+    "synergies": [
+      "Mind Blast",
+      "Master Reality",
+      "Molten Egg",
+      "Dead Branch"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 280
+  },
+  {
+    "name": "Collect",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": -1,
+    "cost_upgraded": -1,
+    "description": "Put Miracle+ into your hand at the start of your next X turns. Exhaust.",
+    "description_upgraded": "Put Miracle+ into your hand at the start of your next X+1 turns. Exhaust.",
+    "tier": "D+",
+    "tags": [
+      "managain",
+      "exhaust"
+    ],
+    "statement": "",
+    "super_synergies": [
+      "Evaluate",
+      "Inner Peace"
+    ],
+    "synergies": [
+      "Madness",
+      "Panache",
+      "Forethought",
+      "Mayhem",
+      "Alpha",
+      "Conjure Blade",
+      "Deva Form",
+      "Fasting",
+      "Kunai",
+      "Ornamental Fan",
+      "Shuriken",
+      "Toxic Egg",
+      "Dead Branch",
+      "Ice Cream",
+      "Chemical X"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch"
+    ],
+    "index": 281
+  },
+  {
+    "name": "Conclude",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 12 damage to ALL enemies. End your turn.",
+    "description_upgraded": "Deal 16 damage to ALL enemies. End your turn.",
+    "tier": "B+",
+    "tags": [
+      "aoe",
+      "endturn"
+    ],
+    "statement": "Because conclude is so energy efficient, I often find myself picking this. It is fast damage that makes light work of hallway fights. Usually, the end turn effect isn't relevant as you can simply play it as your last card of the turn. On the other hand, This makes it difficult and risky to use in conjunction with wrath , as you must end the turn in wrath as well. Note that it also has terrible synergy with other end turn cards, so beware when taking multiple copies of conclude and other cards such as vault. ",
+    "super_synergies": [],
+    "synergies": [
+      "J.A.X.",
+      "Trip",
+      "Conclude",
+      "Meditate",
+      "Wish",
+      "Wreath of Flame",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Sling of Courage"
+    ],
+    "antisynergies": [
+      "Mayhem",
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 282
+  },
+  {
+    "name": "Conjure Blade",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": -1,
+    "cost_upgraded": -1,
+    "description": "Shuffle an Expunger into your draw pile. Exhaust. (Expunger costs 1, deals 9 damage X times.)",
+    "description_upgraded": "Shuffle an Expunger into your draw pile. Exhaust. (Expunger costs 1, deals 9 damage X+1 times.)",
+    "tier": "D+",
+    "tags": [
+      "create",
+      "exhaust"
+    ],
+    "statement": "Generally, this card is much more hassle than its worth, since you can spend all your turn's energy on a card that you might not even manage to draw. Even with a lot of damage on it, there are more reliable, fast-acting damage sources. Best in thin decks to get maximum uses. The more energy you can dump into it the better. Works well with miracles and energy relics. ",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Mind Blast",
+      "Panache",
+      "Forethought",
+      "Mayhem",
+      "Collect",
+      "Deva Form",
+      "Follow-Up",
+      "Master Reality",
+      "Pray",
+      "Miracle",
+      "Ancient Tea Set",
+      "Art of War",
+      "Happy Flower",
+      "Lantern",
+      "Gremlin Horn",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Dead Branch",
+      "Sundial",
+      "Ectoplasm",
+      "Philosopher's Stone",
+      "Sozu",
+      "Busted Crown",
+      "Fusion Hammer",
+      "Coffee Dripper",
+      "Nunchaku",
+      "Chemical X",
+      "Pocketwatch",
+      "Pure Water",
+      "Holy Water",
+      "Violet Lotus",
+      "Slaver's Collar"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 283
+  },
+  {
+    "name": "Consecrate",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 5 damage to ALL enemies.",
+    "description_upgraded": "Deal 8 damage to ALL enemies.",
+    "tier": "B-",
+    "tags": [
+      "aoe"
+    ],
+    "statement": "Consecrate is a fast source of very cheap aoe damage. It works very well with wrath, and since it is so cheap it is not impossible to get in and out of wrath on the same turn as playing it. particularly good in act one before you've picked up any energy relics, but drops off considerably in the later acts. I would not recommend picking more than one of these.",
+    "super_synergies": [],
+    "synergies": [
+      "J.A.X.",
+      "Panache",
+      "Trip",
+      "Violence",
+      "Regret",
+      "Wish",
+      "Wreath of Flame",
+      "Vajra",
+      "Kunai",
+      "Molten Egg",
+      "Ornamental Fan",
+      "Shuriken",
+      "Unceasing Top",
+      "Sling of Courage",
+      "Nunchaku"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 284
+  },
+  {
+    "name": "Crescendo",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Retain. Enter Wrath. Exhaust.",
+    "description_upgraded": "Retain. Enter Wrath. Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "retain",
+      "wrath",
+      "stance",
+      "exhaust"
+    ],
+    "statement": "Crescendo is a brilliant source of wrath. It has retain by default and when upgraded can be played for free. Since it retains, it can be used on the final turn of combat without any concern for retaliation damage. The only downside to this card is that it exhausts, and in some cases you might want up to two copies of crescendo have since other sources of wrath do not retain. ",
+    "super_synergies": [],
+    "synergies": [
+      "Empty Fist",
+      "Establishment",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Rushdown",
+      "Spirit Shield",
+      "Wreath of Flame",
+      "Toxic Egg",
+      "Dead Branch",
+      "Cloak Clasp",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Pressure Points",
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 285
+  },
+  {
+    "name": "Crush Joints",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 8 damage. If the last card played this combat was a Skill, apply 1 Vulnerable.",
+    "description_upgraded": "Deal 10 damage. If the last card played this combat was a Skill, apply 2 Vulnerable.",
+    "tier": "B-",
+    "tags": [
+      "vulnerable"
+    ],
+    "statement": "Crush joints is a difficult card to play since you need to play a skill beforehand. Skills tend to be defensive, and attacks offensive, so this is intentionally designed to be awkward. Note that miracle classes as a skill. Since this card only applies one stack of vulnerable it might not look that valuable, but it is important to remember that wrath and divinity are greatly enhanced by vulnerable, closing causing wrath to deal 3x the damage and divinity to deal 4.5x the damage. ",
+    "super_synergies": [],
+    "synergies": [
+      "Sadistic Nature",
+      "Trip",
+      "Ritual Dagger",
+      "Crush Joints",
+      "Indignation",
+      "Wallop",
+      "Bag of Marbles",
+      "Molten Egg",
+      "Odd Mushroom",
+      "Hand Drill"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 286
+  },
+  {
+    "name": "Cut Through Fate",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 7 damage. Scry 2. Draw 1 card.",
+    "description_upgraded": "Deal 9 damage. Scry 3. Draw 1 card.",
+    "tier": "A",
+    "tags": [
+      "scry",
+      "draw"
+    ],
+    "statement": "Cut through fate is an exceptionally strong common card for the watcher. Not only does it provide a draw, but it also allows you two carefully decide which of the top three cards you want to draw. Scrying away strikes and defends happens very frequently, and the scribe is often the difference between drawing enough damage to kill a small creature and not. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Deva Form",
+      "Spirit Shield",
+      "Weave",
+      "Beta",
+      "Happy Flower",
+      "Molten Egg",
+      "Frozen Eye",
+      "Sundial",
+      "The Abacus",
+      "Golden Eye",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 287
+  },
+  {
+    "name": "Deceive Reality",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 4 Block. Add a Safety to your hand.",
+    "description_upgraded": "Gain 7 Block. Add a Safety to your hand.",
+    "tier": "B",
+    "tags": [
+      "dblock",
+      "create",
+      "exhaust"
+    ],
+    "statement": "The power of Deceive reality lies in the retain keyword on the block that it generates. Being able to store up a number of blocks with retain is sometimes exceptionally important, particularly against bosses such as the Guardian and the champ who have turns with scary amounts of burst damage. It is also still fine in hallway fights, as it means you have block when you need it and can otherwise draft more offensively. Note that this card is affected by dexterity twice. ",
+    "super_synergies": [],
+    "synergies": [
+      "Mind Blast",
+      "Master Reality",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Oddly Smooth Stone",
+      "Kunai",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Dead Branch",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "Duality"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 288
+  },
+  {
+    "name": "Defend",
+    "type": "skill",
+    "rarity": "starter",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 5 Block.",
+    "description_upgraded": "Gain 8 Block.",
+    "tier": "F",
+    "tags": [
+      "dblock"
+    ],
+    "statement": "",
+    "super_synergies": [],
+    "synergies": [
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Smiling Mask",
+      "Toxic Egg",
+      "Calipers",
+      "Peace Pipe",
+      "Thread and Needle",
+      "Torii",
+      "Pandora's Box",
+      "Turnip",
+      "Empty Cage"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Snecko Eye"
+    ],
+    "index": 19
+  },
+  {
+    "name": "Deus Ex Machina",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": -2,
+    "cost_upgraded": -2,
+    "description": "Unplayable. When you draw this card, add 2 Miracles to your hand and Exhaust.",
+    "description_upgraded": "Unplayable. When you draw this card, add 3 Miracles to your hand and Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "exhaust",
+      "create"
+    ],
+    "statement": "A bit slow, but okay to take if you have no energy relics. Best supported by decent draw cards so you can make use of the energy, especially on the turn that this triggers.",
+    "super_synergies": [
+      "Evaluate"
+    ],
+    "synergies": [
+      "Mind Blast",
+      "Master Reality",
+      "Toxic Egg",
+      "Dead Branch"
+    ],
+    "antisynergies": [
+      "Velvet Choker"
+    ],
+    "index": 289
+  },
+  {
+    "name": "Deva Form",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 3,
+    "cost_upgraded": 3,
+    "description": "Ethereal. At the start of your turn, gain [energy] and increase this gain by 1.",
+    "description_upgraded": "At the start of your turn, gain [energy] and increase this gain by 1.",
+    "tier": "C",
+    "tags": [
+      "managain",
+      "ethereal"
+    ],
+    "statement": "",
+    "super_synergies": [
+      "Empty Mind",
+      "Evaluate",
+      "Inner Peace",
+      "Study",
+      "Vault"
+    ],
+    "synergies": [
+      "Deep Breath",
+      "Finesse",
+      "Flash of Steel",
+      "Master of Strategy",
+      "Thinking Ahead",
+      "Transmutation",
+      "Forethought",
+      "Impatience",
+      "Mayhem",
+      "Violence",
+      "Alpha",
+      "Collect",
+      "Conjure Blade",
+      "Cut Through Fate",
+      "Fasting",
+      "Sanctity",
+      "Scrawl",
+      "Wheel Kick",
+      "Insight",
+      "Bag of Preparation",
+      "Centennial Puzzle",
+      "Frozen Egg",
+      "Gremlin Horn",
+      "Kunai",
+      "Mummified Hand",
+      "Ornamental Fan",
+      "Shuriken",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Ice Cream",
+      "Runic Pyramid",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Strange Spoon",
+      "Ink Bottle"
+    ],
+    "antisynergies": [
+      "Apparition",
+      "Ascender's Bane",
+      "Clumsy",
+      "Regret",
+      "Deva Form",
+      "Unceasing Top",
+      "Pocketwatch"
+    ],
+    "index": 290
+  },
+  {
+    "name": "Devotion",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "At the start of your turn, gain 2 Mantra.",
+    "description_upgraded": "At the start of your turn, gain 3 Mantra.",
+    "tier": "B",
+    "tags": [
+      "mantra",
+      "stance"
+    ],
+    "statement": "Devotion fits very well into mantra heavy decks. It allows you to predict when you will proc divinity, as it does not rely on you drawing a mantra card. This can also be a downside, as sometimes you will have nine stacks of mantra and force yourself to enter divinity next turn whether you want it or not. This can be devastating if you do not draw any attacks on the turn that this happens. Generally speaking, it is very energy efficient and easy to play without being punished and several of this power stacked can ensure that you enter divinity every single turn which is not to be underestimated. ",
+    "super_synergies": [
+      "Vault"
+    ],
+    "synergies": [
+      "Brilliance",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 291
+  },
+  {
+    "name": "Empty Body",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 7 Block. Exit your Stance.",
+    "description_upgraded": "Gain 10 Block. Exit your Stance.",
+    "tier": "C",
+    "tags": [
+      "exit",
+      "dblock"
+    ],
+    "statement": "Empty body is not a very impressive card. It doesn't provide a great deal of block and also doesn't have much synergy with any of the stances. At best, it allows you to leave wrath at the end of a turn or to cash in the energy that is generated when you leave calm. There are better sources of block, so I typically pass on this card. ",
+    "super_synergies": [],
+    "synergies": [
+      "Flurry Of Blows",
+      "Meditate",
+      "Vigilance",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Snecko Eye"
+    ],
+    "index": 292
+  },
+  {
+    "name": "Empty Fist",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 9 damage. Exit your Stance.",
+    "description_upgraded": "Deal 14 damage. Exit your Stance.",
+    "tier": "B-",
+    "tags": [
+      "exit"
+    ],
+    "statement": "Of the three exit cards, empty fest has the best synergy with wrath. It has reasonable damage, especially when doubled or tripled.  Since the damage is dealt before you leave your stance, it is great to play as the final card off the turn, allowing you to fully benefit from damage stances without leaving yourself vulnerable. Note that exit is not that useful when running a divinity deck. ",
+    "super_synergies": [],
+    "synergies": [
+      "Crescendo",
+      "Eruption",
+      "Flurry Of Blows",
+      "Indignation",
+      "Meditate",
+      "Simmering Fury",
+      "Tantrum",
+      "Vigilance",
+      "Molten Egg",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 293
+  },
+  {
+    "name": "Empty Mind",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Draw 2 cards. Exit your Stance.",
+    "description_upgraded": "Draw 3 cards. Exit your Stance.",
+    "tier": "B",
+    "tags": [
+      "exit",
+      "draw"
+    ],
+    "statement": "Empty mind is perhaps the most powerful of the three exit cards. It provides a great deal of draw, and when leaving com also generates energy to allow you to play the cards that you draw. It is common to play empty mind with deva form since it provides so much draw and allows you to spend the large amounts of energy that are generated with this power. ",
+    "super_synergies": [
+      "Deva Form"
+    ],
+    "synergies": [
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Flurry Of Blows",
+      "Meditate",
+      "Spirit Shield",
+      "Vigilance",
+      "Beta",
+      "Happy Flower",
+      "Toxic Egg",
+      "Frozen Eye",
+      "Sundial",
+      "The Abacus",
+      "Violet Lotus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 294
+  },
+  {
+    "name": "Eruption",
+    "type": "attack",
+    "rarity": "starter",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "Deal 9 damage. Enter Wrath.",
+    "description_upgraded": "Deal 9 damage. Enter Wrath.",
+    "tier": "C",
+    "tags": [
+      "stance",
+      "wrath"
+    ],
+    "statement": "Since eruption is the only source of wrath that you start with in the watcher, you do not want to remove this until you have drafted another source. It is clunky to use since it costs quite a lot of energy whilst not dealing very much damage, and being left in wrath leaves you open to counter attacks. Since the damage happens before you enter wrath, the damage is not even doubled. If you draught another source of wrath, in particular tantrum, it is then common to remove eruption from your deck. If you are planning to remove eruption, it is not recommended that you upgrade it. note that if you end the turn in wrath, you open yourself two more damage, not only on this turn but also all subsequent turns until you draw a source of calm. If Tranquilly is in your discard pile, take care when deciding to play eruption. ",
+    "super_synergies": [],
+    "synergies": [
+      "Empty Fist",
+      "Flurry Of Blows",
+      "Meditate",
+      "Mental Fortress",
+      "Rushdown",
+      "Wreath of Flame",
+      "Molten Egg",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Pressure Points",
+      "Signature Move"
+    ],
+    "index": 295
+  },
+  {
+    "name": "Establishment",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Whenever a card is Retained, reduce its cost by 1 this combat.",
+    "description_upgraded": "Innate. Whenever a card is Retained, reduce its cost by 1 this combat.",
+    "tier": "A",
+    "tags": [
+      "innate"
+    ],
+    "statement": "Since there are so many top tier cards with the retain keyword, establishment can be an exceptionally strong power. It is cheap to play and pays for itself within one or two turns generally. It works brilliantly with battle hymn as a consistent source of free damage. Although this card is rated highly, do make sure that your deck has a decent number of retain cards, otherwise this power will be worthless. ",
+    "super_synergies": [
+      "Battle Hymn"
+    ],
+    "synergies": [
+      "Crescendo",
+      "Flying Sleeves",
+      "Meditate",
+      "Perseverance",
+      "Protect",
+      "Sands of Time",
+      "Tranquility",
+      "Windmill Strike",
+      "Worship",
+      "Insight",
+      "Miracle",
+      "Safety",
+      "Smite",
+      "Through Violence",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Gremlin Visage"
+    ],
+    "antisynergies": [
+      "Bag of Marbles",
+      "Snecko Eye"
+    ],
+    "index": 296
+  },
+  {
+    "name": "Evaluate",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 6 Block. Shuffle an Insight into your draw pile.",
+    "description_upgraded": "Gain 10 Block. Shuffle an Insight into your draw pile.",
+    "tier": "B-",
+    "tags": [
+      "dblock",
+      "create",
+      "draw"
+    ],
+    "statement": "Evaluate is a solid source of block with an upside. It allows you to draw more cards than normal, and you can best take advantage of this by ensuring you have a lot of sources of energy in your deck. This might mean having copies of Deus Ex machina, Deva form, or Collect in your deck. Since it is also a skill that is free, it works well with relics such as letter opener. At worst, it gives you more consistent hands, especially since insight has retain. ",
+    "super_synergies": [
+      "Collect",
+      "Deus Ex Machina",
+      "Deva Form"
+    ],
+    "synergies": [
+      "Mind Blast",
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Master Reality",
+      "Spirit Shield",
+      "Wave of the Hand",
+      "Beta",
+      "Bronze Scales",
+      "Happy Flower",
+      "Letter Opener",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Frozen Eye",
+      "Sundial",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "The Abacus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Regret",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 297
+  },
+  {
+    "name": "Fasting",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Gain 3 Strength. Gain 3 Dexterity. Gain 1 less [energy] at the start of each turn.",
+    "description_upgraded": "Gain 4 Strength. Gain 4 Dexterity. Gain 1 less [energy] at the start of each turn.",
+    "tier": "B",
+    "tags": [
+      "artifact"
+    ],
+    "statement": "Fasting is a very niche power that is only usually taken in decks that can negate the energy loss. orange pellets are capable of removing the debuff, and artifact also blocks the debuff from being applied. I definitely would not recommend taking fasting without at least one energy relic or means of negating the debuff. The strength and dexterity are nice but typically having one extra energy what do the same thing, whilst allowing you to be more flexible with your turns. Note that sources of strength are rare for the watcher since wrath and divinity benefit from this multiple times. ",
+    "super_synergies": [
+      "Panacea",
+      "Fasting",
+      "Orange Pellets",
+      "Clockwork Souvenir"
+    ],
+    "synergies": [
+      "Panic Button",
+      "Collect",
+      "Deva Form",
+      "Follow-Up",
+      "Just Lucky",
+      "Pray",
+      "Miracle",
+      "Ancient Tea Set",
+      "Art of War",
+      "Happy Flower",
+      "Lantern",
+      "Frozen Egg",
+      "Gremlin Horn",
+      "Mummified Hand",
+      "Runic Dodecahedron",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Sundial",
+      "Ectoplasm",
+      "Philosopher's Stone",
+      "Snecko Eye",
+      "Sozu",
+      "Velvet Choker",
+      "Busted Crown",
+      "Fusion Hammer",
+      "Coffee Dripper",
+      "Nunchaku",
+      "Pocketwatch",
+      "Pure Water",
+      "Holy Water",
+      "Violet Lotus",
+      "Slaver's Collar"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Unceasing Top"
+    ],
+    "index": 298
+  },
+  {
+    "name": "Fear No Evil",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 8 damage. If the enemy intends to Attack, enter Calm.",
+    "description_upgraded": "Deal 11 damage. If the enemy intends to Attack, enter Calm.",
+    "tier": "B+",
+    "tags": [
+      "stance",
+      "calm"
+    ],
+    "statement": "Fear no evil is a strong and consistent attack that allows you to cheaply enter calm. Its strength lies in its flexibility. Typically, you only want to enter calm and leave wrath when you are being attacked. The biggest downside of taking this card is sometimes forgetting that your target must be attacking in order to put you into calm. On more than one occasion, I have killed a small minion that is not attacking and left myself in wrath when I didn't mean to. ",
+    "super_synergies": [],
+    "synergies": [
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Molten Egg",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 299
+  },
+  {
+    "name": "Flurry Of Blows",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 4 damage. Whenever you change stances, return this from the discard pile to your hand.",
+    "description_upgraded": "Deal 6 damage. Whenever you change stances, return this from the discard pile to your hand.",
+    "tier": "B+",
+    "tags": [],
+    "statement": "Synergises with your starter cards. Note that the card has to be in your discard pile in order for it to return to your hand. If on the same turn you can draw a card which will re-shuffle your deck, make sure you play this card AFTER the reshuffle so that it goes straight into the new discard pile. This card works with Calm, Wrath, Divinity, and Exit. Strategies relying on this card can be difficult against the Time Lord and the final boss.",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Violence",
+      "Regret",
+      "Blasphemy",
+      "Crescendo",
+      "Devotion",
+      "Empty Body",
+      "Empty Fist",
+      "Empty Mind",
+      "Eruption",
+      "Fear No Evil",
+      "Indignation",
+      "Inner Peace",
+      "Mental Fortress",
+      "Pray",
+      "Prostrate",
+      "Simmering Fury",
+      "Tantrum",
+      "Tranquility",
+      "Vigilance",
+      "Worship",
+      "Kunai",
+      "Molten Egg",
+      "Ornamental Fan",
+      "Shuriken",
+      "Unceasing Top",
+      "Nunchaku"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 300
+  },
+  {
+    "name": "Flying Sleeves",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Retain. Deal 4 damage twice.",
+    "description_upgraded": "Retain. Deal 6 damage twice.",
+    "tier": "C+",
+    "tags": [
+      "retain",
+      "multihit"
+    ],
+    "statement": "Flying sleeves is a solid filler card. Although it doesn't deal a great amount of damage, the fact that it retains allows you to play it on turns where you are in wrath or divinity. Also, since it has a multi attack, it benefits more from strength than most other cards. Although I wouldn't pick more than one of these, having one copy for act one is usually fine.",
+    "super_synergies": [],
+    "synergies": [
+      "J.A.X.",
+      "Blasphemy",
+      "Establishment",
+      "Spirit Shield",
+      "Talk to the Hand",
+      "Wish",
+      "Wreath of Flame",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Sling of Courage",
+      "Cloak Clasp",
+      "Akabeko"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 301
+  },
+  {
+    "name": "Follow-Up",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 7 damage. If the last card played this combat was an Attack, gain [energy].",
+    "description_upgraded": "Deal 11 damage. If the last card played this combat was an Attack, gain [energy].",
+    "tier": "C-",
+    "tags": [
+      "managain"
+    ],
+    "statement": "Would you play a 0 cost attack that dealt 7 damage? This is the best case scenario, and it comes with a condition. Whilst it can be fine and isn't usually that difficult to execute, too many copies of this card prevent you from effectively spending all of your energy and the damage isn't spectacular. I would pick one at most in act one and leave it at that. What with the watcher\u2019s multiple ways of manipulating energy and stances, often cards must be sequenced very specifically, which doesn't leave you with the one energy to play this card. ",
+    "super_synergies": [
+      "Kunai",
+      "Shuriken"
+    ],
+    "synergies": [
+      "Alpha",
+      "Conjure Blade",
+      "Fasting",
+      "Molten Egg",
+      "Ornamental Fan",
+      "Ice Cream"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye",
+      "Pocketwatch"
+    ],
+    "index": 302
+  },
+  {
+    "name": "Foreign Influence",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Choose 1 of 3 Attacks of any color to add into your hand. Exhaust.",
+    "description_upgraded": "Choose 1 of 3 Attacks of any color to add into your hand. It costs 0 this turn. Exhaust.",
+    "tier": "D+",
+    "tags": [
+      "create",
+      "exhaust"
+    ],
+    "statement": "More often than not, foreign influence is a bad card. When discovering cards from your own class, there is a much higher chance of drafting something that synergises with your deck. Since this card can generate options from any classes, you rarely find what you are looking for. Normally it is nice to benefit from the card costing zero the first time it is played, allowing you to lean towards the more expensive options, but in many cases cards are offered that will do nothing at all when you're playing as the watcher which doesn't allow you to be as picky. (For example, catalyst.)",
+    "super_synergies": [],
+    "synergies": [
+      "Mind Blast",
+      "Panache",
+      "Regret",
+      "Master Reality",
+      "Letter Opener",
+      "Toxic Egg",
+      "Dead Branch",
+      "Unceasing Top"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 303
+  },
+  {
+    "name": "Foresight",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "At the start of your turn, Scry 3.",
+    "description_upgraded": "At the start of your turn, Scry 4.",
+    "tier": "A+",
+    "tags": [
+      "scry",
+      "innate"
+    ],
+    "statement": "Foresight is one of the strongest powers the watcher has at her disposal. Although it might look unimpressive, scry allows you to very consistently draw the cards that you want, which becomes even more evident as you begin to learn enemy movesets. It works well with Alpha, as it allows you to quickly sift through your deck and get Omega online. Furthermore, since you scry every single turn, any cards that benefit from a scry effect such as Weave benefit greatly from this card. I would always take one of these over passing.",
+    "super_synergies": [
+      "Alpha",
+      "Nirvana",
+      "Weave"
+    ],
+    "synergies": [
+      "Signature Move",
+      "Beta",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Gremlin Visage",
+      "Golden Eye"
+    ],
+    "antisynergies": [
+      "Bag of Marbles",
+      "Snecko Eye"
+    ],
+    "index": 304
+  },
+  {
+    "name": "Halt",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 3 Block. If you are in Wrath, gain 9 additional Block.",
+    "description_upgraded": "Gain 4 Block. Wrath: Gain 14 additional Block.",
+    "tier": "C+",
+    "tags": [
+      "dblock"
+    ],
+    "statement": "At first glance, Halt might look unimpressive. However, after trying it out, you will find that in many scenarios the additional block generated by this card allows you to stay in wrath at the end of a turn without being too heavily punished. This is particularly the case in act one where the enemies do not have as hard hitting attacks. I would not take this card unless I had consistent sources of wrath, for example a Tantrum. In the worst case scenario, this still provides some free block no matter what stance you are in. ",
+    "super_synergies": [
+      "Tantrum"
+    ],
+    "synergies": [
+      "Panache",
+      "Regret",
+      "Meditate",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Letter Opener",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Unceasing Top",
+      "Turnip"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Normality",
+      "Like Water",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 305
+  },
+  {
+    "name": "Indignation",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "If you are in Wrath, apply 3 Vulnerable to ALL enemies, otherwise enter Wrath.",
+    "description_upgraded": "If you are in Wrath, apply 5 Vulnerable to ALL enemies, otherwise enter Wrath.",
+    "tier": "D",
+    "tags": [
+      "aoe",
+      "stance",
+      "vulnerable",
+      "wrath"
+    ],
+    "statement": "Indignation is an awkward card. Typically, once you are in wrath, every single point of energy matters as you need to make sure that any attacking enemies die unless you plan on leaving the stance on the same turn. There are much more energy efficient and consistent sources of entering wrath, so the only reason to take this card is to apply the heavy vulnerable debuff to the enemies. Vulnerable does stack extremely well with wrath, so this effect can be devastating particularly in longer fights. However, such circumstances tend to make this card to hindrance more often than a help.",
+    "super_synergies": [],
+    "synergies": [
+      "Sadistic Nature",
+      "Trip",
+      "Ritual Dagger",
+      "Crush Joints",
+      "Empty Fist",
+      "Flurry Of Blows",
+      "Indignation",
+      "Mental Fortress",
+      "Rushdown",
+      "Wallop",
+      "Wreath of Flame",
+      "Bag of Marbles",
+      "Toxic Egg",
+      "Odd Mushroom",
+      "Hand Drill",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Pressure Points",
+      "Snecko Eye"
+    ],
+    "index": 306
+  },
+  {
+    "name": "Inner Peace",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "If you are in Calm, draw 3 cards. Otherwise, enter Calm.",
+    "description_upgraded": "If you are in Calm, draw 4 cards. Otherwise, enter Calm.",
+    "tier": "B+",
+    "tags": [
+      "calm",
+      "stance",
+      "draw"
+    ],
+    "statement": "Inner peace is a cheap way to enter calm or draw cards. the draw is extremely energy efficient, and although there are better sources of calm sometimes it is all you need to make sure you can get in and out of wrath on the same turn. The draw effect is most powerful when you have a considerable amount of energy, typically because of a collect or deva form. ",
+    "super_synergies": [
+      "Collect",
+      "Deva Form"
+    ],
+    "synergies": [
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Spirit Shield",
+      "Beta",
+      "Happy Flower",
+      "Toxic Egg",
+      "Frozen Eye",
+      "Sundial",
+      "The Abacus",
+      "Violet Lotus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 307
+  },
+  {
+    "name": "Judgment",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "If the enemy has 30 or less HP, set their HP to 0.",
+    "description_upgraded": "If the enemy has 40 or less HP, set their HP to 0.",
+    "tier": "B",
+    "tags": [],
+    "statement": "Great against Spherical Sentry but multiple copies can clutter your deck. Usually performs worst in boss battles where it can be almost impossible to play.",
+    "super_synergies": [],
+    "synergies": [
+      "Toxic Egg"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 308
+  },
+  {
+    "name": "Just Lucky",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Scry 1. Gain 2 Block. Deal 3 damage.",
+    "description_upgraded": "Scry 2. Gain 3 Block. Deal 4 damage.",
+    "tier": "C-",
+    "tags": [
+      "scry",
+      "dblock"
+    ],
+    "statement": "Generally only take early in Act 1 or in Scry based decks. As soon as you have picked up an energy relic, you will often find yourself unable to spend all of your energy on a turn. Although this card scries, unlike cut through fate it doesn't then draw the card. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Violence",
+      "Regret",
+      "Alpha",
+      "Fasting",
+      "Wave of the Hand",
+      "Weave",
+      "Beta",
+      "Bronze Scales",
+      "Kunai",
+      "Mercury Hourglass",
+      "Molten Egg",
+      "Ornamental Fan",
+      "Runic Dodecahedron",
+      "Shuriken",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Unceasing Top",
+      "Turnip",
+      "Nunchaku",
+      "Golden Eye"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Normality",
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 309
+  },
+  {
+    "name": "Lesson Learned",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Deal 10 damage. If Fatal, Upgrade a random card in your deck. Exhaust.",
+    "description_upgraded": "Deal 13 damage. If Fatal, Upgrade a random card in your deck. Exhaust.",
+    "tier": "S-",
+    "tags": [
+      "deckupgrade"
+    ],
+    "statement": "Better the earlier you get it. Note that the upgrades are permanent, not just for this encounter, and that the encounter does not benefit from the upgrade. If you pick up this card in act one, it is not uncommon to finish with a fully upgraded deck. When you have this card, consider taking more hallway fights than you normally would since it allows you to permanently upgrade a card at low risk. Although it might look silly to upgrade this, if it allows you to more consistently get an upgrade in your deck it is easily worth it. For obvious reasons, this card synergises extremely well with Fusion hammer. ",
+    "super_synergies": [
+      "Fusion Hammer"
+    ],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Swivel",
+      "Pen Nib",
+      "Molten Egg",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Apotheosis",
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top"
+    ],
+    "index": 310
+  },
+  {
+    "name": "Like Water",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "At the end of your turn, if you are in Calm, gain 5 Block.",
+    "description_upgraded": "At the end of your turn, if you are in Calm, gain 7 Block.",
+    "tier": "B",
+    "tags": [
+      "block"
+    ],
+    "statement": "Like water is a very powerful effect. It essentially acts like Metallicize so long as you stay in calm. One copy is great, and multiple copies can make you nearly invincible. It is not uncommon to remove all sources of wrath ifs running multiple copies of this power. Note that it does not synergise very well with mantra cards, as it can be difficult to re-enter calm on a turn where you enter divinity. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panic Button",
+      "The Bomb",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Frozen Egg",
+      "Mercury Hourglass",
+      "Mummified Hand",
+      "Runic Dodecahedron",
+      "Bird-Faced Urn",
+      "Calipers",
+      "Gambling Chip",
+      "Thread and Needle",
+      "Torii",
+      "Stone Calendar"
+    ],
+    "antisynergies": [
+      "Halt",
+      "Snecko Eye"
+    ],
+    "index": 311
+  },
+  {
+    "name": "Master Reality",
+    "type": "power",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Whenever a card is created during combat, Upgrade it.",
+    "description_upgraded": "Whenever a card is created during combat, Upgrade it.",
+    "tier": "B-",
+    "tags": [],
+    "statement": "Master reality is another niche but incredibly strong power. It works best with battle hymn, as the card that is generated every single turn is upgraded. It obviously works well with any cards that create another card, but it works best with dead branch, especially since many of the cards that get created in the watcher are also then exhausted themselves. This is a game breaking combination. On the other hand, many decks do not require or benefit from master reality, so make sure you have enough create effects to make this power worth it. ",
+    "super_synergies": [
+      "Battle Hymn",
+      "Dead Branch"
+    ],
+    "synergies": [
+      "Jack Of All Trades",
+      "Magnetism",
+      "Transmutation",
+      "Discovery",
+      "Chrysalis",
+      "Metamorphosis",
+      "Carve Reality",
+      "Conjure Blade",
+      "Deceive Reality",
+      "Deus Ex Machina",
+      "Evaluate",
+      "Foreign Influence",
+      "Pray",
+      "Reach Heaven",
+      "Study",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Toolbox",
+      "Bird-Faced Urn",
+      "Gambling Chip"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 312
+  },
+  {
+    "name": "Meditate",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Put a card from your discard pile into your hand and Retain it. Enter Calm. End your turn.",
+    "description_upgraded": "Put 2 cards from your discard pile into your hand and Retain them. Enter Calm. End your turn.",
+    "tier": "B+",
+    "tags": [
+      "calm",
+      "retain",
+      "endturn"
+    ],
+    "statement": "",
+    "super_synergies": [],
+    "synergies": [
+      "Conclude",
+      "Empty Body",
+      "Empty Fist",
+      "Empty Mind",
+      "Eruption",
+      "Establishment",
+      "Halt",
+      "Meditate",
+      "Ragnarok",
+      "Spirit Shield",
+      "Tantrum",
+      "Wallop",
+      "Wheel Kick",
+      "Toxic Egg",
+      "Cloak Clasp",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Mayhem",
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 313
+  },
+  {
+    "name": "Mental Fortress",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Whenever you change Stances, gain 4 Block.",
+    "description_upgraded": "Whenever you change Stances, gain 6 Block.",
+    "tier": "B",
+    "tags": [
+      "block"
+    ],
+    "statement": "Mental fortress is a build around card that requires you to take many stance change effects. Note that exit also counts as a change of stance. Obviously, this card synergises extremely well with flurry of blows, as not only are you generating block for changing stances, but most of the time you will also drawing an additional attack. Multiple copies of this make the effect even stronger, in many cases meaning you don't need to use block cards. Note that this strategy can be fairly inconsistent, as if you do not draw the stance change cards that you need you will often die on the same turn. I would not include mantra cards when employing this kind of strategy. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panic Button",
+      "The Bomb",
+      "Blasphemy",
+      "Crescendo",
+      "Devotion",
+      "Eruption",
+      "Fear No Evil",
+      "Flurry Of Blows",
+      "Indignation",
+      "Inner Peace",
+      "Pray",
+      "Prostrate",
+      "Simmering Fury",
+      "Tantrum",
+      "Tranquility",
+      "Vigilance",
+      "Wave of the Hand",
+      "Worship",
+      "Bronze Scales",
+      "Frozen Egg",
+      "Mercury Hourglass",
+      "Mummified Hand",
+      "Runic Dodecahedron",
+      "Bird-Faced Urn",
+      "Calipers",
+      "Gambling Chip",
+      "Thread and Needle",
+      "Torii",
+      "Stone Calendar"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 314
+  },
+  {
+    "name": "Nirvana",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Whenever you Scry, gain 3 Block.",
+    "description_upgraded": "Whenever you Scry, gain 4 Block.",
+    "tier": "B",
+    "tags": [
+      "upgrade",
+      "innate"
+    ],
+    "statement": "Nirvana is and okay card that works best in scry decks. These decks usually take up to three copies of weave as their main source of damage. This card obviously synergises extremely well with foresight, as it allows you to start the turn with block, essentially acting like metallicize. Typically, I wouldn't take this card unless I already had foresight. ",
+    "super_synergies": [
+      "Foresight"
+    ],
+    "synergies": [
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Gambling Chip",
+      "Gremlin Visage"
+    ],
+    "antisynergies": [
+      "Bag of Marbles",
+      "Snecko Eye"
+    ],
+    "index": 315
+  },
+  {
+    "name": "Omniscience",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 4,
+    "cost_upgraded": 3,
+    "description": "Choose a card in your draw pile. Play the chosen card twice and Exhaust it. Exhaust.",
+    "description_upgraded": "Choose a card in your draw pile. Play the chosen card twice and Exhaust it. Exhaust.",
+    "tier": "C+",
+    "tags": [
+      "exhaustother",
+      "exhaust"
+    ],
+    "statement": "Although omniscience can be a difficult card to play, it can also be completely game winning. The high energy cost means that in many cases you need to have an energy relic or have it upgraded in order to be able to play it. However, this is not much of a downside as usually you won't be able to find this card until act two. Omniscience is at its best when you have two copies in the deck: It allows you to more consistently draw an omniscience early, and omniscience can be played on the other copy of omniscience, actually allowing you to play TWO cards twice. This is an extremely powerful effect, especially when combined with sources of mantra, as you can often enter divinity on turn 1 using this strategy. ",
+    "super_synergies": [
+      "Omniscience",
+      "Ragnarok",
+      "Wish"
+    ],
+    "synergies": [
+      "Madness",
+      "Forethought",
+      "Mayhem",
+      "Decay",
+      "Doubt",
+      "Injury",
+      "Normality",
+      "Pain",
+      "Parasite",
+      "Writhe",
+      "Toxic Egg",
+      "Dead Branch",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Pride",
+      "Letter Opener",
+      "Unceasing Top"
+    ],
+    "index": 316
+  },
+  {
+    "name": "Perseverance",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Retain. Gain 5 Block. When Retained, increase its Block by 2 this combat.",
+    "description_upgraded": "Retain. Gain 7 Block. When Retained, increase its Block by 3 this combat.",
+    "tier": "D",
+    "tags": [
+      "retain",
+      "dblock"
+    ],
+    "statement": "In practise, perseverance is a difficult card to make use of. You normally want to play a block card every single turn, and if this is the only source of block that you have drawn then you cannot afford to hold on to it. Thus, unless you are playing a fairly defensive deck in the first place it can be difficult to actually allow this to stack. Note that it does have its purpose, and is particularly good versus the big slime and the Guardian bosses that have huge attack turns In addition to turns where they don't attack at all. Note that the block gain persists throughout combat, meaning that the second time you draw it, it keeps all of the stacks that it had previously.",
+    "super_synergies": [],
+    "synergies": [
+      "Establishment",
+      "Spirit Shield",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "Cloak Clasp"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 317
+  },
+  {
+    "name": "Pray",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 3 Mantra. Shuffle an Insight into your draw pile.",
+    "description_upgraded": "Gain 4 Mantra. Shuffle an Insight into your draw pile.",
+    "tier": "D+",
+    "tags": [
+      "mantra",
+      "stance",
+      "create",
+      "managain"
+    ],
+    "statement": "Pray is given a low tier rating due to the fact that on its own it does very little. Unlike prostrate, it does not provide any block and also comes with an energy cost. On the other hand, the insight can be useful for quickly cycling through your deck to attain divinity faster than usual. This card is fine as a supplement to an already stable mantra deck, but I rate it as one of the weaker ones unless you can make great use of the insights. ",
+    "super_synergies": [],
+    "synergies": [
+      "Mind Blast",
+      "Alpha",
+      "Brilliance",
+      "Conjure Blade",
+      "Fasting",
+      "Flurry Of Blows",
+      "Master Reality",
+      "Mental Fortress",
+      "Kunai",
+      "Ornamental Fan",
+      "Shuriken",
+      "Toxic Egg",
+      "Ice Cream",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch"
+    ],
+    "index": 318
+  },
+  {
+    "name": "Pressure Points",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Apply 8 Mark. ALL enemies lose HP equal to their Mark.",
+    "description_upgraded": "Apply 11 Mark. ALL enemies lose HP equal to their Mark.",
+    "tier": "D-",
+    "tags": [],
+    "statement": "Pressure points is a very unique mechanic that unfortunately can be quite unwieldy. it is most effective during boss fights where there is one enemy with a high health total that takes more and more damage with each use. In hallway fights, it can be difficult to make use of this card due to the fact that you normally want to kill enemies with a low health total first to get rid of them and reduce incoming damage. It is likely that the first enemy that you target with this ability will be dead by the time you draw it a second time. For this reason, I rate it quite lowly. Even when I've been able to draught 3 copies in a fairly slim deck, I have still found it to be ineffective. I think one copy is fine, two has potential, but you really shouldn't pick any more especially at higher ascension. ",
+    "super_synergies": [],
+    "synergies": [
+      "Pressure Points",
+      "Signature Move",
+      "Toxic Egg"
+    ],
+    "antisynergies": [
+      "Crescendo",
+      "Eruption",
+      "Indignation",
+      "Simmering Fury",
+      "Tantrum",
+      "Snecko Eye"
+    ],
+    "index": 319
+  },
+  {
+    "name": "Prostrate",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Gain 2 Mantra. Gain 4 Block.",
+    "description_upgraded": "Gain 3 Mantra. Gain 4 Block.",
+    "tier": "C+",
+    "tags": [
+      "mantra",
+      "stance",
+      "fragile"
+    ],
+    "statement": "Prostrate is a decent source of mantra. It is free, and also grants you blank, making it worthwhile to use even in fights where you don't reach divinity. Note that one prostrate on its own will very rarely get you into divinity since unupgraded it must be played five times and when upgraded must be played four. This is fine to pick as your first mantra card so long as you plan on taking more.",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Regret",
+      "Brilliance",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Letter Opener",
+      "Toxic Egg",
+      "Unceasing Top",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 320
+  },
+  {
+    "name": "Protect",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Retain. Gain 12 Block.",
+    "description_upgraded": "Retain. Gain 16 Block.",
+    "tier": "A-",
+    "tags": [
+      "retain",
+      "dblock"
+    ],
+    "statement": "Protect is a very solid source of block. It is not uncommon to draw more block cards than you need on a turn, and in these cases being able to retain a block card it's very useful for preventing chip damage. The block amount is decent for the energy cost. This card is particularly important versus encounters with hard hitting attacks, such as the large slime and the Guardian bosses. I would always be happy to have a couple of copies of this in my deck.",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Establishment",
+      "Spirit Shield",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Turnip",
+      "Pocketwatch",
+      "Cloak Clasp"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top",
+      "Runic Pyramid"
+    ],
+    "index": 321
+  },
+  {
+    "name": "Ragnarok",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "cost_upgraded": 3,
+    "description": "Deal 5 damage to a random enemy 5 times.",
+    "description_upgraded": "Deal 6 damage to a random enemy 6 times.",
+    "tier": "A-",
+    "tags": [
+      "multihit"
+    ],
+    "statement": "Ragnarok can be a powerful card in the right circumstances, but more often than not it is difficult to play. Against single target encounters, it can be extremely powerful since it has focused fire. On the other hand, against a boss like DECA and donate, the split damage can be the difference between winning and losing. Ragnarok has some very specific synergies: it benefits greatly from strength, wreath of flame effectively doubles the damage, and omniscience allows it to be played multiple times. ",
+    "super_synergies": [
+      "Omniscience",
+      "Swivel",
+      "Talk to the Hand",
+      "Wreath of Flame"
+    ],
+    "synergies": [
+      "J.A.X.",
+      "Madness",
+      "Forethought",
+      "Mayhem",
+      "Normality",
+      "Meditate",
+      "Wish",
+      "Pen Nib",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Sling of Courage",
+      "Pocketwatch",
+      "Akabeko"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top"
+    ],
+    "index": 322
+  },
+  {
+    "name": "Reach Heaven",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Deal 10 damage. Shuffle a Through Violence into your draw pile.",
+    "description_upgraded": "Deal 15 damage. Shuffle a Through Violence into your draw pile.",
+    "tier": "B",
+    "tags": [
+      "create"
+    ],
+    "statement": "Reach heaven can be a powerful card in the right circumstances. It's quite slow, which means that it's not normally that effective in hallway fights unless playing against an enemy that scales quite slowly. Due to its high cost and low reward, many times you will find that you are unable to play it.  Since through violence has retain, it is common to use it with wrath or divinity for a huge hit. ",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Mind Blast",
+      "Normality",
+      "Master Reality",
+      "Swivel",
+      "Pen Nib",
+      "Molten Egg",
+      "Snecko Eye",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top",
+      "Velvet Choker"
+    ],
+    "index": 323
+  },
+  {
+    "name": "Rushdown",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Whenever you enter Wrath, draw 2 cards.",
+    "description_upgraded": "Whenever you enter Wrath, draw 2 cards.",
+    "tier": "C",
+    "tags": [],
+    "statement": "Although rushdown might look like it has a fairly insignificant effect, it allows you to enter wrath more freely. Oftentimes it is a gamble when you enter wrath whether you will be able to leave again on the following turn which can open you up to a lot of damage. This power gives you a few extra chances to draw hard hitting attacks that can finish combat there and then, or on the other hand allows you to draw a calm card to end the turn with. ",
+    "super_synergies": [],
+    "synergies": [
+      "Crescendo",
+      "Eruption",
+      "Indignation",
+      "Simmering Fury",
+      "Tantrum",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Gambling Chip"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 324
+  },
+  {
+    "name": "Sanctity",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 6 Block. If the last card played was a Skill, draw 2 cards.",
+    "description_upgraded": "Gain 9 Block. If the last card played was a Skill, draw 2 cards.",
+    "tier": "C",
+    "tags": [
+      "dblock",
+      "draw"
+    ],
+    "statement": "Sanctity can be an okay card as long as you have the energy to actually make use of the draw effect. The block that it grants is insignificant, and the draw effect has a condition attached to it. It is worth noting that the condition can be satisfied if you finished your last turn by playing a skill. Because of this come out it is recommended that you always finish your turns with a skill where possible. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Deva Form",
+      "Spirit Shield",
+      "Wave of the Hand",
+      "Beta",
+      "Bronze Scales",
+      "Happy Flower",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Frozen Eye",
+      "Sundial",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "The Abacus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Regret",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 325
+  },
+  {
+    "name": "Sands of Time",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 4,
+    "cost_upgraded": 4,
+    "description": "Retain. Deal 20 damage. When Retained, lower its cost by 1 this combat.",
+    "description_upgraded": "Retain. Deal 26 damage. When Retained, lower its cost by 1 this combat.",
+    "tier": "B+",
+    "tags": [
+      "retain"
+    ],
+    "statement": "Sands of time is a slow card but one with a lot of damage. It can normally be played after being held in your hand for two or three turns, and if you can afford to hold it for four turns it becomes free for the rest of combat. Note that the next time you draw this card it will continue counting down from the cost that you last played it at. This makes it a strong source of consistent damage in longer boss fights. Due to the retain effect, it is easy to use sands of time on a turn where you are in wrath or divinity. ",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Forethought",
+      "Mayhem",
+      "Normality",
+      "Blasphemy",
+      "Establishment",
+      "Spirit Shield",
+      "Swivel",
+      "Pen Nib",
+      "Molten Egg",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch",
+      "Cloak Clasp"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top",
+      "Runic Pyramid"
+    ],
+    "index": 326
+  },
+  {
+    "name": "Sash Whip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 8 damage. If the last card played this combat was an Attack, apply 1 Weak.",
+    "description_upgraded": "Deal 10 damage. If the last card played this combat was an Attack, apply 2 Weak.",
+    "tier": "B-",
+    "tags": [
+      "weak"
+    ],
+    "statement": "Sash whip is one of the few sources of week that exists in the class. For this reason, I usually pick up one or two copies, no matter what act I am on. Weak continues to scale very well into the late game. This card can be quite awkward to play, since the card played before it must be an attack, and if you are applying weak you typically want to be playing skill to prevent incoming damage. Note that if you end your turn with an attack, sash whip will start already active on your next turn. If your deck has multiple copies of sash whip, it is recommended that you try to finish turns with an attack where possible. ",
+    "super_synergies": [],
+    "synergies": [
+      "Sadistic Nature",
+      "Molten Egg",
+      "Torii"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 327
+  },
+  {
+    "name": "Scrawl",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Draw cards until your hand is full. Exhaust.",
+    "description_upgraded": "Draw cards until your hand is full. Exhaust.",
+    "tier": "A-",
+    "tags": [
+      "draw",
+      "exhaust"
+    ],
+    "statement": "Scrawl is an extremely powerful card that increases the consistency of your deck. It allows you to quickly draw your most potent cards, such as a ragnarok or omniscience. I would always take scrawl over skipping, even if this meant having multiple copies of scrawl. ",
+    "super_synergies": [],
+    "synergies": [
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Deva Form",
+      "Spirit Shield",
+      "Beta",
+      "Happy Flower",
+      "Toxic Egg",
+      "Dead Branch",
+      "Frozen Eye",
+      "Sundial",
+      "The Abacus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 328
+  },
+  {
+    "name": "Signature Move",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Can only be played if this is the only Attack in your hand. Deal 30 damage.",
+    "description_upgraded": "Can only be played if this is the only Attack in your hand. Deal 40 damage.",
+    "tier": "E",
+    "tags": [],
+    "statement": "Signature move is an extremely difficult card to pull off. On top of this, the damage that it deals is not particularly exceptional. Compare this to grand finale - grand finale deals more damage, and that damage is aoe, and on top of this it doesn't have any cost. Even on turns where this is the only attack that is drawn, it can be difficult to find the energy to play it out. In theory, as long as you play all the attacks in your hand you will be able to play this, which means you don't have to gimp your deck by picking very few attacks. On the other hand, its high cost means playing out more than one attack before this card can be difficult, and attacks that retain make this even harder to pull off. Note that you should never put multiple copies of signature move in your deck, as if two are drawn on the same turn there is no way to play either of them.",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Foresight",
+      "Pressure Points",
+      "Swivel",
+      "Third Eye",
+      "Pen Nib",
+      "Molten Egg",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Strike",
+      "Bite",
+      "Dramatic Entrance",
+      "Flash of Steel",
+      "Mind Blast",
+      "Shiv",
+      "Swift Strike",
+      "Ritual Dagger",
+      "Hand of Greed",
+      "Regret",
+      "Bowling Bash",
+      "Brilliance",
+      "Carve Reality",
+      "Conclude",
+      "Consecrate",
+      "Crush Joints",
+      "Cut Through Fate",
+      "Empty Fist",
+      "Eruption",
+      "Fear No Evil",
+      "Flurry Of Blows",
+      "Flying Sleeves",
+      "Follow-Up",
+      "Just Lucky",
+      "Lesson Learned",
+      "Ragnarok",
+      "Reach Heaven",
+      "Sands of Time",
+      "Sash Whip",
+      "Signature Move",
+      "Talk to the Hand",
+      "Tantrum",
+      "Wallop",
+      "Weave",
+      "Wheel Kick",
+      "Windmill Strike",
+      "Smite",
+      "Through Violence",
+      "Kunai",
+      "Unceasing Top"
+    ],
+    "index": 329
+  },
+  {
+    "name": "Simmering Fury",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "At the start of your next turn, enter Wrath and draw 2 cards.",
+    "description_upgraded": "At the start of your next turn, enter Wrath and draw 3 cards.",
+    "tier": "B-",
+    "tags": [
+      "wrath",
+      "stance"
+    ],
+    "statement": "Since simmering fury now also draws you cards on the turn that you enter wrath, it is much more reliable. It gives you an increased likelihood of being able to finish the encounter on the next turn so long as you draw the right attacks. Due to the unpredictable nature of these draws, I tend to err on the side of caution and skip simmering fury, but that is not to say that it is a weak card. It is a cheap source of wrath, and you pay the energy cost in advance, allowing you to dedicate more energy to attacks on your wrath turn. This is a particularly reliable strategy with cards such as battle hymn once you have accumulated enough attacks with retain. ",
+    "super_synergies": [],
+    "synergies": [
+      "Empty Fist",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Rushdown",
+      "Wreath of Flame",
+      "Toxic Egg",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Pressure Points",
+      "Snecko Eye"
+    ],
+    "index": 330
+  },
+  {
+    "name": "Spirit Shield",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Gain 3 Block for each card in your hand.",
+    "description_upgraded": "Gain 4 Block for each card in your hand.",
+    "tier": "S",
+    "tags": [
+      "block"
+    ],
+    "statement": "Spirit shield is one of the strongest cards at the watcher\u2019s disposal. It very consistently generates a lot of block, particularly due to how many of the watcher\u2019s cards have retain. This even includes the miracle that you obtain due to your starting relic. I don't think you can ever have too many copies. ",
+    "super_synergies": [],
+    "synergies": [
+      "Deep Breath",
+      "Finesse",
+      "Flash of Steel",
+      "Madness",
+      "Master of Strategy",
+      "Thinking Ahead",
+      "Impatience",
+      "Panic Button",
+      "The Bomb",
+      "Violence",
+      "Normality",
+      "Battle Hymn",
+      "Crescendo",
+      "Cut Through Fate",
+      "Empty Mind",
+      "Evaluate",
+      "Flying Sleeves",
+      "Inner Peace",
+      "Meditate",
+      "Perseverance",
+      "Protect",
+      "Sanctity",
+      "Sands of Time",
+      "Scrawl",
+      "Study",
+      "Tranquility",
+      "Wave of the Hand",
+      "Wheel Kick",
+      "Windmill Strike",
+      "Worship",
+      "Insight",
+      "Miracle",
+      "Safety",
+      "Smite",
+      "Through Violence",
+      "Bag of Preparation",
+      "Bronze Scales",
+      "Centennial Puzzle",
+      "Gremlin Horn",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Runic Pyramid",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Stone Calendar",
+      "Pocketwatch",
+      "Ink Bottle"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top"
+    ],
+    "index": 331
+  },
+  {
+    "name": "Strike",
+    "type": "attack",
+    "rarity": "starter",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 6 damage.",
+    "description_upgraded": "Deal 9 damage.",
+    "tier": "F",
+    "tags": [],
+    "statement": "",
+    "super_synergies": [],
+    "synergies": [
+      "Bite",
+      "Molten Egg",
+      "Smiling Mask",
+      "Peace Pipe",
+      "Pandora's Box",
+      "Empty Cage",
+      "Strike Dummy"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 66
+  },
+  {
+    "name": "Study",
+    "type": "power",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 1,
+    "description": "At the end of your turn, shuffle an Insight into your draw pile.",
+    "description_upgraded": "At the end of your turn, shuffle an Insight into your draw pile.",
+    "tier": "C+",
+    "tags": [
+      "create",
+      "draw"
+    ],
+    "statement": "Study can be a strong power in the right deck, however it normally requires you to have a lot of sources of energy. It synergises particularly well with deva form by generating a draw engine In addition to an energy engine. It can be difficult to play if it is an upgraded due to its high cost for no immediate effect. Study obviously synergises with relics that trigger based off skills, such as letter opener. ",
+    "super_synergies": [
+      "Deva Form",
+      "Letter Opener"
+    ],
+    "synergies": [
+      "Mind Blast",
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Alpha",
+      "Master Reality",
+      "Spirit Shield",
+      "Beta",
+      "Happy Flower",
+      "Frozen Egg",
+      "Mummified Hand",
+      "Bird-Faced Urn",
+      "Frozen Eye",
+      "Gambling Chip",
+      "Sundial",
+      "The Abacus",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Velvet Choker"
+    ],
+    "index": 332
+  },
+  {
+    "name": "Swivel",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Gain 8 Block. The next Attack you play costs 0.",
+    "description_upgraded": "Gain 11 Block. The next Attack you play costs 0.",
+    "tier": "C+",
+    "tags": [
+      "dblock"
+    ],
+    "statement": "Swivel can be powerful in the right circumstances, however in general I find that the watcher does not have that many expensive attacks. A lot of the cheap attacks are common unstrung, often meaning that the discount goes to waste. This card obviously synergises extremely well with expensive attacks, most notably ragnarok. Note that this effect carries across multiple turns, so it is possible to use the card at the end of the turn if the attacks that are currently in your hand are not that expensive. ",
+    "super_synergies": [
+      "Ragnarok"
+    ],
+    "synergies": [
+      "Madness",
+      "Hand of Greed",
+      "Normality",
+      "Lesson Learned",
+      "Reach Heaven",
+      "Sands of Time",
+      "Signature Move",
+      "Wallop",
+      "Wave of the Hand",
+      "Wheel Kick",
+      "Windmill Strike",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Turnip",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top"
+    ],
+    "index": 333
+  },
+  {
+    "name": "Talk to the Hand",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 5 damage. Whenever you attack this enemy, gain 2 Block. Exhaust.",
+    "description_upgraded": "Deal 7 damage. Whenever you attack this enemy, gain 3 Block. Exhaust.",
+    "tier": "A-",
+    "tags": [
+      "block"
+    ],
+    "statement": "Talk to the hand is one of my favourite watcher cards. It allows you to play very offensively while still maintaining a defence. It synergises extremely well with itself, allowing you to generate upwards of 20 block just by using attacks every single turn. The effect is triggered multiple times by multi hit attacks, making cards like ragnarok very synergistic. Although in shorter combats with multiple low health enemies this card is less effective, it still acts as a source of damage and can be extremely effective versus elites and bosses. Note that since it is a debuff, bosses with transformations will be able to cleanse this effect. If I see talk to the hand, I almost always take it. ",
+    "super_synergies": [
+      "Ragnarok",
+      "Talk to the Hand"
+    ],
+    "synergies": [
+      "Panic Button",
+      "The Bomb",
+      "Bowling Bash",
+      "Flying Sleeves",
+      "Tantrum",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Molten Egg",
+      "Runic Dodecahedron",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Stone Calendar"
+    ],
+    "antisynergies": [
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 334
+  },
+  {
+    "name": "Tantrum",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Deal 3 damage 3 times. Enter Wrath. Shuffle this card into your draw pile.",
+    "description_upgraded": "Deal 3 damage 4 times. Enter Wrath. Shuffle this card into your draw pile.",
+    "tier": "A-",
+    "tags": [
+      "wrath",
+      "stance",
+      "multihit"
+    ],
+    "statement": "Tantrum is an extremely powerful and consistent card. It is quite possibly the best source of wrath in the game. Since it shuffles back into your deck you can always guarantee that you will draw another source of wrath soon. It is not uncommon to play tantrum and draw it again the next turn. The upside of this is you are already in wrath, so tantrum\u2019s damage is doubled. The fact that it hits multiple times means that it benefits greatly from strength. Note that sometimes decks choose to completely avoid wrath, particularly divinity decks. However, 90% of the time it is correct to have one or two copies of tantrum in your deck. This card is better than eruption in every possible sense, and it is common to remove eruption after drafting tantrum. ",
+    "super_synergies": [
+      "Halt"
+    ],
+    "synergies": [
+      "J.A.X.",
+      "Empty Fist",
+      "Flurry Of Blows",
+      "Meditate",
+      "Mental Fortress",
+      "Rushdown",
+      "Talk to the Hand",
+      "Wish",
+      "Wreath of Flame",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Sling of Courage",
+      "Violet Lotus",
+      "Akabeko"
+    ],
+    "antisynergies": [
+      "Pressure Points",
+      "Signature Move",
+      "Snecko Eye"
+    ],
+    "index": 335
+  },
+  {
+    "name": "Third Eye",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Gain 7 Block. Scry 3.",
+    "description_upgraded": "Gain 9 Block. Scry 5.",
+    "tier": "B-",
+    "tags": [
+      "dblock",
+      "scry"
+    ],
+    "statement": "Although third eye is not particularly flashy, it offers a solid amount of block and the scry effect is not to be overlooked. The only thing that would make this card better is if it also drew. Note that newer players will struggle to predict what the enemy is going to do on the next turn, and this can make it difficult to know which cards to scry away and which cards to keep. In the worst case scenario, it is usually a good idea to get rid of any strikes or defends that you find, as literally any other cards in your deck will be better. The better you know your opponent, the more effective this card will be. If, for example, you know that the enemy will not be attacking next turn, you should remove any of your defensive cards and blocks (and vice versa).",
+    "super_synergies": [],
+    "synergies": [
+      "Alpha",
+      "Signature Move",
+      "Wave of the Hand",
+      "Weave",
+      "Beta",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Turnip",
+      "Golden Eye"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Snecko Eye"
+    ],
+    "index": 336
+  },
+  {
+    "name": "Tranquility",
+    "type": "skill",
+    "rarity": "common",
+    "cost": 1,
+    "cost_upgraded": 0,
+    "description": "Retain. Enter Calm. Exhaust.",
+    "description_upgraded": "Retain. Enter Calm. Exhaust.",
+    "tier": "B",
+    "tags": [
+      "calm",
+      "stance",
+      "exhaust",
+      "retain"
+    ],
+    "statement": "Tranquillity is such a powerful card due to its consistency. Since it has retain, it means you can enter wrath more liberally than usual, as you have a backup plan in case you have no way of exiting wrath or finishing your opponent next turn. It can even be useful to play on the same turn as wrath after playing your attacks to prevent the enemy from hitting back as hard on their turn. The only downside to tranquilly is the fact that it exhausts - if this is your only source of calm, you will only be able to enter it once. For this reason, it is not uncommon to pick up even 2 copies of this card in addition to other sources of calm such as vigilance. ",
+    "super_synergies": [],
+    "synergies": [
+      "Establishment",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Spirit Shield",
+      "Toxic Egg",
+      "Dead Branch",
+      "Cloak Clasp",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Runic Pyramid",
+      "Snecko Eye"
+    ],
+    "index": 337
+  },
+  {
+    "name": "Vault",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 3,
+    "cost_upgraded": 2,
+    "description": "Take an extra turn after this one. End your turn. Exhaust.",
+    "description_upgraded": "Take an extra turn after this one. End your turn. Exhaust.",
+    "tier": "A+",
+    "tags": [
+      "exhaust"
+    ],
+    "statement": "Good with end of turn ramping effects such as Deva Form. On the Time Lord, skips timewarp if played as 12th card. Can be used to wear off your debuffs (just be wary that it skips your buffs too, like intangible) [TBC!]. If nothing else, this card can be used to refill your hand when you get a bad draw.",
+    "super_synergies": [
+      "Deva Form",
+      "Devotion",
+      "Art of War"
+    ],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Toxic Egg",
+      "Dead Branch",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top"
+    ],
+    "index": 338
+  },
+  {
+    "name": "Vigilance",
+    "type": "skill",
+    "rarity": "starter",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Gain 8 Block. Enter Calm.",
+    "description_upgraded": "Gain 12 Block. Enter Calm.",
+    "tier": "C",
+    "tags": [
+      "calm",
+      "stance",
+      "dblock"
+    ],
+    "statement": "Vigilance is a very important card for the watcher starting deck. It provides a decent amount of block and is the only source of calm that the watcher starts with. Although it is fairly energy inefficient, I rarely find myself needing to remove this card. I definitely would not remove vigilance unless I had another source of calm that does not exhaust. ",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Empty Body",
+      "Empty Fist",
+      "Empty Mind",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Wave of the Hand",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Turnip",
+      "Pocketwatch",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Panic Button",
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top"
+    ],
+    "index": 339
+  },
+  {
+    "name": "Wallop",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Deal 9 damage. Gain Block equal to unblocked damage dealt.",
+    "description_upgraded": "Deal 12 damage. Gain Block equal to unblocked damage dealt.",
+    "tier": "B",
+    "tags": [],
+    "statement": "Note that overkilling an enemy with wallop will only grant block up to the actual damage dealt.",
+    "super_synergies": [],
+    "synergies": [
+      "J.A.X.",
+      "Madness",
+      "Trip",
+      "Normality",
+      "Crush Joints",
+      "Indignation",
+      "Meditate",
+      "Swivel",
+      "Wish",
+      "Bag of Marbles",
+      "Pen Nib",
+      "Vajra",
+      "Molten Egg",
+      "Shuriken",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Odd Mushroom",
+      "Hand Drill",
+      "Sling of Courage",
+      "Pocketwatch"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top"
+    ],
+    "index": 340
+  },
+  {
+    "name": "Wave of the Hand",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Whenever you gain Block this turn, apply 1 Weak to ALL enemies.",
+    "description_upgraded": "Whenever you gain Block this turn, apply 2 Weak to ALL enemies.",
+    "tier": "C-",
+    "tags": [
+      "weak",
+      "aoe"
+    ],
+    "statement": "",
+    "super_synergies": [],
+    "synergies": [
+      "Defend",
+      "Finesse",
+      "Good Instincts",
+      "Sadistic Nature",
+      "Trip",
+      "Panic Button",
+      "Deceive Reality",
+      "Empty Body",
+      "Evaluate",
+      "Halt",
+      "Just Lucky",
+      "Like Water",
+      "Mental Fortress",
+      "Perseverance",
+      "Protect",
+      "Sanctity",
+      "Spirit Shield",
+      "Swivel",
+      "Talk to the Hand",
+      "Third Eye",
+      "Vigilance",
+      "Wish",
+      "Safety",
+      "Anchor",
+      "Orichalcum",
+      "Ornamental Fan",
+      "Toxic Egg",
+      "Calipers",
+      "Thread and Needle",
+      "Torii",
+      "The Abacus",
+      "Cloak Clasp",
+      "Horn Cleat",
+      "Captain's Wheel"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 341
+  },
+  {
+    "name": "Weave",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 0,
+    "cost_upgraded": 0,
+    "description": "Deal 4 damage. Whenever you Scry, return this from the discard pile to your Hand.",
+    "description_upgraded": "Deal 6 damage. Whenever you Scry, return this from the discard pile to your Hand.",
+    "tier": "C+",
+    "tags": [],
+    "statement": "",
+    "super_synergies": [
+      "Foresight"
+    ],
+    "synergies": [
+      "Panache",
+      "Violence",
+      "Regret",
+      "Cut Through Fate",
+      "Just Lucky",
+      "Third Eye",
+      "Kunai",
+      "Molten Egg",
+      "Ornamental Fan",
+      "Shuriken",
+      "Unceasing Top",
+      "Nunchaku",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Normality",
+      "Signature Move",
+      "Snecko Eye",
+      "Velvet Choker"
+    ],
+    "index": 342
+  },
+  {
+    "name": "Wheel Kick",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Deal 15 damage. Draw 2 cards.",
+    "description_upgraded": "Deal 20 damage. Draw 2 cards.",
+    "tier": "B",
+    "tags": [
+      "draw"
+    ],
+    "statement": "",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Panache",
+      "Chrysalis",
+      "Metamorphosis",
+      "Normality",
+      "Alpha",
+      "Deva Form",
+      "Meditate",
+      "Spirit Shield",
+      "Swivel",
+      "Beta",
+      "Happy Flower",
+      "Pen Nib",
+      "Molten Egg",
+      "Frozen Eye",
+      "Sundial",
+      "Snecko Eye",
+      "The Abacus",
+      "Pocketwatch",
+      "Melange"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top",
+      "Velvet Choker"
+    ],
+    "index": 343
+  },
+  {
+    "name": "Windmill Strike",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Retain. Deal 7 damage. When Retained, increase its damage by 4 this combat.",
+    "description_upgraded": "Retain. Deal 10 damage. When Retained, increase its damage by 5 this combat.",
+    "tier": "A-",
+    "tags": [
+      "retain"
+    ],
+    "statement": "Can serve as a win-condition. The +damage effect is doubled when you take wrath into account (+10 per turn upgraded), or tripled if you're running a divinity deck (+15 per turn upgraded). Its retain effect makes it easy to play on wrath/divinity turns so it makes a great finisher.",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Blasphemy",
+      "Establishment",
+      "Spirit Shield",
+      "Swivel",
+      "Pen Nib",
+      "Molten Egg",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch",
+      "Cloak Clasp",
+      "Strike Dummy"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Signature Move",
+      "Kunai",
+      "Unceasing Top",
+      "Runic Pyramid"
+    ],
+    "index": 344
+  },
+  {
+    "name": "Wish",
+    "type": "skill",
+    "rarity": "rare",
+    "cost": 3,
+    "cost_upgraded": 3,
+    "description": "Choose one: Gain 6 Plated Armor, 3 Strength, or 25 Gold. Exhaust.",
+    "description_upgraded": "Choose one: Gain 8 Plated Armor, 4 Strength, or 30 Gold. Exhaust.",
+    "tier": "B-",
+    "tags": [
+      "gold",
+      "strength",
+      "block",
+      "platedarmor"
+    ],
+    "statement": "not power vs awakened, omni, strength better in watcher (fasting only other), win-more for gold in turtle decks, plated armor in emergencies",
+    "super_synergies": [
+      "Omniscience"
+    ],
+    "synergies": [
+      "Dramatic Entrance",
+      "Madness",
+      "Ritual Dagger",
+      "Forethought",
+      "Panic Button",
+      "Hand of Greed",
+      "Mayhem",
+      "The Bomb",
+      "Normality",
+      "Bowling Bash",
+      "Conclude",
+      "Consecrate",
+      "Flying Sleeves",
+      "Ragnarok",
+      "Tantrum",
+      "Wallop",
+      "Wave of the Hand",
+      "Wish",
+      "Bronze Scales",
+      "Mercury Hourglass",
+      "Runic Dodecahedron",
+      "Smiling Mask",
+      "The Courier",
+      "Toxic Egg",
+      "Calipers",
+      "Old Coin",
+      "Thread and Needle",
+      "Torii",
+      "Snecko Eye",
+      "Tiny House",
+      "Velvet Choker",
+      "Bloody Idol",
+      "Golden Idol",
+      "Membership Card",
+      "Ssserpent Head",
+      "Maw Bank",
+      "Stone Calendar",
+      "Pocketwatch",
+      "Ceramic Fish"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top",
+      "Ectoplasm",
+      "The Boot"
+    ],
+    "index": 345
+  },
+  {
+    "name": "Worship",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 2,
+    "cost_upgraded": 2,
+    "description": "Gain 5 Mantra.",
+    "description_upgraded": "Retain. Gain 5 Mantra.",
+    "tier": "C-",
+    "tags": [
+      "mantra",
+      "stance",
+      "retain"
+    ],
+    "statement": "Although worship is quite an expensive card which does nothing the first time it's played, when it is upgraded it is considerably more effective. By giving this card retain, you are able to enter divinity on whichever turn you see fit. When you enter divinity, the cost of the card will be refunded so this isn't too much of a problem. Furthermore, one or two copies of this card can serve all of your mantra needs. Many of the other mantra cards offer so little that you need to stack several of them in order to be able to reach divinity before the end of a fight. Even if worship is the only mantra card you have, it can still work out. It has a low rating since it is quite a slow card, but if your deck consistently benefits from damage amplification, this card can be worth it in the long run.",
+    "super_synergies": [],
+    "synergies": [
+      "Madness",
+      "Normality",
+      "Brilliance",
+      "Establishment",
+      "Flurry Of Blows",
+      "Mental Fortress",
+      "Spirit Shield",
+      "Toxic Egg",
+      "Snecko Eye",
+      "Velvet Choker",
+      "Pocketwatch",
+      "Cloak Clasp",
+      "Violet Lotus"
+    ],
+    "antisynergies": [
+      "Regret",
+      "Letter Opener",
+      "Unceasing Top",
+      "Runic Pyramid"
+    ],
+    "index": 346
+  },
+  {
+    "name": "Wreath of Flame",
+    "type": "skill",
+    "rarity": "uncommon",
+    "cost": 1,
+    "cost_upgraded": 1,
+    "description": "Your next Attack deals 5 additional damage.",
+    "description_upgraded": "Your next Attack deals 8 additional damage.",
+    "tier": "C-",
+    "tags": [],
+    "statement": "Wreath of flame is quite a difficult card to analyse but it definitely has more uses than it may first seem. Although 5 or 8 additional damage may not seem much, remember that these numbers are doubled or tripled in wrath or divinity stances respectively. Furthermore, any multi hit or aoe attacks benefit greatly from this card. Perhaps the best example of this is ragnarok. Since the effect persists over multiple turns, it is possible to play Wreath of flame and only play an attack on a turn when you have entered wrath or divinity. Be aware that this is difficult to pull off with wrath cards such as tantrum and eruption, since the buff will be consumed before you have entered the stance. Outside of these uses, Wreath of Flame is worse than just drafting a standard attack, since if you draw a hand full of skills you might not be able to finish off an opponent where even a strike would have done the job. ",
+    "super_synergies": [
+      "Ragnarok"
+    ],
+    "synergies": [
+      "Dramatic Entrance",
+      "Blasphemy",
+      "Bowling Bash",
+      "Conclude",
+      "Consecrate",
+      "Crescendo",
+      "Eruption",
+      "Flying Sleeves",
+      "Indignation",
+      "Simmering Fury",
+      "Tantrum",
+      "Toxic Egg"
+    ],
+    "antisynergies": [
+      "Snecko Eye"
+    ],
+    "index": 347
+  }
+]
