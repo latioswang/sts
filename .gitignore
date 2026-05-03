@@ -1,0 +1,4 @@
+# Per-run state — copy from status.template.md at the start of each run
+# (see CLAUDE.md → Bootstrapping a new run). Tracking it would mix
+# transient game state into the KB history.
+status.md
