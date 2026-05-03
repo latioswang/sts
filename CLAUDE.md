@@ -127,11 +127,26 @@ a block plan, prefer the attack/block hybrid.
 starter Defends.
 ```
 
-Cite real `file:line` refs when you can grep them. **Bootstrap caveat:** on
-a fresh run `status.md` has no line numbers to cite — quote the section
-name (`status.md → Deck (starter only)`) and skip the line ref. Same when a
-fact is on-screen rather than in a file: cite it as `(on-screen)` so the
-reader knows it's an observation, not a KB lookup.
+**Citation form.** Prefer `file:line` (e.g. `cards.md:268`); add `§Heading`
+only when the line alone is ambiguous or you want to flag the section for
+the reader. Don't write `cards.md:268 §Inflame` and `relics.md:185 §Pen Nib`
+in the same block — pick one style per recommendation and stay consistent.
+
+**When there's no line to cite:**
+- `status.md` shifts every floor → cite the section (`status.md → Deck`,
+  `status.md → Relics`), not a line.
+- On-screen facts (intents, HP bars, gold counter, cards on offer) →
+  `(on-screen)`. Don't dress observations as KB lookups.
+- Events (most aren't in the KB), ascension modifiers, general STS rules
+  → `(no KB source — general STS knowledge)`. Saying it out loud is the
+  point; don't fabricate a file ref to look rigorous.
+- **Strike and Defend** are deliberately excluded from `cards.md` (see its
+  line 3). Don't cite them; assume 6 dmg / 5 block respectively, or note the
+  upgrade (Strike+ 9, Defend+ 8). No source needed for these two.
+
+**Many-item screens** (shops, big card-reward pools, bosses with 3 relics):
+one line per item is fine — `Pen Nib (180g) — `relics.md:185`, A-tier,
+super-syn Bludgeon`. Don't repeat the full Pick/Why/Sources block per item.
 
 For combat, recommend the **full play sequence** for the turn, in order, and
 show the math as the source:
@@ -145,9 +160,11 @@ End: 0 energy, 5 block.
 Math: incoming 11 (Cultist Dark Strike 6 + Looter Mug 5, both on-screen).
        Block 5 → take 6.
 Sources:
-  - `cards.md:606 §Bash` (8 dmg + 2 Vuln), `cards.md:856 §Pommel Strike`
-    upgraded ("Deal 10 damage. Draw 2 cards"), `cards.md` Defend (5 block)
+  - `cards.md:606 §Bash` (8 dmg + 2 Vuln); `cards.md:856 §Pommel Strike+`
+    ("Deal 10 damage. Draw 2 cards")
+  - `glossary.md:21 §Vulnerable` (×1.5 to attack damage)
   - On-screen intents — Cultist Attack 6, Looter Attack 5
+  - Defend is a starter, not in `cards.md` (see its line 3); 5 block standard
 ```
 
 If you are uncertain, say so and pick the safest option (preserve HP,
