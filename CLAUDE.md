@@ -137,9 +137,10 @@ in the same block — pick one style per recommendation and stay consistent.
   `status.md → Relics`), not a line.
 - On-screen facts (intents, HP bars, gold counter, cards on offer) →
   `(on-screen)`. Don't dress observations as KB lookups.
-- Events (most aren't in the KB), ascension modifiers, general STS rules
-  → `(no KB source — general STS knowledge)`. Saying it out loud is the
-  point; don't fabricate a file ref to look rigorous.
+- Events, potions, ascension modifiers, general STS rules — none of these
+  are in the KB. Use `(no KB source — general STS knowledge)` once at the
+  top of the recommendation rather than tagging every potion line. Saying
+  it out loud is the point; don't fabricate a file ref to look rigorous.
 - **Strike and Defend** are deliberately excluded from `cards.md` (see its
   line 3). Don't cite them; assume 6 dmg / 5 block respectively, or note the
   upgrade (Strike+ 9, Defend+ 8). No source needed for these two.
@@ -147,6 +148,8 @@ in the same block — pick one style per recommendation and stay consistent.
 **Many-item screens** (shops, big card-reward pools, bosses with 3 relics):
 one line per item is fine — `Pen Nib (180g) — `relics.md:185`, A-tier,
 super-syn Bludgeon`. Don't repeat the full Pick/Why/Sources block per item.
+For shops, lead with the **budget arithmetic** (`220g, removal 75g, Pen Nib
+180g → can't afford both; pick Pen Nib`) — the math is the source.
 
 For combat, recommend the **full play sequence** for the turn, in order, and
 show the math as the source:
