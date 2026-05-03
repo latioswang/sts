@@ -4,7 +4,7 @@
 
 14 curse cards. You generally do not want them, but knowing the
 
-cost helps decide whether to take a Curse-related event or relic (Du-Vu Doll, etc.).
+cost helps decide whether to take a Curse-related event or relic (Du-Vu Doll, Blue Candle, etc.).
 
 
 

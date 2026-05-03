@@ -89,7 +89,7 @@ _tags_: exhaust, sacrifice, draw, managain
 
 **★ Super-synergies.** Blood for Blood
 
-**Synergies (58).** Armaments, Dark Embrace, Entrench, Evolve, Exhume, Feed, Feel No Pain, Fire Breathing, Headbutt, Rampage, Reaper, Rupture, Bandage Up, Bite, Panache, Chrysalis, Metamorphosis, Beta, Blood Vial, Happy Flower, Juzu Bracelet, Regal Pillow, Singing Bowl, Strawberry, Bottled Lightning, …
+**Synergies (57).** Armaments, Dark Embrace, Entrench, Evolve, Exhume, Feed, Feel No Pain, Fire Breathing, Headbutt, Rampage, Reaper, Rupture, Bandage Up, Bite, Panache, Chrysalis, Metamorphosis, Beta, Blood Vial, Happy Flower, Juzu Bracelet, Regal Pillow, Singing Bowl, Strawberry, Bottled Lightning, …
 
 **Anti-synergies.** Battle Trance, Seeing Red, Normality, Regret, Runic Dodecahedron, Snecko Eye, Velvet Choker, Mark of the Bloom, Pocketwatch
 
@@ -107,9 +107,9 @@ _tags_: draw, drawblock
 
 **★ Super-synergies.** Seeing Red
 
-**Synergies.** Armaments, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Letter Opener, Toxic Egg, Frozen Eye, Sundial, The Abacus, Melange
+**Synergies.** Armaments, Fire Breathing, Headbutt, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Letter Opener, Toxic Egg, Frozen Eye, Sundial, The Abacus
 
-**Anti-synergies.** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Normality, Regret, Insight, Bag of Preparation, Centennial Puzzle, Gremlin Horn, Unceasing Top, Runic Pyramid, Snecko Eye, Velvet Choker, Pocketwatch, Runic Cube, Ring of the Snake, Ring of the Serpent, Ink Bottle
+**Anti-synergies.** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Normality, Regret, Insight, Bag of Preparation, Centennial Puzzle, Gremlin Horn, Unceasing Top, Runic Pyramid, Snecko Eye, Velvet Choker, Pocketwatch, Runic Cube, Ink Bottle
 
 ### Demon Form `power` `rare` `cost 3` `tier A`
 
@@ -183,7 +183,7 @@ _tags_: draw, dblock
 
 **Notes.** Although Shrug It Off is a common card, it is extremely reliable, offering a decent source of block and draw in a class that doesn't have much of either, making it very valuable. It is a typical to finish a run with three copies of this card. 
 
-**Synergies.** Armaments, Barricade, Body Slam, Fire Breathing, Headbutt, Juggernaut, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Bronze Scales, Happy Flower, Mercury Hourglass, Runic Dodecahedron, Toxic Egg, Calipers, Frozen Eye, Sundial, Thread and Needle, Torii, Turnip, The Abacus, Melange
+**Synergies.** Armaments, Barricade, Body Slam, Fire Breathing, Headbutt, Juggernaut, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Bronze Scales, Happy Flower, Mercury Hourglass, Runic Dodecahedron, Toxic Egg, Calipers, Frozen Eye, Sundial, Thread and Needle, Torii, Turnip, The Abacus
 
 **Anti-synergies.** Battle Trance, Blood for Blood, Panic Button, Regret, Snecko Eye, Velvet Choker
 
@@ -197,7 +197,7 @@ _tags_: weak, vulnerable
 
 **Notes.** Uppercut is a potent debuff card which can be effective against single target encounters. It is difficult to make use of the vulnerable proc on the same turn, and it is therefore recommended that you upgrade this card. Uppercut is a good substitute for Clothesline. 
 
-**Synergies.** Bash, Bloodletting, Double Tap, Dropkick, Reaper, Shockwave, Thunderclap, Uppercut, Madness, Sadistic Nature, Trip, Ritual Dagger, Normality, Bag of Marbles, Pen Nib, Molten Egg, Torii, Snecko Eye, Velvet Choker, Odd Mushroom, Hand Drill, Pocketwatch, Paper Phrog, Champion Belt, Paper Krane
+**Synergies.** Bash, Bloodletting, Double Tap, Dropkick, Reaper, Shockwave, Thunderclap, Uppercut, Madness, Sadistic Nature, Trip, Ritual Dagger, Normality, Bag of Marbles, Pen Nib, Molten Egg, Torii, Snecko Eye, Velvet Choker, Odd Mushroom, Hand Drill, Pocketwatch, Paper Phrog, Champion Belt
 
 **Anti-synergies.** Regret, Kunai, Unceasing Top
 
@@ -229,7 +229,7 @@ _tags_: weak
 
 **Notes.** A solid and consistent source of weak for ironclad that does not exhaust, making it a common pick in many decks. Less effective against enemies with artifact due to its high cost.
 
-**Synergies.** Bloodletting, Double Tap, Madness, Sadistic Nature, Normality, Pen Nib, Molten Egg, Torii, Snecko Eye, Velvet Choker, Pocketwatch, Paper Krane
+**Synergies.** Bloodletting, Double Tap, Madness, Sadistic Nature, Normality, Pen Nib, Molten Egg, Torii, Snecko Eye, Velvet Choker, Pocketwatch
 
 **Anti-synergies.** Regret, Kunai, Unceasing Top
 
@@ -291,7 +291,7 @@ _tags_: weak, vulnerable, exhaust
 
 **★ Super-synergies.** Bottled Lightning
 
-**Synergies (31).** Bash, Bloodletting, Corruption, Dark Embrace, Dropkick, Exhume, Feel No Pain, Rampage, Reaper, Shockwave, Thunderclap, Uppercut, Madness, Sadistic Nature, Trip, Ritual Dagger, Normality, Bag of Marbles, Toxic Egg, Dead Branch, Torii, Snecko Eye, Velvet Choker, Odd Mushroom, Strange Spoon, …
+**Synergies (30).** Bash, Bloodletting, Corruption, Dark Embrace, Dropkick, Exhume, Feel No Pain, Rampage, Reaper, Shockwave, Thunderclap, Uppercut, Madness, Sadistic Nature, Trip, Ritual Dagger, Normality, Bag of Marbles, Toxic Egg, Dead Branch, Torii, Snecko Eye, Velvet Choker, Odd Mushroom, Strange Spoon, …
 
 **Anti-synergies.** Regret, Letter Opener, Unceasing Top
 
@@ -321,7 +321,7 @@ _tags_: aoe, multihit
 
 **★ Super-synergies.** Demon Form, Seeing Red
 
-**Synergies (34).** Bloodletting, Double Tap, Dual Wield, Evolve, Flex, Havoc, Heavy Blade, Inflame, Limit Break, Rage, Rupture, Spot Weakness, Thunderclap, J.A.X., Madness, Panache, Trip, Forethought, Mayhem, Violence, Pen Nib, Vajra, Molten Egg, Ornamental Fan, Shuriken, …
+**Synergies (33).** Bloodletting, Double Tap, Dual Wield, Evolve, Flex, Havoc, Heavy Blade, Inflame, Limit Break, Rage, Rupture, Spot Weakness, Thunderclap, J.A.X., Madness, Panache, Trip, Forethought, Mayhem, Violence, Pen Nib, Vajra, Molten Egg, Ornamental Fan, Shuriken, …
 
 **Anti-synergies.** Normality, Regret, Kunai, Unceasing Top, Snecko Eye, Velvet Choker
 
@@ -347,7 +347,7 @@ _tags_: aoe, multihit
 
 **Notes.** Body Slam can be a game winning card and is a staple in the Barricade deck archetype. At 0 energy this becomes even more effective as it usually allows you to play one more block card before using it. Remember that this card’s damage is also increased by strength so even with 0 block it can do damage.
 
-**Synergies (29).** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Molten Egg, Ornamental Fan, Calipers, Thread and Needle, The Abacus, Self-Forming Clay, …
+**Synergies (27).** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Molten Egg, Ornamental Fan, Calipers, Thread and Needle, The Abacus, Self-Forming Clay, …
 
 **Anti-synergies.** Snecko Eye
 
@@ -405,7 +405,7 @@ _tags_: managain, exhaust
 
 **Synergies.** Dark Embrace, Entrench, Exhume, Feel No Pain, Rampage, Kunai, Ornamental Fan, Shuriken, Toxic Egg, Dead Branch, Unceasing Top, Strange Spoon, Charon's Ashes
 
-**Anti-synergies.** Berserk, Bloodletting, Offering, Seeing Red, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Snecko Eye, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, Pocketwatch, Mark of Pain, Hovering Kite, Pure Water, Holy Water, Violet Lotus, Slaver's Collar
+**Anti-synergies.** Berserk, Bloodletting, Offering, Seeing Red, Miracle, Ancient Tea Set, Art of War, Happy Flower, Lantern, Gremlin Horn, Runic Dodecahedron, Sundial, Ectoplasm, Philosopher's Stone, Snecko Eye, Sozu, Velvet Choker, Busted Crown, Fusion Hammer, Coffee Dripper, Nunchaku, Pocketwatch, Mark of Pain, Slaver's Collar
 
 ## Tier B-
 
@@ -437,7 +437,7 @@ _tags_: draw, sacrifice
 
 **★ Super-synergies.** Blood for Blood, Rupture, Tungsten Rod
 
-**Synergies (46).** Armaments, Dual Wield, Feed, Fire Breathing, Headbutt, Rampage, Reaper, Bandage Up, Bite, Panache, Chrysalis, Metamorphosis, Beta, Blood Vial, Happy Flower, Juzu Bracelet, Regal Pillow, Singing Bowl, Strawberry, Centennial Puzzle, Darkstone Periapt, Frozen Egg, Meat on the Bone, Mummified Hand, Pantograph, …
+**Synergies (45).** Armaments, Dual Wield, Feed, Fire Breathing, Headbutt, Rampage, Reaper, Bandage Up, Bite, Panache, Chrysalis, Metamorphosis, Beta, Blood Vial, Happy Flower, Juzu Bracelet, Regal Pillow, Singing Bowl, Strawberry, Centennial Puzzle, Darkstone Periapt, Frozen Egg, Meat on the Bone, Mummified Hand, Pantograph, …
 
 **Anti-synergies.** Battle Trance, Normality, Regret, Runic Dodecahedron, Snecko Eye, Velvet Choker, Mark of the Bloom
 
@@ -453,7 +453,7 @@ _tags_: pollute
 
 **★ Super-synergies.** Evolve, Fire Breathing
 
-**Synergies.** Dual Wield, Feel No Pain, Rage, Second Wind, Sever Soul, Panache, Purity, Violence, Regret, Kunai, Molten Egg, Ornamental Fan, Shuriken, Nilry's Codex, Nunchaku, Charon's Ashes, Wrist Blade
+**Synergies.** Dual Wield, Feel No Pain, Rage, Second Wind, Sever Soul, Panache, Purity, Violence, Regret, Kunai, Molten Egg, Ornamental Fan, Shuriken, Nilry's Codex, Nunchaku, Charon's Ashes
 
 **Anti-synergies.** Clash, Rampage, Normality, Unceasing Top, Runic Pyramid, Snecko Eye, Velvet Choker
 
@@ -469,7 +469,7 @@ _tags_: draw
 
 **★ Super-synergies.** Havoc
 
-**Synergies.** Armaments, Carnage, Clash, Evolve, Fire Breathing, Ghostly Armor, Headbutt, Rampage, Panache, Apparition, Chrysalis, Metamorphosis, Ascender's Bane, Clumsy, Beta, Happy Flower, Letter Opener, Toxic Egg, Frozen Eye, Sundial, Unceasing Top, The Abacus, Melange
+**Synergies.** Armaments, Carnage, Clash, Evolve, Fire Breathing, Ghostly Armor, Headbutt, Rampage, Panache, Apparition, Chrysalis, Metamorphosis, Ascender's Bane, Clumsy, Beta, Happy Flower, Letter Opener, Toxic Egg, Frozen Eye, Sundial, Unceasing Top, The Abacus
 
 **Anti-synergies.** Battle Trance, Normality, Regret, Snecko Eye, Velvet Choker
 
@@ -487,7 +487,7 @@ _tags_: create
 
 **★ Super-synergies.** Unceasing Top
 
-**Synergies.** Dual Wield, Evolve, Rage, Mind Blast, Panache, Violence, Regret, Kunai, Molten Egg, Ornamental Fan, Shuriken, Nunchaku, Wrist Blade
+**Synergies.** Dual Wield, Evolve, Rage, Mind Blast, Panache, Violence, Regret, Kunai, Molten Egg, Ornamental Fan, Shuriken, Nunchaku
 
 **Anti-synergies.** Rampage, Normality, Snecko Eye, Velvet Choker
 
@@ -503,7 +503,7 @@ _tags_: dblock, upgrade
 
 **★ Super-synergies.** Searing Blow
 
-**Synergies (40).** Barricade, Battle Trance, Body Slam, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Juggernaut, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, Bronze Scales, Centennial Puzzle, Gremlin Horn, …
+**Synergies (38).** Barricade, Battle Trance, Body Slam, Brutality, Burning Pact, Dark Embrace, Evolve, Havoc, Juggernaut, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, Bronze Scales, Centennial Puzzle, Gremlin Horn, …
 
 **Anti-synergies.** Blood for Blood, Apotheosis, Panic Button, Snecko Eye
 
@@ -519,7 +519,7 @@ _tags_: aoe
 
 **★ Super-synergies.** Evolve, Immolate, Power Through, Reckless Charge, Wild Strike, Ascender's Bane, Clumsy, Decay, Doubt, Injury, Necronomicurse, Normality, Pain, Parasite, Regret, Writhe, Shame, Pride, Curse of the Bell, Mark of Pain
 
-**Synergies (33).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Dual Wield, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Trip, Impatience, Violence, Insight, Bag of Preparation, Centennial Puzzle, Frozen Egg, Gremlin Horn, Mummified Hand, Bird-Faced Urn, …
+**Synergies (31).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Dual Wield, Havoc, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Trip, Impatience, Violence, Insight, Bag of Preparation, Centennial Puzzle, Frozen Egg, Gremlin Horn, Mummified Hand, Bird-Faced Urn, …
 
 **Anti-synergies.** Snecko Eye
 
@@ -535,7 +535,7 @@ _tags_: prepare
 
 **★ Super-synergies.** Havoc, Rampage, Searing Blow
 
-**Synergies (28).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, Centennial Puzzle, Gremlin Horn, Molten Egg, Unceasing Top, Runic Pyramid, Pocketwatch, Runic Cube, …
+**Synergies (26).** Battle Trance, Brutality, Burning Pact, Dark Embrace, Evolve, Offering, Pommel Strike, Shrug It Off, Warcry, Deep Breath, Finesse, Flash of Steel, Master of Strategy, Thinking Ahead, Impatience, Violence, Insight, Bag of Preparation, Centennial Puzzle, Gremlin Horn, Molten Egg, Unceasing Top, Runic Pyramid, Pocketwatch, Runic Cube, …
 
 **Anti-synergies.** Snecko Eye
 
@@ -643,7 +643,7 @@ _tags_: pollute, draw
 
 **★ Super-synergies.** Fire Breathing, Reckless Charge, Wild Strike
 
-**Synergies (55).** Anger, Armaments, Bloodletting, Dual Wield, Flex, Headbutt, Intimidate, Offering, Power Through, Rage, Second Wind, Sever Soul, Warcry, Whirlwind, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, Finesse, Flash of Steel, Good Instincts, J.A.X., Jack Of All Trades, …
+**Synergies (54).** Anger, Armaments, Bloodletting, Dual Wield, Flex, Headbutt, Intimidate, Offering, Power Through, Rage, Second Wind, Sever Soul, Warcry, Whirlwind, Bandage Up, Blind, Dark Shackles, Deep Breath, Dramatic Entrance, Enlightenment, Finesse, Flash of Steel, Good Instincts, J.A.X., Jack Of All Trades, …
 
 **Anti-synergies.** Battle Trance, Clash, Rampage, Regret, Unceasing Top, Runic Pyramid, Snecko Eye, Velvet Choker
 
@@ -657,7 +657,7 @@ _tags_: exhaust
 
 **★ Super-synergies.** Feed, Reaper, Apparition, Ritual Dagger
 
-**Synergies (57).** Burning Pact, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Feel No Pain, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Rampage, Second Wind, Seeing Red, Sentinel, Sever Soul, Shockwave, True Grit, Bandage Up, Dark Shackles, …
+**Synergies (55).** Burning Pact, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Feel No Pain, Fiend Fire, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Rampage, Second Wind, Seeing Red, Sentinel, Sever Soul, Shockwave, True Grit, Bandage Up, Dark Shackles, …
 
 **Anti-synergies.** Snecko Eye
 
@@ -713,7 +713,7 @@ _tags_: dblock
 
 **★ Super-synergies.** Barricade, Metallicize, Thread and Needle
 
-**Synergies (33).** Armaments, Dual Wield, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Frozen Egg, Mummified Hand, Ornamental Fan, Bird-Faced Urn, Calipers, Gambling Chip, Snecko Eye, …
+**Synergies (31).** Armaments, Dual Wield, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Frozen Egg, Mummified Hand, Ornamental Fan, Bird-Faced Urn, Calipers, Gambling Chip, Snecko Eye, …
 
 **Anti-synergies.** Regret, Unceasing Top
 
@@ -761,7 +761,7 @@ _tags_: scale
 
 **★ Super-synergies.** Burning Pact, Headbutt
 
-**Synergies (66).** Battle Trance, Brutality, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Fiend Fire, Ghostly Armor, Havoc, Impervious, Intimidate, Limit Break, Offering, Pommel Strike, Pummel, Second Wind, Seeing Red, Sentinel, Sever Soul, Shockwave, Shrug It Off, True Grit, Warcry, Bandage Up, …
+**Synergies (62).** Battle Trance, Brutality, Carnage, Corruption, Dark Embrace, Disarm, Exhume, Fiend Fire, Ghostly Armor, Havoc, Impervious, Intimidate, Limit Break, Offering, Pommel Strike, Pummel, Second Wind, Seeing Red, Sentinel, Sever Soul, Shockwave, Shrug It Off, True Grit, Warcry, Bandage Up, …
 
 **Anti-synergies.** Anger, Dual Wield, Evolve, Immolate, Infernal Blade, Power Through, Reckless Charge, Wild Strike, Jack Of All Trades, Magnetism, Transmutation, Discovery, Chrysalis, Metamorphosis, Pride, Toolbox, Dead Branch, Snecko Eye, Mark of Pain
 
@@ -823,7 +823,7 @@ _tags_: draw, exhaustother
 
 **★ Super-synergies.** Headbutt, Warcry
 
-**Synergies (33).** Armaments, Blood for Blood, Bludgeon, Dark Embrace, Demon Form, Exhume, Feel No Pain, Fire Breathing, Power Through, Rampage, Sentinel, Whirlwind, Panache, Transmutation, Chrysalis, Metamorphosis, Decay, Doubt, Injury, Normality, Pain, Parasite, Writhe, Beta, Omega, …
+**Synergies (32).** Armaments, Blood for Blood, Bludgeon, Dark Embrace, Demon Form, Exhume, Feel No Pain, Fire Breathing, Power Through, Rampage, Sentinel, Whirlwind, Panache, Transmutation, Chrysalis, Metamorphosis, Decay, Doubt, Injury, Normality, Pain, Parasite, Writhe, Beta, Omega, …
 
 **Anti-synergies.** Battle Trance, Regret, Pride, Snecko Eye, Velvet Choker
 
@@ -837,7 +837,7 @@ _tags_: weak, exhaust
 
 **Notes.** Intimidate is a fine early pick, as it gives ironclad a defensive option that does not require any energy. However, the fact that it only applies 1 weak means that drawing it on a turn where the enemy is not attacking makes it a pointless draw, and since it exhausts it’s not reliable for longer fights. You will need an additional source of weak later on.
 
-**Synergies.** Dark Embrace, Evolve, Exhume, Feel No Pain, Rampage, Panache, Sadistic Nature, Regret, Letter Opener, Toxic Egg, Dead Branch, Torii, Unceasing Top, Strange Spoon, Charon's Ashes, Paper Krane
+**Synergies.** Dark Embrace, Evolve, Exhume, Feel No Pain, Rampage, Panache, Sadistic Nature, Regret, Letter Opener, Toxic Egg, Dead Branch, Torii, Unceasing Top, Strange Spoon, Charon's Ashes
 
 **Anti-synergies.** Normality, Snecko Eye, Velvet Choker
 
@@ -863,7 +863,7 @@ _tags_: draw
 
 **Notes.** Pommel strike is a filler card which I would pick in situations where I am lacking draw after having gained at least one form of energy relic. Until you have extra energy, the draw is usually pointless. 
 
-**Synergies.** Armaments, Fire Breathing, Headbutt, Perfected Strike, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Molten Egg, Frozen Eye, Sundial, The Abacus, Melange, Strike Dummy
+**Synergies.** Armaments, Fire Breathing, Headbutt, Perfected Strike, Rampage, Panache, Chrysalis, Metamorphosis, Beta, Happy Flower, Molten Egg, Frozen Eye, Sundial, The Abacus, Strike Dummy
 
 **Anti-synergies.** Battle Trance, Regret, Snecko Eye, Velvet Choker
 
@@ -909,7 +909,7 @@ _tags_: dblock, block
 
 **★ Super-synergies.** Entrench, Impervious, Juggernaut, Panic Button, The Bomb, Thread and Needle
 
-**Synergies (39).** Armaments, Barricade, Body Slam, Corruption, Dual Wield, Feel No Pain, Ghostly Armor, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Safety, Anchor, Bronze Scales, Frozen Egg, Mercury Hourglass, Mummified Hand, Ornamental Fan, Runic Dodecahedron, Bird-Faced Urn, …
+**Synergies (37).** Armaments, Barricade, Body Slam, Corruption, Dual Wield, Feel No Pain, Ghostly Armor, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Safety, Anchor, Bronze Scales, Frozen Egg, Mercury Hourglass, Mummified Hand, Ornamental Fan, Runic Dodecahedron, Bird-Faced Urn, …
 
 **Anti-synergies.** Blood for Blood, Regret, Orichalcum, Unceasing Top
 
@@ -925,7 +925,7 @@ _tags_: dblock, block
 
 **Synergies (35).** Double Tap, Feed, Havoc, Reaper, Bandage Up, Bite, Madness, Forethought, Mayhem, Normality, Blood Vial, Pen Nib, Regal Pillow, Singing Bowl, Strawberry, Darkstone Periapt, Meat on the Bone, Molten Egg, Pantograph, Pear, Bird-Faced Urn, Mango, Eternal Feather, Lizard Tail, Snecko Eye, …
 
-**Anti-synergies.** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Kunai, Ornamental Fan, Calipers, Thread and Needle, Unceasing Top, The Abacus, Self-Forming Clay, Tough Bandages, Cloak Clasp, Horn Cleat, Captain's Wheel
+**Anti-synergies.** Armaments, Barricade, Entrench, Feel No Pain, Ghostly Armor, Impervious, Iron Wave, Metallicize, Power Through, Rage, Second Wind, Shrug It Off, True Grit, Finesse, Good Instincts, Panic Button, Safety, Anchor, Orichalcum, Kunai, Ornamental Fan, Calipers, Thread and Needle, Unceasing Top, The Abacus, Self-Forming Clay, Horn Cleat, Captain's Wheel
 
 ### Dark Embrace `power` `uncommon` `cost 2→1` `tier D+`
 
@@ -937,7 +937,7 @@ _tags_: draw
 
 **★ Super-synergies.** Corruption, Fiend Fire, Second Wind, Sever Soul
 
-**Synergies (63).** Armaments, Burning Pact, Carnage, Disarm, Dual Wield, Exhume, Fire Breathing, Ghostly Armor, Havoc, Headbutt, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Rampage, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, J.A.X., …
+**Synergies (60).** Armaments, Burning Pact, Carnage, Disarm, Dual Wield, Exhume, Fire Breathing, Ghostly Armor, Havoc, Headbutt, Impervious, Infernal Blade, Intimidate, Limit Break, Offering, Pummel, Rampage, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, J.A.X., …
 
 **Anti-synergies.** Battle Trance, Regret, Velvet Choker
 
@@ -1015,7 +1015,7 @@ _tags_: draw, exhaustother
 
 **★ Super-synergies.** Corruption, Rampage
 
-**Synergies (27).** Armaments, Dark Embrace, Exhume, Feel No Pain, Fire Breathing, Headbutt, Power Through, Sentinel, Panache, Chrysalis, Metamorphosis, Decay, Doubt, Injury, Normality, Pain, Parasite, Writhe, Beta, Happy Flower, Toxic Egg, Dead Branch, Frozen Eye, Sundial, The Abacus, …
+**Synergies (26).** Armaments, Dark Embrace, Exhume, Feel No Pain, Fire Breathing, Headbutt, Power Through, Sentinel, Panache, Chrysalis, Metamorphosis, Decay, Doubt, Injury, Normality, Pain, Parasite, Writhe, Beta, Happy Flower, Toxic Egg, Dead Branch, Frozen Eye, Sundial, The Abacus, …
 
 **Anti-synergies.** Battle Trance, Regret, Pride, Snecko Eye, Velvet Choker
 
@@ -1031,7 +1031,7 @@ _tags_: block
 
 **★ Super-synergies.** Corruption, Fiend Fire, Second Wind, Sever Soul
 
-**Synergies (66).** Barricade, Body Slam, Burning Pact, Carnage, Disarm, Dual Wield, Exhume, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Juggernaut, Limit Break, Offering, Pummel, Reckless Charge, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, J.A.X., …
+**Synergies (64).** Barricade, Body Slam, Burning Pact, Carnage, Disarm, Dual Wield, Exhume, Ghostly Armor, Havoc, Impervious, Infernal Blade, Intimidate, Juggernaut, Limit Break, Offering, Pummel, Reckless Charge, Seeing Red, Sentinel, Shockwave, True Grit, Bandage Up, Dark Shackles, Dramatic Entrance, J.A.X., …
 
 **Anti-synergies.** Blood for Blood, Snecko Eye
 
@@ -1077,7 +1077,7 @@ _tags_: exhaust, strength
 
 **★ Super-synergies.** Second Wind, Sever Soul, Blue Candle, Medical Kit
 
-**Synergies.** Dual Wield, Flex, Rage, Warcry, Panache, Thinking Ahead, Violence, Kunai, Molten Egg, Ornamental Fan, Shuriken, Unceasing Top, Nunchaku, Wrist Blade
+**Synergies.** Dual Wield, Flex, Rage, Warcry, Panache, Thinking Ahead, Violence, Kunai, Molten Egg, Ornamental Fan, Shuriken, Unceasing Top, Nunchaku
 
 **Anti-synergies.** Evolve, Immolate, Power Through, Reckless Charge, Wild Strike, Ascender's Bane, Clumsy, Decay, Doubt, Injury, Necronomicurse, Normality, Pain, Parasite, Regret, Writhe, Shame, Pride, Curse of the Bell, Snecko Eye, Velvet Choker, Mark of Pain
 
@@ -1107,7 +1107,7 @@ _tags_: block
 
 **★ Super-synergies.** Barricade
 
-**Synergies (38).** Berserk, Bloodletting, Body Slam, Impervious, Juggernaut, Offering, Seeing Red, Panic Button, The Bomb, Miracle, Ancient Tea Set, Art of War, Bronze Scales, Happy Flower, Lantern, Gremlin Horn, Mercury Hourglass, Runic Dodecahedron, Toxic Egg, Calipers, Sundial, Thread and Needle, Torii, Ectoplasm, Philosopher's Stone, …
+**Synergies (34).** Berserk, Bloodletting, Body Slam, Impervious, Juggernaut, Offering, Seeing Red, Panic Button, The Bomb, Miracle, Ancient Tea Set, Art of War, Bronze Scales, Happy Flower, Lantern, Gremlin Horn, Mercury Hourglass, Runic Dodecahedron, Toxic Egg, Calipers, Sundial, Thread and Needle, Torii, Ectoplasm, Philosopher's Stone, …
 
 **Anti-synergies.** Blood for Blood
 
