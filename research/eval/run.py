@@ -73,8 +73,12 @@ def main():
     for kv in a.param:
         cmd += ["--param", kv]
     t0 = time.time()
-    with open(out, "w") as f:
+    tmpdir = os.path.join(ROOT, "runs", ".inprogress")  # gitignored; moved into place when complete
+    os.makedirs(tmpdir, exist_ok=True)
+    tmp = os.path.join(tmpdir, os.path.basename(out))
+    with open(tmp, "w") as f:
         subprocess.run(cmd, stdout=f, check=True)
+    os.replace(tmp, out)
     allrows = load(out)
     rows = ok(allrows)
     crashes = len(allrows) - len(rows)
