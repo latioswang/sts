@@ -25,3 +25,10 @@ f68ad01	val.a0	300	0	0.170	35.29	0.8620	-0.0559	0.035	discard	c_c15b: exploratio
 72b476b	val.a0	300	0	0.173	35.83	0.8759	-0.0419	0.067	discard	realloc: same total compute: 400 sims, bosses x2.25 [sims=400 boss_mult=2.25]
 a11c955	val.a0	300	0	0.183	36.09	0.8910	-0.0268	0.075	discard	aoe4: AoE bonus 4 [aoe_bonus=4]
 69006bf	val.a0	281	16	0.096	30.38	0.6918	-0.2047	0.000	diag	DIAG_cheatcombat: DIAGNOSTIC ONLY: best policy + CHEATING lightspeed combat search @500 (bossx3)
+5ba5edc	val.a0	300	0	0.203	35.98	0.9088	-0.0091	0.388	discard	neow1: Neow option ranking (boss relic excluded) [neow_pol=1]
+5ba5edc	val.a0	300	0	0.203	36.11	0.9114	-0.0065	0.389	discard	elite045: fight elites down to 45% hp [elite_hp=0.45]
+5ba5edc	val.a0	300	0	0.210	36.36	0.9229	+0.0051	0.580	discard	welite3: elite path value 3 when healthy [w_elite_hi=3]
+5ba5edc	val.a0	300	0	0.230	37.00	0.9556	+0.0377	0.981	keep	scal15: scaling-card bonus 1.5 when <2 in deck [scaling_bonus=1.5]
+5ba5edc	val.a0	300	0	0.203	36.40	0.9171	-0.0385	0.079	discard	blk15: block-card bonus 1.5 when <3 in deck [block_bonus=1.5]
+5ba5edc	val.a0	300	0	0.183	35.95	0.8882	-0.0674	0.012	discard	rbw3: rollout: skills x3 when incoming dmg > block [roll_block_w=3]
+5ba5edc	val.a0	300	0	0.160	35.82	0.8624	-0.0932	0.002	discard	raw2: rollout: attacks x2 when no incoming dmg [roll_atk_w=2]

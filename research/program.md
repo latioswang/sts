@@ -27,25 +27,30 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 
 ### Current state (update after every batch)
 
-- Best: `aoe2` — val win 20.3%, floor 36.4, score 0.918 (`research/best_params.txt`).
-- Losses by floor (boss_kb run): Act 1 boss 25, Act 2 hallway/elites 72,
-  **Act 2 boss 87**, Act 3 25, Act 3 boss 29 → **Act 2 is the bottleneck**.
-- Learned so far: rollout quality is the biggest lever (END_TURN weight 1→0.05
-  was worth +0.25 score). Elites are worth fighting (stricter avoidance hurt).
-  Tree reuse, exploration changes, rollout cutoffs and play-order bias all hurt.
+- Best: `scal15` — val win 23.0%, floor 37.0, score 0.956 (`research/best_params.txt`).
+- Keep chain: legacy policy 3.0% → END_TURN rollout w 0.2 (10%) → 0.05 (14%)
+  → [Runic Dome guardrail: 11%] → events (13.7%) → KB boss relics (18.3%)
+  → AoE bonus (20.3%) → scaling bonus (23.0%).
+- Diagnostic: lightspeed's CHEATING combat + our policy = 9.6% — our leak-free
+  search already beats it, so the "combat ceiling" probe is uninformative.
+- Learned: random rollouts beat every "smart" rollout bias tried (play-order,
+  block-aware, attack-bias). Deck-building additions (AoE, scaling) work;
+  block bonus, card thresholds, Neow ranking, elite tweaks ≈ neutral/negative.
 
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
-1. Diagnostic (never a result): cheating combat + best out-of-combat policy →
+1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)
    measures how much a better combat search could still gain vs strategy work.
-2. `neow_pol=1` (Neow ranking; BOSS_RELIC excluded by guardrail).
-3. Elites more aggressive: `elite_hp=0.45`; `w_elite_hi=3`.
-4. Deck needs: `scaling_bonus=1.5`; `block_bonus=1.5`.
+2. ~~`neow_pol=1` (Neow ranking; BOSS_RELIC excluded by guardrail).~~ (tried)
+3. ~~Elites more aggressive: `elite_hp=0.45`; `w_elite_hi=3`.~~ (tried)
+4. ~~Deck needs: `scaling_bonus=1.5`; `block_bonus=1.5`.~~ (tried)
 5. `aoe_bonus=3` (if aoe4 fails); `card_size_pen` 0 / 0.2; `shop_card_thresh=6`.
 6. Rest: `rest_heal_frac` 0.4 / 0.6. Potions: `potion_v` 2 / 8. Value: `hp_w=2`.
-7. Rollout: block-aware heuristic rollout (code): play block when incoming
+7. ~~Rollout: block-aware heuristic rollout (code): play block when incoming~~ (tried)
    intent damage > block, else attacks. Then `end_turn_w=0.02`.
 8. Upgrade priority beyond KB tier (Bash, key powers first).
+10. scaling_bonus 3 / scaling_want 3; upgrade scaling cards first.
+11. card_size_pen 0 / 0.2; shop_card_thresh 6; rest_heal_frac 0.4/0.6; potion_v 2/8; hp_w 2.
 9. Budget scaling `sims=1000` — informational only, never "keep" (compute rule).
 
 ### Resume procedure (after context loss / new session)
