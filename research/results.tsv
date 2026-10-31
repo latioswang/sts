@@ -24,3 +24,4 @@ f68ad01	val.a0	300	0	0.170	35.29	0.8620	-0.0559	0.035	discard	c_c15b: exploratio
 72b476b	val.a0	300	0	0.197	35.73	0.8973	-0.0206	0.254	discard	ct6: card threshold 6 (take fewer) [card_thresh=6]
 72b476b	val.a0	300	0	0.173	35.83	0.8759	-0.0419	0.067	discard	realloc: same total compute: 400 sims, bosses x2.25 [sims=400 boss_mult=2.25]
 a11c955	val.a0	300	0	0.183	36.09	0.8910	-0.0268	0.075	discard	aoe4: AoE bonus 4 [aoe_bonus=4]
+69006bf	val.a0	281	16	0.096	30.38	0.6918	-0.2047	0.000	diag	DIAG_cheatcombat: DIAGNOSTIC ONLY: best policy + CHEATING lightspeed combat search @500 (bossx3)
