@@ -23,6 +23,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     sp.rolloutTurns = static_cast<int>(getp(P, "rollout_turns", 99));
     sp.endTurnRolloutWeight = getp(P, "end_turn_w", 1.0);
     sp.potionRolloutWeight = getp(P, "potion_roll_w", 1.0);
+    sp.rolloutOrderK = getp(P, "roll_order_k", 0.0);
     sp.hpWeight = getp(P, "hp_w", 1.0);
     sp.potionValue = getp(P, "potion_v", 4.0);
     sp.winBonus = getp(P, "win_bonus", 35.0);

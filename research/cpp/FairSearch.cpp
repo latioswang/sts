@@ -1,6 +1,7 @@
 #include "FairSearch.h"
 
 #include "sim/search/BattleScumSearcher2.h"
+#include "sim/search/ExpertKnowledge.h"
 
 #include <algorithm>
 #include <cmath>
@@ -162,6 +163,12 @@ double FairSearcher::rollout(BattleContext &bc) {
             switch (a.getActionType()) {
                 case search::ActionType::END_TURN: return p.endTurnRolloutWeight;
                 case search::ActionType::POTION: return p.potionRolloutWeight;
+                case search::ActionType::CARD:
+                    if (p.rolloutOrderK != 0.0) {
+                        const auto id = bc.cards.hand[a.getSourceIdx()].getId();
+                        return std::exp(-p.rolloutOrderK * search::Expert::getPlayOrdering(id) / 10.0);
+                    }
+                    return 1.0;
                 default: return 1.0;
             }
         };

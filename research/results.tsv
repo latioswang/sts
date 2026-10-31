@@ -12,3 +12,9 @@ c17f587	val.a0	300	0	0.140	33.95	0.8057	+0.0682	0.997	keep	c_etw005: rollout END
 c17f587	val.a0	300	0	0.147	34.43	0.8217	+0.0160	0.720	discard	c_prw02: rollout potion weight 0.2 [potion_roll_w=0.2]
 c17f587	val.a0	300	0	0.147	34.01	0.8135	+0.0078	0.667	discard	r_boss09: heal pre-boss if hp<90% [rest_boss_frac=0.9]
 c17f587	val.a0	300	0	0.140	33.92	0.8051	-0.0006	0.474	discard	c_pvb0: boss potions worth 0 (use freely) [potion_v_boss=0]
+f68ad01	val.a0	300	0	0.110	33.76	0.7719	-0.0338	0.001	best	rebase1: re-baseline of c_etw005 params on new binary (Runic Dome never taken)
+f68ad01	val.a0	300	0	0.137	34.84	0.8198	+0.0479	0.983	keep	ev2: event policy on honest baseline [ev_pol=1]
+f68ad01	val.a0	300	0	0.183	35.14	0.8724	+0.0525	0.988	keep	boss_kb: KB-tier boss relic choice [boss_pol=1]
+f68ad01	val.a0	300	0	0.167	35.54	0.8635	-0.0088	0.372	discard	reuse1: tree reuse across decisions [tree_reuse=1]
+f68ad01	val.a0	300	0	0.203	36.44	0.9178	+0.0455	0.990	keep	aoe2: AoE bonus +2 when deck has none [aoe_bonus=2]
+f68ad01	val.a0	300	0	0.170	35.29	0.8620	-0.0559	0.035	discard	c_c15b: exploration 1.5 retest [c=1.5]
