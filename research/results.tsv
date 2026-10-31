@@ -18,3 +18,8 @@ f68ad01	val.a0	300	0	0.183	35.14	0.8724	+0.0525	0.988	keep	boss_kb: KB-tier boss
 f68ad01	val.a0	300	0	0.167	35.54	0.8635	-0.0088	0.372	discard	reuse1: tree reuse across decisions [tree_reuse=1]
 f68ad01	val.a0	300	0	0.203	36.44	0.9178	+0.0455	0.990	keep	aoe2: AoE bonus +2 when deck has none [aoe_bonus=2]
 f68ad01	val.a0	300	0	0.170	35.29	0.8620	-0.0559	0.035	discard	c_c15b: exploration 1.5 retest [c=1.5]
+72b476b	val.a0	300	0	0.013	22.93	0.4630	-0.4548	0.000	discard	rok1: rollout bias toward expert play order k=1 [roll_order_k=1]
+72b476b	val.a0	300	0	0.160	36.33	0.8724	-0.0454	0.054	discard	elite08: fight elites only at hp>=80% [elite_hp=0.8]
+72b476b	val.a0	300	0	0.157	36.36	0.8696	-0.0482	0.040	discard	ct4: card threshold 4 (take more cards) [card_thresh=4]
+72b476b	val.a0	300	0	0.197	35.73	0.8973	-0.0206	0.254	discard	ct6: card threshold 6 (take fewer) [card_thresh=6]
+72b476b	val.a0	300	0	0.173	35.83	0.8759	-0.0419	0.067	discard	realloc: same total compute: 400 sims, bosses x2.25 [sims=400 boss_mult=2.25]

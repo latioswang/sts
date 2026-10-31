@@ -113,6 +113,26 @@ double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     if (isAoe(c.getId()) && aoe == 0 && gc.act <= 2) v += getp(P, "aoe_bonus", 0.0);
     v -= getp(P, "dup_pen", 0.0) * dups;
     if (c.getType() == CardType::POWER) v += getp(P, "power_bonus", 0.0);
+    auto isScaling = [](CardId id) {
+        switch (id) {
+            case CardId::INFLAME: case CardId::DEMON_FORM: case CardId::SPOT_WEAKNESS:
+            case CardId::LIMIT_BREAK: case CardId::RUPTURE: case CardId::FEED: case CardId::BARRICADE:
+            case CardId::FEEL_NO_PAIN: case CardId::METALLICIZE: case CardId::JUGGERNAUT: return true;
+            default: return false;
+        }
+    };
+    auto isBlock = [](CardId id) {
+        switch (id) {
+            case CardId::SHRUG_IT_OFF: case CardId::FLAME_BARRIER: case CardId::IMPERVIOUS:
+            case CardId::POWER_THROUGH: case CardId::TRUE_GRIT: case CardId::GHOSTLY_ARMOR:
+            case CardId::ENTRENCH: case CardId::SECOND_WIND: case CardId::IRON_WAVE: return true;
+            default: return false;
+        }
+    };
+    int scal = 0, blk = 0;
+    for (const auto &d : gc.deck.cards) { scal += isScaling(d.getId()); blk += isBlock(d.getId()); }
+    if (isScaling(c.getId()) && scal < getp(P, "scaling_want", 2)) v += getp(P, "scaling_bonus", 0.0);
+    if (isBlock(c.getId()) && blk < getp(P, "block_want", 3)) v += getp(P, "block_bonus", 0.0);
     return v;
 }
 
@@ -142,6 +162,41 @@ int FairAgent::bossRelicChoice(const GameContext &gc) const {
         if (r == RelicId::RUNIC_DOME) continue;
         const double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
                                                     : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        if (v > bestV) { bestV = v; best = i; }
+    }
+    return best;
+}
+
+// ---------------- Neow ----------------
+int FairAgent::neowChoice(const GameContext &gc) const {
+    using B = Neow::Bonus; using D = Neow::Drawback;
+    auto bonus = [](B b) {
+        switch (b) {
+            case B::THREE_CARDS: return 3.0; case B::ONE_RANDOM_RARE_CARD: return 3.0;
+            case B::REMOVE_CARD: return 4.0; case B::UPGRADE_CARD: return 3.0;
+            case B::TRANSFORM_CARD: return 3.0; case B::RANDOM_COLORLESS: return 2.0;
+            case B::THREE_SMALL_POTIONS: return 3.0; case B::RANDOM_COMMON_RELIC: return 4.0;
+            case B::TEN_PERCENT_HP_BONUS: return 3.0; case B::THREE_ENEMY_KILL: return 4.0;
+            case B::HUNDRED_GOLD: return 2.5; case B::RANDOM_COLORLESS_2: return 3.5;
+            case B::REMOVE_TWO: return 6.0; case B::ONE_RARE_RELIC: return 7.0;
+            case B::THREE_RARE_CARDS: return 6.0; case B::TWO_FIFTY_GOLD: return 6.0;
+            case B::TRANSFORM_TWO_CARDS: return 5.0; case B::TWENTY_PERCENT_HP_BONUS: return 5.5;
+            // GUARDRAIL: random boss relic could be Runic Dome (intent-hiding leak) -> never.
+            case B::BOSS_RELIC: return -100.0;
+            default: return 0.0;
+        }
+    };
+    auto drawback = [](D d) {
+        switch (d) {
+            case D::TEN_PERCENT_HP_LOSS: return -1.5; case D::NO_GOLD: return -1.0;
+            case D::CURSE: return -4.0; case D::PERCENT_DAMAGE: return -1.0;
+            case D::LOSE_STARTER_RELIC: return -2.0; default: return 0.0;
+        }
+    };
+    int best = 0; double bestV = -1e18;
+    for (int i = 0; i < 4; ++i) {
+        const auto &o = gc.info.neowRewards[i];
+        const double v = bonus(o.r) + drawback(o.d);
         if (v > bestV) { bestV = v; best = i; }
     }
     return best;
@@ -284,6 +339,10 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             search::GameAction(bossRelicChoice(gc)).execute(gc);
             return;
         case ScreenState::EVENT_SCREEN:
+            if (gc.curEvent == Event::NEOW && getp(P, "neow_pol", 0) > 0) {
+                search::GameAction(neowChoice(gc)).execute(gc);
+                return;
+            }
             if (getp(P, "ev_pol", 0) > 0) {
                 const int idx = eventChoice(gc);
                 if (idx >= 0) { search::GameAction(idx).execute(gc); return; }
