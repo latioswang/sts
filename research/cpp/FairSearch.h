@@ -26,6 +26,8 @@ struct SearchParams {
     double exploration = 0.7;    // UCB c on [0,1]-normalised values
     int rolloutTurns = 99;       // stop random rollout after this many extra turns, then evaluate heuristically
     double endTurnRolloutWeight = 1.0;  // relative weight of END_TURN in random rollout (1 = uniform)
+    double rollBlockW = 1.0;   // rollout weight of skills when visible incoming damage > block
+    double rollAtkW = 1.0;     // rollout weight of attacks when no damage incoming
     double rolloutOrderK = 0.0;         // bias rollout card choice toward lightspeed expert play order
     double potionRolloutWeight = 1.0;   // relative weight of potion actions in random rollout
     double hpWeight = 1.0;       // value per remaining HP on victory

@@ -159,11 +159,28 @@ double FairSearcher::rollout(BattleContext &bc) {
         if (acts.empty()) break;
         // weighted pick: END_TURN has weight endTurnRolloutWeight, others 1
         double total = 0;
+        // block-aware heuristic: visible intent damage vs current block
+        int need = 0;
+        if (p.rollBlockW != 1.0 || p.rollAtkW != 1.0) {
+            int incoming = 0;
+            for (int i = 0; i < bc.monsters.monsterCount; ++i) {
+                const auto &m = bc.monsters.arr[i];
+                if (m.isDeadOrEscaped() || m.isHalfDead()) continue;
+                auto d = m.getMoveBaseDamage(bc);
+                incoming += m.calculateDamageToPlayer(bc, d.damage) * d.attackCount;
+            }
+            need = incoming - bc.player.block;
+        }
         auto wOf = [&](const search::Action &a) {
             switch (a.getActionType()) {
                 case search::ActionType::END_TURN: return p.endTurnRolloutWeight;
                 case search::ActionType::POTION: return p.potionRolloutWeight;
                 case search::ActionType::CARD:
+                    if (need > 0 || p.rollAtkW != 1.0) {
+                        const auto t = bc.cards.hand[a.getSourceIdx()].getType();
+                        if (need > 0 && t == CardType::SKILL) return p.rollBlockW;
+                        if (need <= 0 && t == CardType::ATTACK) return p.rollAtkW;
+                    }
                     if (p.rolloutOrderK != 0.0) {
                         const auto id = bc.cards.hand[a.getSourceIdx()].getId();
                         return std::exp(-p.rolloutOrderK * search::Expert::getPlayOrdering(id) / 10.0);
