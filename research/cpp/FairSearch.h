@@ -41,9 +41,12 @@ class FairSearcher {
 public:
     FairSearcher(const sts::BattleContext &root, const SearchParams &p, std::uint64_t searchSeed);
     sts::search::Action search();
+    void setRoot(const sts::BattleContext &bc);
+    // after executing `taken` in the real game: keep matching subtree (tree reuse) or reset
+    bool advance(sts::search::Action taken, const sts::BattleContext &after);
 
     // stats for logging
-    std::int64_t rootVisits() const { return nodes.empty() ? 0 : nodes[0].visits; }
+    std::int64_t rootVisits() const { return nodes.empty() ? 0 : nodes[rootIdx].visits; }
 
 private:
     struct Edge {
@@ -57,7 +60,8 @@ private:
         std::vector<Edge> edges;
     };
 
-    const sts::BattleContext &root;
+    const sts::BattleContext *rootState;
+    int rootIdx = 0;
     SearchParams p;
     std::mt19937_64 rng;
     std::vector<Node> nodes;

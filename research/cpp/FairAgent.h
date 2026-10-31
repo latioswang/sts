@@ -45,6 +45,8 @@ private:
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);
     int eventChoice(const sts::GameContext &gc) const;
+    int bossRelicChoice(const sts::GameContext &gc) const;
+    double addValue(const sts::GameContext &gc, const sts::Card &c) const;
 };
 
 }  // namespace fair

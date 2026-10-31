@@ -96,8 +96,24 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc) {
 }
 
 FairSearcher::FairSearcher(const BattleContext &root, const SearchParams &p, std::uint64_t searchSeed)
-    : root(root), p(p), rng(searchSeed) {
+    : rootState(&root), p(p), rng(searchSeed) {
     nodes.reserve(p.simulations * 2 + 4);
+}
+
+void FairSearcher::setRoot(const BattleContext &bc) { rootState = &bc; }
+
+bool FairSearcher::advance(search::Action taken, const BattleContext &after) {
+    // keep the subtree reached by the REAL observation (closed-loop, no leak)
+    if (!nodes.empty() && after.outcome == Outcome::UNDECIDED && nodes.size() < 3000000) {
+        for (auto &e : nodes[rootIdx].edges) {
+            if (e.action.bits != taken.bits) continue;
+            auto it = e.children.find(observationHash(after));
+            if (it != e.children.end()) { rootIdx = it->second; return true; }
+        }
+    }
+    nodes.clear();
+    rootIdx = 0;
+    return false;
 }
 
 int FairSearcher::newNode(const BattleContext &bc) {
@@ -180,11 +196,11 @@ int FairSearcher::select(const Node &node) const {
 }
 
 void FairSearcher::simulate() {
-    BattleContext bc = root;
+    BattleContext bc = *rootState;
     determinise(bc, rng);
 
     std::vector<std::pair<int,int>> path;  // (node, edge)
-    int cur = 0;
+    int cur = rootIdx;
     double value;
     while (true) {
         if (bc.outcome != Outcome::UNDECIDED) { value = evaluate(bc); break; }
@@ -214,21 +230,20 @@ void FairSearcher::simulate() {
 
     vmin = std::min(vmin, value);
     vmax = std::max(vmax, value);
-    nodes[0].visits += 1;
+    nodes[rootIdx].visits += 1;
     for (auto &[ni, ei] : path) {
         auto &e = nodes[ni].edges[ei];
         e.n += 1;
         e.w += value;
-        if (ni != 0) nodes[ni].visits += 1;
+        if (ni != rootIdx) nodes[ni].visits += 1;
     }
 }
 
 search::Action FairSearcher::search() {
-    nodes.clear();
-    newNode(root);
-    if (nodes[0].edges.size() == 1) return nodes[0].edges[0].action;
+    if (nodes.empty()) { newNode(*rootState); rootIdx = 0; }
+    if (nodes[rootIdx].edges.size() == 1) return nodes[rootIdx].edges[0].action;
     for (int i = 0; i < p.simulations; ++i) simulate();
-    const auto &edges = nodes[0].edges;
+    const auto &edges = nodes[rootIdx].edges;
     int best = 0;
     for (int i = 1; i < static_cast<int>(edges.size()); ++i) {
         if (edges[i].n > edges[best].n) best = i;

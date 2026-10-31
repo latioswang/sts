@@ -7,3 +7,8 @@ e9630ee	val.a0	300	0	0.100	32.51	0.7375	+0.1866	1.000	keep	c_etw02: rollout END_
 e9630ee	val.a0	300	0	0.027	22.76	0.4729	-0.0780	0.000	discard	c_rt3: rollout cutoff 3 turns + heuristic [rollout_turns=3]
 e9630ee	val.a0	300	0	0.100	32.38	0.7348	-0.0026	0.452	discard	c_c03: exploration 0.3 [c=0.3]
 e9630ee	val.a0	300	0	0.113	32.73	0.7550	+0.0176	0.764	discard	c_c15: exploration 1.5 [c=1.5]
+c17f587	val.a0	300	0	0.127	33.56	0.7847	+0.0473	0.976	keep*	ev1: event policy (subagent-written rules) [ev_pol=1]
+c17f587	val.a0	300	0	0.140	33.95	0.8057	+0.0682	0.997	keep	c_etw005: rollout END_TURN weight 0.05 [end_turn_w=0.05]
+c17f587	val.a0	300	0	0.147	34.43	0.8217	+0.0160	0.720	discard	c_prw02: rollout potion weight 0.2 [potion_roll_w=0.2]
+c17f587	val.a0	300	0	0.147	34.01	0.8135	+0.0078	0.667	discard	r_boss09: heal pre-boss if hp<90% [rest_boss_frac=0.9]
+c17f587	val.a0	300	0	0.140	33.92	0.8051	-0.0006	0.474	discard	c_pvb0: boss potions worth 0 (use freely) [potion_v_boss=0]

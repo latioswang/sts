@@ -15,3 +15,17 @@ for c in cards:
     out.append(f'case CardId::{n}: return {TIER[c["tier"]]};  // {c["tier"]}')
 open(os.path.join(ROOT, "research/cpp/kb_card_values.inc"), "w").write("\n".join(out) + "\n")
 print(len(out), "cards")
+
+# ---- boss relics ----
+relics = json.load(open(os.path.join(ROOT, "data/ironclad_relics.json")))
+renum = set(re.findall(r"^\s+([A-Z0-9_]+),", open("/home/user/sts_lightspeed/include/constants/Relics.h").read(), re.M))
+rout = []
+for r in relics:
+    if r.get("rarity", "").lower() != "boss":
+        continue
+    n = re.sub(r"[^A-Z0-9]+", "_", r["name"].upper().replace("'", "")).strip("_")
+    if n not in renum:
+        print("MISSING relic", r["name"], n); continue
+    rout.append(f'case RelicId::{n}: return {TIER[r["tier"]]};  // {r["tier"]}')
+open(os.path.join(ROOT, "research/cpp/kb_boss_relic_values.inc"), "w").write("\n".join(rout) + "\n")
+print(len(rout), "boss relics")

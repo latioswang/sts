@@ -3,7 +3,9 @@
 #include "combat/BattleContext.h"
 #include "constants/MonsterEncounters.h"
 #include "sim/search/GameAction.h"
+#include "sim/search/ExpertKnowledge.h"
 #include <cstdlib>
+#include <memory>
 #include <iostream>
 
 using namespace sts;
@@ -55,13 +57,17 @@ void FairAgent::playBattle(GameContext &gc) {
     bc.init(gc);
     ++stats.battles;
     int steps = 0;
+    const bool reuse = getp(P, "tree_reuse", 0) > 0;
+    std::unique_ptr<FairSearcher> searcher;
     while (bc.outcome == Outcome::UNDECIDED) {
         if (++steps > 3000) {  // safety: pathological loop
             stats.aborted = true;
             bc.outcome = Outcome::PLAYER_LOSS;
             break;
         }
-        FairSearcher s(bc, searchParamsFor(bc), rng());
+        if (!reuse || !searcher) searcher = std::make_unique<FairSearcher>(bc, searchParamsFor(bc), rng());
+        FairSearcher &s = *searcher;
+        s.setRoot(bc);
         auto a = s.search();
         ++stats.combatDecisions;
         static const bool dbg = std::getenv("FAIR_DEBUG") != nullptr;
@@ -70,6 +76,7 @@ void FairAgent::playBattle(GameContext &gc) {
             a.printDesc(std::cerr, bc) << " visits=" << s.rootVisits() << "\n";
         }
         a.execute(bc);
+        if (reuse) s.advance(a, bc);
     }
     bc.exitBattle(gc);
 }
@@ -86,12 +93,57 @@ static double cardValue(const Card &c) {
     return kbValue(c.getId()) + (c.isUpgraded() ? 0.5 : 0.0);
 }
 
+static bool isAoe(CardId id) {
+    switch (id) {
+        case CardId::CLEAVE: case CardId::WHIRLWIND: case CardId::THUNDERCLAP:
+        case CardId::IMMOLATE: case CardId::REAPER: return true;
+        default: return false;
+    }
+}
+
+// deck-aware value of adding card c (defaults reduce to plain KB value)
+double FairAgent::addValue(const GameContext &gc, const Card &c) const {
+    double v = cardValue(c);
+    int aoe = 0, dups = 0;
+    for (const auto &d : gc.deck.cards) {
+        if (isAoe(d.getId())) ++aoe;
+        if (d.getId() == c.getId()) ++dups;
+    }
+    if (isAoe(c.getId()) && aoe == 0 && gc.act <= 2) v += getp(P, "aoe_bonus", 0.0);
+    v -= getp(P, "dup_pen", 0.0) * dups;
+    if (c.getType() == CardType::POWER) v += getp(P, "power_bonus", 0.0);
+    return v;
+}
+
 // ---------------- events (rules written from lightspeed's event code) ----------------
 int FairAgent::eventChoice(const GameContext &gc) const {
     const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
     (void)hpf;
 #include "event_policy.inc"
     return -1;
+}
+
+// ---------------- boss relics ----------------
+static double kbBossRelicValue(RelicId id) {
+    switch (id) {
+#include "kb_boss_relic_values.inc"
+        default: return 5.0;
+    }
+}
+
+int FairAgent::bossRelicChoice(const GameContext &gc) const {
+    // GUARDRAIL: never take Runic Dome. The simulator still exposes monster
+    // intents to the search with Dome, so taking it would be a hidden-info leak.
+    int best = 3;  // 3 = skip
+    double bestV = -1e18;
+    for (int i = 0; i < 3; ++i) {
+        const RelicId r = gc.info.bossRelics[i];
+        if (r == RelicId::RUNIC_DOME) continue;
+        const double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
+                                                    : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        if (v > bestV) { bestV = v; best = i; }
+    }
+    return best;
 }
 
 // ---------------- map ----------------
@@ -148,7 +200,7 @@ void FairAgent::cardRewards(GameContext &gc) {
         int bestI = -1;
         double bestV = -1e18;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
-            const double v = cardValue(r.cardRewards[rIdx][i]);
+            const double v = addValue(gc, r.cardRewards[rIdx][i]);
             if (v > bestV) { bestV = v; bestI = i; }
         }
         const double thresh = getp(P, "card_thresh", 5.0)
@@ -179,7 +231,7 @@ void FairAgent::shop(GameContext &gc) {
     int bestI = -1; double bestV = -1e18;
     for (int i = 0; i < 7; ++i) {
         if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
-        const double v = cardValue(s.cards[i]);
+        const double v = addValue(gc, s.cards[i]);
         if (v > bestV) { bestV = v; bestI = i; }
     }
     if (bestI >= 0 && bestV >= getp(P, "shop_card_thresh", 7.0)) {
@@ -227,6 +279,9 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
                 return;
             }
             break;
+        case ScreenState::BOSS_RELIC_REWARDS:
+            search::GameAction(bossRelicChoice(gc)).execute(gc);
+            return;
         case ScreenState::EVENT_SCREEN:
             if (getp(P, "ev_pol", 0) > 0) {
                 const int idx = eventChoice(gc);
