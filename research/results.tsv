@@ -32,3 +32,4 @@ a11c955	val.a0	300	0	0.183	36.09	0.8910	-0.0268	0.075	discard	aoe4: AoE bonus 4 
 5ba5edc	val.a0	300	0	0.203	36.40	0.9171	-0.0385	0.079	discard	blk15: block-card bonus 1.5 when <3 in deck [block_bonus=1.5]
 5ba5edc	val.a0	300	0	0.183	35.95	0.8882	-0.0674	0.012	discard	rbw3: rollout: skills x3 when incoming dmg > block [roll_block_w=3]
 5ba5edc	val.a0	300	0	0.160	35.82	0.8624	-0.0932	0.002	discard	raw2: rollout: attacks x2 when no incoming dmg [roll_atk_w=2]
+eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bonus 3 [scaling_bonus=3]
