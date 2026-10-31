@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d04312b..9ff5d5b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_FLAGS  "-Wno-shift-count-overflow -O3")
+ 
+ add_subdirectory(json)
+-add_subdirectory(pybind11)
++find_package(pybind11 CONFIG REQUIRED)
+ 
+ pybind11_add_module(slaythespire bindings/slaythespire.cpp bindings/bindings-util.cpp ${sts_lightspeed_SOURCES})
+ target_include_directories(slaythespire PUBLIC include)
+@@ -34,3 +34,13 @@ target_link_directories(small-test PRIVATE json::nlohmann_json)
+ target_include_directories(small-test PUBLIC include)
+ target_include_directories(small-test PUBLIC json/include)
+ target_include_directories(small-test PUBLIC bindings)
++
++# ---- research additions (leak-free agent + frozen eval) ----
++set(STS_RESEARCH_DIR /home/user/sts/research)
++add_library(stscore STATIC ${sts_lightspeed_SOURCES})
++target_include_directories(stscore PUBLIC include json/single_include)
++set_property(TARGET stscore PROPERTY POSITION_INDEPENDENT_CODE ON)
++file(GLOB FAIR_SOURCES CONFIGURE_DEPENDS "${STS_RESEARCH_DIR}/cpp/*.cpp")
++add_executable(fair_eval ${STS_RESEARCH_DIR}/eval/eval_main.cpp ${FAIR_SOURCES})
++target_include_directories(fair_eval PUBLIC include ${STS_RESEARCH_DIR}/cpp)
++target_link_libraries(fair_eval stscore pthread)

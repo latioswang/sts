@@ -1,0 +1,4 @@
+commit	split	n	crash	winrate	mean_floor	score	dscore_vs_best	p_improve	status	description
+302ea3e	dev.a0	100	0	0.020	21.60	0.4435	+0.0445	0.924	ref	scum_cheat: CHEATING reference: lightspeed ScumSearchAgent2 @500 sims (RNG-aware search), legacy policy
+302ea3e	dev.a0	100	0	0.000	20.35	0.3990			baseline	fair0: leak-free MCTS @500 + legacy out-of-combat policy
+302ea3e	dev.a0	100	0	0.050	26.70	0.5735	+0.1745	1.000	keep	pol1: map DP + rest + KB-tier card picks + shop + select policies
