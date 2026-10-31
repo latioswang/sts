@@ -8,9 +8,57 @@ attempt, keep only strict improvements, log everything, never pause to ask.
 
 Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 **no hidden information** (no peeking at RNG, draw order, future rewards).
+"Win" = beat the Act 3 boss (lightspeed has no Act 4/Heart without keys).
 
-- Ladder: A0 → raise ascension whenever test win rate ≥ 50% at current level.
-- Final claim requires the `test` split (see Eval), reported with a 95% CI.
+- **North-star metric:** A0 win rate on the `test` split (500 seeds), with a
+  95% Wilson CI. Every claim is judged on that number, nowhere else.
+- **Loop metric:** paired Δscore on `val` (300 seeds) vs current best,
+  score = floor/51 + win.
+
+### Milestones (concrete, in order)
+
+| # | Target | Action when hit |
+|---|---|---|
+| M0 | ✅ leak-free agent beats the cheating lightspeed reference | done: val 20.3% vs scum ~2% (dev) |
+| M1 | val win ≥ 25% | run `test` once (test budget: max 5 runs total) |
+| M2 | val win ≥ 30% | run `test`; re-run cheating-combat diagnostic |
+| M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
+| M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
+
+### Current state (update after every batch)
+
+- Best: `aoe2` — val win 20.3%, floor 36.4, score 0.918 (`research/best_params.txt`).
+- Losses by floor (boss_kb run): Act 1 boss 25, Act 2 hallway/elites 72,
+  **Act 2 boss 87**, Act 3 25, Act 3 boss 29 → **Act 2 is the bottleneck**.
+- Learned so far: rollout quality is the biggest lever (END_TURN weight 1→0.05
+  was worth +0.25 score). Elites are worth fighting (stricter avoidance hurt).
+  Tree reuse, exploration changes, rollout cutoffs and play-order bias all hurt.
+
+### Idea backlog (top = next; strike through when tried, log in results.tsv)
+
+1. Diagnostic (never a result): cheating combat + best out-of-combat policy →
+   measures how much a better combat search could still gain vs strategy work.
+2. `neow_pol=1` (Neow ranking; BOSS_RELIC excluded by guardrail).
+3. Elites more aggressive: `elite_hp=0.45`; `w_elite_hi=3`.
+4. Deck needs: `scaling_bonus=1.5`; `block_bonus=1.5`.
+5. `aoe_bonus=3` (if aoe4 fails); `card_size_pen` 0 / 0.2; `shop_card_thresh=6`.
+6. Rest: `rest_heal_frac` 0.4 / 0.6. Potions: `potion_v` 2 / 8. Value: `hp_w=2`.
+7. Rollout: block-aware heuristic rollout (code): play block when incoming
+   intent damage > block, else attacks. Then `end_turn_w=0.02`.
+8. Upgrade priority beyond KB tier (Bash, key powers first).
+9. Budget scaling `sims=1000` — informational only, never "keep" (compute rule).
+
+### Resume procedure (after context loss / new session)
+
+1. Read this file, `research/results.tsv`, `research/best_name.txt`.
+2. `pgrep -x fair_eval` — if evals are running, wait for them; never start a 2nd batch.
+3. Rebuild: `research/setup.sh` (or `make -C /home/user/sts_lightspeed/build fair_eval`)
+   and run the leak test: `fair_eval --leaktest --seed_start 100000 --count 3`.
+4. Take the next backlog items, run them with `research/exp.sh` (auto keep/discard),
+   ≤ 6 per batch, in the background.
+5. After each batch: update *Current state*, strike backlog items,
+   commit + push `autoresearch/ironclad`.
+6. When a milestone is hit, run `SPLIT=test` once for the best agent and record it.
 
 ## Why the built-in agent does not count
 
@@ -62,5 +110,12 @@ upper reference**, never as a result.
 
 ## Stop condition
 
-Stop when 5 consecutive idea *families* fail on `val`, or compute/time runs out.
-Then run `test` once on the best agent and write `research/REPORT.md`.
+Stop when the backlog is empty AND the last 5 idea *families* all failed on
+`val`, or the day's time runs out. Then run `test` once on the best agent and
+write `research/REPORT.md`.
+
+## Known statistical caveat
+
+With a P ≥ 0.9 keep rule over dozens of trials, some keeps are false
+positives (winner's curse on `val`). That's why the north star is `test`,
+which the loop never optimises against.

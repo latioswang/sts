@@ -57,6 +57,13 @@ void FairAgent::playBattle(GameContext &gc) {
     BattleContext bc;
     bc.init(gc);
     ++stats.battles;
+    if (getp(P, "cheat_combat", 0) > 0) {
+        // DIAGNOSTIC ONLY (never a result): lightspeed's RNG-aware scum search.
+        legacy.simulationCountBase = sp.simulations;
+        legacy.playoutBattle(bc);
+        bc.exitBattle(gc);
+        return;
+    }
     int steps = 0;
     const bool reuse = getp(P, "tree_reuse", 0) > 0;
     std::unique_ptr<FairSearcher> searcher;
