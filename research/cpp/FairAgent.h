@@ -44,6 +44,7 @@ private:
     void cardRewards(sts::GameContext &gc);
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);
+    int eventChoice(const sts::GameContext &gc) const;
 };
 
 }  // namespace fair

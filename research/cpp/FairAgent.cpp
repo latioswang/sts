@@ -20,6 +20,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     sp.exploration = getp(P, "c", 0.7);
     sp.rolloutTurns = static_cast<int>(getp(P, "rollout_turns", 99));
     sp.endTurnRolloutWeight = getp(P, "end_turn_w", 1.0);
+    sp.potionRolloutWeight = getp(P, "potion_roll_w", 1.0);
     sp.hpWeight = getp(P, "hp_w", 1.0);
     sp.potionValue = getp(P, "potion_v", 4.0);
     sp.winBonus = getp(P, "win_bonus", 35.0);
@@ -27,10 +28,24 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     legacy.rng = std::default_random_engine(static_cast<unsigned>(agentSeed ^ 0xabcdefULL));
 }
 
+static bool isEliteEncounter(MonsterEncounter e) {
+    using ME = MonsterEncounter;
+    switch (e) {
+        case ME::GREMLIN_NOB: case ME::LAGAVULIN: case ME::THREE_SENTRIES:
+        case ME::GREMLIN_LEADER: case ME::SLAVERS: case ME::BOOK_OF_STABBING:
+        case ME::GIANT_HEAD: case ME::NEMESIS: case ME::REPTOMANCER:
+            return true;
+        default: return false;
+    }
+}
+
 SearchParams FairAgent::searchParamsFor(const BattleContext &bc) const {
     SearchParams s = sp;
     if (isBossEncounter(bc.encounter)) {
         s.simulations = static_cast<int>(s.simulations * getp(P, "boss_mult", 1.0));
+        s.potionValue = getp(P, "potion_v_boss", s.potionValue);
+    } else if (isEliteEncounter(bc.encounter)) {
+        s.potionValue = getp(P, "potion_v_elite", s.potionValue);
     }
     return s;
 }
@@ -69,6 +84,14 @@ double kbValue(CardId id) {
 
 static double cardValue(const Card &c) {
     return kbValue(c.getId()) + (c.isUpgraded() ? 0.5 : 0.0);
+}
+
+// ---------------- events (rules written from lightspeed's event code) ----------------
+int FairAgent::eventChoice(const GameContext &gc) const {
+    const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
+    (void)hpf;
+#include "event_policy.inc"
+    return -1;
 }
 
 // ---------------- map ----------------
@@ -202,6 +225,12 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             if (getp(P, "map_pol", 0) > 0 && gc.curMapNodeY < 14) {
                 search::GameAction(chooseMapX(gc)).execute(gc);
                 return;
+            }
+            break;
+        case ScreenState::EVENT_SCREEN:
+            if (getp(P, "ev_pol", 0) > 0) {
+                const int idx = eventChoice(gc);
+                if (idx >= 0) { search::GameAction(idx).execute(gc); return; }
             }
             break;
         case ScreenState::REST_ROOM:

@@ -142,11 +142,18 @@ double FairSearcher::rollout(BattleContext &bc) {
         if (acts.empty()) break;
         // weighted pick: END_TURN has weight endTurnRolloutWeight, others 1
         double total = 0;
-        for (auto &a : acts) total += (a.getActionType() == search::ActionType::END_TURN) ? p.endTurnRolloutWeight : 1.0;
+        auto wOf = [&](const search::Action &a) {
+            switch (a.getActionType()) {
+                case search::ActionType::END_TURN: return p.endTurnRolloutWeight;
+                case search::ActionType::POTION: return p.potionRolloutWeight;
+                default: return 1.0;
+            }
+        };
+        for (auto &a : acts) total += wOf(a);
         double r = U(rng) * total;
         search::Action chosen = acts.back();
         for (auto &a : acts) {
-            r -= (a.getActionType() == search::ActionType::END_TURN) ? p.endTurnRolloutWeight : 1.0;
+            r -= wOf(a);
             if (r <= 0) { chosen = a; break; }
         }
 #ifdef FAIR_TRACE

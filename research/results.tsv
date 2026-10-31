@@ -2,3 +2,8 @@ commit	split	n	crash	winrate	mean_floor	score	dscore_vs_best	p_improve	status	de
 302ea3e	dev.a0	100	0	0.020	21.60	0.4435	+0.0445	0.924	ref	scum_cheat: CHEATING reference: lightspeed ScumSearchAgent2 @500 sims (RNG-aware search), legacy policy
 302ea3e	dev.a0	100	0	0.000	20.35	0.3990			baseline	fair0: leak-free MCTS @500 + legacy out-of-combat policy
 302ea3e	dev.a0	100	0	0.050	26.70	0.5735	+0.1745	1.000	keep	pol1: map DP + rest + KB-tier card picks + shop + select policies
+e9630ee	val.a0	300	0	0.030	26.56	0.5508			best	pol1: val baseline for loop
+e9630ee	val.a0	300	0	0.100	32.51	0.7375	+0.1866	1.000	keep	c_etw02: rollout END_TURN weight 0.2 [end_turn_w=0.2]
+e9630ee	val.a0	300	0	0.027	22.76	0.4729	-0.0780	0.000	discard	c_rt3: rollout cutoff 3 turns + heuristic [rollout_turns=3]
+e9630ee	val.a0	300	0	0.100	32.38	0.7348	-0.0026	0.452	discard	c_c03: exploration 0.3 [c=0.3]
+e9630ee	val.a0	300	0	0.113	32.73	0.7550	+0.0176	0.764	discard	c_c15: exploration 1.5 [c=1.5]
