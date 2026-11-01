@@ -1,0 +1,2 @@
+pooled val,dev: n=400  a10_potv2 win=0.290 floor=36.77  a10_bfbonus25_g1m win=0.273 floor=36.60  dscore=+0.0208 dwin=+0.018 P(improve)=0.811
+no

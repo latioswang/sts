@@ -12,8 +12,8 @@ BIN=${FAIR_EVAL_BIN:-/home/user/sts_lightspeed/build/fair_eval}
 SMOKE=research/vf/data/bf_smoke/games.tsv
 SECS=$(awk '{s+=$11; n++} END {if (n) printf "%.1f", s/n; else print 60}' "$SMOKE")
 EVERY=$(python3 -c "import math; print(min(4, max(1, math.ceil($SECS * $GAMES / 4.0 / $BUDGET))))")
-PARF=research/best_params.txt; [ "$ASC" = 10 ] && PARF=research/best_a10_params.txt; [ "$ASC" = 20 ] && PARF=research/best_a20_params.txt
-ARGS=$(sed 's/^/--param /' "$PARF" | tr '\n' ' ')
+if [ -z "${PARF:-}" ]; then PARF=research/best_params.txt; [ "$ASC" = 10 ] && PARF=research/best_a10_params.txt; [ "$ASC" = 20 ] && PARF=research/best_a20_params.txt; fi
+ARGS="$(sed 's/^/--param /' "$PARF" | tr '\n' ' ') ${EXTRA:-}"   # PARF / EXTRA env: other params (e.g. the Heart track's)
 OUT=research/vf/data/$NAME; mkdir -p "$OUT"
 echo "smoke cost ${SECS}s/game -> bf_every=$EVERY; $GAMES games in chunks of $CHUNK from seed $SEED0 (params: $PARF)"
 CHUNKS=$(( (GAMES + CHUNK - 1) / CHUNK ))

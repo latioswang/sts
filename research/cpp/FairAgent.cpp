@@ -411,10 +411,11 @@ void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint6
 }
 
 // boss pool of the act after the current one (act 3: its own pool) — the forward-looking label
-static MonsterEncounter nextActBoss(int act, std::mt19937_64 &rng) {
+static MonsterEncounter nextActBoss(int act, std::mt19937_64 &rng, bool heart) {
     static const MonsterEncounter a2[3] = {MonsterEncounter::AUTOMATON, MonsterEncounter::COLLECTOR, MonsterEncounter::CHAMP};
     static const MonsterEncounter a3[3] = {MonsterEncounter::AWAKENED_ONE, MonsterEncounter::TIME_EATER, MonsterEncounter::DONU_AND_DECA};
     const int i = static_cast<int>(rng() % 3);
+    if (act >= 3 && heart) return MonsterEncounter::THE_HEART;  // bf_heart=1: act-3 "next" fight is the Heart (keys/Act 4 track)
     return act <= 1 ? a2[i] : a3[i];
 }
 
@@ -432,7 +433,7 @@ void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContex
                                ^ (bfDecisions * 0xD1B54A32D192ED03ULL);
     std::mt19937_64 erng(seed);
     const MonsterEncounter hall = sampleEncounter(gc, erng, getp(P, "bf_elite_frac", 0.25), 0.0);
-    const MonsterEncounter next = nextActBoss(gc.act, erng);
+    const MonsterEncounter next = nextActBoss(gc.act, erng, getp(P, "bf_heart", 0) > 0);
     const bool doHall = getp(P, "bf_hall", 1) > 0;
     const bool doNext = getp(P, "bf_next", 1) > 0;
     auto row = [&](const GameContext &st, float isBase) {
