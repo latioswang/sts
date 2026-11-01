@@ -436,13 +436,20 @@ void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContex
     const MonsterEncounter next = nextActBoss(gc.act, erng, getp(P, "bf_heart", 0) > 0);
     const bool doHall = getp(P, "bf_hall", 1) > 0;
     const bool doNext = getp(P, "bf_next", 1) > 0;
+    const int K = std::max(1, static_cast<int>(getp(P, "bf_k", 1)));  // fights per option (labels averaged; same seeds per decision)
     auto row = [&](const GameContext &st, float isBase) {
         float feats[rv::DIM];
         rv::extract(st, feats);
-        float b[3], h[3] = {-1.f, -1.f, -1.f}, nx[3] = {-1.f, -1.f, -1.f};
-        bfFight(st, gc.boss, seed + 1, b);
-        if (doHall) bfFight(st, hall, seed + 2, h);
-        if (doNext) bfFight(st, next, seed + 3, nx);
+        float b[3] = {0.f, 0.f, 0.f}, h[3] = {-1.f, -1.f, -1.f}, nx[3] = {-1.f, -1.f, -1.f};
+        if (doHall) h[0] = h[1] = h[2] = 0.f;
+        if (doNext) nx[0] = nx[1] = nx[2] = 0.f;
+        for (int k = 0; k < K; ++k) {
+            float t[3];
+            bfFight(st, gc.boss, seed + 1 + 16ULL * k, t);
+            for (int j = 0; j < 3; ++j) b[j] += t[j] / K;
+            if (doHall) { bfFight(st, hall, seed + 2 + 16ULL * k, t); for (int j = 0; j < 3; ++j) h[j] += t[j] / K; }
+            if (doNext) { bfFight(st, next, seed + 3 + 16ULL * k, t); for (int j = 0; j < 3; ++j) nx[j] += t[j] / K; }
+        }
         const float extra[BF_EXTRA] = {b[0], b[1], h[0], h[1], b[2], nx[0], nx[1], nx[2],
                                        static_cast<float>(agentSeed % 10000000ULL),
                                        static_cast<float>(bfDecisions), static_cast<float>(kind), isBase};
