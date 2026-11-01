@@ -54,6 +54,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M2 | val win ≥ 30% | run `test`; re-run cheating-combat diagnostic |
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
+| M5 | val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | one test run of that agent (test budget: +1) |
 
 ### Current state (update after every batch) — 2026-11-01 15:20 UTC
 - Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
@@ -168,9 +169,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   fixed simulator when the machine is idle).
 - Running (sequential queue, `research/queue.txt`): model g2 (= g1m, trained on bg1 + bg_a10: 98,652 rows,
   held-out boss-win BCE 0.384 vs 0.658, paired corr 0.102) as a 10×/25× bonus on A0 (vs bfbonus10_g1) and
-  on A10 (vs a10_eh075). The queue is empty after that: next block to plan — A20 fight dataset + A20
-  bonus, regenerate bg_a10 with the Lament fix, Heart-track tuning with the new A0 chain, test-split
-  confirmation of the A0 chain (milestone budget: one run).
+  on A10 (vs a10_eh075). Queued next: the M5 test run of bfbonus10_g1 (500 test seeds, paired vs chest1's
+  test run); batch 37 = the bonus at shops (`bf_shop`) and on rest upgrades (`bf_upg_bonus` 10/25, additive
+  on the KB upgrade value — the replacement upgrade picker was neutral); A20 fight dataset (`bg_a20`, fixed
+  simulator) → model 3 on all three ascensions → 10× bonus on A20, A10, A0.
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)

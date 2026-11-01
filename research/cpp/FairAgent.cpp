@@ -714,9 +714,16 @@ void FairAgent::shop(GameContext &gc) {
         return;
     }
     int bestI = -1; double bestV = -1e18;
+    const double bfw = (getp(P, "bf_shop", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_bonus", 0.0) : 0.0;
+    const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
     for (int i = 0; i < 7; ++i) {
         if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
-        const double v = addValue(gc, s.cards[i]);
+        double v = addValue(gc, s.cards[i]);
+        if (bfw != 0.0) {  // bf_shop: the deck-value bonus applies to purchases too
+            GameContext hyp = gc;
+            hyp.deck.obtainRaw(s.cards[i]);
+            v += bfw * (bfValue(hyp) - vBase);
+        }
         if (v > bestV) { bestV = v; bestI = i; }
     }
     if (bestI >= 0 && bestV >= getp(P, "shop_card_thresh", 7.0)) {
@@ -765,6 +772,9 @@ void FairAgent::cardSelect(GameContext &gc) {
         }
     }
     int bestI = 0; double bestV = -1e18;
+    const double upgW = (gc.info.selectScreenType == CardSelectScreenType::UPGRADE
+                         && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_upg_bonus", 0.0) : 0.0;
+    const float upgBase = upgW != 0.0 ? bfValue(gc) : 0.f;
     for (int i = 0; i < gc.info.toSelectCards.size(); ++i) {
         const auto &c = gc.info.toSelectCards[i].card;
         double v;
@@ -782,6 +792,14 @@ void FairAgent::cardSelect(GameContext &gc) {
             case CardSelectScreenType::UPGRADE:
                 v = kbValue(c.getId()) + (c.getId() == CardId::BASH ? getp(P, "bash_upg_bonus", 2.0) : 0.0)
                     + (c.getType() == CardType::POWER ? getp(P, "upg_power_bonus", 0.0) : 0.0);
+                if (upgW != 0.0) {  // bf_upg_bonus: KB upgrade value + w x predicted fight-value gain of the upgrade
+                    const int di = gc.info.toSelectCards[i].deckIdx;
+                    if (di >= 0 && di < gc.deck.size()) {
+                        GameContext hyp = gc;
+                        hyp.deck.upgrade(di);
+                        v += upgW * (bfValue(hyp) - upgBase);
+                    }
+                }
                 break;
             default:
                 v = cardValue(c);
