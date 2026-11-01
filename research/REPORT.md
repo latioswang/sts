@@ -124,15 +124,20 @@ Act-3 metric; it makes the month's A20-Heart target measurable.
 
 ## Next (month program, `research/program.md`)
 
-**Phase C v3 — interventional deck value (in the queue).** Observational run values (V_run) and
-online counterfactual fights (cf_pick) both failed; v3 plays the fights offline: at every card
-reward / upgrade / removal of the best agent's own games, the simulator plays the act boss and a
-sampled hallway fight from the current state and from each hypothetical option (same fight seeds
-per decision), a 666→128→4 MLP is trained on absolute and paired labels, and card picks, upgrades
-and removals become argmax of the predicted fight value. Also queued: prior-guided rollouts at
-calibrated equal wall-clock, A20 act-1 survival (elite avoidance), A10 near-miss re-tests, KB
-synergy transfer to A20. Tooling: a sequential experiment queue (`research/tools/runq.sh`) and a
-mechanised bit-identity check after every rebuild (`research/tools/repro_check.sh`).
+**What the learned strategic layer turned out to be.** Replacing the hand picker with the interventional
+deck-value model lost 6–16 points on every ladder; the same model used as a small additive adjustment on
+top of the KB card values is the day's best component: +3.0 points on A0 with the first model, +4.0 more
+with graded labels (damage fraction against the act boss and a next-act boss), +2.3 on A10 once the model
+had seen A10 fights, +1 floor on A20. Shop purchases, rest upgrades and removals stay with the hand rules
+(the bonus is neutral or negative there). Closed with evidence: pooled-ascension models dilute (each ladder
+wants a model that saw its own fights plus A0's), ladder-only models are too small, and training on the
+*current* agent's games is worse than on the previous agent's (A0 −0.019, A10 −0.060) — expert iteration
+of the strategic model does not work in this form.
+
+**Running / queued:** labels averaged over three fights per option (label-noise reduction), then a
+re-tune of the map weights on the current bests (last tuned on a much weaker agent). Open problems: A20
+act-1/act-2 boss survival (deck strength), Heart conversion (floors move, Heart wins do not), and the
+7-point val-to-test gap on A0.
 
 ## Caveats
 
