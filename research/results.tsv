@@ -56,3 +56,4 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 347f3fc	val.a0	300	0	0.363	39.09	1.1297	+0.0805	0.994	info	INFO_sims1000: INFO ONLY: best params at 2x compute (sims=1000), never promoted
 649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0510	0.915	keep	combo2: all batch-8 near-misses: combo1 + w_event 2 + rich shop 3 + monster 0.5 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2 w_shop_rich=3 w_monster=0.5]
 649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0000	0.000	discard	combo3: combo1 + w_event 2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2]
+13d3c84	val.a0	300	0	0.357	40.43	1.1493	+0.0492	0.934	keep	hallpot0: no potions in hallway-fight search (unless hp<25%) [hall_potions=0]
