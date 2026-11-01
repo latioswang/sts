@@ -101,6 +101,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   best (paired deltas are unaffected by the baseline's absolute level) and the A10 headline is quoted
   with the dev figure alongside. **Result:** `a10_eh075_dev` 18.0% win, floor 34.0, +0.075 vs base, P=0.928 → info (vs a10_rest06_dev, 100 fresh seeds) — the
   chain replicates; the elite gate carries it, the KB-synergy step is ~0.
+- **Verification (A20 chain, 100 fresh dev seeds):** `base_a20_dev` 1.0% win, floor 21.9, → info; `a20_restlo_dev` 3.0% win, floor 25.2, +0.084 vs base, P=0.999 → info (vs base_a20_dev) — the three
+  floor-driven A20 keeps replicate strongly (floor +4.3 on independent seeds).
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
