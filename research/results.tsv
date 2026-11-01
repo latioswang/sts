@@ -152,3 +152,4 @@ c128857	val.a20	300	0	0.013	25.61	0.5153	+0.0091	0.920	keep	a20_restlo: [a20] A2
 d46ae3f	val.a0	300	0	0.630	45.11	1.5144	-0.0071	0.410	discard	potv2: combat value: potion worth 2 HP (use potions more freely) [potion_v=2]
 e82c291	val.a0	300	0	0.650	45.56	1.5433	+0.0218	0.770	discard	potv8: combat value: potion worth 8 HP (hoard potions) [potion_v=8]
 ec3ef7e	val.a0	300	0	0.640	45.39	1.5301	+0.0086	0.685	discard	rh06b: rest: heal below 60% (A10 keep; A0 retest on the current agent) [rest_heal_frac=0.6]
+5e5c1e9	val.a20	300	0	0.023	24.79	0.5090	-0.0063	0.318	discard	a20_kbsyn: [a20] A20: KB synergy bonuses (A10 keep transferred) [kb_syn=1]
