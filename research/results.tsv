@@ -210,3 +210,4 @@ f7a6de7	dev.a10	100	0	0.210	34.29	0.8824	+0.0347	0.738	info	a10_bfbonus25_g1m_de
 b189e39	train.a20	500	0	0.016	23.51	0.4766			info	bg_a20: bg_a20: 500 train games of the asc-20 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
 2ec3cc0	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	discard	a20_bfbonus10_g2m: [a20] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
 438837a	val.a10	300	0	0.257	36.02	0.9630	-0.0631	0.039	discard	a10_bfbonus10_g2m: [a10] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
+a561267	val.a0	300	0	0.717	46.86	1.6355	-0.0251	0.217	discard	bfbonus10_g2m: card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
