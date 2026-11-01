@@ -234,3 +234,4 @@ cf25f83	train.a0	500	0	0.702	46.27	1.6093			info	bg1b: bg1b: 500 train games of 
 15d84b7	dev.a0	100	0	0.040	45.27	0.8969	-0.0343	0.197	info	heart_bfbonus25_g_heart_dev: VERIFY: heart_bfbonus25_g_heart on dev vs heart_cur_dev (independent seeds, Heart winmode)
 00f9bba	val.a0	300	0	0.720	47.01	1.6417	-0.0189	0.285	discard	bfbonus10_g1b: card picks: KB value + 10 x predicted fight-value gain (model g1b) [bf_model=8 bf_bonus=10]
 a146188	train.a10	500	0	0.266	36.40	0.9798			info	bg_a10b: bg_a10b: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+b16559b	val.a10	300	0	0.240	37.01	0.9658	-0.0604	0.031	discard	a10_bfbonus25_g_a10b: [a10] card picks: KB value + 25 x predicted fight-value gain (model g_a10b) [bf_model=7 bf_bonus=25]

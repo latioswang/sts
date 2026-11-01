@@ -644,7 +644,11 @@ bg1+bg1b → `bfbonus10_g1b`; 500 more A10 games from the current A10 best (`bg_
 bg1+bg_a10+bg_a10b → `a10_bfbonus25_g_a10b`. Expected: modest gains (the g0→g1 step was +4 pts from
 better labels; this step changes the data distribution, not the labels). **Result (A0): `bfbonus10_g1b` 72.0% win, floor 47.0, -0.019 vs base, P=0.285 → discard** — model 8
 (1,000 games, paired corr 0.17 boss_dmg) does not beat g1 (500 games); more data of the same kind is not
-the lever; g1 stays. A10 (model 7) pending.
+the lever; g1 stays. **A10: `a10_bfbonus25_g_a10b` 24.0% win, floor 37.0, -0.060 vs base, P=0.031 → discard** — model 7 (1,500 games) is clearly worse than model 2 (1,000 games) on
+A10. Expert iteration of the strategic model is closed: on both ladders the model trained on the
+*previous* agent's games is better than one that also saw the current agent's games. Likely reason: the
+current agents' decks are already shaped by a model bonus, so their option sets carry less contrast
+(the model's own picks dominate), and the regression learns less from them. Models 2 (A10) and 1 (A0) stay.
 
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
