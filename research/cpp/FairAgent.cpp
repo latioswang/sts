@@ -293,6 +293,15 @@ void FairAgent::shop(GameContext &gc) {
             return;
         }
     }
+    if (getp(P, "shop_potion", 0) > 0 && gc.potionCount < gc.potionCapacity) {
+        for (int i = 0; i < 3; ++i) {
+            const int price = s.potionPrice(i);
+            if (price != -1 && gc.gold >= price + getp(P, "shop_pot_reserve", 0)) {
+                search::GameAction(RT::POTION, i).execute(gc);
+                return;
+            }
+        }
+    }
     int bestI = -1; double bestV = -1e18;
     for (int i = 0; i < 7; ++i) {
         if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
@@ -324,7 +333,8 @@ void FairAgent::cardSelect(GameContext &gc) {
                     : 10 - cardValue(c);
                 break;
             case CardSelectScreenType::UPGRADE:
-                v = kbValue(c.getId()) + (c.getId() == CardId::BASH ? getp(P, "bash_upg_bonus", 2.0) : 0.0);
+                v = kbValue(c.getId()) + (c.getId() == CardId::BASH ? getp(P, "bash_upg_bonus", 2.0) : 0.0)
+                    + (c.getType() == CardType::POWER ? getp(P, "upg_power_bonus", 0.0) : 0.0);
                 break;
             default:
                 v = cardValue(c);
