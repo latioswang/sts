@@ -223,3 +223,4 @@ f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m
 0dbdb59	dev.a10	100	0	0.200	34.78	0.8820	-0.0004	0.497	info	a10_potv2_dev: a10_potv2 on dev (extension of the val near-miss)
 194b746	val.a10	300	0	0.267	37.00	0.9922	-0.0339	0.152	discard	a10_bfbonus25_g_a10: [a10] card picks: KB value + 25 x predicted fight-value gain (model g_a10) [bf_model=4 bf_bonus=25]
 13e2543	val.a20	300	0	0.010	26.48	0.5290	-0.0031	0.412	discard	a20_bfbonus10_g_a20: [a20] card picks: KB value + 10 x predicted fight-value gain (model g_a20) [bf_model=5 bf_bonus=10]
+79d346b	val.a20	300	0	0.010	27.17	0.5426	+0.0106	0.762	discard	a20_bfbonus25_g_a20: [a20] card picks: KB value + 25 x predicted fight-value gain (model g_a20) [bf_model=5 bf_bonus=25]
