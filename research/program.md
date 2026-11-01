@@ -55,9 +55,14 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 09:25 UTC
-- Tracks: **A0 best `priormlp_d0` 61.3% val** (chest1 confirmed 54.6% test); **A10 best `a10_rest06`
-  18.7% val** (from 16.3%); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
+### Current state (update after every batch) — 2026-11-01 10:00 UTC
+- Tracks: **A0 best `wea1p1` 63.7% val** (map: +1 for act-1 elites — relics matter once chests are
+  opened; +0.034 vs priormlp_d0, P=0.954; chest1 confirmed 54.6% test); **A10 best `a10_rest06` 18.7%**;
+  **A20 seeded: `base_a20` 2.3% win, floor 21.8** (A0 best params at ascension 20 — the ladder's hard
+  end); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
+- Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
+  neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
+- A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7%.
 - Running: batch 25 (A10 round 2: card threshold / elite threshold / rest weight; A0 PUCT c 1.2).
 - Queued ideas (batch 26): robust-child final move selection (`select_q`), removal order
   (`strike_before_defend=0`), shop relic-before-removal order, `card_act1_bonus 2`, `w_elite_act1 +1`;

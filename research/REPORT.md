@@ -9,7 +9,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Current best `priormlp_d0`** (chests + learned move prior at the root) | val, 300 | **61.3%** | — | 44.6 |
+| **Current best `wea1p1`** (chests + root move prior + act-1 elite path weight) | val, 300 | **63.7%** | — | 45.1 |
+| `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
 | `rb3` — fixed simulator, before the chest fix | val, 300 | 38.0% | — | 40.5 |

@@ -129,3 +129,8 @@ fb6c062	val.a0	300	0	0.627	44.61	1.5014	+0.0137	0.652	discard	priormlp3_d0: root
 61f9e07	val.a10	300	0	0.183	33.02	0.8307	+0.0231	0.739	discard	a10_eh08: [a10] A10: elites only at 80% HP [elite_hp=0.8]
 61f9e07	val.a0	300	0	0.627	44.74	1.5040	+0.0163	0.695	discard	pm_c12: root MLP prior, PUCT c 1.2 [prior_c=1.2]
 c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move = best mean value among edges with >=30% of max visits (robust child) [select_q=0.3]
+6c81998	val.a0	300	0	0.627	44.42	1.4977	+0.0101	0.597	discard	selq05: robust child, 50% visit floor [select_q=0.5]
+6c81998	val.a0	300	0	0.613	44.59	1.4876	+0.0000	0.000	discard	sbd0: removal order: Defends before Strikes [strike_before_defend=0]
+6c81998	val.a0	300	0	0.607	44.60	1.4811	-0.0065	0.302	discard	ca1b2: act-1 card-pick bonus 2 (take more early) [card_act1_bonus=2]
+6c81998	val.a0	300	0	0.637	45.13	1.5215	+0.0339	0.954	keep	wea1p1: map: +1 for act-1 elites (relics) [w_elite_act1=1]
+6c81998	val.a20	300	0	0.023	21.78	0.4499			best	base_a20: [a20] track baseline = current A0 best params at ascension 20
