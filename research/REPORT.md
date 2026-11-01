@@ -9,9 +9,11 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Current A0 best `wea1p1`** (chests + root move prior + act-1 elite path weight) | val, 300 | **63.7%** | — | 45.1 |
-| **A10 best `a10_kbsyn`** (A0 best + rest at <60% + KB synergy bonuses in card picks) | val, 300, asc 10 | **24.3%** | — | 33.5 |
-| **A20 baseline `base_a20`** (A0 best params at ascension 20, untuned) | val, 300, asc 20 | **2.3%** | — | 21.8 |
+| **Current A0 best `potsave2`** (wea1p1 + potions saved for boss fights; kept on pooled val+dev 400 seeds, P=0.949) | val, 300 | **66.3%** | — | 45.5 |
+| `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
+| **A10 best `a10_eh075`** (rest <60% + KB synergy bonuses + elites only above 75% HP) | val, 300, asc 10 | **27.0%** | — | 35.4 |
+| **A20 best `a20_restlo`** (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | **1.3%** (floor-driven keeps) | — | 25.6 |
+| `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
