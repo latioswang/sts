@@ -233,6 +233,11 @@ beats skipping by `cf_margin`. Cost ≈ 4 options × 3 fights ≈ 0.25 s per rew
 slower; acceptable for experiments. This is the interventional estimate the observational V_run
 cannot provide; no hidden information (the encounter pool is public knowledge, HP rolls are fresh).
 
+`cf_pick` probe (12 dev seeds, under load): win 0.50 / floor 42.8 vs baseline 0.58 / 44.9 (one game
+apart — noise at n=12), cost 2.3× per game (19.8 s vs 8.5 s). Val experiments queued after batch 16:
+`cfpick1` (3 fights × 60 sims) and `cfpick2` (4 × 100). Hypothetical fights at 60 sims are played
+weakly, which biases the estimate toward cards that help a weak player; more sims costs more.
+
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
