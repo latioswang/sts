@@ -117,6 +117,8 @@ Compute accounting finding: `budget_actions=7500` (equal *total* actions, no cut
 fights that matter most. Equal-sims stays the protocol; cutoff variants are compared at
 sims scaled by their measured cost-per-simulation ratio instead.
 
+Batch 12 (vs rb3): `bud_base` −0.065, `bud_rt3` −0.285, `bud_rt6` −0.173, `bud_rt2` −0.373,
+`esc15` +0.007 (P=0.76, discard) — the whole fixed-action-budget / cutoff family loses.
 Rollout cutoff + heuristic leaf: `bud_rt3` −0.285 (P=0.00). A learned leaf value would have
 to beat an *unbiased* terminal rollout and be trained on search-visited (random-play-degraded)
 states, i.e. an expert-iteration loop — shelved as out of scope for this session; the

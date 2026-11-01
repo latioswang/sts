@@ -4,6 +4,7 @@
 #include "constants/MonsterEncounters.h"
 #include "sim/search/GameAction.h"
 #include "sim/search/ExpertKnowledge.h"
+#include "vf_features.h"
 #include <cstdlib>
 #include <memory>
 #include <iostream>
@@ -17,7 +18,13 @@ double getp(const Params &p, const std::string &k, double def) {
     return it == p.end() ? def : it->second;
 }
 
-FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params), rng(agentSeed) {
+FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params), rng(agentSeed_), agentSeed(agentSeed_) {
+    if (getp(P, "vf_log", 0) > 0) {
+        if (const char *dir = std::getenv("VF_LOG_DIR")) {
+            const std::string path = std::string(dir) + "/" + std::to_string(agentSeed_) + ".bin";
+            vfLog = std::fopen(path.c_str(), "ab");
+        }
+    }
     sp.simulations = static_cast<int>(getp(P, "sims", 500));
     sp.exploration = getp(P, "c", 0.7);
     sp.rolloutTurns = static_cast<int>(getp(P, "rollout_turns", 99));
@@ -33,6 +40,9 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     sp.escapePenalty = getp(P, "escape_pen", 30.0);
     sp.budgetActions = static_cast<std::int64_t>(getp(P, "budget_actions", 0));
     sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
+    sp.leafVf = getp(P, "leaf_vf", 0) > 0;
+    sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
+    sp.lowHpThresh = getp(P, "lowhp_thresh", 20.0);
     sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);
     legacy.rng = std::default_random_engine(static_cast<unsigned>(agentSeed ^ 0xabcdefULL));
 }
@@ -86,6 +96,11 @@ void FairAgent::playBattle(GameContext &gc) {
         }
         auto spNow = searchParamsFor(bc);
         spNow.knownTop = knownTop;
+        if (vfLog && bc.inputState == InputState::PLAYER_NORMAL) {  // one row per decision point
+            const size_t off = vfRows.size();
+            vfRows.resize(off + vf::DIM);
+            vf::extract(bc, vfRows.data() + off);
+        }
         if (!reuse || !searcher) searcher = std::make_unique<FairSearcher>(bc, spNow, rng());
         FairSearcher &s = *searcher;
         s.setRoot(bc);
@@ -105,6 +120,21 @@ void FairAgent::playBattle(GameContext &gc) {
             putsOnTop = task == CardSelectTask::HEADBUTT || task == CardSelectTask::WARCRY;
         }
         a.execute(bc);
+        if (vfLog && bc.outcome != Outcome::UNDECIDED && !vfRows.empty()) {
+            // label every row of this battle with its final outcome and flush
+            const float win = bc.outcome == Outcome::PLAYER_VICTORY ? 1.f : 0.f;
+            const float hp = static_cast<float>(bc.player.curHp);
+            const float target = static_cast<float>(terminalValue(bc, sp));
+            // must stay exactly representable in float32 (< 2^24): seed-derived prefix * 100 + battle index
+            const float bid = static_cast<float>((agentSeed % 100000ULL) * 100 + static_cast<std::uint64_t>(std::min<std::int64_t>(stats.battles, 99)));
+            for (size_t off = 0; off < vfRows.size(); off += vf::DIM) {
+                std::fwrite(vfRows.data() + off, sizeof(float), vf::DIM, vfLog);
+                const float extra[4] = {win, hp, target, bid};
+                std::fwrite(extra, sizeof(float), 4, vfLog);
+            }
+            std::fflush(vfLog);
+            vfRows.clear();
+        }
         if (trackTop) {
             const int pileAfter = static_cast<int>(bc.cards.drawPile.size());
             if (pileAfter < pileBefore) knownTop = std::max(0, knownTop - (pileBefore - pileAfter));

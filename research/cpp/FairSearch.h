@@ -38,11 +38,16 @@ struct SearchParams {
     double winBonus = 35.0;      // constant for winning
     double maxHpWeight = 0.0;    // value per max hp (feed, etc.)
     double escapePenalty = 30.0; // value lost by escaping with Smoke Bomb (forfeited rewards), in HP-equivalents
+    double lowHpPen = 0.0;       // extra value lost per HP below lowHpThresh at a won fight's end (risk aversion)
+    double lowHpThresh = 20.0;
+    bool leafVf = false;         // rollout cutoff: use the learned MLP value instead of the heuristic
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited
 };
 
 std::uint64_t observationHash(const sts::BattleContext &bc);
+// value of a finished (or cut-off) battle state in search units; shared by the search and the data logger
+double terminalValue(const sts::BattleContext &bc, const SearchParams &p);
 void determinise(sts::BattleContext &bc, std::mt19937_64 &rng, int knownTop = 0);
 std::vector<sts::search::Action> enumerateActions(const sts::BattleContext &bc, bool allowPotions = true);
 // allocation-free variant (same action set and order); returns count written to out[0..cap)

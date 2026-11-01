@@ -2,6 +2,7 @@
 
 #include "sim/search/BattleScumSearcher2.h"
 #include "sim/search/ExpertKnowledge.h"
+#include "mlp.h"
 
 #include <algorithm>
 #include <cmath>
@@ -238,10 +239,13 @@ int FairSearcher::newNode(const BattleContext &bc) {
     return static_cast<int>(nodes.size()) - 1;
 }
 
-double FairSearcher::evaluate(const BattleContext &bc) const {
+double FairSearcher::evaluate(const BattleContext &bc) const { return terminalValue(bc, p); }
+
+double terminalValue(const BattleContext &bc, const SearchParams &p) {
     if (bc.outcome == Outcome::PLAYER_VICTORY) {
         double v = p.winBonus + p.hpWeight * bc.player.curHp + p.potionValue * bc.potionCount
                    + p.maxHpWeight * bc.player.maxHp - bc.turn * 0.01;
+        if (bc.player.curHp < p.lowHpThresh) v -= p.lowHpPen * (p.lowHpThresh - bc.player.curHp);  // concave HP utility
         if (bc.miscBits.test(1)) v -= p.escapePenalty;  // Smoke Bomb escape forfeits the fight's rewards
         return v;
     }
@@ -256,6 +260,7 @@ double FairSearcher::evaluate(const BattleContext &bc) const {
     }
     const double ratio = mx > 0 ? static_cast<double>(cur) / mx : 0.0;
     if (bc.outcome == Outcome::UNDECIDED) {
+        if (p.leafVf && vf::VF_TRAINED) return vf::value(bc);  // learned leaf value (Phase A/B)
         // rollout cutoff (fight unresolved): monotone heuristic between loss and win —
         // credit for enemy HP removed, current HP, potions kept. Tunable via cut_* params.
         return p.cutWinFrac * p.winBonus * (1.0 - ratio)

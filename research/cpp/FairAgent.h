@@ -6,9 +6,11 @@
 #include "game/GameContext.h"
 #include "sim/search/ScumSearchAgent2.h"
 
+#include <cstdio>
 #include <map>
 #include <random>
 #include <string>
+#include <vector>
 
 namespace fair {
 
@@ -38,6 +40,9 @@ private:
     SearchParams sp;
     std::mt19937_64 rng;
     sts::search::ScumSearchAgent2 legacy;  // out-of-combat fallback policy
+    std::FILE *vfLog = nullptr;            // Phase A data logger (vf_log=1 + VF_LOG_DIR)
+    std::vector<float> vfRows;             // buffered feature rows of the current battle
+    std::uint64_t agentSeed = 0;
 
     void playBattle(sts::GameContext &gc);
     void stepOutOfCombat(sts::GameContext &gc);
