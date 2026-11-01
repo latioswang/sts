@@ -173,8 +173,10 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   0.3, wd 1e-3, hidden 32, run-grouped early stopping): **best epoch 3, val log-loss 0.567 vs
   0.679 base, acc 0.72** → exported. The trainer writes an untrained placeholder whenever the
   model fails to beat the base rate, so `rv_pick` can never silently degrade to noise.
-- Batch 14 so far (vs rb3): `lowhp1` +0.010 (P=0.61), `lowhp2` −0.306 (strong risk aversion →
-  passivity). Batch 15 queued: `chest1`, `prior1`, `prior1_s450`, `rvpick1`, `INFO_keys1`.
+- Batch 14 (vs rb3): `lowhp1` +0.010 (P=0.61), `lowhp2` −0.306 (strong risk aversion →
+  passivity), `nodome` −0.003 (P=0.38: allowing Runic Dome is neutral for this agent, so the
+  honest Dome handling costs nothing), `neow2` −0.017 (P=0.34), `maxhp05` pending.
+  Batch 15 queued: `chest1`, `prior1`, `prior1_s450`, `rvpick1`, `INFO_keys1`.
 - **Third data-integrity bug, found by cross-referencing run logs with the TSV:** 146/1,000
   generation games aborted (14.6%) — only with loggers on. gdb: `std::map::at(DRAW_REDUCTION)`
   threw inside the feature extractor; lightspeed sets that status as a bit with no map value, so
