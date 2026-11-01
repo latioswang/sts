@@ -57,10 +57,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 
 ### Current state (update after every batch) — 2026-11-01 10:30 UTC
 - Tracks: **A0 best `wea1p1` 63.7% val** (map: +1 for act-1 elites — relics matter once chests are
-  opened; +0.034 vs priormlp_d0, P=0.954; chest1 confirmed 54.6% test); **A10 best `a10_kbsyn` 24.3%**
-  (KB synergy bonuses in card picks: +0.092 score, +5.7 pts win vs a10_rest06, P=0.995 — the same
-  change is neutral at A0: kbsyn1 −0.007, kbsyn2 −0.037, kbsyn_rel −0.017; at A10 deck coherence
-  matters more because every fight is harder);
+  opened; +0.034 vs priormlp_d0, P=0.954; chest1 confirmed 54.6% test); **A10 best `a10_eh075` 27.0%**
+  (chain: rest <60% 18.7% → KB synergy bonuses 24.3% (+5.7 pts, P=0.995; neutral at A0) → elites only
+  above 75% HP 27.0% (+0.065, P=0.981));
   **A20 seeded: `base_a20` 2.3% win, floor 21.8** (A0 best params at ascension 20 — the ladder's hard
   end); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
@@ -83,6 +82,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   to matter); `a10_kbsyn2` (double weights) 19.3%, −0.069, P=0.02; `a10_kbsyn_rel` (relic-card only)
   22.7%, −0.031 — the card-card synergies carry the A10 keep, and the response is sharply
   non-monotonic in the weight, so the keep is being re-checked on 100 independent dev seeds.
+- Batch 33 (A10, vs a10_kbsyn 24.3%): `a10_ct4b` +0.007; **`a10_eh075` (elites only above 75% HP) 27.0%,
+  floor 35.7, +0.065, P=0.981 → KEEP, new A10 best.** Elite HP gates now: A0 0.6, A10 0.75, A20 0.8.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline

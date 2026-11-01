@@ -1,1 +1,0 @@
-load before timing: 0.44 2.50 2.99

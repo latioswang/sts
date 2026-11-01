@@ -156,3 +156,4 @@ ec3ef7e	val.a0	300	0	0.640	45.39	1.5301	+0.0086	0.685	discard	rh06b: rest: heal 
 4908750	val.a10	300	0	0.193	32.50	0.8307	-0.0685	0.017	discard	a10_kbsyn2: [a10] A10: KB synergy bonuses, double weights [kb_syn_card_w=1.0 kb_syn_relic_w=1.5]
 635e643	val.a10	300	0	0.227	32.73	0.8685	-0.0307	0.177	discard	a10_kbsyn_rel: [a10] A10: relic-card synergies only [kb_syn_card_w=0]
 3dbe86f	val.a10	300	0	0.243	33.81	0.9063	+0.0072	0.617	discard	a10_ct4b: [a10] A10: take more cards (threshold 4) — retest on a10_kbsyn [card_thresh=4]
+e6aa6ab	val.a10	300	0	0.270	35.40	0.9641	+0.0650	0.981	keep	a10_eh075: [a10] A10: elites only at 75% HP — retest on a10_kbsyn [elite_hp=0.75]

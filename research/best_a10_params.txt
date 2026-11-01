@@ -2,6 +2,7 @@ aoe_bonus=2
 boss_pol=1
 card_pol=1
 chest_pol=1
+elite_hp=0.75
 end_turn_w=0.05
 ev_pol=1
 hall_potions=0
