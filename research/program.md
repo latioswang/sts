@@ -496,6 +496,9 @@ upper reference**, never as a result.
    near-misses, try more radical changes.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Numbers in notes are pasted, never typed.** Twice today a floor was written from memory and was
+  wrong by 0.2–0.3. `research/tools/note.py NAME...` prints the exact fragment from results.tsv;
+  program.md/REPORT.md lines quoting results are built from its output (or computed in a script).
 - **Chains of background waiters are banned.** Batch 27–29 were queued as three waiters, each
   polling the previous one's output file; the first used `pgrep -f "new_track.sh"`, which matched
   its own command line, so all three slept forever (second occurrence of the `-f` self-match bug).
