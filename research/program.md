@@ -1,5 +1,35 @@
 # Ironclad autoresearch program
 
+## Month program (started 2026-11-01) — what the agent is, and where it is going
+
+**What it is today (phase 1–2): not RL.** Combat = online MCTS with uniformly random rollouts
+and a hand-written terminal value; out-of-combat = hand-written parametric rules seeded by the
+KB tier lists; the improvement loop = hypothesis → frozen eval → paired keep/discard.
+Nothing is learned from data. Test (500 seeds, A0): 33.8% before the sim fixes; val now 38.0%.
+
+**North star for the month:** Ironclad **A20 Heart** win rate on held-out seeds (the Epoch
+SpireClimb target; best public LLM ≈ 20%, strong humans 50–95%). Intermediate: A0 ≥ 50%,
+A10 ≥ 35%, A20 (no Heart) ≥ 25%, A20 Heart ≥ 15%. Every number: 500 seeds, 95% Wilson CI,
+leak test green, compute budget fixed as wall-clock-equivalent of the original 500-sim search.
+
+| Phase | Days | Deliverable | Gate to next |
+|---|---|---|---|
+| A. Learning infrastructure | 1–3 | C++ feature extractor; state/outcome logger (real + search-visited states); torch trainer; weight export; C++ MLP inference; two integration points: leaf value at cutoff and UCB prior from a policy head | Equal-compute A/B harness runs end-to-end on a trivially-trained model |
+| B. Expert iteration for combat | 3–12 | Loop: self-play with current search → train V (and π over hand actions) → plug in → paired eval → repeat. Replace random rollouts only when the learned leaf beats them at equal compute | Combat agent beats rb3 at equal compute, P ≥ 0.9, on val; confirmed on test |
+| C. Learned run-level value | 7–16 | V_run(deck, relics, HP, gold, floor, act, boss) = P(win) from logged runs (thousands/day on 4 cores); card/path/shop/rest/boss-relic decisions = argmax V_run after the choice (one-step lookahead), replacing KB heuristics where it wins; counterfactual-rollout data augmentation at decision points | Strategic layer beats the heuristic layer at equal compute |
+| D. Ascension ladder + Act 4 | 12–24 | Keys (ruby/emerald/sapphire) and Act 4 enabled in policy; A10 then A20 tracks with their own `best`; Heart-specific prep | A20 Heart runs complete without sim crashes; ≥ 15% |
+| E. Fidelity (continuous) | — | Invariant checkers in trace builds; fuzz runs on every sim change; fix root causes, never route around | 0 crashes/hangs per 1,000 games |
+| F. Stretch | 24–30 | Silent via lightspeed card implementation (large), or publish engine + seed sets + protocol | — |
+
+**Durability rules (ephemeral container):** everything that matters is committed to
+`autoresearch/ironclad` (code, patch, results.tsv, run TSVs, trained weights as `.inc`).
+`research/setup.sh` rebuilds the simulator from the pinned commit + patch. The resume
+procedure below is what a fresh container executes. Scheduled tasks re-wake this session.
+
+**Honesty rules carried forward:** no hidden information in any agent input (leak tests gate
+every build); fixed compute per comparison; `test` touched only at milestones; the simulator
+is the environment, not a stand-in for the real game — results are "in lightspeed".
+
 Modelled on karpathy/autoresearch (`program.md`): the human writes this file,
 the agent iterates on ONE editable surface, a FROZEN harness scores every
 attempt, keep only strict improvements, log everything, never pause to ask.
@@ -111,6 +141,10 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
 
 ### Resume procedure (after context loss / new session)
 
+0. Fresh container? `ls /home/user/sts_lightspeed/build/fair_eval || research/setup.sh`;
+   `git branch --show-current` must be `autoresearch/ironclad` (else `git fetch origin
+   autoresearch/ironclad && git checkout autoresearch/ironclad`). Python deps: `pip install
+   torch --index-url https://download.pytorch.org/whl/cpu` (CPU wheel) for `research/vf/`.
 1. Read this file, `research/results.tsv`, `research/best_name.txt`.
 2. `pgrep -x fair_eval` — if evals are running, wait for them; never start a 2nd batch.
 3. Rebuild: `research/setup.sh` (or `make -C /home/user/sts_lightspeed/build fair_eval`)

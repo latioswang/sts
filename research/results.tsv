@@ -75,3 +75,5 @@ c3e3d15	val.a0	297	3	0.347	39.97	1.1306	-0.0185	0.236	best	rb2: RE-BASELINE on f
 59cbbae	val.a0	300	0	0.337	39.40	1.1092	-0.0646	0.031	discard	bud_base: action budget 7500 (≈500 sims), no cutoff: compute redistribution only [budget_actions=7500]
 3626bde	val.a0	300	0	0.203	34.97	0.8890	-0.2848	0.000	discard	bud_rt3: budget 7500 + rollout cutoff 3 turns + heuristic leaf [budget_actions=7500 rollout_turns=3]
 b03d7fe	val.a0	300	0	0.267	37.44	1.0007	-0.1730	0.000	discard	bud_rt6: budget 7500 + cutoff 6 [budget_actions=7500 rollout_turns=6]
+4934362	val.a0	300	0	0.147	33.37	0.8010	-0.3727	0.000	discard	bud_rt2: budget 7500 + cutoff 2 [budget_actions=7500 rollout_turns=2]
+4934362	val.a0	300	0	0.387	40.49	1.1806	+0.0069	0.764	discard	esc15: Smoke Bomb escape penalty 15 [escape_pen=15]
