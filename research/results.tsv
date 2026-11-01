@@ -229,3 +229,4 @@ fd6cc3f	val.a0	300	0	0.713	46.67	1.6284	-0.0322	0.131	discard	ct55: card thresho
 9a03a4f	dev.a0	100	0	0.680	45.91	1.5802	+0.0063	0.584	info	ct45_dev: ct45 on dev (extension of the val near-miss)
 ea661fc	train.a0	500	0	0.192	42.87	1.0042			info	bg_heart: bg_heart: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
 20f5d65	val.a0	300	0	0.080	45.25	0.9335	+0.0201	0.859	discard	heart_bfbonus10_g_heart: [heart] card picks: KB value + 10 x predicted fight-value gain (model g_heart) [bf_model=6 bf_bonus=10]
+58d78fd	val.a0	300	0	0.093	46.33	0.9656	+0.0522	0.989	keep	heart_bfbonus25_g_heart: [heart] card picks: KB value + 25 x predicted fight-value gain (model g_heart) [bf_model=6 bf_bonus=25]

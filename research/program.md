@@ -74,7 +74,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   the combined-ascension deck-value model 29.3%);
   **A20 best `a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
   P=0.935; previous **`a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
-  valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
+  valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `heart_bfbonus25_g_heart`: `heart_bfbonus25_g_heart` 9.3% win, floor 46.3, +0.052 vs base, P=0.989 → keep** (win = act ≥ 4 && win; model 6 = A0 fights +
+  Heart-labelled act-3 states, 25× bonus; 10× `heart_bfbonus10_g_heart` 8.0% win, floor 45.2, +0.020 vs base, P=0.859 → discard; chain: INFO_keys1 6.3% → heart_cur 7.3% → 9.3%).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7% → potions
