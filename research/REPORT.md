@@ -112,7 +112,9 @@ With `keys=1 chest_pol=1` on the chest-era agent (val, 300 seeds): 35.0% of runs
 keys and reached Act 4, and **6.3% beat the Heart (19/300; 18% conversion from Act 4)**. The current
 Heart best (`heart_bfbonus25_g_heart`: the A0 chain with keys plus a 25× bonus from a model whose act-3
 labels are fights against the Heart itself) reaches Act 4 in 140/300 runs and **beats the Heart in 28/300
-(9.3%, 20% conversion; +0.052 score vs the previous Heart best, P=0.989)**. (An earlier draft of this report
+(9.3%, 20% conversion; +0.052 score vs the previous Heart best, P=0.989)**. On 100 independent dev seeds
+the same agent won 4/100 vs 9/100 for its predecessor (score −0.034, P=0.20), so this keep is unreplicated;
+Heart conversion remains the weakest, noisiest track (a 2–3-point Heart-win difference is one or two runs). (An earlier draft of this report
 said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
 Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs
 finishing on ~28 HP, so Act-4 conversion is a damage-race problem. Tracked separately from the A0
