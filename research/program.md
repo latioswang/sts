@@ -552,7 +552,10 @@ extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled
 dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
 stays discarded. bfbonus50: `bfbonus50_dev` 64.0% win, floor 44.9, -0.030 vs base, P=0.340 → info; pooled val,dev: n=400  bfbonus50 win=0.713 floor=46.21  bfbonus10 win=0.688 floor=46.29  dscore=+0.0233 dwin=+0.025 P(improve)=0.780 → fails too. The monotone val trend (bonus 10 → 25 → 50:
 69.3 → 70.7 → 73.7%) did not survive fresh seeds: both dev runs are negative. Bonus 10 stays; the extension
-rule did its job (two val near-misses rejected at the cost of 200 games).
+rule did its job (two val near-misses rejected at the cost of 200 games). Probe: `bfbonus100` 71.3% win, floor 47.0, +0.024 vs base, P=0.744 → discard — another val
+near-miss in the same family; **no further extensions for the bonus-weight family** (two declared
+candidates already failed on fresh seeds; a third would be fishing). The weight is revisited only with
+a new model (g1) and its own val/dev runs.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
