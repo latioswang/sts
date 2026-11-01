@@ -669,6 +669,12 @@ before anything is claimed; the Heart track, where a 2–3-point difference is o
 only effects that replicate on two independent slices. These slices do not touch `test`.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Third self-match (2026-11-01 21:30 UTC):** a cleanup command grepped the process list for
+  `bf_pipeline` while its own command line contained `research/tools/bf_pipeline.sh` (in a `printf` for
+  the resume file) and killed its own shell. The bracket trick protects the *pattern*, not other
+  occurrences of the text in the same command. Rule: never combine a process-list grep with any other
+  text in one command; list orphans by parent pid (`awk '$2==1'`) and kill by numeric pid in a separate
+  command.
 - **Run ids must be unique per dataset, not per seed.** `bg1` and `bg_heart` were generated from the
   same train seeds, so the seed-derived run ids collided when the two sets were pooled; base rows of one
   game were paired with option rows of the other, and model 6's first training showed paired
