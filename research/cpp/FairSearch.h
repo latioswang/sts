@@ -26,6 +26,7 @@ struct SearchParams {
     double exploration = 0.7;    // UCB c on [0,1]-normalised values
     int rolloutTurns = 99;       // stop random rollout after this many extra turns, then evaluate heuristically
     double endTurnRolloutWeight = 1.0;  // relative weight of END_TURN in random rollout (1 = uniform)
+    bool allowPotions = true;  // potion actions in tree + rollouts
     double rollBlockW = 1.0;   // rollout weight of skills when visible incoming damage > block
     double rollAtkW = 1.0;     // rollout weight of attacks when no damage incoming
     double rolloutOrderK = 0.0;         // bias rollout card choice toward lightspeed expert play order
@@ -38,7 +39,7 @@ struct SearchParams {
 
 std::uint64_t observationHash(const sts::BattleContext &bc);
 void determinise(sts::BattleContext &bc, std::mt19937_64 &rng);
-std::vector<sts::search::Action> enumerateActions(const sts::BattleContext &bc);
+std::vector<sts::search::Action> enumerateActions(const sts::BattleContext &bc, bool allowPotions = true);
 
 class FairSearcher {
 public:

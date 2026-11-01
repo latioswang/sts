@@ -52,3 +52,5 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 7d5a6fe	val.a0	300	0	0.317	38.78	1.0771	+0.0279	0.841	discard	combo1: near-misses combined: scaling 3, want 3, power upgrades +2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2]
 7d5a6fe	val.a0	300	0	0.297	37.79	1.0377	-0.0115	0.077	discard	wrl5: map: low-hp rest value 5 [w_rest_lo=5]
 7d5a6fe	val.a0	300	0	0.307	38.32	1.0581	+0.0089	0.660	discard	wsr3: map: shop value 3 when rich [w_shop_rich=3]
+347f3fc	val.a0	300	0	0.293	39.56	1.0690	+0.0197	0.733	discard	wmon05: map: hallway fight value 0.5 [w_monster=0.5]
+347f3fc	val.a0	300	0	0.363	39.09	1.1297	+0.0805	0.994	info	INFO_sims1000: INFO ONLY: best params at 2x compute (sims=1000), never promoted

@@ -79,7 +79,7 @@ void determinise(BattleContext &bc, std::mt19937_64 &rng) {
 }
 
 // Reuse lightspeed's action enumeration through a dummy searcher node.
-std::vector<search::Action> enumerateActions(const BattleContext &bc) {
+std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allowPotions) {
     static thread_local std::unique_ptr<search::BattleScumSearcher2> dummy;
     if (!dummy) dummy = std::make_unique<search::BattleScumSearcher2>(bc);
     search::BattleScumSearcher2::Node node;
@@ -90,7 +90,7 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc) {
         // Simulator bug workaround: Entropic Brew can create potions whose
         // effects lightspeed doesn't implement (e.g. Ambrosia) -> crash.
         if (e.action.getActionType() == search::ActionType::POTION &&
-            bc.potions[e.action.getSourceIdx()] == Potion::ENTROPIC_BREW) continue;
+            (!allowPotions || bc.potions[e.action.getSourceIdx()] == Potion::ENTROPIC_BREW)) continue;
         out.push_back(e.action);
     }
     return out;
@@ -119,7 +119,7 @@ bool FairSearcher::advance(search::Action taken, const BattleContext &after) {
 
 int FairSearcher::newNode(const BattleContext &bc) {
     Node n;
-    for (auto a : enumerateActions(bc)) {
+    for (auto a : enumerateActions(bc, p.allowPotions)) {
         Edge e;
         e.action = a;
         n.edges.push_back(std::move(e));
@@ -155,7 +155,7 @@ double FairSearcher::rollout(BattleContext &bc) {
     const int stopTurn = bc.turn + p.rolloutTurns;
     std::uniform_real_distribution<double> U(0, 1);
     while (bc.outcome == Outcome::UNDECIDED && bc.turn < stopTurn) {
-        auto acts = enumerateActions(bc);
+        auto acts = enumerateActions(bc, p.allowPotions);
         if (acts.empty()) break;
         // weighted pick: END_TURN has weight endTurnRolloutWeight, others 1
         double total = 0;

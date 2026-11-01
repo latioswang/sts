@@ -51,6 +51,9 @@ SearchParams FairAgent::searchParamsFor(const BattleContext &bc) const {
         s.potionValue = getp(P, "potion_v_boss", s.potionValue);
     } else if (isEliteEncounter(bc.encounter)) {
         s.potionValue = getp(P, "potion_v_elite", s.potionValue);
+    } else {
+        // hallway fight: optionally keep potions out of the search (saves branching, keeps them for elites/bosses)
+        s.allowPotions = getp(P, "hall_potions", 1) > 0 || bc.player.curHp * 4 < bc.player.maxHp;
     }
     return s;
 }
