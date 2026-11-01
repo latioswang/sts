@@ -660,6 +660,7 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
 family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
 run: `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard vs `a10_bfbonus25_g1m` (event rooms valued 2.5 at A10).
+Outcome: `a10_wev25_dev` 21.0% win, floor 34.2, -0.002 vs base, P=0.460 → info; pooled val,dev: n=400  a10_wev25 win=0.278 floor=36.91  a10_bfbonus25_g1m win=0.273 floor=36.60  dscore=+0.0111 dwin=+0.005 P(improve)=0.743 → fails, stays discarded. Extension tally: 2 kept of 8.
 
 ## Label-noise reduction (bf_k=3), result 2026-11-01 21:30 UTC
 Model 9 (bg1k3: 59,737 rows, labels averaged over three fights per option): paired correlations rose to
