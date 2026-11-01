@@ -10,6 +10,7 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
 | **Current A0 best `bfbonus10_g1`** (bfbonus10 with the graded-label model g1 in the bonus, P=0.947) | val, 300 | **73.3%** | — | 47.3 |
+| **same, test confirmation (M5)** | **test, 500** | **66.6%** | **[62.4%, 70.6%]** | 45.9 |
 | `bfbonus10` (potsave2 + learned interventional deck-value bonus on card picks, P=0.952) | val, 300 | 69.3% | — | 46.8 |
 | `potsave2` (wea1p1 + potions saved for boss fights; kept on pooled val+dev 400 seeds, P=0.949) | val, 300 | 66.3% | — | 45.5 |
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
@@ -127,6 +128,9 @@ mechanised bit-identity check after every rebuild (`research/tools/repro_check.s
 ## Caveats
 
 Results are "in lightspeed" (Ironclad, A0, no Act 4 in the main metric), never validated against
-the real game. ~90 val tests with a P ≥ 0.9 rule → some keeps are false positives; the test split
-(touched 5 times, never tuned on) is the honest number. KB tiers and event rules are hand-written
+the real game. ~190 val tests with a P ≥ 0.9 rule → some keeps are false positives; the test split
+(touched 6 times, never tuned on) is the honest number: the current A0 best reads 73.3% on val and
+66.6% on test, a 7-point winner's-curse gap accumulated over four val-selected keeps (the chest-fix agent
+had a 3-point gap). Near-misses are now extended on fresh dev seeds under a pre-registered rule, and every
+track best is re-checked on independent seeds before it is reported. KB tiers and event rules are hand-written
 priors; the loop tuned around them.

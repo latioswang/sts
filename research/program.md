@@ -54,9 +54,14 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M2 | val win ≥ 30% | run `test`; re-run cheating-combat diagnostic |
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
-| M5 | val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | one test run of that agent (test budget: +1) |
+| M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
 ### Current state (update after every batch) — 2026-11-01 15:20 UTC
+- **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
+  [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
+  val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
+  (chest1 was 57.7% val / 54.6% test, a 3-pt gap; the chain since then added four keeps). Test is the
+  honest number; val remains the loop's metric.
 - Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
   gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus).
   Dev check (100 fresh seeds vs bfbonus10_dev 67.0%): `bfbonus10_g1_dev` 68.0% win, floor 45.6, +0.023 vs base, P=0.663 → info — direction positive, size smaller than val
