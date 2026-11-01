@@ -63,7 +63,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   (chest1 was 57.7% val / 54.6% test, a 3-pt gap; the chain since then added four keeps). Test is the
   honest number; val remains the loop's metric.
 - Tracks: **A0 best `mapd085`: `mapd085` 75.0% win, floor 47.4, +0.018 vs base, P=0.913 → keep** (map-path discount 0.9 → 0.85: a shorter planning horizon on the
-  map DP; marginal keep, dev check queued; batch 39 otherwise neutral: wev15 −0.000, wev25 −0.040,
+  map DP; marginal keep; dev check: `mapd085_dev` 68.0% win, floor 45.6, +0.000 vs base, P=0.431 → info vs bfbonus10_g1_dev — exactly zero on 100 fresh seeds, i.e.
+  the changed discount altered no outcome there: unreplicated, and treated as a val-only artefact unless
+  mapd080 continues the trend; batch 39 otherwise neutral: wev15 −0.000, wev25 −0.040,
   wsr2 −0.004, wsr4 −0.005, resthp04 −0.018, resthp06 +0.002). Previous: **`bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
   gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus).
   Dev check (100 fresh seeds vs bfbonus10_dev 67.0%): `bfbonus10_g1_dev` 68.0% win, floor 45.6, +0.023 vs base, P=0.663 → info — direction positive, size smaller than val
