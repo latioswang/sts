@@ -39,3 +39,8 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 2a7102e	val.a0	300	0	0.227	36.71	0.9465	-0.0091	0.279	discard	rh04: rest: heal below 40% [rest_heal_frac=0.4]
 2a7102e	val.a0	300	0	0.217	37.02	0.9425	-0.0131	0.214	discard	rh06: rest: heal below 60% [rest_heal_frac=0.6]
 2a7102e	val.a0	300	0	0.183	36.11	0.8914	-0.0642	0.024	discard	hpw2: combat value hp x2 [hp_w=2]
+6c01d8f	val.a0	300	0	0.157	34.79	0.8388	-0.1168	0.000	discard	wb100: combat: win bonus 100 (prioritise winning over hp) [win_bonus=100]
+6c01d8f	val.a0	300	0	0.223	37.44	0.9574	+0.0018	0.532	discard	wb15: combat: win bonus 15 [win_bonus=15]
+6c01d8f	val.a0	300	0	0.170	36.61	0.8878	-0.0677	0.006	discard	spot1: shop: buy potions when a slot is free [shop_potion=1]
+6c01d8f	val.a0	300	0	0.243	36.96	0.9680	+0.0125	0.779	discard	upgpow2: upgrade: powers +2 [upg_power_bonus=2]
+6c01d8f	val.a0	300	0	0.210	36.55	0.9267	-0.0288	0.096	discard	md10: map: no discount on future rooms [map_discount=1.0]
