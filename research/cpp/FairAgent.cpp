@@ -10,6 +10,7 @@
 #include "rv_mlp.h"
 #include <cstdlib>
 #include <memory>
+#include <unordered_map>
 #include <iostream>
 
 using namespace sts;
@@ -210,6 +211,53 @@ static bool isAoe(CardId id) {
     }
 }
 
+// ---------------- KB synergy tables (generated from the repo KB) ----------------
+struct KbCardSyn { CardId a, b; float w; };
+struct KbRelicSyn { RelicId r; CardId c; float w; };
+#include "kb_synergy.inc"
+
+namespace {
+inline std::uint32_t packCC(CardId a, CardId b) { return (static_cast<std::uint32_t>(a) << 16) | static_cast<std::uint32_t>(b); }
+inline std::uint32_t packRC(RelicId r, CardId c) { return (static_cast<std::uint32_t>(r) << 16) | static_cast<std::uint32_t>(c); }
+const std::unordered_map<std::uint32_t, float> &cardSynMap() {
+    static const std::unordered_map<std::uint32_t, float> m = [] {
+        std::unordered_map<std::uint32_t, float> t;
+        for (const auto &e : kKbCardSyn) { t[packCC(e.a, e.b)] = e.w; t.emplace(packCC(e.b, e.a), e.w); }
+        return t;
+    }();
+    return m;
+}
+const std::unordered_map<std::uint32_t, float> &relicSynMap() {
+    static const std::unordered_map<std::uint32_t, float> m = [] {
+        std::unordered_map<std::uint32_t, float> t;
+        for (const auto &e : kKbRelicSyn) t[packRC(e.r, e.c)] = e.w;
+        return t;
+    }();
+    return m;
+}
+}  // namespace
+
+// KB synergy of candidate card c with the current deck and relics (0 when kb_syn is off)
+double FairAgent::kbSynergy(const GameContext &gc, const Card &c) const {
+    if (getp(P, "kb_syn", 0) <= 0) return 0.0;
+    const auto &cm = cardSynMap(); const auto &rm = relicSynMap();
+    double cardSum = 0.0;
+    for (const auto &d : gc.deck.cards) {
+        if (d.getId() == c.getId()) continue;
+        auto it = cm.find(packCC(c.getId(), d.getId()));
+        if (it != cm.end()) cardSum += it->second;
+    }
+    const double cap = getp(P, "kb_syn_cap", 3.0);
+    cardSum = std::max(-cap, std::min(cap, cardSum));
+    double relicSum = 0.0;
+    for (const auto &r : gc.relics.relics) {
+        auto it = rm.find(packRC(r.id, c.getId()));
+        if (it != rm.end()) relicSum += it->second;
+    }
+    relicSum = std::max(-cap, std::min(cap, relicSum));
+    return getp(P, "kb_syn_card_w", 0.5) * cardSum + getp(P, "kb_syn_relic_w", 0.75) * relicSum;
+}
+
 // deck-aware value of adding card c (defaults reduce to plain KB value)
 double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     double v = cardValue(c);
@@ -221,6 +269,7 @@ double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     if (isAoe(c.getId()) && aoe == 0 && gc.act <= 2) v += getp(P, "aoe_bonus", 0.0);
     v -= getp(P, "dup_pen", 0.0) * dups;
     if (c.getType() == CardType::POWER) v += getp(P, "power_bonus", 0.0);
+    v += kbSynergy(gc, c);
     auto isScaling = [](CardId id) {
         switch (id) {
             case CardId::INFLAME: case CardId::DEMON_FORM: case CardId::SPOT_WEAKNESS:
