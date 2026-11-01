@@ -643,6 +643,12 @@ bg1+bg1b → `bfbonus10_g1b`; 500 more A10 games from the current A10 best (`bg_
 bg1+bg_a10+bg_a10b → `a10_bfbonus25_g_a10b`. Expected: modest gains (the g0→g1 step was +4 pts from
 better labels; this step changes the data distribution, not the labels).
 
+## Replication slices (added 2026-11-01 18:35 UTC)
+`dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
+tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2
+before anything is claimed; the Heart track, where a 2–3-point difference is one or two runs, reports
+only effects that replicate on two independent slices. These slices do not touch `test`.
+
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Run ids must be unique per dataset, not per seed.** `bg1` and `bg_heart` were generated from the
   same train seeds, so the seed-derived run ids collided when the two sets were pooled; base rows of one
