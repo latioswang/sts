@@ -118,7 +118,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   (Donu & Deca 20 vs 10). Diagnosis: the labels are fights against the *current* act's boss, so an
   act-1 pick is judged by Guardian/Hexaghost value — short-horizon; the KB tiers encode what act-3
   bosses need (scaling, AoE). The absolute predictor is good, the option differences are too noisy and
-  myopic to beat hand tiers at card rewards. Upgrade/removal variants and a margin variant pending.
+  myopic to beat hand tiers at card rewards. `bfpick_g0_m02` 50.3% win, floor 43.8, -0.195 vs base, P=0.000 → discard (margin 0.02 starves the deck: mean
+  20.0 cards); `bfupg_g0` 66.3% win, floor 45.8, +0.004 vs base, P=0.559 → discard (model upgrades ≈ KB upgrades); `bfrem_g0` 54.3% win, floor 44.5, -0.140 vs base, P=0.000 → discard (model removals keep
+  immediate damage and drop what act 3 needs). **g0 as a replacement is closed.** Next: (a) the model as
+  an additive adjustment to KB values (`bf_bonus`, batch 36); (b) model g1 with graded labels — damage
+  dealt to the current boss and to a boss sampled from the *next* act's pool (continuous, far less noisy
+  than win/loss, and forward-looking), so option differences carry signal.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
