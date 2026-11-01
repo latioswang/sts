@@ -74,6 +74,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   The keeps are floor-driven; wins moved 7→4→3→4 of 300, which is noise at this rate. Rule for the A20 ladder: keeps
   on score are legitimate while wins are < 10%, but every A20 keep must be re-checked on win rate once
   the track reaches ~10% (floors and wins can diverge: a passive policy survives longer and wins less).
+- Batch 29 (A0, vs wea1p1): `wea1p2` −0.008, `weh25` +0.001, `eh05` −0.014 — the map/elite knobs are
+  saturated at A0; `a10_wea1p1` −0.022 (the A0 act-1 elite weight does not transfer to A10).
+- Batch 31 (A0): `potv2` −0.007, **`potv8` (potions worth 8 HP) 65.0%, +0.022, P=0.77 — near-miss**,
+  `rh06b` +0.009 (P=0.69). Follow-up batch 34: save potions for bosses/elites (`potion_v_boss` low,
+  `potion_v` high), `potv12`.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
