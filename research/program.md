@@ -235,7 +235,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   replication" below.
 - Running (sequential queue, `research/queue.txt`): overnight hygiene — regenerate the A10 fight set on the
   fixed simulator (`bg_a10c`, same seeds as bg_a10) and retrain the A10 model (11) → `a10_bfbonus25_g2c`.
-  The queue is empty after that; the next-day plan is above.
+  Result: `a10_bfbonus25_g2c` 30.3% win, floor 37.6, +0.014 vs base, P=0.642 → discard — neutral; clean A10 data from the newer agent neither helps nor hurts (consistent with
+  the expert-iteration and hygiene expectations). Model 2 stays the A10 model. **The queue is empty**;
+  the next-day plan is above.
   potb2/bfb25 val-only (dev −0.002 / −0.027); Heart keep floor-replicated on 2 of 3 slices, wins flat.
 - **Plan for the next day (not started at night):** the cheap knobs are exhausted on every track and the
   learned strategic layer is closed at its kept form. The remaining lever inside the fixed wall-clock rule
