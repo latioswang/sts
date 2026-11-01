@@ -266,3 +266,4 @@ d3c5c0b	val.a20	300	0	0.037	27.79	0.5808	+0.0356	0.991	keep	a20_bfb25: [a20] A20
 39daffb	dev.a20	100	0	0.020	26.97	0.5484	-0.0022	0.321	info	a20_potb2_dev: VERIFY: a20_potb2 on dev vs a20_bfbonus10_g2m_dev (independent seeds)
 def9eb4	dev.a20	100	0	0.010	26.23	0.5241	-0.0265	0.146	info	a20_bfb25_dev: VERIFY: a20_bfb25 (two keeps on) on dev vs a20_bfbonus10_g2m_dev (independent seeds)
 a259677	dev.a10	100	0	0.210	34.17	0.8800	-0.0024	0.460	info	a10_wev25_dev: a10_wev25 on dev (extension of the val near-miss)
+1f6f80c	val.a20	300	0	0.010	28.32	0.5651	-0.0157	0.185	discard	a20_bfb50: [a20] A20: deck-value bonus 50x (model 3) [bf_bonus=50]
