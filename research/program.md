@@ -103,6 +103,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   chain replicates; the elite gate carries it, the KB-synergy step is ~0.
 - **Verification (A20 chain, 100 fresh dev seeds):** `base_a20_dev` 1.0% win, floor 21.9, → info; `a20_restlo_dev` 3.0% win, floor 25.2, +0.084 vs base, P=0.999 → info (vs base_a20_dev) — the three
   floor-driven A20 keeps replicate strongly (floor +4.3 on independent seeds).
+- Batch 35 (potion-value shape, vs potsave2): `potsave3` 66.7% win, floor 45.7, +0.006 vs base, P=0.656 → discard; `potsave4` 66.0% win, floor 45.6, -0.002 vs base, P=0.363 → discard — flat around hallway 8 / boss 4.
+  **A10 transfer: `a10_potsave2` 20.3% win, floor 34.2, -0.091 vs base, P=0.000 → discard (vs a10_eh075)** — at A10 hallway fights are dangerous enough that
+  hoarding potions for bosses kills; the potion policy is ascension-specific (A0 saves, A10 spends).
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
