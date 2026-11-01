@@ -134,3 +134,5 @@ c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move
 6c81998	val.a0	300	0	0.607	44.60	1.4811	-0.0065	0.302	discard	ca1b2: act-1 card-pick bonus 2 (take more early) [card_act1_bonus=2]
 6c81998	val.a0	300	0	0.637	45.13	1.5215	+0.0339	0.954	keep	wea1p1: map: +1 for act-1 elites (relics) [w_elite_act1=1]
 6c81998	val.a20	300	0	0.023	21.78	0.4499			best	base_a20: [a20] track baseline = current A0 best params at ascension 20
+80b20b7	val.a0	300	0	0.633	44.96	1.5149	-0.0066	0.426	discard	kbsyn1: KB synergy bonuses in card picks (card-card 0.5, relic-card 0.75 per listed synergy, cap 3) [kb_syn=1]
+80b20b7	val.a0	300	0	0.600	45.14	1.4850	-0.0365	0.177	discard	kbsyn2: KB synergy bonuses, double weights [kb_syn=1 kb_syn_card_w=1.0 kb_syn_relic_w=1.5]

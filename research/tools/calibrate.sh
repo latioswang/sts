@@ -9,6 +9,9 @@ COUNT=${2:-8}
 SEED=${3:-100010}
 BIN=${FAIR_EVAL_BIN:-/home/user/sts_lightspeed/build/fair_eval}
 if pgrep -x fair_eval >/dev/null; then echo "machine busy (fair_eval processes running) — refusing to time" >&2; exit 2; fi
+# timings need an idle machine: wait (up to 15 min) for the 1-minute load average to drop below 0.5
+for i in $(seq 1 90); do L=$(cut -d' ' -f1 /proc/loadavg); python3 -c "import sys; sys.exit(0 if float('$L') < 0.5 else 1)" && break; sleep 10; done
+echo "load before timing: $(cut -d' ' -f1-3 /proc/loadavg)"
 BASE=$(sed 's/^/--param /' research/best_params.txt | tr '\n' ' ')
 CANDARGS=$BASE; for kv in $CAND; do CANDARGS="$CANDARGS --param $kv"; done
 t() { local s=$(date +%s.%N); "$BIN" --inproc --seed_start "$SEED" --count "$COUNT" $1 >/dev/null 2>&1; local e=$(date +%s.%N); python3 -c "print(round($e-$s,2))"; }

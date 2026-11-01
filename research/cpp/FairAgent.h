@@ -43,6 +43,8 @@ private:
     std::FILE *vfLog = nullptr;            // Phase A data logger (vf_log=1 + VF_LOG_DIR)
     std::FILE *rvLog = nullptr;            // Phase C run-state logger (rv_log=1 + VF_LOG_DIR)
     std::FILE *pfLog = nullptr;            // Phase B root-visit logger (pf_log=1 + VF_LOG_DIR)
+    std::FILE *bfLog = nullptr;            // Phase C v3 interventional fight logger (bf_log=1 + VF_LOG_DIR)
+    std::uint64_t bfDecisions = 0;
     std::vector<float> rvRows;
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;
@@ -61,6 +63,13 @@ private:
     double kbSynergy(const sts::GameContext &gc, const sts::Card &c) const;
     // Phase C v2: interventional evaluation of a hypothetical run state by playing sampled fights
     double cfScore(const sts::GameContext &hyp, std::uint64_t cfSeed);
+    // Phase C v3: play one fight from a hypothetical run state (fresh RNG streams, no potions);
+    // out = {win, HP fraction left (0 on a loss)}
+    void bfFight(const sts::GameContext &hyp, sts::MonsterEncounter enc, std::uint64_t seed, float out[2]);
+    // log the base state and each hypothetical option with boss + hallway fight outcomes (kind 0 = card
+    // reward, 1 = upgrade, 2 = removal); same fight seeds for every option of the decision
+    void bfLogOptions(const sts::GameContext &gc, const std::vector<sts::GameContext> &hyps, int kind);
+    float bfValue(const sts::GameContext &st) const;  // learned interventional value (bf_mlp.h)
 };
 
 }  // namespace fair

@@ -8,6 +8,9 @@
 #include "run_features.h"
 #include "policy_features.h"
 #include "rv_mlp.h"
+#include "bf_mlp.h"
+#include <algorithm>
+#include <numeric>
 #include <cstdlib>
 #include <memory>
 #include <unordered_map>
@@ -40,6 +43,12 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
             const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";
             rvLog = std::fopen(path.c_str(), "ab");
+        }
+    }
+    if (getp(P, "bf_log", 0) > 0) {
+        if (const char *dir = std::getenv("VF_LOG_DIR")) {
+            const std::string path = std::string(dir) + "/bf_" + std::to_string(agentSeed_) + ".bin";
+            bfLog = std::fopen(path.c_str(), "ab");
         }
     }
     sp.simulations = static_cast<int>(getp(P, "sims", 500));
@@ -373,6 +382,63 @@ double FairAgent::cfScore(const GameContext &hyp, std::uint64_t cfSeed) {
     return total / fights;
 }
 
+// ---------------- Phase C v3: interventional deck value (data + decisions) ----------------
+void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint64_t seed, float out[2]) {
+    std::mt19937_64 frng(seed);
+    SearchParams s = sp;
+    s.simulations = static_cast<int>(getp(P, "bf_sims", 100));
+    s.allowPotions = false;  // potions are a run resource; the hypothetical fight does not spend them
+    GameContext g = hyp;
+    g.monsterHpRng = Random(frng()); g.aiRng = Random(frng()); g.shuffleRng = Random(frng());
+    g.cardRandomRng = Random(frng()); g.miscRng = Random(frng()); g.potionRng = Random(frng());
+    BattleContext bc;
+    bc.init(g, enc);
+    int steps = 0;
+    while (bc.outcome == Outcome::UNDECIDED && ++steps < 600) {
+        FairSearcher srch(bc, s, frng());
+        srch.search().execute(bc);
+    }
+    const bool won = bc.outcome == Outcome::PLAYER_VICTORY;
+    out[0] = won ? 1.f : 0.f;
+    out[1] = won ? static_cast<float>(bc.player.curHp) / std::max(1, bc.player.maxHp) : 0.f;
+}
+
+constexpr int BF_EXTRA = 8;  // boss_win boss_hp hall_win hall_hp run_id decision kind is_base
+
+void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContext> &hyps, int kind) {
+    if (!bfLog || gc.act < 1 || gc.act > 3 || gc.boss == MonsterEncounter::INVALID) return;
+    ++bfDecisions;
+    const int every = std::max(1, static_cast<int>(getp(P, "bf_every", 1)));
+    if (bfDecisions % every != 0) return;
+    // seeds derive from the run seed + decision index only: logging never touches the agent's RNG
+    const std::uint64_t seed = (agentSeed * 0x9E3779B97F4A7C15ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 40)
+                               ^ (bfDecisions * 0xD1B54A32D192ED03ULL);
+    std::mt19937_64 erng(seed);
+    const MonsterEncounter hall = sampleEncounter(gc, erng, getp(P, "bf_elite_frac", 0.25), 0.0);
+    const bool doHall = getp(P, "bf_hall", 1) > 0;
+    auto row = [&](const GameContext &st, float isBase) {
+        float feats[rv::DIM];
+        rv::extract(st, feats);
+        float b[2], h[2] = {-1.f, -1.f};
+        bfFight(st, gc.boss, seed + 1, b);
+        if (doHall) bfFight(st, hall, seed + 2, h);
+        const float extra[BF_EXTRA] = {b[0], b[1], h[0], h[1], static_cast<float>(agentSeed % 10000000ULL),
+                                       static_cast<float>(bfDecisions), static_cast<float>(kind), isBase};
+        std::fwrite(feats, sizeof(float), rv::DIM, bfLog);
+        std::fwrite(extra, sizeof(float), BF_EXTRA, bfLog);
+    };
+    row(gc, 1.f);
+    for (const auto &h : hyps) row(h, 0.f);
+    std::fflush(bfLog);
+}
+
+float FairAgent::bfValue(const GameContext &st) const {
+    float o[bf::BF_O];
+    bf::predict(st, o);
+    return static_cast<float>(getp(P, "bf_wb", 1.0)) * o[0] + static_cast<float>(getp(P, "bf_whp", 0.5)) * o[1]
+         + static_cast<float>(getp(P, "bf_wh", 0.5)) * o[2] + static_cast<float>(getp(P, "bf_whhp", 0.25)) * o[3];
+}
+
 // ---------------- events (rules written from lightspeed's event code) ----------------
 int FairAgent::eventChoice(const GameContext &gc) const {
     const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
@@ -507,6 +573,27 @@ int FairAgent::chooseMapX(const GameContext &gc) {
 void FairAgent::cardRewards(GameContext &gc) {
     auto &r = gc.info.rewardsContainer;
     for (int rIdx = r.cardRewardCount - 1; rIdx >= 0; --rIdx) {
+        if (bfLog && getp(P, "bf_log_cards", 1) > 0) {
+            std::vector<GameContext> hyps;
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                hyps.push_back(gc);
+                hyps.back().deck.obtainRaw(r.cardRewards[rIdx][i]);
+            }
+            bfLogOptions(gc, hyps, 0);
+        }
+        if (getp(P, "bf_pick", 0) > 0 && bf::BF_TRAINED) {
+            // Phase C v3: take the card whose interventional value gain beats skipping by bf_margin
+            const float vBase = bfValue(gc);
+            int pick = -1; float best = vBase + static_cast<float>(getp(P, "bf_margin", 0.0));
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                const float v = bfValue(hyp);
+                if (v > best) { best = v; pick = i; }
+            }
+            search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
+            continue;
+        }
         if (getp(P, "cf_pick", 0) > 0) {
             // Phase C v2: interventional — play sampled upcoming fights with and without each card
             const std::uint64_t cfSeed = agentSeed ^ (static_cast<std::uint64_t>(gc.floorNum) * 0x9E3779B97F4A7C15ULL) ^ (rIdx * 7919ULL);
@@ -604,6 +691,41 @@ void FairAgent::shop(GameContext &gc) {
 
 // ---------------- removal / upgrade selection ----------------
 void FairAgent::cardSelect(GameContext &gc) {
+    {
+        const auto type = gc.info.selectScreenType;
+        const bool isRemove = type == CardSelectScreenType::REMOVE || type == CardSelectScreenType::TRANSFORM
+                              || type == CardSelectScreenType::TRANSFORM_UPGRADE || type == CardSelectScreenType::BONFIRE_SPIRITS;
+        const bool isUpg = type == CardSelectScreenType::UPGRADE;
+        const int n = gc.info.toSelectCards.size();
+        auto hypFor = [&](int i, bool &ok) {
+            GameContext h = gc;
+            const int di = gc.info.toSelectCards[i].deckIdx;
+            ok = di >= 0 && di < h.deck.size();
+            if (ok) { if (isUpg) h.deck.upgrade(di); else h.deck.remove(h, di); }
+            return h;
+        };
+        if (bfLog && (isRemove || isUpg) && n > 0 && getp(P, "bf_log_select", 1) > 0) {
+            // a sample of up to bf_sel_k options; logging-only RNG (never the agent's)
+            std::mt19937_64 srng((agentSeed * 0xA24BAED4963EE407ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 32) ^ bfDecisions);
+            std::vector<int> idx(n);
+            std::iota(idx.begin(), idx.end(), 0);
+            std::shuffle(idx.begin(), idx.end(), srng);
+            std::vector<GameContext> hyps;
+            const int k = std::min(n, static_cast<int>(getp(P, "bf_sel_k", 3)));
+            for (int j = 0; j < k; ++j) { bool ok; GameContext h = hypFor(idx[j], ok); if (ok) hyps.push_back(h); }
+            if (!hyps.empty()) bfLogOptions(gc, hyps, isUpg ? 1 : 2);
+        }
+        if (bf::BF_TRAINED && n > 0 && ((isUpg && getp(P, "bf_upgrade", 0) > 0) || (isRemove && getp(P, "bf_remove", 0) > 0))) {
+            int bestI = -1; float bestV = -1e30f;
+            for (int i = 0; i < n; ++i) {
+                bool ok; GameContext h = hypFor(i, ok);
+                if (!ok) continue;
+                const float v = bfValue(h);
+                if (v > bestV) { bestV = v; bestI = i; }
+            }
+            if (bestI >= 0) { search::GameAction(bestI).execute(gc); return; }
+        }
+    }
     int bestI = 0; double bestV = -1e18;
     for (int i = 0; i < gc.info.toSelectCards.size(); ++i) {
         const auto &c = gc.info.toSelectCards[i].card;

@@ -340,7 +340,31 @@ Parameter-level tuning is exhausted on both tracks; next structural items: KB re
 bonuses in card valuation (the KB's synergy lists are unused so far), prior-guided rollouts at
 measured equal wall-clock, A20 seed.
 
-### KB synergy bonuses (`kb_syn=1`) — implemented, queued as batch 27
+### Phase C v3 — interventional deck value (`bf_*`), implemented 2026-11-01 10:30 UTC, queued
+Why: 57% of the A0 best's losses and 30% of all A10 runs end at an act boss; the 4×-compute probe
+(+4.5 pts) says combat search is not the main bottleneck — the deck is. V_run (observational) failed
+because rows within a run share one label and the path confounds the deck; cf_pick (online fights)
+failed to winner's curse at 3 fights. v3 moves the fights offline and learns from them:
+- `bf_log=1`: at every card reward, rest upgrade and removal, the agent copies the run state once per
+  option (card added / upgraded / removed) and plays, for the base state and each option, one fight
+  vs the act boss and one vs a sampled hallway/elite fight of the act (`bf_sims` 100, no potions,
+  fresh RNG, **same fight seeds for every option of the decision** = common random numbers). Rows:
+  666 observable run features + [boss_win, boss_hp, hall_win, hall_hp, run, decision, kind, is_base].
+  Logging never touches the agent's RNG, so the generating games are the best agent's own games.
+- `train_bf.py`: MLP 666→128→4 (sigmoid heads), BCE on absolute labels + λ·MSE on the predicted
+  option-minus-base differences vs the observed paired differences; run-grouped validation; the
+  export gate needs boss-win BCE below the base rate and a positive paired correlation.
+- Decisions: `bf_pick=1` (card rewards: argmax predicted gain, skip unless > `bf_margin`),
+  `bf_upgrade=1`, `bf_remove=1` (argmax predicted value). Value = bf_wb·P(boss) + bf_whp·bossHP +
+  bf_wh·P(hall) + bf_whhp·hallHP. Bit-identical with everything off (repro_check in the queue).
+- Cost: ≈8 fights per logged decision ≈ 1 min/game → 500 games ≈ 2 h on 4 cores (queued after the
+  cheap batches 28–30). Pipeline: `research/tools/bf_pipeline.sh DATA TAG` (train → rebuild →
+  repro_check → leak test with the model on → `bfpick_g0`, `bfpick_g0_m02`, `bfupg_g0`, `bfrem_g0`).
+
+### KB synergy bonuses (`kb_syn=1`) — batch 27 result: neutral/negative
+`kbsyn1` 63.3% (−0.007, P=0.43), `kbsyn2` (double weights) 60.0% (−0.037, P=0.18): the KB's
+synergy lists do not improve picks on top of tiers + deck-need bonuses (a bigger push hurts).
+`kbsyn_rel` and `a10_kbsyn` pending. Originally:
 The repo KB's synergy lists were unused until now. `research/tools/gen_kb_synergy.py` turns them into
 1,422 card-card and 1,741 relic-card pairs (synergy +1, super +2, anti −1; colorless cards and
 curses mapped through the CardId enum). Card valuation adds `kb_syn_card_w` × (capped sum over deck
