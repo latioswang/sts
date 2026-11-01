@@ -139,3 +139,4 @@ c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move
 0817198	val.a0	300	0	0.623	44.96	1.5048	-0.0167	0.284	discard	kbsyn_rel: KB relic-card synergies only [kb_syn=1 kb_syn_card_w=0]
 83dfe3a	val.a10	300	0	0.243	33.45	0.8992	+0.0915	0.995	keep	a10_kbsyn: [a10] A10: KB synergy bonuses [kb_syn=1]
 1c64b96	val.a20	300	0	0.020	21.66	0.4444	-0.0056	0.219	discard	a20_rest06: [a20] A20: heal at rest below 60% (A10 keep transferred) [rest_heal_frac=0.6]
+dcd74bb	val.a20	300	0	0.017	21.76	0.4429	-0.0070	0.201	discard	a20_ct4: [a20] A20: take more cards (threshold 4) [card_thresh=4]

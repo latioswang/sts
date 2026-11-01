@@ -12,8 +12,11 @@ research/tools/repro_check.sh "$(cat research/best_name.txt)" 16 || exit 1
 if grep -q "BF_TRAINED = 0" research/cpp/bf_weights.inc; then echo "model untrained (gate failed): no experiments"; exit 0; fi
 /home/user/sts_lightspeed/build/fair_eval --leaktest --seed_start 100000 --count 2 --param end_turn_w=0.05 --param prior_mlp=1 --param bf_pick=1 --param bf_upgrade=1 --param bf_remove=1 || exit 1
 R=research/exp.sh
-$R "bfpick_$TAG" "interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0)" bf_pick=1
-$R "bfpick_${TAG}_m02" "interventional deck value: card rewards, margin 0.02" bf_pick=1 bf_margin=0.02
-$R "bfupg_$TAG" "interventional deck value: rest upgrades = argmax predicted fight value" bf_upgrade=1
-$R "bfrem_$TAG" "interventional deck value: removals = argmax predicted fight value" bf_remove=1
+for T in ${TRACKS:-a0}; do   # TRACKS="a0 a10 a20" tests the model on several ladders
+  PFX=""; [ "$T" != a0 ] && PFX="${T}_"
+  TRACK=$T $R "${PFX}bfpick_$TAG" "interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0)" bf_pick=1
+  TRACK=$T $R "${PFX}bfpick_${TAG}_m02" "interventional deck value: card rewards, margin 0.02" bf_pick=1 bf_margin=0.02
+  TRACK=$T $R "${PFX}bfupg_$TAG" "interventional deck value: rest upgrades = argmax predicted fight value" bf_upgrade=1
+  TRACK=$T $R "${PFX}bfrem_$TAG" "interventional deck value: removals = argmax predicted fight value" bf_remove=1
+done
 echo "BF PIPELINE $TAG DONE"

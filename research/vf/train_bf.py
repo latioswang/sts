@@ -21,14 +21,16 @@ O = 4
 
 
 def load(data_dir):
-    files = sorted(glob.glob(os.path.join(data_dir, "bf_*.bin")))
+    # data_dir may be a comma-separated list of directories (datasets from several ascensions)
+    files = sorted(f for d in data_dir.split(",") for f in glob.glob(os.path.join(d, "bf_*.bin")))
     arrs = [np.fromfile(f, dtype=np.float32) for f in files]
     a = np.concatenate(arrs) if arrs else np.zeros(0, np.float32)
     n = a.size // (DIM + EXTRA)
     a = a[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA)
     a = a[np.isfinite(a).all(1)]
     X = a[:, :DIM]; Y = a[:, DIM:DIM + 4]
-    run = a[:, DIM + 4].astype(np.int64); dec = a[:, DIM + 5].astype(np.int64)
+    run = a[:, DIM + 4].astype(np.int64) + np.round(a[:, 20] * 20.0).astype(np.int64) * 100000000
+    dec = a[:, DIM + 5].astype(np.int64)
     kind = a[:, DIM + 6].astype(np.int64); is_base = a[:, DIM + 7] > 0.5
     return X, Y, run, dec, kind, is_base
 
@@ -71,11 +73,13 @@ def main():
     torch.manual_seed(0)
     X, Y, run, dec, kind, is_base = load(a.data_dir)
     n = len(Y)
+    asc = X[:, 20] * 20.0
+    print(f"ascension mix: {{a: int((np.round(asc) == a).sum()) for a in (0, 10, 20)}}")
     print(f"rows={n} runs={len(np.unique(run))} decisions={len(np.unique(run * 100000 + dec))} "
           f"kinds(card/upg/rem)={[int((kind == k).sum()) for k in (0, 1, 2)]} base_rows={int(is_base.sum())}")
     print(f"label means: boss_win={Y[:,0].mean():.3f} boss_hp={Y[:,1].mean():.3f} hall_win={Y[Y[:,2]>=0,2].mean():.3f} (hall rows {int((Y[:,2]>=0).sum())})")
     # pairing: each hypothetical row -> its decision's base row
-    key = run * 100000 + dec
+    key = run.astype(np.int64) * 100000 + dec
     base_of = {}
     for i in np.nonzero(is_base)[0]:
         base_of[key[i]] = i
