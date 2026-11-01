@@ -28,6 +28,19 @@ index d04312b..eb2be22 100644
 +add_executable(fair_eval ${STS_RESEARCH_DIR}/eval/eval_main.cpp ${FAIR_SOURCES})
 +target_include_directories(fair_eval PUBLIC include ${STS_RESEARCH_DIR}/cpp ${STS_RESEARCH_DIR}/vf)
 +target_link_libraries(fair_eval stscore pthread)
+diff --git a/include/combat/BattleContext.h b/include/combat/BattleContext.h
+index 767bbcd..16302ad 100644
+--- a/include/combat/BattleContext.h
++++ b/include/combat/BattleContext.h
+@@ -135,6 +135,8 @@ namespace sts {
+         void setState(InputState state);
+         void addToTop(const Action &a);
+         void addToBot(const Action &a);
++        void addToTop(Action &&a);  // PERF: temporaries are moved into the queue instead of copied (same behaviour)
++        void addToBot(Action &&a);
+ 
+         void addToTopCard(CardQueueItem item);
+         void addToBotCard(CardQueueItem item);
 diff --git a/include/combat/Monster.h b/include/combat/Monster.h
 index efb4f41..1793f92 100644
 --- a/include/combat/Monster.h
@@ -62,7 +75,7 @@ index 04fceda..5a02ec9 100644
  
  
 diff --git a/src/combat/BattleContext.cpp b/src/combat/BattleContext.cpp
-index 965faef..65fac31 100644
+index 965faef..2a4bd1b 100644
 --- a/src/combat/BattleContext.cpp
 +++ b/src/combat/BattleContext.cpp
 @@ -50,6 +50,7 @@ void BattleContext::init(const GameContext &gc, MonsterEncounter encounterToInit
@@ -91,7 +104,22 @@ index 965faef..65fac31 100644
      } else {
          // player victory
          g.regainControl();
-@@ -1073,7 +1078,7 @@ void BattleContext::useAttackCard() {
+@@ -656,6 +661,14 @@ void BattleContext::addToBot(const Action &a) {
+     actionQueue.pushBack(a);
+ }
+ 
++void BattleContext::addToTop(Action &&a) {  // PERF: move overload, no std::function copy
++    actionQueue.pushFront(std::move(a));
++}
++
++void BattleContext::addToBot(Action &&a) {  // PERF: move overload, no std::function copy
++    actionQueue.pushBack(std::move(a));
++}
++
+ // todo remove or replace other method that does this
+ void BattleContext::addToTopCard(CardQueueItem item) {
+     cardQueue.pushFront(item);
+@@ -1073,7 +1086,7 @@ void BattleContext::useAttackCard() {
          }
  
          case CardId::IRON_WAVE: {
@@ -100,7 +128,7 @@ index 965faef..65fac31 100644
              addToBot( Actions::AttackEnemy(t, calculateCardDamage(c, t, up ? 7 : 5)) );
              break;
          }
-@@ -1263,8 +1268,8 @@ void BattleContext::useSkillCard() {
+@@ -1263,8 +1276,8 @@ void BattleContext::useSkillCard() {
              break;
  
          case CardId::DARK_SHACKLES:
@@ -111,7 +139,7 @@ index 965faef..65fac31 100644
                  addToBot( Actions::BuffEnemy<MS::SHACKLED>(t, up ? 15 : 9) );
              }
              break;
-@@ -1279,7 +1284,7 @@ void BattleContext::useSkillCard() {
+@@ -1279,7 +1292,7 @@ void BattleContext::useSkillCard() {
              break;
  
          case CardId::DISARM:
@@ -120,7 +148,7 @@ index 965faef..65fac31 100644
              break;
  
          case CardId::DISCOVERY:
-@@ -1342,7 +1347,7 @@ void BattleContext::useSkillCard() {
+@@ -1342,7 +1355,7 @@ void BattleContext::useSkillCard() {
              bool hasAttack = false;
              for (int i = 0; i < cards.cardsInHand; ++i) {
                  if (cards.hand[i].getType() == CardType::ATTACK) {
@@ -129,7 +157,7 @@ index 965faef..65fac31 100644
                      break;
                  }
              }
-@@ -2240,6 +2245,9 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2240,6 +2253,9 @@ void BattleContext::drinkPotion(int idx, int target) {
      const bool hasBark = player.hasRelic<R::SACRED_BARK>();
      const Potion p = potions[idx];
      discardPotion(idx);
@@ -139,7 +167,7 @@ index 965faef..65fac31 100644
  
      // todo - dont need to add to bot because always will have nothing in actionQueue?
  
-@@ -2266,7 +2274,7 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2266,7 +2282,7 @@ void BattleContext::drinkPotion(int idx, int target) {
  
  
          case Potion::BLOOD_POTION: {
@@ -148,7 +176,7 @@ index 965faef..65fac31 100644
              addToBot(Actions::HealPlayer(healAmt));
              break;
          }
-@@ -2396,7 +2404,13 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2396,7 +2412,13 @@ void BattleContext::drinkPotion(int idx, int target) {
              break;
  
          case Potion::SMOKE_BOMB:

@@ -6,6 +6,7 @@
 //   seed  outcome(1 win/0 loss)  floor  act  hp  max_hp  deck  battles  decisions  aborted  seconds  actions
 // (actions = game actions executed inside search; diagnostic compute proxy, not used in scoring)
 #include "FairAgent.h"
+#include "bf_mlp.h"
 
 #include "combat/BattleContext.h"
 #include "game/GameContext.h"
@@ -133,6 +134,9 @@ int main(int argc, char **argv) {
         }
         return 0;
     }
+    // Warm the deck-value model cache in the parent so forked games inherit it instead of each
+    // re-parsing the ~1 MB text file (pure cost; identical results).
+    { auto it = P.find("bf_model"); fair::bf::model(static_cast<int>(it == P.end() ? 0 : it->second)); }
     // Process pool: each game runs in a forked child so simulator crashes
     // (known lightspeed bugs) are recorded as aborted=2 rows instead of
     // killing the whole eval. Paired comparisons exclude crashed seeds.

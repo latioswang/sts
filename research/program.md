@@ -719,6 +719,20 @@ bit-identically (`repro_check`), pass the leak test and a ≥300-game crash swee
 pile attempt was reverted for stack corruption); (3) `calibrate.sh` the speedup on the idle machine and
 convert it into simulations at equal wall-clock for the val experiment.
 
+**First profile (gprof, 3 val games; callgrind, 1 short game):** the cost is spread thin — the top entries
+are the simulator's action system (`executeActions` 8.8%, `addToBot` 5.9%, `std::function` copy/destroy
+managers ~10% in aggregate), the action enumerator and card usability checks (`enumerateActionsInto`
+4.6%, `canUse` 3.9%, `requiresTarget` 2.9% — 111 M calls per 3 games), tree bookkeeping (`newNode` 3.8%),
+and, in the forked harness, re-parsing the deck-value model file per game (`vfscanf`+`strtof` 6% of a
+short game). Nothing above 9%; a 2× speedup would need a rewrite of the simulator's action queue (a
+multi-day job with real risk), not micro-optimisation.
+**Done (behaviour-preserving, verified):** move overloads for `BattleContext::addToBot/addToTop` (no
+`std::function` copy per queued action; sim patch regenerated) and the model file preloaded in the harness
+parent before forking. Bit-identical (repro_check on `mapd085` and the Heart best), leak test green,
+measured speedup 1.029× on 8 inproc games (`research/tools/speedcheck.sh`). Too small to convert into
+simulations (+3% sims ≈ +0.1 pt); kept because it is free. The speed line is parked: the remaining cost
+is architectural.
+
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
 tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2
