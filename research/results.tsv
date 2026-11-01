@@ -77,3 +77,4 @@ c3e3d15	val.a0	297	3	0.347	39.97	1.1306	-0.0185	0.236	best	rb2: RE-BASELINE on f
 b03d7fe	val.a0	300	0	0.267	37.44	1.0007	-0.1730	0.000	discard	bud_rt6: budget 7500 + cutoff 6 [budget_actions=7500 rollout_turns=6]
 4934362	val.a0	300	0	0.147	33.37	0.8010	-0.3727	0.000	discard	bud_rt2: budget 7500 + cutoff 2 [budget_actions=7500 rollout_turns=2]
 4934362	val.a0	300	0	0.387	40.49	1.1806	+0.0069	0.764	discard	esc15: Smoke Bomb escape penalty 15 [escape_pen=15]
+b66021d	val.a0	297	3	0.407	40.74	1.2063	+0.0375	0.861	discard	spd_s650: throughput 1.3x (lean enumerator + fixed piles) converted to sims=650 at equal wall-clock [sims=650]

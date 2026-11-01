@@ -42,6 +42,7 @@ private:
     sts::search::ScumSearchAgent2 legacy;  // out-of-combat fallback policy
     std::FILE *vfLog = nullptr;            // Phase A data logger (vf_log=1 + VF_LOG_DIR)
     std::FILE *rvLog = nullptr;            // Phase C run-state logger (rv_log=1 + VF_LOG_DIR)
+    std::FILE *pfLog = nullptr;            // Phase B root-visit logger (pf_log=1 + VF_LOG_DIR)
     std::vector<float> rvRows;
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;

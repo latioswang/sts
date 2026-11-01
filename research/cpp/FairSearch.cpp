@@ -3,6 +3,11 @@
 #include "sim/search/BattleScumSearcher2.h"
 #include "sim/search/ExpertKnowledge.h"
 #include "mlp.h"
+#include "policy_features.h"
+
+namespace fair::pf {
+#include "pf_weights.inc"
+}
 
 #include <algorithm>
 #include <cmath>
@@ -233,7 +238,35 @@ int FairSearcher::newNode(const BattleContext &bc) {
     for (int i = 0; i < cnt; ++i) {
         Edge e;
         e.action = buf[i];
+        e.prior = cnt > 0 ? 1.f / cnt : 0.f;
         n.edges.push_back(std::move(e));
+    }
+    if (p.usePrior && pf::PF_TRAINED && cnt > 1) {
+        // bilinear prior: h = W s + b ; logit(a) = h.E[tok] + up*(h.Eup) + AB[tok] + T.tf
+        float x[vf::DIM];
+        vf::extract(bc, x);
+        float h[pf::PF_K];
+        for (int k = 0; k < pf::PF_K; ++k) {
+            float acc = pf::PF_B[k];
+            const float *w = pf::PF_W + k * pf::PF_S_DIM;
+            for (int i = 0; i < vf::DIM; ++i) acc += w[i] * x[i];
+            h[k] = acc;
+        }
+        float mx = -1e30f;
+        for (int i = 0; i < cnt; ++i) {
+            bool up = false;
+            const int tok = pf::token(bc, buf[i], up);
+            float tf[pf::T_DIM];
+            pf::targetFeats(bc, buf[i], tf);
+            float lg = pf::PF_AB[tok];
+            for (int k = 0; k < pf::PF_K; ++k) lg += h[k] * (pf::PF_E[tok * pf::PF_K + k] + (up ? pf::PF_EUP[k] : 0.f));
+            for (int t = 0; t < pf::T_DIM; ++t) lg += pf::PF_T[t] * tf[t];
+            n.edges[i].prior = lg;
+            mx = std::max(mx, lg);
+        }
+        float z = 0.f;
+        for (int i = 0; i < cnt; ++i) { n.edges[i].prior = std::exp(n.edges[i].prior - mx); z += n.edges[i].prior; }
+        for (int i = 0; i < cnt; ++i) n.edges[i].prior /= z;
     }
     nodes.push_back(std::move(n));
     return static_cast<int>(nodes.size()) - 1;
@@ -329,6 +362,18 @@ int FairSearcher::select(const Node &node) const {
     const double range = (vmax > vmin) ? (vmax - vmin) : 1.0;
     int best = 0;
     double bestV = -1e18;
+    if (p.usePrior && pf::PF_TRAINED) {
+        // PUCT (AlphaZero form); unvisited edges use the parent's mean as first-play urgency
+        const double sqrtN = std::sqrt(static_cast<double>(node.visits) + 1);
+        const double fpu = node.visits > 0 ? (node.wsum / node.visits - vmin) / range : 0.5;
+        for (int i = 0; i < static_cast<int>(node.edges.size()); ++i) {
+            const auto &e = node.edges[i];
+            const double q = e.n > 0 ? (e.w / e.n - vmin) / range : fpu;
+            const double u = q + p.priorC * e.prior * sqrtN / (1.0 + e.n);
+            if (u > bestV) { bestV = u; best = i; }
+        }
+        return best;
+    }
     const double logN = std::log(static_cast<double>(node.visits) + 1);
     for (int i = 0; i < static_cast<int>(node.edges.size()); ++i) {
         const auto &e = node.edges[i];
@@ -381,12 +426,19 @@ void FairSearcher::simulate() {
     vmin = std::min(vmin, value);
     vmax = std::max(vmax, value);
     nodes[rootIdx].visits += 1;
+    nodes[rootIdx].wsum += value;
     for (auto &[ni, ei] : path) {
         auto &e = nodes[ni].edges[ei];
         e.n += 1;
         e.w += value;
-        if (ni != rootIdx) nodes[ni].visits += 1;
+        if (ni != rootIdx) { nodes[ni].visits += 1; nodes[ni].wsum += value; }
     }
+}
+
+void FairSearcher::rootStats(std::vector<std::pair<search::Action, std::int64_t>> &out) const {
+    out.clear();
+    if (nodes.empty()) return;
+    for (const auto &e : nodes[rootIdx].edges) out.emplace_back(e.action, e.n);
 }
 
 search::Action FairSearcher::search() {

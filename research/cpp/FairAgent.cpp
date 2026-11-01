@@ -6,6 +6,7 @@
 #include "sim/search/ExpertKnowledge.h"
 #include "vf_features.h"
 #include "run_features.h"
+#include "policy_features.h"
 #include <cstdlib>
 #include <memory>
 #include <iostream>
@@ -24,6 +25,12 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
             const std::string path = std::string(dir) + "/" + std::to_string(agentSeed_) + ".bin";
             vfLog = std::fopen(path.c_str(), "ab");
+        }
+    }
+    if (getp(P, "pf_log", 0) > 0) {
+        if (const char *dir = std::getenv("VF_LOG_DIR")) {
+            const std::string path = std::string(dir) + "/pol_" + std::to_string(agentSeed_) + ".bin";
+            pfLog = std::fopen(path.c_str(), "ab");
         }
     }
     if (getp(P, "rv_log", 0) > 0) {
@@ -48,6 +55,8 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.budgetActions = static_cast<std::int64_t>(getp(P, "budget_actions", 0));
     sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
     sp.leafVf = getp(P, "leaf_vf", 0) > 0;
+    sp.usePrior = getp(P, "prior", 0) > 0;
+    sp.priorC = getp(P, "prior_c", 1.5);
     sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
     sp.lowHpThresh = getp(P, "lowhp_thresh", 20.0);
     sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);
@@ -115,6 +124,26 @@ void FairAgent::playBattle(GameContext &gc) {
         ++stats.combatDecisions;
         stats.actions += s.actionsExecuted;
         stats.simulations += s.simulationsRun;
+        if (pfLog && bc.inputState == InputState::PLAYER_NORMAL) {
+            std::vector<std::pair<search::Action, std::int64_t>> rs;
+            s.rootStats(rs);
+            if (rs.size() > 1) {  // [state 204][nA][nA x (token, up, tf0..3, visits)]
+                float x[vf::DIM];
+                vf::extract(bc, x);
+                std::fwrite(x, sizeof(float), vf::DIM, pfLog);
+                const float nA = static_cast<float>(rs.size());
+                std::fwrite(&nA, sizeof(float), 1, pfLog);
+                for (auto &[act, n] : rs) {
+                    bool up = false;
+                    float row[7];
+                    row[0] = static_cast<float>(pf::token(bc, act, up));
+                    row[1] = up ? 1.f : 0.f;
+                    pf::targetFeats(bc, act, row + 2);
+                    row[6] = static_cast<float>(n);
+                    std::fwrite(row, sizeof(float), 7, pfLog);
+                }
+            }
+        }
         static const bool dbg = std::getenv("FAIR_DEBUG") != nullptr;
         if (dbg) {
             std::cerr << "turn " << bc.turn << " hp " << bc.player.curHp << " e " << bc.player.energy << " ";
