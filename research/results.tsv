@@ -85,3 +85,6 @@ ef13847	val.a0	300	0	0.217	33.19	0.8675	-0.3062	0.000	discard	lowhp2: risk-aware
 af4b237	val.a0	300	0	0.380	40.32	1.1707	-0.0031	0.384	discard	nodome: ablation: never take Runic Dome [allow_dome=0]
 af4b237	val.a0	300	0	0.363	40.46	1.1567	-0.0170	0.343	discard	neow2: Neow ranking incl. boss-relic swap [neow_pol=1]
 be06630	val.a0	300	0	0.377	39.47	1.1507	-0.0231	0.245	discard	maxhp05: combat value: +0.5 per max HP (Feed kills) [maxhp_w=0.5]
+3c39f0c	val.a0	300	0	0.577	44.23	1.4440	+0.2703	1.000	keep	chest1: open treasure chests (never opened before: inverted legacy action index) [chest_pol=1]
+3c39f0c	val.a0	300	0	0.567	44.24	1.4341	-0.0099	0.390	discard	prior1: PUCT with learned bilinear move prior (gen1 root visits), sims 500 [prior=1]
+3c39f0c	val.a0	300	0	0.570	44.36	1.4399	-0.0041	0.448	discard	prior1_s450: learned move prior at ~equal wall-clock (sims 450) [prior=1 sims=450]

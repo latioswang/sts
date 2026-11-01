@@ -208,6 +208,16 @@ queued as `chest1` in batch 15. Expect a sizeable keep; everything downstream re
 - Ascension track: `exp.sh` gets `ASC=10` env → separate `best_a10` files; re-baseline there.
   A20 adds Ascender's Bane and the double boss: expect card-removal priority to matter more.
 
+### Batch 15 (2026-11-01 05:58 UTC) — **`chest1` keep: val 57.7% win (from 38.0%), floor 44.2, Δscore +0.270, P=1.000**
+Opening treasure chests is the largest single gain of the program (every earlier run had skipped
+all chest relics). `prior1` −0.010 (P=0.39) and `prior1_s450` −0.004 (P=0.45) vs chest1: the
+biased-data bilinear prior is neutral (it buys ~10% rollout actions, nothing more). Clean retrain
+(gen0+gen1, 298k decisions): prior val CE 0.2822 vs uniform 0.2913, entropy floor 0.2620 — it
+captures only ~31% of the available information; a stronger action model is needed for Phase B.
+V_run (clean, 1,000 runs): val log-loss 0.561 vs 0.693 base, acc 0.70 (early-stopped epoch 4).
+Bootstrapped V (root-mean targets): val RMSE 9.73 vs 33.9 predict-mean — sanity test as leaf pending.
+val ≥ 50% ⇒ milestone **M4 criterion on val**; test confirmation queued (test run 5/5).
+
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
