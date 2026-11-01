@@ -247,3 +247,4 @@ e32e41c	val.a0	300	0	0.733	47.11	1.6571	-0.0035	0.441	discard	wsr2: map: shop va
 82081d6	val.a0	300	0	0.720	47.07	1.6429	-0.0176	0.107	discard	resthp04: map: rest rooms preferred below 40% HP [rest_hp=0.4]
 7efda3e	val.a0	300	0	0.733	47.39	1.6625	+0.0020	0.561	discard	resthp06: map: rest rooms preferred below 60% HP [rest_hp=0.6]
 504030c	val.a0	300	0	0.750	47.36	1.6787	+0.0181	0.913	keep	mapd085: map: path discount 0.85 (shorter horizon) [map_discount=0.85]
+fd1c65c	val.a0	300	0	0.723	47.06	1.6461	-0.0326	0.037	discard	mapd095: map: path discount 0.95 (longer horizon) [map_discount=0.95]
