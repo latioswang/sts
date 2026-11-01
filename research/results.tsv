@@ -242,3 +242,4 @@ c8aa8ca	dev2.a0	100	0	0.080	43.18	0.8976			info	heart_cur_dev2: VERIFY: heart_cu
 668a3fb	val.a0	300	0	0.743	47.36	1.6719	+0.0113	0.639	discard	bfbonus10_g1k3p: card picks: KB value + 10 x predicted fight-value gain (model g1k3p) [bf_model=10 bf_bonus=10]
 f641edc	val.a0	300	0	0.737	47.12	1.6606	-0.0000	0.492	discard	wev15: map: event rooms valued 1.5 [w_event=1.5]
 4e429bf	val.a0	300	0	0.700	46.94	1.6204	-0.0402	0.037	discard	wev25: map: event rooms valued 2.5 [w_event=2.5]
+e32e41c	val.a0	300	0	0.733	47.11	1.6571	-0.0035	0.441	discard	wsr2: map: shop valued 2 when rich [w_shop_rich=2]
