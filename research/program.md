@@ -643,6 +643,12 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
 family (25/50) and the threshold family (4.5) were val-only artefacts.
 
+## Label-noise reduction (bf_k=3), result 2026-11-01 21:30 UTC
+Model 9 (bg1k3: 59,737 rows, labels averaged over three fights per option): paired correlations rose to
+0.19 (boss_dmg) / 0.14 (next_dmg) from g1's 0.14 / 0.10, but the agent did not improve: `bfbonus10_g1k3` 72.7% win, floor 47.2, -0.008 vs base, P=0.402 → discard.
+Less noisy labels of the same kind do not help either; with "more data" (model 8) and "cleaner labels"
+(model 9) both neutral, the A0 bonus is at the ceiling of this label family. Model 10 (pooled) pending.
+
 ## Next block (queued 2026-11-01 17:25 UTC): expert iteration of the strategic model
 The deck-value models were trained on fights from the *previous* agents' games. Queued after the Heart
 block: 500 more A0 games from the current A0 best (`bg1b`, fresh train seeds 300500+) → model 8 on
