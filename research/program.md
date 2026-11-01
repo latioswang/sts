@@ -154,6 +154,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   counted as alive and died. Fix: skip reserved slots. Unreachable in real play (the Lament covers the
   first 3 fights; reserved slots exist only in act-2/3 encounters), so recorded runs stay bit-identical
   (repro_check in the queue after the rebuild). Patch file regenerated.
+- Datasets: `bg1` (A0 best, g1 labels: 500 games, 58,540 rows, 147 Collector/Lament dumps in 3 games) and
+  `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
+  the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
+  fixed simulator when the machine is idle).
 - Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
   chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
   `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).
