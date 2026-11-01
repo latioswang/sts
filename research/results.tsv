@@ -90,3 +90,4 @@ be06630	val.a0	300	0	0.377	39.47	1.1507	-0.0231	0.245	discard	maxhp05: combat va
 3c39f0c	val.a0	300	0	0.570	44.36	1.4399	-0.0041	0.448	discard	prior1_s450: learned move prior at ~equal wall-clock (sims 450) [prior=1 sims=450]
 8c6b0b1	val.a0	300	0	0.327	39.50	1.1011	-0.3429	0.000	discard	rvpick1: V_run one-step lookahead for card/shop/boss-relic picks [rv_pick=1]
 3d8992e	val.a0	300	0	0.163	42.31	0.9661			info	INFO_keys1: INFO: keys=1 chest_pol=1 — win now means beating the Heart (see act4 rate)
+e5ad22d	test.a0	500	0	0.546	43.72	1.4033			MILESTONE	chest1: M4 criterion (val ≥ 50%) test confirmation — test run 5/5

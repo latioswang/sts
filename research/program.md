@@ -56,7 +56,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
 ### Current state (update after every batch) — 2026-11-01 06:05 UTC
-- **Best: `chest1` — val 57.7% win, floor 44.2, score 1.444** (test confirmation queued, run 5/5).
+- **Best: `chest1` — val 57.7% win, floor 44.2, score 1.444. TEST (run 5/5): 273/500 = 54.6%,
+  95% Wilson CI [50.2%, 58.9%] → milestone M4 (A0 ≥ 50%) confirmed on held-out seeds.**
+  Test budget: the 5-run cap is spent; rule amended — one further test run per *confirmed*
+  milestone (M-A10/M-A20/Heart), never for tuning.
   Chain since phase 1: rb3 (fixed sim) 38.0% → chest fix 57.7%.
 - Keep chain overall: legacy 3% → rollout END_TURN weight 10% → 14% → events 13.7% (after the
   Dome-honesty re-baseline) → KB boss relics 18.3% → AoE 20.3% → scaling 23.0% → map events
@@ -238,8 +241,10 @@ MLP move prior (state 204 ⊕ token emb 16 ⊕ target 4 → 64 → 1; 298k decis
 Used at root/depth-1 only (`prior_mlp=1`, `prior_mlp_depth`). 20-seed sanity probe (dev 100000+,
 under load): baseline 60%/floor 46.7/5.7 s; depth-1 65%/46.3/7.8 s (+37% time — chance branching
 makes depth-1 nodes numerous); depth-2 65%/45.5/13.7 s; **depth-1 with prior_c=1.0: 80%/49.0/8.6 s**
-(n=20, SE ≈ 11 pts — suggestive only). Root-only (`prior_mlp_depth=0`, cost ≈ baseline) probing next;
-then val experiments at equal wall-clock (depth-1 ≈ sims 365). The remaining 51% is largely irreducible at 500-sim targets
+(n=20, SE ≈ 11 pts — suggestive only). Root-only probe (fresh dev seeds 100020+): baseline 70%/45.5;
+root-only prior_c 1.0: 75%/46.1 at ≈ baseline cost (5.9 vs 5.8 s); depth-1 prior_c 0.7: 85%/46.9
+(+45% time). Batch 18 queued (val, vs best): `priormlp_d0`, `priormlp_d0_c1`, `priormlp_d1_c07_s365`
+(equal wall-clock), `priormlp_d1_c07` (informational, +compute). The remaining 51% is largely irreducible at 500-sim targets
 (root visit distributions are noisy) — distilling from higher-sim searches is the next data lever.
 `cf_pick` probe (12 dev seeds, under load): win 0.50 / floor 42.8 vs baseline 0.58 / 44.9 (one game
 apart — noise at n=12), cost 2.3× per game (19.8 s vs 8.5 s). Val experiments queued after batch 16:

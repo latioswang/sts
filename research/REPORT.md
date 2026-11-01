@@ -10,7 +10,7 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
 | **Current best `chest1`** (fixed sim, chests opened) | val, 300 | **57.7%** | — | 44.2 |
-| same, test confirmation | test, 500 | *pending (run 5/5)* | | |
+| **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
 | `rb3` — fixed simulator, before the chest fix | val, 300 | 38.0% | — | 40.5 |
 | Phase-1 final `hallpot0` (old sim) | test, 500 | 33.8% | [29.8%, 38.1%] | 39.3 |
 | Start: leak-free search + lightspeed legacy policy | test, 500 | 0.4% | [0.1%, 1.4%] | 19.7 |
