@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 20:20 UTC
+### Current state (update after every batch) — 2026-11-01 21:20 UTC
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -209,7 +209,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
 - Running (sequential queue, `research/queue.txt`): 3-fight-label dataset `bg1k3` (bf_k=3: each option's
-  labels averaged over three fights with shared seeds; chunk 5 of 10 at 20:20 UTC, ~12 min per chunk) →
+  labels averaged over three fights with shared seeds; last chunk at 21:20 UTC, ~12 min per chunk) →
   model 9 (bg1k3 alone) and model 10 (bg1 + bg1k3) → `bfbonus10_g1k3`, `bfbonus10_g1k3p` (vs bfbonus10_g1);
   then batches 39/40 (map weights re-tuned on the current A0/A10 bests). Closed since the last check: expert
   iteration of the strategic model (models 7/8 worse than 2/1), Heart keep replication (floors on one of two
