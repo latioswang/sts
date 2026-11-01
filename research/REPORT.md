@@ -94,8 +94,11 @@ boss-specific preparation (deck checks keyed on the known boss) is the obvious n
 ## Keys and Act 4 (first results)
 
 With `keys=1 chest_pol=1` (val, 300 seeds): 35.0% of runs collect all three keys and reach Act 4,
-and **16.3% beat the Heart** (47% conversion from Act 4). This is a different win definition and is
-tracked separately; it makes the month's A20-Heart target measurable.
+and **6.3% beat the Heart (19/300; 18% conversion from Act 4)**. (An earlier draft of this report
+said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
+Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs
+finishing on ~28 HP, so Act-4 conversion is a damage-race problem. Tracked separately from the A0
+Act-3 metric; it makes the month's A20-Heart target measurable.
 
 ## Next (month program, `research/program.md`)
 

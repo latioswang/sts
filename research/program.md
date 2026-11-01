@@ -72,10 +72,14 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   hallway 13 · **Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35**. Bosses are 71% of losses.
 - Learned components: bilinear move prior (neutral so far), V_run for picks (clean model
   awaiting test), bootstrapped V (sanity pending). Everything learned is gated by paired val.
-- **Keys/Act 4 (`INFO_keys1`, val 300, keys=1 chest_pol=1): 35.0% of runs reach Act 4 (105/300;
-  135 beat the Act 3 boss, 30 of them without all keys), and 16.3% (49/300) beat the Heart** —
-  the program's first Heart wins; 47% conversion once in Act 4. A separate metric track: the
-  A20-Heart north star is now reachable in principle. Never compared against A0 Act-3 numbers.
+- **Keys/Act 4 (`INFO_keys1`, val 300, keys=1 chest_pol=1): 35.0% of runs reach Act 4 (105/300);
+  19 beat the Heart = 18% conversion, 6.3% of all runs.** CORRECTION (08:45 UTC): I first reported
+  "49 Heart wins / 47% conversion" — the harness `win` column also counts key-less Act-3 clears
+  (30 runs). The Heart track's win is now defined in the harness as `act >= 4 && win`
+  (`--winmode heart`, automatic for `TRACK=heart`); earlier Heart-track rows recomputed:
+  INFO_keys1 6.3%, wb3 6.0%, krh05 7.0%, bossprep_h 5.0% (all noise-level). Act-4 deaths: ~90% at
+  the Heart (floor 55), ~10% at Shield & Spear; Heart wins finish with ~28 HP → the Heart's damage
+  race is the constraint, not reaching it.
 
 ### Phase 2 (2026-11-01): simulator holes filled instead of routed around
 
