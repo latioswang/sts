@@ -1,6 +1,6 @@
 aoe_bonus=2
 bf_bonus=10
-bf_model=0
+bf_model=1
 boss_pol=1
 card_pol=1
 chest_pol=1

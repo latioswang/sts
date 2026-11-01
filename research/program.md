@@ -56,7 +56,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
 ### Current state (update after every batch) — 2026-11-01 14:20 UTC
-- Tracks: **A0 best `bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
+- Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
+  gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus;
+  dev check queued). Previous: **`bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
   card value = KB tier value + deck-need bonuses + 10 × (interventional model g0's predicted fight value
   with the card − without it). The model as a replacement lost 10–16 pts; as an additive adjustment to
   the long-horizon tiers it adds +3.0 pts win (vs potsave2 66.3%; chain: wea1p1 63.7% → potsave2 → bfbonus10).
@@ -68,7 +70,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7% → potions
-  saved for bosses 66.3% (val; 65.5% pooled val+dev) → interventional deck-value bonus on card picks 69.3%.
+  saved for bosses 66.3% (val; 65.5% pooled val+dev) → interventional deck-value bonus on card picks 69.3%
+  (model g0) → same bonus with the graded-label model g1 73.3%.
+- g1 as a replacement (vs bfbonus10): `bfpick_g1` 64.3% (−0.066), `bfrem_g1` 64.3% (−0.068) — still worse than
+  the hand rules; as a bonus it is the best component so far.
 - Batch 34 (potion value): `potv12` −0.030; `potsave` +0.026/P 0.81 (dev +0.042, pooled +0.030/P 0.866:
   fails); **`potsave2` pooled KEEP** (above).
 - A20 (160/300 base runs die in act 1, 89 before the boss): `a20_rest06` −0.006, `a20_ct4` −0.007;
