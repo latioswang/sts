@@ -217,3 +217,4 @@ f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m
 24da2b8	val.a10	300	0	0.320	37.43	1.0540	+0.0278	0.865	discard	a10_potv2: [a10] A10: potions worth 2 HP (spend freely; saving them was -6.7 pts) [potion_v=2]
 081265e	val.a20	300	0	0.010	26.28	0.5251	-0.0069	0.308	discard	a20_potv2: [a20] A20: potions worth 2 HP (spend freely) [potion_v=2]
 8cc46ef	val.a20	300	0	0.010	26.74	0.5342	+0.0022	0.647	discard	a20_ca1b2: [a20] A20: act-1 card-pick bonus 2 (take more early cards) [card_act1_bonus=2]
+1331d8c	val.a20	300	0	0.020	26.37	0.5367	+0.0047	0.651	discard	a20_rest07: [a20] A20: heal at rest below 70% [rest_heal_frac=0.7]

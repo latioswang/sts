@@ -188,6 +188,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   each ladder is best served by a model that saw its own fights (g1 on A0, g2 on A10). Weight-matched
   A10 check: `a10_bfbonus25_g2m` 28.0% win, floor 36.5, -0.030 vs base, P=0.181 → discard (model 3 vs model 2, both 25×) — confirms dilution. Queued: A10-only model 4 (bonus
   25× on A10) and A20-only model 5 (10×/25× on A20).
+- Batch 38 A20 knobs (vs a20_bfbonus10_g2m): `a20_potv2` 1.0% win, floor 26.3, -0.007 vs base, P=0.308 → discard; `a20_ca1b2` 1.0% win, floor 26.7, +0.002 vs base, P=0.647 → discard; `a20_rest07` 2.0% win, floor 26.4, +0.005 vs base, P=0.651 → discard — all neutral; the A20
+  ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
+  boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
 - Running (sequential queue, `research/queue.txt`): A0 test of model 3; A20 extension (dev + pooled);
   `a10_bfbonus25_g2m`; batch 38 (potion spending at A10/A20, act-1 card intake and rest 70% at A20, Heart
   chain dev check). The runner was restarted twice at its 2-hour limit (resume logic worked both times).
