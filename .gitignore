@@ -2,3 +2,8 @@
 # (see CLAUDE.md → Bootstrapping a new run). Tracking it would mix
 # transient game state into the KB history.
 status.md
+
+# experiment queue runtime state (plans live in research/program.md)
+research/queue.txt
+research/queue.log
+research/.queue.lock

@@ -391,7 +391,8 @@ Experiments: `bossprep1`, `bossprep2` (A0), `bossprep_h` (Heart), `bossprep_a10`
    autoresearch/ironclad && git checkout autoresearch/ironclad`). Python deps: `pip install
    torch --index-url https://download.pytorch.org/whl/cpu` (CPU wheel) for `research/vf/`.
 1. Read this file, `research/results.tsv`, `research/best_name.txt`.
-2. `pgrep -x fair_eval` — if evals are running, wait for them; never start a 2nd batch.
+2. `pgrep -x fair_eval` — if evals are running, wait for them; never start a 2nd batch. Queue work
+   with `research/tools/runq.sh` (reads `research/queue.txt`); check `research/queue.log`.
 3. Rebuild: `research/setup.sh` (or `make -C /home/user/sts_lightspeed/build fair_eval`)
    and run the leak test: `fair_eval --leaktest --seed_start 100000 --count 3`.
 4. Take the next backlog items, run them with `research/exp.sh` (auto keep/discard),
@@ -449,6 +450,14 @@ upper reference**, never as a result.
    near-misses, try more radical changes.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Chains of background waiters are banned.** Batch 27–29 were queued as three waiters, each
+  polling the previous one's output file; the first used `pgrep -f "new_track.sh"`, which matched
+  its own command line, so all three slept forever (second occurrence of the `-f` self-match bug).
+  Replacement: `research/tools/runq.sh` runs the lines of `research/queue.txt` sequentially (builds
+  included, so a rebuild never races an evaluation); append lines any time, one runner (flock).
+  `research/tools/repro_check.sh NAME [n]` re-runs n recorded games with the current binary and
+  fails unless every column but timing is identical — run it after every rebuild, before any
+  paired comparison (weights-consistency rule, now mechanised).
 - `pkill -f` / `pgrep -f` with a pattern that appears in the invoking shell's own command line
   matches itself: killed two jobs and deadlocked four queued waiters (they could never see "0
   processes"). Always `pgrep -x <exact name>` / `pkill -x`; never `-f` from a chain.
