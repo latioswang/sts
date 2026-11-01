@@ -25,3 +25,15 @@ index d04312b..9ff5d5b 100644
 +add_executable(fair_eval ${STS_RESEARCH_DIR}/eval/eval_main.cpp ${FAIR_SOURCES})
 +target_include_directories(fair_eval PUBLIC include ${STS_RESEARCH_DIR}/cpp)
 +target_link_libraries(fair_eval stscore pthread)
+diff --git a/src/combat/BattleContext.cpp b/src/combat/BattleContext.cpp
+index 965faef..4b57758 100644
+--- a/src/combat/BattleContext.cpp
++++ b/src/combat/BattleContext.cpp
+@@ -50,6 +50,7 @@ void BattleContext::init(const GameContext &gc, MonsterEncounter encounterToInit
+     potionCapacity = gc.potionCapacity;
+     potions = gc.potions;
+ 
++    player.cc = gc.cc;  // FIX: was never initialised -> Entropic Brew / Dead Branch used a garbage class pool
+     player.curHp = gc.curHp;
+     player.maxHp = gc.maxHp;
+     player.gold = gc.gold;

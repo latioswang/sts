@@ -55,7 +55,7 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
 
 // Leak test: for battle states encountered in real play, the chosen action
 // must not change when hidden state is re-randomised (search seed fixed).
-static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &checked) {
+static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &checked, bool giveDome) {
     GameContext gc(CharacterClass::IRONCLAD, seed, asc);
     fair::FairAgent agent(P, 777);
     search::ScumSearchAgent2 legacy;
@@ -66,6 +66,7 @@ static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &che
         if (gc.screenState != ScreenState::BATTLE) { legacy.stepOutOfCombatPolicy(gc); continue; }
         ++battles;
         BattleContext bc; bc.init(gc);
+        if (giveDome) bc.player.setHasRelic<RelicId::RUNIC_DOME>(true);  // intents must then be invisible to the search
         int steps = 0;
         while (bc.outcome == Outcome::UNDECIDED && steps < 400) {
             ++steps;
@@ -89,7 +90,7 @@ static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &che
 
 int main(int argc, char **argv) {
     std::string agent = "fair";
-    std::uint64_t seedStart = 1000; int count = 10; int asc = 0; int threads = 4; bool leak = false; bool inproc = false;
+    std::uint64_t seedStart = 1000; int count = 10; int asc = 0; int threads = 4; bool leak = false; bool inproc = false; bool leakDome = false;
     fair::Params P;
     for (int i = 1; i < argc; ++i) {
         std::string a = argv[i];
@@ -100,6 +101,7 @@ int main(int argc, char **argv) {
         else if (a == "--asc") asc = std::stoi(next());
         else if (a == "--threads") threads = std::stoi(next());
         else if (a == "--leaktest") leak = true;
+        else if (a == "--leak_dome") { leak = true; leakDome = true; }
         else if (a == "--inproc") inproc = true;  // debug: no fork
         else if (a == "--param") {
             auto kv = next(); auto eq = kv.find('=');
@@ -109,7 +111,7 @@ int main(int argc, char **argv) {
 
     if (leak) {
         int checked = 0, mism = 0;
-        for (int i = 0; i < count; ++i) mism += leakTest(seedStart + i, asc, P, checked);
+        for (int i = 0; i < count; ++i) mism += leakTest(seedStart + i, asc, P, checked, leakDome);
         std::printf("LEAKTEST checked=%d mismatches=%d %s\n", checked, mism, mism == 0 ? "PASS" : "FAIL");
         return mism == 0 ? 0 : 1;
     }

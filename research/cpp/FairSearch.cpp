@@ -41,13 +41,14 @@ std::uint64_t observationHash(const BattleContext &bc) {
     mix(h, bc.cards.drawPile.size());
     mix(h, bc.cards.discardPile.size());
     mix(h, bc.cards.exhaustPile.size());
+    const bool dome = bc.player.hasRelic<R::RUNIC_DOME>();
     for (int i = 0; i < bc.monsters.monsterCount; ++i) {
         const auto &m = bc.monsters.arr[i];
         mix(h, static_cast<std::uint64_t>(m.id));
         mix(h, m.curHp);
         mix(h, m.block);
         mix(h, m.isTargetable());
-        mix(h, static_cast<std::uint64_t>(m.moveHistory[0]));
+        if (!dome) mix(h, static_cast<std::uint64_t>(m.moveHistory[0]));  // intent hidden under Runic Dome
     }
     for (int i = 0; i < bc.potionCapacity; ++i) {
         mix(h, static_cast<std::uint64_t>(bc.potions[i]));
@@ -60,15 +61,19 @@ std::uint64_t observationHash(const BattleContext &bc) {
     return h;
 }
 
-void determinise(BattleContext &bc, std::mt19937_64 &rng) {
+void determinise(BattleContext &bc, std::mt19937_64 &rng, int knownTop) {
     auto &dp = bc.cards.drawPile;
-    // canonical order first, so the result is independent of the true order
-    std::sort(dp.begin(), dp.end(), [](const CardInstance &a, const CardInstance &b) {
+    // The top `knownTop` cards (back of the vector) are ones the player legitimately
+    // knows (Headbutt / Warcry placed them). Everything below is unknown: canonical
+    // order first so the result is independent of the true order, then shuffle.
+    knownTop = std::max(0, std::min<int>(knownTop, static_cast<int>(dp.size())));
+    auto unknownEnd = dp.end() - knownTop;
+    std::sort(dp.begin(), unknownEnd, [](const CardInstance &a, const CardInstance &b) {
         if (a.id != b.id) return a.id < b.id;
         if (a.upgraded != b.upgraded) return a.upgraded < b.upgraded;
         return a.uniqueId < b.uniqueId;
     });
-    std::shuffle(dp.begin(), dp.end(), rng);
+    std::shuffle(dp.begin(), unknownEnd, rng);
 
     bc.aiRng = Random(rng());
     bc.cardRandomRng = Random(rng());
@@ -76,6 +81,18 @@ void determinise(BattleContext &bc, std::mt19937_64 &rng) {
     bc.monsterHpRng = Random(rng());
     bc.potionRng = Random(rng());
     bc.shuffleRng = Random(rng());
+
+    // Runic Dome: the player cannot see intents, so the pending move must be
+    // re-sampled (approximate revert of the last roll, then roll again).
+    if (bc.player.hasRelic<R::RUNIC_DOME>() && bc.inputState != InputState::EXECUTING_ACTIONS) {
+        for (int i = 0; i < bc.monsters.monsterCount; ++i) {
+            auto &m = bc.monsters.arr[i];
+            if (m.isDeadOrEscaped()) continue;
+            m.moveHistory[0] = m.moveHistory[1];
+            m.moveHistory[1] = MonsterMoveId::INVALID;
+            m.rollMove(bc);
+        }
+    }
 }
 
 // Reuse lightspeed's action enumeration through a dummy searcher node.
@@ -87,10 +104,7 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allow
     std::vector<search::Action> out;
     out.reserve(node.edges.size());
     for (auto &e : node.edges) {
-        // Simulator bug workaround: Entropic Brew can create potions whose
-        // effects lightspeed doesn't implement (e.g. Ambrosia) -> crash.
-        if (e.action.getActionType() == search::ActionType::POTION &&
-            (!allowPotions || bc.potions[e.action.getSourceIdx()] == Potion::ENTROPIC_BREW)) continue;
+        if (e.action.getActionType() == search::ActionType::POTION && !allowPotions) continue;
         out.push_back(e.action);
     }
     return out;
@@ -221,7 +235,7 @@ int FairSearcher::select(const Node &node) const {
 
 void FairSearcher::simulate() {
     BattleContext bc = *rootState;
-    determinise(bc, rng);
+    determinise(bc, rng, p.knownTop);
 
     std::vector<std::pair<int,int>> path;  // (node, edge)
     int cur = rootIdx;

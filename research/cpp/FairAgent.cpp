@@ -71,6 +71,8 @@ void FairAgent::playBattle(GameContext &gc) {
     }
     int steps = 0;
     const bool reuse = getp(P, "tree_reuse", 0) > 0;
+    const bool trackTop = getp(P, "known_top", 1) > 0;
+    int knownTop = 0;  // cards on top of the draw pile whose identity the player knows
     std::unique_ptr<FairSearcher> searcher;
     while (bc.outcome == Outcome::UNDECIDED) {
         if (++steps > 3000) {  // safety: pathological loop
@@ -78,7 +80,9 @@ void FairAgent::playBattle(GameContext &gc) {
             bc.outcome = Outcome::PLAYER_LOSS;
             break;
         }
-        if (!reuse || !searcher) searcher = std::make_unique<FairSearcher>(bc, searchParamsFor(bc), rng());
+        auto spNow = searchParamsFor(bc);
+        spNow.knownTop = knownTop;
+        if (!reuse || !searcher) searcher = std::make_unique<FairSearcher>(bc, spNow, rng());
         FairSearcher &s = *searcher;
         s.setRoot(bc);
         auto a = s.search();
@@ -88,7 +92,20 @@ void FairAgent::playBattle(GameContext &gc) {
             std::cerr << "turn " << bc.turn << " hp " << bc.player.curHp << " e " << bc.player.energy << " ";
             a.printDesc(std::cerr, bc) << " visits=" << s.rootVisits() << "\n";
         }
+        const int pileBefore = static_cast<int>(bc.cards.drawPile.size());
+        bool putsOnTop = false;
+        if (a.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.inputState == InputState::CARD_SELECT) {
+            const auto task = bc.cardSelectInfo.cardSelectTask;
+            putsOnTop = task == CardSelectTask::HEADBUTT || task == CardSelectTask::WARCRY;
+        }
         a.execute(bc);
+        if (trackTop) {
+            const int pileAfter = static_cast<int>(bc.cards.drawPile.size());
+            if (pileAfter < pileBefore) knownTop = std::max(0, knownTop - (pileBefore - pileAfter));
+            else if (pileAfter == pileBefore + 1 && putsOnTop) knownTop += 1;
+            else if (pileAfter != pileBefore) knownTop = 0;  // reshuffle or random insert: be conservative
+            knownTop = std::min(knownTop, pileAfter);
+        }
         if (reuse) s.advance(a, bc);
     }
     bc.exitBattle(gc);
@@ -165,13 +182,13 @@ static double kbBossRelicValue(RelicId id) {
 }
 
 int FairAgent::bossRelicChoice(const GameContext &gc) const {
-    // GUARDRAIL: never take Runic Dome. The simulator still exposes monster
-    // intents to the search with Dome, so taking it would be a hidden-info leak.
+    // Runic Dome is allowed: the searcher hides intents (observation hash + move re-roll)
+    // when the player holds it, so there is no hidden-info leak.
     int best = 3;  // 3 = skip
     double bestV = -1e18;
     for (int i = 0; i < 3; ++i) {
         const RelicId r = gc.info.bossRelics[i];
-        if (r == RelicId::RUNIC_DOME) continue;
+        if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
         const double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
                                                     : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
         if (v > bestV) { bestV = v; best = i; }
@@ -193,8 +210,7 @@ int FairAgent::neowChoice(const GameContext &gc) const {
             case B::REMOVE_TWO: return 6.0; case B::ONE_RARE_RELIC: return 7.0;
             case B::THREE_RARE_CARDS: return 6.0; case B::TWO_FIFTY_GOLD: return 6.0;
             case B::TRANSFORM_TWO_CARDS: return 5.0; case B::TWENTY_PERCENT_HP_BONUS: return 5.5;
-            // GUARDRAIL: random boss relic could be Runic Dome (intent-hiding leak) -> never.
-            case B::BOSS_RELIC: return -100.0;
+            case B::BOSS_RELIC: return 6.5;
             default: return 0.0;
         }
     };
