@@ -194,7 +194,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   (keys agent `heart_cur`, act-3 "next" fight = the Heart: 500 games, 183 reached Act 4, 137 MB, 0 dumps);
   `bg1b` (current A0 best `bfbonus10_g1`, fresh train seeds 300500+: 500 games, 70.2% win, floor 46.3,
   158 MB — the generating agent's own strength on train seeds matches val/test); `bg_a10b` (current A10
-  best `a10_bfbonus25_g1m`, seeds 300500+: 500 games, 26.6% win, floor 36.4, 120 MB).
+  best `a10_bfbonus25_g1m`, seeds 300500+: 500 games, 26.6% win, floor 36.4, 120 MB); `bg1k3` (current A0
+  best, seeds 301000+, bf_k=3 — labels averaged over three fights per option: 500 games, 67.6% win, floor
+  45.7, 156 MB; ~12 min per 50 games, 3.5× the single-fight cost).
 - **Model 3 (bg1 + bg_a10 + bg_a20: 128,594 rows from 1,500 games; held-out boss-win BCE 0.340 vs 0.607, paired
   corr 0.098):** A20 `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard (near-miss → pre-registered dev extension queued); A10 at 10× `a10_bfbonus10_g2m` 25.7% win, floor 36.0, -0.063 vs base, P=0.039 → discard (vs the 25×
   model-2 best — weight-matched 25× run queued); A0 at 10× `bfbonus10_g2m` 71.7% win, floor 46.9, -0.025 vs base, P=0.217 → discard. Pattern: pooling ascensions dilutes —
