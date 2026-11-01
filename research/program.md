@@ -175,7 +175,9 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   model fails to beat the base rate, so `rv_pick` can never silently degrade to noise.
 - Batch 14 (vs rb3): `lowhp1` +0.010 (P=0.61), `lowhp2` −0.306 (strong risk aversion →
   passivity), `nodome` −0.003 (P=0.38: allowing Runic Dome is neutral for this agent, so the
-  honest Dome handling costs nothing), `neow2` −0.017 (P=0.34), `maxhp05` pending.
+  honest Dome handling costs nothing), `neow2` −0.017 (P=0.34), `maxhp05` −0.023 (P=0.25).
+  **Batch 14: no keeps** — the hand-tuned value/policy knobs are exhausted at this level; gains
+  must now come from structural changes (chest fix, learned prior/value, keys/Act 4).
   Batch 15 queued: `chest1`, `prior1`, `prior1_s450`, `rvpick1`, `INFO_keys1`.
 - **Third data-integrity bug, found by cross-referencing run logs with the TSV:** 146/1,000
   generation games aborted (14.6%) — only with loggers on. gdb: `std::map::at(DRAW_REDUCTION)`
