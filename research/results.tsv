@@ -168,3 +168,4 @@ e66a8cf	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	keep	potsave2: POOLED KEEP
 6c7a325	dev.a10	100	0	0.150	31.76	0.7727			info	a10_rest06_dev: VERIFY: a10_rest06 params on dev (100 fresh seeds)
 9a46f62	dev.a10	100	0	0.150	31.56	0.7688	-0.0039	0.478	info	a10_kbsyn_dev: VERIFY: a10_kbsyn params on dev vs a10_rest06_dev (independent seeds)
 1e1eb34	dev.a10	100	0	0.180	34.05	0.8476	+0.0749	0.928	info	a10_eh075_dev: VERIFY: A10 keep chain (a10_eh075) on dev vs a10_rest06_dev (independent seeds)
+d92fe8d	dev.a20	100	0	0.010	21.92	0.4396			info	base_a20_dev: VERIFY: base_a20 params on dev (100 fresh seeds)

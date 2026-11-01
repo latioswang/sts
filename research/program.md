@@ -99,7 +99,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   is reported as "unreplicated" until its chain shows dscore > 0 on dev; `a10_eh075_dev` (the whole
   chain) decides the label for A10. If the chain fails too, A10 experiments continue on the current
   best (paired deltas are unaffected by the baseline's absolute level) and the A10 headline is quoted
-  with the dev figure alongside.
+  with the dev figure alongside. **Result:** `a10_eh075_dev` 18.0% win, floor 34.0, +0.075 vs base, P=0.928 → info (vs a10_rest06_dev, 100 fresh seeds) — the
+  chain replicates; the elite gate carries it, the KB-synergy step is ~0.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
