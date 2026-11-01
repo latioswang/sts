@@ -124,6 +124,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   an additive adjustment to KB values (`bf_bonus`, batch 36); (b) model g1 with graded labels — damage
   dealt to the current boss and to a boss sampled from the *next* act's pool (continuous, far less noisy
   than win/loss, and forward-looking), so option differences carry signal.
+  A10 with the A0-trained g0 (vs a10_eh075): `a10_bfrem_g0` 14.7% win, floor 32.6, -0.177 vs base, P=0.000 → discard; `a10_bfupg_g0` 21.7% win, floor 34.3, -0.075 vs base, P=0.003 → discard; `a10_bfpick_g0` 20.0% win, floor 34.9, -0.079 vs base, P=0.041 → discard; `a10_bfpick_g0_m02` 12.7% win, floor 32.1, -0.207 vs base, P=0.000 → discard — the model does not transfer
+  across ascensions (enemy HP/damage differ), so any future model must be trained on each ladder's
+  own fights (ascension is already a feature; datasets can be merged).
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
