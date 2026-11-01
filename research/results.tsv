@@ -159,3 +159,4 @@ ec3ef7e	val.a0	300	0	0.640	45.39	1.5301	+0.0086	0.685	discard	rh06b: rest: heal 
 e6aa6ab	val.a10	300	0	0.270	35.40	0.9641	+0.0650	0.981	keep	a10_eh075: [a10] A10: elites only at 75% HP — retest on a10_kbsyn [elite_hp=0.75]
 60984f2	val.a0	300	0	0.593	44.16	1.4592	-0.0624	0.033	discard	rollprior_cal: prior-guided rollouts (bilinear fast policy, eps 0.25) at equal wall-clock: sims 210 (cost ratio 2.430) [roll_prior=1 sims=210]
 299b416	val.a0	300	0	0.650	45.75	1.5471	+0.0256	0.807	discard	potsave: potions: worth 8 HP in hallway fights, 2 in boss fights, 4 vs elites (save them for bosses) [potion_v=8 potion_v_boss=2 potion_v_elite=4]
+823e807	val.a0	300	0	0.617	44.63	1.4917	-0.0298	0.146	discard	potv12: combat value: potion worth 12 HP (hoard harder) [potion_v=12]
