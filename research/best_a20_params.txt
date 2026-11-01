@@ -9,6 +9,7 @@ end_turn_w=0.05
 ev_pol=1
 hall_potions=0
 map_pol=1
+potion_v_boss=2
 prior_mlp=1
 prior_mlp_depth=0
 rest_hp=0.6

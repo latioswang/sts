@@ -17,7 +17,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
 | **A10 best `a10_bfbonus25_g1m`** (a10_eh075 + 25× deck-value bonus from the combined A0+A10 model, P=0.950) | val, 300, asc 10 | **29.3%** | — | 37.4 |
 | `a10_eh075` (rest <60% + KB synergy bonuses + elites only above 75% HP) | val, 300, asc 10 | 27.0% | — | 35.4 |
-| **A20 best `a20_bfbonus10_g2m`** (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935) | val, 300, asc 20 | **1.0%** (floor-driven keeps) | — | 26.6 |
+| **A20 best `a20_potb2`** (a20_bfbonus10_g2m + potions spent freely in boss fights; P=0.998, dev check pending) | val, 300, asc 20 | **1.7%** (floor-driven keeps) | — | 27.0 |
+| `a20_bfbonus10_g2m` (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935) | val, 300, asc 20 | 1.0% | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
 | **Heart best `heart_bfbonus25_g_heart`** (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | **9.3%** | — | 46.3 |
