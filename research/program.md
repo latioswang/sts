@@ -59,7 +59,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Tracks: **A0 best `bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
   card value = KB tier value + deck-need bonuses + 10 × (interventional model g0's predicted fight value
   with the card − without it). The model as a replacement lost 10–16 pts; as an additive adjustment to
-  the long-horizon tiers it adds +3.0 pts win (vs potsave2 66.3%; chain: wea1p1 63.7% → potsave2 → bfbonus10); **A10 best `a10_eh075` 27.0%**
+  the long-horizon tiers it adds +3.0 pts win (vs potsave2 66.3%; chain: wea1p1 63.7% → potsave2 → bfbonus10).
+  Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_eh075` 27.0%**
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% (+5.7 pts, P=0.995; neutral at A0) → elites only
   above 75% HP 27.0% (+0.065, P=0.981));
   **A20 best `a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
