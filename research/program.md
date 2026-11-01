@@ -79,6 +79,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 31 (A0): `potv2` −0.007, **`potv8` (potions worth 8 HP) 65.0%, +0.022, P=0.77 — near-miss**,
   `rh06b` +0.009 (P=0.69). Follow-up batch 34: save potions for bosses/elites (`potion_v_boss` low,
   `potion_v` high), `potv12`.
+- Batch 32 (kb_syn follow-ups): `a20_kbsyn` −0.006 (A20 runs rarely live long enough for deck quality
+  to matter); `a10_kbsyn2` (double weights) 19.3%, −0.069, P=0.02; `a10_kbsyn_rel` (relic-card only)
+  22.7%, −0.031 — the card-card synergies carry the A10 keep, and the response is sharply
+  non-monotonic in the weight, so the keep is being re-checked on 100 independent dev seeds.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
