@@ -335,6 +335,13 @@ Parameter-level tuning is exhausted on both tracks; next structural items: KB re
 bonuses in card valuation (the KB's synergy lists are unused so far), prior-guided rollouts at
 measured equal wall-clock, A20 seed.
 
+### KB synergy bonuses (`kb_syn=1`) — implemented, queued as batch 27
+The repo KB's synergy lists were unused until now. `research/tools/gen_kb_synergy.py` turns them into
+1,422 card-card and 1,741 relic-card pairs (synergy +1, super +2, anti −1; colorless cards and
+curses mapped through the CardId enum). Card valuation adds `kb_syn_card_w` × (capped sum over deck
+cards) + `kb_syn_relic_w` × (capped sum over held relics). Variants: default weights, doubled,
+relic-only; also on the A10 track. Bit-identical when off.
+
 ### Boss-aware deck preparation (`boss_prep=1`) — implemented, tested in batch 20 (neutral)
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
