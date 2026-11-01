@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 16:20 UTC
+### Current state (update after every batch) — 2026-11-01 17:20 UTC
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -198,9 +198,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 38 A20 knobs (vs a20_bfbonus10_g2m): `a20_potv2` 1.0% win, floor 26.3, -0.007 vs base, P=0.308 → discard; `a20_ca1b2` 1.0% win, floor 26.7, +0.002 vs base, P=0.647 → discard; `a20_rest07` 2.0% win, floor 26.4, +0.005 vs base, P=0.651 → discard — all neutral; the A20
   ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
-- Running (sequential queue, `research/queue.txt`): A0 test of model 3; A20 extension (dev + pooled);
-  `a10_bfbonus25_g2m`; batch 38 (potion spending at A10/A20, act-1 card intake and rest 70% at A20, Heart
-  chain dev check). The runner was restarted twice at its 2-hour limit (resume logic worked both times).
+- Running (sequential queue, `research/queue.txt`): Heart-labelled dataset `bg_heart` (keys agent; act-3
+  "next" fight = the Heart; chunk 6 of 10) → model 6 → `heart_bfbonus10_g_heart` / `heart_bfbonus25_g_heart`
+  (vs heart_cur); then expert-iteration data from the current A0/A10 bests (`bg1b`, `bg_a10b`) → models 8/7.
+  Closed today on top of the keeps: A0 threshold retune (ct45 extension failed), A20-only model 5 (neutral),
+  A10-only model 4 (worse than the pooled model), batch 38 knobs (all neutral).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
