@@ -124,7 +124,70 @@ void determinise(BattleContext &bc, std::mt19937_64 &rng, int knownTop) {
     }
 }
 
-// Reuse lightspeed's action enumeration through a dummy searcher node.
+static inline bool potionAllowedHere(const BattleContext &bc, int pIdx, bool allowPotions) {
+    if (!allowPotions) return false;
+    // real-game rule: Smoke Bomb cannot be used in boss fights
+    return !(bc.potions[pIdx] == Potion::SMOKE_BOMB && isBossEncounter(bc.encounter));
+}
+
+// Allocation-free enumeration for the common PLAYER_NORMAL state. Mirrors lightspeed's
+// BattleScumSearcher2::enumerateCardActions/enumeratePotionActions exactly (same dedupe rule,
+// same play-order sort, same target order) so the search behaves identically, just faster.
+int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Action *out, int cap) {
+    int n = 0;
+    if (bc.inputState != InputState::PLAYER_NORMAL) {
+        auto v = enumerateActions(bc, allowPotions);  // rare: card-select states, use the generic path
+        for (auto &a : v) if (n < cap) out[n++] = a;
+        return n;
+    }
+    if (bc.isCardPlayAllowed()) {
+        std::pair<int,int> playable[CardManager::MAX_HAND_SIZE];
+        int np = 0;
+        for (int h = 0; h < bc.cards.cardsInHand; ++h) {
+            const auto &c = bc.cards.hand[h];
+            if (!c.canUseOnAnyTarget(bc)) continue;
+            if (h > 0) {
+                const auto &l = bc.cards.hand[h - 1];
+                const bool same = c.id == l.id && c.getUpgradeCount() == l.getUpgradeCount()
+                               && c.costForTurn == l.costForTurn && c.cost == l.cost
+                               && c.freeToPlayOnce == l.freeToPlayOnce && c.specialData == l.specialData;
+                if (same) continue;
+            }
+            playable[np++] = {h, search::Expert::getPlayOrdering(c.getId())};
+        }
+        std::sort(playable, playable + np, [](auto a, auto b) { return a.second < b.second; });
+        for (int i = 0; i < np; ++i) {
+            const int h = playable[i].first;
+            const auto &c = bc.cards.hand[h];
+            if (c.requiresTarget()) {
+                for (int t = bc.monsters.monsterCount - 1; t >= 0; --t) {
+                    if (!bc.monsters.arr[t].isTargetable()) continue;
+                    if (n < cap) out[n++] = search::Action(search::ActionType::CARD, h, t);
+                }
+            } else if (n < cap) {
+                out[n++] = search::Action(search::ActionType::CARD, h);
+            }
+        }
+    }
+    if (allowPotions) {
+        const bool hasValidTarget = bc.monsters.getTargetableCount() > 0;
+        for (int pIdx = 0; pIdx < bc.potionCapacity; ++pIdx) {
+            const auto p = bc.potions[pIdx];
+            if (p == Potion::EMPTY_POTION_SLOT) continue;
+            if (!potionAllowedHere(bc, pIdx, true)) continue;
+            if (p == Potion::FAIRY_POTION) { if (n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, -1); continue; }
+            if (!potionRequiresTarget(p)) { if (n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx); continue; }
+            if (!hasValidTarget) { if (n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, -1); continue; }
+            for (int t = 0; t < bc.monsters.monsterCount; ++t) {
+                if (bc.monsters.arr[t].isTargetable() && n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, t);
+            }
+        }
+    }
+    if (n < cap) out[n++] = search::Action(search::ActionType::END_TURN);
+    return n;
+}
+
+// Generic path: reuse lightspeed's action enumeration through a dummy searcher node.
 std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allowPotions) {
     static thread_local std::unique_ptr<search::BattleScumSearcher2> dummy;
     if (!dummy) dummy = std::make_unique<search::BattleScumSearcher2>(bc);
@@ -133,11 +196,8 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allow
     std::vector<search::Action> out;
     out.reserve(node.edges.size());
     for (auto &e : node.edges) {
-        if (e.action.getActionType() == search::ActionType::POTION) {
-            if (!allowPotions) continue;
-            // real-game rule: Smoke Bomb cannot be used in boss fights
-            if (bc.potions[e.action.getSourceIdx()] == Potion::SMOKE_BOMB && isBossEncounter(bc.encounter)) continue;
-        }
+        if (e.action.getActionType() == search::ActionType::POTION
+            && !potionAllowedHere(bc, e.action.getSourceIdx(), allowPotions)) continue;
         out.push_back(e.action);
     }
     return out;
@@ -166,9 +226,12 @@ bool FairSearcher::advance(search::Action taken, const BattleContext &after) {
 
 int FairSearcher::newNode(const BattleContext &bc) {
     Node n;
-    for (auto a : enumerateActions(bc, p.allowPotions)) {
+    search::Action buf[MAX_ACTIONS];
+    const int cnt = enumerateActionsInto(bc, p.allowPotions, buf, MAX_ACTIONS);
+    n.edges.reserve(cnt);
+    for (int i = 0; i < cnt; ++i) {
         Edge e;
-        e.action = a;
+        e.action = buf[i];
         n.edges.push_back(std::move(e));
     }
     nodes.push_back(std::move(n));
@@ -207,8 +270,9 @@ double FairSearcher::rollout(BattleContext &bc) {
     const int stopTurn = bc.turn + p.rolloutTurns;
     std::uniform_real_distribution<double> U(0, 1);
     while (bc.outcome == Outcome::UNDECIDED && bc.turn < stopTurn) {
-        auto acts = enumerateActions(bc, p.allowPotions);
-        if (acts.empty()) break;
+        search::Action acts[MAX_ACTIONS];
+        const int nActs = enumerateActionsInto(bc, p.allowPotions, acts, MAX_ACTIONS);
+        if (nActs == 0) break;
         // weighted pick: END_TURN has weight endTurnRolloutWeight, others 1
         double total = 0;
         // block-aware heuristic: visible intent damage vs current block
@@ -241,12 +305,12 @@ double FairSearcher::rollout(BattleContext &bc) {
                 default: return 1.0;
             }
         };
-        for (auto &a : acts) total += wOf(a);
+        for (int i = 0; i < nActs; ++i) total += wOf(acts[i]);
         double r = U(rng) * total;
-        search::Action chosen = acts.back();
-        for (auto &a : acts) {
-            r -= wOf(a);
-            if (r <= 0) { chosen = a; break; }
+        search::Action chosen = acts[nActs - 1];
+        for (int i = 0; i < nActs; ++i) {
+            r -= wOf(acts[i]);
+            if (r <= 0) { chosen = acts[i]; break; }
         }
         FAIR_TRACE_ACTION(chosen, bc, "roll");
         chosen.execute(bc);

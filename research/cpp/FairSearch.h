@@ -45,6 +45,9 @@ struct SearchParams {
 std::uint64_t observationHash(const sts::BattleContext &bc);
 void determinise(sts::BattleContext &bc, std::mt19937_64 &rng, int knownTop = 0);
 std::vector<sts::search::Action> enumerateActions(const sts::BattleContext &bc, bool allowPotions = true);
+// allocation-free variant (same action set and order); returns count written to out[0..cap)
+constexpr int MAX_ACTIONS = 128;
+int enumerateActionsInto(const sts::BattleContext &bc, bool allowPotions, sts::search::Action *out, int cap);
 
 class FairSearcher {
 public:
