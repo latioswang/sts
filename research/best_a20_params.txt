@@ -1,5 +1,5 @@
 aoe_bonus=2
-bf_bonus=10
+bf_bonus=25
 bf_model=3
 boss_pol=1
 card_pol=1

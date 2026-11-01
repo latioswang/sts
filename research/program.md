@@ -77,7 +77,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_bfbonus25_g1m`: `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep**
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% → elites only above 75% HP 27.0% → 25× bonus from
   the combined-ascension deck-value model 29.3%);
-  **A20 best `a20_potb2`: `a20_potb2` 1.7% win, floor 27.0, +0.013 vs base, P=0.998 → keep** (potions worth 2 HP in boss fights only — spend them where A20 runs end;
+  **A20 best `a20_bfb25`: `a20_bfb25` 3.7% win, floor 27.8, +0.036 vs base, P=0.991 → keep** (deck-value bonus 25× instead of 10× with model 3, on top of the
+  boss-potion change; dev checks queued for both); previous **`a20_potb2`: `a20_potb2` 1.7% win, floor 27.0, +0.013 vs base, P=0.998 → keep** (potions worth 2 HP in boss fights only — spend them where A20 runs end;
   P=0.998 on a +0.013 score change, dev check queued; previous **`a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
   P=0.935; previous **`a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
   valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `heart_bfbonus25_g_heart`: `heart_bfbonus25_g_heart` 9.3% win, floor 46.3, +0.052 vs base, P=0.989 → keep** (win = act ≥ 4 && win; model 6 = A0 fights +
