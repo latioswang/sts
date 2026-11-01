@@ -57,3 +57,6 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0510	0.915	keep	combo2: all batch-8 near-misses: combo1 + w_event 2 + rich shop 3 + monster 0.5 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2 w_shop_rich=3 w_monster=0.5]
 649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0000	0.000	discard	combo3: combo1 + w_event 2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2]
 13d3c84	val.a0	300	0	0.357	40.43	1.1493	+0.0492	0.934	keep	hallpot0: no potions in hallway-fight search (unless hp<25%) [hall_potions=0]
+4bb2cb5	val.a0	300	0	0.360	40.56	1.1553	+0.0059	0.620	discard	pve2: elite fights: potions worth 2 (use more freely) [potion_v_elite=2]
+4bb2cb5	val.a0	300	0	0.360	40.57	1.1556	+0.0062	0.685	discard	pvb2: boss fights: potions worth 2 [potion_v_boss=2]
+4bb2cb5	val.a0	300	0	0.367	40.64	1.1635	+0.0141	0.687	discard	c05: exploration 0.5 [c=0.5]
