@@ -142,7 +142,12 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   (`prior=1`, `prior_c`), root-visit logger `pf_log=1` → `pol_<seed>.bin`, `train_policy.py`.
   Phase C wiring: `run_features.h` (666 dims), `rv_log=1` → `run_<seed>.bin`, `train_run.py`.
   All loggers off by default; build bit-identical with everything off (checked on seeds 100004/5).
-- Data: gen0 = 500 games (value rows only); gen1 = 500 games with all three loggers.
+- Data: gen0 (train seeds) and gen1 (train2 seeds), 500 games each, all three loggers.
+  **Bug found and fixed before any model was used:** the fork harness closed the child's
+  stderr, the loggers' `fopen` reused fd 2, and `std::cerr` diagnostics were written into
+  the binary logs (garbage rows: 1,344 "battles", 15% win labels). Child stderr now goes to
+  `/dev/null`; both datasets regenerated. The first (corrupted) V training produced NaNs —
+  the trainer now drops non-finite rows and the exporter must never emit NaN.
 - Next: train V on gen0+gen1 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal wall-clock
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
