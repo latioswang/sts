@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 22:20 UTC
+### Current state (update after every batch) — 2026-11-01 23:20 UTC
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -228,9 +228,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   `a10_mapd095` 30.0% win, floor 37.7, +0.013 vs base, P=0.771 → discard. The A10 map policy is at its optimum within noise.
 - Batch 42 (bonus 50×): A20 `a20_bfb50` 1.0% win, floor 28.3, -0.016 vs base, P=0.185 → discard; A10 `a10_bfb50` 30.0% win, floor 37.4, +0.007 vs base, P=0.581 → discard — the bonus weight is saturated at 25× on both ladders.
 - Batch 43 (Neow ranking): A20 `a20_neow1` 4.3% win, floor 27.9, +0.010 vs base, P=0.663 → discard; A10 `a10_neow1` 31.0% win, floor 36.7, +0.004 vs base, P=0.542 → discard — neutral on both (as at A0).
-- Running (sequential queue, `research/queue.txt`): batch 44 — second replication slice (dev2) for the kept
-  chains on A0 (bfbonus10_g1 vs potsave2), A10 (a10_bfbonus25_g1m vs a10_eh075) and A20 (a20_bfbonus10_g2m
-  vs a20_restlo). The queue is empty after that; the next-day plan is above. Batch 41 closed: A10 knobs flat (potb2 −0.011, weh2 −0.018, ct45 +0.001); A20 keeps
+- Batch 44 (second replication slice, dev2) done: A0 learned-bonus chain +0.171 (P=0.996) and A10 model-bonus
+  keep +0.161 (P=0.991) replicate; the A20 model-bonus keep (+0.007, P=0.61) does not. See "Second-slice
+  replication" below.
+- Running (sequential queue, `research/queue.txt`): overnight hygiene — regenerate the A10 fight set on the
+  fixed simulator (`bg_a10c`, same seeds as bg_a10) and retrain the A10 model (11) → `a10_bfbonus25_g2c`.
+  The queue is empty after that; the next-day plan is above.
   potb2/bfb25 val-only (dev −0.002 / −0.027); Heart keep floor-replicated on 2 of 3 slices, wins flat.
 - **Plan for the next day (not started at night):** the cheap knobs are exhausted on every track and the
   learned strategic layer is closed at its kept form. The remaining lever inside the fixed wall-clock rule
