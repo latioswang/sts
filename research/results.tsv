@@ -215,3 +215,4 @@ a9d28f6	dev.a20	100	0	0.020	27.08	0.5506	+0.0267	0.863	info	a20_bfbonus10_g2m_de
 a9d28f6	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	keep	a20_bfbonus10_g2m: POOLED KEEP (pre-registered extension): val 300 +0.017/P 0.881, dev 100 +0.027/P 0.863, pooled 400 dscore +0.0192 P=0.935 -> new A20 best [bf_model=3 bf_bonus=10]
 f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m: [a10] A10: model 3 (three ascensions) at the kept weight 25x (model-only comparison vs model 2) [bf_model=3 bf_bonus=25]
 24da2b8	val.a10	300	0	0.320	37.43	1.0540	+0.0278	0.865	discard	a10_potv2: [a10] A10: potions worth 2 HP (spend freely; saving them was -6.7 pts) [potion_v=2]
+081265e	val.a20	300	0	0.010	26.28	0.5251	-0.0069	0.308	discard	a20_potv2: [a20] A20: potions worth 2 HP (spend freely) [potion_v=2]
