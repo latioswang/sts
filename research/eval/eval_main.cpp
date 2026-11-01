@@ -29,7 +29,7 @@ using namespace sts;
 struct Row {
     std::uint64_t seed; int win; int floor; int act; int hp; int maxHp; int deck;
     std::int64_t battles; std::int64_t decisions; int aborted; double secs; std::int64_t actions = 0; std::string keys;
-    int lastEnc = -1; int potionsLeft = 0;
+    int lastEnc = -1; int potionsLeft = 0; std::string legacy;
 };
 
 static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const fair::Params &P) {
@@ -48,6 +48,9 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
         a.playout(gc);
         r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted; r.actions = a.stats.actions;
         r.lastEnc = a.stats.lastEncounter;
+        static const char *kScreens[10] = {"INVALID", "EVENT", "REWARDS", "BOSS_RELIC", "CARD_SELECT", "MAP", "TREASURE", "REST", "SHOP", "BATTLE"};
+        for (int i = 0; i < 10; ++i)
+            if (a.stats.legacyCalls[i]) r.legacy += std::string(kScreens[i]) + ":" + std::to_string(a.stats.legacyCalls[i]) + ",";
     }
     r.potionsLeft = gc.potionCount;
     r.win = gc.outcome == GameOutcome::PLAYER_VICTORY;
@@ -124,8 +127,9 @@ int main(int argc, char **argv) {
     if (inproc) {
         for (int i = 0; i < count; ++i) {
             Row r = runOne(agent, seedStart + i, asc, P);
-            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\tactions=%lld\tper_decision=%.0f\tact=%d\tkeys=%s\n", (unsigned long long)r.seed, r.win, r.floor, r.hp,
-                        (long long)r.decisions, r.secs, (long long)r.actions, r.decisions ? (double)r.actions / r.decisions : 0.0, r.act, r.keys.c_str());
+            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\tactions=%lld\tper_decision=%.0f\tact=%d\tkeys=%s\tlegacy=%s\tdeath_enc=%d\tpotions_left=%d\n",
+                        (unsigned long long)r.seed, r.win, r.floor, r.hp, (long long)r.decisions, r.secs, (long long)r.actions,
+                        r.decisions ? (double)r.actions / r.decisions : 0.0, r.act, r.keys.c_str(), r.legacy.c_str(), r.lastEnc, r.potionsLeft);
         }
         return 0;
     }

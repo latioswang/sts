@@ -853,6 +853,7 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
         default:
             break;
     }
+    ++stats.legacyCalls[static_cast<int>(gc.screenState) % 10];
     legacy.stepOutOfCombatPolicy(gc);
 }
 

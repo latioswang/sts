@@ -55,9 +55,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 10:00 UTC
+### Current state (update after every batch) — 2026-11-01 10:30 UTC
 - Tracks: **A0 best `wea1p1` 63.7% val** (map: +1 for act-1 elites — relics matter once chests are
-  opened; +0.034 vs priormlp_d0, P=0.954; chest1 confirmed 54.6% test); **A10 best `a10_rest06` 18.7%**;
+  opened; +0.034 vs priormlp_d0, P=0.954; chest1 confirmed 54.6% test); **A10 best `a10_kbsyn` 24.3%**
+  (KB synergy bonuses in card picks: +0.092 score, +5.7 pts win vs a10_rest06, P=0.995 — the same
+  change is neutral at A0: kbsyn1 −0.007, kbsyn2 −0.037, kbsyn_rel −0.017; at A10 deck coherence
+  matters more because every fight is harder);
   **A20 seeded: `base_a20` 2.3% win, floor 21.8** (A0 best params at ascension 20 — the ladder's hard
   end); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection

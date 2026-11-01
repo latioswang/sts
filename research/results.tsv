@@ -137,3 +137,4 @@ c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move
 80b20b7	val.a0	300	0	0.633	44.96	1.5149	-0.0066	0.426	discard	kbsyn1: KB synergy bonuses in card picks (card-card 0.5, relic-card 0.75 per listed synergy, cap 3) [kb_syn=1]
 80b20b7	val.a0	300	0	0.600	45.14	1.4850	-0.0365	0.177	discard	kbsyn2: KB synergy bonuses, double weights [kb_syn=1 kb_syn_card_w=1.0 kb_syn_relic_w=1.5]
 0817198	val.a0	300	0	0.623	44.96	1.5048	-0.0167	0.284	discard	kbsyn_rel: KB relic-card synergies only [kb_syn=1 kb_syn_card_w=0]
+83dfe3a	val.a10	300	0	0.243	33.45	0.8992	+0.0915	0.995	keep	a10_kbsyn: [a10] A10: KB synergy bonuses [kb_syn=1]

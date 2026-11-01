@@ -25,6 +25,7 @@ struct RunStats {
     std::int64_t simulations = 0;  // total simulations run
     bool aborted = false;
     int lastEncounter = -1;        // MonsterEncounter of the last battle (diagnostic: what killed the run)
+    std::int64_t legacyCalls[10] = {};  // out-of-combat decisions left to lightspeed's legacy policy, by ScreenState
 };
 
 class FairAgent {

@@ -5,6 +5,7 @@ chest_pol=1
 end_turn_w=0.05
 ev_pol=1
 hall_potions=0
+kb_syn=1
 map_pol=1
 prior_mlp=1
 prior_mlp_depth=0
