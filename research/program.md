@@ -632,6 +632,13 @@ near-miss in the same family; **no further extensions for the bonus-weight famil
 candidates already failed on fresh seeds; a third would be fishing). The weight is revisited only with
 a new model (g1) and its own val/dev runs.
 
+## Next block (queued 2026-11-01 17:25 UTC): expert iteration of the strategic model
+The deck-value models were trained on fights from the *previous* agents' games. Queued after the Heart
+block: 500 more A0 games from the current A0 best (`bg1b`, fresh train seeds 300500+) → model 8 on
+bg1+bg1b → `bfbonus10_g1b`; 500 more A10 games from the current A10 best (`bg_a10b`) → model 7 on
+bg1+bg_a10+bg_a10b → `a10_bfbonus25_g_a10b`. Expected: modest gains (the g0→g1 step was +4 pts from
+better labels; this step changes the data distribution, not the labels).
+
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
   `bf_pipeline.sh` while the queue was executing it produced a syntax error at the end of the run (after
