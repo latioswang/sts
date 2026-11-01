@@ -284,3 +284,4 @@ e50e039	dev2.a10	100	0	0.260	36.57	0.9771	+0.1610	0.991	info	a10_bfbonus25_g1m_d
 633b672	val.a20	300	0	0.027	27.92	0.5735	-0.0073	0.180	discard	a20_scal4: [a20] A20: scaling card bonus 4 [scaling_bonus=4]
 3a8d1e1	val.a20	300	0	0.030	27.54	0.5695	-0.0113	0.121	discard	a20_upgpow3: [a20] A20: upgrade powers first (bonus 3) [upg_power_bonus=3]
 f3bc179	val.a10	300	0	0.260	36.61	0.9778	-0.0483	0.015	discard	a10_restboss1: [a10] A10: always heal at the pre-boss rest site [rest_boss_frac=1.0]
+cda144e	val.a10	300	0	0.270	36.80	0.9916	-0.0346	0.031	discard	a10_aoe3: [a10] A10: AoE card bonus 3 [aoe_bonus=3]
