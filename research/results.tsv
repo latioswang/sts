@@ -208,3 +208,4 @@ a25c73d	val.a0	300	0	0.733	47.29	1.6605	-0.0001	0.504	discard	bfupgb10: rest upg
 e4f9a5d	val.a0	300	0	0.710	47.01	1.6318	-0.0288	0.102	discard	bfupgb25: rest upgrades: KB value + 25 x predicted fight-value gain of the upgrade (model 1) [bf_upg_bonus=25]
 f7a6de7	dev.a10	100	0	0.210	34.29	0.8824	+0.0347	0.738	info	a10_bfbonus25_g1m_dev: VERIFY: a10_bfbonus25_g1m on dev vs a10_eh075_dev (independent seeds)
 b189e39	train.a20	500	0	0.016	23.51	0.4766			info	bg_a20: bg_a20: 500 train games of the asc-20 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+2ec3cc0	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	discard	a20_bfbonus10_g2m: [a20] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
