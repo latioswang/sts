@@ -379,6 +379,15 @@ upper reference**, never as a result.
 7. Never stop to ask. Out of ideas → re-read `results.tsv` failures, combine
    near-misses, try more radical changes.
 
+## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- `pkill -f` / `pgrep -f` with a pattern that appears in the invoking shell's own command line
+  matches itself: killed two jobs and deadlocked four queued waiters (they could never see "0
+  processes"). Always `pgrep -x <exact name>` / `pkill -x`; never `-f` from a chain.
+- A silently failing compile inside a `cmd | grep | head` pipeline let a chain continue with a
+  stale binary and commit NaN weights. Always `cmd 2>err || { report; exit 1; }`.
+- Every data pipeline needs a validation assert at the consumer (rows/battle range, label rates,
+  finiteness) — three corrupt-data bugs were caught only there.
+
 ## Stop condition
 
 Stop when the backlog is empty AND the last 5 idea *families* all failed on
