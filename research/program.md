@@ -72,6 +72,20 @@ rare), Prismatic Shard (lightspeed implements only Ironclad + colorless cards, s
 off-colour deck would hit "unimplemented card").
 
 Re-baseline after the player.cc fix alone: `rb2` val 34.7% (n=297) vs 35.7% before — neutral.
+**Re-baseline on the fully fixed sim: `rb3` val 38.0%, floor 40.5, score 1.174 (n=300, 0 crashes)**
+— +0.043 vs rb2 (P=0.89): correct event outcomes / Dome allowed were net positive. rb3 is the
+reference for all later paired comparisons.
+
+Throughput work (bit-identical games, verified on 4 seeds): allocation-free action enumerator
+(~13%) + lightspeed's fixed-size card piles (`sts_card_manager_use_fixed_list`, MAX_GROUP_SIZE
+64→128) (~10% more) ≈ 1.3× faster. Protocol note: the compute budget is defined as the
+wall-clock of the original implementation at sims=500; verified speedups may be converted
+into proportionally more simulations (logged as such, timed on the same seeds, idle machine).
+
+Compute accounting finding: `budget_actions=7500` (equal *total* actions, no cutoff) lost
+−0.065 (P=0.03) vs equal *sims*: a fixed per-decision action budget starves the long, complex
+fights that matter most. Equal-sims stays the protocol; cutoff variants are compared at
+sims scaled by their measured cost-per-simulation ratio instead.
 
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
