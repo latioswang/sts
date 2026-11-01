@@ -252,6 +252,15 @@ apart — noise at n=12), cost 2.3× per game (19.8 s vs 8.5 s). Val experiments
 `cfpick1` (3 fights × 60 sims) and `cfpick2` (4 × 100). Hypothetical fights at 60 sims are played
 weakly, which biases the estimate toward cards that help a weak player; more sims costs more.
 
+### Batch 16 results (vs chest1, val 300)
+`prior2` +0.002 (P=0.52), `prior2_s450` +0.022 (P=0.73): the clean bilinear prior is neutral at equal
+compute. `rvpick2` −0.333, `rvpick2_m` −0.621: **observational V_run picking is closed** — a
+correlational P(win | deck) cannot be used counterfactually (bigger deck ⇒ survived longer ⇒ "good").
+`spd650b` +0.0225 (P=0.75; earlier `spd_s650` +0.0375, P=0.86): a consistent small gain from 30% more
+simulations, below the keep bar at n=300. Decision rule: adopt sims=650 only if the idle-machine
+timing shows the current build is ≥1.3× faster than the original (equal wall-clock = protocol), not
+as a "keep". Queued in the post-batch-18 chain together with the pre-speedup build timing.
+
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
