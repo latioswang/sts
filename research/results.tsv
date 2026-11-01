@@ -187,3 +187,4 @@ ed9dd2e	val.a0	300	0	0.693	46.75	1.6099	+0.0539	0.952	keep	bfbonus10: card picks
 36ad687	val.a0	300	0	0.707	47.05	1.6292	+0.0192	0.729	discard	bfbonus25: card picks: KB value + 25 x predicted fight-value gain [bf_bonus=25]
 1d5079c	val.a0	300	0	0.737	46.63	1.6510	+0.0410	0.876	discard	bfbonus50: card picks: KB value + 50 x predicted fight-value gain [bf_bonus=50]
 860429f	dev.a0	100	0	0.670	44.93	1.5510	+0.0510	0.876	info	bfbonus10_dev: VERIFY: bfbonus10 on dev vs potsave2_dev (independent seeds)
+5a2367f	dev.a0	100	0	0.630	45.57	1.5235	-0.0275	0.325	info	bfbonus25_dev: bfbonus25 on dev (extension of the val near-miss)
