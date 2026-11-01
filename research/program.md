@@ -641,7 +641,9 @@ The deck-value models were trained on fights from the *previous* agents' games. 
 block: 500 more A0 games from the current A0 best (`bg1b`, fresh train seeds 300500+) → model 8 on
 bg1+bg1b → `bfbonus10_g1b`; 500 more A10 games from the current A10 best (`bg_a10b`) → model 7 on
 bg1+bg_a10+bg_a10b → `a10_bfbonus25_g_a10b`. Expected: modest gains (the g0→g1 step was +4 pts from
-better labels; this step changes the data distribution, not the labels).
+better labels; this step changes the data distribution, not the labels). **Result (A0): `bfbonus10_g1b` 72.0% win, floor 47.0, -0.019 vs base, P=0.285 → discard** — model 8
+(1,000 games, paired corr 0.17 boss_dmg) does not beat g1 (500 games); more data of the same kind is not
+the lever; g1 stays. A10 (model 7) pending.
 
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
