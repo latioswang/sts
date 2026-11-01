@@ -3,7 +3,7 @@
 # usage: calibrate.sh "k=v k=v ..." [count=8] [seed_start=100010]
 # Refuses to run if other fair_eval* processes are active (timings must come from an idle machine).
 set -euo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 CAND=${1:?candidate params, e.g. \"leaf_vf=1 rollout_turns=0 sims=3000\"}
 COUNT=${2:-8}
 SEED=${3:-100010}
