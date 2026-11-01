@@ -16,7 +16,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
 | **A10 best `a10_bfbonus25_g1m`** (a10_eh075 + 25× deck-value bonus from the combined A0+A10 model, P=0.950) | val, 300, asc 10 | **29.3%** | — | 37.4 |
 | `a10_eh075` (rest <60% + KB synergy bonuses + elites only above 75% HP) | val, 300, asc 10 | 27.0% | — | 35.4 |
-| **A20 best `a20_restlo`** (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | **1.3%** (floor-driven keeps) | — | 25.6 |
+| **A20 best `a20_bfbonus10_g2m`** (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935) | val, 300, asc 20 | **1.0%** (floor-driven keeps) | — | 26.6 |
+| `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |

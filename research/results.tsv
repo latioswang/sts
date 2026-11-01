@@ -211,3 +211,5 @@ b189e39	train.a20	500	0	0.016	23.51	0.4766			info	bg_a20: bg_a20: 500 train game
 2ec3cc0	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	discard	a20_bfbonus10_g2m: [a20] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
 438837a	val.a10	300	0	0.257	36.02	0.9630	-0.0631	0.039	discard	a10_bfbonus10_g2m: [a10] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
 a561267	val.a0	300	0	0.717	46.86	1.6355	-0.0251	0.217	discard	bfbonus10_g2m: card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
+a9d28f6	dev.a20	100	0	0.020	27.08	0.5506	+0.0267	0.863	info	a20_bfbonus10_g2m_dev: a20_bfbonus10_g2m on dev (extension of the val near-miss)
+a9d28f6	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	keep	a20_bfbonus10_g2m: POOLED KEEP (pre-registered extension): val 300 +0.017/P 0.881, dev 100 +0.027/P 0.863, pooled 400 dscore +0.0192 P=0.935 -> new A20 best [bf_model=3 bf_bonus=10]

@@ -72,7 +72,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_bfbonus25_g1m`: `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep**
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% → elites only above 75% HP 27.0% → 25× bonus from
   the combined-ascension deck-value model 29.3%);
-  **A20 best `a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
+  **A20 best `a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
+  P=0.935; previous **`a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
   valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
@@ -606,7 +607,8 @@ If both pass, the higher pooled dscore is promoted. A near-miss that fails stays
 extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled P=0.866), potsave2 kept
 (pooled +0.0445, P=0.949). Second use, declared before any dev run of this family: `bfbonus25` (val +0.019, P=0.73) and
 `bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case. Third use (A20, declared
-before its dev run): `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard vs `a20_restlo`; rule unchanged (pooled P ≥ 0.9 and dev-alone dscore > 0) (pooled P ≥ 0.9 and
+before its dev run): `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard vs `a20_restlo`; rule unchanged (pooled P ≥ 0.9 and dev-alone dscore > 0). Outcome: dev +0.027 (floor 27.1 vs 25.2),
+pooled val,dev: n=400  a20_bfbonus10_g2m win=0.013 floor=26.75  a20_restlo win=0.018 floor=25.52  dscore=+0.0192 dwin=-0.005 P(improve)=0.935 → **KEEP**, new A20 best (pooled P ≥ 0.9 and
 dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
 stays discarded. bfbonus50: `bfbonus50_dev` 64.0% win, floor 44.9, -0.030 vs base, P=0.340 → info; pooled val,dev: n=400  bfbonus50 win=0.713 floor=46.21  bfbonus10 win=0.688 floor=46.29  dscore=+0.0233 dwin=+0.025 P(improve)=0.780 → fails too. The monotone val trend (bonus 10 → 25 → 50:
 69.3 → 70.7 → 73.7%) did not survive fresh seeds: both dev runs are negative. Bonus 10 stays; the extension

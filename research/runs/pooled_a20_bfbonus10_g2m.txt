@@ -1,0 +1,2 @@
+pooled val,dev: n=400  a20_bfbonus10_g2m win=0.013 floor=26.75  a20_restlo win=0.018 floor=25.52  dscore=+0.0192 dwin=-0.005 P(improve)=0.935
+KEEP
