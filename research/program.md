@@ -69,7 +69,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - A20 (160/300 base runs die in act 1, 89 before the boss): `a20_rest06` −0.006, `a20_ct4` −0.007;
   **keeps: `a20_eh08` (elites only above 80% HP) floor 21.8→24.2 (+0.037, P=0.986), then `a20_noel1`
   (act-1 elites valued below a hallway fight) floor →25.3 (+0.019, P=0.902), then `a20_restlo` (rest
-  rooms valued 5 below 60% HP) floor →25.8 (+0.009, P=0.920).** Discards: `a20_el04` (elites below
+  rooms valued 5 below 60% HP) floor →25.6 (+0.009, P=0.920).** Discards: `a20_el04` (elites below
   hallway fights in every act) −0.016, P=0.04 — later elites are still needed; `a20_mon1` −0.007.
   The keeps are floor-driven; wins moved 7→4→3→4 of 300, which is noise at this rate. Rule for the A20 ladder: keeps
   on score are legitimate while wins are < 10%, but every A20 keep must be re-checked on win rate once
