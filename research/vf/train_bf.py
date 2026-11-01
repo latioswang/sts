@@ -36,15 +36,19 @@ def load(data_dir):
     files = v1 or v0
     O, EXTRA = (8, 12) if v1 else (4, 8)
     arrs = []
-    for f in files:  # per-file truncation to whole rows: a game killed mid-write must not shift later rows
+    for fi, f in enumerate(files):  # per-file truncation to whole rows: a game killed mid-write must not shift later rows
         x = np.fromfile(f, dtype=np.float32)
         n = x.size // (DIM + EXTRA)
         if n:
-            arrs.append(x[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA))
+            blk = x[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA).copy()
+            # one file = one game: the run id is the file index. The stored id (seed-derived) collides when two
+            # datasets reuse the same train seeds (bg1 + bg_heart), which cross-paired rows of different games
+            blk[:, DIM + O] = fi
+            arrs.append(blk)
     a = np.concatenate(arrs) if arrs else np.zeros((0, DIM + EXTRA), np.float32)
     a = a[np.isfinite(a).all(1)]
     X = a[:, :DIM]; Y = a[:, DIM:DIM + O]
-    run = a[:, DIM + O].astype(np.int64) + np.round(a[:, 20] * 20.0).astype(np.int64) * 100000000
+    run = a[:, DIM + O].astype(np.int64)
     dec = a[:, DIM + O + 1].astype(np.int64)
     kind = a[:, DIM + O + 2].astype(np.int64); is_base = a[:, DIM + O + 3] > 0.5
     print(f"format {'v1' if v1 else 'v0'}: {len(files)} files, {O} heads")
@@ -100,6 +104,7 @@ def main():
     hyp_idx = np.array([i for i in range(n) if not is_base[i] and key[i] in base_of], dtype=np.int64)
     hyp_base = np.array([base_of[key[i]] for i in hyp_idx], dtype=np.int64)
     print(f"pairs={len(hyp_idx)}")
+    assert int(is_base.sum()) == len(np.unique(key)), "base rows != decisions: run/decision keys collide"
     # run-grouped split
     rng = np.random.RandomState(0); ur = np.unique(run); rng.shuffle(ur)
     val_runs = set(ur[: max(1, len(ur) // 5)].tolist())

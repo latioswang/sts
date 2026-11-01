@@ -639,6 +639,14 @@ bg1+bg_a10+bg_a10b → `a10_bfbonus25_g_a10b`. Expected: modest gains (the g0→
 better labels; this step changes the data distribution, not the labels).
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Run ids must be unique per dataset, not per seed.** `bg1` and `bg_heart` were generated from the
+  same train seeds, so the seed-derived run ids collided when the two sets were pooled; base rows of one
+  game were paired with option rows of the other, and model 6's first training showed paired
+  correlations of 0.35–0.48 (vs 0.10–0.15 for every honest model) — a tell-tale, not a breakthrough.
+  Caught before any experiment result was logged (the runner was stopped, the orphaned pipeline killed,
+  the half-written run deleted). Fix: the loader assigns run ids by file (one file = one game) and asserts
+  base rows == decisions. Rule: a validation metric that jumps 3× on a routine change is a bug until proven
+  otherwise.
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
   `bf_pipeline.sh` while the queue was executing it produced a syntax error at the end of the run (after
   the last experiment, so nothing was lost). Edit tools only between queue lines that use them, or
