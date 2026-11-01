@@ -501,9 +501,12 @@ upper reference**, never as a result.
 ## Pre-registered near-miss extension (rule added 2026-11-01 11:40 UTC)
 A val near-miss (dscore > 0, 0.7 ≤ P < 0.9) may be extended **once** with the 100 dev seeds; the
 keep decision is then made on the pooled 400 seeds with the same rule (dscore > 0, P ≥ 0.9), via
-`research/tools/pooled.py NAME BASE ASC val,dev`. The extension is declared before the dev run is
-seen (here: `potsave` vs `wea1p1`). A near-miss that fails pooled stays discarded; no second extension.
-This costs one extra 100-game run and bounds the selection bias to the one named candidate.
+`research/tools/pooled.py NAME BASE ASC val,dev`, **and the dev portion alone must have dscore > 0**
+(the val portion is where the candidate was selected, so pooled-only would inherit the winner's curse).
+Declared before any dev run is seen: candidates `potsave` and `potsave2` vs `wea1p1` (three val
+near-misses in one direction: potv8 +0.022/P 0.77, potsave +0.026/P 0.81, potsave2 +0.035/P 0.875).
+If both pass, the higher pooled dscore is promoted. A near-miss that fails stays discarded; no second
+extension. Cost: one 100-game run per candidate.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Numbers in notes are pasted, never typed.** Twice today a floor was written from memory and was
