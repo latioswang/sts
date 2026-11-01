@@ -78,7 +78,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% → elites only above 75% HP 27.0% → 25× bonus from
   the combined-ascension deck-value model 29.3%);
   **A20 best `a20_bfb25`: `a20_bfb25` 3.7% win, floor 27.8, +0.036 vs base, P=0.991 → keep** (deck-value bonus 25× instead of 10× with model 3, on top of the
-  boss-potion change; dev checks queued for both); previous **`a20_potb2`: `a20_potb2` 1.7% win, floor 27.0, +0.013 vs base, P=0.998 → keep** (potions worth 2 HP in boss fights only — spend them where A20 runs end;
+  boss-potion change). Dev check of the two keeps together: `a20_bfb25_dev` 1.0% win, floor 26.2, -0.026 vs base, P=0.146 → info vs a20_bfbonus10_g2m_dev — **negative on
+  fresh seeds**; both A20 keeps of batch 41 are val-only artefacts (the floor-driven A20 ladder at n=300 has
+  a 1-floor noise band). They stand under the rule but the reported A20 state is "floor ~27, unreplicated
+  since a20_bfbonus10_g2m". Rule for A20 from here: keep decisions on the pooled val+dev 400 (the A20 dev
+  run costs 30 s), declared in advance; previous **`a20_potb2`: `a20_potb2` 1.7% win, floor 27.0, +0.013 vs base, P=0.998 → keep** (potions worth 2 HP in boss fights only — spend them where A20 runs end;
   P=0.998 on a +0.013 score change; dev check: `a20_potb2_dev` 2.0% win, floor 27.0, -0.002 vs base, P=0.321 → info vs a20_bfbonus10_g2m_dev — does not replicate
   (floor-level noise); previous **`a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
   P=0.935; previous **`a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
