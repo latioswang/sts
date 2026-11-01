@@ -616,7 +616,8 @@ extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled
 `bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case. Third use (A20, declared
 before its dev run): `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard vs `a20_restlo`; rule unchanged (pooled P ≥ 0.9 and dev-alone dscore > 0). Outcome: dev +0.027 (floor 27.1 vs 25.2),
 pooled val,dev: n=400  a20_bfbonus10_g2m win=0.013 floor=26.75  a20_restlo win=0.018 floor=25.52  dscore=+0.0192 dwin=-0.005 P(improve)=0.935 → **KEEP**, new A20 best. Fourth use (A10, declared before its dev run): `a10_potv2` 32.0% win, floor 37.4, +0.028 vs base, P=0.865 → discard vs
-`a10_bfbonus25_g1m` (potions spent freely at A10 — the mirror image of the A0 keep); rule unchanged (pooled P ≥ 0.9 and
+`a10_bfbonus25_g1m` (potions spent freely at A10 — the mirror image of the A0 keep); rule unchanged.
+Outcome: `a10_potv2_dev` 20.0% win, floor 34.8, -0.000 vs base, P=0.497 → info; pooled val,dev: n=400  a10_potv2 win=0.290 floor=36.77  a10_bfbonus25_g1m win=0.273 floor=36.60  dscore=+0.0208 dwin=+0.018 P(improve)=0.811 → fails (dev-alone ≈ 0), stays discarded (pooled P ≥ 0.9 and
 dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
 stays discarded. bfbonus50: `bfbonus50_dev` 64.0% win, floor 44.9, -0.030 vs base, P=0.340 → info; pooled val,dev: n=400  bfbonus50 win=0.713 floor=46.21  bfbonus10 win=0.688 floor=46.29  dscore=+0.0233 dwin=+0.025 P(improve)=0.780 → fails too. The monotone val trend (bonus 10 → 25 → 50:
 69.3 → 70.7 → 73.7%) did not survive fresh seeds: both dev runs are negative. Bonus 10 stays; the extension
