@@ -276,3 +276,4 @@ f4e4c09	dev2.a10	100	0	0.180	32.44	0.8161			info	a10_eh075_dev2: VERIFY: a10_eh0
 e50e039	dev2.a10	100	0	0.260	36.57	0.9771	+0.1610	0.991	info	a10_bfbonus25_g1m_dev2: VERIFY: a10_bfbonus25_g1m on dev2 vs a10_eh075_dev2 (second slice)
 5df1f88	dev2.a20	100	0	0.020	22.97	0.4700			info	a20_restlo_dev2: VERIFY: a20_restlo on dev2 (baseline for the A20 model-bonus keep)
 5df1f88	dev2.a20	100	0	0.010	23.85	0.4775	+0.0075	0.608	info	a20_bfbonus10_g2m_dev2: VERIFY: a20_bfbonus10_g2m on dev2 vs a20_restlo_dev2 (second slice)
+9cbdb1c	train.a10	500	0	0.236	35.22	0.9265			info	bg_a10c: bg_a10c: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
