@@ -709,6 +709,16 @@ current agents' decks are already shaped by a model bonus, so their option sets 
   are all within its noise band. Honest A20 state: floor ≈ 26–27, wins 1–4% (noise), chain a20_eh08 →
   a20_noel1 → a20_restlo replicated (+0.084 on dev), nothing solid after that.
 
+## Speed at equal wall-clock (started 2026-11-01 23:40 UTC)
+Why: every cheap knob and the learned strategic layer are at their ceilings; the 4×-compute probe (+4.5
+pts) says simulations per decision still buy wins, and the fixed-compute rule is wall-clock, so a faster
+search is a legitimate strength gain. Method: (1) gprof-instrumented build in `sts_lightspeed/build_prof`
+(`-O3 -pg -g`), profile `fair_eval --inproc` on three val seeds with the best params; (2) optimise the top
+hotspots with semantics-preserving changes only — the optimised binary must reproduce every recorded run
+bit-identically (`repro_check`), pass the leak test and a ≥300-game crash sweep (the earlier fixed-size
+pile attempt was reverted for stack corruption); (3) `calibrate.sh` the speedup on the idle machine and
+convert it into simulations at equal wall-clock for the val experiment.
+
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
 tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2
