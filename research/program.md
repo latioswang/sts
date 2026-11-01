@@ -270,7 +270,9 @@ candidate estimates + 1 skip estimate suffers winner's curse (something always l
 skipping) → takes far too many cards → deck bloat; weakly-played hypothetical fights also reward
 cards that help weak play. Closed in this form. A viable variant would use it only as a *veto* on
 the KB's single top candidate vs skip, with ≥8 fights and a margin — cost ≈ 2× again; backlog.
-Heart track: `wb3` (w_burning 3) −0.015 (P=0.10; Act 4 36.7%, Heart 14.7% vs 16.3%) — discard.
+Heart track: `wb3` (w_burning 3) −0.015 (P=0.10; Act 4 36.7%, Heart 14.7% vs 16.3%) and `krh05`
+(ruby key down to 50% HP) −0.036 (P=0.01; Act 4 38%, Heart 13%) — both discard: reaching Act 4 more
+often is easy, converting it is the constraint (Act-4 fights need a stronger deck, not more keys).
 
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
