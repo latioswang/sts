@@ -252,3 +252,4 @@ fd1c65c	val.a0	300	0	0.723	47.06	1.6461	-0.0326	0.037	discard	mapd095: map: path
 2b972ee	val.a0	300	0	0.733	47.16	1.6580	-0.0207	0.086	discard	mapd080: map: path discount 0.80 (the trend 0.95 < 0.9 < 0.85 continued) [map_discount=0.80]
 98c2d64	val.a10	300	0	0.300	37.83	1.0417	+0.0156	0.768	discard	a10_wev25: [a10] A10: event rooms valued 2.5 [w_event=2.5]
 664e81b	val.a10	300	0	0.290	37.51	1.0256	-0.0006	0.492	discard	a10_resthp06: [a10] A10: rest rooms preferred below 60% HP [rest_hp=0.6]
+2969032	val.a10	300	0	0.283	37.52	1.0191	-0.0071	0.299	discard	a10_wsr4: [a10] A10: shop valued 4 when rich [w_shop_rich=4]
