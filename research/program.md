@@ -227,7 +227,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 40 (A10 map weights, vs a10_bfbonus25_g1m): `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard (dev extension declared); `a10_resthp06` 29.0% win, floor 37.5, -0.001 vs base, P=0.492 → discard; `a10_wsr4` 28.3% win, floor 37.5, -0.007 vs base, P=0.299 → discard;
   `a10_mapd095` 30.0% win, floor 37.7, +0.013 vs base, P=0.771 → discard. The A10 map policy is at its optimum within noise.
 - Batch 42 (bonus 50×): A20 `a20_bfb50` 1.0% win, floor 28.3, -0.016 vs base, P=0.185 → discard; A10 `a10_bfb50` 30.0% win, floor 37.4, +0.007 vs base, P=0.581 → discard — the bonus weight is saturated at 25× on both ladders.
-- Running (sequential queue, `research/queue.txt`): batch 43 (Neow ranking at A20/A10). Batch 41 closed: A10 knobs flat (potb2 −0.011, weh2 −0.018, ct45 +0.001); A20 keeps
+- Batch 43 (Neow ranking): A20 `a20_neow1` 4.3% win, floor 27.9, +0.010 vs base, P=0.663 → discard; A10 `a10_neow1` 31.0% win, floor 36.7, +0.004 vs base, P=0.542 → discard — neutral on both (as at A0).
+- Running (sequential queue, `research/queue.txt`): batch 44 — second replication slice (dev2) for the kept
+  chains on A0 (bfbonus10_g1 vs potsave2), A10 (a10_bfbonus25_g1m vs a10_eh075) and A20 (a20_bfbonus10_g2m
+  vs a20_restlo). The queue is empty after that; the next-day plan is above. Batch 41 closed: A10 knobs flat (potb2 −0.011, weh2 −0.018, ct45 +0.001); A20 keeps
   potb2/bfb25 val-only (dev −0.002 / −0.027); Heart keep floor-replicated on 2 of 3 slices, wins flat.
 - **Plan for the next day (not started at night):** the cheap knobs are exhausted on every track and the
   learned strategic layer is closed at its kept form. The remaining lever inside the fixed wall-clock rule
