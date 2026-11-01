@@ -10,6 +10,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include <stdexcept>
 
 namespace fair {
 
@@ -55,6 +56,18 @@ inline int keyCardSlot(sts::CardId id) {
     }
 }
 
+// lightspeed keeps rare player statuses in a std::map; some (DRAW_REDUCTION) are set as a bit with no
+// map value, so getStatus<s>() throws std::out_of_range even though hasStatus<s>() is true. That
+// crashed 14.6% of logging games. Guard: absent -> 0; present but valueless -> 1 (boolean status).
+template <PlayerStatus s> inline int pst(const sts::Player &p) {
+    if (!p.hasStatus<s>()) return 0;
+    try { return p.getStatus<s>(); } catch (const std::out_of_range &) { return 1; }
+}
+template <sts::MonsterStatus s> inline int mst(const sts::Monster &m) {
+    if (!m.hasStatus<s>()) return 0;
+    try { return m.getStatus<s>(); } catch (const std::out_of_range &) { return 1; }
+}
+
 // Fills out[0..DIM). All values roughly O(1).
 inline void extract(const sts::BattleContext &bc, float *out) {
     using namespace sts;
@@ -65,25 +78,25 @@ inline void extract(const sts::BattleContext &bc, float *out) {
     // ---- player (44) ----
     f[0] = pl.curHp / 80.f;  f[1] = pl.maxHp / 80.f;  f[2] = pl.maxHp ? (float)pl.curHp / pl.maxHp : 0.f;
     f[3] = pl.block / 20.f;  f[4] = pl.energy / 3.f;  f[5] = pl.energyPerTurn / 3.f;
-    f[6] = pl.getStatus<PS::STRENGTH>() / 5.f;      f[7] = pl.getStatus<PS::DEXTERITY>() / 3.f;
-    f[8] = pl.getStatus<PS::VULNERABLE>() / 2.f;    f[9] = pl.getStatus<PS::WEAK>() / 2.f;
-    f[10] = pl.getStatus<PS::FRAIL>() / 2.f;        f[11] = pl.getStatus<PS::ARTIFACT>() / 2.f;
-    f[12] = pl.getStatus<PS::METALLICIZE>() / 6.f;  f[13] = pl.getStatus<PS::PLATED_ARMOR>() / 6.f;
-    f[14] = pl.getStatus<PS::DEMON_FORM>() / 2.f;   f[15] = pl.hasStatus<PS::BARRICADE>();
-    f[16] = pl.getStatus<PS::FEEL_NO_PAIN>() / 4.f; f[17] = pl.getStatus<PS::RAGE>() / 4.f;
-    f[18] = pl.hasStatus<PS::CORRUPTION>();         f[19] = pl.getStatus<PS::DARK_EMBRACE>() / 2.f;
-    f[20] = pl.getStatus<PS::COMBUST>() / 6.f;      f[21] = pl.getStatus<PS::BRUTALITY>() / 2.f;
-    f[22] = pl.getStatus<PS::JUGGERNAUT>() / 6.f;   f[23] = pl.getStatus<PS::DOUBLE_TAP>() / 2.f;
-    f[24] = pl.getStatus<PS::FLAME_BARRIER>() / 10.f; f[25] = pl.getStatus<PS::EVOLVE>() / 2.f;
-    f[26] = pl.getStatus<PS::FIRE_BREATHING>() / 8.f; f[27] = pl.getStatus<PS::RUPTURE>() / 2.f;
-    f[28] = pl.getStatus<PS::THORNS>() / 5.f;       f[29] = pl.getStatus<PS::INTANGIBLE>() / 2.f;
+    f[6] = pst<PS::STRENGTH>(pl) / 5.f;      f[7] = pst<PS::DEXTERITY>(pl) / 3.f;
+    f[8] = pst<PS::VULNERABLE>(pl) / 2.f;    f[9] = pst<PS::WEAK>(pl) / 2.f;
+    f[10] = pst<PS::FRAIL>(pl) / 2.f;        f[11] = pst<PS::ARTIFACT>(pl) / 2.f;
+    f[12] = pst<PS::METALLICIZE>(pl) / 6.f;  f[13] = pst<PS::PLATED_ARMOR>(pl) / 6.f;
+    f[14] = pst<PS::DEMON_FORM>(pl) / 2.f;   f[15] = pl.hasStatus<PS::BARRICADE>();
+    f[16] = pst<PS::FEEL_NO_PAIN>(pl) / 4.f; f[17] = pst<PS::RAGE>(pl) / 4.f;
+    f[18] = pl.hasStatus<PS::CORRUPTION>();         f[19] = pst<PS::DARK_EMBRACE>(pl) / 2.f;
+    f[20] = pst<PS::COMBUST>(pl) / 6.f;      f[21] = pst<PS::BRUTALITY>(pl) / 2.f;
+    f[22] = pst<PS::JUGGERNAUT>(pl) / 6.f;   f[23] = pst<PS::DOUBLE_TAP>(pl) / 2.f;
+    f[24] = pst<PS::FLAME_BARRIER>(pl) / 10.f; f[25] = pst<PS::EVOLVE>(pl) / 2.f;
+    f[26] = pst<PS::FIRE_BREATHING>(pl) / 8.f; f[27] = pst<PS::RUPTURE>(pl) / 2.f;
+    f[28] = pst<PS::THORNS>(pl) / 5.f;       f[29] = pst<PS::INTANGIBLE>(pl) / 2.f;
     f[30] = pl.hasStatus<PS::NO_DRAW>();            f[31] = pl.hasStatus<PS::NO_BLOCK>();
     f[32] = pl.hasStatus<PS::ENTANGLED>();          f[33] = pl.hasStatus<PS::CONFUSED>();
-    f[34] = pl.getStatus<PS::ENERGIZED>() / 2.f;    f[35] = pl.getStatus<PS::DRAW_REDUCTION>() / 2.f;
-    f[36] = pl.getStatus<PS::REGEN>() / 5.f;        f[37] = pl.getStatus<PS::PANACHE>() / 5.f;
-    f[38] = pl.getStatus<PS::THE_BOMB>() / 3.f;     f[39] = pl.hasStatus<PS::PEN_NIB>();
-    f[40] = pl.getStatus<PS::VIGOR>() / 8.f;        f[41] = pl.getStatus<PS::NEXT_TURN_BLOCK>() / 10.f;
-    f[42] = pl.hasStatus<PS::DOUBLE_DAMAGE>();      f[43] = pl.getStatus<PS::BUFFER>() / 2.f;
+    f[34] = pst<PS::ENERGIZED>(pl) / 2.f;    f[35] = pst<PS::DRAW_REDUCTION>(pl) / 2.f;
+    f[36] = pst<PS::REGEN>(pl) / 5.f;        f[37] = pst<PS::PANACHE>(pl) / 5.f;
+    f[38] = pst<PS::THE_BOMB>(pl) / 3.f;     f[39] = pl.hasStatus<PS::PEN_NIB>();
+    f[40] = pst<PS::VIGOR>(pl) / 8.f;        f[41] = pst<PS::NEXT_TURN_BLOCK>(pl) / 10.f;
+    f[42] = pl.hasStatus<PS::DOUBLE_DAMAGE>();      f[43] = pst<PS::BUFFER>(pl) / 2.f;
     f += F_PLAYER;
 
     // ---- hand (12) ----
@@ -149,14 +162,14 @@ inline void extract(const sts::BattleContext &bc, float *out) {
                 const float dmg = (float)m.calculateDamageToPlayer(bc, d.damage) * d.attackCount;
                 intent += dmg; maxIntent = std::max(maxIntent, dmg); hits += d.attackCount;
             }
-            st[0] += m.getStatus<MS::STRENGTH>(); st[1] += m.getStatus<MS::VULNERABLE>(); st[2] += m.getStatus<MS::WEAK>();
-            st[3] += m.getStatus<MS::ARTIFACT>(); st[4] += m.getStatus<MS::METALLICIZE>(); st[5] += m.getStatus<MS::PLATED_ARMOR>();
-            st[6] += m.getStatus<MS::RITUAL>(); st[7] += m.hasStatus<MS::ASLEEP>(); st[8] += m.getStatus<MS::INTANGIBLE>();
-            st[9] += m.getStatus<MS::THORNS>(); st[10] += m.getStatus<MS::ENRAGE>(); st[11] += m.getStatus<MS::ANGRY>();
-            st[12] += m.getStatus<MS::CURL_UP>(); st[13] += m.hasStatus<MS::MODE_SHIFT>(); st[14] += m.hasStatus<MS::BARRICADE>();
-            st[15] += m.getStatus<MS::REGEN>(); st[16] += m.getStatus<MS::SHARP_HIDE>(); st[17] += m.getStatus<MS::PAINFUL_STABS>();
-            st[18] += m.getStatus<MS::SLOW>(); st[19] += m.hasStatus<MS::TIME_WARP>(); st[20] += m.getStatus<MS::BEAT_OF_DEATH>();
-            st[21] += m.getStatus<MS::FLIGHT>(); st[22] += m.getStatus<MS::MALLEABLE>(); st[23] += m.hasStatus<MS::SPORE_CLOUD>();
+            st[0] += mst<MS::STRENGTH>(m); st[1] += mst<MS::VULNERABLE>(m); st[2] += mst<MS::WEAK>(m);
+            st[3] += mst<MS::ARTIFACT>(m); st[4] += mst<MS::METALLICIZE>(m); st[5] += mst<MS::PLATED_ARMOR>(m);
+            st[6] += mst<MS::RITUAL>(m); st[7] += m.hasStatus<MS::ASLEEP>(); st[8] += mst<MS::INTANGIBLE>(m);
+            st[9] += mst<MS::THORNS>(m); st[10] += mst<MS::ENRAGE>(m); st[11] += mst<MS::ANGRY>(m);
+            st[12] += mst<MS::CURL_UP>(m); st[13] += m.hasStatus<MS::MODE_SHIFT>(); st[14] += m.hasStatus<MS::BARRICADE>();
+            st[15] += mst<MS::REGEN>(m); st[16] += mst<MS::SHARP_HIDE>(m); st[17] += mst<MS::PAINFUL_STABS>(m);
+            st[18] += mst<MS::SLOW>(m); st[19] += m.hasStatus<MS::TIME_WARP>(); st[20] += mst<MS::BEAT_OF_DEATH>(m);
+            st[21] += mst<MS::FLIGHT>(m); st[22] += mst<MS::MALLEABLE>(m); st[23] += m.hasStatus<MS::SPORE_CLOUD>();
         }
         f[0] = alive / 3.f; f[1] = sumHp / 100.f; f[2] = maxHp / 100.f; f[3] = sumMaxHp ? sumHp / sumMaxHp : 0.f;
         f[4] = sumBlock / 20.f; f[5] = intent / 20.f; f[6] = maxIntent / 20.f; f[7] = hits / 3.f; f[8] = attacking / 3.f;

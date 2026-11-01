@@ -82,3 +82,5 @@ c3af33c	val.a0	299	1	0.234	36.75	0.9547	-0.2163	0.000	discard	rt3_s750: rollout 
 5ea4a71	val.a0	298	2	0.282	38.05	1.0280	-0.1402	0.000	discard	rt6_s570: rollout cutoff 6 at equal compute (sims 570, cost ratio 0.88) [rollout_turns=6 sims=570]
 19752a3	val.a0	300	0	0.387	40.64	1.1836	+0.0099	0.608	discard	lowhp1: risk-aware HP utility: extra -1 per HP below 20 at fight end [lowhp_pen=1]
 ef13847	val.a0	300	0	0.217	33.19	0.8675	-0.3062	0.000	discard	lowhp2: risk-aware HP utility: -2 per HP below 25 [lowhp_pen=2 lowhp_thresh=25]
+af4b237	val.a0	300	0	0.380	40.32	1.1707	-0.0031	0.384	discard	nodome: ablation: never take Runic Dome [allow_dome=0]
+af4b237	val.a0	300	0	0.363	40.46	1.1567	-0.0170	0.343	discard	neow2: Neow ranking incl. boss-relic swap [neow_pol=1]
