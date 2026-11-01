@@ -697,6 +697,11 @@ current agents' decks are already shaped by a model bonus, so their option sets 
 - A10: `a10_eh075_dev2` 18.0% win, floor 32.4, → info; `a10_bfbonus25_g1m_dev2` 26.0% win, floor 36.6, +0.161 vs base, P=0.991 → info — the model-2 bonus keep replicates on the second slice (26.0% vs 18.0% win, +0.161,
   P=0.991); with the first slice (+0.035, P=0.74) the A10 keep is now replicated.
 
+- A20: `a20_restlo_dev2` 2.0% win, floor 23.0, → info; `a20_bfbonus10_g2m_dev2` 1.0% win, floor 23.9, +0.007 vs base, P=0.608 → info — the model-3 bonus keep (pooled keep, dev +0.027) reads +0.007 (P=0.608) on
+  the second slice: a small floor effect that does not replicate; the A20 ladder's keeps since a20_restlo
+  are all within its noise band. Honest A20 state: floor ≈ 26–27, wins 1–4% (noise), chain a20_eh08 →
+  a20_noel1 → a20_restlo replicated (+0.084 on dev), nothing solid after that.
+
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
 tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2
