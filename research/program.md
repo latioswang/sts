@@ -242,8 +242,9 @@ Used at root/depth-1 only (`prior_mlp=1`, `prior_mlp_depth`). 20-seed sanity pro
 under load): baseline 60%/floor 46.7/5.7 s; depth-1 65%/46.3/7.8 s (+37% time — chance branching
 makes depth-1 nodes numerous); depth-2 65%/45.5/13.7 s; **depth-1 with prior_c=1.0: 80%/49.0/8.6 s**
 (n=20, SE ≈ 11 pts — suggestive only). Root-only probe (fresh dev seeds 100020+): baseline 70%/45.5;
-root-only prior_c 1.0: 75%/46.1 at ≈ baseline cost (5.9 vs 5.8 s); depth-1 prior_c 0.7: 85%/46.9
-(+45% time). Batch 18 queued (val, vs best): `priormlp_d0`, `priormlp_d0_c1`, `priormlp_d1_c07_s365`
+root-only prior_c 1.5: 65%/42.5; root-only prior_c 1.0: 75%/46.1 at ≈ baseline cost (5.9 vs 5.8 s);
+depth-1 prior_c 0.7: 85%/46.9 (+45% time). All n=20 — only val (batch 18) can separate these.
+The in-chain idle calibration refused to run (probe binaries were active); redo when idle. Batch 18 queued (val, vs best): `priormlp_d0`, `priormlp_d0_c1`, `priormlp_d1_c07_s365`
 (equal wall-clock), `priormlp_d1_c07` (informational, +compute). The remaining 51% is largely irreducible at 500-sim targets
 (root visit distributions are noisy) — distilling from higher-sim searches is the next data lever.
 `cf_pick` probe (12 dev seeds, under load): win 0.50 / floor 42.8 vs baseline 0.58 / 44.9 (one game
