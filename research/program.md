@@ -148,6 +148,13 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   the binary logs (garbage rows: 1,344 "battles", 15% win labels). Child stderr now goes to
   `/dev/null`; both datasets regenerated. The first (corrupted) V training produced NaNs —
   the trainer now drops non-finite rows and the exporter must never emit NaN.
+- Second loader bug caught by the fork-path validation: `train_vf.load` globbed every `*.bin`
+  and mixed in `run_*`/`pol_*` files (different strides) → excluded. Validation now asserts
+  8 < rows/battle < 30 and 0.7 < win-label rate ≤ 1 before any training.
+- Batch 13 (equal-compute controls, vs rb3): `spd_s650` +0.0375 (P=0.86, n=297 — 3 crashes
+  from the fixed-pile bug, see above; re-run pending on the fixed build), `rt3_s750` −0.216.
+- Calibration protocol for `sims` conversions: `research/tools/calibrate.sh` times N single-
+  threaded games per config on an **idle** machine (checks load first) and prints the ratio.
 - Next: train V on gen0+gen1 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal wall-clock
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
