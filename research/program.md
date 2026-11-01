@@ -55,7 +55,16 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 07:35 UTC
+### Current state (update after every batch) — 2026-11-01 09:25 UTC
+- Tracks: **A0 best `priormlp_d0` 61.3% val** (chest1 confirmed 54.6% test); **A10 best `a10_rest06`
+  18.7% val** (from 16.3%); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
+- Running: batch 25 (A10 round 2: card threshold / elite threshold / rest weight; A0 PUCT c 1.2).
+- Queued ideas (batch 26): robust-child final move selection (`select_q`), removal order
+  (`strike_before_defend=0`), shop relic-before-removal order, `card_act1_bonus 2`, `w_elite_act1 +1`;
+  then seed the A20 track.
+- Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
+
+#### Earlier state (07:35 UTC)
 - **Best: `priormlp_d0` — val 61.3% win, floor 44.6, score 1.488 (+0.044 vs chest1, P=0.900): the
   first learned component kept — the MLP move prior (49% of available information) used as a PUCT
   prior at the root only, ~zero extra cost.** `priormlp_d0_c1` (prior_c 1.0) 64.0% (+0.031 vs the
