@@ -226,11 +226,16 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
 - Batch 40 (A10 map weights, vs a10_bfbonus25_g1m): `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard (dev extension declared); `a10_resthp06` 29.0% win, floor 37.5, -0.001 vs base, P=0.492 → discard; `a10_wsr4` 28.3% win, floor 37.5, -0.007 vs base, P=0.299 → discard;
   `a10_mapd095` 30.0% win, floor 37.7, +0.013 vs base, P=0.771 → discard. The A10 map policy is at its optimum within noise.
-- Running (sequential queue, `research/queue.txt`): `mapd080` (next step of the path-discount trend; the
-  0.85 keep was identical to its predecessor on dev), then batch 40 (A10 map weights), batch 41 (A10/A20
-  knobs on the current bests, Heart tiebreaker slice dev3). Closed since the last check: models 9/10
-  (averaged labels: correlations up, wins flat), batch 39 (map weights at A0: only the discount moved, and
-  only on val).
+- Running (sequential queue, `research/queue.txt`): batch 42 (`a20_bfb50`, `a10_bfb50`), batch 43 (Neow
+  ranking at A20/A10). Batch 41 closed: A10 knobs flat (potb2 −0.011, weh2 −0.018, ct45 +0.001); A20 keeps
+  potb2/bfb25 val-only (dev −0.002 / −0.027); Heart keep floor-replicated on 2 of 3 slices, wins flat.
+- **Plan for the next day (not started at night):** the cheap knobs are exhausted on every track and the
+  learned strategic layer is closed at its kept form. The remaining lever inside the fixed wall-clock rule
+  is *speed*: the 4×-compute probe gave +4.5 pts, so a 2× faster simulator/search (profiling the per-
+  simulation BattleContext copies and action enumeration; the earlier fixed-pile attempt was reverted for
+  stack corruption and must be redone safely) is worth ~+2 pts at equal wall-clock on every ladder. Second:
+  A20 act-1 survival needs a different idea than map weights (53% of A20 runs die in act 1 with a starter
+  deck; Neow choice and the first two card picks are the only levers before the first elite).
   iteration of the strategic model (models 7/8 worse than 2/1), Heart keep replication (floors on one of two
   slices, Heart wins flat), A20-only model 5, A10-only model 4, batch 38 knobs, A0 threshold retune.
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
