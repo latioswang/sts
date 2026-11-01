@@ -227,3 +227,4 @@ f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m
 f6eb95d	val.a0	300	0	0.743	47.55	1.6757	+0.0151	0.721	discard	ct45: card threshold 4.5 (take slightly more; the model bonus shifts values by up to ±1) [card_thresh=4.5]
 fd6cc3f	val.a0	300	0	0.713	46.67	1.6284	-0.0322	0.131	discard	ct55: card threshold 5.5 (take slightly fewer) [card_thresh=5.5]
 9a03a4f	dev.a0	100	0	0.680	45.91	1.5802	+0.0063	0.584	info	ct45_dev: ct45 on dev (extension of the val near-miss)
+ea661fc	train.a0	500	0	0.192	42.87	1.0042			info	bg_heart: bg_heart: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
