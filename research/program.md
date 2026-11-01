@@ -84,6 +84,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   non-monotonic in the weight, so the keep is being re-checked on 100 independent dev seeds.
 - Batch 33 (A10, vs a10_kbsyn 24.3%): `a10_ct4b` +0.007; **`a10_eh075` (elites only above 75% HP) 27.0%,
   floor 35.4, +0.065, P=0.981 → KEEP, new A10 best.** Elite HP gates now: A0 0.6, A10 0.75, A20 0.8.
+- Batch 28 (prior-guided rollouts at calibrated equal wall-clock — 2.43× per-simulation cost → 210
+  sims): `rollprior_cal` 59.3% win, floor 44.2, -0.062 vs base, P=0.033 → discard. Closed: a learned fast rollout policy does not pay for its cost against
+  2.4× more uniform rollouts; the search's value comes from breadth, not rollout quality.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
