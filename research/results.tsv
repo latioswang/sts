@@ -170,3 +170,4 @@ e66a8cf	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	keep	potsave2: POOLED KEEP
 1e1eb34	dev.a10	100	0	0.180	34.05	0.8476	+0.0749	0.928	info	a10_eh075_dev: VERIFY: A10 keep chain (a10_eh075) on dev vs a10_rest06_dev (independent seeds)
 d92fe8d	dev.a20	100	0	0.010	21.92	0.4396			info	base_a20_dev: VERIFY: base_a20 params on dev (100 fresh seeds)
 ee8f5c8	dev.a20	100	0	0.030	25.22	0.5239	+0.0843	0.999	info	a20_restlo_dev: VERIFY: A20 keep chain (a20_restlo) on dev vs base_a20_dev (independent seeds)
+16c76cf	val.a0	300	0	0.667	45.66	1.5620	+0.0059	0.656	discard	potsave3: potions: hallway 8, boss 4, elites 4 [potion_v_elite=4]
