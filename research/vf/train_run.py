@@ -44,6 +44,8 @@ def main():
     ap.add_argument("--hidden", type=int, default=64)
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--placeholder", action="store_true")
+    ap.add_argument("--dropout", type=float, default=0.3)
+    ap.add_argument("--wd", type=float, default=1e-3)
     a = ap.parse_args()
     if a.placeholder:
         export(a.out, np.zeros((a.hidden, DIM), np.float32), np.zeros(a.hidden, np.float32),
@@ -60,12 +62,14 @@ def main():
     vmask = np.array([r in val_r for r in rid])
     Xt, yt = torch.tensor(X[~vmask]), torch.tensor(win[~vmask])
     Xv, yv = torch.tensor(X[vmask]), torch.tensor(win[vmask])
-    model = nn.Sequential(nn.Linear(DIM, a.hidden), nn.ReLU(), nn.Linear(a.hidden, 1))
-    opt = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+    # rows within a run share one label -> heavy overfitting risk with one-hot deck/relic features:
+    # dropout on the input, strong weight decay, early stopping on run-grouped validation
+    model = nn.Sequential(nn.Dropout(a.dropout), nn.Linear(DIM, a.hidden), nn.ReLU(), nn.Dropout(a.dropout), nn.Linear(a.hidden, 1))
+    opt = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=a.wd)
     lossf = nn.BCEWithLogitsLoss()
     bs = 512
     base = float(yv.mean()); base_ll = -(base * np.log(base + 1e-9) + (1 - base) * np.log(1 - base + 1e-9))
-    t0 = time.time()
+    t0 = time.time(); best_ll = 1e9; best_state = None; best_ep = -1
     for ep in range(a.epochs):
         model.train(); perm = torch.randperm(len(yt))
         for i in range(0, len(yt), bs):
@@ -76,11 +80,20 @@ def main():
         with torch.no_grad():
             lv = model(Xv).squeeze(1)
             ll = float(lossf(lv, yv)); acc = float(((lv > 0).float() == yv).float().mean())
+        if ll < best_ll:
+            best_ll, best_ep = ll, ep + 1
+            best_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
         print(f"ep {ep+1:2d} val_logloss={ll:.4f} (predict-base {base_ll:.4f}) acc={acc:.3f} {time.time()-t0:.0f}s")
-    W1 = model[0].weight.detach().numpy(); b1 = model[0].bias.detach().numpy()
-    W2 = model[2].weight.detach().numpy().ravel(); b2 = float(model[2].bias.detach().numpy()[0])
+    if best_ll >= base_ll - 0.005:
+        print(f"model not better than predicting the base rate ({best_ll:.4f} vs {base_ll:.4f}); writing UNTRAINED placeholder")
+        export(a.out, np.zeros((a.hidden, DIM), np.float32), np.zeros(a.hidden, np.float32),
+               np.zeros(a.hidden, np.float32), 0.0, trained=0)
+        return
+    model.load_state_dict(best_state)
+    W1 = model[1].weight.detach().numpy(); b1 = model[1].bias.detach().numpy()
+    W2 = model[4].weight.detach().numpy().ravel(); b2 = float(model[4].bias.detach().numpy()[0])
     export(a.out, W1, b1, W2, b2, trained=1)  # output is a logit; C++ applies sigmoid
-    print("exported", a.out)
+    print(f"exported {a.out} (best epoch {best_ep}, val_logloss {best_ll:.4f} vs base {base_ll:.4f})")
 
 
 if __name__ == "__main__":
