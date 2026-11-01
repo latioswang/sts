@@ -88,7 +88,7 @@ def main():
     X, Y, run, dec, kind, is_base = load(a.data_dir)
     n = len(Y)
     asc = X[:, 20] * 20.0
-    print(f"ascension mix: {{a: int((np.round(asc) == a).sum()) for a in (0, 10, 20)}}")
+    print("ascension mix: " + str({a: int((np.round(asc) == a).sum()) for a in (0, 10, 20)}))
     print(f"rows={n} runs={len(np.unique(run))} decisions={len(np.unique(run * 100000 + dec))} "
           f"kinds(card/upg/rem)={[int((kind == k).sum()) for k in (0, 1, 2)]} base_rows={int(is_base.sum())}")
     print("label means: " + " ".join(f"{HEAD_NAMES[j]}={Y[Y[:, j] >= 0, j].mean():.3f}" for j in range(O)))
