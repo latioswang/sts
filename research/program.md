@@ -213,8 +213,23 @@ biased-data bilinear prior is neutral (it buys ~10% rollout actions, nothing mor
 (gen0+gen1, 298k decisions): prior val CE 0.2822 vs uniform 0.2913, entropy floor 0.2620 — it
 captures only ~31% of the available information; a stronger action model is needed for Phase B.
 V_run (clean, 1,000 runs): val log-loss 0.561 vs 0.693 base, acc 0.70 (early-stopped epoch 4).
-Bootstrapped V (root-mean targets): val RMSE 9.73 vs 33.9 predict-mean — sanity test as leaf pending.
+Bootstrapped V (root-mean targets): val RMSE 9.73 vs 33.9 predict-mean — **as a pure leaf it still
+collapses** (20 dev seeds: 500 sims 0%/floor 16, 1,500 sims 5%/20, 3,000 sims 25%/26 vs baseline
+60%/46.7). Leaf replacement is closed as a negative result at this data scale, for both target types.
+`rvpick1` (biased-data V_run one-step lookahead): **−0.343** (win 32.7%). Diagnosis: an
+observational run-value model learns "bigger deck / more relics ⇒ survived longer ⇒ wins", so
+adding almost any card looks good → deck bloat. Strategic picks need *interventional* evaluation
+(simulate upcoming fights with vs. without the card), not a correlational P(win) — see Phase C v2.
 val ≥ 50% ⇒ milestone **M4 criterion on val**; test confirmation queued (test run 5/5).
+
+### Phase C v2 — counterfactual card evaluation (`cf_pick`), to implement after the swap
+For each card-reward option (and skip): copy the run state, add the card, and play `cf_fights`
+sampled encounters from the current act's pool with the real combat search at a small budget
+(`cf_sims`), using common random numbers across options (same encounters, same search seeds) so
+the comparison is paired. Score = mean(win ? HP fraction at end : −0.5). Take the best option if it
+beats skipping by `cf_margin`. Cost ≈ 4 options × 3 fights ≈ 0.25 s per reward → val eval ≈ 3×
+slower; acceptable for experiments. This is the interventional estimate the observational V_run
+cannot provide; no hidden information (the encounter pool is public knowledge, HP rolls are fresh).
 
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
