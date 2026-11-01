@@ -624,8 +624,17 @@ void FairAgent::cardRewards(GameContext &gc) {
         }
         int bestI = -1;
         double bestV = -1e18;
+        // bf_bonus: the KB tiers keep the long-horizon prior; the interventional model adds a
+        // deck-specific adjustment, bf_bonus x (predicted fight value with the card - without it)
+        const double bfw = bf::BF_TRAINED ? getp(P, "bf_bonus", 0.0) : 0.0;
+        const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
-            const double v = addValue(gc, r.cardRewards[rIdx][i]);
+            double v = addValue(gc, r.cardRewards[rIdx][i]);
+            if (bfw != 0.0) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                v += bfw * (bfValue(hyp) - vBase);
+            }
             if (v > bestV) { bestV = v; bestI = i; }
         }
         const double thresh = getp(P, "card_thresh", 5.0)
