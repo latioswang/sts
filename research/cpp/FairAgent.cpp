@@ -30,6 +30,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     sp.potionValue = getp(P, "potion_v", 4.0);
     sp.winBonus = getp(P, "win_bonus", 35.0);
     sp.maxHpWeight = getp(P, "maxhp_w", 0.0);
+    sp.escapePenalty = getp(P, "escape_pen", 30.0);
     legacy.rng = std::default_random_engine(static_cast<unsigned>(agentSeed ^ 0xabcdefULL));
 }
 

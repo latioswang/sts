@@ -36,6 +36,7 @@ struct SearchParams {
     double potionValue = 4.0;    // value per potion kept on victory
     double winBonus = 35.0;      // constant for winning
     double maxHpWeight = 0.0;    // value per max hp (feed, etc.)
+    double escapePenalty = 30.0; // value lost by escaping with Smoke Bomb (forfeited rewards), in HP-equivalents
 };
 
 std::uint64_t observationHash(const sts::BattleContext &bc);

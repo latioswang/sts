@@ -40,6 +40,39 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   block-aware, attack-bias). Deck-building additions (AoE, scaling) work;
   block bonus, card thresholds, Neow ranking, elite tweaks ≈ neutral/negative.
 
+### Phase 2 (2026-11-01): simulator holes filled instead of routed around
+
+Core-sim fixes (all in `research/patches/sts_lightspeed.patch`, each marked `// FIX`):
+- `BattleContext::player.cc` was never initialised → Entropic Brew and Dead Branch drew
+  from a garbage class pool (the "Ambrosia crash"). Root cause of the earlier Entropic ban.
+- Blood Potion heal inverted in combat (40% base / 20% Bark → 20% / 40%).
+- Iron Wave applied Dexterity/Frail twice. Dark Shackles *added* 9 Strength and applied
+  Shackled only *with* Artifact (both inverted). Disarm+ was −2 (→ −3). Impatience always drew.
+- Smoke Bomb was a no-op → now escapes non-boss fights with no rewards (`afterEscape`).
+  Toy Ornithopter had no effect → heals 5 per potion (in and out of combat).
+- Events: Designer In-Spire switch fall-through (opt 3 → also opt 4/5), "Adjustments" variant
+  free; Mushrooms "Eat" gave +99 gold (→ heal 25% + Parasite); Mysterious Sphere "Leave" gave
+  +99 gold (→ nothing); Mausoleum gave no relic; Woman in Blue was free (→ 20/30/40 gold,
+  validity gated); Scrap Ooze damage didn't escalate; Colosseum was a stub and disabled →
+  implemented (slavers → leave / Taskmaster+Nob for 100g + rare + uncommon relic) and enabled.
+- `Monster::lastMoveWasRolled` flag (rollMove vs scripted setMove) — needed for honest Dome.
+
+Agent fidelity:
+- Entropic Brew and Runic Dome un-banned. Under Dome the search hides intents: the
+  observation hash drops `moveHistory[0]`, and determinisation re-samples the pending move
+  **only if it came from an RNG roll** (scripted sequences like the Automaton's are
+  predictable anyway; re-rolling them double-spawned orbs → the Phase-2 crash/hang bug).
+- Known top-of-draw-pile cards (Headbutt/Warcry) are kept fixed in determinisation.
+- Smoke Bomb unusable vs bosses (real rule); escape costs `escape_pen` (default 30) in value.
+- Leak test gained `--leak_dome`. Trace build (`-DFAIR_TRACE`) asserts the alive-count
+  invariant after every executed action.
+
+Still deliberately disabled (documented, not hidden): Match & Keep (separate action space,
+rare), Prismatic Shard (lightspeed implements only Ironclad + colorless cards, so an
+off-colour deck would hit "unimplemented card").
+
+Re-baseline after the player.cc fix alone: `rb2` val 34.7% (n=297) vs 35.7% before — neutral.
+
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
 1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)

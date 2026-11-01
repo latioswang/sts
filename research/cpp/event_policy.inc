@@ -41,8 +41,11 @@
             return wantHeal ? pick({0, 1}) : pick({1, 0});
         }
 
-        case Event::COLOSSEUM:  // sim stub: all options just leave
-            return pick({0, 1});
+        case Event::COLOSSEUM: {  // phase 0: forced slaver fight; phase 1: 0 leave, 1 fight Taskmaster+Nob (100g, rare+uncommon relic)
+            if (gc.info.eventData == 0) return pick({0});
+            const bool strong = hpf >= getp(P, "ev_colo_hp", 0.65) && gc.curHp >= getp(P, "ev_colo_minhp", 45);
+            return strong ? pick({1, 0}) : pick({0, 1});
+        }
 
         case Event::CURSED_TOME: {  // phase in eventData; total cost 1+2+3+10 = 16 HP for a book relic
             const int ph = gc.info.eventData;
@@ -61,9 +64,10 @@
         }
 
         case Event::DESIGNER_IN_SPIRE:
-            // 0 upgrade one (40g) / 1 upgrade 2 random (40g), 2 remove (60g), 5 leave (-3 HP).
-            // 3 and 4 fall through to other cases in the sim (buggy) -> never chosen.
-            return pick({2, 0, 1, 5});
+            // 0 upgrade one (40g) / 1 upgrade 2 random (40g); 2 remove (60g) / 3 transform 2 random (60g);
+            // 4 remove + random upgrade (90g); 5 leave (-3 HP). Validity bits decide which variants are offered.
+            if (gc.gold >= 90 && getp(P, "ev_designer_full", 1) > 0) return pick({4, 2, 0, 1, 3, 5});
+            return pick({2, 0, 1, 3, 5});
 
         case Event::AUGMENTER:  // 0 J.A.X., 1 transform 2, 2 Mutagenic Strength
             return pick({2, 1});
@@ -185,8 +189,9 @@
         case Event::THE_LIBRARY:  // 0 pick 1 of 20 cards, 1 heal 33%
             return hpf < getp(P, "ev_library_heal_hp", 0.5) ? pick({1, 0}) : pick({0, 1});
 
-        case Event::THE_MAUSOLEUM:  // sim: 0 gives no relic, only maybe Writhe -> leave
-            return pick({1});
+        case Event::THE_MAUSOLEUM:  // 0 open: random relic + 50% Writhe; 1 leave
+            if (getp(P, "ev_mausoleum", 1) > 0 && !gc.deck.hasCurse()) return pick({0, 1});
+            return pick({1, 0});
 
         case Event::THE_MOAI_HEAD:  // 0 lose 12.5% maxHP + full heal, 1 Golden Idol -> 333 gold, 2 leave
             if (hpf < 0.4) return pick({0, 1, 2});

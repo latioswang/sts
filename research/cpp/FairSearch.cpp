@@ -15,6 +15,32 @@ namespace fair {
 #ifdef FAIR_TRACE
 std::vector<std::string>& traceRing() { static std::vector<std::string> r; return r; }
 static int _setterm = (std::set_terminate([]{ for (auto &x : traceRing()) std::cerr << "TRACE " << x << "\n"; std::abort(); }), 0);
+static void checkAlive(const sts::BattleContext &bc, const char *where) {
+    int n = 0;
+    for (int i = 0; i < bc.monsters.monsterCount; ++i) if (!bc.monsters.arr[i].isDeadOrEscaped()) ++n;
+    if (n != bc.monsters.monstersAlive) {
+        std::cerr << "ALIVE MISMATCH at " << where << ": monstersAlive=" << bc.monsters.monstersAlive
+                  << " actual=" << n << " count=" << bc.monsters.monsterCount << " turn=" << bc.turn
+                  << " dome=" << bc.player.hasRelic<sts::R::RUNIC_DOME>() << "\n";
+        for (int i = 0; i < bc.monsters.monsterCount; ++i) {
+            const auto &m = bc.monsters.arr[i];
+            std::cerr << "  m" << i << " " << m.getName() << " hp=" << m.curHp << " halfDead=" << m.isHalfDead()
+                      << " escaping=" << m.isEscaping() << " move0=" << (int)m.moveHistory[0] << " move1=" << (int)m.moveHistory[1] << "\n";
+        }
+        for (auto &x : traceRing()) std::cerr << "TRACE " << x << "\n";
+        std::abort();
+    }
+}
+static void traceAction(const sts::search::Action &a, const sts::BattleContext &bc, const char *tag) {
+    std::ostringstream os; a.printDesc(os, bc);
+    traceRing().push_back(std::string(tag) + " " + os.str() + " turn=" + std::to_string(bc.turn));
+    if (traceRing().size() > 16) traceRing().erase(traceRing().begin());
+}
+#define FAIR_CHECK(bc, where) checkAlive(bc, where)
+#define FAIR_TRACE_ACTION(a, bc, tag) traceAction(a, bc, tag)
+#else
+#define FAIR_CHECK(bc, where) ((void)0)
+#define FAIR_TRACE_ACTION(a, bc, tag) ((void)0)
 #endif
 
 static inline void mix(std::uint64_t &h, std::uint64_t v) {
@@ -82,15 +108,18 @@ void determinise(BattleContext &bc, std::mt19937_64 &rng, int knownTop) {
     bc.potionRng = Random(rng());
     bc.shuffleRng = Random(rng());
 
-    // Runic Dome: the player cannot see intents, so the pending move must be
-    // re-sampled (approximate revert of the last roll, then roll again).
+    // Runic Dome: the player cannot see intents. Re-sample the pending move, but only
+    // where it was produced by an RNG roll (sim flag lastMoveWasRolled). Scripted
+    // sequences (set via setMove in the monster's own turn, e.g. Bronze Automaton) are
+    // deterministic and predictable to a knowledgeable player, and re-rolling them can
+    // corrupt state (double orb spawn), so they are left alone.
     if (bc.player.hasRelic<R::RUNIC_DOME>() && bc.inputState != InputState::EXECUTING_ACTIONS) {
         for (int i = 0; i < bc.monsters.monsterCount; ++i) {
             auto &m = bc.monsters.arr[i];
-            if (m.isDeadOrEscaped()) continue;
+            if (m.isDeadOrEscaped() || !m.lastMoveWasRolled) continue;
             m.moveHistory[0] = m.moveHistory[1];
             m.moveHistory[1] = MonsterMoveId::INVALID;
-            m.rollMove(bc);
+            m.rollMove(bc);  // approximate revert of the last roll, then roll again
         }
     }
 }
@@ -104,7 +133,11 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allow
     std::vector<search::Action> out;
     out.reserve(node.edges.size());
     for (auto &e : node.edges) {
-        if (e.action.getActionType() == search::ActionType::POTION && !allowPotions) continue;
+        if (e.action.getActionType() == search::ActionType::POTION) {
+            if (!allowPotions) continue;
+            // real-game rule: Smoke Bomb cannot be used in boss fights
+            if (bc.potions[e.action.getSourceIdx()] == Potion::SMOKE_BOMB && isBossEncounter(bc.encounter)) continue;
+        }
         out.push_back(e.action);
     }
     return out;
@@ -144,8 +177,10 @@ int FairSearcher::newNode(const BattleContext &bc) {
 
 double FairSearcher::evaluate(const BattleContext &bc) const {
     if (bc.outcome == Outcome::PLAYER_VICTORY) {
-        return p.winBonus + p.hpWeight * bc.player.curHp + p.potionValue * bc.potionCount
-               + p.maxHpWeight * bc.player.maxHp - bc.turn * 0.01;
+        double v = p.winBonus + p.hpWeight * bc.player.curHp + p.potionValue * bc.potionCount
+                   + p.maxHpWeight * bc.player.maxHp - bc.turn * 0.01;
+        if (bc.miscBits.test(1)) v -= p.escapePenalty;  // Smoke Bomb escape forfeits the fight's rewards
+        return v;
     }
     // loss or cutoff: partial credit for damage dealt, small for survival time
     int cur = 0, mx = 0;
@@ -210,10 +245,9 @@ double FairSearcher::rollout(BattleContext &bc) {
             r -= wOf(a);
             if (r <= 0) { chosen = a; break; }
         }
-#ifdef FAIR_TRACE
-        { std::ostringstream os; chosen.printDesc(os, bc); traceRing().push_back(os.str() + " turn=" + std::to_string(bc.turn)); if (traceRing().size() > 12) traceRing().erase(traceRing().begin()); }
-#endif
+        FAIR_TRACE_ACTION(chosen, bc, "roll");
         chosen.execute(bc);
+        FAIR_CHECK(bc, "rollout");
     }
     return evaluate(bc);
 }
@@ -235,7 +269,9 @@ int FairSearcher::select(const Node &node) const {
 
 void FairSearcher::simulate() {
     BattleContext bc = *rootState;
+    FAIR_CHECK(bc, "root");
     determinise(bc, rng, p.knownTop);
+    FAIR_CHECK(bc, "determinise");
 
     std::vector<std::pair<int,int>> path;  // (node, edge)
     int cur = rootIdx;
@@ -251,7 +287,9 @@ void FairSearcher::simulate() {
             break;
         }
         path.emplace_back(cur, ei);
+        FAIR_TRACE_ACTION(action, bc, "tree");
         action.execute(bc);
+        FAIR_CHECK(bc, "tree");
         const auto h = observationHash(bc);
         auto &children = nodes[cur].edges[ei].children;
         auto it = children.find(h);
