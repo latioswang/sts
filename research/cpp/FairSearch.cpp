@@ -4,6 +4,7 @@
 #include "sim/search/ExpertKnowledge.h"
 #include "mlp.h"
 #include "policy_features.h"
+#include "pf_mlp.h"
 
 namespace fair::pf {
 #include "pf_weights.inc"
@@ -230,7 +231,7 @@ bool FairSearcher::advance(search::Action taken, const BattleContext &after) {
     return false;
 }
 
-int FairSearcher::newNode(const BattleContext &bc) {
+int FairSearcher::newNode(const BattleContext &bc, int depth) {
     Node n;
     search::Action buf[MAX_ACTIONS];
     const int cnt = enumerateActionsInto(bc, p.allowPotions, buf, MAX_ACTIONS);
@@ -241,7 +242,11 @@ int FairSearcher::newNode(const BattleContext &bc) {
         e.prior = cnt > 0 ? 1.f / cnt : 0.f;
         n.edges.push_back(std::move(e));
     }
-    if (p.usePrior && pf::PF_TRAINED && cnt > 1) {
+    if (p.priorMlp && pfm::PFM_TRAINED && cnt > 1 && depth <= p.priorMlpDepth) {
+        float pr[MAX_ACTIONS];
+        pfm::priors(bc, buf, cnt, pr);
+        for (int i = 0; i < cnt; ++i) n.edges[i].prior = pr[i];
+    } else if (p.usePrior && pf::PF_TRAINED && cnt > 1) {
         // bilinear prior: h = W s + b ; logit(a) = h.E[tok] + up*(h.Eup) + AB[tok] + T.tf
         float x[vf::DIM];
         vf::extract(bc, x);
@@ -362,7 +367,7 @@ int FairSearcher::select(const Node &node) const {
     const double range = (vmax > vmin) ? (vmax - vmin) : 1.0;
     int best = 0;
     double bestV = -1e18;
-    if (p.usePrior && pf::PF_TRAINED) {
+    if ((p.usePrior && pf::PF_TRAINED) || (p.priorMlp && pfm::PFM_TRAINED)) {
         // PUCT (AlphaZero form); unvisited edges use the parent's mean as first-play urgency
         const double sqrtN = std::sqrt(static_cast<double>(node.visits) + 1);
         const double fpu = node.visits > 0 ? (node.wsum / node.visits - vmin) / range : 0.5;
@@ -414,7 +419,7 @@ void FairSearcher::simulate() {
         auto it = children.find(h);
         if (it == children.end()) {
             const bool terminal = bc.outcome != Outcome::UNDECIDED;
-            const int child = terminal ? -1 : newNode(bc);
+            const int child = terminal ? -1 : newNode(bc, static_cast<int>(path.size()));
             if (child >= 0) nodes[cur].edges[ei].children.emplace(h, child);
             value = terminal ? evaluate(bc) : rollout(bc);
             if (child >= 0) { nodes[child].visits += 1; }

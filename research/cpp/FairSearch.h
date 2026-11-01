@@ -41,8 +41,10 @@ struct SearchParams {
     double lowHpPen = 0.0;       // extra value lost per HP below lowHpThresh at a won fight's end (risk aversion)
     double lowHpThresh = 20.0;
     bool leafVf = false;         // rollout cutoff: use the learned MLP value instead of the heuristic
-    bool usePrior = false;       // PUCT with the learned move prior (pf_weights.inc) instead of plain UCB
+    bool usePrior = false;       // PUCT with the learned bilinear move prior (pf_weights.inc) instead of plain UCB
     double priorC = 1.5;         // PUCT exploration constant
+    bool priorMlp = false;       // PUCT with the MLP move prior (pfm_weights.inc) at shallow depth (cost!)
+    int priorMlpDepth = 1;       // apply the MLP prior at nodes with depth <= this; deeper nodes use bilinear/uniform
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited
 };
@@ -94,7 +96,7 @@ private:
     std::vector<Node> nodes;
     double vmin = 1e18, vmax = -1e18;
 
-    int newNode(const sts::BattleContext &bc);
+    int newNode(const sts::BattleContext &bc, int depth = 0);
     void simulate();
     double rollout(sts::BattleContext &bc);
     double evaluate(const sts::BattleContext &bc) const;
