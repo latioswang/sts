@@ -184,3 +184,4 @@ c74e8dd	val.a0	300	0	0.543	44.50	1.4158	-0.1403	0.000	discard	bfrem_g0: interven
 d695571	val.a10	300	0	0.217	34.27	0.8886	-0.0755	0.003	discard	a10_bfupg_g0: [a10] interventional deck value: rest upgrades = argmax predicted fight value [bf_upgrade=1]
 5c29a66	val.a10	300	0	0.147	32.64	0.7867	-0.1774	0.000	discard	a10_bfrem_g0: [a10] interventional deck value: removals = argmax predicted fight value [bf_remove=1]
 ed9dd2e	val.a0	300	0	0.693	46.75	1.6099	+0.0539	0.952	keep	bfbonus10: card picks: KB value + 10 x predicted fight-value gain (bf model g0) [bf_bonus=10]
+36ad687	val.a0	300	0	0.707	47.05	1.6292	+0.0192	0.729	discard	bfbonus25: card picks: KB value + 25 x predicted fight-value gain [bf_bonus=25]
