@@ -550,7 +550,9 @@ extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled
 (pooled +0.0445, P=0.949). Second use, declared before any dev run of this family: `bfbonus25` (val +0.019, P=0.73) and
 `bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case (pooled P ≥ 0.9 and
 dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
-stays discarded.
+stays discarded. bfbonus50: `bfbonus50_dev` 64.0% win, floor 44.9, -0.030 vs base, P=0.340 → info; pooled val,dev: n=400  bfbonus50 win=0.713 floor=46.21  bfbonus10 win=0.688 floor=46.29  dscore=+0.0233 dwin=+0.025 P(improve)=0.780 → fails too. The monotone val trend (bonus 10 → 25 → 50:
+69.3 → 70.7 → 73.7%) did not survive fresh seeds: both dev runs are negative. Bonus 10 stays; the extension
+rule did its job (two val near-misses rejected at the cost of 200 games).
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
