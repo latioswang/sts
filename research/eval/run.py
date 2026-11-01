@@ -17,7 +17,9 @@ REQUIRED = 11  # "actions" is an optional diagnostic column added in phase 2
 MAX_FLOOR = 51  # A0 act-3 boss victory room
 
 
-def load(path):
+def load(path, winmode="act3"):
+    """winmode='heart': a win counts only if the run reached Act 4 (i.e. the Heart was beaten);
+    key-less Act-3 victories are losses for the Heart track."""
     rows = {}
     with open(path) as f:
         for line in f:
@@ -25,7 +27,10 @@ def load(path):
             if len(p) < REQUIRED:
                 continue
             r = dict(zip(COLS, p))
-            rows[int(r["seed"])] = {k: float(v) for k, v in r.items()}
+            row = {k: float(v) for k, v in r.items()}
+            if winmode == "heart" and row["act"] < 4:
+                row["win"] = 0.0
+            rows[int(r["seed"])] = row
     return rows
 
 
@@ -66,6 +71,7 @@ def main():
     ap.add_argument("--agent", default="fair"); ap.add_argument("--asc", type=int, default=0)
     ap.add_argument("--param", action="append", default=[]); ap.add_argument("--base")
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--winmode", default="act3", choices=["act3", "heart"])
     a = ap.parse_args()
     start, count = SPLITS[a.split]
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
@@ -81,7 +87,7 @@ def main():
     with open(tmp, "w") as f:
         subprocess.run(cmd, stdout=f, check=True)
     os.replace(tmp, out)
-    allrows = load(out)
+    allrows = load(out, a.winmode)
     rows = ok(allrows)
     crashes = len(allrows) - len(rows)
     n, wr, fl, sc, se = summary(rows)
@@ -89,7 +95,7 @@ def main():
     print(f"{a.name}\t{a.split}\ta{a.asc}\tn={n}\tcrash={crashes}\twin={wr:.3f}\tfloor={fl:.2f}\tscore={sc:.4f}±{se:.4f}\tact4={act4:.3f}\t{time.time()-t0:.0f}s")
     if a.base:
         bpath = os.path.join(ROOT, "runs", f"{a.base}.{a.split}.a{a.asc}.tsv")
-        n, dmean, dwin, p = paired(rows, ok(load(bpath)))
+        n, dmean, dwin, p = paired(rows, ok(load(bpath, a.winmode)))
         print(f"vs {a.base}: n={n}\tdscore={dmean:+.4f}\tdwin={dwin:+.3f}\tP(improve)={p:.3f}")
 
 

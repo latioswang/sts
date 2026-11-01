@@ -61,6 +61,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.priorC = getp(P, "prior_c", 1.5);
     sp.priorMlp = getp(P, "prior_mlp", 0) > 0;
     sp.priorMlpDepth = static_cast<int>(getp(P, "prior_mlp_depth", 1));
+    sp.priorTemp = getp(P, "prior_temp", 1.0);
     sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
     sp.lowHpThresh = getp(P, "lowhp_thresh", 20.0);
     sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);
@@ -239,6 +240,12 @@ double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     for (const auto &d : gc.deck.cards) { scal += isScaling(d.getId()); blk += isBlock(d.getId()); }
     if (isScaling(c.getId()) && scal < getp(P, "scaling_want", 2)) v += getp(P, "scaling_bonus", 0.0);
     if (isBlock(c.getId()) && blk < getp(P, "block_want", 3)) v += getp(P, "block_bonus", 0.0);
+    if (getp(P, "act4_prep", 0) > 0 && gc.act == 3 && gc.hasKey(Key::RUBY_KEY) && gc.hasKey(Key::EMERALD_KEY) && gc.hasKey(Key::SAPPHIRE_KEY)) {
+        // all keys held in Act 3: the run continues into Act 4 — Shield & Spear want AoE and block, the Heart wants burst and block
+        if (isAoe(c.getId())) v += getp(P, "act4_aoe_bonus", 1.5);
+        if (isBlock(c.getId())) v += getp(P, "act4_block_bonus", 1.5);
+        if (isScaling(c.getId())) v += getp(P, "act4_scaling_bonus", 1.0);
+    }
     if (getp(P, "boss_prep", 0) > 0) {
         // the act boss is shown on the map from the first floor: prepare the deck for it (71% of losses are bosses)
         using ME = MonsterEncounter;
@@ -575,6 +582,18 @@ void FairAgent::cardSelect(GameContext &gc) {
 
 void FairAgent::stepOutOfCombat(GameContext &gc) {
     using RT = search::GameAction::RewardsActionType;
+    if (getp(P, "oc_potions", 0) > 0 && gc.screenState == ScreenState::MAP_SCREEN) {
+        // potions that are strictly better used outside combat (never done before):
+        // Fruit Juice (permanent max HP) now; Blood Potion when low on HP (saves a rest);
+        // Entropic Brew when >= 2 slots are empty (fills every empty slot).
+        const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
+        for (int i = 0; i < gc.potionCapacity; ++i) {
+            const Potion pot = gc.potions[i];
+            if (pot == Potion::FRUIT_JUICE) { gc.drinkPotionAtIdx(i); continue; }
+            if (pot == Potion::BLOOD_POTION && hpf < getp(P, "oc_blood_hp", 0.45)) { gc.drinkPotionAtIdx(i); continue; }
+            if (pot == Potion::ENTROPIC_BREW && gc.potionCapacity - gc.potionCount >= 2) { gc.drinkPotionAtIdx(i); continue; }
+        }
+    }
     if (rvLog) {
         switch (gc.screenState) {  // one row per strategic screen (not card-select sub-screens)
             case ScreenState::MAP_SCREEN: case ScreenState::REWARDS: case ScreenState::SHOP_ROOM:

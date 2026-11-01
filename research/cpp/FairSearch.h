@@ -45,6 +45,7 @@ struct SearchParams {
     double priorC = 1.5;         // PUCT exploration constant
     bool priorMlp = false;       // PUCT with the MLP move prior (pfm_weights.inc) at shallow depth (cost!)
     int priorMlpDepth = 1;       // apply the MLP prior at nodes with depth <= this; deeper nodes use bilinear/uniform
+    double priorTemp = 1.0;      // prior^(1/temp) renormalised: <1 sharpens, >1 flattens
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited
 };

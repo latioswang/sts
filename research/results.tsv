@@ -113,3 +113,4 @@ af273d7	val.a0	300	0	0.590	44.43	1.4612	-0.0264	0.230	discard	bossprep1: boss-aw
 af273d7	val.a0	300	0	0.620	44.46	1.4918	+0.0042	0.541	discard	bossprep2: boss prep, stronger (AoE +3, block +2) [boss_prep=1 boss_aoe_bonus=3 boss_block_bonus=2]
 af273d7	val.a0	300	0	0.157	41.65	0.9473	-0.0188	0.218	discard	bossprep_h: [heart] boss prep on the Heart track [boss_prep=1]
 af273d7	val.a10	300	0	0.173	30.78	0.7769	+0.0091	0.632	discard	bossprep_a10: [a10] boss prep at ascension 10 [boss_prep=1]
+64e149a	val.a0	300	0	0.063	42.31	0.8661			best	INFO_keys1: [heart] baseline recomputed with the Heart win definition (act>=4 && win)

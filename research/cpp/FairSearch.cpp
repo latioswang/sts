@@ -245,6 +245,11 @@ int FairSearcher::newNode(const BattleContext &bc, int depth) {
     if (p.priorMlp && pfm::PFM_TRAINED && cnt > 1 && depth <= p.priorMlpDepth) {
         float pr[MAX_ACTIONS];
         pfm::priors(bc, buf, cnt, pr);
+        if (p.priorTemp != 1.0) {
+            float z = 0.f;
+            for (int i = 0; i < cnt; ++i) { pr[i] = std::pow(std::max(pr[i], 1e-6f), static_cast<float>(1.0 / p.priorTemp)); z += pr[i]; }
+            for (int i = 0; i < cnt; ++i) pr[i] /= z;
+        }
         for (int i = 0; i < cnt; ++i) n.edges[i].prior = pr[i];
     } else if (p.usePrior && pf::PF_TRAINED && cnt > 1) {
         // bilinear prior: h = W s + b ; logit(a) = h.E[tok] + up*(h.Eup) + AB[tok] + T.tf
