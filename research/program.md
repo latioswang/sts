@@ -79,7 +79,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   the combined-ascension deck-value model 29.3%);
   **A20 best `a20_bfb25`: `a20_bfb25` 3.7% win, floor 27.8, +0.036 vs base, P=0.991 → keep** (deck-value bonus 25× instead of 10× with model 3, on top of the
   boss-potion change; dev checks queued for both); previous **`a20_potb2`: `a20_potb2` 1.7% win, floor 27.0, +0.013 vs base, P=0.998 → keep** (potions worth 2 HP in boss fights only — spend them where A20 runs end;
-  P=0.998 on a +0.013 score change, dev check queued; previous **`a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
+  P=0.998 on a +0.013 score change; dev check: `a20_potb2_dev` 2.0% win, floor 27.0, -0.002 vs base, P=0.321 → info vs a20_bfbonus10_g2m_dev — does not replicate
+  (floor-level noise); previous **`a20_bfbonus10_g2m`: `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → keep** (model 3's 10× bonus; kept on the pooled val+dev rule,
   P=0.935; previous **`a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
   valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `heart_bfbonus25_g_heart`: `heart_bfbonus25_g_heart` 9.3% win, floor 46.3, +0.052 vs base, P=0.989 → keep** (win = act ≥ 4 && win; model 6 = A0 fights +
   Heart-labelled act-3 states, 25× bonus; **dev check: `heart_bfbonus25_g_heart_dev` 4.0% win, floor 45.3, -0.034 vs base, P=0.197 → info vs heart_cur_dev 9.0% — does NOT replicate
