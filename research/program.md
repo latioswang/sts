@@ -87,6 +87,12 @@ Compute accounting finding: `budget_actions=7500` (equal *total* actions, no cut
 fights that matter most. Equal-sims stays the protocol; cutoff variants are compared at
 sims scaled by their measured cost-per-simulation ratio instead.
 
+Rollout cutoff + heuristic leaf: `bud_rt3` −0.285 (P=0.00). A learned leaf value would have
+to beat an *unbiased* terminal rollout and be trained on search-visited (random-play-degraded)
+states, i.e. an expert-iteration loop — shelved as out of scope for this session; the
+evidence and the design (features at turn start, ~130 dims incl. encounter one-hot, target =
+search value at battle end, MLP 130→64→1 exported as a .inc) are recorded here for a follow-up.
+
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
 1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)
