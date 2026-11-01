@@ -55,7 +55,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 14:20 UTC
+### Current state (update after every batch) — 2026-11-01 15:20 UTC
 - Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
   gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus).
   Dev check (100 fresh seeds vs bfbonus10_dev 67.0%): `bfbonus10_g1_dev` 68.0% win, floor 45.6, +0.023 vs base, P=0.663 → info — direction positive, size smaller than val
@@ -166,12 +166,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
   fixed simulator when the machine is idle).
-- Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
-  chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
-  `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).
-  Queued after g1: Heart-track re-test with the current A0 best (`heart_cur`; the Heart best dates from
-  the chest era), an A10 fight dataset (`bg_a10`, A10 best agent's games), and a combined A0+A10 model
-  (`g1m`) tested as a bonus on both ladders (the A0-only g0 model did not transfer to A10).
+- Running (sequential queue, `research/queue.txt`): model g2 (= g1m, trained on bg1 + bg_a10: 98,652 rows,
+  held-out boss-win BCE 0.384 vs 0.658, paired corr 0.102) as a 10×/25× bonus on A0 (vs bfbonus10_g1) and
+  on A10 (vs a10_eh075). The queue is empty after that: next block to plan — A20 fight dataset + A20
+  bonus, regenerate bg_a10 with the Lament fix, Heart-track tuning with the new A0 chain, test-split
+  confirmation of the A0 chain (milestone budget: one run).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
