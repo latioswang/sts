@@ -206,6 +206,19 @@ queued as `chest1` in batch 15. Expect a sizeable keep; everything downstream re
 - Ascension track: `exp.sh` gets `ASC=10` env → separate `best_a10` files; re-baseline there.
   A20 adds Ascender's Bane and the double boss: expect card-removal priority to matter more.
 
+### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
+1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
+2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
+   when V_run improves by ≥2 pts — guards against noise in near-ties).
+3. Bootstrapped V (`vf_boot_weights.inc`): copy to `vf_weights.inc`, build a *side* binary, run
+   `leaf_vf=1 rollout_turns=0` at sims 500 / 1500 / 3000 on 20 dev seeds first (cheap sanity:
+   must not collapse like the outcome-regression V did); only then a val experiment at
+   calibrated sims. Keep the live `vf_weights.inc` untrained until a leaf model passes sanity.
+4. If `chest1` keeps (expected), everything above is already measured on top of it (exp.sh
+   promotes sequentially); re-run `spd_s650` on the fixed build for a clean throughput→sims number.
+5. Keys track: `INFO_keys1` act4 rate → if > 0, start an `a0heart` metric column and tune
+   `w_burning`, `key_rest_hp`, Act-4 prep (Shield & Spear need AoE/block; Heart needs burst).
+
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
 1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)
