@@ -28,7 +28,7 @@ using namespace sts;
 
 struct Row {
     std::uint64_t seed; int win; int floor; int act; int hp; int maxHp; int deck;
-    std::int64_t battles; std::int64_t decisions; int aborted; double secs; std::int64_t actions = 0;
+    std::int64_t battles; std::int64_t decisions; int aborted; double secs; std::int64_t actions = 0; std::string keys;
 };
 
 static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const fair::Params &P) {
@@ -48,6 +48,7 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
         r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted; r.actions = a.stats.actions;
     }
     r.win = gc.outcome == GameOutcome::PLAYER_VICTORY;
+    r.keys = std::string(gc.hasKey(Key::RUBY_KEY) ? "R" : "-") + (gc.hasKey(Key::EMERALD_KEY) ? "G" : "-") + (gc.hasKey(Key::SAPPHIRE_KEY) ? "B" : "-");
     r.floor = gc.floorNum; r.act = gc.act; r.hp = gc.curHp; r.maxHp = gc.maxHp;
     r.deck = gc.deck.size();
     r.secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
@@ -120,8 +121,8 @@ int main(int argc, char **argv) {
     if (inproc) {
         for (int i = 0; i < count; ++i) {
             Row r = runOne(agent, seedStart + i, asc, P);
-            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\tactions=%lld\tper_decision=%.0f\n", (unsigned long long)r.seed, r.win, r.floor, r.hp,
-                        (long long)r.decisions, r.secs, (long long)r.actions, r.decisions ? (double)r.actions / r.decisions : 0.0);
+            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\tactions=%lld\tper_decision=%.0f\tact=%d\tkeys=%s\n", (unsigned long long)r.seed, r.win, r.floor, r.hp,
+                        (long long)r.decisions, r.secs, (long long)r.actions, r.decisions ? (double)r.actions / r.decisions : 0.0, r.act, r.keys.c_str());
         }
         return 0;
     }

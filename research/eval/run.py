@@ -85,7 +85,8 @@ def main():
     rows = ok(allrows)
     crashes = len(allrows) - len(rows)
     n, wr, fl, sc, se = summary(rows)
-    print(f"{a.name}\t{a.split}\ta{a.asc}\tn={n}\tcrash={crashes}\twin={wr:.3f}\tfloor={fl:.2f}\tscore={sc:.4f}±{se:.4f}\t{time.time()-t0:.0f}s")
+    act4 = sum(1 for r in rows.values() if r["act"] >= 4) / max(1, n)
+    print(f"{a.name}\t{a.split}\ta{a.asc}\tn={n}\tcrash={crashes}\twin={wr:.3f}\tfloor={fl:.2f}\tscore={sc:.4f}±{se:.4f}\tact4={act4:.3f}\t{time.time()-t0:.0f}s")
     if a.base:
         bpath = os.path.join(ROOT, "runs", f"{a.base}.{a.split}.a{a.asc}.tsv")
         n, dmean, dwin, p = paired(rows, ok(load(bpath)))

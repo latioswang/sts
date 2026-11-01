@@ -348,7 +348,12 @@ int FairAgent::chooseMapX(const GameContext &gc) {
                 nxt = -1e9;
                 for (int i = 0; i < n.edgeCount; ++i) nxt = std::max(nxt, best[y + 1][n.edges[i]]);
             }
-            best[y][x] = roomValue(gc, n.room) + discount * nxt;
+            double rv = roomValue(gc, n.room);
+            if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::EMERALD_KEY) && m.burningEliteX == x && m.burningEliteY == y
+                && static_cast<double>(gc.curHp) / gc.maxHp >= getp(P, "elite_hp", 0.6)) {
+                rv += getp(P, "w_burning", 2.0);  // the burning elite drops the emerald key
+            }
+            best[y][x] = rv + discount * nxt;
         }
     }
     auto acts = search::GameAction::getAllActionsInState(gc);
@@ -516,6 +521,11 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             if (getp(P, "rest_pol", 0) > 0) {
                 const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
                 const bool preBoss = gc.curMapNodeY >= 13;
+                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && !preBoss && hpf >= getp(P, "key_rest_hp", 0.65)
+                    && gc.act <= 2) {
+                    search::GameAction(2).execute(gc);  // RECALL: take the ruby key
+                    return;
+                }
                 const double th = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
                 const bool canHeal = !gc.relics.has(RelicId::COFFEE_DRIPPER);
                 const bool canUpg = !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0;
@@ -525,6 +535,14 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             break;
         case ScreenState::REWARDS: {
             auto &r = gc.info.rewardsContainer;
+            if (getp(P, "keys", 0) > 0) {
+                // emerald key is free (burning elite); sapphire key replaces the chest relic (real-game rule),
+                // so it must be chosen before the relic is taken and only when we want it
+                if (r.emeraldKey) { search::GameAction(RT::KEY).execute(gc); return; }
+                if (r.sapphireKey && r.relicCount > 0 && getp(P, "sapphire", 1) > 0 && !gc.hasKey(Key::SAPPHIRE_KEY)) {
+                    search::GameAction(RT::KEY).execute(gc); return;
+                }
+            }
             if (getp(P, "card_pol", 0) > 0 && r.goldRewardCount == 0 && r.relicCount == 0
                 && r.potionCount == 0 && r.cardRewardCount > 0) {
                 cardRewards(gc);

@@ -155,7 +155,18 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   from the fixed-pile bug, see above; re-run pending on the fixed build), `rt3_s750` −0.216.
 - Calibration protocol for `sims` conversions: `research/tools/calibrate.sh` times N single-
   threaded games per config on an **idle** machine (checks load first) and prints the ratio.
-- Next: train V on gen0+gen1 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal wall-clock
+- **Learned leaf V, result (gen0, 173k rows / 9.1k battles): val RMSE 12.4 vs 28.2 predict-mean,
+  win-acc 96.6% vs 94.4% base — a decent *battle-outcome* predictor, but as a search leaf it is
+  catastrophic** (`leaf_vf=1 rollout_turns=0`: floors 6/11 at 500 sims, floor 1 at 3,000 sims,
+  vs 33/23/44 baseline). Diagnosis: every row of a battle shares one label, so V learns
+  battle-level features (encounter, HP, deck) and is nearly indifferent to within-turn progress;
+  the search then ranks sibling actions by model bias and degenerates into passivity. Unbiased
+  terminal rollouts carry exactly the action-conditional signal V lacks. Fix path (backlog, not
+  now): bootstrapped targets — log the search's own root/edge values per decision and regress V
+  on those (AlphaZero-style), iterate. **Phase B pivots to the move prior first** (keeps rollouts,
+  uses learning to focus the tree), which is also the cheaper model at inference.
+- Next: train the prior on gen1 `pol_*` → `prior1 prior=1 sims=~450` (≈10% inference cost,
+  calibrate when idle) vs rb3; train V_run on gen0+gen1 `run_*` → `rvpick1 rv_pick=1` vs rb3.
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
