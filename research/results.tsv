@@ -206,3 +206,4 @@ da45a35	test.a0	500	0	0.666	45.89	1.5658	+0.1626	1.000	MILESTONE	bfbonus10_g1: M
 466c930	val.a0	300	0	0.720	46.95	1.6407	-0.0199	0.073	discard	bfshop10: deck-value bonus (model 1, 10x) applied to shop card purchases too [bf_shop=1]
 a25c73d	val.a0	300	0	0.733	47.29	1.6605	-0.0001	0.504	discard	bfupgb10: rest upgrades: KB value + 10 x predicted fight-value gain of the upgrade (model 1) [bf_upg_bonus=10]
 e4f9a5d	val.a0	300	0	0.710	47.01	1.6318	-0.0288	0.102	discard	bfupgb25: rest upgrades: KB value + 25 x predicted fight-value gain of the upgrade (model 1) [bf_upg_bonus=25]
+f7a6de7	dev.a10	100	0	0.210	34.29	0.8824	+0.0347	0.738	info	a10_bfbonus25_g1m_dev: VERIFY: a10_bfbonus25_g1m on dev vs a10_eh075_dev (independent seeds)
