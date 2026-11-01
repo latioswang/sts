@@ -183,7 +183,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   23.5, 79 MB, **0 context dumps on the fixed simulator** — bulk confirmation of the Lament fix).
 - **Model 3 (bg1 + bg_a10 + bg_a20: 128,594 rows from 1,500 games; held-out boss-win BCE 0.340 vs 0.607, paired
   corr 0.098):** A20 `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard (near-miss → pre-registered dev extension queued); A10 at 10× `a10_bfbonus10_g2m` 25.7% win, floor 36.0, -0.063 vs base, P=0.039 → discard (vs the 25×
-  model-2 best — weight-matched 25× run queued); A0 at 10× running.
+  model-2 best — weight-matched 25× run queued); A0 at 10× `bfbonus10_g2m` 71.7% win, floor 46.9, -0.025 vs base, P=0.217 → discard. Pattern: pooling ascensions dilutes —
+  each ladder is best served by a model that saw its own fights (g1 on A0, g2 on A10). Queued: A10-only
+  model 4 (bonus 25× on A10) and A20-only model 5 (10×/25× on A20).
 - Running (sequential queue, `research/queue.txt`): A0 test of model 3; A20 extension (dev + pooled);
   `a10_bfbonus25_g2m`; batch 38 (potion spending at A10/A20, act-1 card intake and rest 70% at A20, Heart
   chain dev check). The runner was restarted twice at its 2-hour limit (resume logic worked both times).
