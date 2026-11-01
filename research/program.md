@@ -149,6 +149,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   at one decision share those streams (common random numbers across options — fine) and coincide with the
   streams the real fight on that floor would use. No decision-time leak: the model is trained offline and
   sees only observable features; cf_pick (closed) would have been affected and must not be revived as is.
+  **Root cause fixed in the simulator** (`BattleContext::initRelics`, Neow's Lament): the 1-HP loop ran
+  over every slot up to `monsterCount`, including reserved not-yet-spawned slots (`idx == -1`), which then
+  counted as alive and died. Fix: skip reserved slots. Unreachable in real play (the Lament covers the
+  first 3 fights; reserved slots exist only in act-2/3 encounters), so recorded runs stay bit-identical
+  (repro_check in the queue after the rebuild). Patch file regenerated.
 - Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
   chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
   `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).

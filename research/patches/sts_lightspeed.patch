@@ -62,7 +62,7 @@ index 04fceda..5a02ec9 100644
  
  
 diff --git a/src/combat/BattleContext.cpp b/src/combat/BattleContext.cpp
-index 965faef..9d1bfc1 100644
+index 965faef..65fac31 100644
 --- a/src/combat/BattleContext.cpp
 +++ b/src/combat/BattleContext.cpp
 @@ -50,6 +50,7 @@ void BattleContext::init(const GameContext &gc, MonsterEncounter encounterToInit
@@ -73,7 +73,16 @@ index 965faef..9d1bfc1 100644
      player.curHp = gc.curHp;
      player.maxHp = gc.maxHp;
      player.gold = gc.gold;
-@@ -509,6 +510,8 @@ void BattleContext::exitBattle(GameContext &g) const {
+@@ -294,6 +295,8 @@ void BattleContext::initRelics(const GameContext &gc) {
+                 if (r.data > 0) {
+                     for (int i = 0; i < monsters.monsterCount; ++i) {
+                         Monster &m = monsters.arr[i];
++                        if (m.idx == -1) continue;  // FIX: reserved (not yet spawned) slots are not monsters; giving them
++                                                    // 1 HP made them targetable and "killable" (monstersAlive went negative)
+                         m.curHp = 1;
+                     }
+                 }
+@@ -509,6 +512,8 @@ void BattleContext::exitBattle(GameContext &g) const {
  
      if (outcome == Outcome::PLAYER_LOSS) {
          g.outcome = GameOutcome::PLAYER_LOSS;
@@ -82,7 +91,7 @@ index 965faef..9d1bfc1 100644
      } else {
          // player victory
          g.regainControl();
-@@ -1073,7 +1076,7 @@ void BattleContext::useAttackCard() {
+@@ -1073,7 +1078,7 @@ void BattleContext::useAttackCard() {
          }
  
          case CardId::IRON_WAVE: {
@@ -91,7 +100,7 @@ index 965faef..9d1bfc1 100644
              addToBot( Actions::AttackEnemy(t, calculateCardDamage(c, t, up ? 7 : 5)) );
              break;
          }
-@@ -1263,8 +1266,8 @@ void BattleContext::useSkillCard() {
+@@ -1263,8 +1268,8 @@ void BattleContext::useSkillCard() {
              break;
  
          case CardId::DARK_SHACKLES:
@@ -102,7 +111,7 @@ index 965faef..9d1bfc1 100644
                  addToBot( Actions::BuffEnemy<MS::SHACKLED>(t, up ? 15 : 9) );
              }
              break;
-@@ -1279,7 +1282,7 @@ void BattleContext::useSkillCard() {
+@@ -1279,7 +1284,7 @@ void BattleContext::useSkillCard() {
              break;
  
          case CardId::DISARM:
@@ -111,7 +120,7 @@ index 965faef..9d1bfc1 100644
              break;
  
          case CardId::DISCOVERY:
-@@ -1342,7 +1345,7 @@ void BattleContext::useSkillCard() {
+@@ -1342,7 +1347,7 @@ void BattleContext::useSkillCard() {
              bool hasAttack = false;
              for (int i = 0; i < cards.cardsInHand; ++i) {
                  if (cards.hand[i].getType() == CardType::ATTACK) {
@@ -120,7 +129,7 @@ index 965faef..9d1bfc1 100644
                      break;
                  }
              }
-@@ -2240,6 +2243,9 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2240,6 +2245,9 @@ void BattleContext::drinkPotion(int idx, int target) {
      const bool hasBark = player.hasRelic<R::SACRED_BARK>();
      const Potion p = potions[idx];
      discardPotion(idx);
@@ -130,7 +139,7 @@ index 965faef..9d1bfc1 100644
  
      // todo - dont need to add to bot because always will have nothing in actionQueue?
  
-@@ -2266,7 +2272,7 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2266,7 +2274,7 @@ void BattleContext::drinkPotion(int idx, int target) {
  
  
          case Potion::BLOOD_POTION: {
@@ -139,7 +148,7 @@ index 965faef..9d1bfc1 100644
              addToBot(Actions::HealPlayer(healAmt));
              break;
          }
-@@ -2396,7 +2402,13 @@ void BattleContext::drinkPotion(int idx, int target) {
+@@ -2396,7 +2404,13 @@ void BattleContext::drinkPotion(int idx, int target) {
              break;
  
          case Potion::SMOKE_BOMB:
