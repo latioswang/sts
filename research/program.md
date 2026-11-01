@@ -112,6 +112,13 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   Nemesis 1, Slavers 1; hallway fights ≤ 2 each. Act-2 bosses alone are 37% of all losses (Champ +
   Collector + Automaton) — the deck arriving at floor 33 is the problem Phase C v3 targets. Potions left
   at death: mean 0.05 (4/101 runs died holding one) — no hoarding waste under potsave2.
+- **Phase C v3 first results (model g0: 500 games, 57,522 rows, 14,757 decisions, 42,765 pairs; held-out
+  boss-win BCE 0.459 vs 0.685 base, paired corr 0.113, paired sign acc ~0.58):** `bfpick_g0` 56.0% win, floor 45.3, -0.107 vs base, P=0.004 → discard. Decks only
+  slightly bigger (mean 24.9 vs 23.7 cards), floors equal (45.3 vs 45.5), but act-3 boss deaths double
+  (Donu & Deca 20 vs 10). Diagnosis: the labels are fights against the *current* act's boss, so an
+  act-1 pick is judged by Guardian/Hexaghost value — short-horizon; the KB tiers encode what act-3
+  bosses need (scaling, AoE). The absolute predictor is good, the option differences are too noisy and
+  myopic to beat hand tiers at card rewards. Upgrade/removal variants and a margin variant pending.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
