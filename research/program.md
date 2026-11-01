@@ -549,7 +549,8 @@ If both pass, the higher pooled dscore is promoted. A near-miss that fails stays
 extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled P=0.866), potsave2 kept
 (pooled +0.0445, P=0.949). Second use, declared before any dev run of this family: `bfbonus25` (val +0.019, P=0.73) and
 `bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case (pooled P ≥ 0.9 and
-dev-alone dscore > 0; higher pooled dscore wins if both pass).
+dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
+stays discarded.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
