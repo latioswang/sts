@@ -165,8 +165,16 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   now): bootstrapped targets — log the search's own root/edge values per decision and regress V
   on those (AlphaZero-style), iterate. **Phase B pivots to the move prior first** (keeps rollouts,
   uses learning to focus the tree), which is also the cheaper model at inference.
-- Next: train the prior on gen1 `pol_*` → `prior1 prior=1 sims=~450` (≈10% inference cost,
-  calibrate when idle) vs rb3; train V_run on gen0+gen1 `run_*` → `rvpick1 rv_pick=1` vs rb3.
+- Move prior trained on gen1 (147,620 decisions, 5.4 legal actions avg): val CE 0.2825 (from
+  0.3133 at epoch 1; uniform-prior/entropy baselines now printed by the trainer). In a one-game
+  probe `prior=1` reached the same floor with ~9% fewer rollout actions per decision.
+- V_run first fit overfit (val log-loss 0.88–1.04 vs 0.679 base: rows within a run share one
+  label and the one-hot deck/relic features identify the run). Regularised (input/hidden dropout
+  0.3, wd 1e-3, hidden 32, run-grouped early stopping): **best epoch 3, val log-loss 0.567 vs
+  0.679 base, acc 0.72** → exported. The trainer writes an untrained placeholder whenever the
+  model fails to beat the base rate, so `rv_pick` can never silently degrade to noise.
+- Batch 14 so far (vs rb3): `lowhp1` +0.010 (P=0.61), `lowhp2` −0.306 (strong risk aversion →
+  passivity). Batch 15 queued: `chest1`, `prior1`, `prior1_s450`, `rvpick1`, `INFO_keys1`.
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
