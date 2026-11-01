@@ -46,6 +46,8 @@ struct SearchParams {
     bool priorMlp = false;       // PUCT with the MLP move prior (pfm_weights.inc) at shallow depth (cost!)
     int priorMlpDepth = 1;       // apply the MLP prior at nodes with depth <= this; deeper nodes use bilinear/uniform
     double priorTemp = 1.0;      // prior^(1/temp) renormalised: <1 sharpens, >1 flattens
+    double rollPrior = 0.0;      // >0: rollout actions sampled from (1-eps)*bilinear prior + eps*uniform (learned fast rollout policy)
+    double rollPriorEps = 0.25;
     double selectQ = 0.0;        // final move: if > 0, pick the highest mean value among edges with n >= selectQ * max_n (robust child); 0 = most visits
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited

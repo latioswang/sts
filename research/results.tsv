@@ -128,3 +128,4 @@ fb6c062	val.a0	300	0	0.627	44.61	1.5014	+0.0137	0.652	discard	priormlp3_d0: root
 61f9e07	val.a10	300	0	0.187	32.38	0.8216	+0.0140	0.660	discard	a10_wrl4: [a10] A10: low-HP rest value 4 [w_rest_lo=4]
 61f9e07	val.a10	300	0	0.183	33.02	0.8307	+0.0231	0.739	discard	a10_eh08: [a10] A10: elites only at 80% HP [elite_hp=0.8]
 61f9e07	val.a0	300	0	0.627	44.74	1.5040	+0.0163	0.695	discard	pm_c12: root MLP prior, PUCT c 1.2 [prior_c=1.2]
+c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move = best mean value among edges with >=30% of max visits (robust child) [select_q=0.3]

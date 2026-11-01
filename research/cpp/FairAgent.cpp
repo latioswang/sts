@@ -64,6 +64,8 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.priorMlpDepth = static_cast<int>(getp(P, "prior_mlp_depth", 1));
     sp.priorTemp = getp(P, "prior_temp", 1.0);
     sp.selectQ = getp(P, "select_q", 0.0);
+    sp.rollPrior = getp(P, "roll_prior", 0.0);
+    sp.rollPriorEps = getp(P, "roll_prior_eps", 0.25);
     sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
     sp.lowHpThresh = getp(P, "lowhp_thresh", 20.0);
     sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);

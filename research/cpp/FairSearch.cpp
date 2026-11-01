@@ -210,6 +210,33 @@ std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allow
     return out;
 }
 
+// bilinear move prior over n legal actions -> softmax into out[0..n)
+static void bilinearPriors(const BattleContext &bc, const search::Action *acts, int n, float *out) {
+    float x[vf::DIM];
+    vf::extract(bc, x);
+    float h[pf::PF_K];
+    for (int k = 0; k < pf::PF_K; ++k) {
+        float acc = pf::PF_B[k];
+        const float *w = pf::PF_W + k * pf::PF_S_DIM;
+        for (int i = 0; i < vf::DIM; ++i) acc += w[i] * x[i];
+        h[k] = acc;
+    }
+    float mx = -1e30f;
+    for (int i = 0; i < n; ++i) {
+        bool up = false;
+        const int tok = pf::token(bc, acts[i], up);
+        float tf[pf::T_DIM];
+        pf::targetFeats(bc, acts[i], tf);
+        float lg = pf::PF_AB[tok];
+        for (int k = 0; k < pf::PF_K; ++k) lg += h[k] * (pf::PF_E[tok * pf::PF_K + k] + (up ? pf::PF_EUP[k] : 0.f));
+        for (int t = 0; t < pf::T_DIM; ++t) lg += pf::PF_T[t] * tf[t];
+        out[i] = lg; mx = std::max(mx, lg);
+    }
+    float z = 0.f;
+    for (int i = 0; i < n; ++i) { out[i] = std::exp(out[i] - mx); z += out[i]; }
+    for (int i = 0; i < n; ++i) out[i] /= z;
+}
+
 FairSearcher::FairSearcher(const BattleContext &root, const SearchParams &p, std::uint64_t searchSeed)
     : rootState(&root), p(p), rng(searchSeed) {
     nodes.reserve(p.simulations * 2 + 4);
@@ -353,11 +380,18 @@ double FairSearcher::rollout(BattleContext &bc) {
                 default: return 1.0;
             }
         };
-        for (int i = 0; i < nActs; ++i) total += wOf(acts[i]);
+        float pri[MAX_ACTIONS];
+        const bool usePri = p.rollPrior > 0.0 && pf::PF_TRAINED && nActs > 1;
+        if (usePri) {
+            bilinearPriors(bc, acts, nActs, pri);
+            for (int i = 0; i < nActs; ++i) pri[i] = static_cast<float>((1.0 - p.rollPriorEps) * pri[i] + p.rollPriorEps / nActs);
+        }
+        auto wTot = [&](int i) { return wOf(acts[i]) * (usePri ? static_cast<double>(pri[i]) * nActs : 1.0); };
+        for (int i = 0; i < nActs; ++i) total += wTot(i);
         double r = U(rng) * total;
         search::Action chosen = acts[nActs - 1];
         for (int i = 0; i < nActs; ++i) {
-            r -= wOf(acts[i]);
+            r -= wTot(i);
             if (r <= 0) { chosen = acts[i]; break; }
         }
         FAIR_TRACE_ACTION(chosen, bc, "roll");
