@@ -179,7 +179,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Datasets: `bg1` (A0 best, g1 labels: 500 games, 58,540 rows, 147 Collector/Lament dumps in 3 games) and
   `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
-  fixed simulator when the machine is idle).
+  fixed simulator when the machine is idle); `bg_a20` (A20 best `a20_restlo`: 500 games, 1.6% win, floor
+  23.5, 79 MB, **0 context dumps on the fixed simulator** — bulk confirmation of the Lament fix).
 - Running (sequential queue, `research/queue.txt`): model g2 (= g1m, trained on bg1 + bg_a10: 98,652 rows,
   held-out boss-win BCE 0.384 vs 0.658, paired corr 0.102) as a 10×/25× bonus on A0 (vs bfbonus10_g1) and
   on A10 (vs a10_eh075). Queued next: the M5 test run of bfbonus10_g1 (500 test seeds, paired vs chest1's
