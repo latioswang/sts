@@ -174,3 +174,4 @@ ee8f5c8	dev.a20	100	0	0.030	25.22	0.5239	+0.0843	0.999	info	a20_restlo_dev: VERI
 fdf12b2	val.a0	300	0	0.660	45.58	1.5538	-0.0023	0.363	discard	potsave4: potions: hallway 8, boss 6 [potion_v_boss=6]
 20a41f8	val.a10	300	0	0.203	34.18	0.8735	-0.0907	0.000	discard	a10_potsave2: [a10] A10: potions saved for bosses (A0 keep transferred) [potion_v=8 potion_v_boss=4]
 f8c97f1	val.a0	300	0	0.663	45.53	1.5561			diag	DIAG_deaths: DIAG: current A0 best re-run for the death_enc / potions_left columns (identical games)
+6f1722c	train.a0	500	0	0.598	43.84	1.4576			info	bf0: bf0: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
