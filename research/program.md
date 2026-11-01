@@ -125,6 +125,18 @@ states, i.e. an expert-iteration loop — shelved as out of scope for this sessi
 evidence and the design (features at turn start, ~130 dims incl. encounter one-hot, target =
 search value at battle end, MLP 130→64→1 exported as a .inc) are recorded here for a follow-up.
 
+### Phase A status (2026-11-01 04:20 UTC)
+- Done: `research/vf/vf_features.h` (204 observable-only dims), `mlp.h` (DIM→64→1 inference,
+  weights from `research/cpp/vf_weights.inc`), `train_vf.py` (torch, battle-grouped holdout,
+  exports .inc), `vf_log=1` logger in FairAgent (binary rows per decision point, labelled at
+  battle end with win/final_hp/search-unit target/battle id), `leaf_vf=1` hook at rollout
+  cutoff (`rollout_turns=0` = pure leaf eval). Build is bit-identical with everything off.
+- Data: `train*` seed splits (300000+, 400000+, 500000+) are for generation only — never
+  used for keep/discard. gen0 = 500 games of the current best agent.
+- Next: train V on gen0 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal compute
+  (cost per sim without rollouts is ~1/8 → N ≈ 4000; measure, don't assume) vs rb3.
+  Then Phase B: log root visit distributions → policy prior → PUCT.
+
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
 1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)

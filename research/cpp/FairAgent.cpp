@@ -5,6 +5,7 @@
 #include "sim/search/GameAction.h"
 #include "sim/search/ExpertKnowledge.h"
 #include "vf_features.h"
+#include "run_features.h"
 #include <cstdlib>
 #include <memory>
 #include <iostream>
@@ -23,6 +24,12 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
             const std::string path = std::string(dir) + "/" + std::to_string(agentSeed_) + ".bin";
             vfLog = std::fopen(path.c_str(), "ab");
+        }
+    }
+    if (getp(P, "rv_log", 0) > 0) {
+        if (const char *dir = std::getenv("VF_LOG_DIR")) {
+            const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";
+            rvLog = std::fopen(path.c_str(), "ab");
         }
     }
     sp.simulations = static_cast<int>(getp(P, "sims", 500));
@@ -402,6 +409,18 @@ void FairAgent::cardSelect(GameContext &gc) {
 
 void FairAgent::stepOutOfCombat(GameContext &gc) {
     using RT = search::GameAction::RewardsActionType;
+    if (rvLog) {
+        switch (gc.screenState) {  // one row per strategic screen (not card-select sub-screens)
+            case ScreenState::MAP_SCREEN: case ScreenState::REWARDS: case ScreenState::SHOP_ROOM:
+            case ScreenState::REST_ROOM: case ScreenState::EVENT_SCREEN: case ScreenState::BOSS_RELIC_REWARDS: {
+                const size_t off = rvRows.size();
+                rvRows.resize(off + rv::DIM);
+                rv::extract(gc, rvRows.data() + off);
+                break;
+            }
+            default: break;
+        }
+    }
     switch (gc.screenState) {
         case ScreenState::MAP_SCREEN:
             if (getp(P, "map_pol", 0) > 0 && gc.curMapNodeY < 14) {
@@ -463,6 +482,17 @@ void FairAgent::playout(GameContext &gc) {
             continue;
         }
         stepOutOfCombat(gc);
+    }
+    if (rvLog && !rvRows.empty()) {  // label every row of this run with its outcome
+        const float win = gc.outcome == GameOutcome::PLAYER_VICTORY ? 1.f : 0.f;
+        const float extra[4] = {win, static_cast<float>(gc.floorNum), static_cast<float>(gc.act),
+                                static_cast<float>(agentSeed % 10000000ULL)};
+        for (size_t off = 0; off < rvRows.size(); off += rv::DIM) {
+            std::fwrite(rvRows.data() + off, sizeof(float), rv::DIM, rvLog);
+            std::fwrite(extra, sizeof(float), 4, rvLog);
+        }
+        std::fflush(rvLog);
+        rvRows.clear();
     }
 }
 
