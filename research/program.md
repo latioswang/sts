@@ -327,6 +327,14 @@ the file the current best was measured with; a candidate prior is tested from a 
 restored immediately if not kept (v3 was briefly compiled into `fair_eval` — restored from git before
 any further comparison; the best's rows reproduce bit-for-bit on the restored build).
 
+### Batch 25 (val 300) — no keeps
+A10 (vs a10_rest06 18.7%): `a10_combo` +0.030 (P=0.78), `a10_eh08` +0.023 (P=0.74), `a10_wrl4`
++0.014, `a10_ct35` +0.007 — all four at the same 18.7% win, differing only in floor; noise.
+A0: `pm_c12` +0.016 (P=0.70) — the PUCT c sweep (0.5–1.5) is closed, c stays 1.5.
+Parameter-level tuning is exhausted on both tracks; next structural items: KB relic/card synergy
+bonuses in card valuation (the KB's synergy lists are unused so far), prior-guided rollouts at
+measured equal wall-clock, A20 seed.
+
 ### Boss-aware deck preparation (`boss_prep=1`) — implemented, tested in batch 20 (neutral)
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
