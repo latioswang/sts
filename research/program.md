@@ -208,8 +208,10 @@ queued as `chest1` in batch 15. Expect a sizeable keep; everything downstream re
   offered; rest policy takes ruby key when HP ≥ `key_rest_hp` (default 0.6) and the deck has
   no urgent upgrade; treasure room takes the sapphire key once per run. Then eval at A0 with
   `win = beat the Heart` as a *separate* metric column (keep "beat Act 3" too).
-- Ascension track: `exp.sh` gets `ASC=10` env → separate `best_a10` files; re-baseline there.
-  A20 adds Ascender's Bane and the double boss: expect card-removal priority to matter more.
+- Ascension tracks: implemented as `TRACK=a10|a20 exp.sh` (per-track `best_<track>_{name,params}`,
+  `--asc` passed through); `research/tools/new_track.sh a10` seeds a track by running the A0 best
+  params as the baseline. A10 seeding is queued after batch 19. A20 adds Ascender's Bane and the
+  double boss: expect card-removal priority to matter more.
 
 ### Batch 15 (2026-11-01 05:58 UTC) — **`chest1` keep: val 57.7% win (from 38.0%), floor 44.2, Δscore +0.270, P=1.000**
 Opening treasure chests is the largest single gain of the program (every earlier run had skipped
