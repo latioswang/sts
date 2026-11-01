@@ -281,6 +281,12 @@ Heart track: `wb3` (w_burning 3) −0.015 (P=0.10; Act 4 36.7%, Heart 14.7% vs 1
 (ruby key down to 50% HP) −0.036 (P=0.01; Act 4 38%, Heart 13%) — both discard: reaching Act 4 more
 often is easy, converting it is the constraint (Act-4 fights need a stronger deck, not more keys).
 
+### Batch 21 (PUCT c with the root MLP prior, vs priormlp_d0 c=1.5)
+`pm_c10` 64.0% (+0.031, P=0.82 — reproduces `priormlp_d0_c1` exactly, deterministic harness),
+`pm_c07` 62.3%, `pm_c05` 62.7%: none clears the bar; c stays 1.5. The c=1.0 point is consistently
+higher but within noise at n=300. Chain continues: gen2 (500 self-play games at 2,000 sims with the
+root-prior agent) → retrain prior → `priormlp2_d0` → A10 seed → boss-prep batch.
+
 ### Boss-aware deck preparation (`boss_prep=1`) — implemented, queued as batch 20
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian

@@ -104,3 +104,6 @@ b3eccbc	val.a0	300	0	0.130	42.32	0.9306	-0.0356	0.011	discard	krh05: [heart] hea
 0fb2c40	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	priormlp_d0_c1: root-only MLP prior, prior_c 1.0 [prior_mlp=1 prior_mlp_depth=0 prior_c=1.0]
 0fb2c40	val.a0	300	0	0.600	44.74	1.4772	-0.0105	0.363	discard	priormlp_d1_c07_s365: MLP prior to depth 1, prior_c 0.7, equal wall-clock (sims 365) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7 sims=365]
 0fb2c40	val.a0	300	0	0.603	44.66	1.4791	-0.0086	0.400	discard	priormlp_d1_c07: MLP prior to depth 1, prior_c 0.7, sims 500 (+~40% compute, informational) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7]
+5317fe2	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	pm_c10: root MLP prior, PUCT c 1.0 [prior_c=1.0]
+5317fe2	val.a0	300	0	0.623	44.87	1.5032	+0.0156	0.671	discard	pm_c07: root MLP prior, PUCT c 0.7 [prior_c=0.7]
+5317fe2	val.a0	300	0	0.627	44.44	1.4981	+0.0105	0.619	discard	pm_c05: root MLP prior, PUCT c 0.5 [prior_c=0.5]
