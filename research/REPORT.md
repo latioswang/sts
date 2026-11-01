@@ -19,7 +19,7 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | **A20 best `a20_bfbonus10_g2m`** (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935) | val, 300, asc 20 | **1.0%** (floor-driven keeps) | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
-| **Heart best `heart_bfbonus25_g_heart`** (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | **9.3%** | — | 45.4 |
+| **Heart best `heart_bfbonus25_g_heart`** (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | **9.3%** | — | 46.3 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
