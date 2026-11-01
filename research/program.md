@@ -545,7 +545,9 @@ keep decision is then made on the pooled 400 seeds with the same rule (dscore > 
 Declared before any dev run is seen: candidates `potsave` and `potsave2` vs `wea1p1` (three val
 near-misses in one direction: potv8 +0.022/P 0.77, potsave +0.026/P 0.81, potsave2 +0.035/P 0.875).
 If both pass, the higher pooled dscore is promoted. A near-miss that fails stays discarded; no second
-extension. Cost: one 100-game run per candidate.
+extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled P=0.866), potsave2 kept
+(pooled +0.0445, P=0.949). Second use, declared before its dev run: `bfbonus25` vs `bfbonus10`
+(val +0.019, P=0.73).
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
