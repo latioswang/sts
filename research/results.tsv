@@ -161,3 +161,5 @@ e6aa6ab	val.a10	300	0	0.270	35.40	0.9641	+0.0650	0.981	keep	a10_eh075: [a10] A10
 299b416	val.a0	300	0	0.650	45.75	1.5471	+0.0256	0.807	discard	potsave: potions: worth 8 HP in hallway fights, 2 in boss fights, 4 vs elites (save them for bosses) [potion_v=8 potion_v_boss=2 potion_v_elite=4]
 823e807	val.a0	300	0	0.617	44.63	1.4917	-0.0298	0.146	discard	potv12: combat value: potion worth 12 HP (hoard harder) [potion_v=12]
 bb846c8	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	discard	potsave2: potions: worth 8 HP in hallway fights, 4 in boss fights [potion_v=8 potion_v_boss=4]
+0f89025	dev.a0	100	0	0.570	43.64	1.4257			info	wea1p1_dev: A0 best on dev (baseline for pooled near-miss decisions)
+0f89025	dev.a0	100	0	0.600	44.24	1.4675	+0.0418	0.750	info	potsave_dev: potsave on dev (extension of the val near-miss)
