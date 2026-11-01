@@ -7,6 +7,7 @@
 #include "vf_features.h"
 #include "run_features.h"
 #include "policy_features.h"
+#include "rv_mlp.h"
 #include <cstdlib>
 #include <memory>
 #include <iostream>
@@ -258,6 +259,19 @@ int FairAgent::bossRelicChoice(const GameContext &gc) const {
     // when the player holds it, so there is no hidden-info leak.
     int best = 3;  // 3 = skip
     double bestV = -1e18;
+    if (getp(P, "rv_pick", 0) > 0 && rv::RV_TRAINED) {
+        float pBest = rv::pWin(gc);  // skipping keeps the current state
+        for (int i = 0; i < 3; ++i) {
+            const RelicId r = gc.info.bossRelics[i];
+            if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+            GameContext hyp = gc;
+            RelicInstance ri; ri.id = r; ri.data = 0;
+            hyp.relics.add(ri);
+            const float pw = rv::pWin(hyp);
+            if (pw > pBest) { pBest = pw; best = i; }
+        }
+        return best;
+    }
     for (int i = 0; i < 3; ++i) {
         const RelicId r = gc.info.bossRelics[i];
         if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
@@ -353,6 +367,19 @@ int FairAgent::chooseMapX(const GameContext &gc) {
 void FairAgent::cardRewards(GameContext &gc) {
     auto &r = gc.info.rewardsContainer;
     for (int rIdx = r.cardRewardCount - 1; rIdx >= 0; --rIdx) {
+        if (getp(P, "rv_pick", 0) > 0 && rv::RV_TRAINED) {
+            // Phase C: one-step lookahead with the learned run value
+            const float pSkip = rv::pWin(gc);
+            int pick = -1; float pBest = pSkip + static_cast<float>(getp(P, "rv_margin", 0.0));
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                const float pw = rv::pWin(hyp);
+                if (pw > pBest) { pBest = pw; pick = i; }
+            }
+            search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
+            continue;
+        }
         int bestI = -1;
         double bestV = -1e18;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
@@ -392,6 +419,21 @@ void FairAgent::shop(GameContext &gc) {
                 return;
             }
         }
+    }
+    if (getp(P, "rv_pick", 0) > 0 && rv::RV_TRAINED) {
+        const float pNow = rv::pWin(gc);
+        int pick = -1; float pBest = pNow + static_cast<float>(getp(P, "rv_margin", 0.0));
+        for (int i = 0; i < 7; ++i) {
+            if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
+            GameContext hyp = gc;
+            hyp.gold -= s.cardPrice(i);
+            hyp.deck.obtainRaw(s.cards[i]);
+            const float pw = rv::pWin(hyp);
+            if (pw > pBest) { pBest = pw; pick = i; }
+        }
+        if (pick >= 0) { search::GameAction(RT::CARD, pick).execute(gc); return; }
+        search::GameAction(RT::SKIP).execute(gc);
+        return;
     }
     int bestI = -1; double bestV = -1e18;
     for (int i = 0; i < 7; ++i) {
