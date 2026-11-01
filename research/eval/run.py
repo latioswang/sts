@@ -12,8 +12,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.environ.get("FAIR_EVAL_BIN", "/home/user/sts_lightspeed/build/fair_eval")
 SPLITS = {"dev": (100000, 100), "val": (200000, 300), "test": (900000, 500), "smoke": (100000, 20),
           "train": (300000, 500), "train2": (400000, 500), "train3": (500000, 500)}  # train*: data generation only, never for keep/discard
-COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs", "actions"]
-REQUIRED = 11  # "actions" is an optional diagnostic column added in phase 2
+COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs", "actions",
+        "death_enc", "potions_left"]
+REQUIRED = 11  # "actions" (phase 2), "death_enc" and "potions_left" (phase C v3) are optional diagnostic columns
 MAX_FLOOR = 51  # A0 act-3 boss victory room
 
 
@@ -50,6 +51,33 @@ def summary(rows):
     sc = st.mean(score(r) for r in rows.values())
     se = st.pstdev([score(r) for r in rows.values()]) / n ** 0.5
     return n, w / n, fl, sc, se
+
+
+def encounter_names():
+    """MonsterEncounter names from the simulator header (index = enum value); ids if unavailable"""
+    path = "/home/user/sts_lightspeed/include/constants/MonsterEncounters.h"
+    try:
+        import re
+        txt = open(path).read()
+        body = txt.split("monsterEncounterStrings[] = {", 1)[1].split("};", 1)[0]
+        return re.findall(r'"([^"]*)"', body)
+    except Exception:
+        return []
+
+
+def death_summary(rows, top=8):
+    """which encounters ended the lost runs (needs the death_enc column)"""
+    names = encounter_names()
+    cnt = {}
+    for r in rows.values():
+        if r["win"] or "death_enc" not in r or r["death_enc"] < 0:
+            continue
+        e = int(r["death_enc"])
+        cnt[e] = cnt.get(e, 0) + 1
+    if not cnt:
+        return ""
+    items = sorted(cnt.items(), key=lambda kv: -kv[1])[:top]
+    return " ".join(f"{names[e] if e < len(names) else e}:{c}" for e, c in items)
 
 
 def paired(a, b, iters=4000, seed=0):
@@ -93,6 +121,10 @@ def main():
     n, wr, fl, sc, se = summary(rows)
     act4 = sum(1 for r in rows.values() if r["act"] >= 4) / max(1, n)
     print(f"{a.name}\t{a.split}\ta{a.asc}\tn={n}\tcrash={crashes}\twin={wr:.3f}\tfloor={fl:.2f}\tscore={sc:.4f}±{se:.4f}\tact4={act4:.3f}\t{time.time()-t0:.0f}s")
+    ds = death_summary(rows)
+    if ds:
+        pot = st.mean(r["potions_left"] for r in rows.values() if not r["win"]) if any(not r["win"] for r in rows.values()) else 0.0
+        print(f"deaths: {ds}\tpotions_left_at_death={pot:.2f}")
     if a.base:
         bpath = os.path.join(ROOT, "runs", f"{a.base}.{a.split}.a{a.asc}.tsv")
         n, dmean, dwin, p = paired(rows, ok(load(bpath, a.winmode)))

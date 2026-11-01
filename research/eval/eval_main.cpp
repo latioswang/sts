@@ -29,6 +29,7 @@ using namespace sts;
 struct Row {
     std::uint64_t seed; int win; int floor; int act; int hp; int maxHp; int deck;
     std::int64_t battles; std::int64_t decisions; int aborted; double secs; std::int64_t actions = 0; std::string keys;
+    int lastEnc = -1; int potionsLeft = 0;
 };
 
 static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const fair::Params &P) {
@@ -46,7 +47,9 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
         fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
         a.playout(gc);
         r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted; r.actions = a.stats.actions;
+        r.lastEnc = a.stats.lastEncounter;
     }
+    r.potionsLeft = gc.potionCount;
     r.win = gc.outcome == GameOutcome::PLAYER_VICTORY;
     r.keys = std::string(gc.hasKey(Key::RUBY_KEY) ? "R" : "-") + (gc.hasKey(Key::EMERALD_KEY) ? "G" : "-") + (gc.hasKey(Key::SAPPHIRE_KEY) ? "B" : "-");
     r.floor = gc.floorNum; r.act = gc.act; r.hp = gc.curHp; r.maxHp = gc.maxHp;
@@ -144,7 +147,7 @@ int main(int argc, char **argv) {
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0 && !out.empty()) {
             std::fputs(out.c_str(), stdout);
         } else {
-            std::printf("%llu\t0\t0\t0\t0\t0\t0\t0\t0\t2\t0.00\t0\n", (unsigned long long)it->second.first);
+            std::printf("%llu\t0\t0\t0\t0\t0\t0\t0\t0\t2\t0.00\t0\t-1\t0\n", (unsigned long long)it->second.first);
         }
         std::fflush(stdout);
         running.erase(it);
@@ -164,9 +167,12 @@ int main(int argc, char **argv) {
                 alarm(900);           // hang guard -> counted as crash
                 Row r = runOne(agent, seed, asc, P);
                 char line[512];
-                int len = std::snprintf(line, sizeof line, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%lld\t%lld\t%d\t%.2f\t%lld\n",
+                // columns: seed win floor act hp max_hp deck battles decisions aborted secs actions death_enc potions_left
+                // (the last two are diagnostics: the encounter of the final battle, potions unused at the end)
+                int len = std::snprintf(line, sizeof line, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%lld\t%lld\t%d\t%.2f\t%lld\t%d\t%d\n",
                             (unsigned long long)r.seed, r.win, r.floor, r.act, r.hp, r.maxHp, r.deck,
-                            (long long)r.battles, (long long)r.decisions, r.aborted, r.secs, (long long)r.actions);
+                            (long long)r.battles, (long long)r.decisions, r.aborted, r.secs, (long long)r.actions,
+                            r.lastEnc, r.potionsLeft);
                 if (write(fds[1], line, len) != len) _exit(3);
                 close(fds[1]);
                 _exit(0);

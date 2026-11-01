@@ -110,6 +110,7 @@ void FairAgent::playBattle(GameContext &gc) {
     BattleContext bc;
     bc.init(gc);
     ++stats.battles;
+    stats.lastEncounter = static_cast<int>(bc.encounter);
     if (getp(P, "cheat_combat", 0) > 0) {
         // DIAGNOSTIC ONLY (never a result): lightspeed's RNG-aware scum search.
         legacy.simulationCountBase = sp.simulations;

@@ -24,6 +24,7 @@ struct RunStats {
     std::int64_t actions = 0;      // total game actions executed inside search (compute proxy)
     std::int64_t simulations = 0;  // total simulations run
     bool aborted = false;
+    int lastEncounter = -1;        // MonsterEncounter of the last battle (diagnostic: what killed the run)
 };
 
 class FairAgent {
