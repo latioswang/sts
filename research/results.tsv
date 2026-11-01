@@ -196,3 +196,4 @@ f9c460e	val.a0	300	0	0.073	44.58	0.9135	+0.0473	0.983	keep	heart_cur: [heart] He
 6788ffb	val.a0	300	0	0.643	45.92	1.5438	-0.0661	0.052	discard	bfpick_g1: interventional deck value (g1): card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_model=1 bf_pick=1 bf_bonus=0]
 b3e72f4	val.a0	300	0	0.643	45.84	1.5421	-0.0678	0.028	discard	bfrem_g1: interventional deck value (g1): removals = argmax predicted fight value [bf_model=1 bf_remove=1]
 2f1e61a	val.a0	300	0	0.733	47.29	1.6606	+0.0507	0.947	keep	bfbonus10_g1: card picks: KB value + 10 x predicted fight-value gain (model g1) [bf_model=1 bf_bonus=10]
+a7ef072	val.a0	300	0	0.717	46.61	1.6305	-0.0301	0.176	discard	bfbonus25_g1: card picks: KB value + 25 x predicted fight-value gain (model g1) [bf_model=1 bf_bonus=25]
