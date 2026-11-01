@@ -52,6 +52,9 @@ def main():
     import torch, torch.nn as nn
     torch.manual_seed(0)
     X, win, hp, y, bid = load(a.data_dir)
+    ok = np.isfinite(X).all(1) & np.isfinite(y) & (np.abs(X).max(1) < 1e3)
+    if (~ok).sum(): print(f"dropping {(~ok).sum()} non-finite/garbage rows")
+    X, win, hp, y, bid = X[ok], win[ok], hp[ok], y[ok], bid[ok]
     print(f"rows={len(y)} battles={len(np.unique(bid))} win_rate={win.mean():.3f} target mean={y.mean():.2f} sd={y.std():.2f}")
     # split by battle id so correlated rows from one fight don't leak into validation
     rng = np.random.RandomState(0)

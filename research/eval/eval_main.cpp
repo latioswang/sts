@@ -157,7 +157,9 @@ int main(int argc, char **argv) {
             pid_t pid = fork();
             if (pid == 0) {
                 close(fds[0]);
-                std::fclose(stderr);  // silence simulator spam
+                // silence simulator spam WITHOUT closing fd 2: a closed fd 2 would be reused by the
+                // agent's data loggers and std::cerr diagnostics would then corrupt the binary logs
+                if (!std::freopen("/dev/null", "w", stderr)) _exit(4);
                 alarm(900);           // hang guard -> counted as crash
                 Row r = runOne(agent, seed, asc, P);
                 char line[512];

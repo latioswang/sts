@@ -107,8 +107,11 @@ Re-baseline after the player.cc fix alone: `rb2` val 34.7% (n=297) vs 35.7% befo
 reference for all later paired comparisons.
 
 Throughput work (bit-identical games, verified on 4 seeds): allocation-free action enumerator
-(~13%) + lightspeed's fixed-size card piles (`sts_card_manager_use_fixed_list`, MAX_GROUP_SIZE
-64→128) (~10% more) ≈ 1.3× faster. Protocol note: the compute budget is defined as the
+(~13%). The fixed-size card piles (`sts_card_manager_use_fixed_list`, +10%) were tried and
+**reverted**: piles can exceed any fixed capacity in degenerate rollouts (Dead Branch +
+Corruption chains) and the Release library has asserts compiled out → silent stack corruption
+(3/300 val games crashed in `spd_s650`; all 3 seeds run clean with `std::vector` piles).
+Lesson recorded: every speedup must pass a ≥300-game crash sweep, not just a 4-seed identity check. Protocol note: the compute budget is defined as the
 wall-clock of the original implementation at sims=500; verified speedups may be converted
 into proportionally more simulations (logged as such, timed on the same seeds, idle machine).
 
