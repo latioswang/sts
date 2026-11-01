@@ -27,11 +27,13 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 
 ### Current state (update after every batch)
 
-- Best: `wev15` — val win 30.0%, floor 38.2, score 1.049.
-  **TEST (run 1/5): 138/500 = 27.6%, 95% Wilson CI [23.9%, 31.7%]** → M1 ✅ (M2 on val only).
+- **FINAL (loop stopped: 2 consecutive batches without a keep).** Best: `hallpot0`
+  — val 35.7%; **TEST 169/500 = 33.8%, 95% CI [29.8%, 38.1%]** (test runs used: 4/5).
+  Baselines on test: fair0 0.4%, cheating lightspeed agent 0.8%. See `research/REPORT.md`.
+- Milestones: M1 ✅ (test 33.8% ≥ 25%), M2 ✅ on test (≥ 30%), M3 ✗ (35% inside CI, not reached).
 - Keep chain: legacy policy 3.0% → END_TURN rollout w 0.2 (10%) → 0.05 (14%)
   → [Runic Dome guardrail: 11%] → events (13.7%) → KB boss relics (18.3%)
-  → AoE bonus (20.3%) → scaling bonus (23.0%) → map: prefer events, w_event 1.5 (30.0%).
+  → AoE bonus (20.3%) → scaling bonus (23.0%) → map: prefer events, w_event 1.5 (30.0%) → near-miss combo (32.0%) → no hallway potions in search (35.7%).
 - Diagnostic: lightspeed's CHEATING combat + our policy = 9.6% — our leak-free
   search already beats it, so the "combat ceiling" probe is uninformative.
 - Learned: random rollouts beat every "smart" rollout bias tried (play-order,
