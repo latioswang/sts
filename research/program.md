@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 15:20 UTC
+### Current state (update after every batch) — 2026-11-01 16:20 UTC
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -181,12 +181,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
   fixed simulator when the machine is idle); `bg_a20` (A20 best `a20_restlo`: 500 games, 1.6% win, floor
   23.5, 79 MB, **0 context dumps on the fixed simulator** — bulk confirmation of the Lament fix).
-- Running (sequential queue, `research/queue.txt`): model g2 (= g1m, trained on bg1 + bg_a10: 98,652 rows,
-  held-out boss-win BCE 0.384 vs 0.658, paired corr 0.102) as a 10×/25× bonus on A0 (vs bfbonus10_g1) and
-  on A10 (vs a10_eh075). Queued next: the M5 test run of bfbonus10_g1 (500 test seeds, paired vs chest1's
-  test run); batch 37 = the bonus at shops (`bf_shop`) and on rest upgrades (`bf_upg_bonus` 10/25, additive
-  on the KB upgrade value — the replacement upgrade picker was neutral); A20 fight dataset (`bg_a20`, fixed
-  simulator) → model 3 on all three ascensions → 10× bonus on A20, A10, A0.
+- **Model 3 (bg1 + bg_a10 + bg_a20: 128,594 rows from 1,500 games; held-out boss-win BCE 0.340 vs 0.607, paired
+  corr 0.098):** A20 `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard (near-miss → pre-registered dev extension queued); A10 at 10× `a10_bfbonus10_g2m` 25.7% win, floor 36.0, -0.063 vs base, P=0.039 → discard (vs the 25×
+  model-2 best — weight-matched 25× run queued); A0 at 10× running.
+- Running (sequential queue, `research/queue.txt`): A0 test of model 3; A20 extension (dev + pooled);
+  `a10_bfbonus25_g2m`; batch 38 (potion spending at A10/A20, act-1 card intake and rest 70% at A20, Heart
+  chain dev check). The runner was restarted twice at its 2-hour limit (resume logic worked both times).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
