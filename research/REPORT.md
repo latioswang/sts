@@ -9,7 +9,9 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Current best `wea1p1`** (chests + root move prior + act-1 elite path weight) | val, 300 | **63.7%** | — | 45.1 |
+| **Current A0 best `wea1p1`** (chests + root move prior + act-1 elite path weight) | val, 300 | **63.7%** | — | 45.1 |
+| **A10 best `a10_kbsyn`** (A0 best + rest at <60% + KB synergy bonuses in card picks) | val, 300, asc 10 | **24.3%** | — | 33.5 |
+| **A20 baseline `base_a20`** (A0 best params at ascension 20, untuned) | val, 300, asc 20 | **2.3%** | — | 21.8 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
@@ -30,7 +32,7 @@ comparison is fixed at the wall-clock of the original 500-simulation search.
 - **Out of combat:** parametric rules (map DP, card picks from the repo's KB tiers plus deck-need
   bonuses, shop, rest, events, boss relics, keys, chests). Not learned.
 - **Loop:** hypothesis → `research/exp.sh` (val, paired bootstrap vs best, keep if P ≥ 0.9) →
-  auto-promote → log. 85+ experiments so far; ~15 keeps.
+  auto-promote → log. 140 logged runs so far; 31 keeps/track bests.
 
 ## Phase 2: simulator holes filled (not routed around)
 
@@ -86,11 +88,15 @@ aversion (−0.31); tree reuse, exploration constants, potion/HP value tweaks, N
 elite avoidance, shop potions (all ≤ noise or negative). Fixed-size card piles for speed were
 reverted after causing stack corruption in degenerate rollouts (3/300 crashes).
 
-## Where it still loses (chest1, val)
+## Where it still loses (computed from the run files)
 
-127 losses (computed from the run file): Act 1 hallway 4 · Act 1 boss 20 · Act 2 hallway 13 ·
-**Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35** — bosses account for 71% of losses, so
-boss-specific preparation (deck checks keyed on the known boss) is the obvious next strategic lever.
+A0 `wea1p1`: 109 losses — Act 1 hallway 4 · Act 1 boss 13 · Act 2 hallway 18 ·
+**Act 2 boss 25** · Act 3 hallway 25 · **Act 3 boss 24** — bosses are 57% of losses
+(71% before the move prior; the prior helped most in boss fights). A10 `a10_kbsyn`: 53 of 227 losses
+(18% of all runs) end at the Act 2 boss. A20 `base_a20`: 160 of 300 runs
+(53%) die in Act 1, 89 of them in hallway/elite fights before the boss — the
+A0-tuned map policy walks a starter deck into A20 elites. The 4×-compute probe (+4.5 pts) says combat
+search is not the main bottleneck at A0; the deck is, which is what Phase C v3 attacks.
 
 ## Keys and Act 4 (first results)
 
@@ -103,11 +109,15 @@ Act-3 metric; it makes the month's A20-Heart target measurable.
 
 ## Next (month program, `research/program.md`)
 
-Expert-iteration step 2: a 2,000-simulation self-play dataset from the new best agent → sharper
-move-prior targets → retrain → equal-compute test; PUCT exploration-constant sweep with the root
-prior (batch 21); boss-aware deck preparation on the A0, Heart and A10 tracks (batch 20); A10 track
-baseline (seeded from the A0 best) and then A20; Heart-track work shifts from "reach Act 4 more
-often" (easy) to converting Act 4 (deck strength). Continuous fidelity fuzzing with the trace build.
+**Phase C v3 — interventional deck value (in the queue).** Observational run values (V_run) and
+online counterfactual fights (cf_pick) both failed; v3 plays the fights offline: at every card
+reward / upgrade / removal of the best agent's own games, the simulator plays the act boss and a
+sampled hallway fight from the current state and from each hypothetical option (same fight seeds
+per decision), a 666→128→4 MLP is trained on absolute and paired labels, and card picks, upgrades
+and removals become argmax of the predicted fight value. Also queued: prior-guided rollouts at
+calibrated equal wall-clock, A20 act-1 survival (elite avoidance), A10 near-miss re-tests, KB
+synergy transfer to A20. Tooling: a sequential experiment queue (`research/tools/runq.sh`) and a
+mechanised bit-identity check after every rebuild (`research/tools/repro_check.sh`).
 
 ## Caveats
 
