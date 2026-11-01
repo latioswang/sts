@@ -279,3 +279,4 @@ e50e039	dev2.a10	100	0	0.260	36.57	0.9771	+0.1610	0.991	info	a10_bfbonus25_g1m_d
 9cbdb1c	train.a10	500	0	0.236	35.22	0.9265			info	bg_a10c: bg_a10c: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
 53c9f82	val.a10	300	0	0.303	37.56	1.0398	+0.0137	0.642	discard	a10_bfbonus25_g2c: [a10] card picks: KB value + 25 x predicted fight-value gain (model g2c) [bf_model=11 bf_bonus=25]
 234a520	val.a20	300	0	0.040	28.36	0.5952	+0.0144	0.875	discard	a20_restboss1: [a20] A20: always heal at the pre-boss rest site [rest_boss_frac=1.0]
+27966bb	val.a20	300	0	0.037	27.07	0.5667	-0.0141	0.111	discard	a20_restboss05: [a20] A20: pre-boss rest heals only below 50% (upgrade otherwise) [rest_boss_frac=0.5]
