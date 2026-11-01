@@ -122,3 +122,4 @@ d26a9b6	val.a0	300	0	0.060	42.50	0.8653	-0.0008	0.456	discard	ocpot_h: [heart] o
 d26a9b6	val.a10	300	0	0.183	31.37	0.7985	+0.0307	0.838	discard	a10_elite075: [a10] A10: fight elites only at >=75% HP [elite_hp=0.75]
 d26a9b6	val.a10	300	0	0.187	31.67	0.8076	+0.0399	0.988	keep	a10_rest06: [a10] A10: heal at rest below 60% [rest_heal_frac=0.6]
 d26a9b6	val.a10	300	0	0.203	32.26	0.8358	+0.0282	0.890	discard	a10_ct4: [a10] A10: take more cards (threshold 4) [card_thresh=4]
+fb6c062	val.a0	300	0	0.627	44.61	1.5014	+0.0137	0.652	discard	priormlp3_d0: root MLP prior v3: gen0+gen1+gen2 (465k decisions), hidden 128 [prior_mlp=1 prior_mlp_depth=0]

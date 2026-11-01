@@ -311,6 +311,13 @@ neutral; Act-4 conversion tracks overall deck strength, not Act-4-specific card 
 `a10_elite075` +0.031 (P=0.84); `a10_ct4` (take more cards) +0.028 vs the new best (P=0.89, 20.3%).
 Prior v3 (gen0+gen1+gen2, 465k decisions, hidden 128): val CE 0.2668 (50% captured); `priormlp3_d0` running.
 
+`priormlp3_d0` (prior v3: 465k decisions, hidden 128) 62.7%, +0.014 (P=0.65) — neutral; more data
+and a bigger model do not move the prior at 500-sim targets. v1 (gen0+gen1, hidden 64) stays canonical.
+**Consistency rule added:** the compiled prior weights are part of the agent. `pfm_weights.inc` must be
+the file the current best was measured with; a candidate prior is tested from a side build or
+restored immediately if not kept (v3 was briefly compiled into `fair_eval` — restored from git before
+any further comparison; the best's rows reproduce bit-for-bit on the restored build).
+
 ### Boss-aware deck preparation (`boss_prep=1`) — implemented, tested in batch 20 (neutral)
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
