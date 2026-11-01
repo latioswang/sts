@@ -146,3 +146,4 @@ dcd74bb	val.a20	300	0	0.017	21.76	0.4429	-0.0070	0.201	discard	a20_ct4: [a20] A2
 824c121	val.a10	300	0	0.243	32.31	0.8769	-0.0223	0.214	discard	a10_wea1p1: [a10] A10: +1 for act-1 elites (A0 keep transferred) [w_elite_act1=1]
 50c35df	val.a20	300	0	0.013	24.17	0.4871	+0.0371	0.986	keep	a20_eh08: [a20] A20: elites only at 80% HP [elite_hp=0.8]
 099e29f	val.a20	300	0	0.010	25.32	0.5062	+0.0192	0.902	keep	a20_noel1: [a20] A20: avoid act-1 elites (act-1 elite value below a hallway fight) [w_elite_act1=-2]
+471a9cb	val.a20	300	0	0.007	24.68	0.4904	-0.0158	0.039	discard	a20_el04: [a20] A20: elites valued below hallway fights in every act [w_elite_hi=0.4 w_elite_act1=0]
