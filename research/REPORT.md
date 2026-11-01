@@ -117,8 +117,9 @@ Heart best (`heart_bfbonus25_g_heart`: the A0 chain with keys plus a 25× bonus 
 labels are fights against the Heart itself) reaches Act 4 in 140/300 runs and **beats the Heart in 28/300
 (9.3%, 20% conversion; +0.052 score vs the previous Heart best, P=0.989)**. On 100 independent dev seeds
 the same agent won 4/100 vs 9/100 for its predecessor (score −0.034, P=0.20); on a second slice (dev2) it
-scored +0.054 (P=0.93) with Heart wins 9/100 vs 8/100. Floors replicate on one of two slices and Heart wins
-are flat on both, so this keep is reported as "floor-replicated, Heart wins unchanged"; Heart conversion
+scored +0.054 (P=0.93) with Heart wins 9/100 vs 8/100, and on a third (dev3) +0.047 (P=0.98) with Heart
+wins equal. Floors replicate on two of three slices and Heart wins are flat on all three, so this keep is
+reported as "floor-replicated, Heart wins unchanged"; Heart conversion
 remains the weakest, noisiest track (a 2–3-point Heart-win difference is one or two runs). (An earlier draft of this report
 said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
 Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs

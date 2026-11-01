@@ -87,7 +87,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   is not claimed as a Heart improvement until a second independent sample agrees**. Second slice (dev2,
   100 seeds): baseline `heart_cur_dev2` 8.0% win, floor 43.2, → info; `heart_bfbonus25_g_heart_dev2` 9.0% win, floor 45.6, +0.053 vs base, P=0.929 → info — floors +1.9 and P=0.93 on this slice, Heart wins +1 of 100. Verdict:
   the score effect (floors in acts 3–4) replicates on dev2 but not dev; Heart wins are flat on both slices
-  (−5, +1). Reported as "floor-replicated, Heart wins unchanged"; 10× `heart_bfbonus10_g_heart` 8.0% win, floor 45.2, +0.020 vs base, P=0.859 → discard; chain: INFO_keys1 6.3% → heart_cur 7.3% → 9.3%).
+  (−5, +1). Third slice (dev3): baseline `heart_cur_dev3` 4.0% win, floor 41.1, → info; `heart_bfbonus25_g_heart_dev3` 4.0% win, floor 43.7, +0.046 vs base, P=0.984 → info — floors +1.9 again, Heart wins equal. Verdict
+  across three independent slices: the floor effect replicates on two of three (dev2, dev3), Heart wins are
+  flat on all three (−5, +1, 0). Reported as "floor-replicated, Heart wins unchanged"; 10× `heart_bfbonus10_g_heart` 8.0% win, floor 45.2, +0.020 vs base, P=0.859 → discard; chain: INFO_keys1 6.3% → heart_cur 7.3% → 9.3%).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7% → potions

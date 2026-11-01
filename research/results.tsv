@@ -262,3 +262,4 @@ a639c90	val.a20	300	0	0.020	27.15	0.5519	+0.0067	0.725	discard	a20_eh09: [a20] A
 5137e65	val.a20	300	0	0.020	27.11	0.5512	+0.0061	0.794	discard	a20_weh1: [a20] A20: elite rooms valued 1 when healthy [w_elite_hi=1]
 d3c5c0b	val.a20	300	0	0.037	27.79	0.5808	+0.0356	0.991	keep	a20_bfb25: [a20] A20: deck-value bonus 25x (model 3) [bf_bonus=25]
 9879603	dev3.a0	100	0	0.040	41.11	0.8255			info	heart_cur_dev3: VERIFY: heart_cur on dev3 (tiebreaker slice, Heart winmode)
+75f575f	dev3.a0	100	0	0.040	43.71	0.8720	+0.0465	0.984	info	heart_bfbonus25_g_heart_dev3: VERIFY: heart_bfbonus25_g_heart on dev3 vs heart_cur_dev3 (tiebreaker: dev negative, dev2 positive)
