@@ -647,7 +647,8 @@ family (25/50) and the threshold family (4.5) were val-only artefacts.
 Model 9 (bg1k3: 59,737 rows, labels averaged over three fights per option): paired correlations rose to
 0.19 (boss_dmg) / 0.14 (next_dmg) from g1's 0.14 / 0.10, but the agent did not improve: `bfbonus10_g1k3` 72.7% win, floor 47.2, -0.008 vs base, P=0.402 → discard.
 Less noisy labels of the same kind do not help either; with "more data" (model 8) and "cleaner labels"
-(model 9) both neutral, the A0 bonus is at the ceiling of this label family. Model 10 (pooled) pending.
+(model 9) both neutral, the A0 bonus is at the ceiling of this label family. Model 10 (pooled bg1 + bg1k3,
+paired corr 0.20 boss_dmg): `bfbonus10_g1k3p` 74.3% win, floor 47.4, +0.011 vs base, P=0.639 → discard — neutral too. **The strategic model line is closed on A0 at g1.**
 
 ## Next block (queued 2026-11-01 17:25 UTC): expert iteration of the strategic model
 The deck-value models were trained on fights from the *previous* agents' games. Queued after the Heart
