@@ -18,7 +18,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
 | **A10 best `a10_bfbonus25_g1m`** (a10_eh075 + 25× deck-value bonus from the combined A0+A10 model, P=0.950; replicated on dev2: 26.0% vs 18.0%, P=0.991) | val, 300, asc 10 | **29.3%** | — | 37.4 |
 | `a10_eh075` (rest <60% + KB synergy bonuses + elites only above 75% HP) | val, 300, asc 10 | 27.0% | — | 35.4 |
-| **A20 best `a20_bfb25`** (a20_potb2 + deck-value bonus 25×; P=0.991 on val, −0.027 on 100 dev seeds — both batch-41 A20 keeps are unreplicated) | val, 300, asc 20 | **3.7%** (floor-driven keeps) | — | 27.8 |
+| **A20 best `a20_restboss1`** (a20_bfb25 + always heal at the pre-boss rest; kept on the pooled val+dev rule, P=0.912, dev alone +0.012) | val, 300, asc 20 | **4.0%** (floor-driven keeps) | — | 28.4 |
+| `a20_bfb25` (a20_potb2 + deck-value bonus 25×; P=0.991 on val, −0.027 on 100 dev seeds — both batch-41 A20 keeps are unreplicated) | val, 300, asc 20 | 3.7% | — | 27.8 |
 | `a20_potb2` (a20_bfbonus10_g2m + potions spent freely in boss fights; P=0.998 on val, −0.002 on dev) | val, 300, asc 20 | 1.7% | — | 27.0 |
 | `a20_bfbonus10_g2m` (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935; second slice +0.007, P=0.608 — unreplicated) | val, 300, asc 20 | 1.0% | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |

@@ -77,7 +77,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_bfbonus25_g1m`: `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep**
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% → elites only above 75% HP 27.0% → 25× bonus from
   the combined-ascension deck-value model 29.3%);
-  **A20 best `a20_bfb25`: `a20_bfb25` 3.7% win, floor 27.8, +0.036 vs base, P=0.991 → keep** (deck-value bonus 25× instead of 10× with model 3, on top of the
+  **A20 best `a20_restboss1`: `a20_restboss1` 4.0% win, floor 28.4, +0.014 vs base, P=0.875 → keep** (always heal at the pre-boss rest site; pooled val+dev keep, P=0.912,
+  dev-alone +0.012); previous **`a20_bfb25`: `a20_bfb25` 3.7% win, floor 27.8, +0.036 vs base, P=0.991 → keep** (deck-value bonus 25× instead of 10× with model 3, on top of the
   boss-potion change). Dev check of the two keeps together: `a20_bfb25_dev` 1.0% win, floor 26.2, -0.026 vs base, P=0.146 → info vs a20_bfbonus10_g2m_dev — **negative on
   fresh seeds**; both A20 keeps of batch 41 are val-only artefacts (the floor-driven A20 ladder at n=300 has
   a 1-floor noise band). They stand under the rule but the reported A20 state is "floor ~27, unreplicated
@@ -679,7 +680,8 @@ Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus 
 family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
 run: `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard vs `a10_bfbonus25_g1m` (event rooms valued 2.5 at A10).
 Outcome: `a10_wev25_dev` 21.0% win, floor 34.2, -0.002 vs base, P=0.460 → info; pooled val,dev: n=400  a10_wev25 win=0.278 floor=36.91  a10_bfbonus25_g1m win=0.273 floor=36.60  dscore=+0.0111 dwin=+0.005 P(improve)=0.743 → fails, stays discarded. Extension tally: 2 kept of 8. Ninth use (A20, declared before its dev run, under the A20 pooled rule): `a20_restboss1` 4.0% win, floor 28.4, +0.014 vs base, P=0.875 → discard vs `a20_bfb25`
-(always heal at the pre-boss rest site).
+(always heal at the pre-boss rest site). Outcome: `a20_restboss1_dev` 2.0% win, floor 26.3, +0.012 vs base, P=0.851 → info; pooled val,dev: n=400  a20_restboss1 win=0.035 floor=27.85  a20_bfb25 win=0.030 floor=27.40  dscore=+0.0138 dwin=+0.005 P(improve)=0.912 → **KEEP**, new A20 best (the first
+A20 keep decided on the pooled rule; dev-alone positive). Extension tally: 3 kept of 9.
 
 ## Label-noise reduction (bf_k=3), result 2026-11-01 21:30 UTC
 Model 9 (bg1k3: 59,737 rows, labels averaged over three fights per option): paired correlations rose to
