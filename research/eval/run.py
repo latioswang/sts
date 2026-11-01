@@ -28,7 +28,10 @@ def load(path, winmode="act3"):
             if len(p) < REQUIRED:
                 continue
             r = dict(zip(COLS, p))
-            row = {k: float(v) for k, v in r.items()}
+            try:
+                row = {k: float(v) for k, v in r.items()}
+            except ValueError:
+                continue  # simulator debug output written to stdout by a child (not a result row)
             if winmode == "heart" and row["act"] < 4:
                 row["win"] = 0.0
             rows[int(r["seed"])] = row

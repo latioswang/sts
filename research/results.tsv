@@ -190,3 +190,4 @@ ed9dd2e	val.a0	300	0	0.693	46.75	1.6099	+0.0539	0.952	keep	bfbonus10: card picks
 5a2367f	dev.a0	100	0	0.630	45.57	1.5235	-0.0275	0.325	info	bfbonus25_dev: bfbonus25 on dev (extension of the val near-miss)
 3bc2a34	dev.a0	100	0	0.640	44.94	1.5212	-0.0298	0.340	info	bfbonus50_dev: bfbonus50 on dev (extension of the val near-miss)
 4c38e7e	val.a0	300	0	0.713	46.97	1.6343	+0.0244	0.744	discard	bfbonus100: card picks: KB value + 100 x predicted fight-value gain (trend probe) [bf_bonus=100]
+a4106d4	train.a0	500	0	0.654	44.73	1.5311			info	bg1: bg1: 500 train games of the A0 best with the g1 fight logger (boss damage + next-act boss labels; bf_sims 100)
