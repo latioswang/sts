@@ -215,6 +215,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 38 A20 knobs (vs a20_bfbonus10_g2m): `a20_potv2` 1.0% win, floor 26.3, -0.007 vs base, P=0.308 → discard; `a20_ca1b2` 1.0% win, floor 26.7, +0.002 vs base, P=0.647 → discard; `a20_rest07` 2.0% win, floor 26.4, +0.005 vs base, P=0.651 → discard — all neutral; the A20
   ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
+- Batch 40 (A10 map weights, vs a10_bfbonus25_g1m): `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard (dev extension declared); `a10_resthp06` 29.0% win, floor 37.5, -0.001 vs base, P=0.492 → discard; `a10_wsr4` 28.3% win, floor 37.5, -0.007 vs base, P=0.299 → discard;
+  `a10_mapd095` 30.0% win, floor 37.7, +0.013 vs base, P=0.771 → discard. The A10 map policy is at its optimum within noise.
 - Running (sequential queue, `research/queue.txt`): `mapd080` (next step of the path-discount trend; the
   0.85 keep was identical to its predecessor on dev), then batch 40 (A10 map weights), batch 41 (A10/A20
   knobs on the current bests, Heart tiebreaker slice dev3). Closed since the last check: models 9/10
