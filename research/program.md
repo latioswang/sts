@@ -131,6 +131,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
   chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
   `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).
+  Queued after g1: Heart-track re-test with the current A0 best (`heart_cur`; the Heart best dates from
+  the chest era), an A10 fight dataset (`bg_a10`, A10 best agent's games), and a combined A0+A10 model
+  (`g1m`) tested as a bonus on both ladders (the A0-only g0 model did not transfer to A10).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
