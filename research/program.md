@@ -233,6 +233,11 @@ beats skipping by `cf_margin`. Cost ≈ 4 options × 3 fights ≈ 0.25 s per rew
 slower; acceptable for experiments. This is the interventional estimate the observational V_run
 cannot provide; no hidden information (the encounter pool is public knowledge, HP rolls are fresh).
 
+MLP move prior (state 204 ⊕ token emb 16 ⊕ target 4 → 64 → 1; 298k decisions): val CE 0.2769,
+**49% of the available information captured** (bilinear: 31%; uniform 0.2913, entropy floor 0.2620).
+Used at root/depth-1 only (`prior_mlp=1`, `prior_mlp_depth`); 20-seed sanity probe running, then
+`priormlp1` on val at equal wall-clock. The remaining 51% is largely irreducible at 500-sim targets
+(root visit distributions are noisy) — distilling from higher-sim searches is the next data lever.
 `cf_pick` probe (12 dev seeds, under load): win 0.50 / floor 42.8 vs baseline 0.58 / 44.9 (one game
 apart — noise at n=12), cost 2.3× per game (19.8 s vs 8.5 s). Val experiments queued after batch 16:
 `cfpick1` (3 fights × 60 sims) and `cfpick2` (4 × 100). Hypothetical fights at 60 sims are played
