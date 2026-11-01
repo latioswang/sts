@@ -139,7 +139,16 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - **Open simulator issue:** fights vs a next-act boss started from act 1 hit `monstersAlive = −2` with the
   Collector (two INVALID torch-head slots, Collector curHp 0 at turn 0) inside search copies — 147 context
   dumps in 3 of 500 g1 games (0.08% of fights; labels of those fights are garbage). Reproduces on seed
-  300071 (`--inproc`, bf_log=1). Root cause not yet found; next-act Collector fights are the trigger.
+  300071 (`--inproc`, bf_log=1). Diagnosis in progress: the run took Neow's Lament (enemies have 1 HP in
+  the first 3 fights); a Collector fight initialised at floors 1–3 has two INVALID placeholder slots
+  (torch heads spawn later) and the Lament sets *their* HP to 1 too, so random-target attacks (Sword
+  Boomerang) hit and "kill" placeholders → `monstersAlive` −2. Impossible in real play (the Collector is
+  never fought under the Lament); only the hypothetical next-act fights expose it.
+  Also noted while reading `BattleContext::init(gc, enc)`: the fight's ai/hp/shuffle/cardRandom streams
+  are seeded from `gc.seed + gc.floorNum`, not from the GameContext's RNG objects, so hypothetical fights
+  at one decision share those streams (common random numbers across options — fine) and coincide with the
+  streams the real fight on that floor would use. No decision-time leak: the model is trained offline and
+  sees only observable features; cf_pick (closed) would have been affected and must not be revived as is.
 - Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
   chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
   `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).
