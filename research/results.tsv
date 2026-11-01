@@ -273,3 +273,4 @@ a259677	dev.a10	100	0	0.210	34.17	0.8800	-0.0024	0.460	info	a10_wev25_dev: a10_w
 ed3242f	dev2.a0	100	0	0.580	45.19	1.4661			info	potsave2_dev2: VERIFY: potsave2 on dev2 (baseline for the A0 learned-bonus keep)
 4f4df49	dev2.a0	100	0	0.720	46.79	1.6375	+0.1714	0.996	info	bfbonus10_g1_dev2: VERIFY: bfbonus10_g1 on dev2 vs potsave2_dev2 (second independent slice for the learned bonus)
 f4e4c09	dev2.a10	100	0	0.180	32.44	0.8161			info	a10_eh075_dev2: VERIFY: a10_eh075 on dev2 (baseline for the A10 model-bonus keep)
+e50e039	dev2.a10	100	0	0.260	36.57	0.9771	+0.1610	0.991	info	a10_bfbonus25_g1m_dev2: VERIFY: a10_bfbonus25_g1m on dev2 vs a10_eh075_dev2 (second slice)

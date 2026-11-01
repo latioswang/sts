@@ -694,6 +694,9 @@ current agents' decks are already shaped by a model bonus, so their option sets 
 - A0: `potsave2_dev2` 58.0% win, floor 45.2, → info; `bfbonus10_g1_dev2` 72.0% win, floor 46.8, +0.171 vs base, P=0.996 → info — the two learned-bonus keeps (g0 → g1) replicate strongly on an independent sample
   (72.0% vs 58.0% win, +0.171 score, P=0.996).
 
+- A10: `a10_eh075_dev2` 18.0% win, floor 32.4, → info; `a10_bfbonus25_g1m_dev2` 26.0% win, floor 36.6, +0.161 vs base, P=0.991 → info — the model-2 bonus keep replicates on the second slice (26.0% vs 18.0% win, +0.161,
+  P=0.991); with the first slice (+0.035, P=0.74) the A10 keep is now replicated.
+
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
 tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2

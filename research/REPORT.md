@@ -16,7 +16,7 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `bfbonus10` (potsave2 + learned interventional deck-value bonus on card picks, P=0.952) | val, 300 | 69.3% | — | 46.8 |
 | `potsave2` (wea1p1 + potions saved for boss fights; kept on pooled val+dev 400 seeds, P=0.949) | val, 300 | 66.3% | — | 45.5 |
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
-| **A10 best `a10_bfbonus25_g1m`** (a10_eh075 + 25× deck-value bonus from the combined A0+A10 model, P=0.950) | val, 300, asc 10 | **29.3%** | — | 37.4 |
+| **A10 best `a10_bfbonus25_g1m`** (a10_eh075 + 25× deck-value bonus from the combined A0+A10 model, P=0.950; replicated on dev2: 26.0% vs 18.0%, P=0.991) | val, 300, asc 10 | **29.3%** | — | 37.4 |
 | `a10_eh075` (rest <60% + KB synergy bonuses + elites only above 75% HP) | val, 300, asc 10 | 27.0% | — | 35.4 |
 | **A20 best `a20_bfb25`** (a20_potb2 + deck-value bonus 25×; P=0.991 on val, −0.027 on 100 dev seeds — both batch-41 A20 keeps are unreplicated) | val, 300, asc 20 | **3.7%** (floor-driven keeps) | — | 27.8 |
 | `a20_potb2` (a20_bfbonus10_g2m + potions spent freely in boss fights; P=0.998 on val, −0.002 on dev) | val, 300, asc 20 | 1.7% | — | 27.0 |
