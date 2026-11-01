@@ -133,9 +133,16 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   cutoff (`rollout_turns=0` = pure leaf eval). Build is bit-identical with everything off.
 - Data: `train*` seed splits (300000+, 400000+, 500000+) are for generation only — never
   used for keep/discard. gen0 = 500 games of the current best agent.
-- Next: train V on gen0 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal compute
-  (cost per sim without rollouts is ~1/8 → N ≈ 4000; measure, don't assume) vs rb3.
-  Then Phase B: log root visit distributions → policy prior → PUCT.
+- Phase B wiring done too: `policy_features.h` (action tokens: 384 cards + 48 potions + end turn
+  + select; 4 target feats), bilinear prior `logit = (W s + b)·E[tok] + up·(h·E_up) + AB[tok] +
+  T·tf` (K=16, cheap enough per expanded node), PUCT selection with first-play urgency
+  (`prior=1`, `prior_c`), root-visit logger `pf_log=1` → `pol_<seed>.bin`, `train_policy.py`.
+  Phase C wiring: `run_features.h` (666 dims), `rv_log=1` → `run_<seed>.bin`, `train_run.py`.
+  All loggers off by default; build bit-identical with everything off (checked on seeds 100004/5).
+- Data: gen0 = 500 games (value rows only); gen1 = 500 games with all three loggers.
+- Next: train V on gen0+gen1 → `vf_s<N> leaf_vf=1 rollout_turns=0 sims=N` at equal wall-clock
+  (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
+  equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
