@@ -221,3 +221,4 @@ f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m
 2c52672	dev.a0	100	0	0.100	42.10	0.9016			info	INFO_keys1_dev: VERIFY: Heart baseline INFO_keys1 on dev (100 fresh seeds, Heart winmode)
 454a933	dev.a0	100	0	0.090	44.27	0.9312	+0.0296	0.790	info	heart_cur_dev: VERIFY: heart_cur on dev vs INFO_keys1_dev (independent seeds, Heart winmode)
 0dbdb59	dev.a10	100	0	0.200	34.78	0.8820	-0.0004	0.497	info	a10_potv2_dev: a10_potv2 on dev (extension of the val near-miss)
+194b746	val.a10	300	0	0.267	37.00	0.9922	-0.0339	0.152	discard	a10_bfbonus25_g_a10: [a10] card picks: KB value + 25 x predicted fight-value gain (model g_a10) [bf_model=4 bf_bonus=25]

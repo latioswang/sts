@@ -190,7 +190,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   model-2 best — weight-matched 25× run queued); A0 at 10× `bfbonus10_g2m` 71.7% win, floor 46.9, -0.025 vs base, P=0.217 → discard. Pattern: pooling ascensions dilutes —
   each ladder is best served by a model that saw its own fights (g1 on A0, g2 on A10). Weight-matched
   A10 check: `a10_bfbonus25_g2m` 28.0% win, floor 36.5, -0.030 vs base, P=0.181 → discard (model 3 vs model 2, both 25×) — confirms dilution. Queued: A10-only model 4 (bonus
-  25× on A10) and A20-only model 5 (10×/25× on A20).
+  25× on A10) and A20-only model 5 (10×/25× on A20). A10-only model 4 (40,112 rows; paired corr boss_dmg 0.12): `a10_bfbonus25_g_a10` 26.7% win, floor 37.0, -0.034 vs base, P=0.152 → discard — too little data
+  alone; the A0+A10 model (2) stays the A10 best. So: pooled-with-the-target-ladder beats both target-only
+  and everything-pooled; the next A10 model should be bg1 + bg_a10 with more A10 games.
 - Batch 38 A20 knobs (vs a20_bfbonus10_g2m): `a20_potv2` 1.0% win, floor 26.3, -0.007 vs base, P=0.308 → discard; `a20_ca1b2` 1.0% win, floor 26.7, +0.002 vs base, P=0.647 → discard; `a20_rest07` 2.0% win, floor 26.4, +0.005 vs base, P=0.651 → discard — all neutral; the A20
   ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
