@@ -128,6 +128,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   A10 with the A0-trained g0 (vs a10_eh075): `a10_bfrem_g0` 14.7% win, floor 32.6, -0.177 vs base, P=0.000 → discard; `a10_bfupg_g0` 21.7% win, floor 34.3, -0.075 vs base, P=0.003 → discard; `a10_bfpick_g0` 20.0% win, floor 34.9, -0.079 vs base, P=0.041 → discard; `a10_bfpick_g0_m02` 12.7% win, floor 32.1, -0.207 vs base, P=0.000 → discard — the model does not transfer
   across ascensions (enemy HP/damage differ), so any future model must be trained on each ladder's
   own fights (ascension is already a feature; datasets can be merged).
+- **Heart track:** `heart_cur` 7.3% win, floor 44.6, +0.047 vs base, P=0.983 → keep (vs INFO_keys1 6.3%; the current A0 agent with keys and the deck-value bonus,
+  which ran with model g1 compiled in → recorded as `bf_model=1`). 105 of 300 runs die at the Heart itself.
+- **Models are runtime data now** (`research/models/bf_g<n>.txt`, chosen by `bf_model=<n>`): after g1 was
+  trained, the rebuilt binary could no longer reproduce `bfbonus10` (15/16 games differed) because the A0
+  best depended on the compiled-in g0 weights. The pipeline stopped at repro_check (as designed); the fix
+  makes every recorded run reproducible regardless of which model was trained last. g0 = model 0, g1 = 1,
+  combined A0+A10 = 2. g1 training: 58,540 rows, paired corr boss_dmg 0.139 / next_dmg 0.099 (graded labels
+  are only modestly less noisy); its experiments are queued with TRAIN=0.
+- **Open simulator issue:** fights vs a next-act boss started from act 1 hit `monstersAlive = −2` with the
+  Collector (two INVALID torch-head slots, Collector curHp 0 at turn 0) inside search copies — 147 context
+  dumps in 3 of 500 g1 games (0.08% of fights; labels of those fights are garbage). Reproduces on seed
+  300071 (`--inproc`, bf_log=1). Root cause not yet found; next-act Collector fights are the trigger.
 - Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
   chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
   `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).

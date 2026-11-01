@@ -454,11 +454,13 @@ void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContex
 }
 
 float FairAgent::bfValue(const GameContext &st) const {
-    float o[bf::BF_O];
-    bf::predict(st, o);
+    const bf::Model &m = bf::model(static_cast<int>(getp(P, "bf_model", 0)));  // bf_model=<n> -> research/models/bf_g<n>.txt
+    if (!m.trained) return 0.f;
+    float o[16] = {0.f};
+    bf::predict(m, st, o);
     float v = static_cast<float>(getp(P, "bf_wb", 1.0)) * o[0] + static_cast<float>(getp(P, "bf_whp", 0.5)) * o[1]
             + static_cast<float>(getp(P, "bf_wh", 0.5)) * o[2] + static_cast<float>(getp(P, "bf_whhp", 0.25)) * o[3];
-    if constexpr (bf::BF_O >= 8) {  // g1 heads: damage fraction vs the act boss, and win/HP/damage vs a next-act boss
+    if (m.o >= 8) {  // g1 heads: damage fraction vs the act boss, and win/HP/damage vs a next-act boss
         v += static_cast<float>(getp(P, "bf_wdmg", 0.5)) * o[4] + static_cast<float>(getp(P, "bf_wnw", 0.5)) * o[5]
            + static_cast<float>(getp(P, "bf_wnhp", 0.25)) * o[6] + static_cast<float>(getp(P, "bf_wndmg", 1.0)) * o[7];
     }
@@ -607,7 +609,7 @@ void FairAgent::cardRewards(GameContext &gc) {
             }
             bfLogOptions(gc, hyps, 0);
         }
-        if (getp(P, "bf_pick", 0) > 0 && bf::BF_TRAINED) {
+        if (getp(P, "bf_pick", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) {
             // Phase C v3: take the card whose interventional value gain beats skipping by bf_margin
             const float vBase = bfValue(gc);
             int pick = -1; float best = vBase + static_cast<float>(getp(P, "bf_margin", 0.0));
@@ -651,7 +653,7 @@ void FairAgent::cardRewards(GameContext &gc) {
         double bestV = -1e18;
         // bf_bonus: the KB tiers keep the long-horizon prior; the interventional model adds a
         // deck-specific adjustment, bf_bonus x (predicted fight value with the card - without it)
-        const double bfw = bf::BF_TRAINED ? getp(P, "bf_bonus", 0.0) : 0.0;
+        const double bfw = bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained ? getp(P, "bf_bonus", 0.0) : 0.0;
         const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
             double v = addValue(gc, r.cardRewards[rIdx][i]);
@@ -750,7 +752,8 @@ void FairAgent::cardSelect(GameContext &gc) {
             for (int j = 0; j < k; ++j) { bool ok; GameContext h = hypFor(idx[j], ok); if (ok) hyps.push_back(h); }
             if (!hyps.empty()) bfLogOptions(gc, hyps, isUpg ? 1 : 2);
         }
-        if (bf::BF_TRAINED && n > 0 && ((isUpg && getp(P, "bf_upgrade", 0) > 0) || (isRemove && getp(P, "bf_remove", 0) > 0))) {
+        if (bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained && n > 0
+            && ((isUpg && getp(P, "bf_upgrade", 0) > 0) || (isRemove && getp(P, "bf_remove", 0) > 0))) {
             int bestI = -1; float bestV = -1e30f;
             for (int i = 0; i < n; ++i) {
                 bool ok; GameContext h = hypFor(i, ok);
