@@ -96,3 +96,7 @@ e5ad22d	test.a0	500	0	0.546	43.72	1.4033			MILESTONE	chest1: M4 criterion (val â
 0fddd2d	val.a0	300	0	0.347	38.97	1.1107	-0.3333	0.000	discard	rvpick2: clean-data V_run one-step lookahead (card/shop/boss relic) [rv_pick=1]
 0fddd2d	val.a0	300	0	0.170	33.29	0.8228	-0.6212	0.000	discard	rvpick2_m: V_run lookahead with 0.02 margin over skipping [rv_pick=1 rv_margin=0.02]
 0fddd2d	val.a0	300	0	0.607	43.85	1.4665	+0.0225	0.752	discard	spd650b: throughput->sims conversion re-run on fixed build (sims 650) [sims=650]
+b3eccbc	val.a0	300	0	0.377	40.81	1.1768	-0.2672	0.000	discard	cfpick1: counterfactual card picks: 3 sampled fights x 60 sims per option (paired CRN) [cf_pick=1]
+b3eccbc	val.a0	300	0	0.423	40.63	1.2200	-0.2240	0.000	discard	cfpick2: counterfactual card picks: 4 fights x 100 sims [cf_pick=1 cf_fights=4 cf_sims=100]
+b3eccbc	val.a0	300	0	0.147	42.46	0.9510	-0.0151	0.099	discard	wb3: [heart] heart track: burning-elite path bonus 3 [w_burning=3]
+b3eccbc	val.a0	300	0	0.130	42.32	0.9306	-0.0356	0.011	discard	krh05: [heart] heart track: take the ruby key down to 50% HP [key_rest_hp=0.5]

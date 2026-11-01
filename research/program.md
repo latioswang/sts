@@ -263,6 +263,15 @@ simulations, below the keep bar at n=300. Decision rule: adopt sims=650 only if 
 timing shows the current build is ≥1.3× faster than the original (equal wall-clock = protocol), not
 as a "keep". Queued in the post-batch-18 chain together with the pre-speedup build timing.
 
+### Batch 17 results (val 300)
+`cfpick1` (3 fights × 60 sims) **−0.267** (win 37.7%), `cfpick2` (4 × 100) **−0.224** (42.3%) vs
+chest1 — counterfactual card evaluation as implemented hurts badly. Diagnosis: argmax over 3 noisy
+candidate estimates + 1 skip estimate suffers winner's curse (something always looks better than
+skipping) → takes far too many cards → deck bloat; weakly-played hypothetical fights also reward
+cards that help weak play. Closed in this form. A viable variant would use it only as a *veto* on
+the KB's single top candidate vs skip, with ≥8 fights and a margin — cost ≈ 2× again; backlog.
+Heart track: `wb3` (w_burning 3) −0.015 (P=0.10; Act 4 36.7%, Heart 14.7% vs 16.3%) — discard.
+
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
