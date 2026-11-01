@@ -546,8 +546,9 @@ Declared before any dev run is seen: candidates `potsave` and `potsave2` vs `wea
 near-misses in one direction: potv8 +0.022/P 0.77, potsave +0.026/P 0.81, potsave2 +0.035/P 0.875).
 If both pass, the higher pooled dscore is promoted. A near-miss that fails stays discarded; no second
 extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled P=0.866), potsave2 kept
-(pooled +0.0445, P=0.949). Second use, declared before its dev run: `bfbonus25` vs `bfbonus10`
-(val +0.019, P=0.73).
+(pooled +0.0445, P=0.949). Second use, declared before any dev run of this family: `bfbonus25` (val +0.019, P=0.73) and
+`bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case (pooled P ≥ 0.9 and
+dev-alone dscore > 0; higher pooled dscore wins if both pass).
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Never edit a script that is running.** bash reads scripts incrementally; editing
