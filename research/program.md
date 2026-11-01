@@ -172,6 +172,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   dilution). **A10: `a10_bfbonus10_g1m` 27.7% win, floor 35.7, +0.012 vs base, P=0.663 → discard; `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep → KEEP, new A10 best** — the first learned component that pays on A10,
   once the model has seen A10 fights (the A0-only g0 lost 7 pts there). Chain A10: rest<60% 18.7% → KB
   synergy 24.3% → elite gate 75% 27.0% → combined-model bonus 25× 29.3%.
+- Batch 37 (bonus beyond card rewards, model 1, vs bfbonus10_g1): shop purchases `bfshop10` 72.0% win, floor 47.0, -0.020 vs base, P=0.073 → discard; upgrades 10×
+  `bfupgb10` 73.3% win, floor 47.3, -0.000 vs base, P=0.504 → discard (identical games — never flips an upgrade); 25× `bfupgb25` 71.0% win, floor 47.0, -0.029 vs base, P=0.102 → discard. The deck-value bonus helps only at
+  card rewards; shop and upgrade decisions are left to the hand rules.
 - Datasets: `bg1` (A0 best, g1 labels: 500 games, 58,540 rows, 147 Collector/Lament dumps in 3 games) and
   `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
