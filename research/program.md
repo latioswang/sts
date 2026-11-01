@@ -64,9 +64,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   card value = KB tier value + deck-need bonuses + 10 × (interventional model g0's predicted fight value
   with the card − without it). The model as a replacement lost 10–16 pts; as an additive adjustment to
   the long-horizon tiers it adds +3.0 pts win (vs potsave2 66.3%; chain: wea1p1 63.7% → potsave2 → bfbonus10).
-  Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_eh075` 27.0%**
-  (chain: rest <60% 18.7% → KB synergy bonuses 24.3% (+5.7 pts, P=0.995; neutral at A0) → elites only
-  above 75% HP 27.0% (+0.065, P=0.981));
+  Replicated on 100 fresh dev seeds: `bfbonus10_dev` 67.0% win, floor 44.9, +0.051 vs base, P=0.876 → info (vs potsave2_dev 63.0%); **A10 best `a10_bfbonus25_g1m`: `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep**
+  (chain: rest <60% 18.7% → KB synergy bonuses 24.3% → elites only above 75% HP 27.0% → 25× bonus from
+  the combined-ascension deck-value model 29.3%);
   **A20 best `a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
   valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
@@ -163,6 +163,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   (repro_check in the queue after the rebuild). Patch file regenerated. **Verified:** rebuilt binary —
   potsave2 / bfbonus10 (model 0) / heart_cur (model 1) all bit-identical, leak test green with model 1 on,
   and seed 300071 now logs 0 context dumps (36 before).
+- **Model 2 (g1m: bg1 + bg_a10):** A0 `bfbonus10_g1m` 71.0% win, floor 47.1, -0.028 vs base, P=0.200 → discard; `bfbonus25_g1m` 73.0% win, floor 47.1, -0.006 vs base, P=0.432 → discard — slightly worse than the A0-only g1 on A0 (data
+  dilution). **A10: `a10_bfbonus10_g1m` 27.7% win, floor 35.7, +0.012 vs base, P=0.663 → discard; `a10_bfbonus25_g1m` 29.3% win, floor 37.4, +0.062 vs base, P=0.950 → keep → KEEP, new A10 best** — the first learned component that pays on A10,
+  once the model has seen A10 fights (the A0-only g0 lost 7 pts there). Chain A10: rest<60% 18.7% → KB
+  synergy 24.3% → elite gate 75% 27.0% → combined-model bonus 25× 29.3%.
 - Datasets: `bg1` (A0 best, g1 labels: 500 games, 58,540 rows, 147 Collector/Lament dumps in 3 games) and
   `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
