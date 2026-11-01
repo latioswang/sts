@@ -475,6 +475,15 @@ search::Action FairSearcher::search() {
     for (int i = 1; i < static_cast<int>(edges.size()); ++i) {
         if (edges[i].n > edges[best].n) best = i;
     }
+    if (p.selectQ > 0.0) {
+        // robust child: among sufficiently visited edges, take the best mean value
+        const std::int64_t minN = static_cast<std::int64_t>(p.selectQ * edges[best].n);
+        int bq = best;
+        for (int i = 0; i < static_cast<int>(edges.size()); ++i) {
+            if (edges[i].n >= std::max<std::int64_t>(1, minN) && edges[i].w / edges[i].n > edges[bq].w / edges[bq].n) bq = i;
+        }
+        return edges[bq].action;
+    }
     return edges[best].action;
 }
 
