@@ -143,6 +143,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   own fights (ascension is already a feature; datasets can be merged).
 - **Heart track:** `heart_cur` 7.3% win, floor 44.6, +0.047 vs base, P=0.983 → keep (vs INFO_keys1 6.3%; the current A0 agent with keys and the deck-value bonus,
   which ran with model g1 compiled in → recorded as `bf_model=1`). 105 of 300 runs die at the Heart itself.
+  Dev check (100 fresh seeds, Heart winmode): baseline `INFO_keys1_dev` 10.0% win, floor 42.1, → info; `heart_cur_dev` 9.0% win, floor 44.3, +0.030 vs base, P=0.790 → info — floors replicate (+0.030), Heart
+  wins do not (−1 of 100); the Heart keep is "floor-replicated, wins unproven" — the conversion problem
+  (dying at the Heart) is untouched by the A0 chain.
 - **Models are runtime data now** (`research/models/bf_g<n>.txt`, chosen by `bf_model=<n>`): after g1 was
   trained, the rebuilt binary could no longer reproduce `bfbonus10` (15/16 games differed) because the A0
   best depended on the compiled-in g0 weights. The pipeline stopped at repro_check (as designed); the fix
