@@ -84,6 +84,12 @@ reverted after causing stack corruption in degenerate rollouts (3/300 crashes).
 **Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35** — bosses account for 71% of losses, so
 boss-specific preparation (deck checks keyed on the known boss) is the obvious next strategic lever.
 
+## Keys and Act 4 (first results)
+
+With `keys=1 chest_pol=1` (val, 300 seeds): 35.0% of runs collect all three keys and reach Act 4,
+and **16.3% beat the Heart** (47% conversion from Act 4). This is a different win definition and is
+tracked separately; it makes the month's A20-Heart target measurable.
+
 ## Next (month program, `research/program.md`)
 
 Test confirmation of `chest1`; clean-data prior and V_run experiments (batch 16); bootstrapped V

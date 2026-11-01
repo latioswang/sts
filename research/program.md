@@ -65,8 +65,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   hallway 13 · **Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35**. Bosses are 71% of losses.
 - Learned components: bilinear move prior (neutral so far), V_run for picks (clean model
   awaiting test), bootstrapped V (sanity pending). Everything learned is gated by paired val.
-- Keys/Act 4: `keys=1 chest_pol=1` collects all three keys in some runs; `INFO_keys1` measures the
-  Act-4 reach rate (a different win definition — never compared against A0 numbers).
+- **Keys/Act 4 (`INFO_keys1`, val 300, keys=1 chest_pol=1): 35.0% of runs reach Act 4 (105/300;
+  135 beat the Act 3 boss, 30 of them without all keys), and 16.3% (49/300) beat the Heart** —
+  the program's first Heart wins; 47% conversion once in Act 4. A separate metric track: the
+  A20-Heart north star is now reachable in principle. Never compared against A0 Act-3 numbers.
 
 ### Phase 2 (2026-11-01): simulator holes filled instead of routed around
 
@@ -241,8 +243,10 @@ cannot provide; no hidden information (the encounter pool is public knowledge, H
    calibrated sims. Keep the live `vf_weights.inc` untrained until a leaf model passes sanity.
 4. If `chest1` keeps (expected), everything above is already measured on top of it (exp.sh
    promotes sequentially); re-run `spd_s650` on the fixed build for a clean throughput→sims number.
-5. Keys track: `INFO_keys1` act4 rate → if > 0, start an `a0heart` metric column and tune
-   `w_burning`, `key_rest_hp`, Act-4 prep (Shield & Spear need AoE/block; Heart needs burst).
+5. Keys track (now live: 35% Act 4, 16.3% Heart at A0): create `best_heart` files; `HEART=1 exp.sh`
+   runs with keys=1 and scores win = Heart; first ideas: `w_burning` 3, `key_rest_hp` 0.5,
+   Act-4 prep in card picks when all keys held (AoE for Shield & Spear, burst/scaling for the Heart),
+   skip the sapphire key when the chest relic is rare, then A10/A20 ladders on both tracks.
 
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 

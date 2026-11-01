@@ -240,6 +240,65 @@ double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     return v;
 }
 
+// ---------------- Phase C v2: counterfactual fight evaluation ----------------
+namespace {
+// encounter pools copied from lightspeed's MonsterEncounters.h (public knowledge for a human player)
+const MonsterEncounter kStrong[3][10] = {
+    {MonsterEncounter::GREMLIN_GANG, MonsterEncounter::LOTS_OF_SLIMES, MonsterEncounter::RED_SLAVER, MonsterEncounter::EXORDIUM_THUGS,
+     MonsterEncounter::EXORDIUM_WILDLIFE, MonsterEncounter::BLUE_SLAVER, MonsterEncounter::LOOTER, MonsterEncounter::LARGE_SLIME,
+     MonsterEncounter::THREE_LOUSE, MonsterEncounter::TWO_FUNGI_BEASTS},
+    {MonsterEncounter::CHOSEN_AND_BYRDS, MonsterEncounter::SENTRY_AND_SPHERE, MonsterEncounter::CULTIST_AND_CHOSEN, MonsterEncounter::THREE_CULTIST,
+     MonsterEncounter::SHELLED_PARASITE_AND_FUNGI, MonsterEncounter::SNECKO, MonsterEncounter::SNAKE_PLANT, MonsterEncounter::CENTURION_AND_HEALER,
+     MonsterEncounter::INVALID, MonsterEncounter::INVALID},
+    {MonsterEncounter::SPIRE_GROWTH, MonsterEncounter::TRANSIENT, MonsterEncounter::FOUR_SHAPES, MonsterEncounter::MAW,
+     MonsterEncounter::SPHERE_AND_TWO_SHAPES, MonsterEncounter::JAW_WORM_HORDE, MonsterEncounter::THREE_DARKLINGS, MonsterEncounter::WRITHING_MASS,
+     MonsterEncounter::INVALID, MonsterEncounter::INVALID}};
+const float kStrongW[3][10] = {
+    {1, 1, 1, 1.5f, 1.5f, 2, 2, 2, 2, 2}, {2, 2, 3, 3, 3, 4, 6, 6, 0, 0}, {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}};
+const MonsterEncounter kElite[3][3] = {
+    {MonsterEncounter::GREMLIN_NOB, MonsterEncounter::LAGAVULIN, MonsterEncounter::THREE_SENTRIES},
+    {MonsterEncounter::GREMLIN_LEADER, MonsterEncounter::SLAVERS, MonsterEncounter::BOOK_OF_STABBING},
+    {MonsterEncounter::GIANT_HEAD, MonsterEncounter::NEMESIS, MonsterEncounter::REPTOMANCER}};
+
+MonsterEncounter sampleEncounter(const GameContext &gc, std::mt19937_64 &rng, double eliteFrac, double bossLateFrac) {
+    const int a = std::min(3, std::max(1, gc.act)) - 1;
+    std::uniform_real_distribution<double> U(0, 1);
+    if (gc.curMapNodeY >= 11 && U(rng) < bossLateFrac && gc.boss != MonsterEncounter::INVALID) return gc.boss;
+    if (U(rng) < eliteFrac) return kElite[a][static_cast<int>(U(rng) * 3) % 3];
+    double tot = 0; for (int i = 0; i < 10; ++i) tot += kStrongW[a][i];
+    double r = U(rng) * tot;
+    for (int i = 0; i < 10; ++i) { r -= kStrongW[a][i]; if (r <= 0 && kStrong[a][i] != MonsterEncounter::INVALID) return kStrong[a][i]; }
+    return kStrong[a][0];
+}
+}  // namespace
+
+double FairAgent::cfScore(const GameContext &hyp, std::uint64_t cfSeed) {
+    // common random numbers: the caller passes the same cfSeed for every option at this decision
+    std::mt19937_64 rng(cfSeed);
+    const int fights = static_cast<int>(getp(P, "cf_fights", 3));
+    SearchParams s = sp;
+    s.simulations = static_cast<int>(getp(P, "cf_sims", 60));
+    s.allowPotions = false;  // potions are a run resource; don't spend them in hypothetical fights
+    double total = 0;
+    for (int f = 0; f < fights; ++f) {
+        const auto enc = sampleEncounter(hyp, rng, getp(P, "cf_elite_frac", 0.25), getp(P, "cf_boss_late", 0.6));
+        GameContext g = hyp;
+        // fresh RNG streams for the hypothetical fight (never the run's real future RNG)
+        g.monsterHpRng = Random(rng()); g.aiRng = Random(rng()); g.shuffleRng = Random(rng());
+        g.cardRandomRng = Random(rng()); g.miscRng = Random(rng()); g.potionRng = Random(rng());
+        BattleContext bc;
+        bc.init(g, enc);
+        int steps = 0;
+        while (bc.outcome == Outcome::UNDECIDED && ++steps < 600) {
+            FairSearcher srch(bc, s, rng());
+            srch.search().execute(bc);
+        }
+        if (bc.outcome == Outcome::PLAYER_VICTORY) total += static_cast<double>(bc.player.curHp) / std::max(1, bc.player.maxHp);
+        else total -= 0.5;
+    }
+    return total / fights;
+}
+
 // ---------------- events (rules written from lightspeed's event code) ----------------
 int FairAgent::eventChoice(const GameContext &gc) const {
     const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
@@ -374,6 +433,20 @@ int FairAgent::chooseMapX(const GameContext &gc) {
 void FairAgent::cardRewards(GameContext &gc) {
     auto &r = gc.info.rewardsContainer;
     for (int rIdx = r.cardRewardCount - 1; rIdx >= 0; --rIdx) {
+        if (getp(P, "cf_pick", 0) > 0) {
+            // Phase C v2: interventional — play sampled upcoming fights with and without each card
+            const std::uint64_t cfSeed = agentSeed ^ (static_cast<std::uint64_t>(gc.floorNum) * 0x9E3779B97F4A7C15ULL) ^ (rIdx * 7919ULL);
+            const double sSkip = cfScore(gc, cfSeed);
+            int pick = -1; double best = sSkip + getp(P, "cf_margin", 0.0);
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                const double sc = cfScore(hyp, cfSeed);
+                if (sc > best) { best = sc; pick = i; }
+            }
+            search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
+            continue;
+        }
         if (getp(P, "rv_pick", 0) > 0 && rv::RV_TRAINED) {
             // Phase C: one-step lookahead with the learned run value
             const float pSkip = rv::pWin(gc);

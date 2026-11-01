@@ -58,6 +58,8 @@ private:
     int bossRelicChoice(const sts::GameContext &gc) const;
     int neowChoice(const sts::GameContext &gc) const;
     double addValue(const sts::GameContext &gc, const sts::Card &c) const;
+    // Phase C v2: interventional evaluation of a hypothetical run state by playing sampled fights
+    double cfScore(const sts::GameContext &hyp, std::uint64_t cfSeed);
 };
 
 }  // namespace fair
