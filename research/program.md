@@ -113,8 +113,11 @@ Re-baseline after the player.cc fix alone: `rb2` val 34.7% (n=297) vs 35.7% befo
 — +0.043 vs rb2 (P=0.89): correct event outcomes / Dome allowed were net positive. rb3 is the
 reference for all later paired comparisons.
 
-Throughput work (bit-identical games, verified on 4 seeds): allocation-free action enumerator
-(~13%). The fixed-size card piles (`sts_card_manager_use_fixed_list`, +10%) were tried and
+Throughput work: allocation-free action enumerator (bit-identical). **Idle-machine timing (8 games,
+single thread, same sim lib): pre-enumerator build 20.2 s vs current 20.7 s — no measurable speedup;
+the earlier "~13%" was contention noise.** Consequence: the sims=650 "equal wall-clock" conversion
+(`spd_s650` +0.0375 P=0.86, `spd650b` +0.0225 P=0.75) is NOT protocol-justified; sims stays 500.
+Those runs simply confirm that more compute helps a little. The fixed-size card piles (`sts_card_manager_use_fixed_list`, +10%) were tried and
 **reverted**: piles can exceed any fixed capacity in degenerate rollouts (Dead Branch +
 Corruption chains) and the Release library has asserts compiled out → silent stack corruption
 (3/300 val games crashed in `spd_s650`; all 3 seeds run clean with `std::vector` piles).
