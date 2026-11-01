@@ -274,6 +274,12 @@ Heart track: `wb3` (w_burning 3) −0.015 (P=0.10; Act 4 36.7%, Heart 14.7% vs 1
 (ruby key down to 50% HP) −0.036 (P=0.01; Act 4 38%, Heart 13%) — both discard: reaching Act 4 more
 often is easy, converting it is the constraint (Act-4 fights need a stronger deck, not more keys).
 
+### Boss-aware deck preparation (`boss_prep=1`) — implemented, queued as batch 20
+Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
+gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
+/ Champ / Automaton / Time Eater; no powers vs Awakened One; fewer 0-cost cards vs Time Eater.
+Experiments: `bossprep1`, `bossprep2` (A0), `bossprep_h` (Heart), `bossprep_a10` (A10 track).
+
 ### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
