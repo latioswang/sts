@@ -54,3 +54,5 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 7d5a6fe	val.a0	300	0	0.307	38.32	1.0581	+0.0089	0.660	discard	wsr3: map: shop value 3 when rich [w_shop_rich=3]
 347f3fc	val.a0	300	0	0.293	39.56	1.0690	+0.0197	0.733	discard	wmon05: map: hallway fight value 0.5 [w_monster=0.5]
 347f3fc	val.a0	300	0	0.363	39.09	1.1297	+0.0805	0.994	info	INFO_sims1000: INFO ONLY: best params at 2x compute (sims=1000), never promoted
+649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0510	0.915	keep	combo2: all batch-8 near-misses: combo1 + w_event 2 + rich shop 3 + monster 0.5 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2 w_shop_rich=3 w_monster=0.5]
+649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0000	0.000	discard	combo3: combo1 + w_event 2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2]
