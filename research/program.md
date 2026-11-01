@@ -62,7 +62,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
   (chest1 was 57.7% val / 54.6% test, a 3-pt gap; the chain since then added four keeps). Test is the
   honest number; val remains the loop's metric.
-- Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
+- Tracks: **A0 best `mapd085`: `mapd085` 75.0% win, floor 47.4, +0.018 vs base, P=0.913 → keep** (map-path discount 0.9 → 0.85: a shorter planning horizon on the
+  map DP; marginal keep, dev check queued; batch 39 otherwise neutral: wev15 −0.000, wev25 −0.040,
+  wsr2 −0.004, wsr4 −0.005, resthp04 −0.018, resthp06 +0.002). Previous: **`bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
   gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus).
   Dev check (100 fresh seeds vs bfbonus10_dev 67.0%): `bfbonus10_g1_dev` 68.0% win, floor 45.6, +0.023 vs base, P=0.663 → info — direction positive, size smaller than val
   (+4.0 pts) and not significant at n=100; the keep stands under the val rule, label "weakly replicated". Previous: **`bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
@@ -85,7 +87,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7% → potions
   saved for bosses 66.3% (val; 65.5% pooled val+dev) → interventional deck-value bonus on card picks 69.3%
-  (model g0) → same bonus with the graded-label model g1 73.3%.
+  (model g0) → same bonus with the graded-label model g1 73.3% → map-path discount 0.85 75.0%.
 - g1 as a replacement (vs bfbonus10): `bfpick_g1` 64.3% (−0.066), `bfrem_g1` 64.3% (−0.068) — still worse than
   the hand rules; as a bonus it is the best component so far.
 - Batch 34 (potion value): `potv12` −0.030; `potsave` +0.026/P 0.81 (dev +0.042, pooled +0.030/P 0.866:

@@ -9,7 +9,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Current A0 best `bfbonus10_g1`** (bfbonus10 with the graded-label model g1 in the bonus, P=0.947) | val, 300 | **73.3%** | — | 47.3 |
+| **Current A0 best `mapd085`** (bfbonus10_g1 + map-path discount 0.85; marginal keep, P=0.913, dev check pending) | val, 300 | **75.0%** | — | 47.4 |
+| `bfbonus10_g1` (bfbonus10 with the graded-label model g1 in the bonus, P=0.947) | val, 300 | 73.3% | — | 47.3 |
 | **same, test confirmation (M5)** | **test, 500** | **66.6%** | **[62.4%, 70.6%]** | 45.9 |
 | `bfbonus10` (potsave2 + learned interventional deck-value bonus on card picks, P=0.952) | val, 300 | 69.3% | — | 46.8 |
 | `potsave2` (wea1p1 + potions saved for boss fights; kept on pooled val+dev 400 seeds, P=0.949) | val, 300 | 66.3% | — | 45.5 |

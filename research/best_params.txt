@@ -7,6 +7,7 @@ chest_pol=1
 end_turn_w=0.05
 ev_pol=1
 hall_potions=0
+map_discount=0.85
 map_pol=1
 potion_v=8
 potion_v_boss=4
