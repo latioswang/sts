@@ -239,6 +239,19 @@ double FairAgent::addValue(const GameContext &gc, const Card &c) const {
     for (const auto &d : gc.deck.cards) { scal += isScaling(d.getId()); blk += isBlock(d.getId()); }
     if (isScaling(c.getId()) && scal < getp(P, "scaling_want", 2)) v += getp(P, "scaling_bonus", 0.0);
     if (isBlock(c.getId()) && blk < getp(P, "block_want", 3)) v += getp(P, "block_bonus", 0.0);
+    if (getp(P, "boss_prep", 0) > 0) {
+        // the act boss is shown on the map from the first floor: prepare the deck for it (71% of losses are bosses)
+        using ME = MonsterEncounter;
+        const ME b = gc.boss;
+        const bool wantsAoe = b == ME::SLIME_BOSS || b == ME::AUTOMATON || b == ME::COLLECTOR || b == ME::DONU_AND_DECA;
+        const bool wantsBlock = b == ME::THE_GUARDIAN || b == ME::CHAMP || b == ME::AUTOMATON || b == ME::TIME_EATER;
+        const bool hatesPowers = b == ME::AWAKENED_ONE;   // powers give it strength
+        const bool hatesCheap = b == ME::TIME_EATER;      // 12 cards -> extra turn
+        if (wantsAoe && isAoe(c.getId()) && aoe < getp(P, "boss_aoe_want", 2)) v += getp(P, "boss_aoe_bonus", 1.5);
+        if (wantsBlock && isBlock(c.getId())) v += getp(P, "boss_block_bonus", 1.0);
+        if (hatesPowers && c.getType() == CardType::POWER) v -= getp(P, "boss_power_pen", 2.0);
+        if (hatesCheap && !isXCost(c.getId()) && getEnergyCost(c.getId(), c.isUpgraded()) == 0) v -= getp(P, "boss_cheap_pen", 1.0);
+    }
     return v;
 }
 
