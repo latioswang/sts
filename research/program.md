@@ -92,6 +92,14 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 28 (prior-guided rollouts at calibrated equal wall-clock — 2.43× per-simulation cost → 210
   sims): `rollprior_cal` 59.3% win, floor 44.2, -0.062 vs base, P=0.033 → discard. Closed: a learned fast rollout policy does not pay for its cost against
   2.4× more uniform rollouts; the search's value comes from breadth, not rollout quality.
+- **Verification on 100 fresh dev seeds (A10):** `a10_rest06` 15.0% win / floor 31.8 vs `a10_kbsyn` 15.0% /
+  31.6 — dscore −0.004, P=0.478: **the +5.7-pt KB-synergy keep does not replicate** (val SE at n=300
+  is ~2.5 pts, so a +5.7 reading from a true ~0 is a 2σ event — expected once in ~40 keeps/discards).
+  Pre-registered handling: the val keep rule stays the loop's gate (frozen protocol), but a track best
+  is reported as "unreplicated" until its chain shows dscore > 0 on dev; `a10_eh075_dev` (the whole
+  chain) decides the label for A10. If the chain fails too, A10 experiments continue on the current
+  best (paired deltas are unaffected by the baseline's absolute level) and the A10 headline is quoted
+  with the dev figure alongside.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
