@@ -106,6 +106,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 35 (potion-value shape, vs potsave2): `potsave3` 66.7% win, floor 45.7, +0.006 vs base, P=0.656 → discard; `potsave4` 66.0% win, floor 45.6, -0.002 vs base, P=0.363 → discard — flat around hallway 8 / boss 4.
   **A10 transfer: `a10_potsave2` 20.3% win, floor 34.2, -0.091 vs base, P=0.000 → discard (vs a10_eh075)** — at A10 hallway fights are dangerous enough that
   hoarding potions for bosses kills; the potion policy is ascension-specific (A0 saves, A10 spends).
+- **Killer encounters, A0 best `potsave2` (val, 300; computed from DIAG_deaths):** 101 losses, 68% at
+  bosses: Champ 15, Collector 14, Donu & Deca 10, Automaton 8, Time Eater 6, Awakened One 6, Hexaghost 5,
+  Slime Boss 4, Guardian 1; elites: Giant Head 6, Three Sentries 4, Gremlin Leader 3, Reptomancer 2,
+  Nemesis 1, Slavers 1; hallway fights ≤ 2 each. Act-2 bosses alone are 37% of all losses (Champ +
+  Collector + Automaton) — the deck arriving at floor 33 is the problem Phase C v3 targets. Potions left
+  at death: mean 0.05 (4/101 runs died holding one) — no hoarding waste under potsave2.
 - Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
   act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
   A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
