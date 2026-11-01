@@ -507,6 +507,16 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
         case ScreenState::BOSS_RELIC_REWARDS:
             search::GameAction(bossRelicChoice(gc)).execute(gc);
             return;
+        case ScreenState::TREASURE_ROOM:
+            // lightspeed's TREASURE_ROOM action: 0 = open the chest, anything else = leave. Its legacy
+            // agent passes `true` (=1) meaning "take", so it NEVER opens chests; FairAgent inherited that.
+            if (getp(P, "chest_pol", 0) > 0) {
+                const bool open = !gc.relics.has(RelicId::CURSED_KEY) || gc.info.chestSize == ChestSize::LARGE
+                                  || getp(P, "chest_cursed_open", 0) > 0;
+                search::GameAction(open ? 0 : 1).execute(gc);
+                return;
+            }
+            break;
         case ScreenState::EVENT_SCREEN:
             if (gc.curEvent == Event::NEOW && getp(P, "neow_pol", 0) > 0) {
                 search::GameAction(neowChoice(gc)).execute(gc);
