@@ -22,11 +22,14 @@ O = 4
 
 def load(data_dir):
     # data_dir may be a comma-separated list of directories (datasets from several ascensions)
-    files = sorted(f for d in data_dir.split(",") for f in glob.glob(os.path.join(d, "bf_*.bin")))
-    arrs = [np.fromfile(f, dtype=np.float32) for f in files]
-    a = np.concatenate(arrs) if arrs else np.zeros(0, np.float32)
-    n = a.size // (DIM + EXTRA)
-    a = a[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA)
+    files = sorted(f for d in data_dir.split(",") for f in glob.glob(os.path.join(d, "**", "bf_*.bin"), recursive=True))
+    arrs = []
+    for f in files:  # per-file truncation to whole rows: a game killed mid-write must not shift later rows
+        x = np.fromfile(f, dtype=np.float32)
+        n = x.size // (DIM + EXTRA)
+        if n:
+            arrs.append(x[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA))
+    a = np.concatenate(arrs) if arrs else np.zeros((0, DIM + EXTRA), np.float32)
     a = a[np.isfinite(a).all(1)]
     X = a[:, :DIM]; Y = a[:, DIM:DIM + 4]
     run = a[:, DIM + 4].astype(np.int64) + np.round(a[:, 20] * 20.0).astype(np.int64) * 100000000

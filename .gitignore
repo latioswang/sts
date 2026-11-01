@@ -7,3 +7,5 @@ status.md
 research/queue.txt
 research/queue.log
 research/.queue.lock
+research/queue.current
+research/queue.txt.tmp

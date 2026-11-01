@@ -534,6 +534,11 @@ If both pass, the higher pooled dscore is promoted. A near-miss that fails stays
 extension. Cost: one 100-game run per candidate.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Background commands die at the 2-hour limit** (the queue runner was killed 45 s into the first
+  fight-data generation). The runner now records the line in flight (`research/queue.current`) and
+  re-runs it on restart; long generations run in resumable 50-game chunks (`bf_gen.sh`, per-chunk log
+  directories with `.done` markers); the loader truncates each file to whole rows. Restart the runner
+  (`research/tools/runq.sh`, background, max timeout) whenever it is reported killed.
 - **Numbers in notes are pasted, never typed.** Twice today a floor was written from memory and was
   wrong by 0.2–0.3. `research/tools/note.py NAME...` prints the exact fragment from results.tsv;
   program.md/REPORT.md lines quoting results are built from its output (or computed in a script).
