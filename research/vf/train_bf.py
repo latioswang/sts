@@ -13,16 +13,28 @@ usage: train_bf.py DATA_DIR [--out ...] [--hidden 128] [--epochs 30] [--lam 2.0]
 import argparse, glob, os, time
 import numpy as np
 
+corr_dmg = {}
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DIM = 666
-EXTRA = 8
+# two row formats: v0 "bf_*.bin" = 4 labels [boss_win boss_hp hall_win hall_hp] + 4 ids (EXTRA 8);
+# v1 "bg_*.bin" = 8 labels [.. boss_dmg next_win next_hp next_dmg] + 4 ids (EXTRA 12). O = number of heads.
+HEAD_NAMES = ["boss_win", "boss_hp", "hall_win", "hall_hp", "boss_dmg", "next_win", "next_hp", "next_dmg"]
 O = 4
+EXTRA = 8
 
 
 def load(data_dir):
     # data_dir may be a comma-separated list of directories (datasets from several ascensions)
-    files = sorted(f for d in data_dir.split(",") for f in glob.glob(os.path.join(d, "**", "bf_*.bin"), recursive=True))
+    global O, EXTRA
+    dirs = data_dir.split(",")
+    v1 = sorted(f for d in dirs for f in glob.glob(os.path.join(d, "**", "bg_*.bin"), recursive=True))
+    v0 = sorted(f for d in dirs for f in glob.glob(os.path.join(d, "**", "bf_*.bin"), recursive=True))
+    if v1 and v0:
+        raise SystemExit("mixed v0/v1 datasets are not supported")
+    files = v1 or v0
+    O, EXTRA = (8, 12) if v1 else (4, 8)
     arrs = []
     for f in files:  # per-file truncation to whole rows: a game killed mid-write must not shift later rows
         x = np.fromfile(f, dtype=np.float32)
@@ -31,10 +43,11 @@ def load(data_dir):
             arrs.append(x[: n * (DIM + EXTRA)].reshape(n, DIM + EXTRA))
     a = np.concatenate(arrs) if arrs else np.zeros((0, DIM + EXTRA), np.float32)
     a = a[np.isfinite(a).all(1)]
-    X = a[:, :DIM]; Y = a[:, DIM:DIM + 4]
-    run = a[:, DIM + 4].astype(np.int64) + np.round(a[:, 20] * 20.0).astype(np.int64) * 100000000
-    dec = a[:, DIM + 5].astype(np.int64)
-    kind = a[:, DIM + 6].astype(np.int64); is_base = a[:, DIM + 7] > 0.5
+    X = a[:, :DIM]; Y = a[:, DIM:DIM + O]
+    run = a[:, DIM + O].astype(np.int64) + np.round(a[:, 20] * 20.0).astype(np.int64) * 100000000
+    dec = a[:, DIM + O + 1].astype(np.int64)
+    kind = a[:, DIM + O + 2].astype(np.int64); is_base = a[:, DIM + O + 3] > 0.5
+    print(f"format {'v1' if v1 else 'v0'}: {len(files)} files, {O} heads")
     return X, Y, run, dec, kind, is_base
 
 
@@ -80,7 +93,7 @@ def main():
     print(f"ascension mix: {{a: int((np.round(asc) == a).sum()) for a in (0, 10, 20)}}")
     print(f"rows={n} runs={len(np.unique(run))} decisions={len(np.unique(run * 100000 + dec))} "
           f"kinds(card/upg/rem)={[int((kind == k).sum()) for k in (0, 1, 2)]} base_rows={int(is_base.sum())}")
-    print(f"label means: boss_win={Y[:,0].mean():.3f} boss_hp={Y[:,1].mean():.3f} hall_win={Y[Y[:,2]>=0,2].mean():.3f} (hall rows {int((Y[:,2]>=0).sum())})")
+    print("label means: " + " ".join(f"{HEAD_NAMES[j]}={Y[Y[:, j] >= 0, j].mean():.3f}" for j in range(O)))
     # pairing: each hypothetical row -> its decision's base row
     key = run.astype(np.int64) * 100000 + dec
     base_of = {}
@@ -95,21 +108,19 @@ def main():
     vmask = np.array([r in val_runs for r in run])
     hv = vmask[hyp_idx]  # pair is validation iff its rows are
     Xt = torch.tensor(X); Yt = torch.tensor(Y)
-    hall_mask = (Yt[:, 2] >= 0).float()
+    M = (Yt >= 0).float()  # per-head validity mask (-1 = fight not played)
     model = nn.Sequential(nn.Dropout(a.dropout), nn.Linear(DIM, a.hidden), nn.ReLU(), nn.Linear(a.hidden, O))
     opt = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=a.wd)
 
     def abs_loss(idx):
-        z = model(Xt[idx]); y = Yt[idx].clamp(0, 1); m = hall_mask[idx]
-        l = F.binary_cross_entropy_with_logits(z[:, :2], y[:, :2], reduction="none").sum(1)
-        l = l + (F.binary_cross_entropy_with_logits(z[:, 2:], y[:, 2:], reduction="none").sum(1)) * m
-        return l.mean()
+        z = model(Xt[idx]); y = Yt[idx].clamp(0, 1); m = M[idx]
+        return (F.binary_cross_entropy_with_logits(z, y, reduction="none") * m).sum(1).mean()
 
     def pair_loss(pi):  # pi indexes into hyp_idx
         h = torch.tensor(hyp_idx[pi]); b = torch.tensor(hyp_base[pi])
         dp = torch.sigmoid(model(Xt[h])) - torch.sigmoid(model(Xt[b]))
         do = Yt[h] - Yt[b]
-        m = torch.ones_like(dp); m[:, 2:] *= (hall_mask[h] * hall_mask[b]).unsqueeze(1)
+        m = M[h] * M[b]
         return (((dp - do) ** 2) * m).sum(1).mean()
 
     def evaluate():
@@ -125,11 +136,19 @@ def main():
             base_hall = -(ph * np.log(ph + 1e-9) + (1 - ph) * np.log(1 - ph + 1e-9))
             pv = np.nonzero(hv)[0]
             h = torch.tensor(hyp_idx[pv]); b = torch.tensor(hyp_base[pv])
-            dp = (torch.sigmoid(model(Xt[h])) - torch.sigmoid(model(Xt[b])))[:, 0].numpy()
-            do = (Yt[h] - Yt[b])[:, 0].numpy()
+            DP = (torch.sigmoid(model(Xt[h])) - torch.sigmoid(model(Xt[b]))).numpy()
+            DO = (Yt[h] - Yt[b]).numpy()
+            dp, do = DP[:, 0], DO[:, 0]
             nz = do != 0
             corr = float(np.corrcoef(dp, do)[0, 1]) if len(dp) > 2 and dp.std() > 0 else float("nan")
             sign = float(((dp[nz] > 0) == (do[nz] > 0)).mean()) if nz.any() else float("nan")
+            # continuous heads (g1): paired correlation of predicted vs observed damage-fraction differences
+            global corr_dmg
+            corr_dmg = {}
+            for j in (4, 7):
+                if j < O:
+                    ok_ = (DO[:, j] > -1.5) & (Yt[h][:, j].numpy() >= 0) & (Yt[b][:, j].numpy() >= 0)
+                    corr_dmg[HEAD_NAMES[j]] = float(np.corrcoef(DP[ok_, j], DO[ok_, j])[0, 1]) if ok_.sum() > 2 and DP[ok_, j].std() > 0 else float("nan")
         model.train()
         return bce_boss, base_bce, bce_hall, base_hall, corr, sign, int(nz.sum())
 
@@ -143,11 +162,14 @@ def main():
             loss = abs_loss(idx) + (a.lam * pair_loss(pi) if len(pi) else 0)
             opt.zero_grad(); loss.backward(); opt.step()
         bce_boss, base_bce, bce_hall, base_hall, corr, sign, nnz = evaluate()
-        score = bce_boss - 0.5 * corr  # model selection: calibrated and ranks options correctly
+        cd = corr_dmg.get("next_dmg", corr_dmg.get("boss_dmg", float("nan")))
+        rank_corr = cd if cd == cd else corr  # g1: select on the continuous head's paired correlation
+        score = bce_boss - 0.5 * rank_corr  # model selection: calibrated and ranks options correctly
+        extra = " ".join(f"pair_corr_{k}={v:.3f}" for k, v in corr_dmg.items())
         print(f"ep {ep+1:2d} val boss_bce={bce_boss:.4f} (base {base_bce:.4f}) hall_bce={bce_hall:.4f} (base {base_hall:.4f}) "
-              f"pair_corr={corr:.3f} pair_sign_acc={sign:.3f} (n={nnz}) {time.time()-t0:.0f}s")
+              f"pair_corr={corr:.3f} pair_sign_acc={sign:.3f} (n={nnz}) {extra} {time.time()-t0:.0f}s")
         if score < best[0]:
-            best = (score, {k: v.detach().clone() for k, v in model.state_dict().items()}, ep + 1, bce_boss, base_bce, corr)
+            best = (score, {k: v.detach().clone() for k, v in model.state_dict().items()}, ep + 1, bce_boss, base_bce, rank_corr)
     _, state, ep, bce_boss, base_bce, corr = best
     if state is None or bce_boss >= base_bce - 0.005 or not (corr > 0.02):
         print(f"model fails the gate (boss_bce {bce_boss:.4f} vs base {base_bce:.4f}, pair_corr {corr:.3f}); writing placeholder")

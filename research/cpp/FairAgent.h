@@ -66,8 +66,8 @@ private:
     // Phase C v2: interventional evaluation of a hypothetical run state by playing sampled fights
     double cfScore(const sts::GameContext &hyp, std::uint64_t cfSeed);
     // Phase C v3: play one fight from a hypothetical run state (fresh RNG streams, no potions);
-    // out = {win, HP fraction left (0 on a loss)}
-    void bfFight(const sts::GameContext &hyp, sts::MonsterEncounter enc, std::uint64_t seed, float out[2]);
+    // out = {win, HP fraction left (0 on a loss), fraction of the enemies' starting HP removed}
+    void bfFight(const sts::GameContext &hyp, sts::MonsterEncounter enc, std::uint64_t seed, float out[3]);
     // log the base state and each hypothetical option with boss + hallway fight outcomes (kind 0 = card
     // reward, 1 = upgrade, 2 = removal); same fight seeds for every option of the decision
     void bfLogOptions(const sts::GameContext &gc, const std::vector<sts::GameContext> &hyps, int kind);

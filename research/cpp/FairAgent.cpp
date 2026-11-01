@@ -47,7 +47,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     }
     if (getp(P, "bf_log", 0) > 0) {
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
-            const std::string path = std::string(dir) + "/bf_" + std::to_string(agentSeed_) + ".bin";
+            const std::string path = std::string(dir) + "/bg_" + std::to_string(agentSeed_) + ".bin";  // v1 rows
             bfLog = std::fopen(path.c_str(), "ab");
         }
     }
@@ -384,7 +384,7 @@ double FairAgent::cfScore(const GameContext &hyp, std::uint64_t cfSeed) {
 }
 
 // ---------------- Phase C v3: interventional deck value (data + decisions) ----------------
-void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint64_t seed, float out[2]) {
+void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint64_t seed, float out[3]) {
     std::mt19937_64 frng(seed);
     SearchParams s = sp;
     s.simulations = static_cast<int>(getp(P, "bf_sims", 100));
@@ -394,6 +394,9 @@ void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint6
     g.cardRandomRng = Random(frng()); g.miscRng = Random(frng()); g.potionRng = Random(frng());
     BattleContext bc;
     bc.init(g, enc);
+    const int n0 = bc.monsters.monsterCount;  // the original enemies (minions spawned later are appended)
+    int hp0 = 0;
+    for (int i = 0; i < n0; ++i) hp0 += std::max(0, bc.monsters.arr[i].maxHp);
     int steps = 0;
     while (bc.outcome == Outcome::UNDECIDED && ++steps < 600) {
         FairSearcher srch(bc, s, frng());
@@ -402,9 +405,22 @@ void FairAgent::bfFight(const GameContext &hyp, MonsterEncounter enc, std::uint6
     const bool won = bc.outcome == Outcome::PLAYER_VICTORY;
     out[0] = won ? 1.f : 0.f;
     out[1] = won ? static_cast<float>(bc.player.curHp) / std::max(1, bc.player.maxHp) : 0.f;
+    int left = 0;
+    for (int i = 0; i < std::min(n0, bc.monsters.monsterCount); ++i) left += std::max(0, bc.monsters.arr[i].curHp);
+    out[2] = won ? 1.f : (hp0 > 0 ? std::min(1.f, std::max(0.f, 1.f - static_cast<float>(left) / hp0)) : 0.f);
 }
 
-constexpr int BF_EXTRA = 8;  // boss_win boss_hp hall_win hall_hp run_id decision kind is_base
+// boss pool of the act after the current one (act 3: its own pool) — the forward-looking label
+static MonsterEncounter nextActBoss(int act, std::mt19937_64 &rng) {
+    static const MonsterEncounter a2[3] = {MonsterEncounter::AUTOMATON, MonsterEncounter::COLLECTOR, MonsterEncounter::CHAMP};
+    static const MonsterEncounter a3[3] = {MonsterEncounter::AWAKENED_ONE, MonsterEncounter::TIME_EATER, MonsterEncounter::DONU_AND_DECA};
+    const int i = static_cast<int>(rng() % 3);
+    return act <= 1 ? a2[i] : a3[i];
+}
+
+// row format v1 ("bg_" files): 666 features + 8 labels [boss_win boss_hp hall_win hall_hp boss_dmg
+// next_win next_hp next_dmg] + [run_id decision kind is_base]; v0 ("bf_" files) had the first 4 labels only
+constexpr int BF_EXTRA = 12;
 
 void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContext> &hyps, int kind) {
     if (!bfLog || gc.act < 1 || gc.act > 3 || gc.boss == MonsterEncounter::INVALID) return;
@@ -416,14 +432,18 @@ void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContex
                                ^ (bfDecisions * 0xD1B54A32D192ED03ULL);
     std::mt19937_64 erng(seed);
     const MonsterEncounter hall = sampleEncounter(gc, erng, getp(P, "bf_elite_frac", 0.25), 0.0);
+    const MonsterEncounter next = nextActBoss(gc.act, erng);
     const bool doHall = getp(P, "bf_hall", 1) > 0;
+    const bool doNext = getp(P, "bf_next", 1) > 0;
     auto row = [&](const GameContext &st, float isBase) {
         float feats[rv::DIM];
         rv::extract(st, feats);
-        float b[2], h[2] = {-1.f, -1.f};
+        float b[3], h[3] = {-1.f, -1.f, -1.f}, nx[3] = {-1.f, -1.f, -1.f};
         bfFight(st, gc.boss, seed + 1, b);
         if (doHall) bfFight(st, hall, seed + 2, h);
-        const float extra[BF_EXTRA] = {b[0], b[1], h[0], h[1], static_cast<float>(agentSeed % 10000000ULL),
+        if (doNext) bfFight(st, next, seed + 3, nx);
+        const float extra[BF_EXTRA] = {b[0], b[1], h[0], h[1], b[2], nx[0], nx[1], nx[2],
+                                       static_cast<float>(agentSeed % 10000000ULL),
                                        static_cast<float>(bfDecisions), static_cast<float>(kind), isBase};
         std::fwrite(feats, sizeof(float), rv::DIM, bfLog);
         std::fwrite(extra, sizeof(float), BF_EXTRA, bfLog);
@@ -436,8 +456,13 @@ void FairAgent::bfLogOptions(const GameContext &gc, const std::vector<GameContex
 float FairAgent::bfValue(const GameContext &st) const {
     float o[bf::BF_O];
     bf::predict(st, o);
-    return static_cast<float>(getp(P, "bf_wb", 1.0)) * o[0] + static_cast<float>(getp(P, "bf_whp", 0.5)) * o[1]
-         + static_cast<float>(getp(P, "bf_wh", 0.5)) * o[2] + static_cast<float>(getp(P, "bf_whhp", 0.25)) * o[3];
+    float v = static_cast<float>(getp(P, "bf_wb", 1.0)) * o[0] + static_cast<float>(getp(P, "bf_whp", 0.5)) * o[1]
+            + static_cast<float>(getp(P, "bf_wh", 0.5)) * o[2] + static_cast<float>(getp(P, "bf_whhp", 0.25)) * o[3];
+    if constexpr (bf::BF_O >= 8) {  // g1 heads: damage fraction vs the act boss, and win/HP/damage vs a next-act boss
+        v += static_cast<float>(getp(P, "bf_wdmg", 0.5)) * o[4] + static_cast<float>(getp(P, "bf_wnw", 0.5)) * o[5]
+           + static_cast<float>(getp(P, "bf_wnhp", 0.25)) * o[6] + static_cast<float>(getp(P, "bf_wndmg", 1.0)) * o[7];
+    }
+    return v;
 }
 
 // ---------------- events (rules written from lightspeed's event code) ----------------
