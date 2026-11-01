@@ -32,6 +32,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
             const std::string path = std::string(dir) + "/pol_" + std::to_string(agentSeed_) + ".bin";
             pfLog = std::fopen(path.c_str(), "ab");
+            if (pfLog) { const float hdr[2] = {-1.f, 2.f}; std::fwrite(hdr, sizeof(float), 2, pfLog); }  // format v2 marker
         }
     }
     if (getp(P, "rv_log", 0) > 0) {
@@ -126,22 +127,23 @@ void FairAgent::playBattle(GameContext &gc) {
         stats.actions += s.actionsExecuted;
         stats.simulations += s.simulationsRun;
         if (pfLog && bc.inputState == InputState::PLAYER_NORMAL) {
-            std::vector<std::pair<search::Action, std::int64_t>> rs;
-            s.rootStats(rs);
-            if (rs.size() > 1) {  // [state 204][nA][nA x (token, up, tf0..3, visits)]
+            std::vector<FairSearcher::EdgeStat> rs; double rootMean = 0.0;
+            s.rootEdgeStats(rs, rootMean);
+            if (rs.size() > 1) {  // v2: [state 204][rootMean][nA][nA x (token, up, tf0..3, visits, q)]
                 float x[vf::DIM];
                 vf::extract(bc, x);
                 std::fwrite(x, sizeof(float), vf::DIM, pfLog);
-                const float nA = static_cast<float>(rs.size());
-                std::fwrite(&nA, sizeof(float), 1, pfLog);
-                for (auto &[act, n] : rs) {
+                const float hdr[2] = {static_cast<float>(rootMean), static_cast<float>(rs.size())};
+                std::fwrite(hdr, sizeof(float), 2, pfLog);
+                for (auto &es : rs) {
                     bool up = false;
-                    float row[7];
-                    row[0] = static_cast<float>(pf::token(bc, act, up));
+                    float row[8];
+                    row[0] = static_cast<float>(pf::token(bc, es.action, up));
                     row[1] = up ? 1.f : 0.f;
-                    pf::targetFeats(bc, act, row + 2);
-                    row[6] = static_cast<float>(n);
-                    std::fwrite(row, sizeof(float), 7, pfLog);
+                    pf::targetFeats(bc, es.action, row + 2);
+                    row[6] = static_cast<float>(es.n);
+                    row[7] = static_cast<float>(es.q);
+                    std::fwrite(row, sizeof(float), 8, pfLog);
                 }
             }
         }

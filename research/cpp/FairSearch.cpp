@@ -441,6 +441,14 @@ void FairSearcher::rootStats(std::vector<std::pair<search::Action, std::int64_t>
     for (const auto &e : nodes[rootIdx].edges) out.emplace_back(e.action, e.n);
 }
 
+void FairSearcher::rootEdgeStats(std::vector<EdgeStat> &out, double &rootMean) const {
+    out.clear(); rootMean = 0.0;
+    if (nodes.empty()) return;
+    const Node &r = nodes[rootIdx];
+    rootMean = r.visits > 0 ? r.wsum / r.visits : 0.0;
+    for (const auto &e : r.edges) out.push_back({e.action, e.n, e.n > 0 ? e.w / e.n : 0.0});
+}
+
 search::Action FairSearcher::search() {
     if (nodes.empty()) { newNode(*rootState); rootIdx = 0; }
     actionsExecuted = 0;

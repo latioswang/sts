@@ -13,20 +13,29 @@ ROOT = os.path.dirname(HERE)
 S_DIM, N_TOK, T_DIM = 204, 434, 4
 
 
-def load(data_dir, max_decisions=None):
-    states, toks, ups, tfs, vis, dec = [], [], [], [], [], []
+def load(data_dir, max_decisions=None, with_values=False):
+    """v1: [state][nA][nA x 7]; v2 (file starts with -1, 2): [state][rootMean][nA][nA x 8 (.., visits, q)]"""
+    states, toks, ups, tfs, vis, dec, qs, roots = [], [], [], [], [], [], [], []
     d = 0
     for f in sorted(glob.glob(os.path.join(data_dir, "pol_*.bin"))):
         a = np.fromfile(f, dtype=np.float32)
         i = 0
-        while i + S_DIM + 1 <= a.size:
+        v2 = a.size >= 2 and a[0] == -1.0 and a[1] == 2.0
+        if v2: i = 2
+        w = 8 if v2 else 7
+        while i + S_DIM + 1 + (1 if v2 else 0) <= a.size:
             s = a[i:i + S_DIM]; i += S_DIM
+            root = 0.0
+            if v2: root = float(a[i]); i += 1
             n = int(a[i]); i += 1
-            if n <= 0 or i + n * 7 > a.size: break
-            blk = a[i:i + n * 7].reshape(n, 7); i += n * 7
+            if n <= 0 or i + n * w > a.size: break
+            blk = a[i:i + n * w].reshape(n, w); i += n * w
             states.append(s); toks.append(blk[:, 0].astype(np.int64)); ups.append(blk[:, 1])
             tfs.append(blk[:, 2:6]); vis.append(blk[:, 6]); dec.append(np.full(n, d)); d += 1
+            qs.append(blk[:, 7] if v2 else np.zeros(n, np.float32)); roots.append(root)
             if max_decisions and d >= max_decisions: break
+    if with_values:
+        return states, toks, ups, tfs, vis, dec, qs, roots
     return states, toks, ups, tfs, vis, dec
 
 

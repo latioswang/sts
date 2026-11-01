@@ -68,6 +68,8 @@ public:
     std::int64_t rootVisits() const { return nodes.empty() ? 0 : nodes[rootIdx].visits; }
     // root visit distribution of the last search() (policy-prior training data)
     void rootStats(std::vector<std::pair<sts::search::Action, std::int64_t>> &out) const;
+    struct EdgeStat { sts::search::Action action; std::int64_t n; double q; };
+    void rootEdgeStats(std::vector<EdgeStat> &out, double &rootMean) const;  // q = mean backed-up value
     std::int64_t actionsExecuted = 0;  // game actions executed by the last search() (tree + rollout)
     int simulationsRun = 0;
 
