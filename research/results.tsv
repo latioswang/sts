@@ -66,3 +66,4 @@ de8a766	val.a0	300	0	0.320	39.62	1.0968	-0.0525	0.024	discard	wea1m: map: act-1 
 de8a766	val.a0	300	0	0.367	40.84	1.1674	+0.0180	0.703	discard	etw002: rollout END_TURN weight 0.02 [end_turn_w=0.02]
 59482e1	val.a0	300	0	0.343	40.29	1.1333	-0.0161	0.332	discard	combo4: batch-10 near-misses combined: potion_v elite/boss 2, c 0.5, end_turn_w 0.02 [potion_v_elite=2 potion_v_boss=2 c=0.5 end_turn_w=0.02]
 59482e1	val.a0	300	0	0.357	40.21	1.1451	-0.0042	0.457	discard	combo5: c 0.5 + end_turn_w 0.02 [c=0.5 end_turn_w=0.02]
+3cebf0d	val.a0	300	0	0.360	40.74	1.1588	+0.0094	0.672	discard	combo6: potion_v elite/boss 2 [potion_v_elite=2 potion_v_boss=2]
