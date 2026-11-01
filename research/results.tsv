@@ -177,3 +177,4 @@ f8c97f1	val.a0	300	0	0.663	45.53	1.5561			diag	DIAG_deaths: DIAG: current A0 bes
 6f1722c	train.a0	500	0	0.598	43.84	1.4576			info	bf0: bf0: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
 dd3727f	val.a0	300	0	0.560	45.32	1.4486	-0.1075	0.004	discard	bfpick_g0: interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_pick=1]
 d366d47	val.a0	300	0	0.503	43.76	1.3613	-0.1948	0.000	discard	bfpick_g0_m02: interventional deck value: card rewards, margin 0.02 [bf_pick=1 bf_margin=0.02]
+6d52486	val.a0	300	0	0.663	45.75	1.5603	+0.0042	0.559	discard	bfupg_g0: interventional deck value: rest upgrades = argmax predicted fight value [bf_upgrade=1]
