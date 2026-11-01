@@ -647,7 +647,8 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 | `ct45` vs `bfbonus10_g1` | +0.015, P=0.721 | +0.006, P=0.584 | +0.0129, P=0.732 | discard |
 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
-family (25/50) and the threshold family (4.5) were val-only artefacts.
+family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
+run: `a10_wev25` 30.0% win, floor 37.8, +0.016 vs base, P=0.768 → discard vs `a10_bfbonus25_g1m` (event rooms valued 2.5 at A10).
 
 ## Label-noise reduction (bf_k=3), result 2026-11-01 21:30 UTC
 Model 9 (bg1k3: 59,737 rows, labels averaged over three fights per option): paired correlations rose to
