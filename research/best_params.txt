@@ -8,3 +8,4 @@ rest_pol=1
 scaling_bonus=1.5
 select_pol=1
 shop_pol=1
+w_event=1.5

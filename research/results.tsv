@@ -44,3 +44,6 @@ eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bon
 6c01d8f	val.a0	300	0	0.170	36.61	0.8878	-0.0677	0.006	discard	spot1: shop: buy potions when a slot is free [shop_potion=1]
 6c01d8f	val.a0	300	0	0.243	36.96	0.9680	+0.0125	0.779	discard	upgpow2: upgrade: powers +2 [upg_power_bonus=2]
 6c01d8f	val.a0	300	0	0.210	36.55	0.9267	-0.0288	0.096	discard	md10: map: no discount on future rooms [map_discount=1.0]
+71c9c1f	val.a0	300	0	0.300	38.21	1.0492	+0.0937	0.987	keep	wev15: map: event value 1.5 [w_event=1.5]
+71c9c1f	val.a0	300	0	0.173	36.06	0.8803	-0.1689	0.000	discard	wmon15: map: hallway fight value 1.5 [w_monster=1.5]
+71c9c1f	test.a0	500	0	0.276	37.76	1.0164			MILESTONE	wev15: M1/M2 test check of best (test run 1/5)

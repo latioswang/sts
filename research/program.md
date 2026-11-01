@@ -27,10 +27,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 
 ### Current state (update after every batch)
 
-- Best: `scal15` — val win 23.0%, floor 37.0, score 0.956 (`research/best_params.txt`).
+- Best: `wev15` — val win 30.0%, floor 38.2, score 1.049.
+  **TEST (run 1/5): 138/500 = 27.6%, 95% Wilson CI [23.9%, 31.7%]** → M1 ✅ (M2 on val only).
 - Keep chain: legacy policy 3.0% → END_TURN rollout w 0.2 (10%) → 0.05 (14%)
   → [Runic Dome guardrail: 11%] → events (13.7%) → KB boss relics (18.3%)
-  → AoE bonus (20.3%) → scaling bonus (23.0%).
+  → AoE bonus (20.3%) → scaling bonus (23.0%) → map: prefer events, w_event 1.5 (30.0%).
 - Diagnostic: lightspeed's CHEATING combat + our policy = 9.6% — our leak-free
   search already beats it, so the "combat ceiling" probe is uninformative.
 - Learned: random rollouts beat every "smart" rollout bias tried (play-order,
