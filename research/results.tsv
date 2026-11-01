@@ -244,3 +244,4 @@ f641edc	val.a0	300	0	0.737	47.12	1.6606	-0.0000	0.492	discard	wev15: map: event 
 4e429bf	val.a0	300	0	0.700	46.94	1.6204	-0.0402	0.037	discard	wev25: map: event rooms valued 2.5 [w_event=2.5]
 e32e41c	val.a0	300	0	0.733	47.11	1.6571	-0.0035	0.441	discard	wsr2: map: shop valued 2 when rich [w_shop_rich=2]
 580d7f0	val.a0	300	0	0.733	47.04	1.6556	-0.0050	0.384	discard	wsr4: map: shop valued 4 when rich [w_shop_rich=4]
+82081d6	val.a0	300	0	0.720	47.07	1.6429	-0.0176	0.107	discard	resthp04: map: rest rooms preferred below 40% HP [rest_hp=0.4]
