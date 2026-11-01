@@ -254,3 +254,4 @@ fd1c65c	val.a0	300	0	0.723	47.06	1.6461	-0.0326	0.037	discard	mapd095: map: path
 664e81b	val.a10	300	0	0.290	37.51	1.0256	-0.0006	0.492	discard	a10_resthp06: [a10] A10: rest rooms preferred below 60% HP [rest_hp=0.6]
 2969032	val.a10	300	0	0.283	37.52	1.0191	-0.0071	0.299	discard	a10_wsr4: [a10] A10: shop valued 4 when rich [w_shop_rich=4]
 4dc2cb7	val.a10	300	0	0.300	37.67	1.0386	+0.0125	0.771	discard	a10_mapd095: [a10] A10: path discount 0.95 [map_discount=0.95]
+0d30e5a	val.a10	300	0	0.283	37.34	1.0154	-0.0107	0.130	discard	a10_potb2: [a10] A10: potions worth 2 HP in boss fights only (spend them where runs end) [potion_v_boss=2]
