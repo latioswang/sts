@@ -549,6 +549,10 @@ If both pass, the higher pooled dscore is promoted. A near-miss that fails stays
 extension. Cost: one 100-game run per candidate.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+- **Never edit a script that is running.** bash reads scripts incrementally; editing
+  `bf_pipeline.sh` while the queue was executing it produced a syntax error at the end of the run (after
+  the last experiment, so nothing was lost). Edit tools only between queue lines that use them, or
+  write the new version under a new name and point new queue lines at it.
 - **Background commands die at the 2-hour limit** (the queue runner was killed 45 s into the first
   fight-data generation). The runner now records the line in flight (`research/queue.current`) and
   re-runs it on restart; long generations run in resumable 50-game chunks (`bf_gen.sh`, per-chunk log
