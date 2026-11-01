@@ -66,10 +66,13 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7%.
-- Running: batch 25 (A10 round 2: card threshold / elite threshold / rest weight; A0 PUCT c 1.2).
-- Queued ideas (batch 26): robust-child final move selection (`select_q`), removal order
-  (`strike_before_defend=0`), shop relic-before-removal order, `card_act1_bonus 2`, `w_elite_act1 +1`;
-  then seed the A20 track.
+- A20 so far (vs base_a20 2.3%): `a20_rest06` −0.006, `a20_ct4` −0.007 — nothing matters until act-1
+  survival is fixed (160/300 A20 runs die in act 1, 89 before the boss).
+- Running (sequential queue, `research/queue.txt`): batch 29 (elite path weights on A0/A10/A20), 30 (A20
+  act-1 survival: elite avoidance), 31 (potion value, rest retest on A0), 32 (kb_syn → A20, stronger on
+  A10), 33 (A10 near-miss retests), calibrated prior-guided rollouts; then the Phase C v3 pipeline
+  (rebuild → repro_check → death diagnostics → smoke → 500-game fight dataset → train → bf experiments
+  on A0 and A10).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
