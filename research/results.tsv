@@ -107,3 +107,9 @@ b3eccbc	val.a0	300	0	0.130	42.32	0.9306	-0.0356	0.011	discard	krh05: [heart] hea
 5317fe2	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	pm_c10: root MLP prior, PUCT c 1.0 [prior_c=1.0]
 5317fe2	val.a0	300	0	0.623	44.87	1.5032	+0.0156	0.671	discard	pm_c07: root MLP prior, PUCT c 0.7 [prior_c=0.7]
 5317fe2	val.a0	300	0	0.627	44.44	1.4981	+0.0105	0.619	discard	pm_c05: root MLP prior, PUCT c 0.5 [prior_c=0.5]
+af273d7	val.a0	300	0	0.583	44.40	1.4539	-0.0338	0.151	discard	priormlp2_d0: root MLP prior distilled from 2000-sim self-play of the best agent [prior_mlp=1 prior_mlp_depth=0]
+af273d7	val.a10	300	0	0.163	30.83	0.7678			best	base_a10: [a10] track baseline = current A0 best params at ascension 10
+af273d7	val.a0	300	0	0.590	44.43	1.4612	-0.0264	0.230	discard	bossprep1: boss-aware card valuation (act boss known from the map): AoE/block/power/0-cost adjustments [boss_prep=1]
+af273d7	val.a0	300	0	0.620	44.46	1.4918	+0.0042	0.541	discard	bossprep2: boss prep, stronger (AoE +3, block +2) [boss_prep=1 boss_aoe_bonus=3 boss_block_bonus=2]
+af273d7	val.a0	300	0	0.157	41.65	0.9473	-0.0188	0.218	discard	bossprep_h: [heart] boss prep on the Heart track [boss_prep=1]
+af273d7	val.a10	300	0	0.173	30.78	0.7769	+0.0091	0.632	discard	bossprep_a10: [a10] boss prep at ascension 10 [boss_prep=1]

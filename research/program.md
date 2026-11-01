@@ -287,7 +287,18 @@ often is easy, converting it is the constraint (Act-4 fights need a stronger dec
 higher but within noise at n=300. Chain continues: gen2 (500 self-play games at 2,000 sims with the
 root-prior agent) → retrain prior → `priormlp2_d0` → A10 seed → boss-prep batch.
 
-### Boss-aware deck preparation (`boss_prep=1`) — implemented, queued as batch 20
+### Chain results 08:39 UTC (gen2 distillation, batch 22, A10 seed, boss-prep batch)
+- gen2 (500 self-play games, 2,000 sims, root-prior agent): **65.8% win at 4× compute** (train seeds;
+  informational) — the compute lever is consistent (+4.5 pts for 4× sims).
+- Distilled prior from gen2 (167k decisions; val CE 0.2481, 55% captured of a sharper target):
+  `priormlp2_d0` **58.3%, −0.034 vs priormlp_d0 (P=0.15)** — worse than the 500-sim-target prior.
+  Fewer decisions and sharper (more peaked) targets over-focus the root at c=1.5. Next: train on
+  gen_all+gen2 combined with hidden 128, and a prior temperature (`prior_temp`, implemented).
+- **A10 track seeded: `base_a10` 16.3% win, floor 30.8** (A0 best params at ascension 10).
+- Boss prep: `bossprep1` −0.026 (P=0.23), `bossprep2` +0.004 (P=0.54), Heart −0.019, A10 +0.009 —
+  neutral everywhere; closed in this form (per-boss card bonuses are too blunt an instrument).
+
+### Boss-aware deck preparation (`boss_prep=1`) — implemented, tested in batch 20 (neutral)
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
 / Champ / Automaton / Time Eater; no powers vs Awakened One; fewer 0-cost cards vs Time Eater.
