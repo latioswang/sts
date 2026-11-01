@@ -193,3 +193,4 @@ ed9dd2e	val.a0	300	0	0.693	46.75	1.6099	+0.0539	0.952	keep	bfbonus10: card picks
 a4106d4	train.a0	500	0	0.654	44.73	1.5311			info	bg1: bg1: 500 train games of the A0 best with the g1 fight logger (boss damage + next-act boss labels; bf_sims 100)
 f9c460e	val.a0	300	0	0.073	44.58	0.9135	+0.0473	0.983	keep	heart_cur: [heart] Heart: current A0 best (potions saved, deck-value bonus) with keys [bf_bonus=10]
 8f3f173	train.a10	500	0	0.158	31.78	0.7811			info	bg_a10: bg_a10: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+6788ffb	val.a0	300	0	0.643	45.92	1.5438	-0.0661	0.052	discard	bfpick_g1: interventional deck value (g1): card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_model=1 bf_pick=1 bf_bonus=0]
