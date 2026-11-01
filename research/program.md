@@ -57,8 +57,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 
 ### Current state (update after every batch) — 2026-11-01 14:20 UTC
 - Tracks: **A0 best `bfbonus10_g1`: `bfbonus10_g1` 73.3% win, floor 47.3, +0.051 vs base, P=0.947 → keep** (KB value + 10 × the g1 model's predicted fight-value
-  gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus;
-  dev check queued). Previous: **`bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
+  gain — graded labels: damage fraction vs the act boss and vs a next-act boss; replaces g0 in the bonus).
+  Dev check (100 fresh seeds vs bfbonus10_dev 67.0%): `bfbonus10_g1_dev` 68.0% win, floor 45.6, +0.023 vs base, P=0.663 → info — direction positive, size smaller than val
+  (+4.0 pts) and not significant at n=100; the keep stands under the val rule, label "weakly replicated". Previous: **`bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
   card value = KB tier value + deck-need bonuses + 10 × (interventional model g0's predicted fight value
   with the card − without it). The model as a replacement lost 10–16 pts; as an additive adjustment to
   the long-horizon tiers it adds +3.0 pts win (vs potsave2 66.3%; chain: wea1p1 63.7% → potsave2 → bfbonus10).
