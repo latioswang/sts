@@ -8,6 +8,7 @@ hall_potions=0
 map_pol=1
 prior_mlp=1
 prior_mlp_depth=0
+rest_heal_frac=0.6
 rest_pol=1
 scaling_bonus=3
 scaling_want=3

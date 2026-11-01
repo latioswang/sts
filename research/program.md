@@ -302,6 +302,15 @@ root-prior agent) → retrain prior → `priormlp2_d0` → A10 seed → boss-pre
 - Boss prep: `bossprep1` −0.026 (P=0.23), `bossprep2` +0.004 (P=0.54), Heart −0.019, A10 +0.009 —
   neutral everywhere; closed in this form (per-boss card bonuses are too blunt an instrument).
 
+### Batch 23 results (val 300)
+A0 (vs priormlp_d0): `ocpot1` (out-of-combat potions) −0.022 (P=0.26); prior temperature: `pm_t07`
+(sharpen) **−0.145**, `pm_t15` (flatten) −0.026 → the raw softmax prior is right, sharpening is harmful.
+Heart (Heart-win metric, vs INFO_keys1 6.3%): `act4prep1` 5.0% (−0.014, P=0.12), `ocpot_h` 6.0% —
+neutral; Act-4 conversion tracks overall deck strength, not Act-4-specific card bonuses.
+**A10 (vs base_a10 16.3%): `a10_rest06` (heal at rest below 60%) +0.040, P=0.988 → KEEP (18.7%);**
+`a10_elite075` +0.031 (P=0.84); `a10_ct4` (take more cards) +0.028 vs the new best (P=0.89, 20.3%).
+Prior v3 (gen0+gen1+gen2, 465k decisions, hidden 128): val CE 0.2668 (50% captured); `priormlp3_d0` running.
+
 ### Boss-aware deck preparation (`boss_prep=1`) — implemented, tested in batch 20 (neutral)
 Bosses are 71% of chest1's losses and the act boss is visible from the first floor. Card valuation
 gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca; block vs Guardian
