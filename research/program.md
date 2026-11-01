@@ -55,20 +55,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch)
-
-- **FINAL (loop stopped: 2 consecutive batches without a keep).** Best: `hallpot0`
-  — val 35.7%; **TEST 169/500 = 33.8%, 95% CI [29.8%, 38.1%]** (test runs used: 4/5).
-  Baselines on test: fair0 0.4%, cheating lightspeed agent 0.8%. See `research/REPORT.md`.
-- Milestones: M1 ✅ (test 33.8% ≥ 25%), M2 ✅ on test (≥ 30%), M3 ✗ (35% inside CI, not reached).
-- Keep chain: legacy policy 3.0% → END_TURN rollout w 0.2 (10%) → 0.05 (14%)
-  → [Runic Dome guardrail: 11%] → events (13.7%) → KB boss relics (18.3%)
-  → AoE bonus (20.3%) → scaling bonus (23.0%) → map: prefer events, w_event 1.5 (30.0%) → near-miss combo (32.0%) → no hallway potions in search (35.7%).
-- Diagnostic: lightspeed's CHEATING combat + our policy = 9.6% — our leak-free
-  search already beats it, so the "combat ceiling" probe is uninformative.
-- Learned: random rollouts beat every "smart" rollout bias tried (play-order,
-  block-aware, attack-bias). Deck-building additions (AoE, scaling) work;
-  block bonus, card thresholds, Neow ranking, elite tweaks ≈ neutral/negative.
+### Current state (update after every batch) — 2026-11-01 06:05 UTC
+- **Best: `chest1` — val 57.7% win, floor 44.2, score 1.444** (test confirmation queued, run 5/5).
+  Chain since phase 1: rb3 (fixed sim) 38.0% → chest fix 57.7%.
+- Keep chain overall: legacy 3% → rollout END_TURN weight 10% → 14% → events 13.7% (after the
+  Dome-honesty re-baseline) → KB boss relics 18.3% → AoE 20.3% → scaling 23.0% → map events
+  30.0% → near-miss combo 32.0% → no hallway potions 35.7% → [sim fixes → 38.0%] → chests 57.7%.
+- Losses by floor (chest1 run, 127 losses, computed): Act 1 hallway 4 · Act 1 boss 20 · Act 2
+  hallway 13 · **Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35**. Bosses are 71% of losses.
+- Learned components: bilinear move prior (neutral so far), V_run for picks (clean model
+  awaiting test), bootstrapped V (sanity pending). Everything learned is gated by paired val.
+- Keys/Act 4: `keys=1 chest_pol=1` collects all three keys in some runs; `INFO_keys1` measures the
+  Act-4 reach rate (a different win definition — never compared against A0 numbers).
 
 ### Phase 2 (2026-11-01): simulator holes filled instead of routed around
 

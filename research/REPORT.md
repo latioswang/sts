@@ -1,111 +1,99 @@
-# Ironclad autoresearch — report
+# Ironclad autoresearch — report (updated 2026-11-01, month program in progress)
 
-One autonomous session, karpathy/autoresearch-style: a frozen harness scores
-every change; keep only paired-significant improvements; log everything.
+Autonomous research loop on the `sts_lightspeed` simulator: a frozen harness scores every
+change on fixed seed splits; only paired-significant improvements are kept; every run is logged
+in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then phase 2
+(simulator fixes) and the month program (learning infrastructure, keys/Act 4).
 
-## Headline (held-out `test` split, 500 seeds, A0, never optimised against)
+## Headline numbers
 
-| Agent | Wins | Win rate | 95% Wilson CI | Mean floor |
+| Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Final best (`hallpot0`)** — leak-free search + learned-by-loop policy | 169/500 | **33.8%** | [29.8%, 38.1%] | 39.3 |
-| Mid-run checkpoint (`wev15`, test run 1/5) | 138/500 | 27.6% | [23.9%, 31.7%] | 37.8 |
-| Start: leak-free search + lightspeed's legacy out-of-combat policy (`fair0`) | 2/500 | 0.4% | [0.1%, 1.4%] | 19.7 |
-| Reference: lightspeed's **cheating** ScumSearchAgent2 @500 sims (`scum_cheat`) | 4/500 | 0.8% | [0.3%, 2.0%] | 22.1 |
+| **Current best `chest1`** (fixed sim, chests opened) | val, 300 | **57.7%** | — | 44.2 |
+| same, test confirmation | test, 500 | *pending (run 5/5)* | | |
+| `rb3` — fixed simulator, before the chest fix | val, 300 | 38.0% | — | 40.5 |
+| Phase-1 final `hallpot0` (old sim) | test, 500 | 33.8% | [29.8%, 38.1%] | 39.3 |
+| Start: leak-free search + lightspeed legacy policy | test, 500 | 0.4% | [0.1%, 1.4%] | 19.7 |
+| Reference: lightspeed's **cheating** ScumSearchAgent2 @500 sims | test, 500 | 0.8% | [0.3%, 2.0%] | 22.1 |
 
-"Win" = beating the Act 3 boss (lightspeed has no Act 4 without keys). Test
-runs used: 4 of the 5 allowed. Val (300 seeds) for the final agent was 35.7%,
-test 33.8% — the expected small winner's-curse shrink.
+"Win" = beating the Act 3 boss at Ascension 0 (keys/Act 4 are a separate track). Compute per
+comparison is fixed at the wall-clock of the original 500-simulation search.
 
-## Setup
+## What the agent is
 
-- Simulator: `gamerpuppy/sts_lightspeed` (C++, Ironclad fully implemented),
-  built with pybind11 2.13.6; patch + commit pinned in `research/patches/`,
-  rebuild with `research/setup.sh`.
-- Agent (`research/cpp/`): leak-free determinised MCTS for combat + a
-  parameterised out-of-combat policy. Combat budget fixed at 500 simulations
-  per decision for every comparison.
-- Harness (`research/eval/`, frozen): fork-per-game (simulator crashes become
-  logged rows, not dead evals), seed splits dev 100 / val 300 / test 500,
-  score = floor/51 + win, paired bootstrap vs current best, keep rule
-  Δscore > 0 and P(improve) ≥ 0.9 (`research/exp.sh` applies it automatically).
-- Loop instructions, milestones, backlog: `research/program.md`.
-  Full log of every run: `research/results.tsv` (68 rows: 11 keeps, 50 discards).
+- **Combat:** online MCTS, uniformly random rollouts to the end of the fight, hand-written
+  terminal value (win bonus + HP + potions). Not learned. Leak-free: hidden state is
+  re-randomised every simulation (draw order, all RNG streams, intents under Runic Dome);
+  a leak test (`fair_eval --leaktest`, `--leak_dome`) gates every build.
+- **Out of combat:** parametric rules (map DP, card picks from the repo's KB tiers plus deck-need
+  bonuses, shop, rest, events, boss relics, keys, chests). Not learned.
+- **Loop:** hypothesis → `research/exp.sh` (val, paired bootstrap vs best, keep if P ≥ 0.9) →
+  auto-promote → log. 85+ experiments so far; ~15 keeps.
 
-## Leak-free guarantees (and what they cost)
+## Phase 2: simulator holes filled (not routed around)
 
-1. **Combat search re-randomises hidden state every simulation**: draw pile
-   sorted to canonical order then shuffled with the searcher's own RNG; all six
-   BattleContext RNG streams reseeded; `bc.seed` never read; tree nodes keyed
-   by an observation hash. A **leak test** (`fair_eval --leaktest`) checks the
-   chosen action is identical when hidden state + seed are perturbed with the
-   search seed fixed — passed on every build (≈100–140 states each).
-2. **Runic Dome is never taken** (boss relic or via Neow's random boss relic):
-   the simulator still exposes intents to the search with Dome, so taking it is
-   a leak. lightspeed's legacy ordering ranks Dome *first*. Enforcing this cost
-   −0.034 score / −3 pts win on val — i.e. earlier numbers were inflated.
-3. **Entropic Brew is never used** — it can create non-Ironclad potions
-   (e.g. Ambrosia) whose effects lightspeed doesn't implement → crash.
-4. Conservative: cards placed on top of the draw pile (Headbutt, Warcry) are
-   *also* re-shuffled, so the agent knows slightly less than a human would.
+Root causes fixed in lightspeed (all `// FIX` in `research/patches/sts_lightspeed.patch`):
+`BattleContext::player.cc` never initialised (Entropic Brew / Dead Branch drew from a garbage
+class pool — the earlier "Ambrosia crash"); Blood Potion heal inverted; Iron Wave double
+Dexterity; Dark Shackles *adding* Strength and Shackled inverted; Disarm+ −2; Impatience always
+drawing; Smoke Bomb a no-op; Toy Ornithopter missing; Designer In-Spire switch fall-through and
+free "Adjustments"; Mushrooms/Mysterious Sphere +99 gold; Mausoleum no relic; Woman in Blue
+free; Scrap Ooze non-escalating; Colosseum stubbed and disabled → implemented. Agent-side: Runic
+Dome handled honestly (intents hidden in the observation hash; pending move re-sampled only when
+it came from an RNG roll — re-rolling scripted moves double-spawned the Automaton's orbs);
+known top-of-pile cards (Headbutt/Warcry) kept in determinisation; Entropic Brew and Dome un-banned.
+Re-baseline on the fixed sim: 38.0% val (from 35.7% on the buggy sim).
 
-lightspeed's built-in agent is a **cheating reference**, not a baseline: it
-searches a copy of the true RNG and replays the found line (save-scumming).
-Even so, our honest agent beats it by ~33 points on test, and the cheating
-search paired with our final policy only reached 9.6% on val (diagnostic) —
-our leak-free MCTS is the stronger combat player at equal budget.
+## The big one: treasure chests
 
-## Keep chain (val, 300 seeds; each step paired vs the previous best)
+lightspeed's treasure-room action is `0 = open, else = leave`; its legacy agent passed `true`
+(=1) meaning "take", so it never opened a chest — and our agent inherited that handler. Every
+run before `chest1` skipped all chest relics (and the sapphire key). Fixing it: **+19.7 points of
+win rate (38.0% → 57.7%, P = 1.000)**, the largest single gain in the program. Found while
+implementing the keys/Act 4 track, not by reasoning about win rate — a reminder that fidelity
+audits of the *agent's* environment interface pay off as much as simulator audits.
 
-| Step | Change | Val win | Δscore | P |
-|---|---|---|---|---|
-| 0 | leak-free MCTS + legacy policy | 0.0% (dev) | — | — |
-| 1 | map DP + rest + KB-tier card picks + shop + removal policies | 3.0% | +0.17 (dev) | 1.00 |
-| 2 | rollout END_TURN weight 1 → 0.2 | 10.0% | +0.187 | 1.00 |
-| 3 | END_TURN weight 0.05 | 14.0% | +0.068 | 0.997 |
-| — | Runic Dome guardrail (re-baseline, honesty fix) | 11.0% | −0.034 | — |
-| 4 | event policy (rules written from lightspeed's event code) | 13.7% | +0.048 | 0.983 |
-| 5 | boss relics ranked by the repo KB's tier list | 18.3% | +0.053 | 0.988 |
-| 6 | +2 value for AoE cards when deck has none | 20.3% | +0.046 | 0.990 |
-| 7 | +1.5 value for scaling cards when deck has <2 | 23.0% | +0.038 | 0.981 |
-| 8 | map: prefer events (w_event 1.5) | 30.0% | +0.094 | 0.987 |
-| 9 | combo: scaling 3/want 3, power upgrades, w_event 2, rich-shop 3, hallway fights 0.5 | 32.0% | +0.051 | 0.915 |
-| 10 | no potions in hallway-fight search (unless HP < 25%) | 35.7% | +0.049 | 0.934 |
+## Learning infrastructure (Phase A) and first learned components (Phases B/C)
 
-## What did not work (selected; all in results.tsv)
+- Observable-only feature extractors: combat state (204 dims), run state (666 dims), action
+  tokens (434) + target features; per-decision loggers (`vf_log`, `rv_log`, `pf_log`), torch
+  trainers with grouped holdouts and non-finite/base-rate guards, weight export to `.inc`,
+  C++ inference (MLP / bilinear), integration points: leaf value at rollout cutoff, PUCT prior,
+  one-step-lookahead picks with V_run.
+- Three data-integrity bugs were caught by the validation asserts before any model was trusted:
+  child stderr reused as the log fd (cerr corrupted binary logs); the value loader mixing other
+  loggers' files; `getStatus` throwing on a bit-only status (14.6% of logging games aborted).
+  Datasets were regenerated each time (1,000 games, 0 crashes final).
+- Results so far: outcome-regression leaf V — good predictor (RMSE 12 vs 28), **catastrophic as a
+  leaf** (rows of a battle share one label → no within-turn signal → passivity). Bilinear move
+  prior — neutral (−0.004 at equal compute; captures ~31% of the available information).
+  V_run — val log-loss 0.561 vs 0.693 base after regularisation; pick experiments running.
+  Bootstrapped V (targets = search root values): RMSE 9.7 vs 33.9 — sanity test running.
 
-- **"Smarter" rollouts all lost to near-random ones**: expert play-order bias
-  (−0.45), block-aware skills (−0.067), attack bias (−0.093), rollout cutoff +
-  heuristic eval (−0.08). Exploration constant 0.3/0.5/1.5: noise or worse.
-- Tree reuse across decisions (−0.009), compute reallocation to bosses (−0.042).
-- Avoiding elites more (−0.045), fewer act-1 elites (−0.053), more hallway
-  fights (−0.169), shop potion buying (−0.068), value HP ×2 (−0.064),
-  win-bonus 100 (−0.117), block-card bonus (−0.039), Neow ranking (−0.009).
-- Combining individually-positive near-misses (P 0.6–0.7) did **not** stack
-  (combo4 −0.016) → those were noise, as the keep rule assumed.
+## What did not work (selected)
 
-## Where it still loses (final agent, test, 331 losses)
+Fixed per-decision *action* budgets (starve long fights, −0.065); every rollout cutoff with a
+heuristic leaf (−0.14 to −0.37); "smart" rollout biases (−0.07 to −0.45); strong low-HP risk
+aversion (−0.31); tree reuse, exploration constants, potion/HP value tweaks, Neow ranking,
+elite avoidance, shop potions (all ≤ noise or negative). Fixed-size card piles for speed were
+reverted after causing stack corruption in degenerate rollouts (3/300 crashes).
 
-Act 1: 10 · Act 1 boss: 39 · Act 2: 62 · **Act 2 boss: 115** · Act 3: 36 · Act 3 boss: 69.
+## Where it still loses (chest1, val)
 
-## What I'd do next (ranked)
+127 losses (computed from the run file): Act 1 hallway 4 · Act 1 boss 20 · Act 2 hallway 13 ·
+**Act 2 boss 35** · Act 3 hallway 20 · **Act 3 boss 35** — bosses account for 71% of losses, so
+boss-specific preparation (deck checks keyed on the known boss) is the obvious next strategic lever.
 
-1. **More combat compute is the clearest remaining lever**: 2× sims (1000)
-   gave +0.081 score / +6.3 pts win on val (info-only run, not kept by rule).
-   So: make each simulation smarter or cheaper — learned value function at
-   rollout cutoff (trained on this harness's own battles), or C++ speedups +
-   a wall-clock (not sims) budget.
-2. Act 2 boss prep: boss-specific deck checks (Automaton/Champ/Collector).
-3. Learned card/path policy from logged trajectories (the 68 runs × 300 seeds
-   already form a dataset) instead of hand weights.
-4. Ascension ladder per `program.md` milestones once A0 test ≥ 35% (not yet:
-   33.8%, CI includes 35%).
+## Next (month program, `research/program.md`)
+
+Test confirmation of `chest1`; clean-data prior and V_run experiments (batch 16); bootstrapped V
+as leaf if it passes sanity; stronger action model for the prior; keys/Act 4 track (`keys=1`
+already collects all three keys in some runs); ascension ladder (A10, A20); continuous fidelity
+fuzzing with the trace build.
 
 ## Caveats
 
-- Simulator fidelity: lightspeed only, Ironclad only, A0, no Act 4/Heart.
-  Not validated against the real game (CommunicationMod) — results are
-  "in lightspeed", not "in Slay the Spire".
-- ~50 hypothesis tests on val with a P ≥ 0.9 rule → some keeps are false
-  positives; the test split (touched 4×, never tuned on) is the honest number.
-- Several thresholds/weights are hand-set priors (KB tiers, event rules) —
-  the loop tuned around them, it didn't learn them from scratch.
+Results are "in lightspeed" (Ironclad, A0, no Act 4 in the main metric), never validated against
+the real game. ~90 val tests with a P ≥ 0.9 rule → some keeps are false positives; the test split
+(touched 5 times, never tuned on) is the honest number. KB tiers and event rules are hand-written
+priors; the loop tuned around them.
