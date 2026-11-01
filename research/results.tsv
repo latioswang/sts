@@ -150,3 +150,4 @@ dcd74bb	val.a20	300	0	0.017	21.76	0.4429	-0.0070	0.201	discard	a20_ct4: [a20] A2
 661da97	val.a20	300	0	0.013	24.79	0.4991	-0.0071	0.205	discard	a20_mon1: [a20] A20: hallway fights valued 1.0 (more fights/rewards before elites) [w_monster=1.0]
 c128857	val.a20	300	0	0.013	25.61	0.5153	+0.0091	0.920	keep	a20_restlo: [a20] A20: rest below 60% HP valued 5 [rest_hp=0.6 w_rest_lo=5]
 d46ae3f	val.a0	300	0	0.630	45.11	1.5144	-0.0071	0.410	discard	potv2: combat value: potion worth 2 HP (use potions more freely) [potion_v=2]
+e82c291	val.a0	300	0	0.650	45.56	1.5433	+0.0218	0.770	discard	potv8: combat value: potion worth 8 HP (hoard potions) [potion_v=8]
