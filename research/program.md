@@ -284,7 +284,7 @@ gets per-boss adjustments: AoE vs Slime Boss / Automaton / Collector / Donu&Deca
 / Champ / Automaton / Time Eater; no powers vs Awakened One; fewer 0-cost cards vs Time Eater.
 Experiments: `bossprep1`, `bossprep2` (A0), `bossprep_h` (Heart), `bossprep_a10` (A10 track).
 
-### Batch 16 plan (after batch 15 and RETRAIN2 finish; needs a `make fair_eval` with the new .inc files)
+### Batch 16 plan — DONE (results above); items 1–4 executed, item 5 became the Heart track
 1. `prior2 prior=1` and `prior2_s450` with the clean-data prior (gen0+gen1 v2, ~300k decisions).
 2. `rvpick2 rv_pick=1` with the clean-data V_run; `rvpick2_m rv_margin=0.02` (only take a card
    when V_run improves by ≥2 pts — guards against noise in near-ties).

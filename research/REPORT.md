@@ -99,10 +99,11 @@ tracked separately; it makes the month's A20-Heart target measurable.
 
 ## Next (month program, `research/program.md`)
 
-Test confirmation of `chest1`; clean-data prior and V_run experiments (batch 16); bootstrapped V
-as leaf if it passes sanity; stronger action model for the prior; keys/Act 4 track (`keys=1`
-already collects all three keys in some runs); ascension ladder (A10, A20); continuous fidelity
-fuzzing with the trace build.
+Expert-iteration step 2: a 2,000-simulation self-play dataset from the new best agent → sharper
+move-prior targets → retrain → equal-compute test; PUCT exploration-constant sweep with the root
+prior (batch 21); boss-aware deck preparation on the A0, Heart and A10 tracks (batch 20); A10 track
+baseline (seeded from the A0 best) and then A20; Heart-track work shifts from "reach Act 4 more
+often" (easy) to converting Act 4 (deck strength). Continuous fidelity fuzzing with the trace build.
 
 ## Caveats
 
