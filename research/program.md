@@ -175,6 +175,14 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   model fails to beat the base rate, so `rv_pick` can never silently degrade to noise.
 - Batch 14 so far (vs rb3): `lowhp1` +0.010 (P=0.61), `lowhp2` −0.306 (strong risk aversion →
   passivity). Batch 15 queued: `chest1`, `prior1`, `prior1_s450`, `rvpick1`, `INFO_keys1`.
+- **Third data-integrity bug, found by cross-referencing run logs with the TSV:** 146/1,000
+  generation games aborted (14.6%) — only with loggers on. gdb: `std::map::at(DRAW_REDUCTION)`
+  threw inside the feature extractor; lightspeed sets that status as a bit with no map value, so
+  `getStatus` throws although `hasStatus` is true. Guarded (absent → 0, valueless → 1); the 8
+  previously-crashed seeds now complete. Datasets regenerated a third time (gen0/gen1, pf v2
+  format with root/edge values); prior, V_run and a bootstrapped V retrained on them.
+  Models trained before this fix saw truncated games (biased toward fights without that debuff);
+  the batch-15 `prior1`/`rvpick1` runs use those earlier weights and are therefore *lower bounds*.
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
