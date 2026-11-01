@@ -55,12 +55,16 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 06:05 UTC
-- **Best: `chest1` — val 57.7% win, floor 44.2, score 1.444. TEST (run 5/5): 273/500 = 54.6%,
-  95% Wilson CI [50.2%, 58.9%] → milestone M4 (A0 ≥ 50%) confirmed on held-out seeds.**
+### Current state (update after every batch) — 2026-11-01 07:35 UTC
+- **Best: `priormlp_d0` — val 61.3% win, floor 44.6, score 1.488 (+0.044 vs chest1, P=0.900): the
+  first learned component kept — the MLP move prior (49% of available information) used as a PUCT
+  prior at the root only, ~zero extra cost.** `priormlp_d0_c1` (prior_c 1.0) 64.0% (+0.031 vs the
+  new best, P=0.82 — follow-up batch 21); depth-1 use −0.01 at equal wall-clock and at +compute.
+- Previous best `chest1`: val 57.7%, **TEST (run 5/5): 273/500 = 54.6%, 95% CI [50.2%, 58.9%]** →
+  milestone M4 (A0 ≥ 50%) confirmed on held-out seeds.
   Test budget: the 5-run cap is spent; rule amended — one further test run per *confirmed*
   milestone (M-A10/M-A20/Heart), never for tuning.
-  Chain since phase 1: rb3 (fixed sim) 38.0% → chest fix 57.7%.
+  Chain since phase 1: rb3 (fixed sim) 38.0% → chest fix 57.7% → MLP move prior (root) 61.3%.
 - Keep chain overall: legacy 3% → rollout END_TURN weight 10% → 14% → events 13.7% (after the
   Dome-honesty re-baseline) → KB boss relics 18.3% → AoE 20.3% → scaling 23.0% → map events
   30.0% → near-miss combo 32.0% → no hallway potions 35.7% → [sim fixes → 38.0%] → chests 57.7%.

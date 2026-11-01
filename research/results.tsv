@@ -100,3 +100,7 @@ b3eccbc	val.a0	300	0	0.377	40.81	1.1768	-0.2672	0.000	discard	cfpick1: counterfa
 b3eccbc	val.a0	300	0	0.423	40.63	1.2200	-0.2240	0.000	discard	cfpick2: counterfactual card picks: 4 fights x 100 sims [cf_pick=1 cf_fights=4 cf_sims=100]
 b3eccbc	val.a0	300	0	0.147	42.46	0.9510	-0.0151	0.099	discard	wb3: [heart] heart track: burning-elite path bonus 3 [w_burning=3]
 b3eccbc	val.a0	300	0	0.130	42.32	0.9306	-0.0356	0.011	discard	krh05: [heart] heart track: take the ruby key down to 50% HP [key_rest_hp=0.5]
+0fb2c40	val.a0	300	0	0.613	44.59	1.4876	+0.0437	0.900	keep	priormlp_d0: MLP move prior at the root only (PUCT, prior_c 1.5), ~zero extra cost [prior_mlp=1 prior_mlp_depth=0]
+0fb2c40	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	priormlp_d0_c1: root-only MLP prior, prior_c 1.0 [prior_mlp=1 prior_mlp_depth=0 prior_c=1.0]
+0fb2c40	val.a0	300	0	0.600	44.74	1.4772	-0.0105	0.363	discard	priormlp_d1_c07_s365: MLP prior to depth 1, prior_c 0.7, equal wall-clock (sims 365) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7 sims=365]
+0fb2c40	val.a0	300	0	0.603	44.66	1.4791	-0.0086	0.400	discard	priormlp_d1_c07: MLP prior to depth 1, prior_c 0.7, sims 500 (+~40% compute, informational) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7]
