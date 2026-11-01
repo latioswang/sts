@@ -153,7 +153,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   over every slot up to `monsterCount`, including reserved not-yet-spawned slots (`idx == -1`), which then
   counted as alive and died. Fix: skip reserved slots. Unreachable in real play (the Lament covers the
   first 3 fights; reserved slots exist only in act-2/3 encounters), so recorded runs stay bit-identical
-  (repro_check in the queue after the rebuild). Patch file regenerated.
+  (repro_check in the queue after the rebuild). Patch file regenerated. **Verified:** rebuilt binary —
+  potsave2 / bfbonus10 (model 0) / heart_cur (model 1) all bit-identical, leak test green with model 1 on,
+  and seed 300071 now logs 0 context dumps (36 before).
 - Datasets: `bg1` (A0 best, g1 labels: 500 games, 58,540 rows, 147 Collector/Lament dumps in 3 games) and
   `bg_a10` (A10 best `a10_eh075`: 500 games, 15.8% win, floor 31.8, 107 MB; 993 dumps — generated before
   the Lament fix was built; the affected fights are < 0.1% of rows and are left in; regenerate with the
