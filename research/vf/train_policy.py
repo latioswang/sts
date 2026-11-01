@@ -87,6 +87,13 @@ def main():
         ce = -(tgt * logp)
         return ce[mask].sum() / max(1, int(mask.sum().item()))
 
+    # interpretability baselines: uniform prior CE and the target distribution's own entropy (CE lower bound)
+    with torch.no_grad():
+        cnt = torch.zeros(D).scatter_add(0, DEC, torch.ones_like(V))
+        tgt_all = V / torch.zeros(D).scatter_add(0, DEC, V)[DEC]
+        unif_ce = float((-(tgt_all * torch.log(1.0 / cnt[DEC])))[is_val_action].sum() / max(1, int(is_val_action.sum())))
+        ent = float((-(tgt_all * torch.log(tgt_all.clamp_min(1e-9))))[is_val_action].sum() / max(1, int(is_val_action.sum())))
+    print(f"val baselines: uniform-prior CE={unif_ce:.4f}  target entropy (lower bound)={ent:.4f}")
     t0 = time.time()
     for ep in range(a.epochs):
         opt.zero_grad(); l = loss_on(~is_val_action); l.backward(); opt.step()

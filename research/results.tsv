@@ -80,3 +80,4 @@ b03d7fe	val.a0	300	0	0.267	37.44	1.0007	-0.1730	0.000	discard	bud_rt6: budget 75
 b66021d	val.a0	297	3	0.407	40.74	1.2063	+0.0375	0.861	discard	spd_s650: throughput 1.3x (lean enumerator + fixed piles) converted to sims=650 at equal wall-clock [sims=650]
 c3af33c	val.a0	299	1	0.234	36.75	0.9547	-0.2163	0.000	discard	rt3_s750: rollout cutoff 3 + heuristic leaf at equal compute (sims 750, cost ratio 0.67) [rollout_turns=3 sims=750]
 5ea4a71	val.a0	298	2	0.282	38.05	1.0280	-0.1402	0.000	discard	rt6_s570: rollout cutoff 6 at equal compute (sims 570, cost ratio 0.88) [rollout_turns=6 sims=570]
+19752a3	val.a0	300	0	0.387	40.64	1.1836	+0.0099	0.608	discard	lowhp1: risk-aware HP utility: extra -1 per HP below 20 at fight end [lowhp_pen=1]

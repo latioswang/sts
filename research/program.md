@@ -170,7 +170,14 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
-### Phase D design (keys, Act 4, ascension) — to implement after the swap is idle
+### Policy hole found while implementing keys (2026-11-01 05:20 UTC)
+lightspeed's TREASURE_ROOM action is `0 = open chest, else = leave`; its legacy agent passes
+`true` (=1) meaning "take chest", so it never opened a chest — and FairAgent inherited the
+handler. **Every run so far skipped all treasure-room relics** (and the sapphire key).
+`chest_pol=1` fixes it (Cursed Key: open only large chests unless `chest_cursed_open=1`);
+queued as `chest1` in batch 15. Expect a sizeable keep; everything downstream re-baselines on it.
+
+### Phase D design (keys, Act 4, ascension) — implemented as `keys=1` (with `chest_pol=1`)
 - lightspeed already has Act 4 (`transitionToAct(4)` when all three keys are held; encounters
   SHIELD_AND_SPEAR, THE_HEART). The current policy never takes keys: rewards `KEY` action,
   rest-site option 2 (ruby key), Act-1/2 burning-elite emerald key, treasure-room sapphire key.
