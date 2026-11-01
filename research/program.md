@@ -498,6 +498,13 @@ upper reference**, never as a result.
 7. Never stop to ask. Out of ideas → re-read `results.tsv` failures, combine
    near-misses, try more radical changes.
 
+## Pre-registered near-miss extension (rule added 2026-11-01 11:40 UTC)
+A val near-miss (dscore > 0, 0.7 ≤ P < 0.9) may be extended **once** with the 100 dev seeds; the
+keep decision is then made on the pooled 400 seeds with the same rule (dscore > 0, P ≥ 0.9), via
+`research/tools/pooled.py NAME BASE ASC val,dev`. The extension is declared before the dev run is
+seen (here: `potsave` vs `wea1p1`). A near-miss that fails pooled stays discarded; no second extension.
+This costs one extra 100-game run and bounds the selection bias to the one named candidate.
+
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
 - **Numbers in notes are pasted, never typed.** Twice today a floor was written from memory and was
   wrong by 0.2–0.3. `research/tools/note.py NAME...` prints the exact fragment from results.tsv;
