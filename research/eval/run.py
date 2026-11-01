@@ -11,7 +11,8 @@ import argparse, os, random, subprocess, sys, time, statistics as st
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.environ.get("FAIR_EVAL_BIN", "/home/user/sts_lightspeed/build/fair_eval")
 SPLITS = {"dev": (100000, 100), "val": (200000, 300), "test": (900000, 500), "smoke": (100000, 20)}
-COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs"]
+COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs", "actions"]
+REQUIRED = 11  # "actions" is an optional diagnostic column added in phase 2
 MAX_FLOOR = 51  # A0 act-3 boss victory room
 
 
@@ -20,7 +21,7 @@ def load(path):
     with open(path) as f:
         for line in f:
             p = line.split()
-            if len(p) != len(COLS):
+            if len(p) < REQUIRED:
                 continue
             r = dict(zip(COLS, p))
             rows[int(r["seed"])] = {k: float(v) for k, v in r.items()}

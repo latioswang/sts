@@ -192,12 +192,15 @@ double FairSearcher::evaluate(const BattleContext &bc) const {
         }
     }
     const double ratio = mx > 0 ? static_cast<double>(cur) / mx : 0.0;
-    double v = (1.0 - ratio) * 10 + bc.turn * 0.2 + p.potionValue * bc.potionCount / 2;
     if (bc.outcome == Outcome::UNDECIDED) {
-        // cutoff: alive with hp; scale between loss and win
-        v += 0.5 * (p.winBonus * (1.0 - ratio)) + p.hpWeight * bc.player.curHp * (1.0 - ratio);
+        // rollout cutoff (fight unresolved): monotone heuristic between loss and win —
+        // credit for enemy HP removed, current HP, potions kept. Tunable via cut_* params.
+        return p.cutWinFrac * p.winBonus * (1.0 - ratio)
+             + p.cutHpFrac * p.hpWeight * bc.player.curHp
+             + p.potionValue * bc.potionCount / 2;
     }
-    return v;
+    // loss: partial credit for damage dealt and survival time
+    return (1.0 - ratio) * 10 + bc.turn * 0.2 + p.potionValue * bc.potionCount / 2;
 }
 
 double FairSearcher::rollout(BattleContext &bc) {
@@ -247,6 +250,7 @@ double FairSearcher::rollout(BattleContext &bc) {
         }
         FAIR_TRACE_ACTION(chosen, bc, "roll");
         chosen.execute(bc);
+        ++actionsExecuted;
         FAIR_CHECK(bc, "rollout");
     }
     return evaluate(bc);
@@ -289,6 +293,7 @@ void FairSearcher::simulate() {
         path.emplace_back(cur, ei);
         FAIR_TRACE_ACTION(action, bc, "tree");
         action.execute(bc);
+        ++actionsExecuted;
         FAIR_CHECK(bc, "tree");
         const auto h = observationHash(bc);
         auto &children = nodes[cur].edges[ei].children;
@@ -317,8 +322,15 @@ void FairSearcher::simulate() {
 
 search::Action FairSearcher::search() {
     if (nodes.empty()) { newNode(*rootState); rootIdx = 0; }
+    actionsExecuted = 0;
+    simulationsRun = 0;
     if (nodes[rootIdx].edges.size() == 1) return nodes[rootIdx].edges[0].action;
-    for (int i = 0; i < p.simulations; ++i) simulate();
+    if (p.budgetActions > 0) {
+        // compute-proportional budget: cheaper simulations (e.g. rollout cutoff) buy more of them
+        while (actionsExecuted < p.budgetActions) { simulate(); ++simulationsRun; }
+    } else {
+        for (int i = 0; i < p.simulations; ++i) { simulate(); ++simulationsRun; }
+    }
     const auto &edges = nodes[rootIdx].edges;
     int best = 0;
     for (int i = 1; i < static_cast<int>(edges.size()); ++i) {

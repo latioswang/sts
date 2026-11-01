@@ -19,6 +19,8 @@ double getp(const Params &p, const std::string &k, double def);
 struct RunStats {
     std::int64_t combatDecisions = 0;
     std::int64_t battles = 0;
+    std::int64_t actions = 0;      // total game actions executed inside search (compute proxy)
+    std::int64_t simulations = 0;  // total simulations run
     bool aborted = false;
 };
 

@@ -31,6 +31,9 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed) : P(params),
     sp.winBonus = getp(P, "win_bonus", 35.0);
     sp.maxHpWeight = getp(P, "maxhp_w", 0.0);
     sp.escapePenalty = getp(P, "escape_pen", 30.0);
+    sp.budgetActions = static_cast<std::int64_t>(getp(P, "budget_actions", 0));
+    sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
+    sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);
     legacy.rng = std::default_random_engine(static_cast<unsigned>(agentSeed ^ 0xabcdefULL));
 }
 
@@ -88,6 +91,8 @@ void FairAgent::playBattle(GameContext &gc) {
         s.setRoot(bc);
         auto a = s.search();
         ++stats.combatDecisions;
+        stats.actions += s.actionsExecuted;
+        stats.simulations += s.simulationsRun;
         static const bool dbg = std::getenv("FAIR_DEBUG") != nullptr;
         if (dbg) {
             std::cerr << "turn " << bc.turn << " hp " << bc.player.curHp << " e " << bc.player.energy << " ";

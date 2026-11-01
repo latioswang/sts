@@ -3,7 +3,8 @@
 // usage: fair_eval --agent fair|scum --seed_start N --count K --asc A
 //                  --threads T [--param key=value ...] [--leaktest]
 // Prints one TSV row per seed:
-//   seed  outcome(1 win/0 loss)  floor  act  hp  max_hp  deck  battles  decisions  aborted  seconds
+//   seed  outcome(1 win/0 loss)  floor  act  hp  max_hp  deck  battles  decisions  aborted  seconds  actions
+// (actions = game actions executed inside search; diagnostic compute proxy, not used in scoring)
 #include "FairAgent.h"
 
 #include "combat/BattleContext.h"
@@ -27,7 +28,7 @@ using namespace sts;
 
 struct Row {
     std::uint64_t seed; int win; int floor; int act; int hp; int maxHp; int deck;
-    std::int64_t battles; std::int64_t decisions; int aborted; double secs;
+    std::int64_t battles; std::int64_t decisions; int aborted; double secs; std::int64_t actions = 0;
 };
 
 static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const fair::Params &P) {
@@ -44,7 +45,7 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
         // carries no information about game RNG state.
         fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
         a.playout(gc);
-        r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted;
+        r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted; r.actions = a.stats.actions;
     }
     r.win = gc.outcome == GameOutcome::PLAYER_VICTORY;
     r.floor = gc.floorNum; r.act = gc.act; r.hp = gc.curHp; r.maxHp = gc.maxHp;
@@ -119,7 +120,8 @@ int main(int argc, char **argv) {
     if (inproc) {
         for (int i = 0; i < count; ++i) {
             Row r = runOne(agent, seedStart + i, asc, P);
-            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\n", (unsigned long long)r.seed, r.win, r.floor, r.hp, (long long)r.decisions, r.secs);
+            std::printf("%llu\t%d\t%d\t%d\t%lld\t%.2f\tactions=%lld\tper_decision=%.0f\n", (unsigned long long)r.seed, r.win, r.floor, r.hp,
+                        (long long)r.decisions, r.secs, (long long)r.actions, r.decisions ? (double)r.actions / r.decisions : 0.0);
         }
         return 0;
     }
@@ -141,7 +143,7 @@ int main(int argc, char **argv) {
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0 && !out.empty()) {
             std::fputs(out.c_str(), stdout);
         } else {
-            std::printf("%llu\t0\t0\t0\t0\t0\t0\t0\t0\t2\t0.00\n", (unsigned long long)it->second.first);
+            std::printf("%llu\t0\t0\t0\t0\t0\t0\t0\t0\t2\t0.00\t0\n", (unsigned long long)it->second.first);
         }
         std::fflush(stdout);
         running.erase(it);
@@ -159,9 +161,9 @@ int main(int argc, char **argv) {
                 alarm(900);           // hang guard -> counted as crash
                 Row r = runOne(agent, seed, asc, P);
                 char line[512];
-                int len = std::snprintf(line, sizeof line, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%lld\t%lld\t%d\t%.2f\n",
+                int len = std::snprintf(line, sizeof line, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%lld\t%lld\t%d\t%.2f\t%lld\n",
                             (unsigned long long)r.seed, r.win, r.floor, r.act, r.hp, r.maxHp, r.deck,
-                            (long long)r.battles, (long long)r.decisions, r.aborted, r.secs);
+                            (long long)r.battles, (long long)r.decisions, r.aborted, r.secs, (long long)r.actions);
                 if (write(fds[1], line, len) != len) _exit(3);
                 close(fds[1]);
                 _exit(0);

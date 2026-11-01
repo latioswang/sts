@@ -22,7 +22,8 @@
 namespace fair {
 
 struct SearchParams {
-    int simulations = 500;       // per decision (frozen eval budget)
+    int simulations = 500;       // per decision (frozen eval budget) — used when budgetActions == 0
+    std::int64_t budgetActions = 0;  // if > 0: run simulations until this many game actions were executed (compute proxy, deterministic)
     double exploration = 0.7;    // UCB c on [0,1]-normalised values
     int rolloutTurns = 99;       // stop random rollout after this many extra turns, then evaluate heuristically
     double endTurnRolloutWeight = 1.0;  // relative weight of END_TURN in random rollout (1 = uniform)
@@ -37,6 +38,8 @@ struct SearchParams {
     double winBonus = 35.0;      // constant for winning
     double maxHpWeight = 0.0;    // value per max hp (feed, etc.)
     double escapePenalty = 30.0; // value lost by escaping with Smoke Bomb (forfeited rewards), in HP-equivalents
+    double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
+    double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited
 };
 
 std::uint64_t observationHash(const sts::BattleContext &bc);
@@ -53,6 +56,8 @@ public:
 
     // stats for logging
     std::int64_t rootVisits() const { return nodes.empty() ? 0 : nodes[rootIdx].visits; }
+    std::int64_t actionsExecuted = 0;  // game actions executed by the last search() (tree + rollout)
+    int simulationsRun = 0;
 
 private:
     struct Edge {
