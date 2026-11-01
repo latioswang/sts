@@ -203,3 +203,4 @@ e3519f1	val.a0	300	0	0.730	47.15	1.6546	-0.0060	0.432	discard	bfbonus25_g1m: car
 a3ce283	val.a10	300	0	0.277	35.69	0.9765	+0.0124	0.663	discard	a10_bfbonus10_g1m: [a10] card picks: KB value + 10 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=10]
 bca48c8	val.a10	300	0	0.293	37.37	1.0261	+0.0620	0.950	keep	a10_bfbonus25_g1m: [a10] card picks: KB value + 25 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=25]
 da45a35	test.a0	500	0	0.666	45.89	1.5658	+0.1626	1.000	MILESTONE	bfbonus10_g1: M5: A0 best bfbonus10_g1 on the test split (500 seeds), paired vs chest1 test (54.6%)
+466c930	val.a0	300	0	0.720	46.95	1.6407	-0.0199	0.073	discard	bfshop10: deck-value bonus (model 1, 10x) applied to shop card purchases too [bf_shop=1]
