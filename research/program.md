@@ -55,15 +55,15 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 10:30 UTC
+### Current state (update after every batch) — 2026-11-01 12:20 UTC
 - Tracks: **A0 best `potsave2` 66.3% val** (potions valued 8 HP in hallway fights, 4 in boss fights:
   the search hoards potions for bosses; kept via the pre-registered extension — val +0.035/P 0.875,
   dev +0.074/P 0.886, pooled 400 seeds +0.0445, P=0.949; previous best `wea1p1` 63.7%, chest1 confirmed
   54.6% test); **A10 best `a10_eh075` 27.0%**
   (chain: rest <60% 18.7% → KB synergy bonuses 24.3% (+5.7 pts, P=0.995; neutral at A0) → elites only
   above 75% HP 27.0% (+0.065, P=0.981));
-  **A20 seeded: `base_a20` 2.3% win, floor 21.8** (A0 best params at ascension 20 — the ladder's hard
-  end); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
+  **A20 best `a20_restlo`: `a20_restlo` 1.3% win, floor 25.6, +0.009 vs base, P=0.920 → keep** (chain: elite gate 80% HP → act-1 elites avoided → rest rooms
+  valued higher; replicated on 100 dev seeds, +0.084, P=0.999; seeded from `base_a20` 2.3% / floor 21.8); **Heart best `INFO_keys1` 6.3% Heart wins** (win = act ≥ 4 && win).
 - Batch 26 (vs priormlp_d0): `wea1p1` KEEP; `selq03` +0.003, `selq05` +0.010 (robust-child selection
   neutral), `sbd0` exactly +0.000 (removal order never differed), `ca1b2` −0.007.
 - A0 keep chain: … → chests 57.7% → root MLP prior 61.3% → act-1 elite path weight 63.7% → potions
