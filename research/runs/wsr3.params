@@ -1,0 +1,12 @@
+aoe_bonus=2
+boss_pol=1
+card_pol=1
+end_turn_w=0.05
+ev_pol=1
+map_pol=1
+rest_pol=1
+scaling_bonus=1.5
+select_pol=1
+shop_pol=1
+w_event=1.5
+w_shop_rich=3
