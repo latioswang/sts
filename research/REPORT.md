@@ -9,7 +9,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 
 | Agent | Split | Win | 95% CI | Floor |
 |---|---|---|---|---|
-| **Current best `chest1`** (fixed sim, chests opened) | val, 300 | **57.7%** | — | 44.2 |
+| **Current best `priormlp_d0`** (chests + learned move prior at the root) | val, 300 | **61.3%** | — | 44.6 |
+| `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
 | `rb3` — fixed simulator, before the chest fix | val, 300 | 38.0% | — | 40.5 |
 | Phase-1 final `hallpot0` (old sim) | test, 500 | 33.8% | [29.8%, 38.1%] | 39.3 |
@@ -69,6 +70,12 @@ audits of the *agent's* environment interface pay off as much as simulator audit
   prior — neutral (−0.004 at equal compute; captures ~31% of the available information).
   V_run — val log-loss 0.561 vs 0.693 base after regularisation; pick experiments running.
   Bootstrapped V (targets = search root values): RMSE 9.7 vs 33.9 — sanity test running.
+
+- **First learned component kept:** the MLP move prior (49% of the available information captured)
+  used as a PUCT prior at the root only: **61.3% vs 57.7% val (+0.044 score, P = 0.90)** at ~zero
+  extra cost. Using it deeper in the tree adds nothing at equal wall-clock; lower exploration
+  constants look better (follow-up batch running). Expert-iteration step 2 (distilling from
+  2,000-simulation self-play searches of the new best agent) is in progress.
 
 ## What did not work (selected)
 
