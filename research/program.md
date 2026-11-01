@@ -690,6 +690,10 @@ A10. Expert iteration of the strategic model is closed: on both ladders the mode
 current agents' decks are already shaped by a model bonus, so their option sets carry less contrast
 (the model's own picks dominate), and the regression learns less from them. Models 2 (A10) and 1 (A0) stay.
 
+## Second-slice replication of the kept chains (batch 44, dev2 = seeds 600000+)
+- A0: `potsave2_dev2` 58.0% win, floor 45.2, → info; `bfbonus10_g1_dev2` 72.0% win, floor 46.8, +0.171 vs base, P=0.996 → info — the two learned-bonus keeps (g0 → g1) replicate strongly on an independent sample
+  (72.0% vs 58.0% win, +0.171 score, P=0.996).
+
 ## Replication slices (added 2026-11-01 18:35 UTC)
 `dev2` (seeds 600000+, 100) and `dev3` (700000+, 100) join `dev` as held-out replication slices, never
 tuned on. Use: a track best whose first dev check disagrees with val (direction) is re-checked on dev2
