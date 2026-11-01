@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 21:20 UTC
+### Current state (update after every batch) — 2026-11-01 22:20 UTC
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -214,10 +214,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 38 A20 knobs (vs a20_bfbonus10_g2m): `a20_potv2` 1.0% win, floor 26.3, -0.007 vs base, P=0.308 → discard; `a20_ca1b2` 1.0% win, floor 26.7, +0.002 vs base, P=0.647 → discard; `a20_rest07` 2.0% win, floor 26.4, +0.005 vs base, P=0.651 → discard — all neutral; the A20
   ladder's remaining lever is act-1 survival (Hexaghost 35 and Slime Boss 27 of ~297 deaths are the act-1
   boss; Automaton/Champ/Collector the act-2 boss), i.e. deck strength again.
-- Running (sequential queue, `research/queue.txt`): 3-fight-label dataset `bg1k3` (bf_k=3: each option's
-  labels averaged over three fights with shared seeds; last chunk at 21:20 UTC, ~12 min per chunk) →
-  model 9 (bg1k3 alone) and model 10 (bg1 + bg1k3) → `bfbonus10_g1k3`, `bfbonus10_g1k3p` (vs bfbonus10_g1);
-  then batches 39/40 (map weights re-tuned on the current A0/A10 bests). Closed since the last check: expert
+- Running (sequential queue, `research/queue.txt`): `mapd080` (next step of the path-discount trend; the
+  0.85 keep was identical to its predecessor on dev), then batch 40 (A10 map weights), batch 41 (A10/A20
+  knobs on the current bests, Heart tiebreaker slice dev3). Closed since the last check: models 9/10
+  (averaged labels: correlations up, wins flat), batch 39 (map weights at A0: only the discount moved, and
+  only on val).
   iteration of the strategic model (models 7/8 worse than 2/1), Heart keep replication (floors on one of two
   slices, Heart wins flat), A20-only model 5, A10-only model 4, batch 38 knobs, A0 threshold retune.
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
