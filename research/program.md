@@ -235,8 +235,11 @@ cannot provide; no hidden information (the encounter pool is public knowledge, H
 
 MLP move prior (state 204 ⊕ token emb 16 ⊕ target 4 → 64 → 1; 298k decisions): val CE 0.2769,
 **49% of the available information captured** (bilinear: 31%; uniform 0.2913, entropy floor 0.2620).
-Used at root/depth-1 only (`prior_mlp=1`, `prior_mlp_depth`); 20-seed sanity probe running, then
-`priormlp1` on val at equal wall-clock. The remaining 51% is largely irreducible at 500-sim targets
+Used at root/depth-1 only (`prior_mlp=1`, `prior_mlp_depth`). 20-seed sanity probe (dev 100000+,
+under load): baseline 60%/floor 46.7/5.7 s; depth-1 65%/46.3/7.8 s (+37% time — chance branching
+makes depth-1 nodes numerous); depth-2 65%/45.5/13.7 s; **depth-1 with prior_c=1.0: 80%/49.0/8.6 s**
+(n=20, SE ≈ 11 pts — suggestive only). Root-only (`prior_mlp_depth=0`, cost ≈ baseline) probing next;
+then val experiments at equal wall-clock (depth-1 ≈ sims 365). The remaining 51% is largely irreducible at 500-sim targets
 (root visit distributions are noisy) — distilling from higher-sim searches is the next data lever.
 `cf_pick` probe (12 dev seeds, under load): win 0.50 / floor 42.8 vs baseline 0.58 / 44.9 (one game
 apart — noise at n=12), cost 2.3× per game (19.8 s vs 8.5 s). Val experiments queued after batch 16:
