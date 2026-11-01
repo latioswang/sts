@@ -159,6 +159,17 @@ search value at battle end, MLP 130→64→1 exported as a .inc) are recorded he
   (calibrate N on an idle machine; don't assume) vs rb3. Train prior on gen1 → `prior=1` at
   equal wall-clock. Train V_run on gen1 → one-step-lookahead card picks (Phase C integration TBD).
 
+### Phase D design (keys, Act 4, ascension) — to implement after the swap is idle
+- lightspeed already has Act 4 (`transitionToAct(4)` when all three keys are held; encounters
+  SHIELD_AND_SPEAR, THE_HEART). The current policy never takes keys: rewards `KEY` action,
+  rest-site option 2 (ruby key), Act-1/2 burning-elite emerald key, treasure-room sapphire key.
+- Add `keys=1`: map DP gives the burning-elite node a bonus; rewards policy takes `KEY` when
+  offered; rest policy takes ruby key when HP ≥ `key_rest_hp` (default 0.6) and the deck has
+  no urgent upgrade; treasure room takes the sapphire key once per run. Then eval at A0 with
+  `win = beat the Heart` as a *separate* metric column (keep "beat Act 3" too).
+- Ascension track: `exp.sh` gets `ASC=10` env → separate `best_a10` files; re-baseline there.
+  A20 adds Ascender's Bane and the double boss: expect card-removal priority to matter more.
+
 ### Idea backlog (top = next; strike through when tried, log in results.tsv)
 
 1. ~~Diagnostic (never a result): cheating combat + best out-of-combat policy →~~ (tried)
