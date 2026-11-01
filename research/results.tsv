@@ -163,3 +163,5 @@ e6aa6ab	val.a10	300	0	0.270	35.40	0.9641	+0.0650	0.981	keep	a10_eh075: [a10] A10
 bb846c8	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	discard	potsave2: potions: worth 8 HP in hallway fights, 4 in boss fights [potion_v=8 potion_v_boss=4]
 0f89025	dev.a0	100	0	0.570	43.64	1.4257			info	wea1p1_dev: A0 best on dev (baseline for pooled near-miss decisions)
 0f89025	dev.a0	100	0	0.600	44.24	1.4675	+0.0418	0.750	info	potsave_dev: potsave on dev (extension of the val near-miss)
+e66a8cf	dev.a0	100	0	0.630	44.37	1.5000	+0.0743	0.886	info	potsave2_dev: potsave2 on dev (extension of the val near-miss)
+e66a8cf	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	keep	potsave2: POOLED KEEP (pre-registered extension): val 300 +0.035/P 0.875, dev 100 +0.074/P 0.886, pooled 400 dscore +0.0445 dwin +0.035 P=0.949 -> new A0 best [potion_v=8 potion_v_boss=4]
