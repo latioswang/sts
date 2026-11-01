@@ -55,7 +55,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M3 | test win ≥ 35% at A0 | start an A10 track: new `best` re-baselined at `--asc 10` |
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 
-### Current state (update after every batch) — 2026-11-01 13:20 UTC
+### Current state (update after every batch) — 2026-11-01 14:20 UTC
 - Tracks: **A0 best `bfbonus10`: `bfbonus10` 69.3% win, floor 46.8, +0.054 vs base, P=0.952 → keep** — the first learned *strategic* component that pays:
   card value = KB tier value + deck-need bonuses + 10 × (interventional model g0's predicted fight value
   with the card − without it). The model as a replacement lost 10–16 pts; as an additive adjustment to
@@ -128,10 +128,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   A10 with the A0-trained g0 (vs a10_eh075): `a10_bfrem_g0` 14.7% win, floor 32.6, -0.177 vs base, P=0.000 → discard; `a10_bfupg_g0` 21.7% win, floor 34.3, -0.075 vs base, P=0.003 → discard; `a10_bfpick_g0` 20.0% win, floor 34.9, -0.079 vs base, P=0.041 → discard; `a10_bfpick_g0_m02` 12.7% win, floor 32.1, -0.207 vs base, P=0.000 → discard — the model does not transfer
   across ascensions (enemy HP/damage differ), so any future model must be trained on each ladder's
   own fights (ascension is already a feature; datasets can be merged).
-- Running (sequential queue, `research/queue.txt`): `bfbonus25`, `bfbonus50` (vs bfbonus10); independent-seed
-  check of bfbonus10 (100 dev seeds vs potsave2_dev); then model g1 (graded labels: damage fraction vs the
-  act boss and vs a next-act boss) — rebuild → bit-identity → smoke → 500-game generation → train → `bfpick_g1`,
-  `bfrem_g1`, `bfbonus25_g1`, `bfbonus50_g1`.
+- Running (sequential queue, `research/queue.txt`): model g1 generation (graded labels; 500 games in 50-game
+  chunks, resumed once after the runner's 2-hour limit) → train → `bfpick_g1`, `bfrem_g1`, `bfbonus25_g1`,
+  `bfbonus50_g1` (vs bfbonus10). Bonus-weight family with g0 is closed (25/50 failed on fresh seeds).
 - Prior work is at its ceiling with 500-sim targets (v2/v3, temperature, c sweeps all neutral or worse).
 
 #### Earlier state (07:35 UTC)
