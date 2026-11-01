@@ -608,29 +608,25 @@ upper reference**, never as a result.
    near-misses, try more radical changes.
 
 ## Pre-registered near-miss extension (rule added 2026-11-01 11:40 UTC)
-A val near-miss (dscore > 0, 0.7 ≤ P < 0.9) may be extended **once** with the 100 dev seeds; the
-keep decision is then made on the pooled 400 seeds with the same rule (dscore > 0, P ≥ 0.9), via
-`research/tools/pooled.py NAME BASE ASC val,dev`, **and the dev portion alone must have dscore > 0**
-(the val portion is where the candidate was selected, so pooled-only would inherit the winner's curse).
-Declared before any dev run is seen: candidates `potsave` and `potsave2` vs `wea1p1` (three val
-near-misses in one direction: potv8 +0.022/P 0.77, potsave +0.026/P 0.81, potsave2 +0.035/P 0.875).
-If both pass, the higher pooled dscore is promoted. A near-miss that fails stays discarded; no second
-extension. Cost: one 100-game run per candidate. Outcome: potsave failed (pooled P=0.866), potsave2 kept
-(pooled +0.0445, P=0.949). Second use, declared before any dev run of this family: `bfbonus25` (val +0.019, P=0.73) and
-`bfbonus50` (val +0.041, P=0.876) vs `bfbonus10`; same rule as the potion case. Third use (A20, declared
-before its dev run): `a20_bfbonus10_g2m` 1.0% win, floor 26.6, +0.017 vs base, P=0.881 → discard vs `a20_restlo`; rule unchanged (pooled P ≥ 0.9 and dev-alone dscore > 0). Outcome: dev +0.027 (floor 27.1 vs 25.2),
-pooled val,dev: n=400  a20_bfbonus10_g2m win=0.013 floor=26.75  a20_restlo win=0.018 floor=25.52  dscore=+0.0192 dwin=-0.005 P(improve)=0.935 → **KEEP**, new A20 best. Fourth use (A10, declared before its dev run): `a10_potv2` 32.0% win, floor 37.4, +0.028 vs base, P=0.865 → discard vs
-`a10_bfbonus25_g1m` (potions spent freely at A10 — the mirror image of the A0 keep); rule unchanged.
-Outcome: `a10_potv2_dev` 20.0% win, floor 34.8, -0.000 vs base, P=0.497 → info; pooled val,dev: n=400  a10_potv2 win=0.290 floor=36.77  a10_bfbonus25_g1m win=0.273 floor=36.60  dscore=+0.0208 dwin=+0.018 P(improve)=0.811 → fails (dev-alone ≈ 0), stays discarded. Fifth use (A0, declared before its dev run): `ct45` 74.3% win, floor 47.5, +0.015 vs base, P=0.721 → discard vs `bfbonus10_g1`; the opposite
-direction `ct55` 71.3% win, floor 46.7, -0.032 vs base, P=0.131 → discard is consistent with a monotone threshold effect; rule unchanged. Outcome: `ct45_dev` 68.0% win, floor 45.9, +0.006 vs base, P=0.584 → info; pooled val,dev: n=400  ct45 win=0.728 floor=47.14  bfbonus10_g1 win=0.720 floor=46.87  dscore=+0.0129 dwin=+0.007 P(improve)=0.732 → fails,
-stays discarded (threshold 5 stays) (pooled P ≥ 0.9 and
-dev-alone dscore > 0; higher pooled dscore wins if both pass). bfbonus25: `bfbonus25_dev` 63.0% win, floor 45.6, -0.028 vs base, P=0.325 → info; pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609 → fails,
-stays discarded. bfbonus50: `bfbonus50_dev` 64.0% win, floor 44.9, -0.030 vs base, P=0.340 → info; pooled val,dev: n=400  bfbonus50 win=0.713 floor=46.21  bfbonus10 win=0.688 floor=46.29  dscore=+0.0233 dwin=+0.025 P(improve)=0.780 → fails too. The monotone val trend (bonus 10 → 25 → 50:
-69.3 → 70.7 → 73.7%) did not survive fresh seeds: both dev runs are negative. Bonus 10 stays; the extension
-rule did its job (two val near-misses rejected at the cost of 200 games). Probe: `bfbonus100` 71.3% win, floor 47.0, +0.024 vs base, P=0.744 → discard — another val
-near-miss in the same family; **no further extensions for the bonus-weight family** (two declared
-candidates already failed on fresh seeds; a third would be fishing). The weight is revisited only with
-a new model (g1) and its own val/dev runs.
+A val near-miss (dscore > 0, 0.7 ≤ P < 0.9) may be extended **once** with the 100 dev seeds, declared
+before the dev run is seen; the keep decision is then made on the pooled 400 seeds with the same rule
+(dscore > 0, P ≥ 0.9) **and** the dev portion alone must have dscore > 0 (the val portion is where the
+candidate was selected, so pooled-only would inherit the winner's curse). `research/tools/pooled.py NAME
+BASE ASC val,dev`. A near-miss that fails stays discarded; no second extension; a family whose declared
+candidates failed on dev gets no further extensions. Cost: one 100-game run per candidate.
+
+| Candidate | val (300) | dev alone (100) | pooled (400) | decision |
+|---|---|---|---|---|
+| `potsave` vs `wea1p1` | +0.026, P=0.807 | +0.042, P=0.750 | +0.0296, P=0.866 | discard |
+| `potsave2` vs `wea1p1` | +0.035, P=0.875 | +0.074, P=0.886 | +0.0445, P=0.949 | **KEEP** |
+| `bfbonus25` vs `bfbonus10` | +0.019, P=0.729 | -0.028, P=0.325 | +0.0075, P=0.609 | discard |
+| `bfbonus50` vs `bfbonus10` | +0.041, P=0.876 | -0.030, P=0.340 | +0.0233, P=0.780 | discard |
+| `a20_bfbonus10_g2m` vs `a20_restlo` | +0.017, P=0.881 | +0.027, P=0.863 | +0.0192, P=0.935 | **KEEP** |
+| `a10_potv2` vs `a10_bfbonus25_g1m` | +0.028, P=0.865 | -0.000, P=0.497 | +0.0208, P=0.811 | discard |
+| `ct45` vs `bfbonus10_g1` | +0.015, P=0.721 | +0.006, P=0.584 | +0.0129, P=0.732 | discard |
+
+Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
+family (25/50) and the threshold family (4.5) were val-only artefacts.
 
 ## Next block (queued 2026-11-01 17:25 UTC): expert iteration of the strategic model
 The deck-value models were trained on fights from the *previous* agents' games. Queued after the Heart
