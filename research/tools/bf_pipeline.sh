@@ -14,9 +14,14 @@ if grep -q "BF_TRAINED = 0" research/cpp/bf_weights.inc; then echo "model untrai
 R=research/exp.sh
 for T in ${TRACKS:-a0}; do   # TRACKS="a0 a10 a20" tests the model on several ladders
   PFX=""; [ "$T" != a0 ] && PFX="${T}_"
-  TRACK=$T $R "${PFX}bfpick_$TAG" "interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0)" bf_pick=1
-  TRACK=$T $R "${PFX}bfpick_${TAG}_m02" "interventional deck value: card rewards, margin 0.02" bf_pick=1 bf_margin=0.02
-  TRACK=$T $R "${PFX}bfupg_$TAG" "interventional deck value: rest upgrades = argmax predicted fight value" bf_upgrade=1
-  TRACK=$T $R "${PFX}bfrem_$TAG" "interventional deck value: removals = argmax predicted fight value" bf_remove=1
+  for E in ${EXP_SET:-pick pick_m02 upg rem}; do   # EXP_SET picks the decision experiments
+    case "$E" in
+      pick)     TRACK=$T $R "${PFX}bfpick_$TAG" "interventional deck value ($TAG): card rewards = argmax predicted fight-value gain (skip unless > margin 0)" bf_pick=1;;
+      pick_m02) TRACK=$T $R "${PFX}bfpick_${TAG}_m02" "interventional deck value ($TAG): card rewards, margin 0.02" bf_pick=1 bf_margin=0.02;;
+      upg)      TRACK=$T $R "${PFX}bfupg_$TAG" "interventional deck value ($TAG): rest upgrades = argmax predicted fight value" bf_upgrade=1;;
+      rem)      TRACK=$T $R "${PFX}bfrem_$TAG" "interventional deck value ($TAG): removals = argmax predicted fight value" bf_remove=1;;
+      bonus*)   W=${E#bonus}; TRACK=$T $R "${PFX}bfbonus${W}_$TAG" "card picks: KB value + $W x predicted fight-value gain (model $TAG)" bf_bonus=$W;;
+    esac
+  done
 done
 echo "BF PIPELINE $TAG DONE"
