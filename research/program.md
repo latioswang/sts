@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 18:20 UTC
+### Current state (update after every batch) — 2026-11-02 19:17 UTC
+- **19:17 UTC: R2 data on three VMs, no errors:** r2w1 gate passed, chunk 30/300 (≈ 80 s/chunk); r2w2 chunk 50/300
+  (≈ 50 s/chunk, faster VM); coordinator chunk 34/300 (≈ 80 s/chunk).
 - **18:20 UTC: Phase R2 started** (pre-registered above): 3 VMs × 30,000 A0 games of run states (≈ 7 h), subsampled
   and pushed to the Hugging Face store (rundata + leafdata already uploaded: 10,000 + 2,500 files). Workers assigned
   W=1 (s2scale) and W=2 (a10ports); the coordinator's share follows the last v1 info cell.
