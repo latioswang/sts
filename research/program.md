@@ -977,6 +977,10 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   chest-era self-play (no act 4) and tuned at the A0 ladder where it was +3.6 pts; on the keys track the extra
   Heart deaths say it steers the Heart fight worse than uniform priors. Post-hoc explanation, not a prediction.
 
+- `heart_potsave` (potion values ported): pooled val,dev2,dev3 [heart]: n=500  heart_potsave win=0.092 floor=45.76  heart_ka3 win=0.104 floor=45.87  dscore=-0.0145 dwin=-0.012 P(improve)=0.143 → discard (val −2 Heart wins, dev2 −6, dev3 +2). The A0 potion
+  saving does not transfer either: with `hall_potions=0` already on, raising `potion_v` to 8 mostly stops potions
+  being used against elites, and the Heart track pays for that with elite deaths.
+
 ### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
 
 Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file

@@ -379,3 +379,6 @@ d1a7425	dev3.a0	100	0	0.070	43.72	0.8955	+0.0155	0.712	info	heart_hm2b: [heart p
 cf15856	val.a0	300	0	0.093	46.79	0.9724	-0.0130	0.275	discard	heart_pmlp: [heart pooled500] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0) [prior_mlp=1 prior_mlp_depth=0] pooled dscore=-0.0059 dwin=-0.006 P(improve)=0.365
 cf15856	dev2.a0	100	0	0.150	45.81	1.0063	+0.0147	0.644	info	heart_pmlp: [heart pooled500 slice] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0)
 cf15856	dev3.a0	100	0	0.060	43.26	0.8747	-0.0053	0.435	info	heart_pmlp: [heart pooled500 slice] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0)
+c5a075f	val.a0	300	0	0.107	46.65	0.9816	-0.0038	0.419	discard	heart_potsave: [heart pooled500] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2) [potion_v=8 potion_v_boss=4] pooled dscore=-0.0145 dwin=-0.012 P(improve)=0.143
+c5a075f	dev2.a0	100	0	0.070	45.15	0.9167	-0.0749	0.001	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
+c5a075f	dev3.a0	100	0	0.070	43.69	0.8935	+0.0135	0.689	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
