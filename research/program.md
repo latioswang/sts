@@ -779,6 +779,12 @@ fit curve has not flattened at this scale. My pre-registered prediction that the
 with size was wrong (13.8 → 13.3 improves). The number that decides anything is still the play test: each model as
 the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 — running now.
 
+**Phase S results, part 2 — play tests (equal wall-clock, val 300 vs `mapd085`, status `scaling`):**
+- `sv1` (10⁴ × 10⁴): calibration candidate/best 0.400 → 1,250 simulations; win=0.067 floor=24.86 dscore=−1.1246
+  P=0.000 (3.89 s/game) — collapse. Control added to the queue (declared before the remaining cells finish): the
+  heuristic cutoff leaf with zero rollouts at the same conversion (`svctrl`), so every cell is read against "no
+  rollouts" as well as against the rollout agent.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
