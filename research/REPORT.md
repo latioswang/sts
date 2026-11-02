@@ -25,7 +25,9 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `a20_bfbonus10_g2m` (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935; second slice +0.007, P=0.608 — unreplicated) | val, 300, asc 20 | 1.0% | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
-| **Heart best `heart_wba3`** (heart_a4pot + the act-3 burning elite worth +3 on the map while the emerald key is missing; extension keep on the pooled 600, P=0.958) | val, 300, keys | **11.0%** | — | 46.4 |
+| **Heart best `heart_bfrelic10`** (heart_ka3 + boss relics chosen by KB tier value + 10× simulated next-act fights; pooled-500 keep 12.0% vs 10.4% Heart wins, P=0.986; dev replication flat on wins) | val, 300, keys | **13.3%** | — | 46.8 |
+| `heart_ka3` (heart_wba3 + the ruby key also taken at act-3 rest sites; extension keep on the pooled 600, P=0.949) | val, 300, keys | 11.3% | — | 46.5 |
+| `heart_wba3` (heart_a4pot + the act-3 burning elite worth +3 on the map while the emerald key is missing; extension keep on the pooled 600, P=0.958) | val, 300, keys | 11.0% | — | 46.4 |
 | `heart_a4pot` (heart_bfbonus25_g_heart + spare gold buys potions in the act-4 shop; pooled-500 keep P=0.996, dev replication +3 Heart wins P=0.953) | val, 300, keys | 10.7% | — | 46.3 |
 | `heart_bfbonus25_g_heart` (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | 9.3% | — | 46.3 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
@@ -136,7 +138,13 @@ beat the act-3 boss without all three keys — the emerald key (burning elite) m
 (rest-site Recall) in 17 — and never reach the Heart. The first key-acquisition keep, `heart_wba3`, values
 the act-3 burning elite +3 while the emerald key is missing: key-less clears 29 vs 37 on val, act-4 runs
 147 vs 140, pooled-600 Heart wins 9.8% vs 9.3% (P=0.958, kept under the pre-registered near-miss extension,
-so it has no untouched replication slice). (An earlier draft of this report
+so it has no untouched replication slice). Two more keeps followed: `heart_ka3` (the ruby key also taken at act-3
+rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949; key-less clears 37 → 18 of 300 by then) and
+`heart_bfrelic10`, the first pure conversion mechanism: each offered boss relic is scored by the knowledge-base tier
+plus 10× the gain in two simulated next-act fights with the relic added (for the act-3 relic: Shield & Spear and the
+Heart), pooled 500 Heart wins 12.0% vs 10.4% (P=0.986), act-4 reach unchanged; its dev replication is flat on wins
+(+0.005, P=0.603), so it is reported as "pooled keep, dev flat". The same mechanism is flat at A0 and A10 and a
+failed near-miss at A20: it helps only where the next fights are known. Pooled Heart wins over the night: 8.2% → 12.0%. (An earlier draft of this report
 said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
 Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs
 finishing on ~28 HP, so Act-4 conversion is a damage-race problem. Tracked separately from the A0
