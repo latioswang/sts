@@ -746,8 +746,13 @@ existing `_dev2`/`_dev3` replication runs are copied under the base's name; miss
 ### Batch 48 (queued 2026-11-02 00:23 UTC) — mechanisms, not knobs
 
 Diagnosis from the recorded bests (deaths by act/encounter, `death_enc`): Heart track (val 300):
-0 key-less act-3 clears (the key policy is complete), 104 deaths at the Heart, 66 at the act-3
-boss, 44 at the act-2 boss; potions_left at death 0.11. A20 (val 300): 81 die in act 1 (53 at the
+104 deaths at the Heart, 66 at the act-3 boss, 44 at the act-2 boss; potions_left at death 0.11.
+**CORRECTION (00:50 UTC): I first wrote "0 key-less act-3 clears" — that count was made on a file
+loaded in Heart win mode, which zeroes exactly those wins. Counted on the raw column: val 37/300,
+dev 17/100, dev2 12/100, dev3 19/100 = 85 of 600 runs (14%) beat the act-3 boss without all three
+keys and so never reach the Heart.** These are the strong runs; at the 20% Heart conversion they
+would add ≈ 3 points of Heart wins, more if the stronger decks convert better. Which key is
+missing is being measured (in-process replay of the val games prints the keys held). A20 (val 300): 81 die in act 1 (53 at the
 boss), 156 in act 2 (64 at the boss, 40 at elites: Slavers 19, Gremlin Leader 11, Book 10), 51 in
 act 3; 150 of 288 deaths are boss fights. In a boss fight the random rollouts cannot win, the
 search's only gradient is the loss value `10 × damage fraction + 0.2 × turns survived` — the
@@ -799,6 +804,14 @@ before anything is claimed; the Heart track, where a 2–3-point difference is o
 only effects that replicate on two independent slices. These slices do not touch `test`.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+
+- **A tool that loads run files must take the win definition explicitly.** `pooled.py` loaded with
+  the default act-3 win mode, so the first pooled Heart decision (`heart_pvh0`) was printed with
+  21.6% "wins" (act-3 clears). The dscore/P were unaffected (floors and the win difference are the
+  same under both definitions, as all differing games had keys), the decision (discard) stands, and
+  the tool now infers `heart` from `keys=1` in the candidate's params or takes it as a 5th argument.
+  Same class of error as the "49 Heart wins" correction: whenever a Heart-track number is produced
+  by a new code path, check it against the harness's heart-mode summary before using it.
 - **Third self-match (2026-11-01 21:30 UTC):** a cleanup command grepped the process list for
   `bf_pipeline` while its own command line contained `research/tools/bf_pipeline.sh` (in a `printf` for
   the resume file) and killed its own shell. The bracket trick protects the *pattern*, not other

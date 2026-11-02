@@ -296,3 +296,6 @@ c7fdd09	val.a20	300	0	0.040	28.34	0.5948	-0.0004	0.470	discard	a20_wrest7: [a20]
 6d67161	val.a20	300	0	0.040	27.49	0.5782	-0.0171	0.134	discard	a20_rh07: [a20] A20: heal at rest below 70% (retest on the new best) [rest_heal_frac=0.7]
 7c4139f	dev2.a20	100	0	0.010	26.47	0.5288			info	a20_restboss1: base slice for pooled decisions (a20)
 7c4139f	dev3.a20	100	0	0.010	25.50	0.5098			info	a20_restboss1: base slice for pooled decisions (a20)
+7b3b2b8	val.a0	300	0	0.093	46.33	0.9656	+0.0000	0.403	discard	heart_pvh0: [heart pooled500] Heart fight: potions worth 0 (the last fight; no credit for potions kept) [potion_v_heart=0] pooled dscore=-0.0020 dwin=-0.002 P(improve)=0.251
+7b3b2b8	dev2.a0	100	0	0.080	45.61	0.9412	-0.0100	0.000	info	heart_pvh0: [heart pooled500 slice] Heart fight: potions worth 0 (the last fight; no credit for potions kept)
+7b3b2b8	dev3.a0	100	0	0.040	43.71	0.8720	+0.0000	0.000	info	heart_pvh0: [heart pooled500 slice] Heart fight: potions worth 0 (the last fight; no credit for potions kept)
