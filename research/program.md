@@ -1083,6 +1083,19 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
   step, ≈ 27 h on one VM, ≈ 7 h on four) — practical only once workers can share data (Hugging Face store pending).
 - v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
+**Phase R2 — 10^5 runs (pre-registered 2026-11-02 18:19 UTC; the protocol's optional step, unblocked by the data store).**
+Why: the v2 nets are data-limited (h=64: 0.5551 / 0.5479 / 0.5309 at 800 / 2,700 / 8,100 runs, crossing the mean only
+at the largest size) and ridge flattens (0.5221 / 0.5199 / 0.5135). Data: 90,000 more A0 games with the A0 best and
+`rv_log=1`, seeds 350000–439999 (unused by every split and every earlier data set), three VMs × 30,000 (s2scale
+350000+, a10ports 380000+, coordinator 410000+; `research/workers/r2data.md`), 32 random states per run kept for
+training (`research/vf/subsample_runs.py`; full data at 10^5 runs ≈ 43 GB does not fit in RAM), full and subsampled
+sets pushed to the store. Holdout unchanged: the same 1,000 runs of `rundata` (full rows), so every number stays
+comparable with the grid above. Training (trainer extension to multiple data dirs written while data generates):
+ridge and v2 nets h = 64 / 256 / 1,024 at ≈ 39,000 and ≈ 99,000 training runs; selection by holdout RMSE, gate vs the
+mean; then a fresh card-pick test of the selected model at bonus 20 / 50 / 100 (val-300 rule vs the A0 best; a new
+model, so a new candidate family — not a second extension of `vrb50`). Predictions: the best R2 model's holdout RMSE
+< 0.505 (LOW–MED); a net beats ridge at ≈ 99,000 runs (MED); one card-pick run keeps (LOW).
+
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
 34.865 predicting the mean. Root-trained Phase S nets scored on the same leaf holdout (`research/analysis/cross_eval_sv.py`):
