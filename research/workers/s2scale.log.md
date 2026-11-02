@@ -28,3 +28,8 @@ Trainer check after install (id 11 retrained to a scratch file, not committed):
 SV id=11 rows=765531 hidden=42 layers=2 params=10459 holdout_rmse=12.060 predict_mean_rmse=34.865
 ```
 matches sv_11.meta `12.060000 34.865000 765531 42 2 10459 1`. Lines 4-8 re-queued.
+### Line 4 (train sv_16)
+```
+SV id=16 rows=3225306 hidden=42 layers=2 params=10459 holdout_rmse=11.736 predict_mean_rmse=34.737 exported /home/user/sts/research/models/sv_16.txt
+```
+Caveat: the holdout block is the last 50,000 of a fixed shuffle of *this* dataset, so it is a different holdout set from sv_11's; the RMSEs are not a strictly paired comparison.
