@@ -1003,6 +1003,12 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 
 - `heart_kud_krw` extension: dev +0.025 (+1 Heart win, P=0.722); pooled val,dev2,dev3,dev [heart]: n=600  heart_kud_krw win=0.113 floor=45.95  heart_ka3 win=0.102 floor=45.83  dscore=+0.0123 dwin=+0.012 P(improve)=0.806 → no (P < 0.9).
 
+- Three Heart mechanisms now sit at "positive, P ≈ 0.8": `heart_hm2b` (+0.014 on 600, P=0.817), `heart_kud_krw`
+  (+0.012 on 600, P=0.806), and `heart_krw1` earlier (+0.009 on 600, P=0.746). Per the loop rule (combine near-misses)
+  `heart_combo` = sims 450 + 2× at the Heart + undiscounted key channel + rest-site seeking is queued after the relic
+  batch, under the pooled rule vs `heart_ka3`; compute-neutral by construction (hm2b's accounting). Prediction (MED):
+  if the three effects are real and additive, ≈ +0.03 → a keep; if they were noise, ≈ 0.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
