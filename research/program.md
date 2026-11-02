@@ -56,18 +56,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 09:19 UTC
+### Current state (update after every batch) — 2026-11-02 10:19 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
   Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
-- **Phase S: 7 of 9 play-test cells + the control done; interim read-out written (program + report).** Equal
-  wall-clock vs `mapd085`: small net −1.12 / −0.58 / −0.57 by data (1,000+ sims); mid net −0.72 / −0.70 / −0.63
-  (~150 → 107 sims); large net −0.67 at full data (50-sim floor = 6× budget); zero-rollout heuristic control −0.95
-  at 3,423 sims. Learned leaf ≈ +0.38 over the heuristic at equal compute; random rollouts ≈ +0.57 over the best
-  learned leaf. Fit grid monotone (RMSE 16.6 → 5.65). Running: `sv6` (850-wide, 10⁵ decisions, 50 sims); then `sv3`,
-  then the fixed-500-simulation reads (`sv9_s500` on val100). Heart best `heart_bfrelic10` (pooled 12.0%). Runner
-  restarts at each 2-hour limit (next ≈ 10:24 UTC). Chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
+- **Phase S: play grid complete (9/9 + control); fixed-500-simulation reads 2 of 3 done.** Equal wall-clock vs
+  `mapd085`: best learned leaf `sv7` −0.57 (36.0%); heuristic-leaf control −0.95; rollouts ahead by ≈ 0.57. Fit
+  grid monotone (RMSE 16.6 → 5.65). Fixed 500 sims, cost ignored: `sv1_s500` −1.15, `sv5_s500` −0.72 (= `sv5` at 150
+  sims) — the mid net is value-limited, not simulation-limited, which revises the "inference is the wall" reading.
+  Decisive pending read: `sv9_s500` (large net, val100). Gate: if it is clearly above ≈ −0.6, build a batched
+  evaluator; if not, close Phase S. Heart best `heart_bfrelic10` (pooled 12.0%). Runner restarts at each 2-hour
+  limit (next ≈ 10:24 UTC). Chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am (v4).
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
