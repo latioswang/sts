@@ -68,6 +68,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.budgetActions = static_cast<std::int64_t>(getp(P, "budget_actions", 0));
     sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
     sp.leafVf = getp(P, "leaf_vf", 0) > 0;
+    sp.leafSv = static_cast<int>(getp(P, "leaf_sv", 0));
     sp.usePrior = getp(P, "prior", 0) > 0;
     sp.priorC = getp(P, "prior_c", 1.5);
     sp.priorMlp = getp(P, "prior_mlp", 0) > 0;

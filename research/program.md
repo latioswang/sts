@@ -740,6 +740,34 @@ current agents' decks are already shaped by a model bonus, so their option sets 
   are all within its noise band. Honest A20 state: floor ≈ 26–27, wins 1–4% (noise), chain a20_eh08 →
   a20_noel1 → a20_restlo replicated (+0.084 on dev), nothing solid after that.
 
+## Phase S — scaling curve of the learned leaf value (approved by the user 2026-11-02 05:27 UTC, pre-registered 05:40 UTC)
+
+**Question.** Does a learned combat value, scaled in data and parameters, overtake random rollouts at equal
+wall-clock on this machine (4 CPU cores)? The month's earlier answer was "no" at one small point (Phase B leaf);
+this measures the curve instead of one point.
+
+**Protocol (frozen before any run).**
+- Data: `research/tools/sv_gen.sh svdata 2500 100 310000` — 2,500 train-seed games (seeds 310000+) of the A0
+  best with the policy/root-value logger (`pf_log=1`, format v2): one state per decision, target = the search's
+  root mean value (the AlphaZero-style bootstrapped target of Phase B, which beat final outcomes). ≈ 10⁶ decisions.
+- Models (`research/vf/train_sv.py`): DIM 204 → h → h → 1, ReLU, standardised regression, Adam, 20 epochs, best
+  holdout epoch exported to `research/models/sv_<id>.txt`. Sizes h = 42 / 220 / 850 ≈ 1.0×10⁴ / 9.3×10⁴ / 9.0×10⁵
+  parameters. Data scales 10⁴ / 10⁵ / 10⁶ decisions as nested subsets of one fixed shuffle; one held-out block
+  (the last 10%, ≤ 50,000) shared by every model. Ids 1–9 = data scale (outer) × size (inner).
+- Evaluation (`research/tools/sv_eval.sh`): the model replaces rollouts entirely (`leaf_sv=<id> rollout_turns=0`);
+  per-game cost calibrated on the idle machine against the A0 best (`calibrate.sh`, 8 in-process games) and
+  converted to simulations at equal wall-clock; then val 300 paired vs `mapd085`. Rows logged with status
+  `scaling` — **never promoted by this protocol**. If a cell clears the ordinary keep rule it may be promoted
+  only after a dev replication, like any other keep.
+- Read-out: the 3×3 table of paired dscore (and win rate), the slope along data at fixed size and along size at
+  fixed data. Decision rule: continue to 10⁷ decisions (25,000 games, ≈ 7 h) only if the 10⁵→10⁶ slope at the
+  two larger sizes is positive; otherwise Phase S is closed with the curve as the result.
+- Predictions (written before the runs): all nine cells below the base on val (LOW confidence that any cell
+  clears zero); the data slope positive at the two larger sizes (MED); the size slope flat or negative at 10⁴
+  decisions (overfitting) and positive at 10⁶ (MED). The decisive number is the slope, not the level.
+- Cost: generation ≈ 2,500 × 3.9 s / 4 ≈ 40 min; nine trainings ≈ 45 min (the 10⁶ × 9×10⁵ cell dominates);
+  nine calibrations + evaluations ≈ 60 min. Everything runs in the sequential queue after batch 53.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
@@ -1019,6 +1047,11 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 - `heart_bfrelic10`: val +0.025, +6 Heart wins (40 vs 34), act-4 162 vs 158, P=0.988, 4.08 s vs 3.18 s per game; dev2 +2
   wins (P=0.844); dev3 0 wins (−0.007); pooled val,dev2,dev3 [heart]: n=500  heart_bfrelic10 win=0.120 floor=46.05  heart_ka3 win=0.104 floor=45.87  dscore=+0.0181 dwin=+0.016 P(improve)=0.986 → **KEEP (pooled 500), new Heart best**. The act-3 relic is simulated against Shield & Spear and
   the Heart, so this is a conversion mechanism — the first one that moves Heart wins with act-4 reach unchanged.
+
+- `heart_bfrelic10` dev replication: win=0.090 floor=45.82 dscore=+0.0051 P=0.603 (Heart wins unchanged on
+  dev, floors up) — a weak replication; the keep stands under the pooled rule, reported as "pooled keep, dev flat".
+- `a20_bfrelic10` extension: dev −0.010; pooled val,dev2,dev3,dev [act3]: n=600  a20_bfrelic10 win=0.030 floor=27.22  a20_restboss1 win=0.027 floor=27.23  dscore=+0.0030 dwin=+0.003 P(improve)=0.743 → no. Relic choice by simulation: Heart keep, A0 flat, A20 near-miss
+  unconfirmed; A10 and the 25× weight still queued.
 
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 

@@ -3,6 +3,7 @@
 #include "sim/search/BattleScumSearcher2.h"
 #include "sim/search/ExpertKnowledge.h"
 #include "mlp.h"
+#include "sv_mlp.h"
 #include "policy_features.h"
 #include "pf_mlp.h"
 
@@ -330,6 +331,7 @@ double terminalValue(const BattleContext &bc, const SearchParams &p) {
     }
     const double ratio = mx > 0 ? static_cast<double>(cur) / mx : 0.0;
     if (bc.outcome == Outcome::UNDECIDED) {
+        if (p.leafSv > 0) { const auto &sm = sv::model(p.leafSv); if (sm.trained) return sv::value(sm, bc); }  // Phase S leaf model
         if (p.leafVf && vf::VF_TRAINED) return vf::value(bc);  // learned leaf value (Phase A/B)
         // rollout cutoff (fight unresolved): monotone heuristic between loss and win —
         // credit for enemy HP removed, current HP, potions kept. Tunable via cut_* params.
