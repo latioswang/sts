@@ -56,20 +56,19 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 04:17 UTC
+### Current state (update after every batch) — 2026-11-02 05:46 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
   Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
-- **Batch 50 done (model 12 on 1,500 Heart-labelled games: discard, pooled +0.006, wins equal). Batch 51 running:
-  porting the four A0 keeps the Heart track never received** (found by `tools/track_diff.sh`, now run at every
-  wake-up): `heart_pmlp` (root move prior) discard, pooled −0.006 — my HIGH prediction was wrong; `heart_potsave`
-  running; `heart_wea1`, `heart_mapd` queued. Heart best `heart_ka3`: 11.3% val, 10.2% pooled 600 (chain 8.2 → 9.3
-  → 9.8 → 10.2). Night's closed lines: value shapes, elite gate, Neow, Heart potion value, burning HP threshold /
-  bonus 4, pre-boss ruby key, rest-site seeking (P=0.65), Heart search reallocation (+0.014 at parity, P=0.82),
-  more Heart data. Progress chart for the user: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am (private).
-  Runner restarts at each 2-hour limit (next ≈ 04:23 UTC); a replay of `heart_ka3`'s val games (which key the
-  remaining 18 key-less clears lack) is running in the background.
+- **Batch 53 (boss relics by simulated fights) mostly done; Phase S (scaling curve of the learned leaf value,
+  approved by the user) queued behind it.** Keeps since the last state: `heart_bfrelic10` (pooled 500 12.0% vs
+  10.4%, P=0.986; dev replication flat on wins). Discards: all four A0 → Heart ports (batch 51), model 12 (batch 50),
+  `heart_kud` (keys now ≈ 96% complete, score unmoved), `heart_kud_krw` (ext P=0.806), `bfrelic10` at A0 (flat,
+  +28% time), `a20_bfrelic10` (ext P=0.743). Running: `a10_bfrelic10`; then `bfrelic25` (A0), `heart_combo`, then
+  Phase S (rebuild → 2,500-game policy-log generation → 9 trainings → leak test → 9 equal-wall-clock evaluations,
+  ≈ 2.5 h). Progress chart for the user: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am (v2: win rate by
+  ascension on one axis). Runner restarts at each 2-hour limit (next ≈ 06:24 UTC).
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
