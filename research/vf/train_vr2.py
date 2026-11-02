@@ -45,7 +45,10 @@ def main():
         return [order[l:h] for l, h in zip(lo, hi)]
     Rt, Rv, Rh = rows(trn), rows(val), rows(hold)
     it = np.concatenate(Rt); iv = np.concatenate(Rv); ih = np.concatenate(Rh)
-    mu = X[it].mean(0, dtype=np.float64); sd = X[it].std(0, dtype=np.float64); sd[sd < 1e-6] = 1.0
+    s1 = np.zeros(DIM); s2 = np.zeros(DIM)   # chunked moments: X[it].std(dtype=float64) needs ~2x8 GB at 9,000 runs (OOM)
+    for i in range(0, len(it), 200000):
+        c = X[it[i:i + 200000]].astype(np.float64); s1 += c.sum(0); s2 += (c * c).sum(0)
+    mu = s1 / len(it); sd = np.sqrt(np.maximum(s2 / len(it) - mu ** 2, 0.0)); sd[sd < 1e-6] = 1.0
     ymean = float(y[it].mean()); ysd = float(y[it].std() + 1e-6)
     base = float(np.sqrt(((y[ih] - ymean) ** 2).mean()))
     print(f"runs total={len(runs)} train={len(trn)} val={len(val)} holdout={len(hold)}; rows train={len(it)} val={len(iv)} holdout={len(ih)}", flush=True)

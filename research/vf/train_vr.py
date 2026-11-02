@@ -32,7 +32,7 @@ def main():
     hold = set(runs[-a.holdout:].tolist()); pool = runs[:-a.holdout][: a.runs]; keep = set(pool.tolist())
     tr = np.array([r in keep for r in run]); ho = np.array([r in hold for r in run])
     print(f"runs total={len(runs)} train runs={len(pool)} (requested {a.runs}) holdout runs={len(hold)}; rows train={tr.sum()} holdout={ho.sum()}; score mean {y.mean():.3f} sd {y.std():.3f}")
-    Xt, yt, Xv, yv = map(torch.tensor, (X[tr], y[tr], X[ho], y[ho]))
+    Xt, yt, Xv, yv = map(torch.from_numpy, (X[tr], y[tr], X[ho], y[ho]))   # no second copy (9,000-run cells OOM'd at 13.9 GB)
     ymean, ysd = float(yt.mean()), float(yt.std() + 1e-6)
     dims = [DIM] + [a.hidden] * a.layers + [1]; mods = []
     for i in range(len(dims) - 1):

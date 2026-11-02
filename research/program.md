@@ -1025,6 +1025,15 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
 - Predictions: v2 nets beat the mean at 3,000 and 9,000 runs (MED); ridge beats every v2 net at 1,000 runs (MED-HIGH);
   the best model at 9,000 runs is a v2 net rather than ridge (LOW-MED); the gate passes (HIGH — ridge at 3,000 runs
   already beats the mean in the diagnostic).
+- v1 cells 5–6 (pasted): `VR id=5 runs=3000 hidden=256 layers=2 params=236801 holdout_rmse=0.5696 holdout_corr=0.213 predict_mean_rmse=0.5454`; `VR id=6 runs=3000 hidden=1024 layers=2 params=1733633 holdout_rmse=0.5683 holdout_corr=0.200 predict_mean_rmse=0.5454`.
+- **Incident (17:03–17:07 UTC): v1 cells 7–9 (9,000 runs) were OOM-killed** right after loading (kernel: "Memory cgroup out
+  of memory: Killed process ... anon-rss:13909144kB"); `| tail -1` masked the exit code (rc=0, no model written). Cause:
+  `torch.tensor(X[tr])` copied the 1.42×10⁶ × 666 training rows twice next to the 4.3 GB raw array. Fix: `torch.from_numpy`
+  (identical values). The same failure was waiting in train_vr2 at 9,000 runs (`X[it].std(dtype=float64)` temporary);
+  fixed before any 9,000-run v2 cell started with chunked float64 moments (max difference from the original formula
+  5e-14 on a 9,790-row check; cells 11–13 used the original formula). v1 cells 7–9 re-queued at the end of the queue as
+  information only (not part of the gated selection, which runs before them).
+- v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
