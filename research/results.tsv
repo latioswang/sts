@@ -373,3 +373,6 @@ d1a7425	dev3.a0	100	0	0.070	43.72	0.8955	+0.0155	0.712	info	heart_hm2b: [heart p
 93f637b	dev.a0	100	0	0.100	45.54	0.9604	+0.0137	0.661	info	heart_hm2b_dev: VERIFY: heart_hm2b on dev vs heart_ka3_dev (replication of a heart keep)
 93f637b	val.a0	300	0	0.120	47.28	1.0076	+0.0223	0.831	discard	heart_hm2b: [heart pooled600 extension] no: pooled600 dscore=+0.0140 dwin=+0.007 P(improve)=0.817 dev-alone dscore=0.013725490196078426
 20c2234	train.a0	1000	0	0.146	46.13	1.0102			info	bg_heart2: bg_heart2: 1000 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+5239384	val.a0	300	0	0.110	46.65	0.9856	+0.0003	0.517	discard	heart_bfb25_g12: [heart pooled500] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data [bf_model=12] pooled dscore=+0.0062 dwin=+0.000 P(improve)=0.633
+5239384	dev2.a0	100	0	0.080	46.16	0.9449	-0.0467	0.121	info	heart_bfb25_g12: [heart pooled500 slice] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data
+5239384	dev3.a0	100	0	0.110	45.06	0.9569	+0.0769	0.969	info	heart_bfb25_g12: [heart pooled500 slice] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data
