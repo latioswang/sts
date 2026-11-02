@@ -1,40 +1,163 @@
 {
   "_comment": "Hand-maintained inputs of the progress page (research/tools/build_progress.py). Numbers shown on the page are computed from research/results.tsv and research/models/*.meta, never typed here.",
   "targets": [
-    {"label": "A0 win rate (test 500)", "track": "a0_test", "target": 50, "note": "month intermediate target"},
-    {"label": "A0 win rate (val 300)", "track": "a0", "target": 70, "note": "milestone M5"},
-    {"label": "A10 win rate (val 300)", "track": "a10", "target": 35, "note": "month intermediate target"},
-    {"label": "A20 win rate (val 300)", "track": "a20", "target": 25, "note": "month intermediate target"},
-    {"label": "Heart beaten, A0 with keys (val 300)", "track": "heart", "target": 20, "note": "stepping stone to A20 Heart"},
-    {"label": "A20 Heart beaten", "track": "a20heart", "target": 15, "note": "north star; track not started"}
+    {
+      "label": "A0 win rate (test 500)",
+      "track": "a0_test",
+      "target": 50,
+      "note": "month intermediate target"
+    },
+    {
+      "label": "A0 win rate (val 300)",
+      "track": "a0",
+      "target": 70,
+      "note": "milestone M5"
+    },
+    {
+      "label": "A10 win rate (val 300)",
+      "track": "a10",
+      "target": 35,
+      "note": "month intermediate target"
+    },
+    {
+      "label": "A20 win rate (val 300)",
+      "track": "a20",
+      "target": 25,
+      "note": "month intermediate target"
+    },
+    {
+      "label": "Heart beaten, A0 with keys (val 300)",
+      "track": "heart",
+      "target": 20,
+      "note": "stepping stone to A20 Heart"
+    },
+    {
+      "label": "A20 Heart beaten",
+      "track": "a20heart",
+      "target": 15,
+      "note": "north star; track not started"
+    }
   ],
   "milestones": [
-    {"id": "M0", "label": "Leak-free agent beats the cheating lightspeed reference", "status": "done", "when": "2026-10-31"},
-    {"id": "M1/M2", "label": "A0 val win ≥ 25% / 30%, first test runs", "status": "done", "when": "2026-11-01 00:31"},
-    {"id": "M3", "label": "A0 test ≥ 35%, start the A10 track", "status": "done", "when": "2026-11-01 06:24"},
-    {"id": "M4", "label": "A0 test ≥ 50% (chests opened: 54.6% test)", "status": "done", "when": "2026-11-01 06:24"},
-    {"id": "M5", "label": "A0 val ≥ 70% → test 66.6% [62.4, 70.6]", "status": "done", "when": "2026-11-01 15:27"},
-    {"id": "Keys", "label": "Keys and Act 4 playable, Heart track with its own best", "status": "done", "when": "2026-11-01 08:41"},
-    {"id": "S", "label": "Phase S: learned leaf value vs rollouts (closed by its gate: -0.57 at best)", "status": "done", "when": "2026-11-02 12:13"},
-    {"id": "S2", "label": "Phase S2: leaf value trained on tree leaves (-0.45; scale-up queued)", "status": "running", "when": ""},
-    {"id": "R", "label": "Phase R: one learned run value against the final score", "status": "running", "when": ""},
-    {"id": "Bridge", "label": "Real-game bridge via Communication Mod (separate thread, user's machine)", "status": "running", "when": ""},
-    {"id": "A10", "label": "A10 ≥ 35% (now below)", "status": "planned", "when": ""},
-    {"id": "A20H", "label": "A20 Heart track", "status": "planned", "when": ""}
+    {
+      "id": "M0",
+      "label": "Leak-free agent beats the cheating lightspeed reference",
+      "status": "done",
+      "when": "2026-10-31"
+    },
+    {
+      "id": "M1/M2",
+      "label": "A0 val win ≥ 25% / 30%, first test runs",
+      "status": "done",
+      "when": "2026-11-01 00:31"
+    },
+    {
+      "id": "M3",
+      "label": "A0 test ≥ 35%, start the A10 track",
+      "status": "done",
+      "when": "2026-11-01 06:24"
+    },
+    {
+      "id": "M4",
+      "label": "A0 test ≥ 50% (chests opened: 54.6% test)",
+      "status": "done",
+      "when": "2026-11-01 06:24"
+    },
+    {
+      "id": "M5",
+      "label": "A0 val ≥ 70% → test 66.6% [62.4, 70.6]",
+      "status": "done",
+      "when": "2026-11-01 15:27"
+    },
+    {
+      "id": "Keys",
+      "label": "Keys and Act 4 playable, Heart track with its own best",
+      "status": "done",
+      "when": "2026-11-01 08:41"
+    },
+    {
+      "id": "S",
+      "label": "Phase S: learned leaf value vs rollouts (closed by its gate: -0.57 at best)",
+      "status": "done",
+      "when": "2026-11-02 12:13"
+    },
+    {
+      "id": "S2",
+      "label": "Phase S2: leaf value trained on tree leaves (-0.45; scale-up queued)",
+      "status": "running",
+      "when": ""
+    },
+    {
+      "id": "R",
+      "label": "Phase R: one learned run value against the final score",
+      "status": "running",
+      "when": ""
+    },
+    {
+      "id": "Bridge",
+      "label": "Real-game bridge via Communication Mod (separate thread, user's machine)",
+      "status": "running",
+      "when": ""
+    },
+    {
+      "id": "A10",
+      "label": "A10 ≥ 35% (now below)",
+      "status": "planned",
+      "when": ""
+    },
+    {
+      "id": "A20H",
+      "label": "A20 Heart track",
+      "status": "planned",
+      "when": ""
+    }
   ],
   "phases": [
-    {"name": "Phases 1–2", "status": "done", "summary": "Leak-free MCTS, frozen harness and leak test, simulator root-cause fixes"},
-    {"name": "Phase A–B", "status": "done", "summary": "Feature extractors, loggers, trainer; learned root move prior kept (+3.6 pts)"},
-    {"name": "Phase C", "status": "done", "summary": "Interventional deck-value model (+4.0 pts), kept on every track"},
-    {"name": "Phase D", "status": "running", "summary": "A10, A20 and Heart tracks; Heart 8.2% → 12.0% pooled overnight"},
-    {"name": "Phase S", "status": "closed", "summary": "Learned leaf value replacing rollouts: fit scales, play does not (-0.57 at best)"},
-    {"name": "Phase S2", "status": "running", "summary": "Leaf value trained on the states the search evaluates: -0.45; 4x data next"},
-    {"name": "Phase R", "status": "running", "summary": "V(run state) ≈ E[final score] to replace hand-set constants; data running"},
-    {"name": "Bridge", "status": "running", "summary": "Mirror-mode verification against the real game, then live play"}
+    {
+      "name": "Phases 1–2",
+      "status": "done",
+      "summary": "Leak-free MCTS, frozen harness and leak test, simulator root-cause fixes"
+    },
+    {
+      "name": "Phase A–B",
+      "status": "done",
+      "summary": "Feature extractors, loggers, trainer; learned root move prior kept (+3.6 pts)"
+    },
+    {
+      "name": "Phase C",
+      "status": "done",
+      "summary": "Interventional deck-value model (+4.0 pts), kept on every track"
+    },
+    {
+      "name": "Phase D",
+      "status": "running",
+      "summary": "A10, A20 and Heart tracks; Heart 8.2% → 12.0% pooled overnight"
+    },
+    {
+      "name": "Phase S",
+      "status": "closed",
+      "summary": "Learned leaf value replacing rollouts: fit scales, play does not (-0.57 at best)"
+    },
+    {
+      "name": "Phase S2",
+      "status": "running",
+      "summary": "Leaf value trained on the states the search evaluates: -0.45; 4x data next"
+    },
+    {
+      "name": "Phase R",
+      "status": "running",
+      "summary": "V(run state) ≈ E[final score] to replace hand-set constants; data running"
+    },
+    {
+      "name": "Bridge",
+      "status": "running",
+      "summary": "Mirror-mode verification against the real game, then live play"
+    }
   ],
   "next_up": [
     "Phase R: 10,000-game run-state data → 3×3 training grid → pick the lowest-error model → A0 card-pick experiments (additive, then replacing the deck-model bonus).",
-    "Phase S2 scale-up: 7,500 more leaf-logged games (≈ 3.3×10⁶ states), small and h=96 models, equal-compute play tests. Closes the learned-leaf line if it does not beat -0.45.",
+    "Phase S2 scale-up (worker session s2scale): 7,500 more leaf-logged games (≈ 3.3×10⁶ states), small and h=96 models, equal-compute play tests. Closes the learned-leaf line if it does not beat -0.45.",
+    "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
     "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",
     "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
   ],

@@ -56,7 +56,23 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 14:08 UTC
+### Parallel workers (since 2026-11-02 14:20 UTC)
+Each cloud session is its own VM (docs, code.claude.com cloud environments: "4 vCPUs, 16 GB of RAM, 30 GB of disk";
+no cap on concurrent sessions is documented; parallel sessions share the account's rate limits). This VM is saturated
+(load ≈ 4.0 on 4 vCPUs), so extra throughput comes only from extra sessions. Protocol: `research/workers/README.md`.
+A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must pass three `repro_check.sh` gates
+(A0, Heart, A20 bests bit-identical) before any experiment, logs rows to `research/results.d/<name>.tsv`
+(`RESULTS_TSV`), and pushes only to `worker/<name>`; the coordinator merges hourly. Large data stays on the worker.
+- `s2scale` (session_01USafwg3sueC62wyc3kzKBV): the pre-registered S2 scale-up, moved off the main queue
+  (`research/workers/s2scale.md`). It regenerates the 2,500-game leaf set (deterministic, same seeds) because the
+  GB-scale data cannot travel through git.
+- `a10ports` (session_01USafwjBF1dhvLKK43LjNFt): A10 ports of three A0 keeps (val-300 rule) and A20 ports of two
+  (pooled-500 rule) (`research/workers/a10ports.md`). Prediction: most fail, as on the Heart track.
+- Coordinator (this session): Phase R on the main queue.
+
+### Current state (update after every batch) — 2026-11-02 14:22 UTC
+- **Parallel workers started** (section above): `s2scale` runs the S2 scale-up, `a10ports` the A10/A20 ports; the
+  main queue keeps Phase R only. Phase R data at chunk 40/100 at 14:20.
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
