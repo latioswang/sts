@@ -48,3 +48,18 @@ vs mapd085: n=300	dscore=-0.3479	dwin=-0.263	P(improve)=0.000
 ```
 note.py: `sv16` 48.7% win, floor 43.0, -0.348 vs base, P=0.000 → scaling
 (context, note.py: `sv11` 42.0% win, floor 41.3, -0.449 vs base, P=0.000 → scaling; `mapd085` 75.0% win, floor 47.4, +0.018 vs base, P=0.913 → keep)
+### Line 8 (sv_eval 17)
+```
+best: 22.04s  candidate: 31.18s  candidate/best = 1.415  (scale candidate sims by 0.707 for equal wall-clock)
+vs mapd085: n=300	dscore=-0.3843	dwin=-0.297	P(improve)=0.000
+```
+note.py: `sv17` 45.3% win, floor 42.9, -0.384 vs base, P=0.000 → scaling
+
+## Summary (QUEUE EMPTY 17:03:41)
+note.py:
+`sv16` 48.7% win, floor 43.0, -0.348 vs base, P=0.000 → scaling
+`sv17` 45.3% win, floor 42.9, -0.384 vs base, P=0.000 → scaling
+Both leaf-value-only configs (no rollouts) lose clearly to mapd085 at equal wall-clock. sv16 is ahead of sv11 (same size,
+1/4 data) on this val split; the larger sv17 has the lower holdout RMSE but pays a 1.415 cost ratio (fewer sims) and plays worse.
+Incident: torch was not installed on this VM; the first pass of lines 4-8 failed instantly with no rows written, and was
+re-run after installing the CPU wheel (see above). The worker README setup step does not install torch.
