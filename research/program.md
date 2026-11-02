@@ -1009,6 +1009,12 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   batch, under the pooled rule vs `heart_ka3`; compute-neutral by construction (hm2b's accounting). Prediction (MED):
   if the three effects are real and additive, ≈ +0.03 → a keep; if they were noise, ≈ 0.
 
+**Batch 53 results (pasted):**
+- `bfrelic10` (A0, val rule): win=0.750 floor=47.47 dscore=+0.0020 P=0.559 → discard. The relic choice changed in 77
+  of 300 games and the outcome did not move; cost 5.04 s vs 3.94 s per game (+28%, more than estimated — the two
+  boss fights per option are long). At A0 the tier list is already adequate, or the simulation's blindness to
+  out-of-combat drawbacks cancels what it sees in combat.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
