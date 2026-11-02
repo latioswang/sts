@@ -56,17 +56,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 06:18 UTC
+### Current state (update after every batch) — 2026-11-02 07:30 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
   Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
-- **Batch 53 closed (relic choice by simulation: Heart keep only); Phase S running.** Generation done (2,500 games,
-  8.1×10⁵ decisions after filtering). Holdout RMSE of the root-value target (predict-mean baseline 33.57), pasted
-  from the trainer: sv1: 10000 rows × 10459 params → RMSE 16.595; sv2: 10000 rows × 93941 params → RMSE 13.830; sv3: 10000 rows × 898451 params → RMSE 13.284; sv4: 100000 rows × 10459 params → RMSE 11.777; sv5: 100000 rows × 93941 params → RMSE 10.693; sv6: 100000 rows × 898451 params → RMSE 9.923; sv7: 813736 rows × 10459 params → RMSE 10.175; sv8: 813736 rows × 93941 params → RMSE 7.970. Both slopes positive so far; the 10⁴-decision row did not overfit with size (my
-  prediction was wrong there). Remaining: sv9 (850-wide on all data; straddles the runner's 06:24 UTC kill), the
-  leak test, nine equal-wall-clock evaluations (≈ 1 h). Heart best `heart_bfrelic10` (pooled 12.0%, dev flat);
-  `heart_combo` discarded. Progress chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
+- **Phase S play tests running.** Fit grid complete (holdout RMSE 16.6 → 5.65, monotone in data and size, steepest at
+  the largest cell). Play tests at equal wall-clock vs `mapd085`: `sv1` (10⁴×10⁴, 1,250 sims) collapse −1.12;
+  `sv5` (10⁵×9.4×10⁴, 150 sims) −0.70 (26.7% wins); `sv9` (8×10⁵×9×10⁵) calibrating since 07:06 — the 850-wide net's
+  inference cost dominates on this CPU, so equal wall-clock leaves it a handful of simulations. Added after `sv1`:
+  the zero-rollout heuristic-leaf control and a fixed-500-simulation read of the diagonal (budget-scaling,
+  informational). Then the remaining six cells. Heart best `heart_bfrelic10` (pooled 12.0%). Runner restarts at
+  each 2-hour limit (next ≈ 08:24 UTC). Progress chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
