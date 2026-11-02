@@ -56,7 +56,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-01 23:20 UTC
+### Current state (update after every batch) — 2026-11-02 00:25 UTC
+- **Batch 48 running** (queue started 00:23 UTC; base slices done, first Heart experiment `heart_pvh0`
+  started 00:24): five new default-off mechanisms (loss-value weights, boss rollout cutoff, Heart potion
+  value, act-4 shop potions, simulated elite gate) on the Heart/A20 tracks under the pre-registered
+  pooled-500 rule, three A0 checks under the val-300 rule; see "Pooled-500 keep rule" + "Batch 48" below.
+  A20 best on the fresh slices: dev2 1.0% win, floor 26.5; dev3 1.0% win, floor 25.5.
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
