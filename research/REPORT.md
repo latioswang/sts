@@ -25,7 +25,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `a20_bfbonus10_g2m` (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935; second slice +0.007, P=0.608 — unreplicated) | val, 300, asc 20 | 1.0% | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
-| **Heart best `heart_a4pot`** (heart_bfbonus25_g_heart + spare gold buys potions in the act-4 shop; pooled-500 keep P=0.996, dev replication +3 Heart wins P=0.953) | val, 300, keys | **10.7%** | — | 46.3 |
+| **Heart best `heart_wba3`** (heart_a4pot + the act-3 burning elite worth +3 on the map while the emerald key is missing; extension keep on the pooled 600, P=0.958) | val, 300, keys | **11.0%** | — | 46.4 |
+| `heart_a4pot` (heart_bfbonus25_g_heart + spare gold buys potions in the act-4 shop; pooled-500 keep P=0.996, dev replication +3 Heart wins P=0.953) | val, 300, keys | 10.7% | — | 46.3 |
 | `heart_bfbonus25_g_heart` (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | 9.3% | — | 46.3 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
@@ -132,7 +133,10 @@ a pure conversion gain — floors unchanged, Heart wins +4/300 on val, +3/100 on
 (pooled 9.8% vs 8.2%, P=0.996) and +3/100 on the replication slice (P=0.953): +11 Heart wins on 600 seeds.
 A replay of the val games also showed where the next Heart wins are: 37 of 300 runs (14% over 600 seeds)
 beat the act-3 boss without all three keys — the emerald key (burning elite) missing in 22, the ruby key
-(rest-site Recall) in 17 — and never reach the Heart; key-acquisition experiments are queued. (An earlier draft of this report
+(rest-site Recall) in 17 — and never reach the Heart. The first key-acquisition keep, `heart_wba3`, values
+the act-3 burning elite +3 while the emerald key is missing: key-less clears 29 vs 37 on val, act-4 runs
+147 vs 140, pooled-600 Heart wins 9.8% vs 9.3% (P=0.958, kept under the pre-registered near-miss extension,
+so it has no untouched replication slice). (An earlier draft of this report
 said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
 Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs
 finishing on ~28 HP, so Act-4 conversion is a damage-race problem. Tracked separately from the A0
