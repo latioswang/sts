@@ -73,6 +73,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
 ### Current state (update after every batch) — 2026-11-02 14:22 UTC
 - **Parallel workers started** (section above): `s2scale` runs the S2 scale-up, `a10ports` the A10/A20 ports; the
   main queue keeps Phase R only. Phase R data at chunk 40/100 at 14:20.
+- 14:25 UTC: the queue runner hit the 2-hour background limit during the Phase R data line (chunk 44/100 done,
+  `research/queue.current` intact, chunks resume). It restarts at the 15:15 hourly run, so later 2-hour stops line up
+  with the hourly runs.
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
