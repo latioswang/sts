@@ -926,6 +926,10 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
   rollout noise at 500 simulations plausibly costs wins (750 HP, Beat of Death, Invincible), and the budget doubling
   only applies there; why it might not: +11 wins on 300 is also what a lucky trajectory change looks like.
 
+- `heart_hm2` pooled (informational, budget +3.8%): pooled val,dev2,dev3 [heart]: n=500  heart_hm2 win=0.136 floor=46.50  heart_ka3 win=0.104 floor=45.87  dscore=+0.0414 dwin=+0.032 P(improve)=0.995 (+11, +3, +2 Heart wins on val/dev2/dev3). The runner's
+  automatic promotion was reset to `heart_ka3` by the guard on the next line (verified); results.tsv carries an
+  annotation row. `heart_hm2b` (sims 450) is running.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
