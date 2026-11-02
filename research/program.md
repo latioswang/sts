@@ -73,6 +73,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   authorization for uploads to an outside store) — the correct call. R2 runs on two fresh workers created with the batch as
   their initial task: `r2w1` (session_01USafwhNx9uZKoZZySmu4G4, W=1, seeds 350000+) and `r2w2`
   (session_01USafwgScPPSCxpwPyvHx9L, W=2, seeds 380000+). `s2scale` and `a10ports` stay idle (not archived).
+- **18:29 UTC:** informational v1 cell 9 (9,000 runs, h=1024; ≈ 90 min) dropped so the coordinator's R2 share starts now;
+  v1 is superseded and cells 7–8 already confirm it loses to the mean at 9,000 runs.
 - **a10ports results (merged 15:22 UTC; gate bit-identical on all three bests), pasted from its log:**
   - `a10_mapd085` 26.7% win, floor 36.7, -0.039 vs base, P=0.011 → discard
   - `a10_potsave` 29.3% win, floor 37.4, +0.001 vs base, P=0.517 → discard
