@@ -1120,6 +1120,10 @@ Holdout runs are never read from the training dirs. Smoke set (300 train runs, h
 All R2 cells use `--state-weights`; R2 adds weighted re-runs at 8,100 runs (h=64/256/1,024 + ridge, full rows) so the
 data-size effect is read separately from the weighting fix. Prediction: weighted v2 nets beat the mean at 8,100 runs at
 every size (MED).
+Weighted re-runs at 8,100 runs (full rows; pasted):
+  `VR2 id=23 runs=8100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5230 holdout_corr=0.317 predict_mean_rmse=0.5451 238s`
+  `VR2 id=24 runs=8100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5318 holdout_corr=0.320 predict_mean_rmse=0.5451 352s`
+  `VR2 id=25 runs=8100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5359 holdout_corr=0.302 predict_mean_rmse=0.5451 475s`
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
