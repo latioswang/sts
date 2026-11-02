@@ -302,3 +302,6 @@ c7fdd09	val.a20	300	0	0.040	28.34	0.5948	-0.0004	0.470	discard	a20_wrest7: [a20]
 a0e5125	val.a0	300	0	0.107	46.32	0.9790	+0.0133	0.935	keep	heart_a4pot: [heart pooled500] act-4 shop: spare gold buys potions for the Heart [act4_shop_potion=1] pooled dscore=+0.0160 dwin=+0.016 P(improve)=0.996
 a0e5125	dev2.a0	100	0	0.120	45.60	0.9812	+0.0300	0.956	info	heart_a4pot: [heart pooled500 slice] act-4 shop: spare gold buys potions for the Heart
 a0e5125	dev3.a0	100	0	0.050	43.70	0.8820	+0.0100	0.629	info	heart_a4pot: [heart pooled500 slice] act-4 shop: spare gold buys potions for the Heart
+257904d	val.a0	300	0	0.090	46.36	0.9651	-0.0139	0.260	discard	heart_ltw1: [heart pooled500] loss value: survival credit 1.0 per turn (was 0.2) [loss_turn_w=1] pooled dscore=-0.0026 dwin=-0.004 P(improve)=0.436
+257904d	dev2.a0	100	0	0.150	46.23	1.0220	+0.0408	0.874	info	heart_ltw1: [heart pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+257904d	dev3.a0	100	0	0.050	43.20	0.8696	-0.0124	0.342	info	heart_ltw1: [heart pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
