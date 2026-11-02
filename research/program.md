@@ -970,7 +970,8 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 
 **Batch 51 results (pasted):**
 - `heart_pmlp` (root MLP move prior ported): pooled val,dev2,dev3 [heart]: n=500  heart_pmlp win=0.098 floor=45.89  heart_ka3 win=0.104 floor=45.87  dscore=-0.0059 dwin=-0.006 P(improve)=0.365 → discard. **My HIGH-confidence prediction was wrong.** Val: −6
-  Heart wins (28 vs 34) with the same act-4 reach; dev2 +2, dev3 +1. The prior was trained on the A0 agent's
+  Heart wins (28 vs 34), act-4 reach 150 vs 158, key-less clears 22 vs 18; dev2 +2, dev3 +1. Wall-clock 4.21 s vs
+  3.18 s per game (the root MLP costs real time; search actions −2%). The prior was trained on the A0 agent's
   chest-era self-play (no act 4) and tuned at the A0 ladder where it was +3.6 pts; on the keys track the extra
   Heart deaths say it steers the Heart fight worse than uniform priors. Post-hoc explanation, not a prediction.
 
