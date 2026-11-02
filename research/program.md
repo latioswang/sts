@@ -852,6 +852,8 @@ the single-knob results.
   (38 vs 40 with the gate), i.e. the decks that take act-2 elites would also fail the fights a stronger
   policy would take — the lever is deck strength by act 2, not elite selection.
 
+- `a20_ldw35`: pooled val,dev2,dev3 [act3]: n=500  a20_ldw35 win=0.024 floor=26.39  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0239 dwin=-0.004 P(improve)=0.024 → discard (negative on all three slices, as at A0).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
