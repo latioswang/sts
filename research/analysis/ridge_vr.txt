@@ -1,0 +1,8 @@
+RIDGE runs=1000 weighting=per-row lambda=10 holdout_rmse=0.5293 holdout_corr=0.271 predict_mean_rmse=0.5454
+RIDGE runs=1000 weighting=per-run lambda=1 holdout_rmse=0.5339 holdout_corr=0.284 predict_mean_rmse=0.5557
+/usr/local/lib/python3.13/site-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/usr/local/lib/python3.13/site-packages/numpy/lib/_function_base_impl.py:3037: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+RIDGE runs=3000 weighting=per-row lambda=1 holdout_rmse=0.5189 holdout_corr=0.311 predict_mean_rmse=0.5454
+RIDGE runs=3000 weighting=per-run lambda=1 holdout_rmse=0.5294 holdout_corr=0.296 predict_mean_rmse=0.5544

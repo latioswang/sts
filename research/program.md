@@ -983,6 +983,39 @@ Unlike the leaf value (Phase S) V is called ≈ 50 times per run, so model size 
   an additive integration keeps (LOW–MED; the deck-model bonus already captures part of the signal); the replacement
   `vrb50_nobf` does not beat the current agent (MED).
 
+**Phase R amendment (pre-registered 2026-11-02 16:07 UTC, after v1 cells 1–4 and before cells 5–9 finished; a logged
+deviation from the 11:40 protocol).** The first four v1 cells all lose to predicting the mean (pasted):
+
+    VR id=1 runs=1000 hidden=64 layers=2 params=46913 holdout_rmse=0.5466 holdout_corr=0.252 predict_mean_rmse=0.5454
+    VR id=2 runs=1000 hidden=256 layers=2 params=236801 holdout_rmse=0.5704 holdout_corr=0.176 predict_mean_rmse=0.5454
+    VR id=3 runs=1000 hidden=1024 layers=2 params=1733633 holdout_rmse=0.5700 holdout_corr=0.173 predict_mean_rmse=0.5454
+    VR id=4 runs=3000 hidden=64 layers=2 params=46913 holdout_rmse=0.5504 holdout_corr=0.256 predict_mean_rmse=0.5454
+
+Even v1's best epoch (chosen on the holdout itself, which flatters it) is worse than a constant, yet correlation is
+≈ 0.25 — a calibrated predictor with that correlation would score ≈ 0.527. Diagnosis: every run contributes ≈ 160
+logged states that share one label, inputs are raw (unstandardised), so one epoch shows each run's answer ≈ 160 times and
+a net can memorise deck -> score from epoch 1. Check: ridge regression on standardised features, same split, streaming
+(`research/analysis/ridge_vr.py`, output `research/analysis/ridge_vr.txt`; per-row lines are the comparable ones):
+
+    RIDGE runs=1000 weighting=per-row lambda=10 holdout_rmse=0.5293 holdout_corr=0.271 predict_mean_rmse=0.5454
+    RIDGE runs=1000 weighting=per-run lambda=1 holdout_rmse=0.5339 holdout_corr=0.284 predict_mean_rmse=0.5557
+    RIDGE runs=3000 weighting=per-row lambda=1 holdout_rmse=0.5189 holdout_corr=0.311 predict_mean_rmse=0.5454
+    RIDGE runs=3000 weighting=per-run lambda=1 holdout_rmse=0.5294 holdout_corr=0.296 predict_mean_rmse=0.5544
+
+The signal is real and grows with data; the v1 training is what fails. Changes (the v1 cells keep running unchanged):
+- `research/vf/train_vr2.py`: same run split and holdout; 10% of the training pool (≥ 200 runs) is a validation split
+  for early stopping and the ridge lambda (the holdout is scored once); inputs standardised with training moments,
+  folded into the exported first layer (runtime `vr_mlp.h` unchanged; export verified: the file reproduces the
+  trainer's holdout RMSE exactly on a 300-run smoke set); 16 sampled rows per run per epoch; patience 6, ≤ 80 epochs;
+  `--ridge` exports one linear layer.
+- Grid v2: ids 11–19 = 1,000 / 3,000 / 9,000 runs × h = 64 / 256 / 1,024; ridge ids 20 / 21 / 22 at 1,000 / 3,000 / 9,000.
+- Selection: lowest holdout RMSE over ids 1–9 and 11–22 becomes `vr_10` (`research/tools/vr_select2.sh`). **Gate (new):**
+  `vr_10` must beat the predict-mean RMSE on the same holdout, else the leak test and the four integration runs are
+  stashed (`research/queue.gated.txt`) and not played. Integration runs and their predictions are unchanged.
+- Predictions: v2 nets beat the mean at 3,000 and 9,000 runs (MED); ridge beats every v2 net at 1,000 runs (MED-HIGH);
+  the best model at 9,000 runs is a v2 net rather than ridge (LOW-MED); the gate passes (HIGH — ridge at 3,000 runs
+  already beats the mean in the diagnostic).
+
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
 34.865 predicting the mean. Root-trained Phase S nets scored on the same leaf holdout (`research/analysis/cross_eval_sv.py`):
