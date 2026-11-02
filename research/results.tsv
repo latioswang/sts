@@ -382,3 +382,6 @@ cf15856	dev3.a0	100	0	0.060	43.26	0.8747	-0.0053	0.435	info	heart_pmlp: [heart p
 c5a075f	val.a0	300	0	0.107	46.65	0.9816	-0.0038	0.419	discard	heart_potsave: [heart pooled500] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2) [potion_v=8 potion_v_boss=4] pooled dscore=-0.0145 dwin=-0.012 P(improve)=0.143
 c5a075f	dev2.a0	100	0	0.070	45.15	0.9167	-0.0749	0.001	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
 c5a075f	dev3.a0	100	0	0.070	43.69	0.8935	+0.0135	0.689	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
+36a2dcb	val.a0	300	0	0.093	46.31	0.9606	-0.0248	0.087	discard	heart_wea1: [heart pooled500] port A0 keep: act-1 elites +1 on the map (wea1p1) [w_elite_act1=1] pooled dscore=-0.0189 dwin=-0.014 P(improve)=0.064
+36a2dcb	dev2.a0	100	0	0.120	45.98	0.9827	-0.0088	0.311	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)
+36a2dcb	dev3.a0	100	0	0.050	43.08	0.8686	-0.0114	0.287	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)

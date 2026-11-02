@@ -981,6 +981,11 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   saving does not transfer either: with `hall_potions=0` already on, raising `potion_v` to 8 mostly stops potions
   being used against elites, and the Heart track pays for that with elite deaths.
 
+- `heart_wea1` (act-1 elites +1 ported): pooled val,dev2,dev3 [heart]: n=500  heart_wea1 win=0.090 floor=45.60  heart_ka3 win=0.104 floor=45.87  dscore=-0.0189 dwin=-0.014 P(improve)=0.064 → discard (negative on all three slices). Three of the four A0
+  keeps fail to transfer; the Heart track's chest-era base is apparently not the reason it is behind — the keys
+  agent's games are different enough (elite choices, potions, the act-4 fights) that A0 tuning does not carry.
+  Lesson kept: diff tracks, but test ports; never assume transfer.
+
 ### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
 
 Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file

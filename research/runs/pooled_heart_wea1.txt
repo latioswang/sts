@@ -1,0 +1,2 @@
+pooled val,dev2,dev3 [heart]: n=500  heart_wea1 win=0.090 floor=45.60  heart_ka3 win=0.104 floor=45.87  dscore=-0.0189 dwin=-0.014 P(improve)=0.064
+no
