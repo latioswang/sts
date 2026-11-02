@@ -748,6 +748,13 @@ untouched replication slice for anything kept; `test` is unchanged. A0 and A10 k
 rule with the near-miss extension. Base slices come from `research/tools/base_slices.sh` (the
 existing `_dev2`/`_dev3` replication runs are copied under the base's name; missing ones are run).
 
+**Pooled near-miss extension (pre-registered 2026-11-02 01:48 UTC, before the dev run).** A pooled-500
+result with dscore > 0 and 0.7 ≤ P < 0.9 may be extended exactly once with the dev slice (100 seeds);
+keep requires pooled-600 P ≥ 0.9 AND dev-alone dscore > 0 (`research/tools/ext_pooled.sh`). Declared on
+seeing `a20_esim_a23` at +0.0057, P=0.759 — recorded as such; the rule applies to every later pooled
+near-miss unchanged. A keep by extension is labelled "extension keep" and still gets no further slice
+(dev is consumed by the extension).
+
 ### Batch 48 (queued 2026-11-02 00:23 UTC) — mechanisms, not knobs
 
 Diagnosis from the recorded bests (deaths by act/encounter, `death_enc`): Heart track (val 300):
@@ -832,6 +839,10 @@ the single-knob results.
   outcome is practically never a 2-of-3 split with ≥ 35% HP left: the three 100-sim fights agree (all won
   or all lost). The gate is binary in practice; the threshold is not a lever. Same pooled decision as
   `a20_esim` (discard).
+
+- `a20_esim_a23`: pooled val,dev2,dev3 [act3]: n=500  a20_esim_a23 win=0.030 floor=27.60  a20_restboss1 win=0.028 floor=27.41  dscore=+0.0057 dwin=+0.002 P(improve)=0.759 → near-miss (dev2 +0.035, dev3 +0.019, val −0.008); extended under the pooled
+  near-miss rule above (dev slice, pooled 600). Val funnel: floor 28.43 vs 28.36, wins 9 vs 12, act-2 elite
+  deaths 38 vs 40, boss deaths 143 vs 150, 2.14 s vs 1.39 s per game.
 
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
