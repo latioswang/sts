@@ -13,6 +13,7 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `bfbonus10_g1` (bfbonus10 with the graded-label model g1 in the bonus, P=0.947) | val, 300 | 73.3% | — | 47.3 |
 | **same, test confirmation (M5)** | **test, 500** | **66.6%** | **[62.4%, 70.6%]** | 45.9 |
 | learned bonus (g0→g1) vs `potsave2` on a second held-out slice: 72.0% vs 58.0% win | dev2, 100 | +0.171 score, P=0.996 | — | — |
+| same on a third held-out slice (dev3): 62.0% vs 53.0% win | dev3, 100 | +0.147 score, P=0.988 | — | — |
 | `bfbonus10` (potsave2 + learned interventional deck-value bonus on card picks, P=0.952) | val, 300 | 69.3% | — | 46.8 |
 | `potsave2` (wea1p1 + potions saved for boss fights; kept on pooled val+dev 400 seeds, P=0.949) | val, 300 | 66.3% | — | 45.5 |
 | `wea1p1` (chests + root move prior + act-1 elite path weight) | val, 300 | 63.7% | — | 45.1 |
