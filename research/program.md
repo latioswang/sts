@@ -990,6 +990,14 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   to the Heart track** (pmlp −0.006, potsave −0.015, wea1 −0.019, mapd −0.007 on the pooled 500). The track's
   parameters stay as they are; `track_diff.sh` remains a wake-up check but ports are hypotheses, not debts.
 
+**Batch 52 results (pasted):**
+- `heart_kud`: val dscore=+0.0184 dwin=+0.013 P=0.942 (key-less clears 11 vs 18, act-4 172 vs 158, Heart wins 38 vs 34);
+  dev2 −3 wins (key-less 2 vs 7, act-4 52 vs 50); dev3 +1 win; pooled val,dev2,dev3 [heart]: n=500  heart_kud win=0.108 floor=45.84  heart_ka3 win=0.104 floor=45.87  dscore=+0.0009 dwin=+0.004 P(improve)=0.539 → discard. **The mechanism works exactly as
+  predicted on every slice (keys are now ≈ 96% complete on val) and the score does not move**: under the Heart win
+  definition a key-less act-3 clear and a death at the Heart score the same (floor 51 vs 55, both capped at 51/51),
+  so extra act-4 runs only count if they beat the Heart, and at the 20% conversion seven extra act-4 runs are ≈ 1.4
+  wins per 300 — below what 500 seeds can detect. Key acquisition is closed as a lever; what remains is conversion.
+
 ### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
 
 Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file
