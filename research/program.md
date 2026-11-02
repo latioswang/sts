@@ -834,6 +834,39 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   ≈ +0.38 score (+24 points of win rate) over the heuristic leaf at equal wall-clock, but zero-rollout search of
   any kind is ≈ −0.57 below random rollouts here: rollouts carry information no leaf at this scale replaces.
 
+**Phase S interim read-out (2026-11-02 09:02 UTC, 7 of 9 cells + control; pasted from results.tsv):**
+
+| cell | decisions | params | sims at equal wall-clock | win | floor | dscore vs mapd085 |
+|---|---|---|---|---|---|---|
+| sv1 | 10⁴ | 1.0×10⁴ | 1250 | 6.7% | 24.86 | -1.1246 |
+| sv2 | 10⁴ | 9.4×10⁴ | 156 | 26.0% | 35.76 | -0.7176 |
+| sv3 | 10⁴ | 9.0×10⁵ | pending | | | |
+| sv4 | 10⁵ | 1.0×10⁴ | 1036 | 34.3% | 38.28 | -0.5848 |
+| sv5 | 10⁵ | 9.4×10⁴ | 150 | 26.7% | 36.56 | -0.6952 |
+| sv6 | 10⁵ | 9.0×10⁵ | pending | | | |
+| sv7 | 8.1×10⁵ | 1.0×10⁴ | 1132 | 36.0% | 38.42 | -0.5653 |
+| sv8 | 8.1×10⁵ | 9.4×10⁴ | 108 | 29.7% | 38.13 | -0.6344 |
+| sv9 | 8.1×10⁵ | 9.0×10⁵ | 50 (6× budget floor) | 27.0% | 37.90 | -0.6655 |
+| control (heuristic leaf) | — | — | 3423 | 11.7% | 30.97 | -0.9548 |
+| base `mapd085` (random rollouts) | — | — | 500 | 75.0% | 47.36 | 0 |
+
+Reading, against the pre-registered rule:
+1. **Equal wall-clock:** no cell comes near the rollout agent; the best learned leaf (`sv7`, −0.57) is 39 points of
+   win rate below it. The zero-rollout control shows why the comparison is fair and still lost: a heuristic leaf
+   with 3,423 simulations scores −0.95, so the learned value is worth ≈ +0.38 over the heuristic at equal compute,
+   and random rollouts are worth ≈ +0.57 over the best learned leaf. On this CPU rollouts are cheap information.
+2. **Slopes in play:** small net: −1.12 → −0.58 → −0.57 (flattened after 10⁵ decisions); mid net: −0.72 → −0.70 →
+   −0.63 (+0.07 per decade of data); large net: budget-floored, −0.67 at full data (`sv3`/`sv6` pending). The
+   continuation rule needs a positive 10⁵→8×10⁵ slope at both larger sizes; the mid size qualifies, the large size
+   waits for `sv6`. Even at +0.07 per decade the mid net needs ≈ 9 more decades of data to reach the base — not a
+   path on this machine.
+3. **Fit vs play:** the fit grid is monotone and steep (RMSE 16.6 → 5.65), the play grid is nearly flat beyond
+   10⁵ decisions. The bottleneck is not label quality or data; it is that each leaf evaluation of a 10⁵–10⁶
+   parameter net costs more than a random rollout on a CPU core, so the search loses depth faster than the leaf
+   gains accuracy. The fixed-simulation reads (`sv*_s500`, pending) measure value quality with that cost removed;
+   if they show the large net close to the base at 500 simulations, the honest conclusion becomes "scaling works
+   here but needs inference hardware (a GPU or a batched evaluator)", not "scaling fails".
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs

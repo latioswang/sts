@@ -176,3 +176,32 @@ the real game. ~190 val tests with a P ≥ 0.9 rule → some keeps are false pos
 had a 3-point gap). Near-misses are now extended on fresh dev seeds under a pre-registered rule, and every
 track best is re-checked on independent seeds before it is reported. KB tiers and event rules are hand-written
 priors; the loop tuned around them.
+
+## Phase S — scaling the learned combat value (2026-11-02, interim)
+
+Question: does a learned leaf value, scaled in data and parameters, overtake random rollouts at equal wall-clock
+on this 4-core CPU? Data: 2,500 games of the A0 best with the policy/root-value logger (8.1×10⁵ decisions, target =
+the search's root mean value). Models: 204 → h → h → 1, h = 42 / 220 / 850 (10⁴ / 9.4×10⁴ / 9×10⁵ parameters), data
+10⁴ / 10⁵ / 8.1×10⁵ as nested subsets. Fit (holdout RMSE, predict-mean 33.6): 16.6 / 13.8 / 13.3 → 11.8 / 10.7 / 9.9
+→ 10.2 / 8.0 / 5.65 — monotone in both directions, steepest at the largest cell. Play (model replaces rollouts, equal
+wall-clock, val 300 paired vs the A0 best; informational rows, nothing promoted):
+
+| cell | decisions | params | sims at equal wall-clock | win | floor | dscore vs mapd085 |
+|---|---|---|---|---|---|---|
+| sv1 | 10⁴ | 1.0×10⁴ | 1250 | 6.7% | 24.86 | -1.1246 |
+| sv2 | 10⁴ | 9.4×10⁴ | 156 | 26.0% | 35.76 | -0.7176 |
+| sv3 | 10⁴ | 9.0×10⁵ | pending | | | |
+| sv4 | 10⁵ | 1.0×10⁴ | 1036 | 34.3% | 38.28 | -0.5848 |
+| sv5 | 10⁵ | 9.4×10⁴ | 150 | 26.7% | 36.56 | -0.6952 |
+| sv6 | 10⁵ | 9.0×10⁵ | pending | | | |
+| sv7 | 8.1×10⁵ | 1.0×10⁴ | 1132 | 36.0% | 38.42 | -0.5653 |
+| sv8 | 8.1×10⁵ | 9.4×10⁴ | 108 | 29.7% | 38.13 | -0.6344 |
+| sv9 | 8.1×10⁵ | 9.0×10⁵ | 50 (6× budget floor) | 27.0% | 37.90 | -0.6655 |
+| control (heuristic leaf) | — | — | 3423 | 11.7% | 30.97 | -0.9548 |
+| base `mapd085` (random rollouts) | — | — | 500 | 75.0% | 47.36 | 0 |
+
+Interim conclusion: the learned value is real (≈ +0.38 score over a heuristic leaf at equal compute) and keeps
+improving with scale in fit, but at equal wall-clock on a CPU every cell is far below random rollouts, because a
+10⁵–10⁶-parameter leaf evaluation costs more than a rollout and the search loses simulations faster than the leaf
+gains accuracy. Fixed-simulation reads (value quality with the cost removed) are pending; the remaining two cells
+are budget-floored large-net points.
