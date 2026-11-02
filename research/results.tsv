@@ -347,3 +347,6 @@ b689e1f	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	keep	heart_wba3: [heart po
 cf1058b	val.a0	300	0	0.117	46.86	0.9941	+0.0121	0.823	discard	heart_wb4: [heart pooled500] emerald key: burning-elite map bonus 4 (was 2) [w_burning=4] pooled dscore=-0.0004 dwin=+0.000 P(improve)=0.490
 cf1058b	dev2.a0	100	0	0.090	45.33	0.9433	-0.0480	0.041	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
 cf1058b	dev3.a0	100	0	0.070	43.19	0.8900	+0.0100	0.709	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
+e268c01	val.a0	300	0	0.113	46.54	0.9854	+0.0033	0.757	discard	heart_ka3: [heart pooled500] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65% [key_act3=1] pooled dscore=+0.0020 dwin=+0.002 P(improve)=0.851
+e268c01	dev2.a0	100	0	0.130	45.90	0.9916	+0.0002	0.626	info	heart_ka3: [heart pooled500 slice] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65%
+e268c01	dev3.a0	100	0	0.050	43.84	0.8800	+0.0000	0.000	info	heart_ka3: [heart pooled500 slice] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65%

@@ -881,6 +881,9 @@ the single-knob results.
 - `heart_wb4` (on top of wba3): pooled val,dev2,dev3 [heart]: n=500  heart_wb4 win=0.102 floor=45.82  heart_wba3 win=0.102 floor=45.71  dscore=-0.0004 dwin=+0.000 P(improve)=0.490; val act-4 161 vs 147, key-less clears 24 vs 29, Heart wins 35 vs 33;
   dev2 −4 wins, dev3 +2 → discard.
 
+- `heart_ka3` (ruby key also at act-3 rest sites): pooled val,dev2,dev3 [heart]: n=500  heart_ka3 win=0.104 floor=45.87  heart_wba3 win=0.102 floor=45.71  dscore=+0.0020 dwin=+0.002 P(improve)=0.851; val key-less clears 18 vs 29, act-4 158 vs 147, Heart
+  wins 34 vs 33; dev2 flat, dev3 identical → near-miss, extended.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
