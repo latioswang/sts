@@ -895,6 +895,10 @@ Reading, against the pre-registered rule:
   → −0.67. All three sizes improve with data; none approaches the base at equal wall-clock. Pending: the three
   fixed-500-simulation reads (the gate for continuing to 10⁷ decisions).
 
+- Fixed-simulation read `sv1_s500` (10⁴ × 10⁴, 500 sims, cost ignored): win=0.047 floor=24.63 dscore=-1.1490 — the same
+  collapse as at 1,250 sims: that cell is simply a bad value function. `sv5_s500` and `sv9_s500` (val100) pending.
+  Scaling-law panel (fit and play vs training FLOPs, two cost regimes) added to the progress page (v4).
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
