@@ -57,9 +57,10 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
 ### Current state (update after every batch) — 2026-11-02 04:17 UTC
-- **Heart best `heart_ka3`** (ruby key also at act-3 rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949) on
-  top of `heart_wba3` (act-3 burning elite +3; extension keep, 9.8% vs 9.3%, P=0.958) and `heart_a4pot` (act-4 shop
-  potions; pooled 500 P=0.996, dev +3 wins P=0.953). Key-less act-3 clears on val: 37 → 18.
+- **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
+  10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
+  `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
+  Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
 - **Batch 50 done (model 12 on 1,500 Heart-labelled games: discard, pooled +0.006, wins equal). Batch 51 running:
   porting the four A0 keeps the Heart track never received** (found by `tools/track_diff.sh`, now run at every
   wake-up): `heart_pmlp` (root move prior) discard, pooled −0.006 — my HIGH prediction was wrong; `heart_potsave`
