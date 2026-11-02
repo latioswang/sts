@@ -56,18 +56,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 07:30 UTC
+### Current state (update after every batch) — 2026-11-02 08:19 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
   Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
-- **Phase S play tests running.** Fit grid complete (holdout RMSE 16.6 → 5.65, monotone in data and size, steepest at
-  the largest cell). Play tests at equal wall-clock vs `mapd085`: `sv1` (10⁴×10⁴, 1,250 sims) collapse −1.12;
-  `sv5` (10⁵×9.4×10⁴, 150 sims) −0.70 (26.7% wins); `sv9` (8×10⁵×9×10⁵) calibrating since 07:06 — the 850-wide net's
-  inference cost dominates on this CPU, so equal wall-clock leaves it a handful of simulations. Added after `sv1`:
-  the zero-rollout heuristic-leaf control and a fixed-500-simulation read of the diagonal (budget-scaling,
-  informational). Then the remaining six cells. Heart best `heart_bfrelic10` (pooled 12.0%). Runner restarts at
-  each 2-hour limit (next ≈ 08:24 UTC). Progress chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
+- **Phase S play tests, 4 of 9 cells done (all informational, `scaling` rows, vs `mapd085` on val 300):** `sv1`
+  (10⁴×10⁴, 1,250 sims) −1.12; `sv2` (10⁴×9.4×10⁴, 156 sims) −0.72; `sv5` (10⁵×9.4×10⁴, 150 sims) −0.70; `sv9`
+  (8×10⁵×9×10⁵, 50 sims = 6× budget) −0.67. Fit grid monotone (RMSE 16.6 → 5.65) but at equal wall-clock the leaf
+  net's inference cost removes the simulations the fit buys: the 220-wide nets get ~150 sims, the 850-wide ~6.
+  Remaining: `sv3`, `sv4`, `sv6`, `sv7`, `sv8`, the zero-rollout heuristic control, fixed-500-simulation reads of
+  the diagonal (`sv9` on val100). Heart best `heart_bfrelic10` (pooled 12.0%). Runner restarts at each 2-hour limit
+  (next ≈ 08:24 UTC). Progress chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
