@@ -101,6 +101,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   repo; dry-run checked here, never run against a real repo yet). Set-up and end-to-end test run in a session on the
   user's Mac; the handoff is `research/data_store.json` on branch `setup/hf-datastore`. Until a fresh cloud session
   has `HF_TOKEN` and the allowed hosts, workers stay self-contained.
+- **Phase R data done** (10,000 run files), guarded rebuild bit-identical on all three bests, 3×3 grid started 15:46.
+  First cell: `VR id=1 runs=1000 hidden=64 layers=2 params=46913 holdout_rmse=0.5466 holdout_corr=0.252 predict_mean_rmse=0.5454` — holdout RMSE above the predict-mean baseline (overfit at 1,000 runs).
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
