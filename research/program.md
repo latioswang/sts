@@ -785,6 +785,13 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   heuristic cutoff leaf with zero rollouts at the same conversion (`svctrl`), so every cell is read against "no
   rollouts" as well as against the rollout agent.
 
+- `sv5` calibration: candidate/best 3.326 → 150 simulations at equal wall-clock. **The leaf network's inference cost
+  dominates on this CPU**: at 9.4×10⁴ parameters a game is 3.3× slower than random rollouts, so equal wall-clock
+  gives the bigger models fewer simulations — the play test confounds value quality with search depth. Added
+  (07:06 UTC, declared before those cells ran): a fixed-simulation read for the diagonal cells (`sv1_s500`,
+  `sv5_s500`, `sv9_s500`: 500 simulations, no rollouts, wall-clock ignored, logged as budget-scaling, informational)
+  so the value-quality slope and the practical equal-compute number are reported separately.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
