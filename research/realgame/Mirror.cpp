@@ -41,6 +41,10 @@ bool hasCommand(const json &msg, const std::string &name) {
     return false;
 }
 
+bool rewardsEmpty(const Rewards &r) {
+    return r.goldRewardCount == 0 && r.cardRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && !r.emeraldKey && !r.sapphireKey;
+}
+
 }  // namespace
 
 Mirror::Mirror(CommClient &game, MirrorOptions options) : ActionSender(game), options_(std::move(options)) {}
@@ -137,6 +141,12 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                 break;
             case ScreenState::REWARDS:
                 if (real == "COMBAT_REWARD" || real == "CARD_REWARD") return;
+                // Neow's card blessings end on a [Leave] page; the simulator leaves through an empty reward screen.
+                if (real == "EVENT" && choiceCount() == 1 && gameState()["screen_state"].value("event_id", "") == "Neow Event") {
+                    send("CHOOSE 0");
+                    continue;
+                }
+                if (real == "MAP" && rewardsEmpty(gc.info.rewardsContainer)) return;
                 break;
             case ScreenState::BOSS_RELIC_REWARDS:
                 if (real == "BOSS_REWARD") return;

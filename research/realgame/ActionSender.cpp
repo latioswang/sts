@@ -204,7 +204,7 @@ void ActionSender::applyRewards(const GameContext &gc, const GameAction &a) {
     const auto type = a.getRewardsActionType();
     if (type == RT::SKIP) {
         if (screenType() == "CARD_REWARD") send("SKIP");
-        else send("PROCEED");
+        else if (screenType() != "MAP") send("PROCEED");  // the game is already past a reward screen it never showed
         return;
     }
     if (type == RT::CARD) {

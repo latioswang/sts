@@ -32,7 +32,7 @@ Install Slay the Spire (app 646570) through Steam. It ships its own Java 8 in `S
 softwareupdate --install-rosetta --agree-to-license
 ```
 
-**2. Mods.** Subscribe on the Steam Workshop. Steam then downloads them to `~/Library/Application Support/Steam/steamapps/workshop/content/646570/<id>/`.
+**2. Mods.** Get them from the Steam Workshop. Steam puts them in `~/Library/Application Support/Steam/steamapps/workshop/content/646570/<id>/`.
 
 | Mod | Workshop ID |
 |---|---|
@@ -40,7 +40,15 @@ softwareupdate --install-rosetta --agree-to-license
 | BaseMod | 1605833019 |
 | Communication Mod | 2131373661 |
 
-`steamcommunity.com` may be unreachable from this Mac's network (seen on 2026-11-02, both direct and through the local proxy). Subscribing from another device works as well, because the Steam client on this Mac does the download.
+`steamcommunity.com` was unreachable from this Mac on 2026-11-02, both direct and through the local proxy. Steam's console works without it. Open `steam://open/console` and run:
+
+```
+workshop_download_item 646570 1605060445
+workshop_download_item 646570 1605833019
+workshop_download_item 646570 2131373661
+```
+
+Subscribing is not needed, and wouldn't help: ModTheSpire's Workshop search needs the Steam API, which doesn't start when the game is launched this way (`no appID found`). `setup_game.sh` copies the jars to the game folder instead.
 
 **3. Build**
 
@@ -50,28 +58,30 @@ STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_TARGETS="fair_eval sts_bridge" res
 
 `setup.sh` still defaults to the cloud paths when `STS_SIM_DIR` is unset.
 
-**4. Point the mod at the relay**
+**4. Game folder, profile and relay**
 
 ```bash
 research/realgame/setup_game.sh
 ```
 
-This writes `~/Library/Preferences/ModTheSpire/CommunicationMod/config.properties` with:
+Run this with the game closed. It does three things.
+
+- **Builds a separate game folder**, `~/.sts_realgame` (`STS_GAME_DIR` overrides it). The game keeps preferences, saves and run history in its working directory, so running from here keeps the research profile and runs out of the Steam install, where Steam Cloud could sync them. The Steam folder stays unchanged.
+- **Writes the profile the simulator assumes** (`write_profile.py`): everything unlocked, tutorials off, Neow on (a fresh profile skips Neow on its first run), Fast Mode on, and Upload Data off so research runs don't reach the developers' stats.
+- **Writes** `~/Library/Preferences/ModTheSpire/CommunicationMod/config.properties`:
 
 ```
 command=<python3> <repo>/research/realgame/commrelay.py
 runAtGameStart=true
 ```
 
-The mod splits `command` on whitespace, so neither path can contain a space.
+The mod splits `command` on whitespace, so neither path can contain a space. Keep `steam_appid.txt` out of the game folder: without it the Steam API stays off, so these runs can't touch achievements or cloud saves.
 
 **5. Launch**
 
 ```bash
 research/realgame/launch_game.sh
 ```
-
-Then, in the game's settings, turn on **Fast Mode**. Communication Mod's README says it has not been tested without it.
 
 ## How the pieces connect
 
@@ -149,7 +159,7 @@ python3 -m pytest research/realgame/test_report.py
 ## Things to watch for on the first real runs
 
 - **Neow.** In the game's `NeowEvent`, a standard run reads the `<CLASS>_SPIRITS` preference and offers two blessings if it is 0, while a seeded run always gets four. Every run the bridge starts is seeded (`START` with a seed sets `Settings.seedSet`), so four is expected. Mirror mode still handles two if it ever sees them, and compares the four options' text with the simulator's rolls.
-- **Locked content.** The simulator assumes everything is unlocked. In the game, `Settings.treatEverythingAsUnlocked()` covers daily and trial runs only, so seeded runs use the profile's unlocks. A profile with locked cards or relics would produce different card rewards and relic pools for reasons unrelated to RNG. Check this first if the first mirror runs diverge at card rewards.
+- **Locked content.** The simulator assumes everything is unlocked. In the game, `Settings.treatEverythingAsUnlocked()` covers daily and trial runs only, so seeded runs use the profile's unlocks. `write_profile.py` unlocks everything; the game's log should show `RED UNLOCKS: 9/9` and `RELIC UNLOCKS: 24/24` at startup.
 - **Models.** `bf_model` loads from `research/models`. The bridge sets the path itself and refuses to start if the model fails to load. `fair_eval` falls back to `/home/user/...` and silently plays untrained when the file is missing, so set `BF_MODEL_DIR` when running it on this Mac.
 - **Agent randomness across platforms.** `std::default_random_engine` and `std` distributions differ between libc++ and libstdc++, so a given seed can play differently here than on the Linux cloud runs. The simulator's own RNG does not use them.
 
