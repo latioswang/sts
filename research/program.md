@@ -96,7 +96,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 17:43 UTC
+### Current state (update after every batch) — 2026-11-02 18:20 UTC
+- **18:20 UTC: Phase R2 started** (pre-registered above): 3 VMs × 30,000 A0 games of run states (≈ 7 h), subsampled
+  and pushed to the Hugging Face store (rundata + leafdata already uploaded: 10,000 + 2,500 files). Workers assigned
+  W=1 (s2scale) and W=2 (a10ports); the coordinator's share follows the last v1 info cell.
 - **17:43 UTC: S2 scale-up done (worker):** sv16 −0.348 (best learned leaf; sv11 was −0.449), sv17 −0.384; line stays
   open by its pre-registered rule. Both workers idle (no pre-registered batch). Main queue: v1 info cells 8–9, then empty.
 - **Heart funnel of the Heart best (`heart_bfrelic10`, val 300, from its run file):** final act 1/2/3/4 = 12/61/65/162;

@@ -110,6 +110,18 @@
       "label": "A20 Heart track",
       "status": "planned",
       "when": ""
+    },
+    {
+      "id": "Store",
+      "label": "Shared data store (private Hugging Face dataset) for parallel workers",
+      "status": "done",
+      "when": "2026-11-02 18:05"
+    },
+    {
+      "id": "R2",
+      "label": "Phase R2: learned run value at 10^5 runs",
+      "status": "running",
+      "when": ""
     }
   ],
   "phases": [
@@ -155,7 +167,7 @@
     }
   ],
   "next_up": [
-    "Phase R closed at stage 2 without a keep: the best learned run value (ridge on 8,100 runs, corr 0.34) gives at most a small gain next to the deck model (bonus 50: +3.5 win pts pooled, P=0.88) and loses badly as its replacement. Next lever is 10^5 runs, which needs workers to share data (Hugging Face store pending).",
+    "Phase R2 (running): 10^5 runs of run-state data across three VMs via the Hugging Face store (≈ 7 h), then ridge and nets at ≈ 39,000 / 99,000 runs and a fresh card-pick test of the selected model.",
     "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
     "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
     "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",
