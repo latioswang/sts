@@ -289,3 +289,4 @@ cda144e	val.a10	300	0	0.270	36.80	0.9916	-0.0346	0.031	discard	a10_aoe3: [a10] A
 6a9831f	val.a20	300	0	0.040	28.36	0.5952	+0.0144	0.875	keep	a20_restboss1: POOLED KEEP (pre-registered A20 extension): val 300 +0.014/P 0.875, dev 100 +0.012/P 0.851, pooled 400 dscore +0.0138 P=0.912 -> new A20 best [rest_boss_frac=1.0]
 1bc9fed	dev3.a0	100	0	0.530	41.44	1.3425			info	potsave2_dev3: VERIFY: potsave2 on dev3 (baseline, third slice)
 e301817	dev3.a0	100	0	0.620	44.35	1.4896	+0.1471	0.988	info	bfbonus10_g1_dev3: VERIFY: bfbonus10_g1 on dev3 vs potsave2_dev3 (third slice)
+8260bf4	dev3.a10	100	0	0.170	30.61	0.7702			info	a10_eh075_dev3: VERIFY: a10_eh075 on dev3 (baseline, third slice)
