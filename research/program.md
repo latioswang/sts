@@ -712,6 +712,8 @@ current agents' decks are already shaped by a model bonus, so their option sets 
 - A10: `a10_eh075_dev2` 18.0% win, floor 32.4, → info; `a10_bfbonus25_g1m_dev2` 26.0% win, floor 36.6, +0.161 vs base, P=0.991 → info — the model-2 bonus keep replicates on the second slice (26.0% vs 18.0% win, +0.161,
   P=0.991); with the first slice (+0.035, P=0.74) the A10 keep is now replicated.
 
+- A10, third slice (dev3): `a10_eh075_dev3` 17.0% win, floor 30.6, → info; `a10_bfbonus25_g1m_dev3` 28.0% win, floor 35.5, +0.205 vs base, P=1.000 → info — 28.0% vs 17.0% win, +0.205, P=1.000: the A10 model bonus
+  replicates on three slices too (dev +0.035, dev2 +0.161, dev3 +0.205).
 - A20: `a20_restlo_dev2` 2.0% win, floor 23.0, → info; `a20_bfbonus10_g2m_dev2` 1.0% win, floor 23.9, +0.007 vs base, P=0.608 → info — the model-3 bonus keep (pooled keep, dev +0.027) reads +0.007 (P=0.608) on
   the second slice: a small floor effect that does not replicate; the A20 ladder's keeps since a20_restlo
   are all within its noise band. Honest A20 state: floor ≈ 26–27, wins 1–4% (noise), chain a20_eh08 →
