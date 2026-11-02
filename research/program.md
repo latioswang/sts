@@ -88,8 +88,18 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   -> no keep; A20 best stays `a20_restboss1`. a10ports has no further pre-registered batch and is idle.
 - **s2scale:** gate bit-identical; leafdata regenerated and its training-row count reproduces sv_11 exactly
   (worker log); leafdata2 generation running.
+- **s2scale fits (pasted from its log):** 4.2x the leaf rows of sv_11 (`sv_11.meta`: 12.060 on 765,531 rows):
+  `SV id=16 rows=3225306 hidden=42 layers=2 params=10459 holdout_rmse=11.736 predict_mean_rmse=34.737`
+  `SV id=17 rows=3225306 hidden=96 layers=2 params=29089 holdout_rmse=11.216 predict_mean_rmse=34.737`
+  `LEAKTEST checked=123 mismatches=0 PASS` (leaf_sv=16). Caveat from the worker: a different 50,000-state holdout than sv_11's, so
+  the RMSEs are not strictly paired. 4x data moves the h=42 net only 12.06 -> 11.74 (capacity-limited); h=96 reaches
+  11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
+  install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 14:22 UTC
+### Current state (update after every batch) — 2026-11-02 16:50 UTC
+- **16:50 UTC:** Phase R v1 grid at cell 6/9 (cells 1–5 all lose to predicting the mean; amendment with the v2
+  trainer, ridge cells and a gate is queued behind it). s2scale: leaf nets sv16/sv17 trained on 3.2×10⁶ states, leak
+  test pass, play tests running. a10ports: idle (five ports, none kept). Data store: waiting for the Mac set-up session.
 - **Parallel workers started** (section above): `s2scale` runs the S2 scale-up, `a10ports` the A10/A20 ports; the
   main queue keeps Phase R only. Phase R data at chunk 40/100 at 14:20.
 - 14:25 UTC: the queue runner hit the 2-hour background limit during the Phase R data line (chunk 44/100 done,

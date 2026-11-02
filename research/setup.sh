@@ -8,6 +8,7 @@ if [ ! -d "$SIM" ]; then
   (cd "$SIM" && git checkout "$(cat "$HERE/patches/sts_lightspeed.commit")" && git apply "$HERE/patches/sts_lightspeed.patch")
 fi
 pip install -q "pybind11==2.13.6" "numpy==2.5.3" "huggingface_hub==2.4.0"
+pip install -q "torch==2.15.0" --index-url https://download.pytorch.org/whl/cpu   # trainers (train_*.py); CPU wheel
 mkdir -p "$SIM/build" && cd "$SIM/build"
 cmake .. -DCMAKE_BUILD_TYPE=Release -Dpybind11_DIR="$(python3 -c 'import pybind11;print(pybind11.get_cmake_dir())')"
 make -j"$(nproc)" fair_eval

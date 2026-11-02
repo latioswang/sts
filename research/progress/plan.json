@@ -155,8 +155,8 @@
     }
   ],
   "next_up": [
-    "Phase R: 10,000-game run-state data → 3×3 training grid → pick the lowest-error model → A0 card-pick experiments (additive, then replacing the deck-model bonus).",
-    "Phase S2 scale-up (worker session s2scale): 7,500 more leaf-logged games (≈ 3.3×10⁶ states), small and h=96 models, equal-compute play tests. Closes the learned-leaf line if it does not beat -0.45.",
+    "Phase R: v1 run-value nets lose to predicting the mean (memorised ~160 same-label states per run); a fixed trainer (standardised inputs, per-run sampling, early stopping) and ridge cells run next; the best of 21 models drives the A0 card-pick experiments only if it beats the mean.",
+    "Phase S2 scale-up (worker s2scale): sv16 (h=42) and sv17 (h=96) trained on 3.2×10⁶ leaf states; equal-compute play tests running. Closes the learned-leaf line if neither beats -0.45.",
     "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
     "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",
     "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
