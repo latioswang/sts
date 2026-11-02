@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 05:46 UTC
+### Current state (update after every batch) — 2026-11-02 05:18 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
