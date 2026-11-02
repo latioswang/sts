@@ -1059,6 +1059,11 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 - `bfrelic25` (A0): win=0.743 floor=47.35 dscore=-0.0070 P=0.359 → discard. Batch 53 closed: relic choice by
   simulation is kept on the Heart track only.
 
+- `heart_combo` (sims 450 + 2× at the Heart + undiscounted key channel + rest-site seeking, on top of the relic keep):
+  val −4 Heart wins (36 vs 40; key-less clears 11 vs 18), dev2 −2, dev3 +1; pooled val,dev2,dev3 [heart]: n=500  heart_combo win=0.110 floor=46.43  heart_bfrelic10 win=0.120 floor=46.05  dscore=-0.0038 dwin=-0.010 P(improve)=0.425 → discard. The three "positive at
+  P ≈ 0.8" mechanisms do not add up on top of `heart_bfrelic10`; recorded as noise until a larger evaluation says
+  otherwise. Night's Heart work is closed at `heart_bfrelic10`.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
