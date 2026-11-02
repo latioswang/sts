@@ -617,27 +617,34 @@ int FairAgent::chooseMapX(const GameContext &gc) {
         if (any) eliteSimV = eliteSimValue(gc);
     }
     // DP over rows: best[y][x] = value(room) + max over edges best[y+1][e]
-    double best[15][7];
+    // key_undiscounted=1: key bonuses (burning elite, rest sites while the ruby key is missing) travel in a second,
+    // undiscounted channel so a key ten rows away is still worth its bonus when the path that reaches it is chosen
+    double best[15][7], kb[15][7];
     const double discount = getp(P, "map_discount", 0.9);
+    const bool keyUnd = getp(P, "key_undiscounted", 0) > 0;
     for (int y = 14; y >= 0; --y) {
         for (int x = 0; x < 7; ++x) {
             const auto &n = m.getNode(x, y);
-            double nxt = 0;
+            double nxt = 0, nxtK = 0;
             if (y < 14 && n.edgeCount > 0) {
-                nxt = -1e9;
-                for (int i = 0; i < n.edgeCount; ++i) nxt = std::max(nxt, best[y + 1][n.edges[i]]);
+                nxt = -1e9; nxtK = -1e9;
+                for (int i = 0; i < n.edgeCount; ++i) {
+                    const double cand = best[y + 1][n.edges[i]] + (keyUnd ? kb[y + 1][n.edges[i]] : 0.0);
+                    if (cand > nxt + nxtK) { nxt = best[y + 1][n.edges[i]]; nxtK = keyUnd ? kb[y + 1][n.edges[i]] : 0.0; }
+                }
             }
-            double rv = roomValue(gc, n.room);
+            double rv = roomValue(gc, n.room), kv = 0;
             if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::EMERALD_KEY) && m.burningEliteX == x && m.burningEliteY == y
                 && static_cast<double>(gc.curHp) / gc.maxHp >= getp(P, "burn_hp", getp(P, "elite_hp", 0.6))) {
-                rv += getp(P, "w_burning", 2.0);  // the burning elite drops the emerald key
-                if (gc.act == 3) rv += getp(P, "w_burning_act3", 0.0);  // last chance for the emerald key
+                kv += getp(P, "w_burning", 2.0);  // the burning elite drops the emerald key
+                if (gc.act == 3) kv += getp(P, "w_burning_act3", 0.0);  // last chance for the emerald key
             }
             if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && n.room == Room::REST && y < 13
                 && gc.act <= (getp(P, "key_act3", 0) > 0 ? 3 : 2)) {
-                rv += getp(P, "key_rest_w", 0.0);  // seek a rest site while the ruby key is missing
+                kv += getp(P, "key_rest_w", 0.0);  // seek a rest site while the ruby key is missing
             }
-            best[y][x] = rv + discount * nxt;
+            if (keyUnd) { best[y][x] = rv + discount * nxt; kb[y][x] = kv + nxtK; }
+            else { best[y][x] = rv + kv + discount * nxt; kb[y][x] = 0; }
         }
     }
     auto acts = search::GameAction::getAllActionsInState(gc);
@@ -646,7 +653,7 @@ int FairAgent::chooseMapX(const GameContext &gc) {
     double bestV = -1e18;
     for (auto &a : acts) {
         const int x = a.getIdx1();
-        const double v = best[nextY][x] + 1e-6 * x;
+        const double v = best[nextY][x] + (keyUnd ? kb[nextY][x] : 0.0) + 1e-6 * x;
         if (v > bestV) { bestV = v; bestX = x; }
     }
     return bestX;

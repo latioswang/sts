@@ -977,6 +977,20 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   chest-era self-play (no act 4) and tuned at the A0 ladder where it was +3.6 pts; on the keys track the extra
   Heart deaths say it steers the Heart fight worse than uniform priors. Post-hoc explanation, not a prediction.
 
+### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
+
+Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file
+`research/diag/heart_ka3_keys_val.txt`): the 18 remaining key-less act-3 clears lack the emerald in 13, the ruby in 5,
+the sapphire in 1. The burning-elite HP threshold was shown not to matter (`heart_bhp05`: identical games), and a
+bigger bonus (`heart_wb4`) bought keys but not wins. The mechanism left: the path DP discounts every node by
+`map_discount^rows`, so a burning elite ten rows away is worth 0.9^10 ≈ 0.35 of its bonus exactly when the branch
+that can still reach it is chosen; by the time it is close, the path no longer connects. `key_undiscounted=1`
+carries the key bonuses (burning elite, ruby-key rest sites) in a second, undiscounted DP channel and picks the
+next node by the sum. Default off (identical DP), compile-checked in the profiling build; the production rebuild is a
+guarded queue line (repro_check ×3 + leak test with the new parameters on, else the queue is stashed). Queued:
+`heart_kud`, then `heart_kud_krw` (with rest-site seeking, which was P=0.65 discounted). Prediction (MED): emerald
+misses fall by half; Heart wins +1–3 of 300 if the extra act-4 runs convert at the usual 20%.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
