@@ -17,7 +17,7 @@ index d04312b..eb2be22 100644
  target_include_directories(small-test PUBLIC bindings)
 +
 +# ---- research additions (leak-free agent + frozen eval) ----
-+set(STS_RESEARCH_DIR /home/user/sts/research)
++set(STS_RESEARCH_DIR /home/user/sts/research CACHE PATH "research/ directory of the latioswang/sts checkout")
 +add_library(stscore STATIC ${sts_lightspeed_SOURCES})
 +target_include_directories(stscore PUBLIC include json/single_include)
 +set_property(TARGET stscore PROPERTY POSITION_INDEPENDENT_CODE ON)
