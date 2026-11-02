@@ -370,3 +370,5 @@ d1a7425	dev3.a0	100	0	0.070	43.72	0.8955	+0.0155	0.712	info	heart_hm2b: [heart p
 13927e0	val.a20	300	0	0.030	27.66	0.5718	-0.0234	0.134	discard	a20_neow1p: [a20 pooled500] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test [neow_pol=1] pooled dscore=-0.0215 dwin=-0.004 P(improve)=0.086
 13927e0	dev2.a20	100	0	0.010	25.58	0.5114	-0.0175	0.315	info	a20_neow1p: [a20 pooled500 slice] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test
 13927e0	dev3.a20	100	0	0.020	24.00	0.4902	-0.0196	0.221	info	a20_neow1p: [a20 pooled500 slice] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test
+93f637b	dev.a0	100	0	0.100	45.54	0.9604	+0.0137	0.661	info	heart_hm2b_dev: VERIFY: heart_hm2b on dev vs heart_ka3_dev (replication of a heart keep)
+93f637b	val.a0	300	0	0.120	47.28	1.0076	+0.0223	0.831	discard	heart_hm2b: [heart pooled600 extension] no: pooled600 dscore=+0.0140 dwin=+0.007 P(improve)=0.817 dev-alone dscore=0.013725490196078426
