@@ -792,6 +792,10 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   `sv5_s500`, `sv9_s500`: 500 simulations, no rollouts, wall-clock ignored, logged as budget-scaling, informational)
   so the value-quality slope and the practical equal-compute number are reported separately.
 
+- `sv5` (10⁵ × 9.4×10⁴, 150 simulations at equal wall-clock): win=0.267 floor=36.56 dscore=-0.6952 P=0.000
+  (3.44 s/game). Still far below the rollout agent, but 20 points of win rate above `sv1` with 8× fewer simulations:
+  value quality improves with scale faster than the inference-cost penalty removes search.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
