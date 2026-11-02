@@ -57,6 +57,9 @@ struct ConvertedBattle {
     std::array<int, 5> gameMonsterIndex{0, 1, 2, 3, 4};
 };
 
+// A Neow option as the game words it (see "Neow Reward" in the game's localization).
+sts::Neow::Option neowOptionFromText(const std::string &text);
+
 sts::GameContext gameContextFromState(const json &gs, std::uint64_t rngSeed, const RunMemory &memory, ConvertNotes &notes);
 
 ConvertedBattle battleFromState(const sts::GameContext &gc, const json &gs, const BattleMemory &memory,

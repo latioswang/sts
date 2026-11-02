@@ -38,6 +38,8 @@ void compareShop(const sts::GameContext &gc, const json &screen, Diffs &out);
 void compareBossRelics(const sts::GameContext &gc, const json &screen, Diffs &out);
 void compareEventId(const sts::GameContext &gc, const json &screen, Diffs &out);
 void compareSelectCards(const sts::GameContext &gc, const json &cards, Diffs &out);
+// A grid screen's cards minus the ones already selected (the game keeps those in its list).
+[[nodiscard]] json unselectedCards(const json &screen);
 
 // Simulator slots holding a monster. Some encounters leave a slot empty for a later summon, while the game's list
 // has no gaps, so the n-th occupied slot is compared with the game's n-th monster.

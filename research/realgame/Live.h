@@ -23,6 +23,7 @@ struct LiveResult {
     std::uint64_t seed = 0;
     std::string seedText;
     std::string status;  // finished | stalled
+    std::string message;
     bool victory = false;
     int score = 0;
     int floor = 0;

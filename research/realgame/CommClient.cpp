@@ -14,8 +14,9 @@ namespace {
 
 // Some commands change nothing the mod's listener notices (it then never reports a new state). After this long
 // without an answer the client asks the mod to report anyway, instead of hanging until the timeout.
-constexpr double kStallSec = 4.0;
+constexpr double kStallSec = 8.0;
 constexpr int kNudgeFrames = 30;
+constexpr double kQuietSec = 0.3;
 
 double secondsSince(std::chrono::steady_clock::time_point t0) {
     return std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
@@ -61,9 +62,8 @@ bool CommClient::readLine(std::string &out, double timeoutSec) {
             return true;
         }
         const double left = timeoutSec - secondsSince(t0);
-        if (left <= 0) return false;
         pollfd pfd{fd_, POLLIN, 0};
-        const int ready = poll(&pfd, 1, static_cast<int>(left * 1000) + 1);
+        const int ready = poll(&pfd, 1, left > 0 ? static_cast<int>(left * 1000) + 1 : 0);
         if (ready == 0) return false;
         if (ready < 0) throw GameUnavailable("poll() failed on relay connection");
         char chunk[65536];
@@ -73,20 +73,31 @@ bool CommClient::readLine(std::string &out, double timeoutSec) {
     }
 }
 
+void CommClient::drain(double quietSec) {
+    std::string line;
+    while (readLine(line, quietSec)) {
+        json msg = json::parse(line);
+        if (!msg.contains("error")) last_ = std::move(msg);
+    }
+}
+
 const json &CommClient::command(const std::string &cmd, double timeoutSec) {
     // A replayed or late message from before this command must not be read as its answer.
-    std::string line;
-    while (readLine(line, 0.0)) last_ = json::parse(line);
+    drain(0.0);
 
     sendLine(cmd);
     ++commandsSent_;
 
+    // The mod only offers WAIT inside a run; on the menu it would answer with an error.
+    const bool canNudge = last_.value("in_game", false);
     const auto t0 = std::chrono::steady_clock::now();
     bool nudged = false;
+    std::string line;
     for (;;) {
         if (readLine(line, kStallSec)) {
             json msg = json::parse(line);
             if (msg.contains("error")) {
+                if (nudged) continue;  // the nudge itself was refused; the command's answer is still on its way
                 throw CommandRejected(msg["error"].get<std::string>() + " (command: " + cmd + ")");
             }
             last_ = std::move(msg);
@@ -96,7 +107,7 @@ const json &CommClient::command(const std::string &cmd, double timeoutSec) {
         if (secondsSince(t0) > timeoutSec) {
             throw GameUnavailable("no stable state within " + std::to_string(timeoutSec) + "s of: " + cmd);
         }
-        if (!nudged) {
+        if (!nudged && canNudge) {
             nudged = true;
             sendLine("WAIT " + std::to_string(kNudgeFrames));
         }
@@ -104,11 +115,12 @@ const json &CommClient::command(const std::string &cmd, double timeoutSec) {
 }
 
 const json &CommClient::refresh() {
-    std::string line;
-    while (readLine(line, 0.0)) last_ = json::parse(line);
+    drain(0.0);
     sendLine("STATE");
+    std::string line;
     if (!readLine(line, 10.0)) throw GameUnavailable("no answer to STATE");
     last_ = json::parse(line);
+    drain(kQuietSec);
     return last_;
 }
 

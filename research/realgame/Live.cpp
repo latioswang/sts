@@ -14,6 +14,7 @@ namespace {
 
 constexpr int kMaxSteps = 40000;
 constexpr int kWaitFrames = 30;
+constexpr int kMaxRepeatedStates = 25;  // this many identical states in a row means nothing is progressing
 
 // Thrown by the action observer to stop the agent at its first decision: the state is a throwaway copy.
 struct CapturedAction {
@@ -191,13 +192,16 @@ bool Live::advanceWithoutDecision() {
         }
         bool potionSlotFree = false;
         for (const auto &p : gs["potions"]) potionSlotFree = potionSlotFree || p.value("id", "") == "Potion Slot";
+        const bool wantKeys = fair::getp(options_.params, "keys", 0) > 0;
         bool otherRewards = false;
         std::vector<int> cardEntries;
         const json &rewards = ss["rewards"];
         for (int i = 0; i < static_cast<int>(rewards.size()); ++i) {
             const std::string type = rewards[i].value("reward_type", "");
             if (type == "CARD") cardEntries.push_back(i);
-            else if (type != "POTION" || potionSlotFree) otherRewards = true;
+            else if (type == "POTION") otherRewards = otherRewards || potionSlotFree;
+            else if (type == "EMERALD_KEY" || type == "SAPPHIRE_KEY") otherRewards = otherRewards || wantKeys;
+            else otherRewards = true;
         }
         if (otherRewards) return false;  // the agent decides the order of these
         if (static_cast<int>(cardEntries.size()) > declinedCardRewards_) {
@@ -229,25 +233,29 @@ void Live::decideOutOfCombat() {
     if (gc.screenState == ScreenState::REWARDS && gc.potionCount >= gc.potionCapacity) {
         while (rewards.potionCount > 0) rewards.removePotionReward(0);
     }
+    // A closed card reward has no cards to judge; advanceWithoutDecision opens each once nothing else is left.
+    const bool rewardList = screenType() == "COMBAT_REWARD";
+    if (rewardList) {
+        while (rewards.cardRewardCount > 0) rewards.removeCardReward(0);
+    }
     if (search::GameAction::getAllActionsInState(gc).empty()) {
         fallback("the simulator has no actions for this screen");
         return;
     }
 
     const GameContext *target = &gc;
-    search::gameActionObserver = [target](const GameContext &g, const GameAction &a) {
-        if (&g == target) throw CapturedAction{a};
-    };
     GameAction action;
     bool captured = false;
     const auto t0 = std::chrono::steady_clock::now();
     try {
+        const ObserverScope observing([target](const GameContext &g, const GameAction &a) {
+            if (&g == target) throw CapturedAction{a};
+        });
         agent_.stepOutOfCombat(gc);
     } catch (const CapturedAction &c) {
         action = c.action;
         captured = true;
     }
-    search::gameActionObserver = nullptr;
     const double ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
 
     json entry{{"t", "choice"}, {"decision", decisions_}, {"floor", floor}, {"screen", screenType()},
@@ -296,8 +304,12 @@ bool Live::step() {
     const json &gs = gameState();
     const std::string screen = screenType();
     if (screen == "GAME_OVER") {
-        victory_ = gs["screen_state"].value("victory", false);
-        score_ = gs["screen_state"].value("score", 0);
+        // Unlock screens that follow also count as GAME_OVER, without the result on them.
+        const std::string name = gs.value("screen_name", "");
+        if (name == "DEATH" || name == "VICTORY") {
+            victory_ = gs["screen_state"].value("victory", false);
+            score_ = gs["screen_state"].value("score", 0);
+        }
         send("PROCEED");
         return state().value("in_game", false);
     }
@@ -321,14 +333,40 @@ LiveResult Live::run() {
     const auto t0 = std::chrono::steady_clock::now();
     log_.open(options_.logDir + "/live-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
-    send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
     result.status = "stalled";
-    for (int i = 0; i < kMaxSteps; ++i) {
-        ++step_;
-        if (!step()) {
-            result.status = "finished";
-            break;
+    try {
+        send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
+        std::string lastState;
+        int repeats = 0;
+        for (int i = 0; i < kMaxSteps; ++i) {
+            ++step_;
+            const std::string current = state().dump();
+            repeats = current == lastState ? repeats + 1 : 0;
+            lastState = current;
+            if (repeats >= kMaxRepeatedStates) {
+                log_ << json{{"t", "stalled"}, {"screen", screenType()}, {"state", state()}}.dump() << "\n";
+                break;
+            }
+            bool running = true;
+            try {
+                running = step();
+            } catch (const StopRun &gap) {
+                // A refused command changes nothing; re-read the game and let the next step try something else.
+                log_ << json{{"t", "rejected"}, {"floor", floor_}, {"screen", screenType()}, {"message", gap.message}}.dump() << "\n";
+                log_.flush();
+                ++fallbacks_;
+                game_.refresh();
+                if (repeats > 0) fallback(gap.message);
+            }
+            if (!running) {
+                result.status = "finished";
+                break;
+            }
         }
+    } catch (const StopRun &stop) {
+        result.message = stop.message;
+    } catch (const GameUnavailable &e) {
+        result.message = e.what();
     }
     result.victory = victory_;
     result.score = score_;
@@ -338,7 +376,8 @@ LiveResult Live::run() {
     result.fallbacks = fallbacks_;
     result.seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
     log_ << json{{"t", "end"}, {"status", result.status}, {"victory", result.victory}, {"score", result.score},
-                 {"floor", result.floor}, {"act", result.act}, {"decisions", result.decisions}, {"fallbacks", result.fallbacks}}.dump() << "\n";
+                 {"floor", result.floor}, {"act", result.act}, {"decisions", result.decisions}, {"fallbacks", result.fallbacks},
+                 {"message", result.message}}.dump() << "\n";
     return result;
 }
 

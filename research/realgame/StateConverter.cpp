@@ -1,5 +1,6 @@
 #include "StateConverter.h"
 
+#include "Compare.h"
 #include "GameIds.h"
 
 #include <algorithm>
@@ -140,39 +141,6 @@ std::shared_ptr<Map> mapFromJson(const json &nodes) {
     return map;
 }
 
-Neow::Option neowOptionFromText(const std::string &rawText) {
-    std::string t = rawText;
-    std::transform(t.begin(), t.end(), t.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    auto has = [&](const char *needle) { return t.find(needle) != std::string::npos; };
-
-    Neow::Option o{Neow::Bonus::INVALID, Neow::Drawback::NONE};
-    if (has("lose your starting relic")) o.d = Neow::Drawback::LOSE_STARTER_RELIC;
-    else if (has("lose all gold")) o.d = Neow::Drawback::NO_GOLD;
-    else if (has("obtain a curse")) o.d = Neow::Drawback::CURSE;
-    else if (has("damage")) o.d = Neow::Drawback::PERCENT_DAMAGE;
-    else if (has("lose") && has("max hp")) o.d = Neow::Drawback::TEN_PERCENT_HP_LOSS;
-
-    const bool strong = o.d != Neow::Drawback::NONE;
-    if (has("boss relic")) o.r = Neow::Bonus::BOSS_RELIC;
-    else if (has("rare colorless")) o.r = Neow::Bonus::RANDOM_COLORLESS_2;
-    else if (has("colorless")) o.r = Neow::Bonus::RANDOM_COLORLESS;
-    else if (has("choose a rare card")) o.r = Neow::Bonus::THREE_RARE_CARDS;
-    else if (has("random rare card")) o.r = Neow::Bonus::ONE_RANDOM_RARE_CARD;
-    else if (has("rare relic")) o.r = Neow::Bonus::ONE_RARE_RELIC;
-    else if (has("common relic")) o.r = Neow::Bonus::RANDOM_COMMON_RELIC;
-    else if (has("choose a card")) o.r = Neow::Bonus::THREE_CARDS;
-    else if (has("remove 2")) o.r = Neow::Bonus::REMOVE_TWO;
-    else if (has("remove a card")) o.r = Neow::Bonus::REMOVE_CARD;
-    else if (has("transform 2")) o.r = Neow::Bonus::TRANSFORM_TWO_CARDS;
-    else if (has("transform a card")) o.r = Neow::Bonus::TRANSFORM_CARD;
-    else if (has("upgrade a card")) o.r = Neow::Bonus::UPGRADE_CARD;
-    else if (has("potions")) o.r = Neow::Bonus::THREE_SMALL_POTIONS;
-    else if (has("three combats")) o.r = Neow::Bonus::THREE_ENEMY_KILL;
-    else if (has("max hp +")) o.r = strong ? Neow::Bonus::TWENTY_PERCENT_HP_BONUS : Neow::Bonus::TEN_PERCENT_HP_BONUS;
-    else if (has("gold")) o.r = strong ? Neow::Bonus::TWO_FIFTY_GOLD : Neow::Bonus::HUNDRED_GOLD;
-    return o;
-}
-
 int firstNumberIn(const std::string &text) {
     static const std::regex number("[0-9]+");
     std::smatch m;
@@ -306,11 +274,13 @@ void fillGrid(GameContext &gc, const json &screen, ConvertNotes &notes) {
     else if (screen.value("for_transform", false)) gc.info.selectScreenType = CardSelectScreenType::TRANSFORM;
     else if (gc.curEvent == Event::DUPLICATOR) gc.info.selectScreenType = CardSelectScreenType::DUPLICATE;
     else gc.info.selectScreenType = CardSelectScreenType::BOTTLE;
-    gc.info.toSelectCount = screen.value("num_cards", 1);
+    const json remaining = unselectedCards(screen);
+    const int alreadySelected = static_cast<int>(screen["cards"].size()) - static_cast<int>(remaining.size());
+    gc.info.toSelectCount = std::max(1, screen.value("num_cards", 1) - alreadySelected);
 
     gc.info.toSelectCards.clear();
     std::vector<bool> used(gc.deck.size(), false);
-    for (const auto &c : screen["cards"]) {
+    for (const auto &c : remaining) {
         const Card card = cardFromJson(c, notes);
         int deckIdx = -1;
         for (int i = 0; i < gc.deck.size(); ++i) {
@@ -479,6 +449,39 @@ CardSelectTask taskFromAction(const std::string &action, const std::string &scre
 }
 
 }  // namespace
+
+Neow::Option neowOptionFromText(const std::string &rawText) {
+    std::string t = rawText;
+    std::transform(t.begin(), t.end(), t.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    auto has = [&](const char *needle) { return t.find(needle) != std::string::npos; };
+
+    Neow::Option o{Neow::Bonus::INVALID, Neow::Drawback::NONE};
+    if (has("lose your starting relic")) o.d = Neow::Drawback::LOSE_STARTER_RELIC;
+    else if (has("lose all gold")) o.d = Neow::Drawback::NO_GOLD;
+    else if (has("obtain a curse")) o.d = Neow::Drawback::CURSE;
+    else if (has("damage")) o.d = Neow::Drawback::PERCENT_DAMAGE;
+    else if (has("lose") && has("max hp")) o.d = Neow::Drawback::TEN_PERCENT_HP_LOSS;
+
+    const bool strong = o.d != Neow::Drawback::NONE;
+    if (has("boss relic")) o.r = Neow::Bonus::BOSS_RELIC;
+    else if (has("rare colorless")) o.r = Neow::Bonus::RANDOM_COLORLESS_2;
+    else if (has("colorless")) o.r = Neow::Bonus::RANDOM_COLORLESS;
+    else if (has("choose a rare card")) o.r = Neow::Bonus::THREE_RARE_CARDS;
+    else if (has("random rare card")) o.r = Neow::Bonus::ONE_RANDOM_RARE_CARD;
+    else if (has("rare relic")) o.r = Neow::Bonus::ONE_RARE_RELIC;
+    else if (has("common relic")) o.r = Neow::Bonus::RANDOM_COMMON_RELIC;
+    else if (has("choose a card")) o.r = Neow::Bonus::THREE_CARDS;
+    else if (has("remove 2")) o.r = Neow::Bonus::REMOVE_TWO;
+    else if (has("remove a card")) o.r = Neow::Bonus::REMOVE_CARD;
+    else if (has("transform 2")) o.r = Neow::Bonus::TRANSFORM_TWO_CARDS;
+    else if (has("transform a card")) o.r = Neow::Bonus::TRANSFORM_CARD;
+    else if (has("upgrade a card")) o.r = Neow::Bonus::UPGRADE_CARD;
+    else if (has("potions")) o.r = Neow::Bonus::THREE_SMALL_POTIONS;
+    else if (has("three combats")) o.r = Neow::Bonus::THREE_ENEMY_KILL;
+    else if (has("max hp +")) o.r = strong ? Neow::Bonus::TWENTY_PERCENT_HP_BONUS : Neow::Bonus::TEN_PERCENT_HP_BONUS;
+    else if (has("gold")) o.r = strong ? Neow::Bonus::TWO_FIFTY_GOLD : Neow::Bonus::HUNDRED_GOLD;
+    return o;
+}
 
 // ---------------- memory ----------------
 
@@ -788,7 +791,7 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     const int knownTop = std::min<int>(memory.knownTop, static_cast<int>(drawJson.size()));
     bc.cards.drawPile.clear();
     for (const auto &c : drawJson) {
-        const CardInstance card = instanceFromJson(c, nextId++, notes);
+        const CardInstance card = instanceFromJson(c, 0, notes);
         bc.cards.drawPile.push_back(card);
         bc.cards.notifyAddCardToCombat(card);
         bc.cards.notifyAddToDrawPile(card);
@@ -803,6 +806,8 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         });
         std::shuffle(bc.cards.drawPile.begin(), unknownEnd, shuffler);
     }
+    // IDs go on after the shuffle: the search breaks ties on them, and they must carry no trace of the true order.
+    for (auto &card : bc.cards.drawPile) card.setUniqueId(nextId++);
     for (const auto &c : cs["discard_pile"]) {
         const CardInstance card = instanceFromJson(c, nextId++, notes);
         bc.cards.discardPile.push_back(card);

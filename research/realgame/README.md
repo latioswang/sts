@@ -13,6 +13,7 @@ Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spir
 | Agent hooks | Unset in research runs; 40 `fair_eval` games identical before and after |
 | JSON to simulator converter | Passes the offline round trip: 100 games, 42,765 battle decisions, 0 action or visible-field differences, no dependence on draw order |
 | Divergence report | Works on sample results; no real results yet |
+| Translation from actions to commands | Reviewed against the mod's Java source; never run against the game |
 | Game launch and Communication Mod connection | **Not run yet** |
 | Mirror mode on the real game | **Not run yet** |
 | Live mode on the real game | **Not run yet** |
@@ -147,8 +148,8 @@ python3 -m pytest research/realgame/test_report.py
 
 ## Things to watch for on the first real runs
 
-- **Neow.** The game offers the full four blessings only if the previous run reached the boss; otherwise it offers two. The simulator always has four. A mirror run after an early death will stop at Neow as a bridge gap.
-- **Locked content.** A fresh profile has locked cards and relics. The simulator assumes everything is unlocked, so card rewards would differ for reasons unrelated to RNG.
+- **Neow.** In the game's `NeowEvent`, a standard run reads the `<CLASS>_SPIRITS` preference and offers two blessings if it is 0, while a seeded run always gets four. Every run the bridge starts is seeded (`START` with a seed sets `Settings.seedSet`), so four is expected. Mirror mode still handles two if it ever sees them, and compares the four options' text with the simulator's rolls.
+- **Locked content.** The simulator assumes everything is unlocked. In the game, `Settings.treatEverythingAsUnlocked()` covers daily and trial runs only, so seeded runs use the profile's unlocks. A profile with locked cards or relics would produce different card rewards and relic pools for reasons unrelated to RNG. Check this first if the first mirror runs diverge at card rewards.
 - **Models.** `bf_model` loads from `research/models`. The bridge sets the path itself and refuses to start if the model fails to load. `fair_eval` falls back to `/home/user/...` and silently plays untrained when the file is missing, so set `BF_MODEL_DIR` when running it on this Mac.
 - **Agent randomness across platforms.** `std::default_random_engine` and `std` distributions differ between libc++ and libstdc++, so a given seed can play differently here than on the Linux cloud runs. The simulator's own RNG does not use them.
 

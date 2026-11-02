@@ -49,6 +49,8 @@ private:
     int mapComparedForAct_ = 0;
     bool rewardsCompared_ = false;
 
+    [[nodiscard]] int choiceCount() const;
+    void prepareNeow(sts::GameContext &gc);
     void logStep(const std::string &where, const std::string &action, const Diffs &diffs);
     void stopOnDifference(const std::string &where, const Diffs &diffs);
 

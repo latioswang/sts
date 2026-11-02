@@ -3,6 +3,7 @@
 // This tests the converter only. It cannot show that the simulator matches the real game; mirror mode does that.
 #include "SelfTest.h"
 
+#include "ActionSender.h"
 #include "CommJson.h"
 #include "Compare.h"
 #include "FairAgent.h"
@@ -187,15 +188,14 @@ int runSelfTest(const fair::Params &params, std::uint64_t seedStart, int count, 
         BattleMemory memory;
         const GameContext *target = &gc;
 
-        search::gameActionObserver = [&](const GameContext &g, const search::GameAction &) {
+        const ObserverScope observing([&](const GameContext &g, const search::GameAction &) {
             if (&g == target) checkScreen(g, c);
-        };
+        });
         agent.onCombatAction = [&](const BattleContext &bc, const search::Action &a, const fair::FairSearcher &) {
             checkBattle(gc, bc, memory, c);
             if (a.getActionType() == search::ActionType::CARD) memory.onCardPlayed(bc.cards.hand[a.getSourceIdx()].getType());
         };
         agent.playout(gc);
-        search::gameActionObserver = nullptr;
     }
 
     std::cout << "battle decisions checked: " << c.battleChecks << "\n"

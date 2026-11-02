@@ -1,6 +1,7 @@
 #include "Mirror.h"
 
 #include "GameIds.h"
+#include "StateConverter.h"
 
 #include "game/Game.h"
 #include "sim/search/GameAction.h"
@@ -61,6 +62,41 @@ void Mirror::stopOnDifference(const std::string &where, const Diffs &diffs) {
 
 // ---------------- out of combat ----------------
 
+int Mirror::choiceCount() const {
+    const json &gs = gameState();
+    return gs.contains("choice_list") ? static_cast<int>(gs["choice_list"].size()) : 0;
+}
+
+// Neow's blessings are visible before the agent's first decision, so their rolls are compared here. Seeded runs should
+// always get four. If the game ever offers two, the simulator is handed those two (repeated over the four indices)
+// and the mirror carries on, since the difference says nothing about the seed.
+void Mirror::prepareNeow(GameContext &gc) {
+    for (int page = 0; page < 3 && screenType() == "EVENT"; ++page) {
+        const json &options = gameState()["screen_state"]["options"];
+        if (options.size() != 1) break;
+        send("CHOOSE 0");
+    }
+    if (screenType() != "EVENT") return;
+    const json &options = gameState()["screen_state"]["options"];
+    Diffs d;
+    if (options.size() == 2) {
+        for (int i = 0; i < 4; ++i) gc.info.neowRewards[i] = neowOptionFromText(options[i % 2].value("text", ""));
+        log_ << json{{"t", "note"}, {"note", "two-option Neow blessing: four-option rolls are not verified on this seed"}}.dump() << "\n";
+    } else {
+        for (int i = 0; i < 4 && i < static_cast<int>(options.size()); ++i) {
+            const Neow::Option seen = neowOptionFromText(options[i].value("text", ""));
+            const Neow::Option &sim = gc.info.neowRewards[i];
+            if (seen.r != sim.r || seen.d != sim.d) {
+                d.push_back({"neow[" + std::to_string(i) + "]",
+                             std::string(Neow::bonusStrings[static_cast<int>(sim.r)]) + " / " + Neow::drawbackStrings[static_cast<int>(sim.d)],
+                             options[i].value("text", ""), true});
+            }
+        }
+    }
+    logStep("NEOW", "", d);
+    stopOnDifference("NEOW", d);
+}
+
 void Mirror::onCardRewardOpened(const CardReward &cards) {
     Diffs d;
     compareCardReward(cards, gameState()["screen_state"], d);
@@ -93,7 +129,7 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                     send("PROCEED");
                     continue;
                 }
-                if (real == "EVENT" && gameState()["choice_list"].size() == 1) { send("CHOOSE 0"); continue; }
+                if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
                 break;
             case ScreenState::SHOP_ROOM:
                 if (real == "SHOP_SCREEN") return;
@@ -160,7 +196,7 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
             compareEventId(gc, screen, d);
             break;
         case ScreenState::CARD_SELECT:
-            if (screenType() == "GRID") compareSelectCards(gc, screen["cards"], d);
+            if (screenType() == "GRID") compareSelectCards(gc, unselectedCards(screen), d);
             break;
         default:
             break;
@@ -196,7 +232,7 @@ void Mirror::finishRun(const GameContext &gc) {
         const std::string real = screenType();
         if (real == "COMBAT_REWARD" || real == "CHEST" || real == "COMPLETE") {
             send("PROCEED");
-        } else if (real == "EVENT" && gameState()["choice_list"].size() == 1) {
+        } else if (real == "EVENT" && choiceCount() == 1) {
             send("CHOOSE 0");
         } else {
             break;
@@ -224,7 +260,7 @@ MirrorResult Mirror::run() {
     // Same agent seed derivation as fair_eval, so a mirror run is the run the research harness would play.
     fair::FairAgent agent(options_.params, options_.seed * 0x9E3779B97F4A7C15ULL + 12345);
     target_ = &gc;
-    search::gameActionObserver = [this](const GameContext &g, const GameAction &a) { onGameAction(g, a); };
+    const ObserverScope observing([this](const GameContext &g, const GameAction &a) { onGameAction(g, a); });
     agent.onCombatAction = [this](const BattleContext &bc, const search::Action &a, const fair::FairSearcher &) {
         onCombatAction(bc, a);
     };
@@ -232,6 +268,7 @@ MirrorResult Mirror::run() {
     const int commandsBefore = game_.commandsSent();
     try {
         send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
+        prepareNeow(gc);
         agent.playout(gc);
         finishRun(gc);
         result.status = "completed";
@@ -244,7 +281,6 @@ MirrorResult Mirror::run() {
         result.status = "bridge_gap";
         result.message = e.what();
     }
-    search::gameActionObserver = nullptr;
 
     result.floor = floor_;
     result.act = act_;

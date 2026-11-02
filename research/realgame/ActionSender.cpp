@@ -2,6 +2,7 @@
 
 #include "GameIds.h"
 
+#include <algorithm>
 #include <sstream>
 
 using namespace sts;
@@ -157,6 +158,7 @@ void ActionSender::applyGameAction(const GameContext &gc, const GameAction &a) {
 // the same way. Rank (not position) also covers events whose later phases use higher simulator indices.
 void ActionSender::applyEvent(const GameContext &gc, int option) {
     for (int page = 0; page < 4; ++page) {
+        if (screenType() != "EVENT") break;  // an intro page led somewhere else
         const json &gs = gameState();
         const json &options = gs["screen_state"]["options"];
         std::vector<std::string> labels;
@@ -165,7 +167,8 @@ void ActionSender::applyEvent(const GameContext &gc, int option) {
             labels.push_back(o.value("label", ""));
             if (!o.value("disabled", false)) ++enabled;
         }
-        const int bits = gc.curEvent == Event::NEOW ? 0xF : GameAction::getValidEventSelectBits(gc);
+        const bool neow = gc.curEvent == Event::NEOW;
+        const int bits = neow ? 0xF : GameAction::getValidEventSelectBits(gc);
         int validCount = 0;
         int rank = -1;
         for (int b = 0; b < 31; ++b) {
@@ -181,14 +184,18 @@ void ActionSender::applyEvent(const GameContext &gc, int option) {
         }
         if (enabled == 1) {  // an intro page the simulator skips ("[Talk]", "[Proceed]")
             send("CHOOSE 0");
-            if (screenType() != "EVENT") break;
             continue;
+        }
+        if (neow && enabled == 2) {  // the two-option blessing: both modes repeat its options over the four indices
+            send("CHOOSE " + std::to_string(option % 2));
+            return;
         }
         break;
     }
     std::ostringstream os;
-    os << "event option mapping: sim option " << option << " of event " << static_cast<int>(gc.curEvent)
-       << ", game offers " << gameState()["screen_state"]["options"].dump();
+    os << "event option mapping: sim option " << option << " of event " << static_cast<int>(gc.curEvent) << ", game is on "
+       << screenType();
+    if (screenType() == "EVENT") os << " offering " << gameState()["screen_state"]["options"].dump();
     bridgeGap("EVENT", os.str());
 }
 
@@ -271,12 +278,19 @@ void ActionSender::applyShop(const GameContext &gc, const GameAction &a) {
 void ActionSender::chooseCardOnScreen(const std::string &key) {
     const std::string real = screenType();
     const char *listName = real == "HAND_SELECT" ? "hand" : "cards";
-    const json &cards = gameState()["screen_state"][listName];
+    const json &screen = gameState()["screen_state"];
+    if (!screen.contains(listName)) bridgeGap(real, "expected a card selection screen, got: " + screen.dump());
+    const json &cards = screen[listName];
+    // A grid keeps already-selected cards in its list, and clicking one again would deselect it.
+    std::vector<std::string> selected;
+    if (screen.contains("selected_cards")) {
+        for (const auto &c : screen["selected_cards"]) selected.push_back(c.value("uuid", ""));
+    }
     for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
-        if (keyOf(cards[i]) == key) {
-            send("CHOOSE " + std::to_string(i));
-            return;
-        }
+        if (keyOf(cards[i]) != key) continue;
+        if (std::find(selected.begin(), selected.end(), cards[i].value("uuid", "")) != selected.end()) continue;
+        send("CHOOSE " + std::to_string(i));
+        return;
     }
     bridgeGap(real, "card " + key + " not on screen: " + cards.dump());
 }

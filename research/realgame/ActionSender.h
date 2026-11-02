@@ -11,16 +11,31 @@
 
 #include <array>
 #include <fstream>
+#include <functional>
+#include <stdexcept>
 #include <string>
 
 namespace realgame {
 
 // Ends the current run's loop. status: diverged | bridge_gap | reached_limit.
-struct StopRun {
+struct StopRun : std::runtime_error {
+    StopRun(std::string status_, std::string where_, std::string message_, Diffs diffs_ = {})
+        : std::runtime_error(message_), status(std::move(status_)), where(std::move(where_)), message(std::move(message_)), diffs(std::move(diffs_)) {}
     std::string status;
     std::string where;
     std::string message;
     Diffs diffs;
+};
+
+// Keeps the agent's view of out-of-combat actions set only while `observer` is in scope, however the scope ends.
+class ObserverScope {
+public:
+    explicit ObserverScope(std::function<void(const sts::GameContext &, const sts::search::GameAction &)> observer) {
+        sts::search::gameActionObserver = std::move(observer);
+    }
+    ~ObserverScope() { sts::search::gameActionObserver = nullptr; }
+    ObserverScope(const ObserverScope &) = delete;
+    ObserverScope &operator=(const ObserverScope &) = delete;
 };
 
 class ActionSender {

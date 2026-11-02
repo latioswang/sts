@@ -46,6 +46,8 @@ private:
 
     void sendLine(const std::string &line);
     bool readLine(std::string &out, double timeoutSec);
+    // Takes in whatever has already arrived, until nothing more comes for quietSec.
+    void drain(double quietSec);
 };
 
 }  // namespace realgame

@@ -350,6 +350,18 @@ void compareSelectCards(const GameContext &gc, const json &cards, Diffs &out) {
     check(out, "select_cards", sortedList(sim, text), sortedList(game, text));
 }
 
+json unselectedCards(const json &screen) {
+    json out = json::array();
+    std::vector<std::string> selected;
+    if (screen.contains("selected_cards")) {
+        for (const auto &c : screen["selected_cards"]) selected.push_back(c.value("uuid", ""));
+    }
+    for (const auto &c : screen["cards"]) {
+        if (std::find(selected.begin(), selected.end(), c.value("uuid", "")) == selected.end()) out.push_back(c);
+    }
+    return out;
+}
+
 std::vector<int> occupiedMonsterSlots(const BattleContext &bc) {
     std::vector<int> slots;
     for (int i = 0; i < bc.monsters.monsterCount; ++i) {

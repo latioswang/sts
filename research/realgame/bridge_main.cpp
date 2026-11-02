@@ -72,6 +72,10 @@ Args parseArgs(int argc, char **argv) {
         if (!line.empty()) addParam(args.params, line);
     }
     for (const auto &[k, v] : overrides) args.params[k] = v;
+    if (fair::getp(args.params, "oc_potions", 0) > 0) {
+        // FairAgent drinks these directly, past the action observer, so the bridge would never send them to the game.
+        throw std::runtime_error("oc_potions=1 is not supported by the bridge");
+    }
     return args;
 }
 
@@ -140,7 +144,8 @@ int runLive(const Args &args) {
         Live live(game, options);
         const LiveResult r = live.run();
         json row{{"seed", r.seed}, {"seed_text", r.seedText}, {"status", r.status}, {"victory", r.victory}, {"score", r.score},
-                 {"floor", r.floor}, {"act", r.act}, {"decisions", r.decisions}, {"fallbacks", r.fallbacks}, {"seconds", r.seconds}};
+                 {"floor", r.floor}, {"act", r.act}, {"decisions", r.decisions}, {"fallbacks", r.fallbacks}, {"seconds", r.seconds},
+                 {"message", r.message}};
         results << row.dump() << "\n";
         results.flush();
         std::cout << r.seed << " (" << r.seedText << ") " << r.status << (r.victory ? " WIN" : " loss") << " floor " << r.floor
