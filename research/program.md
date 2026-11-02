@@ -1015,6 +1015,10 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   boss fights per option are long). At A0 the tier list is already adequate, or the simulation's blindness to
   out-of-combat drawbacks cancels what it sees in combat.
 
+- `heart_bfrelic10`: val +0.025, +6 Heart wins (40 vs 34), act-4 162 vs 158, P=0.988, 4.08 s vs 3.18 s per game; dev2 +2
+  wins (P=0.844); dev3 0 wins (−0.007); pooled val,dev2,dev3 [heart]: n=500  heart_bfrelic10 win=0.120 floor=46.05  heart_ka3 win=0.104 floor=45.87  dscore=+0.0181 dwin=+0.016 P(improve)=0.986 → **KEEP (pooled 500), new Heart best**. The act-3 relic is simulated against Shield & Spear and
+  the Heart, so this is a conversion mechanism — the first one that moves Heart wins with act-4 reach unchanged.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
