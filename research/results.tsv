@@ -320,3 +320,6 @@ bfadc00	dev3.a0	100	0	0.060	44.22	0.9012	+0.0192	0.932	info	heart_esim: [heart p
 7114e51	val.a20	300	0	0.030	27.48	0.5682	-0.0271	0.061	discard	a20_esim3: [a20 pooled500] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off [elite_sim=1 w_elite_act1=0 elite_sim_pwin=1.0] pooled dscore=-0.0154 dwin=-0.002 P(improve)=0.108
 7114e51	dev2.a20	100	0	0.040	27.04	0.5694	+0.0406	0.945	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
 7114e51	dev3.a20	100	0	0.000	24.15	0.4735	-0.0363	0.050	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
+955c1ab	val.a20	300	0	0.030	28.43	0.5868	-0.0084	0.195	discard	a20_esim_a23: [a20 pooled500] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2) [elite_sim=1] pooled dscore=+0.0057 dwin=+0.002 P(improve)=0.759
+955c1ab	dev2.a20	100	0	0.040	26.75	0.5637	+0.0349	0.984	info	a20_esim_a23: [a20 pooled500 slice] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2)
+955c1ab	dev3.a20	100	0	0.020	25.97	0.5288	+0.0190	0.986	info	a20_esim_a23: [a20 pooled500 slice] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2)
