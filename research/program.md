@@ -905,6 +905,16 @@ the single-knob results.
   bonus and the act-3 ruby key removed 19 (37 → 18) and added ≈ +4 Heart wins per 300; the remaining 18 key-less
   clears lack the emerald (path never reaches the burning elite at ≥ 60% HP) or the ruby (no eligible rest).
 
+### Batch 50 (queued 02:42 UTC, overnight) — more Heart-labelled data for the deck-value model
+
+Model 6 (the Heart track's bonus) was trained on `bg1` + `bg_heart`, where the Heart-labelled part is 500 games
+of `heart_cur` (183 reached act 4). Expert iteration failed at A0 (models 7/8), so the prior is weak, but the
+Heart case differs in that data volume, not label quality, is the limit. Queued: `bg_heart2` = 1,000 games of the
+current best (`heart_ka3`, keys, `bf_heart=1`) from seed 302000 in resumable 50-game chunks (budget 5 h), then
+model 12 on `bg1` + `bg_heart` + `bg_heart2` (per-file run ids), then `heart_bfb25_g12` under the pooled rule.
+Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0) is the likely outcome, and a
+3× jump in any validation metric is a bug until proven otherwise.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
