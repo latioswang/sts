@@ -96,7 +96,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 16:50 UTC
+### Current state (update after every batch) — 2026-11-02 17:38 UTC
+- **17:38 UTC: Phase R stage 2 closed without a keep.** Selection: ridge on 8,100 runs (gate passed). Card picks: vrb20
+  −0.020, vrb50 +0.026 (near-miss; dev +0.078; pooled-400 P=0.884 → discard), vrb100 −0.050, vrb50_nobf −0.090. A0 best
+  stays `mapd085`. Main queue: informational v1 cells 7–9 (≈ 1–2 h), then empty.
 - **16:50 UTC:** Phase R v1 grid at cell 6/9 (cells 1–5 all lose to predicting the mean; amendment with the v2
   trainer, ridge cells and a gate is queued behind it). s2scale: leaf nets sv16/sv17 trained on 3.2×10⁶ states, leak
   test pass, play tests running. a10ports: idle (five ports, none kept). Data store: waiting for the Mac set-up session.
@@ -750,6 +753,7 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 | `a20_bfbonus10_g2m` vs `a20_restlo` | +0.017, P=0.881 | +0.027, P=0.863 | +0.0192, P=0.935 | **KEEP** |
 | `a10_potv2` vs `a10_bfbonus25_g1m` | +0.028, P=0.865 | -0.000, P=0.497 | +0.0208, P=0.811 | discard |
 | `ct45` vs `bfbonus10_g1` | +0.015, P=0.721 | +0.006, P=0.584 | +0.0129, P=0.732 | discard |
+| `vrb50` vs `mapd085` | +0.026, P=0.761 | +0.0775, P=0.866 | +0.0386, P=0.884 | discard |
 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
 family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
@@ -1061,6 +1065,12 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
   Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Integration: `vrb20` 73.0% win, floor 47.4, -0.020 vs base, P=0.262 → discard (non-zero: the model is live).; `vrb50` 77.7% win, floor 47.3, +0.026 vs base, P=0.761 → discard; `vrb100` 72.7% win, floor 46.0, -0.050 vs base, P=0.107 → discard; `vrb50_nobf` 69.7% win, floor 45.5, -0.090 vs base, P=0.011 → discard (pre-registered "replacement does not beat the current agent" (MED): held).
   **Near-miss extension declared 17:27 UTC (before any dev seed):** `vrb50` (+0.026, P=0.761) qualifies under the rule of
   2026-11-01 11:40 — once, 100 dev seeds vs `mapd085_dev`; keep needs pooled-400 P >= 0.9 and dev-alone dscore > 0.
+  Result: dev alone `vs mapd085_dev: n=100 dscore=+0.0775 dwin=+0.060 P(improve)=0.866`; `pooled val,dev [act3]: n=400  vrb50 win=0.767 floor=47.10  mapd085 win=0.733 floor=46.92  dscore=+0.0386 dwin=+0.035 P(improve)=0.884` -> **discard**
+  (pooled P below 0.9; no second extension). Phase R stage 2 verdict: the learned run value (ridge, 8,100 runs, corr 0.34)
+  adds at most a small effect next to the deck model and is far worse as its replacement (-0.090). Stage 3 (fight
+  terminal value) was conditional on a stage-2 keep and does not start. The one lever left is data: ridge 0.5221 ->
+  0.5199 -> 0.5135 and the small net crossing the mean only at 8,100 runs point to 10^5 runs (the protocol's optional
+  step, ≈ 27 h on one VM, ≈ 7 h on four) — practical only once workers can share data (Hugging Face store pending).
 - v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
