@@ -827,6 +827,13 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   play grid so far: 10⁴ params: −1.12 / −0.58 / −0.57 by data; 9.4×10⁴ params: −0.72 / −0.70 / −0.63; 9×10⁵ params
   (6× budget): −0.67 at full data. On this CPU the equal-compute optimum is the smallest net with the most simulations.
 
+- **Control `svctrl`** (heuristic cutoff leaf, zero rollouts, 3,423 simulations at equal wall-clock; calibration
+  0.146×): win=0.117 floor=30.97 dscore=-0.9548 P=0.000. **Read against this, every learned leaf except
+  the 10⁴-decision small net is a large improvement**: the control sits at −0.95 (11.7% wins); `sv7` at −0.57
+  (36.0%), `sv4` −0.58, `sv9` −0.67, `sv5`/`sv2` −0.70, `sv8` −0.63, `sv1` −1.12. So the learned value is worth
+  ≈ +0.38 score (+24 points of win rate) over the heuristic leaf at equal wall-clock, but zero-rollout search of
+  any kind is ≈ −0.57 below random rollouts here: rollouts carry information no leaf at this scale replaces.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
