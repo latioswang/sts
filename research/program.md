@@ -1058,7 +1058,7 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
   9,000 runs is a v2 net (LOW-MED) — failed, ridge wins; gate passes (HIGH) — held. The nets rank runs (corr up to
   0.33) but overshoot in scale; ridge gains little from data (0.5221 -> 0.5199 -> 0.5135). `vr_10` = ridge on 8,100
   runs (one linear layer, 667 parameters). Integration (leak test + vrb20/50/100/50_nobf) runs as pre-registered.
-  Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Integration: `vrb20` 73.0% win, floor 47.4, -0.020 vs base, P=0.262 → discard (non-zero: the model is live).
+  Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Integration: `vrb20` 73.0% win, floor 47.4, -0.020 vs base, P=0.262 → discard (non-zero: the model is live).; `vrb50` 77.7% win, floor 47.3, +0.026 vs base, P=0.761 → discard.
 - v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
