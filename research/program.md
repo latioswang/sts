@@ -82,6 +82,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   Queue empty; no keeps on A10 or A20; best_a10_* / best_a20_* unchanged. (note.py shows the last stage row for A20 names; the pooled line is the verdict.)
   Verdict: none of the five ports keeps (prediction held). `a20_mapd085` pooled P is in the pre-registered
   near-miss band, so the worker runs `ext_pooled.sh a20_mapd085 a20_restboss1` (dev slice, pooled 600) next.
+  Extension result (pasted from `research/runs/pooled600_a20_mapd085.txt`):
+  `pooled val,dev2,dev3,dev [act3]: n=600  a20_mapd085 win=0.028 floor=27.32  a20_restboss1 win=0.027 floor=27.23  dscore=+0.0033 dwin=+0.002 P(improve)=0.704`
+  `no`
+  -> no keep; A20 best stays `a20_restboss1`. a10ports has no further pre-registered batch and is idle.
 - **s2scale:** gate bit-identical; leafdata regenerated and its training-row count reproduces sv_11 exactly
   (worker log); leafdata2 generation running.
 
