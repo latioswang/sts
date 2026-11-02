@@ -957,6 +957,17 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
   bug showed paired corr 0.35–0.48), repro_check bit-identical, leak test PASS with the model on. `heart_bfb25_g12`
   (pooled rule vs heart_ka3) running.
 
+### Batch 51 (queued 04:05 UTC) — the Heart track never received four A0 keeps
+
+Diffing `best_heart_params.txt` against `best_params.txt`: the Heart track lacks `prior_mlp=1 prior_mlp_depth=0`
+(root MLP move prior, +3.6 pts at A0), `potion_v=8 potion_v_boss=4` (potsave2, pooled keep at A0), `w_elite_act1=1`
+(wea1p1) and `map_discount=0.85` (mapd085, unreplicated). It was seeded from the chest-era agent (`INFO_keys1`
+→ `heart_cur`) before those landed, and every Heart experiment since has been tuned on top of that older base.
+Queued in order of expected effect, each under the pooled rule on top of whatever is best when it starts:
+`heart_pmlp`, `heart_potsave`, `heart_wea1`, `heart_mapd`. Prediction: the move prior transfers (HIGH; it is a
+combat improvement independent of keys), the others are small. Lesson recorded below: when a track is seeded,
+record the exact A0 commit/params it branched from and re-diff after every A0 keep.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
@@ -991,6 +1002,11 @@ before anything is claimed; the Heart track, where a 2–3-point difference is o
 only effects that replicate on two independent slices. These slices do not touch `test`.
 
 ## Operational lessons (self-inflicted, recorded so the loop stops repeating them)
+
+- **Tracks drift apart silently.** The Heart track was seeded from the A0 agent of its day and never re-synced; four
+  later A0 keeps (move prior, potion values, act-1 elite weight, map discount) were missing for a whole day of Heart
+  experiments. Rule: `research/tools/track_diff.sh` (params diff of every track against A0) runs at each hourly
+  wake-up, and any A0 keep is queued as a port experiment on every other track within the next batch.
 
 - **A tool that loads run files must take the win definition explicitly.** `pooled.py` loaded with
   the default act-3 win mode, so the first pooled Heart decision (`heart_pvh0`) was printed with
