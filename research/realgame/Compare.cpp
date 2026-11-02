@@ -85,7 +85,8 @@ std::map<std::string, int> simMonsterPowers(const Monster &m) {
         const std::string id = monsterPowerToGameId(s);
         if (id == "?") continue;  // simulator bookkeeping with no power in the game (Asleep, Minion Leader)
         if (s == MonsterStatus::STRENGTH ? m.strength != 0 : m.hasStatusInternal(s)) {
-            out[id] = isBooleanPower(s) ? -1 : m.getStatusInternal(s);
+            const int amount = isBooleanPower(s) ? -1 : m.getStatusInternal(s);
+            if (amount != 0) out[id] = amount;  // the game removes a power that reaches 0
         }
     }
     return out;

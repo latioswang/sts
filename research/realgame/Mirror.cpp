@@ -155,11 +155,9 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                 break;
             case ScreenState::REWARDS:
                 if (real == "COMBAT_REWARD" || real == "CARD_REWARD") return;
-                // Neow's card blessings end on a [Leave] page; the simulator leaves through an empty reward screen.
-                if (real == "EVENT" && choiceCount() == 1 && gameState()["screen_state"].value("event_id", "") == "Neow Event") {
-                    send("CHOOSE 0");
-                    continue;
-                }
+                // Single-button event pages the simulator skips: Lab's [Search], Wheel of Change's spin and [Prize!], and
+                // Neow's [Leave], where the simulator leaves through an empty reward screen.
+                if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
                 if (real == "MAP" && rewardsEmpty(gc.info.rewardsContainer)) return;
                 break;
             case ScreenState::BOSS_RELIC_REWARDS:

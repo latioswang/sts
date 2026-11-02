@@ -2,12 +2,18 @@
 # Reproduce the simulator build used by research/ (sts_lightspeed + leak-free agent).
 # STS_SIM_DIR: where to clone and build the simulator (default: the cloud path).
 # STS_TARGETS: make targets to build (default: fair_eval).
+# STS_SIM_BRANCH: clone this branch of the fork that tracks the real game (realgame/README.md) instead of upstream
+# plus the research patch. Research runs leave it unset.
 set -euo pipefail
 SIM="${STS_SIM_DIR:-/home/user/sts_lightspeed}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 if [ ! -d "$SIM" ]; then
-  git clone --recurse-submodules https://github.com/gamerpuppy/sts_lightspeed.git "$SIM"
-  (cd "$SIM" && git checkout "$(cat "$HERE/patches/sts_lightspeed.commit")" && git apply "$HERE/patches/sts_lightspeed.patch")
+  if [ -n "${STS_SIM_BRANCH:-}" ]; then
+    git clone --recurse-submodules -b "$STS_SIM_BRANCH" https://github.com/latioswang/sts_lightspeed.git "$SIM"
+  else
+    git clone --recurse-submodules https://github.com/gamerpuppy/sts_lightspeed.git "$SIM"
+    (cd "$SIM" && git checkout "$(cat "$HERE/patches/sts_lightspeed.commit")" && git apply "$HERE/patches/sts_lightspeed.patch")
+  fi
 fi
 if [ -n "${STS_SIM_DIR:-}" ]; then
   # Local machines keep the build dependency out of the user's Python environment.
