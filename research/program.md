@@ -57,7 +57,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
 ### Current state (update after every batch) — 2026-11-02 01:16 UTC
-- **Batch 48 (mechanisms) nearly done, batch 49 (key acquisition) queued behind a guarded rebuild.**
+- **Heart best `heart_wba3`** (act-3 burning elite +3 while the emerald key is missing; extension keep, pooled 600
+  9.8% vs 9.3%, P=0.958) on top of `heart_a4pot` (act-4 shop potions; pooled 500 P=0.996, dev +3 wins P=0.953).
+- **Batch 48 (mechanisms) done, batch 49 (key acquisition) running on the rebuilt binary.**
   Keep: `heart_a4pot` (act-4 shop potions) — Heart best, pooled 500: 9.8% vs 8.2% Heart wins, P=0.996;
   dev replication queued. Discards (pooled 500): `heart_pvh0` (−0.002), `heart_ltw1` (−0.003),
   `heart_ldw35` (−0.021), `heart_brt8` (−0.033: the boss-fight value-shape hypothesis is rejected at A0),
@@ -871,6 +873,10 @@ the single-knob results.
 
 - `heart_bhp05`: pooled val,dev2,dev3 [heart]: n=500  heart_bhp05 win=0.096 floor=45.61  heart_a4pot win=0.098 floor=45.65  dscore=-0.0027 dwin=-0.002 P(improve)=0.000 → discard (val key-less clears 37 vs 37, act-4 139 vs 140; dev2/dev3 identical games):
   HP is not what blocks the emerald key; the map value of the burning elite's path is.
+
+- **`heart_wba3` extension: dev +0.0098 (+1 Heart win, P=0.629); pooled val,dev2,dev3,dev [heart]: n=600  heart_wba3 win=0.098 floor=45.65  heart_a4pot win=0.093 floor=45.59  dscore=+0.0045 dwin=+0.005 P(improve)=0.958 → KEEP (extension keep: pooled-600
+  P ≥ 0.9 and dev-alone > 0), new Heart best.** Chain: heart_bfbonus25_g_heart 8.2% → heart_a4pot 9.3% →
+  heart_wba3 9.8% Heart wins on the pooled 600. Labelled "extension keep" — dev is consumed, no further slice.
 
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
