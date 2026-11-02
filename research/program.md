@@ -822,6 +822,11 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   though its fit kept improving (11.8 → 10.2). At the small size the fit, not the data, is now the limit; at the
   large sizes the inference cost is. Neither path reaches the rollout agent at equal wall-clock on this CPU.
 
+- `sv8` (8.1×10⁵ × 9.4×10⁴, 107 simulations at equal wall-clock; calibration 4.656×): win=0.297 floor=38.13
+  dscore=-0.6344 P=0.000 — worse than `sv7` (same data, 9× fewer parameters, 1,133 simulations). Equal-wall-clock
+  play grid so far: 10⁴ params: −1.12 / −0.58 / −0.57 by data; 9.4×10⁴ params: −0.72 / −0.70 / −0.63; 9×10⁵ params
+  (6× budget): −0.67 at full data. On this CPU the equal-compute optimum is the smallest net with the most simulations.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
