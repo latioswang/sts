@@ -31,19 +31,25 @@ stop_game() {
 }
 
 start_game() {
-  rm -f "$SOCK"
-  mkdir -p "$HERE/logs"
-  nohup "$HERE/launch_game.sh" > "$HERE/logs/game.log" 2>&1 &
-  disown
-  local waited=0
-  while [ "$waited" -lt "$GAME_START_TIMEOUT_SEC" ]; do
-    if [ -S "$SOCK" ] && python3 -I "$HERE/commctl.py" state 2>/dev/null | grep -q "ready=True"; then
-      return 0
-    fi
-    sleep 2
-    waited=$((waited + 2))
+  # Rosetta occasionally fails to start the game ("Attachment of code signature supplement failed"); another try works.
+  local attempt waited
+  for attempt in 1 2 3; do
+    rm -f "$SOCK"
+    mkdir -p "$HERE/logs"
+    ("$HERE/launch_game.sh" > "$HERE/logs/game.log" 2>&1 &)
+    waited=0
+    while [ "$waited" -lt "$GAME_START_TIMEOUT_SEC" ]; do
+      if [ -S "$SOCK" ] && python3 -I "$HERE/commctl.py" state 2>/dev/null | grep -q "not in game"; then
+        return 0
+      fi
+      pgrep -f "ModTheSpire.jar" > /dev/null || break
+      sleep 2
+      waited=$((waited + 2))
+    done
+    echo "warning: game start attempt $attempt failed: $(tail -n 1 "$HERE/logs/game.log" | cut -c1-120)" >&2
+    stop_game
   done
-  echo "error: the game did not start within ${GAME_START_TIMEOUT_SEC}s" >&2
+  echo "error: the game did not start" >&2
   return 1
 }
 
