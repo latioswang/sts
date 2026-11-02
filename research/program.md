@@ -120,10 +120,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   with the hourly runs.
 - 14:28 UTC: **the user confirmed that the queue runner (here and in worker sessions) is restarted immediately
   after every 2-hour background stop.** Restarted at once; Phase R data resumes from chunk 45.
-- **Data store pending:** `research/tools/data_sync.py` (push/pull/ls/selftest through a private Hugging Face dataset
-  repo; dry-run checked here, never run against a real repo yet). Set-up and end-to-end test run in a session on the
-  user's Mac; the handoff is `research/data_store.json` on branch `setup/hf-datastore`. Until a fresh cloud session
-  has `HF_TOKEN` and the allowed hosts, workers stay self-contained.
+- **Data store ready (merged from `setup/hf-datastore`):** private dataset `latioswang/sts-ironclad-data`, verified 2026-11-02T17:58:20Z selftest OK from a claude.ai cloud session in environment 'python' (Linux), not macOS.
+  Token = network secret on the cloud environment (added in transit to huggingface.co; never in a VM); this session can
+  read it too (`data_sync.py ls` works here). Uploading `rundata` (10,000 files, 4.2 GB) and `leafdata` (2,500 files,
+  672 MB) from this VM, so the Phase R and S2 data survive the container and workers can pull them.
 - **Phase R data done** (10,000 run files), guarded rebuild bit-identical on all three bests, 3×3 grid started 15:46.
   First cell: `VR id=1 runs=1000 hidden=64 layers=2 params=46913 holdout_rmse=0.5466 holdout_corr=0.252 predict_mean_rmse=0.5454` — holdout RMSE above the predict-mean baseline (overfit at 1,000 runs).
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
