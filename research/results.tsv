@@ -308,3 +308,6 @@ a0e5125	dev3.a0	100	0	0.050	43.70	0.8820	+0.0100	0.629	info	heart_a4pot: [heart 
 c8a2c68	val.a0	300	0	0.093	45.47	0.9525	-0.0265	0.129	discard	heart_ldw35: [heart pooled500] loss value: damage credit on the win-bonus scale (35, was 10) [loss_dmg_w=35] pooled dscore=-0.0205 dwin=-0.012 P(improve)=0.111
 c8a2c68	dev2.a0	100	0	0.130	45.88	0.9963	+0.0151	0.628	info	heart_ldw35: [heart pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
 c8a2c68	dev3.a0	100	0	0.020	43.37	0.8435	-0.0384	0.073	info	heart_ldw35: [heart pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+ac2f72b	val.a0	300	0	0.090	44.72	0.9378	-0.0412	0.021	discard	heart_brt8: [heart pooled500] boss fights: rollouts cut at 8 turns, cutoff value (HP counts) [boss_rollout_turns=8] pooled dscore=-0.0329 dwin=-0.012 P(improve)=0.011
+ac2f72b	dev2.a0	100	0	0.110	44.14	0.9455	-0.0357	0.156	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+ac2f72b	dev3.a0	100	0	0.050	43.38	0.8767	-0.0053	0.395	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
