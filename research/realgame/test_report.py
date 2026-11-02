@@ -1,7 +1,7 @@
 """Tests for report.py. Run: pytest research/realgame/test_report.py"""
 import json
 
-from report import load_stops, render, suspect_for
+from report import Stop, load_stops, render, suspect_for
 
 
 def write_results(path, rows) -> str:
@@ -13,6 +13,17 @@ def write_results(path, rows) -> str:
 def row(seed: int, status: str, diffs=()) -> dict:
     return {"seed": seed, "seed_text": f"S{seed}", "status": status, "floor": 3, "act": 1, "step": 40, "where": "BATTLE",
             "last_action": "END", "message": "", "diffs": list(diffs)}
+
+
+def test_nondeterministic_stops_are_listed_apart() -> None:
+    stops = [
+        Stop(seed=1, seed_text="A", status="game_nondeterminism", floor=7, act=1, step=9, where="BATTLE", last_action="END", message="", diffs=({"field": "hand", "sim": "a", "game": "b", "hard": True},)),
+        Stop(seed=2, seed_text="B", status="diverged", floor=3, act=1, step=4, where="MAP", last_action="END", message="", diffs=({"field": "gold", "sim": "1", "game": "2", "hard": True},)),
+    ]
+    text = render(stops)
+    assert "1 stopped at a difference, 1 stopped where the game itself is not deterministic" in text
+    assert "## Stopped where the game is not deterministic" in text
+    assert "### Seed 1 " not in text
 
 
 def test_newest_result_per_seed_wins(tmp_path):
@@ -43,6 +54,6 @@ def test_suspect_uses_longest_meaningful_prefix():
 def test_render_counts_and_lists_repro(tmp_path):
     diff = {"field": "player.block", "sim": "5", "game": "8", "hard": True}
     report = render(load_stops(write_results(tmp_path, [row(4, "completed"), row(5, "diverged", [diff])])))
-    assert "2 seeds: 1 matched to their end point, 1 stopped at a difference." in report
+    assert "2 seeds: 1 matched to their end point, 1 stopped at a difference, 0 stopped where the game itself is not deterministic." in report
     assert "`player.block`" in report
     assert "sts_bridge mirror --seed_start 5 --count 1" in report

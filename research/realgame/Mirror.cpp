@@ -8,6 +8,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
+#include <fstream>
 #include <sstream>
 
 using namespace sts;
@@ -55,6 +57,22 @@ int firstUnselected(const json &grid) {
     return 0;
 }
 
+// Note For Yourself gives the card stored by the profile's previous run (STSPlayer: NOTE_CARD, NOTE_UPGRADE). The
+// simulator starts every run with Iron Wave, the game's default, so it is told what this run will really find.
+void loadNoteCard(GameContext &gc) {
+    const char *gameDir = std::getenv("STS_GAME_DIR");
+    const char *home = std::getenv("HOME");
+    if (!gameDir && !home) return;
+    const std::string dir = gameDir ? gameDir : std::string(home) + "/.sts_realgame";
+    std::ifstream in(dir + "/preferences/STSPlayer");
+    if (!in) return;
+    const json prefs = json::parse(in, nullptr, false);
+    if (prefs.is_discarded() || !prefs.contains("NOTE_CARD")) return;
+    const auto card = cardFromGameId(prefs["NOTE_CARD"].get<std::string>());
+    if (!card) return;
+    gc.noteForYourselfCard = Card(*card, std::atoi(prefs.value("NOTE_UPGRADE", "0").c_str()));
+}
+
 bool rewardsEmpty(const Rewards &r) {
     return r.goldRewardCount == 0 && r.cardRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && !r.emeraldKey && !r.sapphireKey;
 }
@@ -74,8 +92,15 @@ void Mirror::logStep(const std::string &where, const std::string &action, const 
     log_.flush();
 }
 
+// DiscoveryAction.update regenerates its three cards on every frame it runs (about 0.25s after the choice), and each
+// generation rolls cardRandomRng. So after a discovery, that stream depends on the frame rate until the next floor
+// reseeds it, and the same seed and actions can play out differently in the game itself. No simulator can match that.
 void Mirror::stopOnDifference(const std::string &where, const Diffs &diffs) {
-    if (anyHard(diffs)) throw StopRun{"diverged", where, "state differs", diffs};
+    if (!anyHard(diffs)) return;
+    if (discoveryFloor_ == floor_) {
+        throw StopRun{"game_nondeterminism", where, "difference after a discovery on this floor; cardRandomRng depends on the frame rate there", diffs};
+    }
+    throw StopRun{"diverged", where, "state differs", diffs};
 }
 
 // ---------------- out of combat ----------------
@@ -158,7 +183,8 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                 // Single-button event pages the simulator skips: Lab's [Search], Wheel of Change's spin and [Prize!], and
                 // Neow's [Leave], where the simulator leaves through an empty reward screen.
                 if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
-                if (real == "MAP" && rewardsEmpty(gc.info.rewardsContainer)) return;
+                // The same empty screen after Dream Catcher's card, where the game returns to the finished campfire.
+                if ((real == "MAP" || real == "REST") && rewardsEmpty(gc.info.rewardsContainer)) return;
                 break;
             case ScreenState::BOSS_RELIC_REWARDS:
                 if (real == "BOSS_REWARD") return;
@@ -250,23 +276,43 @@ Diffs Mirror::outOfCombatDiffs(const GameContext &gc) const {
 
 // ---------------- combat ----------------
 
+// While a card's selection screen is up, the game still holds the rest of that card's effects and anything they set
+// off in its action queue (a Guardian's mode change behind a Headbutt, say), and the simulator may already have run
+// them. The next comparison sees both sides settled, so here only the piles the selection reads from are compared.
+Diffs Mirror::battleDiffs(const BattleContext &bc) const {
+    Diffs d;
+    compareBattle(bc, gameState(), d);
+    if (screenType() != "NONE") {
+        d.erase(std::remove_if(d.begin(), d.end(), [](const Diff &x) {
+            return x.field.rfind("monster", 0) == 0 || x.field.rfind("player", 0) == 0;
+        }), d.end());
+    }
+    return d;
+}
+
 void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     ++step_;
+    if (options_.maxFloor > 0 && bc.floorNum > options_.maxFloor) {
+        throw StopRun{"reached_limit", "BATTLE", "floor limit", {}};
+    }
+    // An event's fight starts behind a [Fight] button the simulator doesn't have.
+    for (int i = 0; i < kMaxAlignSteps && screenType() == "EVENT" && choiceCount() == 1; ++i) send("CHOOSE 0");
     if (!state().value("in_game", false) || gameState().value("room_phase", "") != "COMBAT") {
         Diffs d{{"screen", "BATTLE", screenType(), true}};
         throw StopRun{"diverged", "BATTLE", "the simulator is in a battle, the game is not", d};
     }
     std::ostringstream desc;
     a.printDesc(desc, bc);
-    Diffs d;
-    compareBattle(bc, gameState(), d);
+    Diffs d = battleDiffs(bc);
     for (int i = 0; i < kEffectWaits && anyHard(d); ++i) {
         waitForEffects();
-        d.clear();
-        compareBattle(bc, gameState(), d);
+        d = battleDiffs(bc);
     }
     logStep("BATTLE", desc.str(), d);
     lastAction_ = desc.str();
+    if (a.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::DISCOVERY) {
+        discoveryFloor_ = floor_;
+    }
     stopOnDifference("BATTLE turn " + std::to_string(bc.turn), d);
     applyCombatAction(bc, a, gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]));
 }
@@ -305,6 +351,7 @@ MirrorResult Mirror::run() {
     log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
     GameContext gc(CharacterClass::IRONCLAD, options_.seed, options_.ascension);
+    loadNoteCard(gc);
     // Same agent seed derivation as fair_eval, so a mirror run is the run the research harness would play.
     fair::FairAgent agent(options_.params, options_.seed * 0x9E3779B97F4A7C15ULL + 12345);
     target_ = &gc;

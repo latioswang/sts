@@ -94,13 +94,16 @@ def load_stops(path: str) -> list[Stop]:
 def render(stops: Iterable[Stop]) -> str:
     stops = list(stops)
     clean = [s for s in stops if s.status in ("completed", "reached_limit")]
-    stopped = [s for s in stops if s not in clean]
+    # Not simulator bugs: the game itself plays differently from run to run here (see Mirror::stopOnDifference).
+    nondeterministic = [s for s in stops if s.status == "game_nondeterminism"]
+    stopped = [s for s in stops if s not in clean and s not in nondeterministic]
     fields = Counter(s.first_field for s in stopped)
 
     lines = [
         "# Mirror divergence report",
         "",
-        f"{len(stops)} seeds: {len(clean)} matched to their end point, {len(stopped)} stopped at a difference.",
+        f"{len(stops)} seeds: {len(clean)} matched to their end point, {len(stopped)} stopped at a difference, "
+        f"{len(nondeterministic)} stopped where the game itself is not deterministic.",
         "",
     ]
     if fields:
@@ -110,6 +113,17 @@ def render(stops: Iterable[Stop]) -> str:
     if clean:
         lines += ["## Matched", "", "| Seed | Result | Floor | Steps |", "|---|---|---|---|"]
         lines += [f"| {s.seed} (`{s.seed_text}`) | {s.status} | {s.floor} | {s.step} |" for s in clean]
+        lines.append("")
+    if nondeterministic:
+        lines += [
+            "## Stopped where the game is not deterministic",
+            "",
+            "After a discovery, `cardRandomRng` depends on the frame rate until the next floor, so these runs say nothing about the simulator past that point.",
+            "",
+            "| Seed | Floor | Steps | First field |",
+            "|---|---|---|---|",
+        ]
+        lines += [f"| {s.seed} (`{s.seed_text}`) | {s.floor} | {s.step} | `{s.first_field}` |" for s in nondeterministic]
         lines.append("")
     if stopped:
         lines += ["## Stops", ""]
