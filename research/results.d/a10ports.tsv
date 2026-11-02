@@ -1,2 +1,3 @@
 797ec00	val.a10	300	0	0.267	36.74	0.9871	-0.0390	0.011	discard	a10_mapd085: [a10] port A0 keep: map discount 0.85 [map_discount=0.85]
 58fd57e	val.a10	300	0	0.293	37.44	1.0275	+0.0013	0.517	discard	a10_potsave: [a10] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights [potion_v=8 potion_v_boss=4]
+6858735	val.a10	300	0	0.287	37.21	1.0163	-0.0099	0.331	discard	a10_wea1: [a10] port A0 keep: act-1 elites +1 on the map [w_elite_act1=1]
