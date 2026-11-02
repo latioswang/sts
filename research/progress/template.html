@@ -1,0 +1,688 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Ironclad Autoresearch Progress</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab-notebook page — one wide time chart of the main ladder, three small multiples beneath, then the log. */
+:root {
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s1-wash: rgba(42,120,214,0.10);
+  --good: #006300;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-code: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s1-wash: rgba(57,135,229,0.12); --good: #0ca30c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s1-wash: rgba(57,135,229,0.12); --good: #0ca30c; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 48px; }
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 28px; }
+header h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; text-wrap: balance; }
+header p { margin: 0; color: var(--ink-2); max-width: 68ch; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 500; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 14px 16px; min-width: 0; }
+.tile .label { font-size: 13px; color: var(--ink-2); }
+.tile .value { font-size: 30px; font-weight: 600; line-height: 1.15; margin-top: 4px; }
+.tile .sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.tile .sub b { color: var(--ink-2); font-weight: 500; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 16px 16px 10px; min-width: 0; }
+.card h2 { font-size: 16px; font-weight: 600; margin: 0; }
+.card .sub { color: var(--ink-2); font-size: 13px; margin: 2px 0 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); margin: 0 0 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.key-line { width: 18px; height: 2px; background: var(--s1); border-radius: 1px; position: relative; }
+.key-line::after { content: ""; position: absolute; left: 5px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--s1); }
+.key-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--s2); }
+.key-hollow { width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--s1); }
+svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
+svg.chart text { font-family: var(--font-ui); fill: var(--ink-2); font-size: 12px; }
+svg.chart .tick { fill: var(--muted); font-variant-numeric: tabular-nums; }
+svg.chart .grid { stroke: var(--grid); stroke-width: 1; }
+svg.chart .axis { stroke: var(--axis); stroke-width: 1; }
+svg.chart .line { fill: none; stroke: var(--s1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+svg.chart .line.s2 { stroke: var(--s2); } svg.chart .line.s3 { stroke: var(--s3); } svg.chart .line.s4 { stroke: var(--s4); }
+svg.chart .dot.s2 { fill: var(--s2); } svg.chart .dot.s3 { fill: var(--s3); } svg.chart .dot.s4 { fill: var(--s4); }
+svg.chart .dot.diamond { fill: var(--surface); stroke: var(--s1); stroke-width: 2; }
+.key-line.s2 { background: var(--s2); } .key-line.s2::after { background: var(--s2); } .key-line.s3 { background: var(--s3); } .key-line.s3::after { background: var(--s3); } .key-line.s4 { background: var(--s4); } .key-line.s4::after { background: var(--s4); }
+.key-diamond { width: 8px; height: 8px; border: 2px solid var(--s1); transform: rotate(45deg); background: var(--surface); }
+svg.chart .dot { fill: var(--s1); stroke: var(--surface); stroke-width: 2; }
+svg.chart .dot.test { fill: var(--surface); stroke: var(--s1); stroke-width: 2; }
+svg.chart .dot.hollow { fill: var(--surface); stroke: var(--s1); stroke-width: 2; }
+svg.chart .hit { fill: transparent; cursor: pointer; }
+svg.chart .hit:focus { outline: none; }
+svg.chart .hit:focus + .dot, svg.chart .dot.hot { stroke-width: 3; }
+svg.chart .ann-label { fill: var(--ink); font-size: 12px; font-weight: 500; }
+svg.chart .ann-sub { fill: var(--ink-2); font-size: 11px; }
+svg.chart .leader { stroke: var(--muted); stroke-width: 1; fill: none; }
+svg.chart .crosshair { stroke: var(--axis); stroke-width: 1; pointer-events: none; }
+svg.chart .end-label { fill: var(--ink); font-weight: 600; font-size: 12px; font-variant-numeric: tabular-nums; }
+.smalls { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12); border-radius: 6px; padding: 10px 12px; font-size: 13px; max-width: 320px; display: none; }
+.tip .v { font-size: 18px; font-weight: 600; }
+.tip .n { font-family: var(--font-code); font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.tip .d { color: var(--ink-2); margin-top: 4px; }
+.tip .t { color: var(--muted); margin-top: 4px; font-size: 12px; }
+code, .code { font-family: var(--font-code); font-size: 0.92em; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; padding-right: 14px; }
+.tablewrap { overflow-x: auto; }
+button.toggle { font: inherit; font-size: 13px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button.toggle:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.notes ul { margin: 6px 0 0; padding-left: 18px; }
+.notes li { margin: 4px 0; color: var(--ink-2); }
+.notes li b { color: var(--ink); font-weight: 500; }
+.up { color: var(--good); font-weight: 500; }
+@media (prefers-reduced-motion: no-preference) { .dot { transition: stroke-width 120ms; } }
+
+figure { margin: 0; }
+figure svg.diagram { width: 100%; height: auto; display: block; color: var(--ink); max-width: 100%; }
+figure svg.diagram text { font-family: var(--font-ui); font-size: 12px; fill: currentColor; }
+figure svg.diagram .box { fill: var(--surface); stroke: currentColor; stroke-width: 1; }
+figure svg.diagram .box.learned { fill: var(--s1-wash); stroke: var(--s1); stroke-width: 1.5; }
+figure svg.diagram .box.done { fill: var(--s1-wash); stroke: var(--s1); }
+figure svg.diagram .box.running { stroke: var(--s2); stroke-width: 2; }
+figure svg.diagram .edge { stroke: currentColor; stroke-width: 1.2; fill: none; }
+figure svg.diagram .edge.accent { stroke: var(--s2); stroke-width: 2; }
+figure svg.diagram .edgelabel { font-size: 11px; fill: var(--ink-2); }
+figure svg.diagram .title { font-weight: 600; }
+figure svg.diagram .small { font-size: 11px; fill: var(--ink-2); }
+figcaption { font-size: 13px; color: var(--ink-2); margin-top: 8px; max-width: 80ch; }
+svg.chart .ref { stroke: var(--axis); stroke-width: 1.5; }
+svg.chart .reflabel { fill: var(--ink-2); font-size: 11px; }
+svg.chart .simlabel { fill: var(--muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
+.plan ol { margin: 6px 0 0; padding-left: 20px; } .plan li { margin: 5px 0; color: var(--ink-2); } .plan li b { color: var(--ink); font-weight: 500; }
+
+.status { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.status .card h2 { font-size: 15px; }
+.status ul { margin: 6px 0 0; padding-left: 0; list-style: none; display: grid; gap: 6px; }
+.status li { color: var(--ink-2); font-size: 13px; display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: baseline; }
+.status li b { color: var(--ink); font-weight: 500; }
+.status .when { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--ring); white-space: nowrap; }
+.pill.done, .pill.keep { color: var(--good); border-color: var(--good); }
+.pill.running { color: var(--s1); border-color: var(--s1); }
+.pill.planned, .pill.discard, .pill.info, .pill.scaling { color: var(--muted); }
+.pill.closed { color: var(--ink-2); }
+.now { font-size: 14px; color: var(--ink); }
+.now .bar { height: 6px; border-radius: 3px; background: var(--s1-wash); margin-top: 6px; overflow: hidden; }
+.now .bar i { display: block; height: 100%; background: var(--s1); border-radius: 3px; }
+.targets { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 18px; }
+.target .lbl { font-size: 13px; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; }
+.target .lbl b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.target .meter { position: relative; height: 8px; border-radius: 4px; background: var(--s1-wash); margin-top: 5px; }
+.target .meter i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--s1); border-radius: 4px; }
+.target .meter i.met { background: var(--good); }
+.target .meter u { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); text-decoration: none; }
+.target .note { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.roadmap { display: grid; gap: 6px; margin-top: 6px; }
+.roadmap div { display: grid; grid-template-columns: 110px 78px 1fr; gap: 10px; font-size: 13px; color: var(--ink-2); align-items: baseline; }
+.roadmap div b { color: var(--ink); font-weight: 500; }
+.key-dot.keep { background: var(--s1); } .key-dot.drop { background: var(--axis); }
+.key-bar { width: 14px; height: 8px; border-radius: 2px; background: var(--s1); display: inline-block; }
+.key-bar.s2 { background: var(--s2); } .key-bar.muted { background: var(--axis); }
+svg.chart .dot.drop { fill: var(--axis); stroke: var(--surface); }
+svg.chart .bar { fill: var(--s1); } svg.chart .bar.s2 { fill: var(--s2); } svg.chart .bar.muted { fill: var(--axis); }
+@media (max-width: 560px) { .roadmap div { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">sts_lightspeed · leak-free MCTS agent · autoresearch loop · started 2026-10-31 20:42 UTC · page rebuilt __UPDATED__</div>
+    <h1>Ironclad Autoresearch Progress</h1>
+    <p>Every point is a kept experiment (paired bootstrap on the same 300 val seeds, P ≥ 0.9; the Heart and A20 tracks now decide on a pooled 500 or 600). Held-out test runs are the hollow diamonds on the A0 panel. Hover or tab to a point for its numbers; the table below lists every one.</p>
+  </header>
+
+  <section class="tiles" id="tiles" aria-label="Current bests"></section>
+<!--STATUS-->
+<!--TARGETS-->
+
+
+  <section class="card">
+    <h2>What the agent is, and where learning sits</h2>
+    <figure>
+    <svg class="diagram" viewBox="0 0 1040 330" role="img" aria-label="The agent: a hand-written out-of-combat policy feeds the deck and run state to a determinised MCTS combat searcher; two learned pieces are kept (a deck-value model that scores card and relic options through simulated fights, and a root move prior); Phase S tried a learned leaf value in place of random rollouts and lost at equal wall-clock.">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
+      <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--s2)"/></marker></defs>
+      <rect class="box" x="20" y="20" width="200" height="290" rx="4"/>
+      <text class="title" x="120" y="42" text-anchor="middle">sts_lightspeed simulator</text>
+      <text class="small" x="120" y="60" text-anchor="middle">C++ game engine, root-cause fixes</text>
+      <rect class="box" x="40" y="80" width="160" height="40" rx="3"/><text x="120" y="104" text-anchor="middle">run state (GameContext)</text>
+      <rect class="box" x="40" y="150" width="160" height="40" rx="3"/><text x="120" y="174" text-anchor="middle">fight state (BattleContext)</text>
+      <rect class="box" x="40" y="220" width="160" height="70" rx="3"/><text x="120" y="244" text-anchor="middle">hidden state</text><text class="small" x="120" y="262" text-anchor="middle">RNG streams, draw order</text><text class="small" x="120" y="278" text-anchor="middle">never read by the agent</text>
+      <rect class="box" x="300" y="20" width="300" height="130" rx="4"/>
+      <text class="title" x="450" y="42" text-anchor="middle">out-of-combat policy (hand-written rules)</text>
+      <text class="small" x="450" y="60" text-anchor="middle">map DP · rewards · shop · rest · events · keys</text>
+      <rect class="box learned" x="320" y="76" width="260" height="58" rx="3"/>
+      <text class="title" x="450" y="97" text-anchor="middle">deck-value model (MLP, kept)</text>
+      <text class="small" x="450" y="115" text-anchor="middle">card + relic options scored by simulated fights</text>
+      <rect class="box" x="300" y="180" width="300" height="130" rx="4"/>
+      <text class="title" x="450" y="202" text-anchor="middle">combat: determinised MCTS, 500 sims</text>
+      <rect class="box learned" x="320" y="214" width="120" height="36" rx="3"/><text x="380" y="236" text-anchor="middle">root prior (kept)</text>
+      <rect class="box" x="460" y="214" width="120" height="36" rx="3"/><text x="520" y="236" text-anchor="middle">random rollouts</text>
+      <rect class="box" x="320" y="262" width="260" height="36" rx="3"/><text x="450" y="284" text-anchor="middle">terminal value: win bonus + HP + potions</text>
+      <rect class="box running" x="680" y="180" width="340" height="130" rx="4"/>
+      <text class="title" x="850" y="202" text-anchor="middle">Phase S: learned leaf value (tested)</text>
+      <text class="small" x="850" y="222" text-anchor="middle">204 → h → h → 1, h = 42 / 220 / 850</text>
+      <text class="small" x="850" y="240" text-anchor="middle">trained on 8.1×10⁵ search root values</text>
+      <text class="small" x="850" y="262" text-anchor="middle">replaces rollouts: −0.57 to −1.12 at equal wall-clock</text>
+      <text class="small" x="850" y="280" text-anchor="middle">beats a heuristic leaf by +0.38, loses to rollouts by 0.57</text>
+      <text class="small" x="850" y="298" text-anchor="middle">cost: one leaf evaluation ≈ 1–80× a rollout on a CPU core</text>
+      <rect class="box" x="680" y="20" width="340" height="130" rx="4"/>
+      <text class="title" x="850" y="42" text-anchor="middle">frozen evaluation</text>
+      <text class="small" x="850" y="62" text-anchor="middle">val 300 seeds · paired bootstrap · keep if P ≥ 0.9</text>
+      <text class="small" x="850" y="80" text-anchor="middle">pooled 500/600 on the noisy tracks · dev replication</text>
+      <text class="small" x="850" y="98" text-anchor="middle">leak test on every build · bit-identity after rebuilds</text>
+      <text class="small" x="850" y="116" text-anchor="middle">test 500 only at milestones (6 of 7 used)</text>
+      <text class="small" x="850" y="134" text-anchor="middle">equal compute: sims per decision, or calibrated wall-clock</text>
+      <path class="edge" d="M200 100 L300 100" marker-end="url(#arr)"/><text class="edgelabel" x="250" y="92" text-anchor="middle">observable state</text>
+      <path class="edge" d="M200 170 L300 240" marker-end="url(#arr)"/><text class="edgelabel" x="232" y="214" text-anchor="middle">intents, hand,</text><text class="edgelabel" x="232" y="228" text-anchor="middle">pile contents</text>
+      <path class="edge" d="M450 150 L450 180" marker-end="url(#arr)"/><text class="edgelabel" x="470" y="169" text-anchor="start">deck, relics, HP at fight start</text>
+      <path class="edge" d="M320 105 C 260 105, 240 130, 200 165" marker-end="url(#arr)"/><text class="edgelabel" x="236" y="128" text-anchor="middle">plays 100-sim</text><text class="edgelabel" x="236" y="141" text-anchor="middle">hypothetical fights</text>
+      <path class="edge accent" d="M680 262 L600 262" marker-end="url(#arr2)"/><text class="edgelabel" x="640" y="254" text-anchor="middle">leaf value</text>
+      <path class="edge" d="M600 85 L680 85" marker-end="url(#arr)"/><text class="edgelabel" x="640" y="77" text-anchor="middle">candidates</text>
+      <path class="edge" d="M600 245 C 640 245, 640 130, 680 130" marker-end="url(#arr)"/><text class="edgelabel" x="626" y="188" text-anchor="middle">games</text>
+    </svg>
+    <figcaption>Everything the agent reads is observable; hidden RNG and draw order stay inside the simulator (the leak test re-randomises them and requires identical actions). The two kept learned pieces are small and sit beside the hand-written rules; Phase S tried to replace the random rollouts themselves with a learned leaf, and at equal wall-clock on this CPU the rollouts won.</figcaption>
+    </figure>
+  </section>
+
+  <section class="card">
+    <h2>Win rate by ascension level, over time</h2>
+    <div class="sub">One axis, one metric: the kept chain's win rate on the same 300 val seeds, one line per difficulty. Ascension is the series, not a second axis. The Heart line is the keys track at A0 with win = the Heart beaten. A20 wins stay at 1–4%; its progress is in floor reached (panel below), which the win rate cannot show.</div>
+    <div class="legend" id="multi-legend"></div>
+    <div id="multi"></div>
+  </section>
+
+  <section class="card">
+    <h2>A0 win rate, kept experiments over time</h2>
+    <div class="sub">Win = the act-3 boss beaten; val 300 seeds; x axis in hours since the loop started (2026-10-31 20:42 UTC). Labels mark the largest single-step gains; hollow points are re-baselines after simulator or binary changes, not agent improvements.</div>
+    <div class="legend"><span><i class="key-line"></i>val 300 (kept chain)</span><span><i class="key-diamond"></i>test 500 (held-out milestones)</span><span><i class="key-hollow"></i>re-baseline</span></div>
+    <div id="main"></div>
+  </section>
+
+  <section class="smalls" id="smalls"></section>
+
+  <section class="card">
+    <h2>Every experiment, as it ran</h2>
+    <div class="sub">Each point is one experiment's paired score difference against the best of its track at the time (val seeds; A20 and Heart pooled since day 2). Filled points were kept, grey points discarded. Points beyond the axis are drawn at its edge. Learned-leaf scaling runs are shown separately below.</div>
+    <div class="legend"><span><i class="key-dot keep"></i>kept</span><span><i class="key-dot drop"></i>discarded</span></div>
+    <div id="activity"></div>
+  </section>
+
+
+  <section class="card">
+    <h2>Phase S: does a learned leaf value scale past random rollouts?</h2>
+    <div class="sub">Nine models (three sizes × three data scales, nested subsets of one shuffle of 8.1×10⁵ logged search root values). Left: how well each predicts the target on a shared holdout. Right: how the agent plays when the model replaces rollouts entirely, at equal wall-clock against the current A0 best, on the same 300 val seeds. Hollow points ran at the 50-simulation floor (3–6× the base's wall-clock) because their inference is too slow for parity.</div>
+    <div class="legend" id="ps-legend"></div>
+    <div class="smalls" id="phase-s"></div>
+  </section>
+
+
+  <section class="card">
+    <h2>Scaling law so far: compute, model size, and what it buys</h2>
+    <div class="sub">Training compute per cell ≈ 6 × parameters × training decisions × 20 epochs. Left: fit against compute; the lower envelope across sizes is the compute-optimal curve, and it keeps falling through the largest point. Right: play against the same compute axis, in the two cost regimes that matter for the decision — at equal wall-clock (the big nets lose their simulations to inference cost) and at a fixed 500 simulations with cost ignored (the diagonal cells; pending points are missing until their runs finish).</div>
+    <div class="legend" id="sl-legend"></div>
+    <div class="smalls" id="scaling-law"></div>
+    <div class="tablewrap" style="margin-top:12px"><table id="sizes">
+      <tr><th>net</th><th class="num">params</th><th class="num">weights</th><th class="num">eval cost</th><th class="num">sims at equal wall-clock</th><th>status</th></tr>
+      <tr><td class="code">h = 42</td><td class="num">10,459</td><td class="num">42 KB</td><td class="num">≈ 0.4 rollouts</td><td class="num">1,000–1,250</td><td>tested at 10⁴ / 10⁵ / 8×10⁵ decisions</td></tr>
+      <tr><td class="code">h = 220</td><td class="num">93,941</td><td class="num">376 KB</td><td class="num">≈ 3–5 rollouts</td><td class="num">107–156</td><td>tested</td></tr>
+      <tr><td class="code">h = 850</td><td class="num">898,451</td><td class="num">3.6 MB</td><td class="num">≈ 40–80 rollouts</td><td class="num">≈ 6 (floored at 50)</td><td>tested; exceeds the L2 cache, scalar loop</td></tr>
+      <tr><td class="code">h = 1,600</td><td class="num">≈ 2.9×10⁶</td><td class="num">12 MB</td><td class="num">≈ 150+ rollouts (scalar)</td><td class="num">—</td><td>planned only after a batched evaluator</td></tr>
+      <tr><td>data</td><td class="num" colspan="2">8.1×10⁵ decisions now</td><td class="num" colspan="2">10⁷ next (25,000 games, ≈ 7 h on 4 cores)</td><td>if the cost-free read passes the gate</td></tr>
+    </table></div>
+    <figcaption>What a decision needs: the fit envelope slope (have: steep, not flattening), the cost-free play slope (two points pending), the evaluation cost per leaf against a 17 µs rollout (have: 7 µs / 60 µs / 600–1,400 µs, scalar C++ with no SIMD), and the training compute, which is cheap here (10¹⁰–10¹⁴ FLOPs so far, minutes to tens of minutes on 4 cores; the 10⁷-decision step is ≈ 10¹⁵ FLOPs). The one thing a bigger model cannot buy on this machine is simulations; a vectorised or batched evaluator is the step that would change the right-hand chart.</figcaption>
+  </section>
+
+  <section class="card">
+    <h2>Learning curves: holdout error ("loss") of the learned values</h2>
+    <div class="sub">Lower is better. Left: the leaf value of Phase S2, trained on tree-leaf positions (labels: average of 8 random playouts; predicting the mean scores about 34.9). Right: the run value of Phase R, trained on run states labelled with the final score (0 to 2); it fills in as its training grid runs.</div>
+    <div class="smalls" id="curves"></div>
+  </section>
+
+  <section class="card">
+    <h2>Learned leaf value vs the current agent, every run</h2>
+    <div class="sub">Score difference against the current agent (0 = as strong; the current agent wins 75%). Bars are colored by what the network was trained on. Under each label: simulations per decision and wall-clock relative to the current agent.</div>
+    <div class="legend"><span><i class="key-bar"></i>trained on decision-start positions</span><span><i class="key-bar s2"></i>trained on tree-leaf positions</span><span><i class="key-bar muted"></i>hand-written leaf (control)</span></div>
+    <div id="leafbars"></div>
+  </section>
+
+<!--PLAN-->
+
+  <section class="card">
+    <h2>Tipping points</h2>
+    <div class="sub">The largest single-step gains on the A0 ladder, from the kept chain (re-baselines excluded), plus the Heart track's keeps of the last night.</div>
+    <div class="tablewrap"><table id="tips"></table></div>
+  </section>
+
+<!--NOTES-->
+
+  <section class="card">
+    <h2>Every kept point</h2>
+    <div class="sub">The data behind the charts. Hours are since 2026-10-31 20:42 UTC, from the commit that logged each row.</div>
+    <button class="toggle" id="tbtn" aria-expanded="false" aria-controls="tbl">Show table</button>
+    <div class="tablewrap" id="tbl" hidden><table id="all"></table></div>
+  </section>
+</div>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = __DATA__;
+const t0 = "2026-10-31 20:42 UTC";
+const FRIENDLY_MAP = {
+  heart_a4pot: 'act-4 shop: spare gold buys potions for the Heart (pooled-500 keep)',
+  heart_wba3: 'act-3 burning elite worth +3 on the map while the emerald key is missing (extension keep)',
+  heart_ka3: 'ruby key also taken at act-3 rest sites (extension keep)',
+  heart_bfbonus25_g_heart: 'card picks: KB value + 25 x predicted fight-value gain (Heart-labelled model 6)',
+  heart_bfrelic10: 'boss relics chosen by KB tier value + 10 x simulated next-act fights (for the act-3 relic: Shield & Spear and the Heart); pooled-500 keep, dev flat',
+  heart_cur: 'the A0 agent of the day with keys, potions saved and the deck-value bonus',
+  INFO_keys1: 'keys taken, Act 4 played (chest-era agent); win = the Heart beaten',
+};
+const fmtH = h => { const d = new Date(Date.UTC(2026,9,31,20,42) + h*3600e3); return d.toISOString().slice(5,16).replace('T',' ') + ' UTC'; };
+const el = (tag, attrs, parent) => { const n = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
+const txt = (parent, x, y, s, cls, anchor) => { const t = el('text', {x, y, class: cls || '', 'text-anchor': anchor || 'start'}, parent); t.textContent = s; return t; };
+const tip = document.getElementById('tip');
+function showTip(evt, p, metric, unit) {
+  tip.innerHTML = '';
+  const v = document.createElement('div'); v.className = 'v'; v.textContent = (metric === 'floor' ? p.floor.toFixed(1) : p.win.toFixed(1)) + unit; tip.appendChild(v);
+  const n = document.createElement('div'); n.className = 'n'; n.textContent = p.name + (p.kind === 'test' ? ' · test 500' : p.kind === 'rebase' ? ' · re-baseline' : ''); tip.appendChild(n);
+  const d = document.createElement('div'); d.className = 'd'; d.textContent = p.desc; tip.appendChild(d);
+  const t = document.createElement('div'); t.className = 't'; t.textContent = fmtH(p.h) + (metric === 'floor' ? ' · win ' + p.win.toFixed(1) + '%' : ' · floor ' + p.floor.toFixed(1)); tip.appendChild(t);
+  tip.style.display = 'block';
+  const r = tip.getBoundingClientRect(); let x = evt.clientX + 14, y = evt.clientY + 14;
+  if (x + r.width > window.innerWidth - 8) x = evt.clientX - r.width - 14; if (y + r.height > window.innerHeight - 8) y = evt.clientY - r.height - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+
+const HMAX = Math.ceil(DATA.hours_now) + 2, XT = Array.from({length: Math.floor(HMAX / 6) + 1}, (_, i) => i * 6);
+function panel(container, opts) {
+  const W = opts.w, H = opts.h, m = {l: 44, r: opts.mr || 16, t: 26, b: 30};
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': opts.aria});
+  const x = h => m.l + (h / HMAX) * (W - m.l - m.r);
+  const y = v => H - m.b - ((v - opts.y0) / (opts.y1 - opts.y0)) * (H - m.t - m.b);
+  for (const v of opts.yt) { el('line', {x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: 'grid'}, svg); txt(svg, m.l - 8, y(v) + 4, opts.yfmt(v), 'tick', 'end'); }
+  el('line', {x1: m.l, x2: W - m.r, y1: y(opts.y0), y2: y(opts.y0), class: 'axis'}, svg);
+  for (const h of XT) { txt(svg, x(h), H - m.b + 18, h + 'h', 'tick', 'middle'); }
+  const series = opts.series; // main chain with metric
+  const metric = opts.metric, unit = metric === 'floor' ? '' : '%';
+  const val = p => metric === 'floor' ? p.floor : p.win;
+  // step-like line through kept points (a keep holds until the next)
+  let d = '';
+  series.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.h).toFixed(1) + ' ' + y(val(p)).toFixed(1); });
+  el('path', {d, class: 'line'}, svg);
+  if (opts.wash) { el('path', {d: d + ` L${x(series[series.length-1].h).toFixed(1)} ${y(opts.y0)} L${x(series[0].h).toFixed(1)} ${y(opts.y0)} Z`, fill: 'var(--s1-wash)', stroke: 'none'}, svg); }
+  const cross = el('line', {x1: 0, x2: 0, y1: m.t, y2: H - m.b, class: 'crosshair', visibility: 'hidden'}, svg);
+  const pts = [];
+  const addPoint = (p, cls) => {
+    const cx = x(p.h), cy = y(val(p));
+    const hit = el('circle', {cx, cy, r: 13, class: 'hit', tabindex: 0, role: 'button', 'aria-label': `${p.name}: ${val(p).toFixed(1)}${unit}, ${fmtH(p.h)}`}, svg);
+    const dot = el('circle', {cx, cy, r: 4.5, class: 'dot ' + cls}, svg);
+    const on = e => { dot.classList.add('hot'); cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible'); showTip(e.clientX !== undefined ? e : {clientX: svg.getBoundingClientRect().left + cx, clientY: svg.getBoundingClientRect().top + cy}, p, metric, unit); };
+    const off = () => { dot.classList.remove('hot'); cross.setAttribute('visibility', 'hidden'); hideTip(); };
+    hit.addEventListener('pointerenter', on); hit.addEventListener('pointermove', on); hit.addEventListener('pointerleave', off);
+    hit.addEventListener('focus', on); hit.addEventListener('blur', off);
+    pts.push({p, cx, cy});
+  };
+  series.forEach(p => addPoint(p, p.kind === 'rebase' ? 'hollow' : ''));
+  (opts.extra || []).forEach(p => addPoint(p, 'test'));
+  // end label: last kept value
+  const last = series[series.length - 1];
+  txt(svg, x(last.h) + 9, y(val(last)) + 4, val(last).toFixed(1) + unit, 'end-label');
+  // annotations with leader lines
+  // annotations in a fixed column on the right (the area after the last point stays empty as time grows)
+  const ann1 = (opts.ann || []).map(a => { const p = series.find(q => q.name === a.name); return p ? {...a, px: x(p.h), py: y(val(p))} : null; }).filter(Boolean).sort((a, b) => a.py - b.py);
+  ann1.forEach((a, i) => {
+    const lx = W - m.r - 300, ly = m.t + 24 + i * 44;
+    el('path', {d: `M${a.px} ${a.py} L${lx - 6} ${ly - 4}`, class: 'leader'}, svg);
+    txt(svg, lx, ly, a.label, 'ann-label', 'start');
+    if (a.sub) txt(svg, lx, ly + 14, a.sub, 'ann-sub', 'start');
+  });
+  container.appendChild(svg);
+}
+
+// ---- data shaping
+const A0 = DATA.tracks.a0.map(p => ({...p, kind: /^(rebase1|rb2|rb3)$/.test(p.name) ? 'rebase' : 'keep'}));
+const TEST = DATA.tracks.a0_test.map(p => ({...p, kind: 'test'}));
+const FRIENDLY = {
+  heart_a4pot: 'act-4 shop: spare gold buys potions for the Heart (pooled-500 keep)',
+  heart_wba3: 'act-3 burning elite worth +3 on the map while the emerald key is missing (extension keep)',
+  heart_ka3: 'ruby key also taken at act-3 rest sites (extension keep)',
+  heart_bfbonus25_g_heart: 'card picks: KB value + 25 x predicted fight-value gain (Heart-labelled model 6)',
+  heart_bfrelic10: 'boss relics chosen by KB tier value + 10 x simulated next-act fights (for the act-3 relic: Shield & Spear and the Heart); pooled-500 keep, dev flat',
+  heart_cur: 'the A0 agent of the day with keys, potions saved and the deck-value bonus',
+  INFO_keys1: 'keys taken, Act 4 played (chest-era agent); win = the Heart beaten',
+};
+const HEART = DATA.tracks.heart.map(p => ({...p, kind: 'keep', desc: FRIENDLY_MAP[p.name] || p.desc}));
+const A10 = DATA.tracks.a10.map(p => ({...p, kind: 'keep'}));
+const A20 = DATA.tracks.a20.map(p => ({...p, kind: 'keep'}));
+
+// steps (gains) on the A0 chain, excluding re-baselines as the "from"/"to"
+const gains = [];
+for (let i = 1; i < A0.length; i++) { if (A0[i].kind === 'keep' && A0[i-1]) gains.push({...A0[i], from: A0[i-1].win, gain: +(A0[i].win - A0[i-1].win).toFixed(1), prev: A0[i-1].name}); }
+gains.sort((a, b) => b.gain - a.gain);
+const topGains = gains.slice(0, 6);
+const annMap = {
+  chest1: {dx: 70, dy: 40, label: '+19.7 pts: treasure chests opened', sub: 'legacy action index was inverted'},
+  priormlp_d0: {dx: -40, dy: -62, label: '+3.6: learned root move prior', sub: 'PUCT at the root, ~zero cost'},
+  bfbonus10_g1: {dx: 70, dy: 34, label: '+4.0: deck-value model g1', sub: 'test 66.6% (M5)'},
+  wev15: {dx: -6, dy: -92, label: '+7.0: map values events', sub: 'then near-miss combo, no hall potions'},
+  c_etw02: {dx: 40, dy: -44, label: '+7.0: end-turn weight in rollouts', sub: 'first keep of the loop'},
+  rb3: {dx: 70, dy: 46, label: 're-baseline on the fixed simulator', sub: 'potions, Dome, events, hangs fixed'},
+  potsave2: {dx: 50, dy: 88, label: '+2.6: potions saved for bosses', sub: 'first pre-registered pooled keep'},
+};
+const ann = Object.keys(annMap).filter(n => A0.some(p => p.name === n)).map(n => ({name: n, ...annMap[n]}));
+
+// ---- combined chart: one line per ascension level
+function multiPanel(container, opts) {
+  const W = opts.w, H = opts.h, m = {l: 44, r: 92, t: 26, b: 30};
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': opts.aria});
+  const x = h => m.l + (h / HMAX) * (W - m.l - m.r);
+  const y = v => H - m.b - ((v - opts.y0) / (opts.y1 - opts.y0)) * (H - m.t - m.b);
+  for (const v of opts.yt) { el('line', {x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: 'grid'}, svg); txt(svg, m.l - 8, y(v) + 4, v + '%', 'tick', 'end'); }
+  el('line', {x1: m.l, x2: W - m.r, y1: y(opts.y0), y2: y(opts.y0), class: 'axis'}, svg);
+  for (const h of XT) { txt(svg, x(h), H - m.b + 18, h + 'h', 'tick', 'middle'); }
+  const cross = el('line', {x1: 0, x2: 0, y1: m.t, y2: H - m.b, class: 'crosshair', visibility: 'hidden'}, svg);
+  const labels = [];
+  opts.series.forEach((sr, si) => {
+    let d = ''; sr.pts.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.h).toFixed(1) + ' ' + y(p.win).toFixed(1); });
+    el('path', {d, class: 'line ' + sr.cls}, svg);
+    sr.pts.forEach(p => {
+      const cx = x(p.h), cy = y(p.win);
+      const hit = el('circle', {cx, cy, r: 12, class: 'hit', tabindex: 0, role: 'button', 'aria-label': `${sr.name} ${p.name}: ${p.win.toFixed(1)}%, ${fmtH(p.h)}`}, svg);
+      const dot = el('circle', {cx, cy, r: 4, class: 'dot ' + sr.cls}, svg);
+      const on = e => { dot.classList.add('hot'); cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible'); showTip(e.clientX !== undefined ? e : {clientX: svg.getBoundingClientRect().left + cx, clientY: svg.getBoundingClientRect().top + cy}, {...p, name: sr.name + ' · ' + p.name}, 'win', '%'); };
+      const off = () => { dot.classList.remove('hot'); cross.setAttribute('visibility', 'hidden'); hideTip(); };
+      hit.addEventListener('pointerenter', on); hit.addEventListener('pointermove', on); hit.addEventListener('pointerleave', off); hit.addEventListener('focus', on); hit.addEventListener('blur', off);
+    });
+    const last = sr.pts[sr.pts.length - 1];
+    labels.push({y: y(last.win), x: x(last.h) + 9, text: `${sr.name} ${last.win.toFixed(1)}%`});
+  });
+  // end labels, nudged apart only if they collide (leader-free: all four separate by >= 14px here)
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i-1].y < 14) labels[i].y = labels[i-1].y + 14;
+  labels.forEach(l => txt(svg, l.x, l.y + 4, l.text, 'end-label'));
+  const ann2 = (opts.ann || []).map(a => { const sr = opts.series.find(q => q.key === a.series); const p = sr && sr.pts.find(q => q.name === a.name); return p ? {...a, px: x(p.h), py: y(p.win)} : null; }).filter(Boolean).sort((a, b) => a.py - b.py);
+  ann2.forEach((a, i) => {
+    const lx = W - m.r - 250, ly = m.t + 14 + i * 36;
+    el('path', {d: `M${a.px} ${a.py} L${lx - 6} ${ly - 4}`, class: 'leader'}, svg);
+    txt(svg, lx, ly, a.label, 'ann-label', 'start');
+    if (a.sub) txt(svg, lx, ly + 13, a.sub, 'ann-sub', 'start');
+  });
+  container.appendChild(svg);
+}
+const A0K = DATA.tracks.a0.filter(p => !/^(rebase1|rb2|rb3)$/.test(p.name)).map(p => ({...p, kind: 'keep'}));
+const MULTI = [
+  {key: 'a0', name: 'A0', cls: '', pts: A0K},
+  {key: 'a10', name: 'A10', cls: 's2', pts: DATA.tracks.a10},
+  {key: 'a20', name: 'A20', cls: 's3', pts: DATA.tracks.a20},
+  {key: 'heart', name: 'Heart (A0, keys)', cls: 's4', pts: DATA.tracks.heart.map(p => ({...p, desc: (FRIENDLY_MAP[p.name] || p.desc)}))},
+];
+multiPanel(document.getElementById('multi'), {w: 1040, h: 420, y0: 0, y1: 80, yt: [0, 20, 40, 60, 80], series: MULTI, aria: 'Win rate over time for A0, A10, A20 and the Heart track',
+  ann: [
+    {series: 'a0', name: 'chest1', dx: -90, dy: 30, label: 'A0 +19.7 pts: treasure chests opened', sub: 'legacy action index was inverted'},
+    {series: 'a0', name: 'bfbonus10_g1', dx: 36, dy: 44, label: 'A0 +4.0: interventional deck-value model', sub: 'simulated fights per card option'},
+    {series: 'a0', name: 'priormlp_d0', dx: 30, dy: 40, label: 'A0 +3.6: learned root move prior', sub: ''},
+    {series: 'a10', name: 'a10_kbsyn', dx: -30, dy: -46, label: 'A10 +5.6: KB synergy bonuses', sub: 'then elite threshold, deck-value model'},
+    {series: 'heart', name: 'heart_a4pot', dx: 24, dy: -62, label: 'Heart +1.4: act-4 shop potions', sub: 'then burning elite +3, ruby key in act 3'},
+  ]});
+const ml = document.getElementById('multi-legend');
+MULTI.forEach(sr => { const sp = document.createElement('span'); const k = document.createElement('i'); k.className = 'key-line ' + sr.cls; sp.appendChild(k); sp.appendChild(document.createTextNode(sr.name + (sr.key === 'a20' ? ' (wins only; floor in the panel below)' : ''))); ml.appendChild(sp); });
+
+// ---- tiles
+const tiles = document.getElementById('tiles');
+const pooledKa3 = String(DATA.heart_pooled || 0);
+const lastA0 = A0[A0.length-1], lastTest = TEST[TEST.length-1], lastA10 = A10[A10.length-1], lastA20 = A20[A20.length-1], lastH = HEART[HEART.length-1];
+const tileDefs = [
+  {label: 'A0 win rate (val 300)', value: lastA0.win.toFixed(1) + '%', sub: `test 500: <b>${lastTest.win.toFixed(1)}%</b> (${lastTest.name}) · from ${A0[0].win.toFixed(1)}% at start`},
+  {label: 'A10 win rate (val 300)', value: lastA10.win.toFixed(1) + '%', sub: `from ${A10[0].win.toFixed(1)}% baseline · replicated on three slices`},
+  {label: 'A20 mean floor (val 300)', value: lastA20.floor.toFixed(1), sub: `wins ${lastA20.win.toFixed(1)}% · from floor ${A20[0].floor.toFixed(1)} baseline`},
+  {label: 'Heart beaten (val 300)', value: lastH.win.toFixed(1) + '%', sub: `pooled 600: <b>${(parseFloat(pooledKa3)*100).toFixed(1)}%</b> · from ${HEART[0].win.toFixed(1)}% with keys`},
+];
+tileDefs.forEach(t => { const d = document.createElement('div'); d.className = 'tile';
+  const l = document.createElement('div'); l.className = 'label'; l.textContent = t.label; d.appendChild(l);
+  const v = document.createElement('div'); v.className = 'value'; v.textContent = t.value; d.appendChild(v);
+  const s = document.createElement('div'); s.className = 'sub'; s.innerHTML = t.sub; d.appendChild(s); tiles.appendChild(d); });
+
+// ---- charts
+panel(document.getElementById('main'), {w: 1040, h: 400, y0: 0, y1: 80, yt: [0, 20, 40, 60, 80], yfmt: v => v + '%', metric: 'win',
+  series: A0, extra: TEST, ann, wash: true, aria: 'A0 win rate over time, kept experiments and test milestones', mr: 60});
+const smalls = document.getElementById('smalls');
+const small = (title, sub, opts) => { const c = document.createElement('div'); c.className = 'card'; const h = document.createElement('h2'); h.textContent = title; c.appendChild(h);
+  const s = document.createElement('div'); s.className = 'sub'; s.textContent = sub; c.appendChild(s); const box = document.createElement('div'); c.appendChild(box); smalls.appendChild(c); panel(box, {w: 340, h: 230, mr: 52, ...opts}); };
+small('A10 win rate', 'Ascension 10 track, val 300; kept chain.', {y0: 0, y1: 40, yt: [0, 10, 20, 30, 40], yfmt: v => v + '%', metric: 'win', series: A10, aria: 'A10 win rate over time'});
+small('A20 mean floor', 'Ascension 20 track, val 300; wins stay at 1–4%, so the floor is the readable metric.', {y0: 20, y1: 30, yt: [20, 22, 24, 26, 28, 30], yfmt: v => v.toFixed(0), metric: 'floor', series: A20, aria: 'A20 mean floor over time'});
+small('Heart beaten', 'Keys track at A0, val 300; a win is the Heart beaten. Decisions since 00:23 UTC use pooled 500/600 seeds.', {y0: 0, y1: 16, yt: [0, 4, 8, 12, 16], yfmt: v => v + '%', metric: 'win', series: HEART, aria: 'Heart win rate over time'});
+
+
+// ---- Phase S charts
+(function () {
+  const fit = DATA.fit, play = DATA.play, secs = DATA.secs || {};
+  const sizes = [{key: '10459', name: '1.0×10⁴ params', cls: ''}, {key: '93941', name: '9.4×10⁴ params', cls: 's2'}, {key: '898451', name: '9.0×10⁵ params', cls: 's3'}];
+  const ids = {'10459': [1, 4, 7], '93941': [2, 5, 8], '898451': [3, 6, 9]};
+  const xs = {10000: 4, 100000: 5, 813736: Math.log10(813736)};
+  const host = document.getElementById('phase-s');
+  const mkCard = (title, sub) => { const c = document.createElement('div'); c.className = 'card'; const h = document.createElement('h2'); h.textContent = title; c.appendChild(h); const d = document.createElement('div'); d.className = 'sub'; d.textContent = sub; c.appendChild(d); const b = document.createElement('div'); c.appendChild(b); host.appendChild(c); return b; };
+  function logChart(box, opts) {
+    const W = 500, H = 300, m = {l: 48, r: 24, t: 20, b: 40};
+    const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': opts.aria});
+    const x = v => m.l + ((v - 3.8) / (6.1 - 3.8)) * (W - m.l - m.r);
+    const y = v => H - m.b - ((v - opts.y0) / (opts.y1 - opts.y0)) * (H - m.t - m.b);
+    for (const v of opts.yt) { el('line', {x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: 'grid'}, svg); txt(svg, m.l - 8, y(v) + 4, opts.yfmt(v), 'tick', 'end'); }
+    el('line', {x1: m.l, x2: W - m.r, y1: y(opts.y0), y2: y(opts.y0), class: 'axis'}, svg);
+    [[4, '10⁴'], [5, '10⁵'], [Math.log10(813736), '8.1×10⁵']].forEach(([v, l]) => txt(svg, x(v), H - m.b + 18, l, 'tick', 'middle'));
+    txt(svg, (m.l + W - m.r) / 2, H - 6, 'training decisions (log scale)', 'tick', 'middle');
+    (opts.refs || []).forEach(r => { el('line', {x1: m.l, x2: W - m.r, y1: y(r.v), y2: y(r.v), class: 'ref'}, svg); txt(svg, W - m.r, y(r.v) - 5, r.label, 'reflabel', 'end'); });
+    const endLabels = [];
+    sizes.forEach(sz => {
+      const pts = ids[sz.key].map(id => opts.point(id)).filter(Boolean);
+      let d = ''; pts.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.x).toFixed(1) + ' ' + y(p.y).toFixed(1); });
+      if (pts.length > 1) el('path', {d, class: 'line ' + sz.cls}, svg);
+      pts.forEach(p => {
+        const cx = x(p.x), cy = y(p.y);
+        const hit = el('circle', {cx, cy, r: 12, class: 'hit', tabindex: 0, role: 'button', 'aria-label': `${sz.name}, ${p.label}: ${p.text}`}, svg);
+        const dot = el('circle', {cx, cy, r: 4.5, class: 'dot ' + sz.cls + (p.hollow ? ' hollow' : '')}, svg);
+        if (p.hollow) dot.style.stroke = `var(--${sz.cls || 's1'})`;
+        const show = (cxp, cyp) => { dot.classList.add('hot'); tip.innerHTML = ''; const v = document.createElement('div'); v.className = 'v'; v.textContent = p.text; tip.appendChild(v); const n = document.createElement('div'); n.className = 'n'; n.textContent = sz.name + ' · ' + p.label; tip.appendChild(n); const dd = document.createElement('div'); dd.className = 'd'; dd.textContent = p.desc; tip.appendChild(dd); tip.style.display = 'block'; const r = tip.getBoundingClientRect(); let xx = cxp + 14, yy = cyp + 14; if (xx + r.width > window.innerWidth - 8) xx = cxp - r.width - 14; if (yy + r.height > window.innerHeight - 8) yy = cyp - r.height - 14; tip.style.left = xx + 'px'; tip.style.top = yy + 'px'; };
+        const off = () => { dot.classList.remove('hot'); hideTip(); };
+        hit.addEventListener('pointerenter', e => show(e.clientX, e.clientY)); hit.addEventListener('pointermove', e => show(e.clientX, e.clientY)); hit.addEventListener('pointerleave', off);
+        hit.addEventListener('focus', () => { const b = svg.getBoundingClientRect(); show(b.left + cx, b.top + cy); }); hit.addEventListener('blur', off);
+        if (p.sub) { const dy = sz.cls === 's2' ? -10 : sz.cls === 's3' ? 28 : 16; txt(svg, cx + (sz.cls === 's3' ? 0 : 0), cy + dy, p.sub, 'simlabel', 'middle'); }
+      });
+      if (pts.length) { const last = pts[pts.length - 1]; endLabels.push({y: y(last.y), x: x(last.x) + 8, text: opts.endfmt(last.y)}); }
+    });
+    endLabels.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < endLabels.length; i++) if (endLabels[i].y - endLabels[i-1].y < 14) endLabels[i].y = endLabels[i-1].y + 14;
+    endLabels.forEach(l => txt(svg, l.x, l.y + 4, l.text, 'end-label'));
+    box.appendChild(svg);
+  }
+  const fitBox = mkCard('Fit: holdout error vs data', 'RMSE of the predicted root value (search units; predicting the mean scores 33.6). Lower is better. Monotone in both data and size, steepest at the largest cell.');
+  logChart(fitBox, {y0: 0, y1: 20, yt: [0, 5, 10, 15, 20], yfmt: v => String(v), endfmt: v => v.toFixed(1), aria: 'Holdout RMSE versus training decisions for three model sizes',
+    point: id => { const f = fit[String(id)]; if (!f) return null; return {x: xs[f.rows], y: f.rmse, label: `sv${id}, ${f.rows.toLocaleString()} decisions`, text: 'RMSE ' + f.rmse.toFixed(2), desc: `${f.params.toLocaleString()} parameters, hidden ${f.hidden}; predict-mean baseline 33.57`}; }});
+  const playBox = mkCard('Play: how much worse than the current agent', 'Score per game = floor reached / 51, plus 1 if the act-3 boss is beaten (range 0 to 2). Each point is the average over the same 300 val seeds minus the current agent average (0 = as good as the current agent, which wins 75%; −0.57 ≈ 36% wins). The model replaces the random rollouts inside the search; simulations per decision under each point. Lower reference line: a hand-written leaf with no rollouts.');
+  logChart(playBox, {y0: -1.3, y1: 0.1, yt: [-1.2, -0.9, -0.6, -0.3, 0], yfmt: v => (v > 0 ? '+' : '') + v.toFixed(1), endfmt: v => v.toFixed(2), aria: 'Paired score versus the rollout agent for three model sizes across training data',
+    refs: [{v: 0, label: 'current agent: MCTS + random rollouts, 75% wins'}, {v: play.svctrl ? play.svctrl.dscore : -0.95, label: `heuristic leaf, no rollouts, ${play.svctrl ? play.svctrl.sims.toLocaleString() : ''} sims`}],
+    point: id => { const f = fit[String(id)], pl = play['sv' + id]; if (!f || !pl) return null; const floored = pl.sims <= 50; const ratio = secs['sv' + id] ? (secs['sv' + id] / DATA.base_secs).toFixed(1) : null; return {x: xs[f.rows], y: pl.dscore, hollow: floored, label: `sv${id}, ${f.rows.toLocaleString()} decisions`, text: (pl.dscore > 0 ? '+' : '') + pl.dscore.toFixed(3) + ' · ' + pl.win.toFixed(1) + '% wins', sub: pl.sims.toLocaleString() + ' sims' + (floored ? ' (floor)' : ''), desc: `${f.params.toLocaleString()} parameters; floor ${pl.floor.toFixed(1)}; ${pl.sims} simulations per decision` + (ratio ? `; ${ratio}× the base's wall-clock` : '') + (floored ? ' — budget-floored, not equal wall-clock' : '')}; }});
+  const lg = document.getElementById('ps-legend');
+  sizes.forEach(sz => { const sp = document.createElement('span'); const k = document.createElement('i'); k.className = 'key-line ' + sz.cls; sp.appendChild(k); sp.appendChild(document.createTextNode(sz.name)); lg.appendChild(sp); });
+  const sp2 = document.createElement('span'); const k2 = document.createElement('i'); k2.className = 'key-hollow'; sp2.appendChild(k2); sp2.appendChild(document.createTextNode('ran at the 50-simulation floor (3–6× wall-clock)')); lg.appendChild(sp2);
+})();
+
+
+// ---- scaling-law panel
+(function () {
+  const fit = DATA.fit, play = DATA.play;
+  const sizes = [{key: '10459', name: 'h = 42 (1.0×10⁴ params)', cls: ''}, {key: '93941', name: 'h = 220 (9.4×10⁴)', cls: 's2'}, {key: '898451', name: 'h = 850 (9.0×10⁵)', cls: 's3'}];
+  const ids = {'10459': [1, 4, 7], '93941': [2, 5, 8], '898451': [3, 6, 9]};
+  const host = document.getElementById('scaling-law');
+  const mkCard = (title, sub) => { const c = document.createElement('div'); c.className = 'card'; const h = document.createElement('h2'); h.textContent = title; c.appendChild(h); const d = document.createElement('div'); d.className = 'sub'; d.textContent = sub; c.appendChild(d); const b = document.createElement('div'); c.appendChild(b); host.appendChild(c); return b; };
+  const lx = f => Math.log10(f);
+  function compChart(box, opts) {
+    const W = 500, H = 300, m = {l: 48, r: 24, t: 20, b: 40};
+    const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': opts.aria});
+    const x = v => m.l + ((v - 9.8) / (14.4 - 9.8)) * (W - m.l - m.r);
+    const y = v => H - m.b - ((v - opts.y0) / (opts.y1 - opts.y0)) * (H - m.t - m.b);
+    for (const v of opts.yt) { el('line', {x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: 'grid'}, svg); txt(svg, m.l - 8, y(v) + 4, opts.yfmt(v), 'tick', 'end'); }
+    el('line', {x1: m.l, x2: W - m.r, y1: y(opts.y0), y2: y(opts.y0), class: 'axis'}, svg);
+    [10, 11, 12, 13, 14].forEach(e => txt(svg, x(e), H - m.b + 18, '10' + String(e).replace(/\d/g, c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]), 'tick', 'middle'));
+    txt(svg, (m.l + W - m.r) / 2, H - 6, 'training compute (FLOPs, log scale)', 'tick', 'middle');
+    (opts.refs || []).forEach(r => { el('line', {x1: m.l, x2: W - m.r, y1: y(r.v), y2: y(r.v), class: 'ref'}, svg); txt(svg, W - m.r, y(r.v) - 5, r.label, 'reflabel', 'end'); });
+    const endLabels = [];
+    opts.series.forEach(sr => {
+      const pts = sr.pts.filter(Boolean);
+      if (pts.length > 1) { let d = ''; pts.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.x).toFixed(1) + ' ' + y(p.y).toFixed(1); }); el('path', {d, class: 'line ' + sr.cls}, svg); }
+      pts.forEach(p => {
+        const cx = x(p.x), cy = y(p.y);
+        const hit = el('circle', {cx, cy, r: 12, class: 'hit', tabindex: 0, role: 'button', 'aria-label': `${sr.name}, ${p.label}: ${p.text}`}, svg);
+        const dot = el('circle', {cx, cy, r: 4.5, class: 'dot ' + sr.cls + (p.hollow ? ' hollow' : '')}, svg);
+        if (p.hollow) dot.style.stroke = `var(--${sr.cls || 's1'})`;
+        const show = (cxp, cyp) => { dot.classList.add('hot'); tip.innerHTML = ''; const v = document.createElement('div'); v.className = 'v'; v.textContent = p.text; tip.appendChild(v); const n = document.createElement('div'); n.className = 'n'; n.textContent = sr.name + ' · ' + p.label; tip.appendChild(n); const dd = document.createElement('div'); dd.className = 'd'; dd.textContent = p.desc; tip.appendChild(dd); tip.style.display = 'block'; const r = tip.getBoundingClientRect(); let xx = cxp + 14, yy = cyp + 14; if (xx + r.width > window.innerWidth - 8) xx = cxp - r.width - 14; if (yy + r.height > window.innerHeight - 8) yy = cyp - r.height - 14; tip.style.left = xx + 'px'; tip.style.top = yy + 'px'; };
+        const off = () => { dot.classList.remove('hot'); hideTip(); };
+        hit.addEventListener('pointerenter', e => show(e.clientX, e.clientY)); hit.addEventListener('pointermove', e => show(e.clientX, e.clientY)); hit.addEventListener('pointerleave', off);
+        hit.addEventListener('focus', () => { const b = svg.getBoundingClientRect(); show(b.left + cx, b.top + cy); }); hit.addEventListener('blur', off);
+      });
+      if (pts.length && sr.endLabel !== false) { const last = pts[pts.length - 1]; endLabels.push({y: y(last.y), x: x(last.x) + 8, text: opts.endfmt(last.y)}); }
+    });
+    endLabels.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < endLabels.length; i++) if (endLabels[i].y - endLabels[i-1].y < 14) endLabels[i].y = endLabels[i-1].y + 14;
+    endLabels.forEach(l => txt(svg, l.x, l.y + 4, l.text, 'end-label'));
+    if (opts.envelope) {  // lower hull across all series: compute-optimal curve
+      const all = opts.series.flatMap(sr => sr.pts.filter(Boolean)).sort((a, b) => a.x - b.x);
+      const hull = []; let best = Infinity;
+      for (const p of all) { if (p.y < best) { best = p.y; hull.push(p); } }  // running minimum left to right: the best cell at or below each compute level
+      let d = ''; hull.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.x).toFixed(1) + ' ' + y(p.y).toFixed(1); });
+      const path = el('path', {d, class: 'line', 'stroke-width': 9, 'stroke-opacity': 0.22, 'stroke-linejoin': 'round'}, svg); svg.appendChild(path); svg.insertBefore(path, svg.querySelector('.line'));
+    }
+    box.appendChild(svg);
+  }
+  const fitBox = mkCard('Fit vs training compute', 'Holdout RMSE (lower is better) against the FLOPs spent training each cell. The wide pale band is the compute-optimal envelope: the best cell at each compute level, moving from the small net to the large one as compute grows.');
+  compChart(fitBox, {y0: 0, y1: 20, yt: [0, 5, 10, 15, 20], yfmt: v => String(v), endfmt: v => v.toFixed(1), envelope: true, aria: 'Holdout RMSE versus training FLOPs for three model sizes, with the compute-optimal envelope',
+    series: sizes.map(sz => ({name: sz.name, cls: sz.cls, pts: ids[sz.key].map(id => { const f = fit[String(id)]; return f ? {x: lx(f.flops), y: f.rmse, label: `sv${id}, ${f.rows.toLocaleString()} decisions`, text: 'RMSE ' + f.rmse.toFixed(2), desc: `${f.flops.toExponential(1)} FLOPs ≈ 6 × ${f.params.toLocaleString()} params × ${f.rows.toLocaleString()} × 20 epochs`} : null; })}))});
+  const playBox = mkCard('Play vs training compute, two cost regimes', 'Score per game = floor reached / 51, plus 1 if the act-3 boss is beaten (range 0 to 2). Each point is the average over the same 300 val seeds minus the current agent average (0 = as good as the current agent, which wins 75%; −0.57 ≈ 36% wins). Solid lines: each size at equal wall-clock (its simulation count falls as the net grows). Hollow points: the same nets at a fixed 500 simulations with inference cost ignored, i.e. what the value alone is worth when simulations are free.');
+  const fixed = [1, 5, 9].map(id => { const f = fit[String(id)], pl = play['sv' + id + '_s500']; return f && pl ? {x: lx(f.flops), y: pl.dscore, hollow: true, label: `sv${id}_s500, ${f.rows.toLocaleString()} decisions, 500 sims, cost ignored`, text: (pl.dscore > 0 ? '+' : '') + pl.dscore.toFixed(3) + ' · ' + pl.win.toFixed(1) + '% wins', desc: `${f.params.toLocaleString()} parameters; 500 simulations regardless of wall-clock (budget-scaling, informational)` + (pl.split && pl.split.startsWith('val100') ? '; first 100 val seeds' : '')} : null; });
+  compChart(playBox, {y0: -1.3, y1: 0.1, yt: [-1.2, -0.9, -0.6, -0.3, 0], yfmt: v => (v > 0 ? '+' : '') + v.toFixed(1), endfmt: v => v.toFixed(2), aria: 'Paired score versus training FLOPs at equal wall-clock for three sizes, and at fixed 500 simulations for the diagonal',
+    refs: [{v: 0, label: 'current agent: MCTS + random rollouts, 75% wins'}],
+    series: sizes.map(sz => ({name: sz.name + ', equal wall-clock', cls: sz.cls, pts: ids[sz.key].map(id => { const f = fit[String(id)], pl = play['sv' + id]; return f && pl ? {x: lx(f.flops), y: pl.dscore, label: `sv${id}, ${f.rows.toLocaleString()} decisions, ${pl.sims} sims`, text: (pl.dscore > 0 ? '+' : '') + pl.dscore.toFixed(3) + ' · ' + pl.win.toFixed(1) + '% wins', desc: `${pl.sims} simulations per decision at equal wall-clock` + (pl.sims <= 50 ? ' (floored: 2.5–6× budget)' : '')} : null; })})).concat([{name: 'fixed 500 sims, cost ignored', cls: 's4', pts: fixed, endLabel: false}])});
+  const lg = document.getElementById('sl-legend');
+  sizes.forEach(sz => { const sp = document.createElement('span'); const k = document.createElement('i'); k.className = 'key-line ' + sz.cls; sp.appendChild(k); sp.appendChild(document.createTextNode(sz.name)); lg.appendChild(sp); });
+  const sp2 = document.createElement('span'); const k2 = document.createElement('i'); k2.className = 'key-hollow'; k2.style.borderColor = 'var(--s4)'; sp2.appendChild(k2); sp2.appendChild(document.createTextNode('fixed 500 simulations, cost ignored (diagonal cells)')); lg.appendChild(sp2);
+})();
+
+
+// ---- generic chart helper for the new panels
+function genChart(box, o) {
+  const W = o.W || 500, H = o.H || 300, m = {l: o.ml || 52, r: o.mr || 28, t: 20, b: 40};
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': o.aria});
+  const x = v => m.l + ((v - o.x0) / (o.x1 - o.x0)) * (W - m.l - m.r);
+  const y = v => H - m.b - ((Math.max(o.y0, Math.min(o.y1, v)) - o.y0) / (o.y1 - o.y0)) * (H - m.t - m.b);
+  for (const v of o.yt) { el('line', {x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: 'grid'}, svg); txt(svg, m.l - 8, y(v) + 4, o.yfmt(v), 'tick', 'end'); }
+  el('line', {x1: m.l, x2: W - m.r, y1: y(o.y0), y2: y(o.y0), class: 'axis'}, svg);
+  o.xticks.forEach(([v, l]) => txt(svg, x(v), H - m.b + 18, l, 'tick', 'middle'));
+  if (o.xlabel) txt(svg, (m.l + W - m.r) / 2, H - 6, o.xlabel, 'tick', 'middle');
+  (o.refs || []).forEach(r => { el('line', {x1: m.l, x2: W - m.r, y1: y(r.v), y2: y(r.v), class: 'ref'}, svg); txt(svg, W - m.r, y(r.v) - 5, r.label, 'reflabel', 'end'); });
+  const ends = [];
+  o.series.forEach(sr => {
+    const pts = sr.pts.filter(Boolean);
+    if (sr.line !== false && pts.length > 1) { let d = ''; pts.forEach((p, i) => { d += (i ? ' L' : 'M') + x(p.x).toFixed(1) + ' ' + y(p.y).toFixed(1); }); el('path', {d, class: 'line ' + (sr.cls || '')}, svg); }
+    pts.forEach(p => {
+      const cx = x(p.x), cy = y(p.y);
+      const hit = el('circle', {cx, cy, r: p.hit || 10, class: 'hit', tabindex: 0, role: 'button', 'aria-label': `${p.label}: ${p.text}`}, svg);
+      const dot = el('circle', {cx, cy, r: p.r || 4.5, class: 'dot ' + (p.cls !== undefined ? p.cls : (sr.cls || ''))}, svg);
+      const show = (cxp, cyp) => { dot.classList.add('hot'); tip.innerHTML = ''; const v = document.createElement('div'); v.className = 'v'; v.textContent = p.text; tip.appendChild(v); const n = document.createElement('div'); n.className = 'n'; n.textContent = p.label; tip.appendChild(n); if (p.desc) { const dd = document.createElement('div'); dd.className = 'd'; dd.textContent = p.desc; tip.appendChild(dd); } tip.style.display = 'block'; const r = tip.getBoundingClientRect(); let xx = cxp + 14, yy = cyp + 14; if (xx + r.width > window.innerWidth - 8) xx = cxp - r.width - 14; if (yy + r.height > window.innerHeight - 8) yy = cyp - r.height - 14; tip.style.left = xx + 'px'; tip.style.top = yy + 'px'; };
+      const off = () => { dot.classList.remove('hot'); hideTip(); };
+      hit.addEventListener('pointerenter', e => show(e.clientX, e.clientY)); hit.addEventListener('pointermove', e => show(e.clientX, e.clientY)); hit.addEventListener('pointerleave', off);
+      hit.addEventListener('focus', () => { const b = svg.getBoundingClientRect(); show(b.left + cx, b.top + cy); }); hit.addEventListener('blur', off);
+    });
+    if (sr.endLabel && pts.length) { const last = pts[pts.length - 1]; ends.push({y: y(last.y), x: x(last.x) + 8, text: sr.endLabel(last)}); }
+  });
+  ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i-1].y < 14) ends[i].y = ends[i-1].y + 14;
+  ends.forEach(l => txt(svg, l.x, l.y + 4, l.text, 'end-label'));
+  if (o.empty) txt(svg, (m.l + W - m.r) / 2, (m.t + H - m.b) / 2, o.empty, 'reflabel', 'middle');
+  box.appendChild(svg);
+}
+
+// ---- every experiment over time
+(function () {
+  const ex = DATA.experiments || [];
+  const box = document.getElementById('activity');
+  const trackName = {a0: 'A0', a10: 'A10', a20: 'A20', heart: 'Heart'};
+  genChart(box, {W: 1040, H: 320, ml: 52, x0: 0, x1: HMAX, xticks: XT.map(h => [h, h + 'h']), xlabel: 'hours since the loop started',
+    y0: -0.3, y1: 0.15, yt: [-0.3, -0.2, -0.1, 0, 0.1], yfmt: v => (v > 0 ? '+' : '') + v.toFixed(1), aria: 'Every experiment\'s score difference over time, kept versus discarded',
+    refs: [{v: 0, label: 'no change vs the track best'}],
+    series: [{name: 'experiments', line: false, pts: ex.map(e => ({x: e.h, y: e.d, cls: e.keep ? '' : 'drop', r: e.keep ? 4.5 : 3, hit: 7,
+      label: `${trackName[e.track] || e.track} · ${e.name}`, text: `${e.d > 0 ? '+' : ''}${e.d.toFixed(3)} · P=${e.p.toFixed(2)} · ${e.keep ? 'kept' : e.status}`, desc: e.desc + ' · ' + fmtH(e.h)}))}]});
+})();
+
+// ---- learning curves (S2 leaf value, R run value)
+(function () {
+  const host = document.getElementById('curves');
+  const card = (title, sub) => { const c = document.createElement('div'); c.className = 'card'; const h = document.createElement('h2'); h.textContent = title; c.appendChild(h); const d = document.createElement('div'); d.className = 'sub'; d.textContent = sub; c.appendChild(d); const b = document.createElement('div'); c.appendChild(b); host.appendChild(c); return b; };
+  const sizeCls = {42: '', 64: '', 96: 's3', 220: 's2', 256: 's2', 1024: 's4'};
+  const sv = Object.entries(DATA.svmeta || {}).filter(([, m]) => m.leaf).map(([id, m]) => ({id, ...m}));
+  const bySize = {}; sv.forEach(m => { (bySize[m.hidden] = bySize[m.hidden] || []).push(m); });
+  const ticks = e => [[e, '10' + String(e).replace(/\d/g, c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c])]];
+  genChart(card('Leaf value (Phase S2)', 'Holdout error on tree-leaf positions vs training positions, per network width.'), {x0: 3.8, x1: 7, xticks: [4, 5, 6, 7].flatMap(ticks), xlabel: 'training positions (log scale)', y0: 0, y1: 20, yt: [0, 5, 10, 15, 20], yfmt: v => String(v), aria: 'Leaf value holdout error versus training positions',
+    series: Object.keys(bySize).sort((a, b) => a - b).map(h => ({name: 'h=' + h, cls: sizeCls[h] || '', endLabel: p => 'h=' + h + ': ' + p.y.toFixed(1),
+      pts: bySize[h].sort((a, b) => a.rows - b.rows).map(m => ({x: Math.log10(m.rows), y: m.rmse, label: `sv${m.id} · h=${h} · ${m.rows.toLocaleString()} positions`, text: 'RMSE ' + m.rmse.toFixed(2), desc: `${m.params.toLocaleString()} parameters`}))}))});
+  const vr = Object.entries(DATA.vrmeta || {}).filter(([id]) => +id < 10).map(([id, m]) => ({id, ...m}));
+  const byW = {}; vr.forEach(m => { (byW[m.hidden] = byW[m.hidden] || []).push(m); });
+  genChart(card('Run value (Phase R)', 'Holdout error of the predicted final score vs training runs, per network width.'), {x0: 2.8, x1: 4.2, xticks: [[3, '10³'], [Math.log10(3000), '3×10³'], [Math.log10(9000), '9×10³']], xlabel: 'training runs (log scale)', y0: 0.3, y1: 0.7, yt: [0.3, 0.4, 0.5, 0.6, 0.7], yfmt: v => v.toFixed(1), aria: 'Run value holdout error versus training runs',
+    empty: vr.length ? '' : 'pending: data run in progress',
+    series: Object.keys(byW).sort((a, b) => a - b).map(h => ({name: 'h=' + h, cls: sizeCls[h] || '', endLabel: p => 'h=' + h + ': ' + p.y.toFixed(3),
+      pts: byW[h].sort((a, b) => a.runs - b.runs).map(m => ({x: Math.log10(m.runs), y: m.rmse, label: `vr${m.id} · h=${h} · ${m.runs.toLocaleString()} runs`, text: 'RMSE ' + m.rmse.toFixed(3) + ' · corr ' + m.corr.toFixed(2), desc: `${m.params.toLocaleString()} parameters`}))}))});
+})();
+
+// ---- learned leaf value: every play test as a bar
+(function () {
+  const box = document.getElementById('leafbars');
+  const rows = Object.entries(DATA.play || {}).map(([n, p]) => ({n, ...p})).sort((a, b) => b.dscore - a.dscore);
+  const W = 1040, rowH = 30, H = 40 + rows.length * rowH, lw = 300, x0 = -1.3, x1 = 0.05;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': 'Score difference of every learned-leaf play test against the current agent'});
+  const x = v => lw + ((v - x0) / (x1 - x0)) * (W - lw - 130);
+  [-1.2, -0.9, -0.6, -0.3, 0].forEach(v => { el('line', {x1: x(v), x2: x(v), y1: 10, y2: H - 24, class: v === 0 ? 'ref' : 'grid'}, svg); txt(svg, x(v), H - 8, (v > 0 ? '+' : '') + v.toFixed(1), 'tick', 'middle'); });
+  rows.forEach((r, i) => {
+    const yy = 14 + i * rowH, leaf = /^sv1[1-9]/.test(r.n), ctrl = r.n === 'svctrl';
+    const ratio = DATA.secs[r.n] ? (DATA.secs[r.n] / DATA.base_secs).toFixed(2) + '× time' : '';
+    txt(svg, lw - 12, yy + 10, r.n + (r.split && r.split.startsWith('val100') ? ' (100 seeds)' : ''), 'end-label', 'end');
+    txt(svg, lw - 12, yy + 23, `${(r.sims || 0).toLocaleString()} sims · ${ratio}`, 'simlabel', 'end');
+    const xa = x(Math.min(0, r.dscore)), xb = x(0);
+    el('rect', {x: xa, y: yy + 2, width: Math.max(2, xb - xa), height: 16, rx: 3, class: 'bar ' + (ctrl ? 'muted' : leaf ? 's2' : '')}, svg);
+    txt(svg, xb + 8, yy + 14, r.dscore.toFixed(2) + ' · ' + r.win.toFixed(1) + '% wins', 'tick', 'start');
+  });
+  box.appendChild(svg);
+})();
+
+// ---- tipping points table
+const tips = document.getElementById('tips');
+const mk = (tag, cls, text) => { const c = document.createElement(tag); if (cls) c.className = cls; c.textContent = text; return c; };
+let thead = document.createElement('tr'); ['When', 'Experiment', 'From → to', 'Gain', 'What changed'].forEach((h, i) => thead.appendChild(mk('th', i === 2 || i === 3 ? 'num' : '', h))); tips.appendChild(thead);
+topGains.forEach(g => { const tr = document.createElement('tr'); tr.appendChild(mk('td', '', fmtH(g.h))); tr.appendChild(mk('td', 'code', g.name));
+  tr.appendChild(mk('td', 'num', `${g.from.toFixed(1)}% → ${g.win.toFixed(1)}%`)); tr.appendChild(mk('td', 'num up', '+' + g.gain.toFixed(1))); tr.appendChild(mk('td', '', g.desc)); tips.appendChild(tr); });
+HEART.slice(-4).forEach((p, i, arr) => { const prev = i === 0 ? HEART[HEART.length-5] : arr[i-1]; const tr = document.createElement('tr'); tr.appendChild(mk('td', '', fmtH(p.h))); tr.appendChild(mk('td', 'code', p.name));
+  tr.appendChild(mk('td', 'num', `${prev.win.toFixed(1)}% → ${p.win.toFixed(1)}% Heart`)); tr.appendChild(mk('td', 'num up', '+' + (p.win - prev.win).toFixed(1))); tr.appendChild(mk('td', '', p.desc)); tips.appendChild(tr); });
+
+// ---- full table
+const all = document.getElementById('all');
+thead = document.createElement('tr'); ['Track', 'Hours', 'When', 'Experiment', 'Win %', 'Floor', 'Kind', 'Description'].forEach((h, i) => thead.appendChild(mk('th', [1,4,5].includes(i) ? 'num' : '', h))); all.appendChild(thead);
+const rows = [];
+A0.forEach(p => rows.push({track: 'A0', ...p})); TEST.forEach(p => rows.push({track: 'A0', ...p})); A10.forEach(p => rows.push({track: 'A10', ...p})); A20.forEach(p => rows.push({track: 'A20', ...p})); HEART.forEach(p => rows.push({track: 'Heart', ...p}));
+rows.sort((a, b) => a.h - b.h).forEach(p => { const tr = document.createElement('tr'); tr.appendChild(mk('td', '', p.track)); tr.appendChild(mk('td', 'num', p.h.toFixed(1))); tr.appendChild(mk('td', '', fmtH(p.h)));
+  tr.appendChild(mk('td', 'code', p.name)); tr.appendChild(mk('td', 'num', p.win.toFixed(1))); tr.appendChild(mk('td', 'num', p.floor.toFixed(1))); tr.appendChild(mk('td', '', p.kind === 'test' ? 'test 500' : p.kind === 'rebase' ? 're-baseline' : 'keep')); tr.appendChild(mk('td', '', p.desc)); all.appendChild(tr); });
+const tbtn = document.getElementById('tbtn'), tbl = document.getElementById('tbl');
+tbtn.addEventListener('click', () => { const open = tbl.hidden; tbl.hidden = !open; tbtn.textContent = open ? 'Hide table' : 'Show table'; tbtn.setAttribute('aria-expanded', String(open)); });
+</script>

@@ -81,6 +81,7 @@ def main():
             f.write(f"{W.shape[1]} {W.shape[0]}\n")
             f.write(" ".join(f"{v:.6g}" for v in W.ravel()) + "\n")
             f.write(" ".join(f"{v:.6g}" for v in b) + "\n")
+    open(os.path.join(os.path.dirname(out), f"sv_{a.id}.meta"), "w").write(f"{rmse:.6f} {base:.6f} {len(tr)} {a.hidden} {a.layers} {nparams} {1 if a.leaf else 0}\n")
     print(f"SV id={a.id} rows={len(tr)} hidden={a.hidden} layers={a.layers} params={nparams} holdout_rmse={rmse:.3f} predict_mean_rmse={base:.3f} exported {out}")
 
 
