@@ -906,6 +906,24 @@ Reading, against the pre-registered rule:
   (`sv9_s500`, val100, pending) behaves differently. Plausible cause [INFERRED]: holdout RMSE 10.7 is ≈ 30% of the win
   bonus (35), a leaf error large enough that averaging more simulations converges on the wrong values.
 
+## Phase S2 — train the leaf value on the leaf distribution (pre-registered 2026-11-02 10:45 UTC)
+
+**Why.** Phase S trained on decision-start states (the search's root value). The search asks the leaf model about
+tree leaves: mid-turn states reached by arbitrary action sequences, including bad ones. `sv5_s500` showed more
+simulations do not help a root-trained net (−0.70 at 150 sims, −0.72 at 500), and the small net with the worse
+holdout RMSE plays better than the mid net, both consistent with a train/use distribution mismatch.
+
+**What.** `leaf_log=1` (default off; games bit-identical with logging on, verified on 2 games): with probability
+`leaf_log_p` = 0.002 a new tree leaf is logged with the mean of `leaf_log_k` = 8 extra rollouts from it (separate RNG,
+search RNG and counters saved and restored). Smoke test (2 games): 507 rows, label mean 82.7, label sd 32.4, within-leaf
+rollout sd 9.2 → label noise ≈ 3.3. Queued behind the pending `sv9_s500` read: guarded rebuild; 2,500 games (seeds
+320000+, ≈ 6×10⁵ leaf rows expected); models 11 (h=42) and 12 (h=220) on all rows; leak test; equal-wall-clock
+play tests vs `mapd085` (status `scaling`, informational; promotion only through the ordinary keep rule + dev).
+
+**Predictions.** Leaf-holdout RMSE far below the root-trained nets' (MED). Play: `sv11` better than `sv7` (−0.57) at
+equal wall-clock (MED); any cell at or above 0 (LOW). If `sv11` ≈ `sv7`, the mismatch is not the bottleneck and the
+learned-leaf line closes; if `sv11` clearly beats `sv7`, scale S2 (more data, the cost-aware size).
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs

@@ -239,7 +239,7 @@ static void bilinearPriors(const BattleContext &bc, const search::Action *acts, 
 }
 
 FairSearcher::FairSearcher(const BattleContext &root, const SearchParams &p, std::uint64_t searchSeed)
-    : rootState(&root), p(p), rng(searchSeed) {
+    : rootState(&root), p(p), rng(searchSeed), logRng(searchSeed ^ 0x1EAF10C5ULL) {
     nodes.reserve(p.simulations * 2 + 4);
 }
 
@@ -462,6 +462,21 @@ void FairSearcher::simulate() {
             const bool terminal = bc.outcome != Outcome::UNDECIDED;
             const int child = terminal ? -1 : newNode(bc, static_cast<int>(path.size()));
             if (child >= 0) nodes[cur].edges[ei].children.emplace(h, child);
+            if (!terminal && p.leafLog && p.leafLogP > 0 && std::uniform_real_distribution<double>(0, 1)(logRng) < p.leafLogP) {
+                // Phase S2: log this leaf with the mean of K independent rollouts; the search's own rng and counters
+                // are saved and restored, so the decision is identical with or without logging
+                const std::mt19937_64 savedRng = rng; const std::int64_t savedActs = actionsExecuted;
+                rng.seed(logRng());
+                double sum = 0, sumsq = 0;
+                for (int k = 0; k < std::max(1, p.leafLogK); ++k) { BattleContext c = bc; const double v = rollout(c); sum += v; sumsq += v * v; }
+                const int K = std::max(1, p.leafLogK);
+                float row[vf::DIM + 2];
+                vf::extract(bc, row);
+                row[vf::DIM] = static_cast<float>(sum / K);
+                row[vf::DIM + 1] = static_cast<float>(std::sqrt(std::max(0.0, sumsq / K - (sum / K) * (sum / K))));
+                std::fwrite(row, sizeof(float), vf::DIM + 2, p.leafLog);
+                rng = savedRng; actionsExecuted = savedActs;
+            }
             value = terminal ? evaluate(bc) : rollout(bc);
             if (child >= 0) { nodes[child].visits += 1; }
             break;

@@ -11,6 +11,8 @@
 //   * returns only ONE action; the caller re-searches after executing it.
 #pragma once
 
+#include <cstdio>
+
 #include "combat/BattleContext.h"
 #include "sim/search/Action.h"
 
@@ -42,6 +44,9 @@ struct SearchParams {
     double lowHpThresh = 20.0;
     bool leafVf = false;         // rollout cutoff: use the learned MLP value instead of the heuristic
     int leafSv = 0;              // Phase S: rollout cutoff valued by runtime model research/models/sv_<id>.txt (0 = off)
+    std::FILE *leafLog = nullptr; // Phase S2 data: sampled tree-leaf states with the mean of leafLogK extra rollouts (never changes the search)
+    double leafLogP = 0.0;        // probability a new leaf is logged
+    int leafLogK = 8;             // rollouts averaged for the label
     bool usePrior = false;       // PUCT with the learned bilinear move prior (pf_weights.inc) instead of plain UCB
     double priorC = 1.5;         // PUCT exploration constant
     bool priorMlp = false;       // PUCT with the MLP move prior (pfm_weights.inc) at shallow depth (cost!)
@@ -100,6 +105,7 @@ private:
     int rootIdx = 0;
     SearchParams p;
     std::mt19937_64 rng;
+    std::mt19937_64 logRng;  // leaf logger only: separate stream so logging never changes the search
     std::vector<Node> nodes;
     double vmin = 1e18, vmax = -1e18;
 

@@ -14,10 +14,10 @@ for ((k = 0; k < CHUNKS; k++)); do
   rm -rf "$D"; mkdir -p "$D"
   S=$(( SEED0 + k * CHUNK )); N=$CHUNK; [ $(( S + N )) -gt $(( SEED0 + GAMES )) ] && N=$(( SEED0 + GAMES - S ))
   T0=$(date +%s)
-  VF_LOG_DIR=$D "$BIN" --agent fair --seed_start "$S" --count "$N" --asc 0 --threads 4 $ARGS --param pf_log=1 > "$D/games.tsv"
+  VF_LOG_DIR=$D "$BIN" --agent fair --seed_start "$S" --count "$N" --asc 0 --threads 4 $ARGS ${LOGP:---param pf_log=1} > "$D/games.tsv"   # LOGP env: other loggers (Phase S2: --param leaf_log=1)
   touch "$D/.done"
   echo "sv chunk $k/$CHUNKS done: $N games, $(( $(date +%s) - T0 ))s, $(du -sh "$D" | cut -f1)"
 done
 # flatten: the trainer globs pol_*.bin in one directory
-mkdir -p "$OUT/all"; find "$OUT" -path "$OUT/all" -prune -o -name 'pol_*.bin' -print0 | xargs -0 -I{} ln -sf "$(pwd)/{}" "$OUT/all/"
+mkdir -p "$OUT/all"; find "$OUT" -path "$OUT/all" -prune -o \( -name 'pol_*.bin' -o -name 'leaf_*.bin' \) -print0 | xargs -0 -I{} ln -sf "$(pwd)/{}" "$OUT/all/"
 echo "SV GEN $NAME DONE: $(ls "$OUT/all" | wc -l) files"

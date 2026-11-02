@@ -69,6 +69,14 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
     sp.leafVf = getp(P, "leaf_vf", 0) > 0;
     sp.leafSv = static_cast<int>(getp(P, "leaf_sv", 0));
+    if (getp(P, "leaf_log", 0) > 0) {  // Phase S2: tree-leaf states + mean of K rollouts (VF_LOG_DIR/leaf_<seed>.bin)
+        if (const char *dir = std::getenv("VF_LOG_DIR")) {
+            const std::string path = std::string(dir) + "/leaf_" + std::to_string(agentSeed_) + ".bin";
+            sp.leafLog = std::fopen(path.c_str(), "ab");
+        }
+        sp.leafLogP = getp(P, "leaf_log_p", 0.002);
+        sp.leafLogK = static_cast<int>(getp(P, "leaf_log_k", 8));
+    }
     sp.usePrior = getp(P, "prior", 0) > 0;
     sp.priorC = getp(P, "prior_c", 1.5);
     sp.priorMlp = getp(P, "prior_mlp", 0) > 0;
@@ -1021,6 +1029,7 @@ void FairAgent::playout(GameContext &gc) {
         if (++guard > 20000) { stats.aborted = true; break; }
         if (gc.screenState == ScreenState::BATTLE) {
             playBattle(gc);
+            if (sp.leafLog) std::fflush(sp.leafLog);  // forked game processes exit with _exit: flush per battle
             continue;
         }
         stepOutOfCombat(gc);

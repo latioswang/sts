@@ -24,16 +24,24 @@ def main():
     ap.add_argument("--rows", type=int, required=True); ap.add_argument("--hidden", type=int, required=True)
     ap.add_argument("--layers", type=int, default=2); ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--leaf", action="store_true", help="Phase S2: leaf_*.bin rows (DIM features + [mean of K rollouts, sd]) instead of pol_*.bin root values")
     a = ap.parse_args()
     out = a.out or os.path.join(os.path.dirname(HERE), "models", f"sv_{a.id}.txt")
     import torch, torch.nn as nn
     torch.manual_seed(0); torch.set_num_threads(4)
-    states, toks, ups, tfs, vis, dec, qs, roots = tp.load(a.data_dir, with_values=True)
-    X = np.stack(states).astype(np.float32); y = np.array(roots, np.float32)
+    if a.leaf:
+        import glob
+        files = sorted(glob.glob(os.path.join(a.data_dir, "leaf_*.bin")))
+        arr = np.concatenate([np.fromfile(f, dtype=np.float32) for f in files]) if files else np.zeros(0, np.float32)
+        arr = arr[: (arr.size // (DIM + 2)) * (DIM + 2)].reshape(-1, DIM + 2)
+        X = arr[:, :DIM].copy(); y = arr[:, DIM].copy()
+    else:
+        states, toks, ups, tfs, vis, dec, qs, roots = tp.load(a.data_dir, with_values=True)
+        X = np.stack(states).astype(np.float32); y = np.array(roots, np.float32)
     ok = np.isfinite(X).all(1) & np.isfinite(y) & (y != 0)
     X, y = X[ok], y[ok]
     rng = np.random.RandomState(12345); perm = rng.permutation(len(y))   # one fixed shuffle for every scale
-    nv = max(2000, min(len(y) // 10, 50000))                               # held-out block: the LAST nv of the shuffle
+    nv = min(max(2000, min(len(y) // 10, 50000)), len(y) // 5)             # held-out block: the LAST nv of the shuffle (unchanged for >= 250k rows)
     hold = perm[-nv:]; pool = perm[:-nv]
     tr = pool[:a.rows]
     print(f"decisions total={len(y)} train={len(tr)} (requested {a.rows}) holdout={len(hold)} target mean={y.mean():.2f} sd={y.std():.2f}")
