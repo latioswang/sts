@@ -99,6 +99,14 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
 ### Current state (update after every batch) — 2026-11-02 17:43 UTC
 - **17:43 UTC: S2 scale-up done (worker):** sv16 −0.348 (best learned leaf; sv11 was −0.449), sv17 −0.384; line stays
   open by its pre-registered rule. Both workers idle (no pre-registered batch). Main queue: v1 info cells 8–9, then empty.
+- **Heart funnel of the Heart best (`heart_bfrelic10`, val 300, from its run file):** final act 1/2/3/4 = 12/61/65/162;
+  act-3 clears without keys 18; died to Shield & Spear (floor 54) 9; died to the Heart (floor 55) 113; Heart beaten 40 ->
+  conversion at the Heart ≈ 26% (40/153). The Heart fight is the bottleneck. Already tried there: potion value
+  (`heart_pvh0`), rollout horizon (`heart_brt8`), search reallocation (`heart_hm2` informational, `heart_hm2b` −, P=0.83),
+  combo, and a Heart deck model on 3× data (`heart_bfb25_g12` pooled +0.006, P=0.633). **Next step (analysis, no new
+  compute):** read the Heart fights in the interventional logs `bg_heart` + `bg_heart2` (on this VM) — player HP and deck
+  at Heart entry vs outcome, turns survived, damage dealt per turn against Invincible 300 — and pre-register a Heart
+  batch from what separates the 26% that win.
 - **17:38 UTC: Phase R stage 2 closed without a keep.** Selection: ridge on 8,100 runs (gate passed). Card picks: vrb20
   −0.020, vrb50 +0.026 (near-miss; dev +0.078; pooled-400 P=0.884 → discard), vrb100 −0.050, vrb50_nobf −0.090. A0 best
   stays `mapd085`. Main queue: informational v1 cells 7–9 (≈ 1–2 h), then empty.
