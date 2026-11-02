@@ -781,6 +781,21 @@ bit-identical on the three bests, leak test green with every new parameter on):
   wins on val/dev2/dev3; floors unchanged — this is a pure Heart-conversion gain, the first one).
   Dev replication queued (`research/tools/rep_dev.sh`).
 
+### Batch 49 (queued 01:05 UTC) — key acquisition on the Heart track
+
+In-process replay of the Heart best's val games (same binary, bit-identical; prints the keys held),
+first 154 of 300 games: key-less act-3 clears by keys held — `R-B` 11 (emerald missing), `-GB` 6
+(ruby missing), `-G-` 1; every run that reached act 4 held all three. So the emerald key (the
+burning elite, which the map policy only values at ≥ 60% HP and at +2) is missed about 60% of
+the time and the ruby key (rest-site Recall, acts 1–2 only, ≥ 65% HP, never at the pre-boss rest)
+about 40%. Six default-off parameters, queued behind a guarded rebuild (repro_check on the three
+bests + leak test, else the queue is stashed): `w_burning_act3=3`, `burn_hp=0.5`, `w_burning=4`
+(emerald); `key_act3=1`, `key_rest_w=1 key_act3=1`, `key_rest_hp_preboss=0.8` (ruby). Prediction:
+each converts some of the 14% key-less clears into act-4 runs; the cost is the HP/heal they trade
+for the key, which the pooled rule measures as Heart wins (a run that reaches the Heart weaker
+and dies there scores the same as a key-less clear: floor 55 vs 51 only). Combinations follow
+the single-knob results.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
