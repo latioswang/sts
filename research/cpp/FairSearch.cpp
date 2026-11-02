@@ -338,7 +338,7 @@ double terminalValue(const BattleContext &bc, const SearchParams &p) {
              + p.potionValue * bc.potionCount / 2;
     }
     // loss: partial credit for damage dealt and survival time
-    return (1.0 - ratio) * 10 + bc.turn * 0.2 + p.potionValue * bc.potionCount / 2;
+    return (1.0 - ratio) * p.lossDmgW + bc.turn * p.lossTurnW + p.potionValue * bc.potionCount / 2;
 }
 
 double FairSearcher::rollout(BattleContext &bc) {

@@ -10,6 +10,7 @@
 #include "rv_mlp.h"
 #include "bf_mlp.h"
 #include <algorithm>
+#include <cmath>
 #include <numeric>
 #include <cstdlib>
 #include <memory>
@@ -78,6 +79,8 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
     sp.lowHpThresh = getp(P, "lowhp_thresh", 20.0);
     sp.cutHpFrac = getp(P, "cut_hp_frac", 1.0);
+    sp.lossDmgW = getp(P, "loss_dmg_w", 10.0);
+    sp.lossTurnW = getp(P, "loss_turn_w", 0.2);
     legacy.rng = std::default_random_engine(static_cast<unsigned>(agentSeed ^ 0xabcdefULL));
 }
 
@@ -97,6 +100,10 @@ SearchParams FairAgent::searchParamsFor(const BattleContext &bc) const {
     if (isBossEncounter(bc.encounter)) {
         s.simulations = static_cast<int>(s.simulations * getp(P, "boss_mult", 1.0));
         s.potionValue = getp(P, "potion_v_boss", s.potionValue);
+        // boss fights: optional rollout cutoff (long fights the random rollouts cannot win are then valued by
+        // the cutoff heuristic — HP counts — instead of the loss credit)
+        s.rolloutTurns = static_cast<int>(getp(P, "boss_rollout_turns", s.rolloutTurns));
+        if (bc.encounter == MonsterEncounter::THE_HEART) s.potionValue = getp(P, "potion_v_heart", s.potionValue);  // the last fight
     } else if (isEliteEncounter(bc.encounter)) {
         s.potionValue = getp(P, "potion_v_elite", s.potionValue);
     } else {
@@ -559,8 +566,13 @@ double FairAgent::roomValue(const GameContext &gc, Room r) const {
     switch (r) {
         case Room::MONSTER: return getp(P, "w_monster", 1.0);
         case Room::ELITE: {
-            const double th = getp(P, "elite_hp", 0.6);
-            double v = hpf >= th ? getp(P, "w_elite_hi", 1.5) : getp(P, "w_elite_lo", -3.0);
+            double v;
+            if (!std::isnan(eliteSimV)) {
+                v = eliteSimV;  // elite_sim: simulated fights against this act's elites decided (chooseMapX)
+            } else {
+                const double th = getp(P, "elite_hp", 0.6);
+                v = hpf >= th ? getp(P, "w_elite_hi", 1.5) : getp(P, "w_elite_lo", -3.0);
+            }
             if (gc.act == 1) v += getp(P, "w_elite_act1", 0.0);
             return v;
         }
@@ -572,8 +584,35 @@ double FairAgent::roomValue(const GameContext &gc, Room r) const {
     }
 }
 
+double FairAgent::eliteSimValue(const GameContext &gc) {
+    const double lo = getp(P, "w_elite_lo", -3.0), hi = getp(P, "w_elite_hi", 1.5);
+    if (static_cast<double>(gc.curHp) / gc.maxHp < getp(P, "elite_sim_minhp", 0.4)) return lo;  // too low to consider
+    const int K = std::max(1, static_cast<int>(getp(P, "elite_sim_k", 3)));
+    const int a = std::min(3, std::max(1, gc.act)) - 1;
+    // own deterministic seed per floor (never the run's RNG): one fight per elite type of the act, from the current state
+    const std::uint64_t seed = agentSeed ^ (0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(gc.floorNum + 7)) ^ 0xE117E5ULL;
+    double wins = 0, hpAfter = 0;
+    for (int k = 0; k < K; ++k) {
+        float out[3];
+        bfFight(gc, kElite[a][k % 3], seed + 16ULL * static_cast<std::uint64_t>(k), out);
+        wins += out[0]; hpAfter += out[1];
+    }
+    const double pwin = wins / K;
+    const double hpWin = wins > 0 ? hpAfter / wins : 0.0;  // mean HP fraction left, given a win
+    return (pwin + 1e-9 >= getp(P, "elite_sim_pwin", 0.67) && hpWin >= getp(P, "elite_sim_hp", 0.35)) ? hi : lo;
+}
+
 int FairAgent::chooseMapX(const GameContext &gc) {
     const Map &m = *gc.map;
+    eliteSimV = std::numeric_limits<double>::quiet_NaN();
+    if (getp(P, "elite_sim", 0) > 0 && gc.act <= 3) {
+        // simulate only when an elite node is within the next elite_sim_depth rows (one evaluation per map decision)
+        const int depth = static_cast<int>(getp(P, "elite_sim_depth", 2));
+        bool any = false;
+        for (int y = gc.curMapNodeY + 1; y <= std::min(14, gc.curMapNodeY + depth) && !any; ++y)
+            for (int x = 0; x < 7 && !any; ++x) any = y >= 0 && m.getNode(x, y).room == Room::ELITE;
+        if (any) eliteSimV = eliteSimValue(gc);
+    }
     // DP over rows: best[y][x] = value(room) + max over edges best[y+1][e]
     double best[15][7];
     const double discount = getp(P, "map_discount", 0.9);
@@ -697,7 +736,7 @@ void FairAgent::shop(GameContext &gc) {
             return;
         }
     }
-    if (getp(P, "shop_potion", 0) > 0 && gc.potionCount < gc.potionCapacity) {
+    if ((getp(P, "shop_potion", 0) > 0 || (gc.act == 4 && getp(P, "act4_shop_potion", 0) > 0)) && gc.potionCount < gc.potionCapacity) {
         for (int i = 0; i < 3; ++i) {
             const int price = s.potionPrice(i);
             if (price != -1 && gc.gold >= price + getp(P, "shop_pot_reserve", 0)) {

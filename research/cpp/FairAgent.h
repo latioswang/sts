@@ -7,6 +7,7 @@
 #include "sim/search/ScumSearchAgent2.h"
 
 #include <cstdio>
+#include <limits>
 #include <map>
 #include <random>
 #include <string>
@@ -50,11 +51,14 @@ private:
     std::vector<float> rvRows;
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;
+    double eliteSimV = std::numeric_limits<double>::quiet_NaN();  // elite_sim: simulated elite-node value for the current map decision
 
     void playBattle(sts::GameContext &gc);
     void stepOutOfCombat(sts::GameContext &gc);
     double roomValue(const sts::GameContext &gc, sts::Room r) const;
     int chooseMapX(const sts::GameContext &gc);
+    // elite_sim: value of an elite node from K simulated fights against this act's elites with the current deck/HP
+    double eliteSimValue(const sts::GameContext &gc);
     void cardRewards(sts::GameContext &gc);
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);

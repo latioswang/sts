@@ -240,9 +240,11 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 46 (third replication slice): A0 and A10 learned-bonus keeps replicate (see the replication section).
   Batch 47 (A20 healing follow-ups, vs a20_restboss1): `a20_resthp07` 3.7% win, floor 28.3, -0.004 vs base, P=0.258 → discard; `a20_wrest7` 4.0% win, floor 28.3, -0.000 vs base, P=0.470 → discard; `a20_rh07` 4.0% win, floor 27.5, -0.017 vs base, P=0.134 → discard — flat; the pre-boss heal is
   the only healing knob that moved A20.
-- Queue empty at 2026-11-02 00:20 UTC. Overnight: idle except the hourly wake-ups (nothing cheap is left
-  to test; the day-2 plan — A20 act-1 survival and Heart conversion need new mechanisms, speed is
-  architectural — starts when work resumes).
+- Queue empty at 2026-11-02 00:09 UTC. Next: the Heart and A20 tracks are evaluation-limited (a 2-point
+  Heart-win effect needs n > 1,000 at the binary metric), so their keep decisions move to a pooled 500-seed
+  rule (val 300 + dev2 100 + dev3 100; dev stays the replication slice) via `research/tools/exp_pooled.sh`,
+  and a small Heart batch runs under it overnight (potions spent at the Heart, pre-boss heal, bonus 50×,
+  power upgrades).
 - Running (sequential queue, `research/queue.txt`): overnight hygiene — regenerate the A10 fight set on the
   fixed simulator (`bg_a10c`, same seeds as bg_a10) and retrain the A10 model (11) → `a10_bfbonus25_g2c`.
   Result: `a10_bfbonus25_g2c` 30.3% win, floor 37.6, +0.014 vs base, P=0.642 → discard — neutral; clean A10 data from the newer agent neither helps nor hurts (consistent with
@@ -724,6 +726,42 @@ current agents' decks are already shaped by a model bonus, so their option sets 
   the second slice: a small floor effect that does not replicate; the A20 ladder's keeps since a20_restlo
   are all within its noise band. Honest A20 state: floor ≈ 26–27, wins 1–4% (noise), chain a20_eh08 →
   a20_noel1 → a20_restlo replicated (+0.084 on dev), nothing solid after that.
+
+## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
+
+The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
+on 100 seeds, and A20 wins are 1–4%, so val-300 keeps there have twice failed to replicate. From
+batch 48 on, **A20 and Heart keep decisions use `research/tools/exp_pooled.sh`**: the candidate
+runs val (300) + dev2 (100) + dev3 (100) with the same seeds as the base, and the keep rule is the
+same paired bootstrap on the pooled 500 (dscore > 0 and P ≥ 0.9). `dev` (100000+) stays the
+untouched replication slice for anything kept; `test` is unchanged. A0 and A10 keep the val-300
+rule with the near-miss extension. Base slices come from `research/tools/base_slices.sh` (the
+existing `_dev2`/`_dev3` replication runs are copied under the base's name; missing ones are run).
+
+### Batch 48 (queued 2026-11-02 00:23 UTC) — mechanisms, not knobs
+
+Diagnosis from the recorded bests (deaths by act/encounter, `death_enc`): Heart track (val 300):
+0 key-less act-3 clears (the key policy is complete), 104 deaths at the Heart, 66 at the act-3
+boss, 44 at the act-2 boss; potions_left at death 0.11. A20 (val 300): 81 die in act 1 (53 at the
+boss), 156 in act 2 (64 at the boss, 40 at elites: Slavers 19, Gremlin Leader 11, Book 10), 51 in
+act 3; 150 of 288 deaths are boss fights. In a boss fight the random rollouts cannot win, the
+search's only gradient is the loss value `10 × damage fraction + 0.2 × turns survived` — the
+player's own HP does not appear in it, so attacking is preferred to blocking whenever death is
+not immediate. Two untested value shapes and one structural map change, all default-off (binary
+bit-identical on the three bests, leak test green with every new parameter on):
+
+| name | track | change | prediction |
+|---|---|---|---|
+| `*_ldw35` | heart, a20, a0 | `loss_dmg_w=35`: damage credit on the win-bonus scale | more damage-greedy; probably neutral or negative |
+| `*_ltw1` | heart, a20 | `loss_turn_w=1`: survival credit 1.0/turn (5×) | more defensive in losing rollouts; small positive at A20 |
+| `*_brt8` / `a20_brt5` | heart, a20, a0 | `boss_rollout_turns=N`: rollouts in boss fights cut at N turns, valued by the cutoff heuristic (HP counts) | the direct test of "HP is invisible in boss-fight values"; earlier global cutoffs (3/6 turns, all fights) lost badly at A0 |
+| `heart_pvh0` | heart | `potion_v_heart=0`: no credit for potions kept in the Heart fight (the last fight) | ≤ +1 pt (potions are already mostly spent) |
+| `heart_a4pot` | heart | `act4_shop_potion=1`: spare gold buys potions in the act-4 shop | small positive (gold is worthless after act 4) |
+| `*_esim` | heart, a20, a0 | `elite_sim=1`: an elite node's map value comes from 3 simulated fights (one per elite of the act, 100-sim search, current deck/HP, own seeds): `w_elite_hi` if ≥ 2/3 won with ≥ 35% HP left, else `w_elite_lo`; A20 also drops the blanket act-1 penalty (`w_elite_act1=0`) | the main bet: A20 decks that can take an elite get relics, decks that cannot stop dying to Slavers/Leader/Book; cost ≈ +0.6 fight-equivalents per map decision with an elite in view (logged via `secs`) |
+| `a20_esim3` | a20 | the gate requiring 3/3 wins | stricter variant |
+
+Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
+per-combat-decision budget); its per-game `secs` is reported with the result.
 
 ## Speed at equal wall-clock (started 2026-11-01 23:40 UTC)
 Why: every cheap knob and the learned strategic layer are at their ceilings; the 4×-compute probe (+4.5

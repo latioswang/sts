@@ -51,6 +51,8 @@ struct SearchParams {
     double selectQ = 0.0;        // final move: if > 0, pick the highest mean value among edges with n >= selectQ * max_n (robust child); 0 = most visits
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited
+    double lossDmgW = 10.0;      // loss value: credit per enemy-HP fraction removed (the only gradient in boss fights the rollouts cannot win)
+    double lossTurnW = 0.2;      // loss value: credit per turn survived
 };
 
 std::uint64_t observationHash(const sts::BattleContext &bc);
