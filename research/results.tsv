@@ -412,3 +412,4 @@ c81c754	val.a0	300	0	0.120	47.39	1.0067	-0.0033	0.466	discard	heart_combo: [hear
 c81c754	dev2.a0	100	0	0.130	45.82	0.9910	-0.0245	0.281	info	heart_combo: [heart pooled500 slice] combined near-misses: compute-neutral Heart search reallocation (sims 450, 2x at the Heart) + undiscounted key channel + rest-site seeking
 c81c754	dev3.a0	100	0	0.060	44.13	0.8882	+0.0155	0.698	info	heart_combo: [heart pooled500 slice] combined near-misses: compute-neutral Heart search reallocation (sims 450, 2x at the Heart) + undiscounted key channel + rest-site seeking
 0d75a00	val.a0	300	0	0.067	24.86	0.5541	-1.1246	0.000	scaling	sv1: PHASE S 1e4 rows x 1e4 params: leaf value model sv_1, no rollouts, equal wall-clock (cost ratio 0.400, sims 1250) vs mapd085
+412ea8e	val.a0	300	0	0.267	36.56	0.9835	-0.6952	0.000	scaling	sv5: PHASE S 1e5 rows x 1e5 params: leaf value model sv_5, no rollouts, equal wall-clock (cost ratio 3.326, sims 150) vs mapd085
