@@ -317,3 +317,6 @@ bfadc00	dev3.a0	100	0	0.060	44.22	0.9012	+0.0192	0.932	info	heart_esim: [heart p
 0b65895	val.a20	300	0	0.030	27.48	0.5682	-0.0271	0.061	discard	a20_esim: [a20 pooled500] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off [elite_sim=1 w_elite_act1=0] pooled dscore=-0.0154 dwin=-0.002 P(improve)=0.108
 0b65895	dev2.a20	100	0	0.040	27.04	0.5694	+0.0406	0.945	info	a20_esim: [a20 pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off
 0b65895	dev3.a20	100	0	0.000	24.15	0.4735	-0.0363	0.050	info	a20_esim: [a20 pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off
+7114e51	val.a20	300	0	0.030	27.48	0.5682	-0.0271	0.061	discard	a20_esim3: [a20 pooled500] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off [elite_sim=1 w_elite_act1=0 elite_sim_pwin=1.0] pooled dscore=-0.0154 dwin=-0.002 P(improve)=0.108
+7114e51	dev2.a20	100	0	0.040	27.04	0.5694	+0.0406	0.945	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
+7114e51	dev3.a20	100	0	0.000	24.15	0.4735	-0.0363	0.050	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
