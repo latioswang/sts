@@ -326,3 +326,5 @@ bfadc00	dev3.a0	100	0	0.060	44.22	0.9012	+0.0192	0.932	info	heart_esim: [heart p
 ba87e7f	val.a20	300	0	0.040	28.36	0.5953	+0.0001	0.493	discard	a20_ltw1: [a20 pooled500] loss value: survival credit 1.0 per turn (was 0.2) [loss_turn_w=1] pooled dscore=-0.0057 dwin=-0.002 P(improve)=0.312
 ba87e7f	dev2.a20	100	0	0.000	25.88	0.5075	-0.0214	0.135	info	a20_ltw1: [a20 pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
 ba87e7f	dev3.a20	100	0	0.010	25.13	0.5025	-0.0073	0.370	info	a20_ltw1: [a20 pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+65dca58	dev.a20	100	0	0.020	26.74	0.5439	+0.0078	0.697	info	a20_esim_a23_dev: VERIFY: a20_esim_a23 on dev vs a20_restboss1_dev (replication of a a20 keep)
+65dca58	val.a20	300	0	0.030	28.43	0.5868	-0.0084	0.195	discard	a20_esim_a23: [a20 pooled600 extension] no: pooled600 dscore=+0.0061 dwin=+0.002 P(improve)=0.807 dev-alone dscore=0.00784313725490196
