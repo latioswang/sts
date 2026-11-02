@@ -1,0 +1,22 @@
+model bf_g1: 30956 base decisions from 1000 runs; run score mean 1.708 sd 0.536
+hand-set formula (bfValue)      CV corr with run score: +0.288
+fitted linear combination       CV corr with run score: +0.301
+  single head boss_win             corr: +0.220
+  single head boss_hp              corr: +0.207
+  single head hall_win             corr: +0.153
+  single head hall_hp              corr: +0.232
+  single head boss_dmg             corr: +0.225
+  single head next_win             corr: +0.246
+  single head next_hp              corr: +0.219
+  single head next_dmg             corr: +0.262
+fitted weights (all data), scaled so boss_win = 1: boss_win=+1.00 boss_hp=-0.61 hall_win=+10.99 hall_hp=+2.11 boss_dmg=+0.67 next_win=+1.46 next_hp=-1.66 next_dmg=+1.77
+hand weights:                                     boss_win=+1.00 boss_hp=+0.50 hall_win=+0.50 hall_hp=+0.25 boss_dmg=+0.50 next_win=+0.50 next_hp=+0.25 next_dmg=+1.00
+head correlation matrix (redundancy):
+  boss_win  +1.00 +0.88 +0.26 +0.42 +0.86 +0.44 +0.43 +0.51
+  boss_hp   +0.88 +1.00 +0.23 +0.53 +0.71 +0.49 +0.55 +0.50
+  hall_win  +0.26 +0.23 +1.00 +0.53 +0.35 +0.11 +0.12 +0.06
+  hall_hp   +0.42 +0.53 +0.53 +1.00 +0.47 +0.50 +0.52 +0.48
+  boss_dmg  +0.86 +0.71 +0.35 +0.47 +1.00 +0.43 +0.40 +0.49
+  next_win  +0.44 +0.49 +0.11 +0.50 +0.43 +1.00 +0.93 +0.84
+  next_hp   +0.43 +0.55 +0.12 +0.52 +0.40 +0.93 +1.00 +0.73
+  next_dmg  +0.51 +0.50 +0.06 +0.48 +0.49 +0.84 +0.73 +1.00

@@ -906,6 +906,26 @@ Reading, against the pre-registered rule:
   (`sv9_s500`, val100, pending) behaves differently. Plausible cause [INFERRED]: holdout RMSE 10.7 is ≈ 30% of the win
   bonus (35), a leaf error large enough that averaging more simulations converges on the wrong values.
 
+## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
+
+Inventory [computed from the code and results.tsv]: 161 named parameters; 97 have been tested at least once by the
+keep loop (coordinate search against the real objective on val seeds); 51 never (excluding on/off switches),
+including all 8 deck-model head weights; plus tables taken from the knowledge base (73 card values, 21 boss-relic
+values, synergy pairs, event rules) and hard-coded constants (encounter weights in the hypothetical-fight sampler).
+
+First test — learn the deck model's 8 head weights against the real run score (`research/analysis/fit_bf_heads.py`,
+model 1, 1,000 held-out A0 runs bg1b + bg1k3, 30,956 base decisions, run-grouped 5-fold CV; pasted):
+    model bf_g1: 30956 base decisions from 1000 runs; run score mean 1.708 sd 0.536
+    hand-set formula (bfValue)      CV corr with run score: +0.288
+    fitted linear combination       CV corr with run score: +0.301
+    fitted weights (all data), scaled so boss_win = 1: boss_win=+1.00 boss_hp=-0.61 hall_win=+10.99 hall_hp=+2.11 boss_dmg=+0.67 next_win=+1.46 next_hp=-1.66 next_dmg=+1.77
+    hand weights:                                     boss_win=+1.00 boss_hp=+0.50 hall_win=+0.50 hall_hp=+0.25 boss_dmg=+0.50 next_win=+0.50 next_hp=+0.25 next_dmg=+1.00
+Reading: learning the weights moves the CV correlation from 0.288 to 0.301 — the hand weights were not the problem.
+The fitted weights are unstable (negative HP weights, hall_win ×11) because the heads are collinear (boss win/HP/
+damage 0.71–0.88, next-boss heads 0.73–0.93): eight heads carry roughly three independent signals. The ceiling is
+how well the heads predict the run, not how they are weighted. Caveat: this scores the level of a state; card
+choice uses the with-minus-without difference, which this test does not measure.
+
 ## Phase S2 — train the leaf value on the leaf distribution (pre-registered 2026-11-02 10:45 UTC)
 
 **Why.** Phase S trained on decision-start states (the search's root value). The search asks the leaf model about
