@@ -899,6 +899,13 @@ Reading, against the pre-registered rule:
   collapse as at 1,250 sims: that cell is simply a bad value function. `sv5_s500` and `sv9_s500` (val100) pending.
   Scaling-law panel (fit and play vs training FLOPs, two cost regimes) added to the progress page (v4).
 
+- **Fixed-simulation read `sv5_s500` (10⁵ × 9.4×10⁴, 500 sims, cost ignored): win=0.283 floor=34.68 dscore=-0.7153 —
+  no better than the same net at 150 sims and equal wall-clock (`sv5`: −0.6952, 26.7%).** 3.3× more simulations buy
+  nothing for the mid net: its play is limited by the value's error, not by search depth. **This contradicts the
+  "inference is the wall" reading I gave the user for the mid net**; the hypothesis survives only if the large net
+  (`sv9_s500`, val100, pending) behaves differently. Plausible cause [INFERRED]: holdout RMSE 10.7 is ≈ 30% of the win
+  bonus (35), a leaf error large enough that averaging more simulations converges on the wrong values.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
