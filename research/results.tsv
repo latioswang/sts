@@ -394,3 +394,5 @@ e917308	dev3.a0	100	0	0.050	43.17	0.8692	-0.0108	0.095	info	heart_mapd: [heart p
 86bdffb	val.a0	300	0	0.133	47.17	1.0146	+0.0293	0.935	discard	heart_kud_krw: [heart pooled500] undiscounted key channel + rest sites worth +1 while the ruby key is missing [key_undiscounted=1 key_rest_w=1] pooled dscore=+0.0096 dwin=+0.012 P(improve)=0.759
 86bdffb	dev2.a0	100	0	0.120	44.04	0.9506	-0.0410	0.111	info	heart_kud_krw: [heart pooled500 slice] undiscounted key channel + rest sites worth +1 while the ruby key is missing
 86bdffb	dev3.a0	100	0	0.060	43.51	0.8814	+0.0014	0.517	info	heart_kud_krw: [heart pooled500 slice] undiscounted key channel + rest sites worth +1 while the ruby key is missing
+8be06a2	dev.a0	100	0	0.100	46.68	0.9720	+0.0253	0.722	info	heart_kud_krw_dev: VERIFY: heart_kud_krw on dev vs heart_ka3_dev (replication of a heart keep)
+8be06a2	val.a0	300	0	0.133	47.17	1.0146	+0.0293	0.935	discard	heart_kud_krw: [heart pooled600 extension] no: pooled600 dscore=+0.0123 dwin=+0.012 P(improve)=0.806 dev-alone dscore=0.02529411764705882

@@ -1001,6 +1001,8 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 - `heart_kud_krw` (undiscounted channel + rest-site seeking): val +0.029, +6 Heart wins (40 vs 34), key-less clears
   10 vs 18, act-4 169 vs 158, P=0.935; dev2 −1 win (−0.041), dev3 +1 win; pooled val,dev2,dev3 [heart]: n=500  heart_kud_krw win=0.116 floor=45.81  heart_ka3 win=0.104 floor=45.87  dscore=+0.0096 dwin=+0.012 P(improve)=0.759 → near-miss, extended (dev slice, pooled 600).
 
+- `heart_kud_krw` extension: dev +0.025 (+1 Heart win, P=0.722); pooled val,dev2,dev3,dev [heart]: n=600  heart_kud_krw win=0.113 floor=45.95  heart_ka3 win=0.102 floor=45.83  dscore=+0.0123 dwin=+0.012 P(improve)=0.806 → no (P < 0.9).
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
