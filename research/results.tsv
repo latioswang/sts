@@ -331,3 +331,6 @@ ba87e7f	dev3.a20	100	0	0.010	25.13	0.5025	-0.0073	0.370	info	a20_ltw1: [a20 pool
 b9ffe07	val.a20	300	0	0.030	27.38	0.5662	-0.0290	0.034	discard	a20_ldw35: [a20 pooled500] loss value: damage credit on the win-bonus scale (35, was 10) [loss_dmg_w=35] pooled dscore=-0.0239 dwin=-0.004 P(improve)=0.024
 b9ffe07	dev2.a20	100	0	0.010	24.86	0.4973	-0.0316	0.119	info	a20_ldw35: [a20 pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
 b9ffe07	dev3.a20	100	0	0.020	24.95	0.5088	-0.0010	0.474	info	a20_ldw35: [a20 pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+328a90e	val.a20	300	0	0.020	26.44	0.5381	-0.0571	0.000	discard	a20_brt8: [a20 pooled500] boss fights: rollouts cut at 8 turns, cutoff value (HP counts) [boss_rollout_turns=8] pooled dscore=-0.0409 dwin=-0.006 P(improve)=0.000
+328a90e	dev2.a20	100	0	0.010	25.15	0.5029	-0.0259	0.029	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+328a90e	dev3.a20	100	0	0.040	23.63	0.5025	-0.0073	0.382	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
