@@ -963,7 +963,7 @@ small net cuts the leaf error by ≈ 20% and removes the bias. Pre-registered "f
 - `sv12` play test (leaf-trained, h=220, 87 sims at equal wall-clock; calibration 5.734×): win=0.300 floor=39.02
   dscore=-0.6135 P=0.000 — worse than `sv11` despite the lower leaf RMSE (10.56 vs 12.06): at equal wall-clock the
   cost-aware size on this CPU is the small net. Leaf-data slope for h=42 (holdout RMSE, pasted): 10⁴ rows 17.887 →
-  10⁵ 13.363 → 7.7×10⁵ 12.060 (−10% for the last 7.7×; flattening but positive). h=96 on all rows: training.
+  10⁵ 13.363 → 7.7×10⁵ 12.060 (−10% for the last 7.7×; flattening but positive). h=96 on all rows (pasted): [exited with code 0].
 - **S2 scale-up (pre-registered 13:15 UTC, queued after Phase R):** 7,500 more leaf-logged games (seeds 340000+,
   ≈ 3.3×10⁶ leaf rows in total), models `sv16` (h=42) and `sv17` (h=96) on all rows, equal-wall-clock play tests.
   Predictions: leaf RMSE for h=42 drops ≈ 5% (MED); `sv16` beats `sv11` (−0.45) by a small margin (LOW–MED); no cell
