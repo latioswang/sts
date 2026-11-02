@@ -626,8 +626,13 @@ int FairAgent::chooseMapX(const GameContext &gc) {
             }
             double rv = roomValue(gc, n.room);
             if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::EMERALD_KEY) && m.burningEliteX == x && m.burningEliteY == y
-                && static_cast<double>(gc.curHp) / gc.maxHp >= getp(P, "elite_hp", 0.6)) {
+                && static_cast<double>(gc.curHp) / gc.maxHp >= getp(P, "burn_hp", getp(P, "elite_hp", 0.6))) {
                 rv += getp(P, "w_burning", 2.0);  // the burning elite drops the emerald key
+                if (gc.act == 3) rv += getp(P, "w_burning_act3", 0.0);  // last chance for the emerald key
+            }
+            if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && n.room == Room::REST && y < 13
+                && gc.act <= (getp(P, "key_act3", 0) > 0 ? 3 : 2)) {
+                rv += getp(P, "key_rest_w", 0.0);  // seek a rest site while the ruby key is missing
             }
             best[y][x] = rv + discount * nxt;
         }
@@ -917,8 +922,11 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             if (getp(P, "rest_pol", 0) > 0) {
                 const double hpf = static_cast<double>(gc.curHp) / gc.maxHp;
                 const bool preBoss = gc.curMapNodeY >= 13;
-                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && !preBoss && hpf >= getp(P, "key_rest_hp", 0.65)
-                    && gc.act <= 2) {
+                // ruby key: at a rest site with enough HP, in acts 1-2 (key_act3=1: also act 3); the pre-boss rest
+                // only above key_rest_hp_preboss (default never)
+                const int lastKeyAct = getp(P, "key_act3", 0) > 0 ? 3 : 2;
+                const double keyTh = preBoss ? getp(P, "key_rest_hp_preboss", 2.0) : getp(P, "key_rest_hp", 0.65);
+                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && hpf >= keyTh && gc.act <= lastKeyAct) {
                     search::GameAction(2).execute(gc);  // RECALL: take the ruby key
                     return;
                 }
