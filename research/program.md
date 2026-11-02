@@ -817,6 +817,11 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   wall-clock once it has 10⁵ decisions (vs `sv1` −1.12 at 10⁴ decisions). The data slope at the small size is the
   steepest effect in the play grid.
 
+- `sv7` (8.1×10⁵ × 10⁴, 1,133 simulations at equal wall-clock): win=0.360 floor=38.42 dscore=-0.5653 P=0.000 —
+  barely above `sv4` (−0.58): the small net's data slope flattens between 10⁵ and 8×10⁵ decisions in play even
+  though its fit kept improving (11.8 → 10.2). At the small size the fit, not the data, is now the limit; at the
+  large sizes the inference cost is. Neither path reaches the rollout agent at equal wall-clock on this CPU.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
