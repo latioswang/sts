@@ -60,6 +60,19 @@ void comparePile(Diffs &out, const std::string &field, const Range &sim, const j
     check(out, field, simPile(sim), gamePile(game));
 }
 
+// DiscardAtEndOfTurnAction triggers the hand's end-of-turn effects in the order of an unseeded Collections.shuffle, so
+// ethereal cards reach the exhaust pile in a different order on every run. Only the pile's contents can be compared.
+template <typename Range>
+void compareExhaustPile(Diffs &out, const Range &sim, const json &game) {
+    std::vector<std::string> simCards;
+    for (const auto &c : sim) simCards.push_back(cardKey(c));
+    std::vector<std::string> gameCards;
+    for (const auto &c : game) gameCards.push_back(cardKey(c));
+    std::sort(simCards.begin(), simCards.end());
+    std::sort(gameCards.begin(), gameCards.end());
+    check(out, "exhaust_pile", join(simCards), join(gameCards));
+}
+
 void compareRelics(const GameContext &gc, const json &gs, Diffs &out) {
     std::vector<std::string> sim;
     for (const auto &r : gc.relics.relics) sim.push_back(relicToGameId(r.id));
@@ -126,12 +139,14 @@ void comparePowers(Diffs &out, const std::string &field, std::map<std::string, i
 void compareMonster(const BattleContext &bc, const Monster &m, const json &game, const std::string &prefix, Diffs &out) {
     check(out, prefix + ".id", monsterToGameId(m.id), game["id"].get<std::string>());
     check(out, prefix + ".current_hp", m.curHp, game["current_hp"].get<int>());
-    check(out, prefix + ".max_hp", m.maxHp, game["max_hp"].get<int>());
-    check(out, prefix + ".block", m.block, game["block"].get<int>());
     check(out, prefix + ".half_dead", m.halfDead, game["half_dead"].get<bool>() ? 1 : 0);
     const bool gone = game["is_gone"].get<bool>();
     check(out, prefix + ".is_gone", m.isDeadOrEscaped() ? 1 : 0, gone ? 1 : 0);
-    if (gone) return;  // a dead monster's leftover fields don't affect play
+    // A dead monster's leftover fields don't affect play, and it may be paired with another dead one of the same kind.
+    if (gone) return;
+
+    check(out, prefix + ".max_hp", m.maxHp, game["max_hp"].get<int>());
+    check(out, prefix + ".block", m.block, game["block"].get<int>());
 
     comparePowers(out, prefix + ".powers", simMonsterPowers(m), game["powers"]);
 
@@ -219,7 +234,7 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
     }
     comparePile(out, "draw_pile", bc.cards.drawPile, cs["draw_pile"]);
     comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
-    comparePile(out, "exhaust_pile", bc.cards.exhaustPile, cs["exhaust_pile"]);
+    compareExhaustPile(out, bc.cards.exhaustPile, cs["exhaust_pile"]);
 
     comparePotions(bc.potions, bc.potionCapacity, gs, out);
 

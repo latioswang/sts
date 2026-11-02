@@ -225,8 +225,8 @@ void ActionSender::chooseMatchCard(const std::vector<int> &faceDown, int positio
 }
 
 void ActionSender::applyMatchAndKeep(const GameContext &gc, int first, int second) {
-    // The intro and rules pages have buttons; the game itself has none.
-    for (int page = 0; page < 4 && !gameState()["screen_state"]["options"].empty(); ++page) send("CHOOSE 0");
+    // The intro and rules pages have one button each. The board lists its cards as options, and always has at least four.
+    for (int page = 0; page < 4 && gameState()["screen_state"]["options"].size() == 1; ++page) send("CHOOSE 0");
     std::vector<int> faceDown;
     const auto &cards = gc.info.toSelectCards;
     for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
