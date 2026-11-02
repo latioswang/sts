@@ -1038,6 +1038,26 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
   7 features sd<0.01, 31 sd<0.05; holdout max |z| 125; 20.0% of holdout rows have some |z|>10) but flooring sd at 0.1
   barely moves the smoke fit (h=64: 0.5378 -> 0.5370 vs mean 0.5460). Not the cause; v2 stays as pre-registered.
   Next v2 cell: `VR2 id=14 runs=2700 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5479 holdout_corr=0.262 predict_mean_rmse=0.5453 7s`.
+- **v2 grid + ridge complete (pasted):**
+  `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`
+  `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`
+  `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`
+  `VR2 id=14 runs=2700 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5479 holdout_corr=0.262 predict_mean_rmse=0.5453 7s`
+  `VR2 id=15 runs=2700 hidden=256 layers=2 params=236801 best_epoch=2 holdout_rmse=0.5587 holdout_corr=0.231 predict_mean_rmse=0.5453 37s`
+  `VR2 id=16 runs=2700 hidden=1024 layers=2 params=1733633 best_epoch=2 holdout_rmse=0.5509 holdout_corr=0.246 predict_mean_rmse=0.5453 23s`
+  `VR2 id=17 runs=8100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5309 holdout_corr=0.329 predict_mean_rmse=0.5451 10s`
+  `VR2 id=18 runs=8100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5526 holdout_corr=0.315 predict_mean_rmse=0.5451 16s`
+  `VR2 id=19 runs=8100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5477 holdout_corr=0.310 predict_mean_rmse=0.5451 72s`
+  `VR2 id=20 runs=800 ridge lambda=1 holdout_rmse=0.5221 holdout_corr=0.289 predict_mean_rmse=0.5452 14s`
+  `VR2 id=21 runs=2700 ridge lambda=1 holdout_rmse=0.5199 holdout_corr=0.304 predict_mean_rmse=0.5453 14s`
+  `VR2 id=22 runs=8100 ridge lambda=0.001 holdout_rmse=0.5135 holdout_corr=0.339 predict_mean_rmse=0.5451 31s`
+  `VR SELECT: vr_22 -> vr_10 (0.513487 0.339302 8100 0 0 667 0.545085); predict-mean holdout RMSE 0.545186`
+  `VR GATE OK: 0.513487 < 0.545186`
+  Verdict on the amendment predictions: v2 nets beat the mean at 3,000 and 9,000 runs (MED) — mostly failed: only
+  h=64 at 8,100 runs does; ridge beats every v2 net at 1,000 runs (MED-HIGH) — held (and at every size); best model at
+  9,000 runs is a v2 net (LOW-MED) — failed, ridge wins; gate passes (HIGH) — held. The nets rank runs (corr up to
+  0.33) but overshoot in scale; ridge gains little from data (0.5221 -> 0.5199 -> 0.5135). `vr_10` = ridge on 8,100
+  runs (one linear layer, 667 parameters). Integration (leak test + vrb20/50/100/50_nobf) runs as pre-registered.
 - v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
