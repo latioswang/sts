@@ -923,6 +923,20 @@ Known prior failure: Phase C's V_run (P(win) only, ~2,000 runs) lost as a card-p
 Differences now: 5× more runs, the full score as target, additive use first, a scaling curve before integration.
 Unlike the leaf value (Phase S) V is called ≈ 50 times per run, so model size has no inference wall here.
 
+**Phase R protocol (pre-registered 2026-11-02 11:40 UTC, before any Phase R data exists).**
+- Code (default off; games identical with `vr_bonus=0`, verified on 2 games): `research/vf/vr_mlp.h` (runtime model
+  `research/models/vr_<id>.txt` over the 666 run features), card-reward hook `v += vr_bonus × (V(deck + card) − V(deck))`
+  next to the deck-model bonus, preload before the fork; trainer `research/vf/train_vr.py` (target = min(final floor,
+  51)/51 + win per logged run state; split by run; nested run subsets of one fixed shuffle; 1,000 holdout runs).
+  Smoke test on 500 old runs (gen0, 300 train runs, h=32): holdout RMSE 0.610 vs 0.660 predicting the mean, corr 0.388.
+- Grid: 1,000 / 3,000 / 9,000 training runs × h = 64 / 256 / 1,024 (two hidden layers), ids 1–9; read-out: holdout
+  RMSE and correlation (the fit curve). Selection rule: the lowest holdout RMSE becomes `vr_10`.
+- Integration (val-300 rule vs `mapd085`, which keeps bf_bonus=10): `vrb20`, `vrb50`, `vrb100` (additive), and
+  `vrb50_nobf` (V replaces the deck-model bonus). Keeps go to dev for replication as usual.
+- Predictions: fit improves with runs at every size (MED); the largest model is best only at 9,000 runs (LOW–MED);
+  an additive integration keeps (LOW–MED; the deck-model bonus already captures part of the signal); the replacement
+  `vrb50_nobf` does not beat the current agent (MED).
+
 ## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
 
 Inventory [computed from the code and results.tsv]: 161 named parameters; 97 have been tested at least once by the

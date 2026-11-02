@@ -9,6 +9,7 @@
 #include "policy_features.h"
 #include "rv_mlp.h"
 #include "bf_mlp.h"
+#include "vr_mlp.h"
 #include <algorithm>
 #include <cmath>
 #include <numeric>
@@ -763,12 +764,17 @@ void FairAgent::cardRewards(GameContext &gc) {
         // deck-specific adjustment, bf_bonus x (predicted fight value with the card - without it)
         const double bfw = bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained ? getp(P, "bf_bonus", 0.0) : 0.0;
         const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
+        // Phase R: vr_bonus x (learned run value with the card - without it), V ≈ E[min(floor,51)/51 + win]
+        const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        const double vrw = vrm.trained ? getp(P, "vr_bonus", 0.0) : 0.0;
+        const float vrBase = vrw != 0.0 ? vr::value(vrm, gc) : 0.f;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
             double v = addValue(gc, r.cardRewards[rIdx][i]);
-            if (bfw != 0.0) {
+            if (bfw != 0.0 || vrw != 0.0) {
                 GameContext hyp = gc;
                 hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
-                v += bfw * (bfValue(hyp) - vBase);
+                if (bfw != 0.0) v += bfw * (bfValue(hyp) - vBase);
+                if (vrw != 0.0) v += vrw * (vr::value(vrm, hyp) - vrBase);
             }
             if (v > bestV) { bestV = v; bestI = i; }
         }
