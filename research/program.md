@@ -865,6 +865,10 @@ the single-knob results.
   the gate also hurts the strong A0 agent — 100-simulation fights without potions underestimate what the
   500-simulation agent wins, so good elites are skipped. Elite gate closed on all three tracks.
 
+**Batch 49 results (pasted):**
+- `heart_wba3`: pooled val,dev2,dev3 [heart]: n=500  heart_wba3 win=0.102 floor=45.71  heart_a4pot win=0.098 floor=45.65  dscore=+0.0035 dwin=+0.004 P(improve)=0.893 → near-miss (P 0.893); val funnel: key-less clears 29 vs 37, act-4 runs 147 vs 140, Heart
+  wins 33 vs 32; dev2 +1 win, dev3 flat. Extended under the pooled near-miss rule (dev slice, pooled 600).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
