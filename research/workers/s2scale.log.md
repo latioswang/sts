@@ -41,3 +41,10 @@ SV id=17 rows=3225306 hidden=96 layers=2 params=29089 holdout_rmse=11.216 predic
 ```
 LEAKTEST checked=123 mismatches=0 PASS
 ```
+### Line 7 (sv_eval 16)
+```
+best: 20.45s  candidate: 11.76s  candidate/best = 0.575  (scale candidate sims by 1.739 for equal wall-clock)
+vs mapd085: n=300	dscore=-0.3479	dwin=-0.263	P(improve)=0.000
+```
+note.py: `sv16` 48.7% win, floor 43.0, -0.348 vs base, P=0.000 → scaling
+(context, note.py: `sv11` 42.0% win, floor 41.3, -0.449 vs base, P=0.000 → scaling; `mapd085` 75.0% win, floor 47.4, +0.018 vs base, P=0.913 → keep)
