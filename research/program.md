@@ -861,6 +861,10 @@ the single-knob results.
 
 - `a20_brt8` pooled: pooled val,dev2,dev3 [act3]: n=500  a20_brt8 win=0.022 floor=25.62  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0409 dwin=-0.006 P(improve)=0.000 → discard.
 
+- A0 `esim` (val-300 rule): win=0.707 floor=47.06 dscore=-0.0493 P=0.003 → discard (−13 wins vs `mapd085`):
+  the gate also hurts the strong A0 agent — 100-simulation fights without potions underestimate what the
+  500-simulation agent wins, so good elites are skipped. Elite gate closed on all three tracks.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
