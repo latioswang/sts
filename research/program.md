@@ -954,6 +954,12 @@ help (a biased leaf) and why the cheapest net played best (equal leaf error, mor
 small net cuts the leaf error by ≈ 20% and removes the bias. Pre-registered "far below" (MED): partly — 12.1 vs
 15.1 is a clear but not a large reduction. Play tests decide.
 
+- **`sv11` play test (leaf-trained, h=42, 685 sims at equal wall-clock; calibration 0.730×): win=0.420 floor=41.30
+  dscore=-0.4489 P=0.000** — the best learned leaf so far, +0.12 over the best root-trained cell (`sv7` −0.5653, 36.0%)
+  with fewer simulations (685 vs 1,132). Pre-registered prediction "sv11 better than sv7" (MED): held. Still 0.45 below
+  random rollouts; "any cell ≥ 0" (LOW): not met. Per the pre-registration, S2 is worth scaling (more leaf data, the
+  cost-aware size) — `sv12` (h=220) play test next.
+
 ## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
 
 Inventory [computed from the code and results.tsv]: 161 named parameters; 97 have been tested at least once by the

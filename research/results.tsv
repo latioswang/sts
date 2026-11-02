@@ -424,3 +424,4 @@ e09b561	val.a0	300	0	0.247	36.84	0.9690	-0.7097	0.000	scaling	sv6: PHASE S 1e5 r
 b7018e2	val.a0	300	0	0.047	24.63	0.5297	-1.1490	0.000	scaling	sv1_s500: PHASE S fixed-sims read: leaf model sv_1, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
 dae6d52	val.a0	300	0	0.283	34.68	0.9634	-0.7153	0.000	scaling	sv5_s500: PHASE S fixed-sims read: leaf model sv_5, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
 d538d34	val100.a0	98	2	0.357	39.20	1.1259	-0.5724	0.000	scaling	sv9_s500: PHASE S fixed-sims read: leaf model sv_9, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
+a2418af	val.a0	300	0	0.420	41.30	1.2298	-0.4489	0.000	scaling	sv11: PHASE S S2 leaf-trained, all leaf rows x 1e4 params: leaf value model sv_11, no rollouts, equal wall-clock (cost ratio 0.730, sims 685) vs mapd085
