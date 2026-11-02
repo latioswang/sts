@@ -957,6 +957,23 @@ damage 0.71–0.88, next-boss heads 0.73–0.93): eight heads carry roughly thre
 how well the heads predict the run, not how they are weighted. Caveat: this scores the level of a state; card
 choice uses the with-minus-without difference, which this test does not measure.
 
+**Phase S gate result (pasted, 2026-11-02 12:13 UTC).** `sv9_s500` (8.1×10⁵ × 9×10⁵, 500 sims, cost ignored, val100):
+n=98 dscore=−0.5724 dwin=−0.408 P=0.000. Two games hit the evaluator's 900 s hang guard (≈ 230 s/game average at 500
+sims) and count as crashes — a budget artifact, not a simulator fault. Same 100 seeds, for comparison:
+
+    sv9_s500 (500 sims)        win=0.357 floor=39.20 dscore=-0.5724
+    sv9 (50 sims)              win=0.290 floor=37.35 dscore=-0.6820
+    sv7 (small, 1132 sims)     win=0.350 floor=37.42 dscore=-0.6206
+    sv5_s500 (mid, 500 sims)   win=0.330 floor=34.99 dscore=-0.6882
+    svctrl (heuristic leaf)    win=0.160 floor=31.85 dscore=-0.9198
+    base mapd085               win=0.770 floor=47.65
+
+**Decision (pre-registered rule): Phase S closes; no batched evaluator, no 10⁷-decision run.** With inference cost
+removed, the best-fitting net is the best leaf (+0.05 over the small net at 1,132 sims; +0.11 over itself at 50 sims),
+so value quality does matter — but it still sits 0.57 below random rollouts. A fast evaluator would buy that +0.05
+to +0.11, not the gap. Phase S2 (leaf-distribution training) still runs as pre-registered: it tests the one remaining
+explanation (train/use mismatch), not more scale.
+
 ## Phase S2 — train the leaf value on the leaf distribution (pre-registered 2026-11-02 10:45 UTC)
 
 **Why.** Phase S trained on decision-start states (the search's root value). The search asks the leaf model about
