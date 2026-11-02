@@ -15,4 +15,4 @@ for required in "$RUN_DIR/desktop-1.0.jar" "$RUN_DIR/jre/bin/java" "$MTS" "$RUN_
 done
 
 cd "$RUN_DIR"
-exec arch -x86_64 jre/bin/java -Xmx1G -jar "$MTS" --skip-launcher --skip-intro --mods basemod,CommunicationMod
+exec arch -x86_64 jre/bin/java -Xmx3G -jar "$MTS" --skip-launcher --skip-intro --mods basemod,CommunicationMod

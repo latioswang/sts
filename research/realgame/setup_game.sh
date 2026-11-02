@@ -44,7 +44,7 @@ cat > "$CONFIG" <<EOF
 command=$COMMAND
 runAtGameStart=true
 maxInitializationTimeout=10
-verbose=true
+verbose=false
 EOF
 echo "wrote $CONFIG"
 cat "$CONFIG"
