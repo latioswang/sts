@@ -765,6 +765,20 @@ this measures the curve instead of one point.
 - Cost: generation ≈ 2,500 × 3.9 s / 4 ≈ 40 min; nine trainings ≈ 45 min (the 10⁶ × 9×10⁵ cell dominates);
   nine calibrations + evaluations ≈ 60 min. Everything runs in the sequential queue after batch 53.
 
+**Phase S results, part 1 — fit quality (holdout RMSE of the search's root value, predict-mean baseline 33.57;
+pasted from the trainer, 2026-11-02 06:49 UTC):**
+
+| decisions \ params | 1.0×10⁴ | 9.4×10⁴ | 9.0×10⁵ |
+|---|---|---|---|
+| 10,000 | 16.59 (sv1) | 13.83 (sv2) | 13.28 (sv3) |
+| 100,000 | 11.78 (sv4) | 10.69 (sv5) | 9.92 (sv6) |
+| 813,736 | 10.18 (sv7) | 7.97 (sv8) | 5.65 (sv9) |
+
+Both slopes are positive in every row and column and the largest step is at the largest cell (8.0 → 5.65), so the
+fit curve has not flattened at this scale. My pre-registered prediction that the 10⁴-decision row would overfit
+with size was wrong (13.8 → 13.3 improves). The number that decides anything is still the play test: each model as
+the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 — running now.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
