@@ -57,8 +57,9 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
 ### Current state (update after every batch) — 2026-11-02 01:16 UTC
-- **Heart best `heart_wba3`** (act-3 burning elite +3 while the emerald key is missing; extension keep, pooled 600
-  9.8% vs 9.3%, P=0.958) on top of `heart_a4pot` (act-4 shop potions; pooled 500 P=0.996, dev +3 wins P=0.953).
+- **Heart best `heart_ka3`** (ruby key also at act-3 rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949) on
+  top of `heart_wba3` (act-3 burning elite +3; extension keep, 9.8% vs 9.3%, P=0.958) and `heart_a4pot` (act-4 shop
+  potions; pooled 500 P=0.996, dev +3 wins P=0.953). Key-less act-3 clears on val: 37 → 18.
 - **Batch 48 (mechanisms) done, batch 49 (key acquisition) running on the rebuilt binary.**
   Keep: `heart_a4pot` (act-4 shop potions) — Heart best, pooled 500: 9.8% vs 8.2% Heart wins, P=0.996;
   dev replication queued. Discards (pooled 500): `heart_pvh0` (−0.002), `heart_ltw1` (−0.003),
@@ -887,6 +888,11 @@ the single-knob results.
 - `heart_krw1` (rest sites +1 on the map while the ruby key is missing, through act 3): pooled val,dev2,dev3 [heart]: n=500  heart_krw1 win=0.110 floor=45.76  heart_wba3 win=0.102 floor=45.71  dscore=+0.0071 dwin=+0.008 P(improve)=0.701; val key-less
   clears 15 vs 29, act-4 156 vs 147, Heart wins 37 vs 33 (+0.019, P=0.83); dev2 −0.018, dev3 −0.004 (wins flat)
   → near-miss, extended.
+
+- **`heart_ka3` extension: dev +0.010 (+1 Heart win, P=0.626); pooled val,dev2,dev3,dev [heart]: n=600  heart_ka3 win=0.102 floor=45.83  heart_wba3 win=0.098 floor=45.65  dscore=+0.0034 dwin=+0.003 P(improve)=0.949 → KEEP (extension keep), new Heart best.**
+  Chain on the pooled 600: 8.2% → a4pot 9.3% → wba3 9.8% → ka3 10.2% Heart wins. Key-less clears on val: 37 → 29 → 18.
+  Note: `heart_krw1` (= ka3 + rest-site seeking) was compared against wba3; its extension line runs as queued, but the
+  decision that matters is krw1 vs ka3 (the superset step), computed from the existing runs below.
 
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
