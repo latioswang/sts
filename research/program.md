@@ -803,6 +803,11 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   ≈ 230 s per game, so it runs on `val100` (the first 100 val seeds; base rows taken from the identical val games),
   informational only. `sv3`/`sv6` (850-wide) will also sit at the 50-simulation floor.
 
+- `sv9` (8.1×10⁵ × 9×10⁵, **50 simulations = ~8× the base's wall-clock, budget-scaling point**): win=0.270
+  floor=37.90 dscore=-0.6655 P=0.000. Same level as `sv5` at 150 simulations and equal wall-clock: the best
+  value net, with a third of sv5's simulations and 8× its compute, plays like sv5. Read: at this scale the leaf
+  net cannot replace rollouts on a CPU; what it buys in value quality it loses in simulations.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
