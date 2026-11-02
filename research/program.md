@@ -812,6 +812,12 @@ the single-knob results.
   +2 burning-elite bonus, so key-less clears rise (val 44 vs 37). Cost: 4.60 s vs 3.35 s per game (+37%).
   The gate's real target is A20 (no keys), next in the queue.
 
+- `a20_esim`: pooled val,dev2,dev3 [act3]: n=500  a20_esim win=0.026 floor=26.72  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0154 dwin=-0.002 P(improve)=0.108 → discard. Val funnel (300): wins 9 vs 12, floor 27.5 vs 28.4; act-1 deaths 93 vs 81
+  — with the blanket act-1 penalty off, act-1 elite deaths rose (Nob/Sentries/Lagavulin 23 vs 16) while
+  act-2 elite deaths fell (Slavers/Leader/Book 31 vs 40) and boss deaths 144 vs 150. The 2-of-3 test at
+  100 simulations is too lenient in act 1 (the simulated fight starts from the current HP, before the
+  hallway fight that precedes the elite). Cost 2.07 s vs 1.39 s per game. The 3-of-3 variant is next.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
