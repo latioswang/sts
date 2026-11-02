@@ -87,6 +87,12 @@ std::optional<MonsterStatus> monsterPowerFromGameId(const std::string &id) {
 
 std::string monsterPowerToGameId(MonsterStatus s) { return reverseLookup(kMonsterPowers, s); }
 
+// Split: large slimes split by monster id. Berserk: raises energyPerTurn. Explosive: the Exploder's move. Unawakened: the
+// Awakened One's phase is in miscInfo. BackAttack: the simulator works out Surrounded facing from the last target.
+bool isUntrackedPower(const std::string &id) {
+    return id == "Split" || id == "Berserk" || id == "Explosive" || id == "Unawakened" || id == "BackAttack";
+}
+
 std::optional<PlayerStatus> playerPowerFromGameId(const std::string &id) {
     const auto &m = forwardMap(kPlayerPowers);
     const auto it = m.find(id);

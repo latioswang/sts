@@ -33,6 +33,8 @@ std::optional<sts::MonsterStatus> monsterPowerFromGameId(const std::string &id);
 std::string monsterPowerToGameId(sts::MonsterStatus s);
 
 std::optional<PlayerStatus> playerPowerFromGameId(const std::string &id);
+// Powers the game shows but the simulator models another way (see the definition).
+bool isUntrackedPower(const std::string &id);
 std::string playerPowerToGameId(PlayerStatus s);
 
 // A monster's move byte (EnemyMoveInfo.nextMove) as the simulator's move id.

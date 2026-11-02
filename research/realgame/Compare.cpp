@@ -112,8 +112,7 @@ void comparePowers(Diffs &out, const std::string &field, std::map<std::string, i
     std::map<std::string, int> real;
     for (const auto &p : game) {
         const std::string id = p["id"].get<std::string>();
-        // Effects the simulator keeps elsewhere: it splits large slimes by monster id, and Berserk raises energyPerTurn.
-        if (id != "Split" && id != "Berserk") real[id] = p["amount"].get<int>();
+        if (!isUntrackedPower(id)) real[id] = p["amount"].get<int>();
     }
     for (auto &[id, amount] : real) {
         const auto it = sim.find(id);

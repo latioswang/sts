@@ -80,7 +80,7 @@ static const std::pair<const char *, MonsterStatus> kMonsterPowers[] = {
     {"Metallicize", MonsterStatus::METALLICIZE},
     {"Plated Armor", MonsterStatus::PLATED_ARMOR},
     {"Poison", MonsterStatus::POISON},
-    {"Regeneration", MonsterStatus::REGEN},
+    {"Regenerate", MonsterStatus::REGEN},
     {"Shackled", MonsterStatus::SHACKLED},
     {"Strength", MonsterStatus::STRENGTH},
     {"Vulnerable", MonsterStatus::VULNERABLE},

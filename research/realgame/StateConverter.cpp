@@ -756,13 +756,13 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         m.miscInfo = 0;
         const bool gone = j.value("is_gone", false);
         if (gone) m.isEscapingB = m.curHp > 0;  // gone with HP left means it ran away
-        else ++alive;
+        else if (!m.halfDead) ++alive;  // the simulator doesn't count a half-dead monster (Awakened One, Darkling) as alive
 
         for (const auto &power : j["powers"]) {
             const std::string powerId = power["id"].get<std::string>();
             const auto status = monsterPowerFromGameId(powerId);
             if (!status) {
-                notes.warn("unknown monster power " + powerId);
+                if (!isUntrackedPower(powerId)) notes.warn("unknown monster power " + powerId);
                 continue;
             }
             setMonsterStatus(m, *status, power.value("amount", 0));
