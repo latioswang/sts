@@ -827,6 +827,12 @@ the single-knob results.
   stays), so the simulated test only decides act-2/3 elites, where it reduced elite deaths. Prediction: small
   positive on floors (fewer Slavers/Leader/Book deaths), wins within noise.
 
+- `a20_esim3` (3-of-3): **identical games to `a20_esim` (0 of 300 val games differ)** — a direct 8-seed test shows
+  the threshold reaches the code (`elite_sim_pwin=0.0` changes a game, `1.0` does not), so the simulated
+  outcome is practically never a 2-of-3 split with ≥ 35% HP left: the three 100-sim fights agree (all won
+  or all lost). The gate is binary in practice; the threshold is not a lever. Same pooled decision as
+  `a20_esim` (discard).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
