@@ -808,6 +808,10 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   value net, with a third of sv5's simulations and 6× its compute, plays like sv5. Read: at this scale the leaf
   net cannot replace rollouts on a CPU; what it buys in value quality it loses in simulations.
 
+- `sv2` (10⁴ × 9.4×10⁴, 156 simulations at equal wall-clock): win=0.260 floor=35.76 dscore=-0.7176 P=0.000 —
+  indistinguishable from `sv5` (same size, 10× the data, RMSE 13.8 vs 10.7). At equal wall-clock the simulation
+  count, not the fit, sets the level in this regime.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
