@@ -854,6 +854,11 @@ the single-knob results.
 
 - `a20_ldw35`: pooled val,dev2,dev3 [act3]: n=500  a20_ldw35 win=0.024 floor=26.39  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0239 dwin=-0.004 P(improve)=0.024 → discard (negative on all three slices, as at A0).
 
+- `a20_brt8` val: dscore=−0.0571, dwin=−0.020, P=0.000 (pasted from the runner) — the boss rollout cutoff loses
+  at A20 as at A0. **Value-shape line closed at both ascensions**; the queued copies `a20_brt5`, A0 `ldw35`
+  and A0 `brt8` were pulled from the queue (known answer, not a keep decision). A0 `esim` stays (no keys at A0,
+  so the emerald-key interaction is absent; the Heart track showed floors +0.6).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
