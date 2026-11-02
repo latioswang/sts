@@ -1056,6 +1056,9 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   Verdict so far for relic choice by simulation: it helps only where the next fights are the Heart and Shield & Spear
   (a known, fixed pair the simulation can target); against sampled next-act fights it is no better than the tier list.
 
+- `bfrelic25` (A0): win=0.743 floor=47.35 dscore=-0.0070 P=0.359 → discard. Batch 53 closed: relic choice by
+  simulation is kept on the Heart track only.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that

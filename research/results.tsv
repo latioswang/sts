@@ -407,3 +407,4 @@ fcaa638	dev3.a20	100	0	0.010	25.52	0.5102	+0.0004	0.636	info	a20_bfrelic10: [a20
 6961696	dev.a20	100	0	0.010	26.32	0.5259	-0.0102	0.000	info	a20_bfrelic10_dev: VERIFY: a20_bfrelic10 on dev vs a20_restboss1_dev (replication of a a20 keep)
 6961696	val.a20	300	0	0.043	28.31	0.5976	+0.0024	0.649	discard	a20_bfrelic10: [a20 pooled600 extension] no: pooled600 dscore=+0.0030 dwin=+0.003 P(improve)=0.743 dev-alone dscore=-0.010196078431372548
 6ae6429	val.a10	300	0	0.293	37.35	1.0257	-0.0005	0.498	discard	a10_bfrelic10: [a10] boss relics: KB tier value + 10 x simulated next-act fight gain [bf_relic_w=10]
+95a6d08	val.a0	300	0	0.743	47.35	1.6717	-0.0070	0.359	discard	bfrelic25: boss relics: KB tier value + 25 x simulated next-act fight gain [bf_relic_w=25]
