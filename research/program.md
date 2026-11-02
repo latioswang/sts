@@ -56,12 +56,17 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 00:25 UTC
-- **Batch 48 running** (queue started 00:23 UTC; `heart_a4pot` KEPT under the pooled rule — Heart best
-  9.8% pooled, act-4 shop potions; `heart_pvh0` discarded): five new default-off mechanisms (loss-value weights, boss rollout cutoff, Heart potion
-  value, act-4 shop potions, simulated elite gate) on the Heart/A20 tracks under the pre-registered
-  pooled-500 rule, three A0 checks under the val-300 rule; see "Pooled-500 keep rule" + "Batch 48" below.
-  A20 best on the fresh slices: dev2 1.0% win, floor 26.5; dev3 1.0% win, floor 25.5.
+### Current state (update after every batch) — 2026-11-02 01:16 UTC
+- **Batch 48 (mechanisms) nearly done, batch 49 (key acquisition) queued behind a guarded rebuild.**
+  Keep: `heart_a4pot` (act-4 shop potions) — Heart best, pooled 500: 9.8% vs 8.2% Heart wins, P=0.996;
+  dev replication queued. Discards (pooled 500): `heart_pvh0` (−0.002), `heart_ltw1` (−0.003),
+  `heart_ldw35` (−0.021), `heart_brt8` (−0.033: the boss-fight value-shape hypothesis is rejected at A0),
+  `heart_esim` (+0.002, Heart wins −5 via the emerald-key interaction), `a20_esim` (−0.015: act-1 elites
+  let through). Running: `a20_esim3`; then `a20_esim_a23`, the A20 value-shape lines, A0 checks, the dev
+  replication of the Heart keep, the rebuild, batch 49. **Finding of the night: 37 of 300 Heart-track
+  val runs (14% pooled over 600 seeds) beat the act-3 boss without all keys — emerald missing in 22,
+  ruby in 17.** The runner hits its 2-hour background limit at ~02:23 UTC; restart it on the resume
+  logic.
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
