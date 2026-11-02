@@ -867,6 +867,14 @@ Reading, against the pre-registered rule:
    if they show the large net close to the base at 500 simulations, the honest conclusion becomes "scaling works
    here but needs inference hardware (a GPU or a batched evaluator)", not "scaling fails".
 
+- `sv6` (10⁵ × 9×10⁵, 50-simulation floor; calibration 37.8×): win=0.247 floor=36.84 dscore=-0.7097 P=0.000.
+  Large-net data slope 10⁵ → 8×10⁵ at the floor: −0.71 → −0.67 (+0.04). **Continuation rule: both larger sizes show a
+  positive 10⁵→8×10⁵ slope (+0.07 mid, +0.04 large), so the pre-registered condition for 10⁷ decisions is
+  technically met — but the slopes are far too small to matter at equal wall-clock (≈ 9–14 decades to the base),
+  and the large net is budget-floored, so the condition is met only in form. Decision deferred to the
+  fixed-simulation reads: continue to 10⁷ only if `sv9_s500` shows the large net within reach of the base at 500
+  simulations (value quality), in which case the limiting factor is inference hardware, not data.**
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs

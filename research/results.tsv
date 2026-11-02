@@ -419,3 +419,4 @@ cfa4355	val.a0	300	0	0.270	37.90	1.0132	-0.6655	0.000	scaling	sv9: PHASE S 1e6 r
 2043588	val.a0	300	0	0.360	38.42	1.1134	-0.5653	0.000	scaling	sv7: PHASE S 1e6 rows x 1e4 params: leaf value model sv_7, no rollouts, equal wall-clock (cost ratio 0.442, sims 1132) vs mapd085
 06d5c06	val.a0	300	0	0.297	38.13	1.0443	-0.6344	0.000	scaling	sv8: PHASE S 1e6 rows x 1e5 params: leaf value model sv_8, no rollouts, equal wall-clock (cost ratio 4.656, sims 108) vs mapd085
 2a434b5	val.a0	300	0	0.117	30.97	0.7239	-0.9548	0.000	scaling	svctrl: PHASE S CONTROL: heuristic cutoff leaf, no rollouts, equal wall-clock (sims 3423) vs mapd085
+e09b561	val.a0	300	0	0.247	36.84	0.9690	-0.7097	0.000	scaling	sv6: PHASE S 1e5 rows x 1e6 params: leaf value model sv_6, no rollouts, equal wall-clock (cost ratio 37.790, sims 50) vs mapd085
