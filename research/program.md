@@ -812,6 +812,11 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   indistinguishable from `sv5` (same size, 10× the data, RMSE 13.8 vs 10.7). At equal wall-clock the simulation
   count, not the fit, sets the level in this regime.
 
+- `sv4` (10⁵ × 10⁴, 1,037 simulations at equal wall-clock): win=0.343 floor=38.28 dscore=-0.5848 P=0.000 —
+  the best cell so far: the small net, which keeps most of the simulations, beats the bigger nets at equal
+  wall-clock once it has 10⁵ decisions (vs `sv1` −1.12 at 10⁴ decisions). The data slope at the small size is the
+  steepest effect in the play grid.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
