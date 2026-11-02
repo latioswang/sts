@@ -311,3 +311,6 @@ c8a2c68	dev3.a0	100	0	0.020	43.37	0.8435	-0.0384	0.073	info	heart_ldw35: [heart 
 ac2f72b	val.a0	300	0	0.090	44.72	0.9378	-0.0412	0.021	discard	heart_brt8: [heart pooled500] boss fights: rollouts cut at 8 turns, cutoff value (HP counts) [boss_rollout_turns=8] pooled dscore=-0.0329 dwin=-0.012 P(improve)=0.011
 ac2f72b	dev2.a0	100	0	0.110	44.14	0.9455	-0.0357	0.156	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
 ac2f72b	dev3.a0	100	0	0.050	43.38	0.8767	-0.0053	0.395	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+bfadc00	val.a0	300	0	0.093	46.87	0.9778	-0.0011	0.478	discard	heart_esim: [heart pooled500] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left) [elite_sim=1] pooled dscore=+0.0023 dwin=-0.010 P(improve)=0.573
+bfadc00	dev2.a0	100	0	0.100	46.33	0.9769	-0.0043	0.432	info	heart_esim: [heart pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left)
+bfadc00	dev3.a0	100	0	0.060	44.22	0.9012	+0.0192	0.932	info	heart_esim: [heart pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left)
