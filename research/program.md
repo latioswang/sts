@@ -56,20 +56,15 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 01:16 UTC
+### Current state (update after every batch) — 2026-11-02 02:18 UTC
 - **Heart best `heart_ka3`** (ruby key also at act-3 rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949) on
   top of `heart_wba3` (act-3 burning elite +3; extension keep, 9.8% vs 9.3%, P=0.958) and `heart_a4pot` (act-4 shop
   potions; pooled 500 P=0.996, dev +3 wins P=0.953). Key-less act-3 clears on val: 37 → 18.
-- **Batch 48 (mechanisms) done, batch 49 (key acquisition) running on the rebuilt binary.**
-  Keep: `heart_a4pot` (act-4 shop potions) — Heart best, pooled 500: 9.8% vs 8.2% Heart wins, P=0.996;
-  dev replication queued. Discards (pooled 500): `heart_pvh0` (−0.002), `heart_ltw1` (−0.003),
-  `heart_ldw35` (−0.021), `heart_brt8` (−0.033: the boss-fight value-shape hypothesis is rejected at A0),
-  `heart_esim` (+0.002, Heart wins −5 via the emerald-key interaction), `a20_esim` (−0.015: act-1 elites
-  let through). Running: `a20_esim3`; then `a20_esim_a23`, the A20 value-shape lines, A0 checks, the dev
-  replication of the Heart keep, the rebuild, batch 49. **Finding of the night: 37 of 300 Heart-track
-  val runs (14% pooled over 600 seeds) beat the act-3 boss without all keys — emerald missing in 22,
-  ruby in 17.** The runner hits its 2-hour background limit at ~02:23 UTC; restart it on the resume
-  logic.
+- **Batch 49 (key acquisition) nearly done on the rebuilt binary (repro ×3 + leak test green).** Heart chain on
+  the pooled 600: 8.2% → a4pot 9.3% → wba3 9.8% → ka3 10.2% (two extension keeps). Discards: pvh0, ltw1, ldw35,
+  brt8, esim (Heart); esim/esim3/esim_a23 (ext P=0.807), ltw1, ldw35, brt8 (A20); esim (A0, −13 wins); bhp05,
+  wb4 (Heart); krw1 not kept on top of ka3 (P=0.649). Left in the queue: `heart_kpb08`, `heart_hm2`, `a20_neow1p`.
+  The runner's 2-hour background limit falls at 02:23 UTC — restart it on the resume logic.
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps

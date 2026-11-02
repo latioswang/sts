@@ -355,3 +355,5 @@ f7c0051	dev2.a0	100	0	0.130	44.61	0.9731	-0.0182	0.238	info	heart_krw1: [heart p
 f7c0051	dev3.a0	100	0	0.050	43.69	0.8765	-0.0035	0.441	info	heart_krw1: [heart pooled500 slice] ruby key: rest sites worth +1 on the map while the key is missing, through act 3
 d3d4240	dev.a0	100	0	0.090	45.60	0.9467	+0.0100	0.626	info	heart_ka3_dev: VERIFY: heart_ka3 on dev vs heart_wba3_dev (replication of a heart keep)
 d3d4240	val.a0	300	0	0.113	46.54	0.9854	+0.0033	0.757	keep	heart_ka3: [heart pooled600 extension] KEEP: pooled600 dscore=+0.0034 dwin=+0.003 P(improve)=0.949 dev-alone dscore=0.01
+177521a	dev.a0	100	0	0.110	46.01	0.9725	+0.0359	0.850	info	heart_krw1_dev: VERIFY: heart_krw1 on dev vs heart_wba3_dev (replication of a heart keep)
+177521a	val.a0	300	0	0.123	46.83	1.0012	+0.0192	0.830	discard	heart_krw1: [heart pooled600 extension] no: pooled600 dscore=+0.0119 dwin=+0.012 P(improve)=0.823 dev-alone dscore=0.03588235294117647
