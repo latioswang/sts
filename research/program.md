@@ -801,6 +801,12 @@ the single-knob results.
 - `heart_ltw1`: pooled val,dev2,dev3 [heart]: n=500  heart_ltw1 win=0.094 floor=45.70  heart_a4pot win=0.098 floor=45.65  dscore=-0.0026 dwin=-0.004 P(improve)=0.436 → discard (val −5 Heart wins, dev2 +3, dev3 0: noise around zero).
 - `heart_ldw35`: pooled val,dev2,dev3 [heart]: n=500  heart_ldw35 win=0.086 floor=45.13  heart_a4pot win=0.098 floor=45.65  dscore=-0.0205 dwin=-0.012 P(improve)=0.111 → discard (as predicted: damage-greedy; floors drop too).
 
+- `heart_brt8`: pooled val,dev2,dev3 [heart]: n=500  heart_brt8 win=0.086 floor=44.34  heart_a4pot win=0.098 floor=45.65  dscore=-0.0329 dwin=-0.012 P(improve)=0.011 → discard. **The hypothesis "HP is invisible in boss-fight values" is rejected
+  at A0:** the cutoff heuristic (HP counted, damage on the win-bonus scale) plays bosses worse than full
+  random rollouts valued by the small loss credit (val −5 Heart wins, P=0.021; dev2 −1; dev3 0). The
+  A20 versions (`a20_ltw1/ldw35/brt8/brt5`) stay queued because A20 bosses are the ones rollouts
+  never win; expectation now: negative there too.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
