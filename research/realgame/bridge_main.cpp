@@ -6,6 +6,7 @@
 #include "CommClient.h"
 #include "Live.h"
 #include "Mirror.h"
+#include "Scenario.h"
 #include "SelfTest.h"
 
 #include "bf_mlp.h"
@@ -14,6 +15,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <string>
 #include <sys/stat.h>
 
@@ -27,6 +29,7 @@ struct Args {
     int count = 1;
     int ascension = 0;
     int maxFloor = 0;
+    std::string scenarioFile;
     std::string socketPath = "/tmp/sts_commrelay.sock";
     std::string researchDir;
     std::string logDir;
@@ -55,6 +58,7 @@ Args parseArgs(int argc, char **argv) {
         else if (a == "--count") args.count = std::stoi(next());
         else if (a == "--asc") args.ascension = std::stoi(next());
         else if (a == "--max_floor") args.maxFloor = std::stoi(next());
+        else if (a == "--scenario_file") args.scenarioFile = next();
         else if (a == "--sock") args.socketPath = next();
         else if (a == "--research_dir") args.researchDir = next();
         else if (a == "--log_dir") args.logDir = next();
@@ -95,6 +99,7 @@ int runMirror(const Args &args) {
     const std::string resultsPath = args.logDir + "/mirror_results.jsonl";
     std::ofstream results(resultsPath, std::ios::app);
     int diverged = 0;
+    const auto scenarios = args.scenarioFile.empty() ? std::map<std::uint64_t, std::string>{} : loadScenarioFile(args.scenarioFile);
     for (int i = 0; i < args.count; ++i) {
         if (game.last().value("in_game", false)) {
             std::cerr << "leaving the current run first\n";
@@ -106,6 +111,7 @@ int runMirror(const Args &args) {
         options.maxFloor = args.maxFloor;
         options.params = args.params;
         options.logDir = args.logDir;
+        if (const auto it = scenarios.find(options.seed); it != scenarios.end()) options.scenario = it->second;
         Mirror mirror(game, options);
         const MirrorResult r = mirror.run();
 

@@ -45,6 +45,7 @@ std::optional<int> moveToGameByte(sts::MonsterId monster, sts::MMID move);
 std::optional<sts::Event> eventFromGameId(const std::string &id);
 std::string eventToGameId(sts::Event e);
 
+std::optional<sts::MonsterEncounter> encounterFromGameId(const std::string &id);
 std::string encounterToGameId(sts::MonsterEncounter e);
 
 }  // namespace realgame

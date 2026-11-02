@@ -14,5 +14,11 @@ for required in "$RUN_DIR/desktop-1.0.jar" "$RUN_DIR/jre/bin/java" "$MTS" "$RUN_
   fi
 done
 
+MODS=basemod,CommunicationMod
+# The test-only scenario mod, if it has been built. It does nothing until a mirror run asks it to.
+if [ -e "$RUN_DIR/mods/BridgeScenario.jar" ]; then
+  MODS="$MODS,bridgescenario"
+fi
+
 cd "$RUN_DIR"
-exec arch -x86_64 jre/bin/java -Xmx3G -jar "$MTS" --skip-launcher --skip-intro --mods basemod,CommunicationMod
+exec arch -x86_64 jre/bin/java -Xmx3G -jar "$MTS" --skip-launcher --skip-intro --mods "$MODS"

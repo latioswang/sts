@@ -4,7 +4,8 @@
 #
 #   run_batch.sh <mirror|live> <seed_start> <count> [--chunk N] [any other sts_bridge options]
 #
-# STS_BRIDGE overrides the bridge binary. Run it from anywhere; the game and bridge logs go to research/realgame/logs/.
+# STS_TIME_SCALE speeds up the game's animations when the scenario mod is built (scenario_mod/build.sh); mirror runs
+# use it, and live runs should not. STS_BRIDGE overrides the bridge binary. Run it from anywhere; the game and bridge logs go to research/realgame/logs/.
 set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 RESEARCH="$(cd "$HERE/.." && pwd)"

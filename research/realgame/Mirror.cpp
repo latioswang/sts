@@ -1,6 +1,7 @@
 #include "Mirror.h"
 
 #include "GameIds.h"
+#include "Scenario.h"
 #include "StateConverter.h"
 
 #include "game/Game.h"
@@ -60,10 +61,8 @@ int firstUnselected(const json &grid) {
 // Note For Yourself gives the card stored by the profile's previous run (STSPlayer: NOTE_CARD, NOTE_UPGRADE). The
 // simulator starts every run with Iron Wave, the game's default, so it is told what this run will really find.
 void loadNoteCard(GameContext &gc) {
-    const char *gameDir = std::getenv("STS_GAME_DIR");
-    const char *home = std::getenv("HOME");
-    if (!gameDir && !home) return;
-    const std::string dir = gameDir ? gameDir : std::string(home) + "/.sts_realgame";
+    const std::string dir = gameFolder();
+    if (dir.empty()) return;
     std::ifstream in(dir + "/preferences/STSPlayer");
     if (!in) return;
     const json prefs = json::parse(in, nullptr, false);
@@ -154,8 +153,34 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
         throw StopRun{"reached_limit", screenStateName(gc.screenState), "floor limit", {}};
     }
     alignOutOfCombat(gc);
+    adoptCourierCard();
     compareOutOfCombat(gc);
+    if (gc.screenState == ScreenState::SHOP_ROOM && gc.hasRelic(RelicId::THE_COURIER) && a.getRewardsActionType() == GameAction::RewardsActionType::CARD) {
+        courierCardSlot_ = a.getIdx1() < 5 ? a.getIdx1() : -1;
+    }
     applyGameAction(gc, a);
+}
+
+// The Courier's new class card is drawn with the game's unseeded MathUtils, so no simulator can predict it. Its type,
+// rarity and price are seeded and still checked: the simulator takes the game's card only if the type and rarity agree,
+// and the price is compared with everything else in the shop.
+void Mirror::adoptCourierCard() {
+    if (courierCardSlot_ < 0) return;
+    const int slot = courierCardSlot_;
+    courierCardSlot_ = -1;
+    if (screenType() != "SHOP_SCREEN") return;
+    Shop &shop = target_->info.shop;
+    int position = 0;
+    for (int i = 0; i < slot; ++i) position += shop.cardPrice(i) != -1 ? 1 : 0;
+    const json &cards = gameState()["screen_state"]["cards"];
+    if (position >= static_cast<int>(cards.size())) return;
+    const json &real = cards[position];
+    const auto id = cardFromGameId(real["id"].get<std::string>());
+    if (!id) return;
+    const Card card(*id, real.value("upgrades", 0));
+    if (card.getType() != shop.cards[slot].getType() || card.getRarity() != shop.cards[slot].getRarity()) return;
+    log_ << json{{"t", "note"}, {"note", "courier card: game " + real["id"].get<std::string>() + ", simulator " + cardToGameId(shop.cards[slot].id)}}.dump() << "\n";
+    shop.cards[slot] = card;
 }
 
 // Real-only steps the simulator has no action for: entering the merchant screen, clicking through a finished
@@ -164,6 +189,12 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
     const ScreenState want = gc.screenState;
     for (int i = 0; i < kMaxAlignSteps; ++i) {
         const std::string real = screenType();
+        // The simulator ends a battle as soon as a leader dies. The game first finishes the card that killed it, which can
+        // still open a selection (Headbutt on seed 1003). Nothing picked there outlasts the fight.
+        if (gameState().value("room_phase", "") == "COMBAT" && (real == "GRID" || real == "HAND_SELECT")) {
+            send(hasCommand(state(), "confirm") ? "CONFIRM" : "CHOOSE 0");
+            continue;
+        }
         switch (want) {
             case ScreenState::MAP_SCREEN:
                 if (real == "MAP") return;
@@ -290,6 +321,21 @@ Diffs Mirror::battleDiffs(const BattleContext &bc) const {
     return d;
 }
 
+// The game's discovery action rolls cardRandomRng once per frame while its screen opens. With the scenario mod the
+// simulator can take the game's state afterwards and the run goes on. Without it, a difference on this floor stops the
+// run as game_nondeterminism. The agent's battle context isn't const; only the callback's view of it is.
+void Mirror::copyGameCardRandomRng(const BattleContext &bc) {
+    if (!copyCardRandomRng_) return;
+    copyCardRandomRng_ = false;
+    const auto rng = readGameCardRandomRng();
+    if (!rng) return;
+    auto &live = const_cast<BattleContext &>(bc);
+    live.cardRandomRng.seed0 = rng->seed0;
+    live.cardRandomRng.seed1 = rng->seed1;
+    live.cardRandomRng.counter = rng->counter;
+    discoveryFloor_ = -1;
+}
+
 void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     ++step_;
     if (options_.maxFloor > 0 && bc.floorNum > options_.maxFloor) {
@@ -301,6 +347,7 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
         Diffs d{{"screen", "BATTLE", screenType(), true}};
         throw StopRun{"diverged", "BATTLE", "the simulator is in a battle, the game is not", d};
     }
+    copyGameCardRandomRng(bc);
     std::ostringstream desc;
     a.printDesc(desc, bc);
     Diffs d = battleDiffs(bc);
@@ -312,6 +359,7 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     lastAction_ = desc.str();
     if (a.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::DISCOVERY) {
         discoveryFloor_ = floor_;
+        copyCardRandomRng_ = true;
     }
     stopOnDifference("BATTLE turn " + std::to_string(bc.turn), d);
     applyCombatAction(bc, a, gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]));
@@ -363,6 +411,13 @@ MirrorResult Mirror::run() {
     const int commandsBefore = game_.commandsSent();
     try {
         send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
+        if (!options_.scenario.empty()) {
+            const auto items = parseScenario(options_.scenario);
+            applyScenarioToSimulator(gc, items);
+            applyScenarioToGame(items);
+            log_ << json{{"t", "note"}, {"note", "scenario: " + options_.scenario}}.dump() << "\n";
+            game_.refresh();
+        }
         prepareNeow(gc);
         agent.playout(gc);
         finishRun(gc);
@@ -373,6 +428,9 @@ MirrorResult Mirror::run() {
         result.message = stop.message;
         result.diffs = stop.diffs;
     } catch (const CommandRejected &e) {
+        result.status = "bridge_gap";
+        result.message = e.what();
+    } catch (const ScenarioError &e) {
         result.status = "bridge_gap";
         result.message = e.what();
     }

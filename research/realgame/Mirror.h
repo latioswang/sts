@@ -15,6 +15,7 @@ struct MirrorOptions {
     std::uint64_t seed = 0;
     int ascension = 0;
     int maxFloor = 0;  // stop cleanly after this floor (0 = play the whole run)
+    std::string scenario;  // extra items for both sides, see Scenario.h
     fair::Params params;
     std::string logDir;
 };
@@ -45,9 +46,11 @@ protected:
 
 private:
     MirrorOptions options_;
-    const sts::GameContext *target_ = nullptr;
+    sts::GameContext *target_ = nullptr;
+    int courierCardSlot_ = -1;
     int mapComparedForAct_ = 0;
     int discoveryFloor_ = -1;
+    bool copyCardRandomRng_ = false;
     bool rewardsCompared_ = false;
 
     [[nodiscard]] int choiceCount() const;
@@ -57,9 +60,11 @@ private:
 
     void onGameAction(const sts::GameContext &gc, const sts::search::GameAction &a);
     void onCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
+    void copyGameCardRandomRng(const sts::BattleContext &bc);
     [[nodiscard]] Diffs battleDiffs(const sts::BattleContext &bc) const;
 
     void alignOutOfCombat(const sts::GameContext &gc);
+    void adoptCourierCard();
     void compareOutOfCombat(const sts::GameContext &gc);
     [[nodiscard]] Diffs outOfCombatDiffs(const sts::GameContext &gc) const;
     void waitForEffects();

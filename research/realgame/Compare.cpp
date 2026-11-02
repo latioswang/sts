@@ -394,15 +394,19 @@ std::array<int, 5> gameIndexBySlot(const BattleContext &bc) {
     return out;
 }
 
-// The game keeps a slime that has split in its list, between the two it spawned, and the simulator doesn't. So a dead
-// game monster that isn't the next simulator monster has no slot of its own.
+// The game keeps split slimes and dead summons in its list, and the simulator reuses their slots. So a dead game monster
+// that isn't the next simulator monster has no slot of its own, and a live simulator monster can't be a dead game one.
 std::array<int, 5> gameIndexBySlot(const BattleContext &bc, const json &gameMonsters) {
     std::array<int, 5> out{0, 1, 2, 3, 4};
     const int count = static_cast<int>(gameMonsters.size());
     int index = 0;
     for (const int slot : occupiedMonsterSlots(bc)) {
-        const std::string id = monsterToGameId(bc.monsters.arr[slot].id);
-        while (index < count && gameMonsters[index]["is_gone"].get<bool>() && gameMonsters[index]["id"].get<std::string>() != id) ++index;
+        const Monster &m = bc.monsters.arr[slot];
+        const std::string id = monsterToGameId(m.id);
+        while (index < count && gameMonsters[index]["is_gone"].get<bool>()
+               && (!m.isDeadOrEscaped() || gameMonsters[index]["id"].get<std::string>() != id)) {
+            ++index;
+        }
         out[slot] = index;
         ++index;
     }

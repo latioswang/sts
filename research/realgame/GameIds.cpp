@@ -125,6 +125,13 @@ std::optional<Event> eventFromGameId(const std::string &id) {
 
 std::string eventToGameId(Event e) { return reverseLookup(kEventIds, e); }
 
+std::optional<MonsterEncounter> encounterFromGameId(const std::string &id) {
+    const auto &m = forwardMap(kEncounterIds);
+    const auto it = m.find(id);
+    if (it == m.end()) return std::nullopt;
+    return it->second;
+}
+
 std::string encounterToGameId(MonsterEncounter e) { return reverseLookup(kEncounterIds, e); }
 
 }  // namespace realgame
