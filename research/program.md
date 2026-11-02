@@ -968,6 +968,12 @@ Queued in order of expected effect, each under the pooled rule on top of whateve
 combat improvement independent of keys), the others are small. Lesson recorded below: when a track is seeded,
 record the exact A0 commit/params it branched from and re-diff after every A0 keep.
 
+**Batch 51 results (pasted):**
+- `heart_pmlp` (root MLP move prior ported): pooled val,dev2,dev3 [heart]: n=500  heart_pmlp win=0.098 floor=45.89  heart_ka3 win=0.104 floor=45.87  dscore=-0.0059 dwin=-0.006 P(improve)=0.365 → discard. **My HIGH-confidence prediction was wrong.** Val: −6
+  Heart wins (28 vs 34) with the same act-4 reach; dev2 +2, dev3 +1. The prior was trained on the A0 agent's
+  chest-era self-play (no act 4) and tuned at the A0 ladder where it was +3.6 pts; on the keys track the extra
+  Heart deaths say it steers the Heart fight worse than uniform priors. Post-hoc explanation, not a prediction.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
