@@ -894,6 +894,12 @@ the single-knob results.
   Note: `heart_krw1` (= ka3 + rest-site seeking) was compared against wba3; its extension line runs as queued, but the
   decision that matters is krw1 vs ka3 (the superset step), computed from the existing runs below.
 
+- `heart_krw1` vs `heart_ka3` (the superset step, pooled 500 from the existing runs, declared before the queued
+  extension finished): pooled val,dev2,dev3 [heart]: n=500 heart_krw1 win=0.110 floor=45.76 heart_ka3 win=0.104
+  floor=45.87 dscore=+0.0051 dwin=+0.006 P(improve)=0.649 → below the near-miss band: **rest-site seeking is not
+  kept on top of ka3**. The queued `ext_pooled.sh heart_krw1 heart_wba3` line is informational (wrong base after
+  the ka3 keep); if it promotes krw1, the best is reverted to ka3 and the results.tsv row annotated.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
