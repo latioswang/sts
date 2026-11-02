@@ -998,6 +998,19 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   so extra act-4 runs only count if they beat the Heart, and at the 20% conversion seven extra act-4 runs are ≈ 1.4
   wins per 300 — below what 500 seeds can detect. Key acquisition is closed as a lever; what remains is conversion.
 
+### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
+
+Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
+cannot see the deck. `bf_relic_w`: for each offered relic, a hypothetical state with the relic added plays K=2
+simulated fights against the next act's boss and a sampled next-act hallway (100-simulation search, common seeds
+per option; for the act-3 relic with all keys: Shield & Spear + the Heart); score = KB tier value + w × (simulated
+value with the relic − without). Additive on the KB value (the shape that worked for cards), because the KB tier
+carries the out-of-combat drawbacks the simulation cannot see (gold, healing, potions, card choices, pickup
+transforms). Cost ≈ 16 fights × 100 simulations per relic screen, 2–3 per run. Default off; guarded rebuild; then
+`bfrelic10` (A0, val rule), `heart_bfrelic10`, `a20_bfrelic10` (pooled), `a10_bfrelic10`, `bfrelic25`. Prediction
+(MED): +1–3 pts at A0 and A10 where energy relics are the swing; the hypothesis fails if the simulation's blindness
+to drawbacks makes it pick Ectoplasm/Sozu/Coffee Dripper-type relics.
+
 ### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
 
 Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file

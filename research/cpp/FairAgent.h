@@ -63,7 +63,9 @@ private:
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);
     int eventChoice(const sts::GameContext &gc) const;
-    int bossRelicChoice(const sts::GameContext &gc) const;
+    int bossRelicChoice(const sts::GameContext &gc);
+    // bf_relic_w: value of a hypothetical run state for the boss-relic choice from K simulated fights of the next act
+    float bfRelicValue(const sts::GameContext &hyp, std::uint64_t seed);
     int neowChoice(const sts::GameContext &gc) const;
     double addValue(const sts::GameContext &gc, const sts::Card &c) const;
     double kbSynergy(const sts::GameContext &gc, const sts::Card &c) const;

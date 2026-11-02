@@ -501,11 +501,48 @@ static double kbBossRelicValue(RelicId id) {
     }
 }
 
-int FairAgent::bossRelicChoice(const GameContext &gc) const {
+float FairAgent::bfRelicValue(const GameContext &hyp, std::uint64_t seed) {
+    // common random numbers: the caller passes the same seed for every option of the decision
+    std::mt19937_64 erng(seed);
+    const int K = std::max(1, static_cast<int>(getp(P, "bf_relic_k", 2)));
+    const bool heartNext = hyp.act >= 3 && hyp.hasKey(Key::RUBY_KEY) && hyp.hasKey(Key::EMERALD_KEY) && hyp.hasKey(Key::SAPPHIRE_KEY);
+    GameContext nextAct = hyp;
+    nextAct.act = std::min(3, hyp.act + 1);  // the fights that follow a boss relic are the next act's
+    const MonsterEncounter boss = heartNext ? MonsterEncounter::THE_HEART : nextActBoss(hyp.act, erng, false);
+    const MonsterEncounter hall = heartNext ? MonsterEncounter::SHIELD_AND_SPEAR : sampleEncounter(nextAct, erng, getp(P, "bf_elite_frac", 0.25), 0.0);
+    float v = 0;
+    for (int k = 0; k < K; ++k) {
+        float t[3];
+        bfFight(nextAct, boss, seed + 1 + 16ULL * k, t);
+        v += static_cast<float>(getp(P, "bf_wb", 1.0)) * t[0] + static_cast<float>(getp(P, "bf_whp", 0.5)) * t[1];
+        bfFight(nextAct, hall, seed + 2 + 16ULL * k, t);
+        v += static_cast<float>(getp(P, "bf_wh", 0.5)) * t[0] + static_cast<float>(getp(P, "bf_whhp", 0.25)) * t[1];
+    }
+    return v / K;
+}
+
+int FairAgent::bossRelicChoice(const GameContext &gc) {
     // Runic Dome is allowed: the searcher hides intents (observation hash + move re-roll)
     // when the player holds it, so there is no hidden-info leak.
     int best = 3;  // 3 = skip
     double bestV = -1e18;
+    const double relicW = getp(P, "bf_relic_w", 0.0);
+    if (relicW > 0) {
+        // KB tier value + bf_relic_w x (simulated next-act fight value with the relic - without it); the KB value
+        // carries the out-of-combat drawbacks (gold, healing, potions, card choices) the simulation cannot see
+        const std::uint64_t seed = agentSeed ^ (0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(gc.floorNum + 11)) ^ 0xB055ULL;
+        const float vSkip = bfRelicValue(gc, seed);
+        for (int i = 0; i < 3; ++i) {
+            const RelicId r = gc.info.bossRelics[i];
+            if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+            GameContext hyp = gc;
+            RelicInstance ri; ri.id = r; ri.data = 0;
+            hyp.relics.add(ri);
+            const double v = kbBossRelicValue(r) + relicW * (bfRelicValue(hyp, seed) - vSkip);
+            if (v > bestV) { bestV = v; best = i; }
+        }
+        return best;
+    }
     if (getp(P, "rv_pick", 0) > 0 && rv::RV_TRAINED) {
         float pBest = rv::pWin(gc);  // skipping keeps the current state
         for (int i = 0; i < 3; ++i) {
