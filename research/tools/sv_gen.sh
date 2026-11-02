@@ -19,5 +19,5 @@ for ((k = 0; k < CHUNKS; k++)); do
   echo "sv chunk $k/$CHUNKS done: $N games, $(( $(date +%s) - T0 ))s, $(du -sh "$D" | cut -f1)"
 done
 # flatten: the trainer globs pol_*.bin in one directory
-mkdir -p "$OUT/all"; find "$OUT" -path "$OUT/all" -prune -o \( -name 'pol_*.bin' -o -name 'leaf_*.bin' \) -print0 | xargs -0 -I{} ln -sf "$(pwd)/{}" "$OUT/all/"
+mkdir -p "$OUT/all"; find "$OUT" -path "$OUT/all" -prune -o \( -name 'pol_*.bin' -o -name 'leaf_*.bin' -o -name 'run_*.bin' \) -print0 | xargs -0 -I{} ln -sf "$(pwd)/{}" "$OUT/all/"
 echo "SV GEN $NAME DONE: $(ls "$OUT/all" | wc -l) files"

@@ -906,6 +906,23 @@ Reading, against the pre-registered rule:
   (`sv9_s500`, val100, pending) behaves differently. Plausible cause [INFERRED]: holdout RMSE 10.7 is ≈ 30% of the win
   bonus (35), a leaf error large enough that averaging more simulations converges on the wrong values.
 
+## Phase R — one learned run value against the final score (plan approved by the user 2026-11-02 ~11:00 UTC)
+
+Principle (the user's): the only fixed number is the objective, score = min(floor, 51)/51 + win. Every other
+constant — the 8 deck-head weights, bf_bonus, card thresholds, the fight terminal value (win bonus 35, 1 per HP,
+potion values) — should be derived from a learned V(run state) ≈ E[final score]. Stages, each through the keep rule
+with the hand values as the baseline until beaten:
+1. Data: `rv_log=1` (existing logger: 666 run features at every map step + [win, floor, act, run id]); 10,000 A0
+   games queued (seeds 330000–339999, ≈ 2.7 h on 4 cores). A scaling curve over 10³ / 10⁴ (/ 10⁵ if the slope
+   warrants ≈ 27 h) games × 3 sizes, metric: run-grouped holdout error and correlation with the final score.
+2. Card / shop / relic choice by the V difference (with − without), first additive on the KB value (the shape that
+   worked), then as a replacement.
+3. Fight terminal value = V(state after the fight) in place of win bonus + HP + potion constants (the trade-offs
+   become derivatives of V).
+Known prior failure: Phase C's V_run (P(win) only, ~2,000 runs) lost as a card-pick replacement (`rvpick1/2`).
+Differences now: 5× more runs, the full score as target, additive use first, a scaling curve before integration.
+Unlike the leaf value (Phase S) V is called ≈ 50 times per run, so model size has no inference wall here.
+
 ## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
 
 Inventory [computed from the code and results.tsv]: 161 named parameters; 97 have been tested at least once by the
