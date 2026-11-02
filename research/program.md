@@ -69,6 +69,21 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
 - `a10ports` (session_01USafwjBF1dhvLKK43LjNFt): A10 ports of three A0 keeps (val-300 rule) and A20 ports of two
   (pooled-500 rule) (`research/workers/a10ports.md`). Prediction: most fail, as on the Heart track.
 - Coordinator (this session): Phase R on the main queue.
+- **a10ports results (merged 15:22 UTC; gate bit-identical on all three bests), pasted from its log:**
+  - `a10_mapd085` 26.7% win, floor 36.7, -0.039 vs base, P=0.011 → discard
+  - `a10_potsave` 29.3% win, floor 37.4, +0.001 vs base, P=0.517 → discard
+  - `a10_wea1` 28.7% win, floor 37.2, -0.010 vs base, P=0.331 → discard
+  - No A10 keep, so no rep_dev replication was needed.
+  - `a20_mapd085` 2.0% win, floor 25.5, +0.009 vs base, P=0.704 → info
+    - pooled val,dev2,dev3 [act3]: n=500  a20_mapd085 win=0.032 floor=27.53  a20_restboss1 win=0.028 floor=27.41  dscore=+0.0062 dwin=+0.004 P(improve)=0.833
+  - `a20_potv8` 0.0% win, floor 24.1, -0.037 vs base, P=0.002 → info
+    - pooled val,dev2,dev3 [act3]: n=500  a20_potv8 win=0.016 floor=26.54  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0287 dwin=-0.012 P(improve)=0.002
+  
+  Queue empty; no keeps on A10 or A20; best_a10_* / best_a20_* unchanged. (note.py shows the last stage row for A20 names; the pooled line is the verdict.)
+  Verdict: none of the five ports keeps (prediction held). `a20_mapd085` pooled P is in the pre-registered
+  near-miss band, so the worker runs `ext_pooled.sh a20_mapd085 a20_restboss1` (dev slice, pooled 600) next.
+- **s2scale:** gate bit-identical; leafdata regenerated and its training-row count reproduces sv_11 exactly
+  (worker log); leafdata2 generation running.
 
 ### Current state (update after every batch) — 2026-11-02 14:22 UTC
 - **Parallel workers started** (section above): `s2scale` runs the S2 scale-up, `a10ports` the A10/A20 ports; the
