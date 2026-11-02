@@ -875,6 +875,26 @@ Reading, against the pre-registered rule:
   fixed-simulation reads: continue to 10⁷ only if `sv9_s500` shows the large net within reach of the base at 500
   simulations (value quality), in which case the limiting factor is inference hardware, not data.**
 
+**Phase S play grid complete (9 of 9 + control; measured wall-clock ratios pasted from the run files):**
+
+| cell | decisions | params | sims | wall-clock vs base | win | floor | dscore |
+|---|---|---|---|---|---|---|---|
+| sv1 | 10⁴ | 1.0×10⁴ | 1250 | 0.99× | 6.7% | 24.86 | -1.1246 |
+| sv2 | 10⁴ | 9.4×10⁴ | 156 | 0.75× | 26.0% | 35.76 | -0.7176 |
+| sv3 | 10⁴ | 9.0×10⁵ | 50 | 2.46× | 26.0% | 34.83 | -0.7358 |
+| sv4 | 10⁵ | 1.0×10⁴ | 1036 | 1.31× | 34.3% | 38.28 | -0.5848 |
+| sv5 | 10⁵ | 9.4×10⁴ | 150 | 0.87× | 26.7% | 36.56 | -0.6952 |
+| sv6 | 10⁵ | 9.0×10⁵ | 50 | 3.03× | 24.7% | 36.84 | -0.7097 |
+| sv7 | 8.1×10⁵ | 1.0×10⁴ | 1132 | 1.19× | 36.0% | 38.42 | -0.5653 |
+| sv8 | 8.1×10⁵ | 9.4×10⁴ | 108 | 1.06× | 29.7% | 38.13 | -0.6344 |
+| sv9 | 8.1×10⁵ | 9.0×10⁵ | 50 | 5.98× | 27.0% | 37.90 | -0.6655 |
+| control (heuristic leaf) | — | — | 3423 | 0.72× | 11.7% | 30.97 | -0.9548 |
+| base `mapd085` | — | — | 500 | 1.00× | 75.0% | 47.36 | 0 |
+
+- `sv3` (10⁴ × 9×10⁵, 50-sim floor): −0.74; the large net's data slope at the floor is 10⁴ → 10⁵ → 8×10⁵: −0.74 → −0.71
+  → −0.67. All three sizes improve with data; none approaches the base at equal wall-clock. Pending: the three
+  fixed-500-simulation reads (the gate for continuing to 10⁷ decisions).
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
