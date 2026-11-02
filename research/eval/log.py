@@ -16,5 +16,5 @@ if a.base:
     _, dm, dw, pi = paired(r, ok(load(f(a.base), a.winmode))); d, p = f"{dm:+.4f}", f"{pi:.3f}"
 commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
 row = [commit, f"{a.split}.a{a.asc}", str(n), str(len(allr) - n), f"{wr:.3f}", f"{fl:.2f}", f"{sc:.4f}", d, p, a.status, f"{a.name}: {a.desc}"]
-open(os.path.join(ROOT, "results.tsv"), "a").write("\t".join(row) + "\n")
+open(os.environ.get("RESULTS_TSV") or os.path.join(ROOT, "results.tsv"), "a").write("\t".join(row) + "\n")  # workers log to research/results.d/<name>.tsv
 print("\t".join(row))

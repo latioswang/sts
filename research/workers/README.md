@@ -1,0 +1,27 @@
+# Worker sessions (parallel compute for the Ironclad month program)
+
+The coordinator session runs `research/program.md`. A worker is a separate cloud session (its own VM: 4 vCPUs,
+16 GB RAM, 30 GB disk) that runs one self-contained batch and hands back only small files through git. Workers never
+edit `research/program.md`, `research/results.tsv`, `research/REPORT.md` or `research/progress/`; the coordinator merges.
+
+## Every worker, in order
+1. `git checkout -B worker/<NAME> origin/autoresearch/ironclad` (NAME is given in your task file).
+2. `bash research/setup.sh` (clones sts_lightspeed at the pinned commit, applies the patch, builds `fair_eval`).
+3. Bit-identity gate — all three must print `OK bit-identical`, otherwise stop and report:
+   `research/tools/repro_check.sh mapd085 16`, `research/tools/repro_check.sh heart_bfrelic10 16`,
+   `research/tools/repro_check.sh a20_restboss1 16`.
+4. `export RESULTS_TSV=$PWD/research/results.d/<NAME>.tsv` in every shell that runs experiments, so result rows go to
+   your own file. Write your notes (numbers pasted from tool output, never typed) to `research/workers/<NAME>.log.md`.
+5. Put the lines of your task file into `research/queue.txt` and run `research/tools/runq.sh` in the background
+   (max timeout 7,200,000 ms). Watch its output with a Monitor on `^(vs |KEEP|pooled |no \(pooled|== .*(RESUME|START|END rc=[1-9]))|Traceback|FAIL|QUEUE EMPTY|SV id=|VR id=|best: .*candidate`.
+   Background commands die at 2 hours: restart `runq.sh`; it resumes the interrupted line from `research/queue.current`.
+6. After every finished line: `git add` the new files under `research/runs/`, `research/models/` (only `*.txt` and `*.meta`
+   you created), `research/results.d/<NAME>.tsv`, `research/workers/<NAME>.log.md`, and any `research/best_*` file a keep
+   changed; commit (end the message with the attribution lines the system gives you) and `git push -u origin worker/<NAME>`.
+   Never commit `research/vf/data/` (large, gitignored).
+7. When the queue is empty: final commit + push, then post a short summary in the session: the result lines, pasted.
+
+## Rules (same as the main program)
+- Equal compute: `sims` per decision fixed, or calibrated wall-clock (`research/tools/calibrate.sh` on an idle VM).
+- Keep rule: paired bootstrap, dscore > 0 and P ≥ 0.9 (val 300; pooled 500 for Heart/A20 via `exp_pooled.sh`).
+- Never touch the `test` split. Leak test (`fair_eval --leaktest ...`) before any new parameter combination is evaluated.

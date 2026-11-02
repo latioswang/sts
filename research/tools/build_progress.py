@@ -24,6 +24,8 @@ def hours(ts):
     return round((dt.datetime.strptime(ts, "%Y-%m-%d %H:%M") - T0).total_seconds() / 3600, 2)
 
 rows = [l.rstrip("\n").split("\t") for l in open(os.path.join(R, "results.tsv")) if l.strip()]
+for wf in sorted(glob.glob(os.path.join(R, "results.d", "*.tsv"))):  # rows logged by parallel worker sessions
+    rows += [l.rstrip("\n").split("\t") for l in open(wf) if l.strip()]
 HEART_NAMES = lambda n: n.startswith("heart_") or n == "INFO_keys1"
 FRIENDLY = {}
 tracks = {"a0": [], "a0_test": [], "heart": [], "a10": [], "a20": []}
