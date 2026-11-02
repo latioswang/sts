@@ -56,18 +56,18 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 11:21 UTC
+### Current state (update after every batch) — 2026-11-02 12:32 UTC
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
   Heart wins on the pooled 500: 8.2% → 12.0% over the night. Key-less act-3 clears on val: 37 → 18.
-- **Phase S gate read running** (`sv9_s500`, large net, 500 sims, val100: 52/100 at 11:19, done ≈ 12:07). Then queued:
-  Phase S2 (leaf-distribution training; guarded rebuild, 2,500-game leaf logs, 2 models, play tests, ≈ 13:30) and
-  Phase R data (10,000 games of run states labelled with the final score, ≈ 16:30). Plan approved by the user:
-  replace hand constants by one learned run value V ≈ E[final score] (see "Phase R"). Magic-number audit: 51 of
-  161 parameters never tested; learning the 8 deck-head weights barely helps (CV corr 0.288 → 0.301, heads collinear).
-  Real-game bridge (Communication Mod, mirror-mode verification first) handed to a separate thread on the user's
-  machine. Heart best `heart_bfrelic10` (pooled 12.0%). Chart: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
+- **Phase S closed by its pre-registered gate** (`sv9_s500`, large net at 500 sims, val100: −0.57; best leaf when
+  inference is free, still far below random rollouts — no batched evaluator, no 10⁷-decision run). **Phase S2
+  running**: guarded rebuild passed 12:14 (repro ×3 bit-identical with the leaf logger and run-value hook compiled in);
+  leaf-state data 2,500 games, chunks 8+/25 after the 12:25 runner restart; then 2 models + leak test + play tests
+  (≈ 13:45). **Phase R queued**: 10,000-game run-state data (≈ 16:45), guarded rebuild, 3×3 training grid, selection,
+  leak test, `vrb20/50/100`, `vrb50_nobf`. Real-game bridge in a separate thread on the user's machine. Heart best
+  `heart_bfrelic10` (pooled 12.0%). Chart v6: https://claude.ai/artifact/51apPQYZop7TnZSpdoC6am
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
