@@ -939,6 +939,9 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
 - `heart_hm2b` pooled: pooled val,dev2,dev3 [heart]: n=500  heart_hm2b win=0.110 floor=46.26  heart_ka3 win=0.104 floor=45.87  dscore=+0.0140 dwin=+0.006 P(improve)=0.787 → near-miss (dev2 −1 win, dev3 +2 wins); extended under the pooled near-miss rule (dev
   slice, pooled 600; keep needs P ≥ 0.9 and dev-alone > 0; compute-neutral verified above).
 
+- `a20_neow1p` (Neow ranking at A20, pooled re-test): pooled val,dev2,dev3 [act3]: n=500  a20_neow1p win=0.024 floor=26.51  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0215 dwin=-0.004 P(improve)=0.086 → discard (negative on all three slices; the earlier
+  val-only +0.010 was against an older base). Neow ranking is closed on all tracks (A0 ×2, A10, A20).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
