@@ -12,6 +12,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.environ.get("FAIR_EVAL_BIN", "/home/user/sts_lightspeed/build/fair_eval")
 SPLITS = {"dev": (100000, 100), "val": (200000, 300), "test": (900000, 500), "smoke": (100000, 20),
           "dev2": (600000, 100), "dev3": (700000, 100),  # extra held-out replication slices (never tuned on)
+          "val100": (200000, 100),  # first 100 val seeds: cheaper informational reads (Phase S fixed-simulation cells)
           "train": (300000, 500), "train2": (400000, 500), "train3": (500000, 500)}  # train*: data generation only, never for keep/discard
 COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs", "actions",
         "death_enc", "potions_left"]

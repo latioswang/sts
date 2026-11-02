@@ -797,6 +797,12 @@ the leaf value with no rollouts, at equal wall-clock, vs `mapd085` on val 300 �
   (3.44 s/game). Still far below the rollout agent, but 20 points of win rate above `sv1` with 8× fewer simulations:
   value quality improves with scale faster than the inference-cost penalty removes search.
 
+- `sv9` calibration: candidate/best 83.791 (1,867.7 s vs 22.3 s for eight in-process games) → equal wall-clock would
+  be ≈ 6 simulations; the evaluator floors at 50, so the `sv9` row is a **~8× budget-scaling point, not equal
+  wall-clock** (labelled as such below). Consequence for the plan: the fixed-500-simulation read of `sv9` costs
+  ≈ 230 s per game, so it runs on `val100` (the first 100 val seeds; base rows taken from the identical val games),
+  informational only. `sv3`/`sv6` (850-wide) will also sit at the 50-simulation floor.
+
 ## Pooled-500 keep rule for the evaluation-limited tracks (pre-registered 2026-11-02 00:23 UTC)
 
 The Heart and A20 tracks are evaluation-limited: a 2-point Heart-win effect is one or two runs
