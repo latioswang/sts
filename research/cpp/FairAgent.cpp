@@ -103,7 +103,10 @@ SearchParams FairAgent::searchParamsFor(const BattleContext &bc) const {
         // boss fights: optional rollout cutoff (long fights the random rollouts cannot win are then valued by
         // the cutoff heuristic — HP counts — instead of the loss credit)
         s.rolloutTurns = static_cast<int>(getp(P, "boss_rollout_turns", s.rolloutTurns));
-        if (bc.encounter == MonsterEncounter::THE_HEART) s.potionValue = getp(P, "potion_v_heart", s.potionValue);  // the last fight
+        if (bc.encounter == MonsterEncounter::THE_HEART) {  // the last fight
+            s.potionValue = getp(P, "potion_v_heart", s.potionValue);
+            s.simulations = static_cast<int>(s.simulations * getp(P, "heart_mult", 1.0));  // budget reallocation experiments only (sims lowered elsewhere)
+        }
     } else if (isEliteEncounter(bc.encounter)) {
         s.potionValue = getp(P, "potion_v_elite", s.potionValue);
     } else {
