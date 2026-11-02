@@ -846,6 +846,12 @@ the single-knob results.
 
 - `a20_ltw1`: pooled val,dev2,dev3 [act3]: n=500  a20_ltw1 win=0.026 floor=27.22  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0057 dwin=-0.002 P(improve)=0.312 → discard (val exactly flat, both slices slightly negative).
 
+- `a20_esim_a23` extension: dev +0.0078 (wins 0, P=0.697); pooled val,dev2,dev3,dev [act3]: n=600  a20_esim_a23 win=0.028 floor=27.46  a20_restboss1 win=0.027 floor=27.23  dscore=+0.0061 dwin=+0.002 P(improve)=0.807 → **no** (P < 0.9). The simulated elite
+  gate is closed: at A20 its best variant is ≈ +0.006 score at P ≈ 0.8 for +54% game time, at A0 it costs
+  Heart wins through the emerald key. What it did show: act-2 elite deaths are not mainly a gating problem
+  (38 vs 40 with the gate), i.e. the decks that take act-2 elites would also fail the fights a stronger
+  policy would take — the lever is deck strength by act 2, not elite selection.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
