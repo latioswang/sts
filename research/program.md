@@ -56,7 +56,7 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 02:50 UTC
+### Current state (update after every batch) — 2026-11-02 03:16 UTC
 - **Heart best `heart_ka3`** (ruby key also at act-3 rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949) on
   top of `heart_wba3` (act-3 burning elite +3; extension keep, 9.8% vs 9.3%, P=0.958) and `heart_a4pot` (act-4 shop
   potions; pooled 500 P=0.996, dev +3 wins P=0.953). Key-less act-3 clears on val: 37 → 18.
@@ -65,7 +65,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
   Heart wins 8.2% → 10.2% on the pooled 600, key-less act-3 clears 37 → 18 of 300. Closed lines: boss-fight
   value shapes (A0/A20), simulated elite gate (all tracks), Neow ranking (all tracks), Heart potion value, burning
   HP threshold / bonus 4, pre-boss ruby key, rest-site seeking (P=0.65 on top of ka3), Heart search reallocation
-  (+0.014 at parity, P=0.82 on 600 — unproven). Runner restarts needed at each 2-hour limit (next ≈ 04:23 UTC).
+  (+0.014 at parity, P=0.82 on 600 — unproven). 03:16 UTC: batch-50 generation at 8/20 chunks (≈ 200 s each);
+  runner restarts needed at each 2-hour limit (next ≈ 04:23 UTC, probably during training or the pooled test).
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
