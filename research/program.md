@@ -1033,6 +1033,11 @@ The signal is real and grows with data; the v1 training is what fails. Changes (
   fixed before any 9,000-run v2 cell started with chunked float64 moments (max difference from the original formula
   5e-14 on a 9,790-row check; cells 11–13 used the original formula). v1 cells 7–9 re-queued at the end of the queue as
   information only (not part of the gated selection, which runs before them).
+- Side check (informational, no trainer change): v2 nets still lose to the mean at 1,000 runs although early stopping
+  picks epochs 2–5. Hypothesis "rare features blow up after standardisation": outliers exist (300 smoke train runs:
+  7 features sd<0.01, 31 sd<0.05; holdout max |z| 125; 20.0% of holdout rows have some |z|>10) but flooring sd at 0.1
+  barely moves the smoke fit (h=64: 0.5378 -> 0.5370 vs mean 0.5460). Not the cause; v2 stays as pre-registered.
+  Next v2 cell: `VR2 id=14 runs=2700 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5479 holdout_corr=0.262 predict_mean_rmse=0.5453 7s`.
 - v2 first cells (pasted): `VR2 id=11 runs=800 hidden=64 layers=2 params=46913 best_epoch=2 holdout_rmse=0.5551 holdout_corr=0.269 predict_mean_rmse=0.5452 6s`; `VR2 id=12 runs=800 hidden=256 layers=2 params=236801 best_epoch=5 holdout_rmse=0.5654 holdout_corr=0.165 predict_mean_rmse=0.5452 7s`; `VR2 id=13 runs=800 hidden=1024 layers=2 params=1733633 best_epoch=4 holdout_rmse=0.5644 holdout_corr=0.168 predict_mean_rmse=0.5452 18s`.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
