@@ -57,8 +57,8 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
 ### Current state (update after every batch) — 2026-11-02 00:25 UTC
-- **Batch 48 running** (queue started 00:23 UTC; base slices done, first Heart experiment `heart_pvh0`
-  started 00:24): five new default-off mechanisms (loss-value weights, boss rollout cutoff, Heart potion
+- **Batch 48 running** (queue started 00:23 UTC; `heart_a4pot` KEPT under the pooled rule — Heart best
+  9.8% pooled, act-4 shop potions; `heart_pvh0` discarded): five new default-off mechanisms (loss-value weights, boss rollout cutoff, Heart potion
   value, act-4 shop potions, simulated elite gate) on the Heart/A20 tracks under the pre-registered
   pooled-500 rule, three A0 checks under the val-300 rule; see "Pooled-500 keep rule" + "Batch 48" below.
   A20 best on the fresh slices: dev2 1.0% win, floor 26.5; dev3 1.0% win, floor 25.5.
@@ -769,6 +769,17 @@ bit-identical on the three bests, leak test green with every new parameter on):
 | `heart_a4pot` | heart | `act4_shop_potion=1`: spare gold buys potions in the act-4 shop | small positive (gold is worthless after act 4) |
 | `*_esim` | heart, a20, a0 | `elite_sim=1`: an elite node's map value comes from 3 simulated fights (one per elite of the act, 100-sim search, current deck/HP, own seeds): `w_elite_hi` if ≥ 2/3 won with ≥ 35% HP left, else `w_elite_lo`; A20 also drops the blanket act-1 penalty (`w_elite_act1=0`) | the main bet: A20 decks that can take an elite get relics, decks that cannot stop dying to Slavers/Leader/Book; cost ≈ +0.6 fight-equivalents per map decision with an elite in view (logged via `secs`) |
 | `a20_esim3` | a20 | the gate requiring 3/3 wins | stricter variant |
+
+**Batch 48 results (pasted):**
+- `heart_pvh0` val: win=0.093 floor=46.33 dscore=+0.0000 P=0.403; pooled val,dev2,dev3 [heart]: n=500
+  heart_pvh0 win=0.080 floor=45.66 vs heart_bfbonus25_g_heart win=0.082 floor=45.66 dscore=-0.0020
+  dwin=-0.002 P(improve)=0.251 → discard (32 of 300 val games differ, net zero; only 12 of 140 act-4
+  games finish holding a potion).
+- **`heart_a4pot` val: win=0.107 floor=46.32 dscore=+0.0133 P=0.935 → keep; pooled val,dev2,dev3
+  [heart]: n=500 heart_a4pot win=0.098 floor=45.65 vs heart_bfbonus25_g_heart win=0.082 floor=45.66
+  dscore=+0.0160 dwin=+0.016 P(improve)=0.996 → KEEP (pooled 500), new Heart best** (+4, +3, +1 Heart
+  wins on val/dev2/dev3; floors unchanged — this is a pure Heart-conversion gain, the first one).
+  Dev replication queued (`research/tools/rep_dev.sh`).
 
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.

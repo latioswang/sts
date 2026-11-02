@@ -1,3 +1,4 @@
+act4_shop_potion=1
 aoe_bonus=2
 bf_bonus=25
 bf_model=6
