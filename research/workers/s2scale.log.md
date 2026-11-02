@@ -33,3 +33,7 @@ matches sv_11.meta `12.060000 34.865000 765531 42 2 10459 1`. Lines 4-8 re-queue
 SV id=16 rows=3225306 hidden=42 layers=2 params=10459 holdout_rmse=11.736 predict_mean_rmse=34.737 exported /home/user/sts/research/models/sv_16.txt
 ```
 Caveat: the holdout block is the last 50,000 of a fixed shuffle of *this* dataset, so it is a different holdout set from sv_11's; the RMSEs are not a strictly paired comparison.
+### Line 5 (train sv_17)
+```
+SV id=17 rows=3225306 hidden=96 layers=2 params=29089 holdout_rmse=11.216 predict_mean_rmse=34.737 exported /home/user/sts/research/models/sv_17.txt
+```
