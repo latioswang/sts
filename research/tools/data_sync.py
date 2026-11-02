@@ -2,8 +2,9 @@
 """Move generated training data through a private Hugging Face dataset repo (git carries code, models and results;
 this carries the GB-scale data under research/vf/data/<NAME>/all/, which is gitignored).
 
-Config: repo id from env STS_DATA_REPO, else research/data_store.json {"repo_id": ...}. Token: env HF_TOKEN (or a
-prior `hf auth login`). Never commit or print the token.
+Config: repo id from env STS_DATA_REPO, else research/data_store.json {"repo_id": ...}. Token: env HF_TOKEN, a
+prior `hf auth login`, or none in the VM when a cloud network secret adds it in transit to huggingface.co. Never
+commit or print the token. Network hosts and Xet notes: research/data_store.json.
 
 usage:
   data_sync.py push NAME [--dry-run]  upload research/vf/data/NAME/all/* (symlinks resolved) to NAME/all/<shard>/;
@@ -11,11 +12,12 @@ usage:
   data_sync.py pull NAME [NAME ...]   download into research/vf/data/NAME/_hf/ and link every file into NAME/all/
   data_sync.py ls                     data sets in the repo with file counts
   data_sync.py selftest [--hosts]     who am I, repo private?, upload 3 random files (41 MB), download, compare
-                                      sha256, delete them; --hosts also prints every host name the client contacted
+                                      sha256, delete them; --hosts also prints every host name the client contacted,
+                                      including hf_xet's (Rust) traffic, via an in-process logging proxy
 Files are sharded into 256 subfolders (first 2 hex digits of sha1(file name)) to stay well under the Hub's
 per-folder file-count guidance.
 """
-import glob, hashlib, json, os, sys, tempfile
+import glob, hashlib, json, os, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # research/
 DATA = os.path.join(ROOT, "vf", "data")
@@ -50,6 +52,7 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
         print(f"push {name} (dry run): {len(plan)} files, {total / 1e6:.1f} MB, e.g. {plan[0][0]}")
         return
     from huggingface_hub import HfApi, CommitOperationAdd
+    from huggingface_hub.errors import HfHubHTTPError
     api = api or HfApi(); repo = repo or repo_id()
     have = {f for f in api.list_repo_files(repo, repo_type="dataset") if f.startswith(name + "/all/")}
     todo = [(r, p) for r, p in plan if r not in have]
@@ -59,8 +62,24 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
         nonlocal batch, size, done
         if not batch:
             return
-        api.create_commit(repo, [CommitOperationAdd(path_in_repo=r, path_or_fileobj=p) for r, p in batch],
-                          commit_message=f"{name}: {len(batch)} files", repo_type="dataset")
+        left = batch
+        for attempt in range(5):
+            try:
+                api.create_commit(repo, [CommitOperationAdd(path_in_repo=r, path_or_fileobj=p) for r, p in left],
+                                  commit_message=f"{name}: {len(left)} files", repo_type="dataset")
+                break
+            except HfHubHTTPError as e:
+                # A 5xx can arrive after the commit landed (seen: 502 from /commit, files there), so never blindly
+                # resend: re-list, and commit only what is still missing. Re-uploaded bytes dedupe on Xet.
+                code = getattr(getattr(e, "response", None), "status_code", None) or 0
+                if not (code >= 500 or code == 429) or attempt == 4:
+                    raise
+                print(f"push {name}: commit got HTTP {code}; retry {attempt + 1}/4 in {15 << attempt}s", flush=True)
+                time.sleep(15 << attempt)
+                have_now = set(api.list_repo_files(repo, repo_type="dataset"))
+                left = [(r, p) for r, p in left if r not in have_now]
+                if not left:
+                    break
         done += len(batch)
         print(f"push {name}: {done}/{len(todo)} files uploaded", flush=True)
         batch, size = [], 0
@@ -98,36 +117,133 @@ def ls(repo=None):
     print(f"{len(counts)} data sets in {repo}")
 
 
+def tunnel_log():
+    """Start an in-process HTTPS proxy that records the host of every CONNECT tunnel, and point this process at it.
+
+    Logging alone misses hosts: huggingface_hub 2.x logs through `httpx2`/`httpcore2`, and the Xet backend
+    (`hf_xet`, Rust) does its uploads and downloads outside Python logging entirely. Both clients honour
+    HTTPS_PROXY, so every https connection either makes passes through here, whatever the language. An
+    HTTPS_PROXY that is already set (e.g. a cloud egress proxy) is chained to, so the real network path is
+    unchanged; TLS stays end to end because only the tunnel is relayed. Must run before huggingface_hub is
+    imported. Hosts listed in NO_PROXY bypass all proxies and are not seen."""
+    import socket, threading, urllib.parse
+    up = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+    upstream = None
+    if up:
+        u = urllib.parse.urlsplit(up if "://" in up else "http://" + up)
+        upstream = (u.hostname, u.port or 80)
+    seen = set()
+    srv = socket.socket(); srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", 0)); srv.listen(128)
+
+    def pipe(src, dst):   # copy one direction; pass a clean EOF on as a half-close, tear down on errors
+        socks, how = (dst,), socket.SHUT_WR
+        try:
+            while d := src.recv(1 << 16):
+                dst.sendall(d)
+        except OSError:
+            socks, how = (src, dst), socket.SHUT_RDWR
+        for sk in socks:
+            try:
+                sk.shutdown(how)
+            except OSError:
+                pass
+
+    def handle(c):
+        try:
+            head = b""
+            while b"\r\n\r\n" not in head:
+                d = c.recv(4096)
+                if not d:
+                    return c.close()
+                head += d
+            method, target = head.split(b"\r\n", 1)[0].decode("latin-1").split()[:2]
+            if method != "CONNECT":
+                c.sendall(b"HTTP/1.1 501 Not Implemented\r\nContent-Length: 0\r\n\r\n"); return c.close()
+            host, port = target.rsplit(":", 1); host = host.strip("[]")
+            seen.add(host)
+            if upstream:
+                s = socket.create_connection(upstream); s.sendall(head)   # upstream answers the CONNECT itself
+            else:
+                s = socket.create_connection((host, int(port)))
+                c.sendall(b"HTTP/1.1 200 Connection Established\r\n\r\n")
+                rest = head.split(b"\r\n\r\n", 1)[1]
+                if rest:
+                    s.sendall(rest)
+            back = threading.Thread(target=pipe, args=(s, c), daemon=True); back.start()
+            pipe(c, s); back.join(); s.close(); c.close()
+        except Exception as e:   # a failed tunnel surfaces as a client-side error; keep the host recorded
+            print(f"tunnel_log: {e!r}", file=sys.stderr)
+            try:
+                c.close()
+            except OSError:
+                pass
+
+    def serve():
+        while True:
+            c, _ = srv.accept()
+            threading.Thread(target=handle, args=(c,), daemon=True).start()
+
+    threading.Thread(target=serve, daemon=True).start()
+    os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = f"http://127.0.0.1:{srv.getsockname()[1]}"
+    return seen
+
+
 def selftest(hosts=False):
     import logging, re
-    seen = set()
+    logged, tunnels = set(), set()
     if hosts:
+        tunnels = tunnel_log()
         class H(logging.Handler):
             def emit(self, rec):
-                seen.update(re.findall(r"https?://([^/:\s'\"]+)", rec.getMessage()))
-        for lg in ("httpx", "httpcore", "urllib3", "huggingface_hub"):
+                logged.update(re.findall(r"https?://([^/:\s'\"]+)", rec.getMessage()))
+        for lg in ("httpx2", "httpcore2", "httpx", "httpcore", "urllib3", "huggingface_hub"):
             l = logging.getLogger(lg); l.setLevel(logging.DEBUG); l.addHandler(H())
-    from huggingface_hub import HfApi
+    import importlib.util
+    from huggingface_hub import HfApi, __version__, constants
+    from huggingface_hub.errors import LocalTokenNotFoundError
+    from huggingface_hub.utils import get_session, hf_raise_for_status
     api, repo = HfApi(), repo_id()
-    print(f"token user: {api.whoami()['name']}")
+    xet = not constants.HF_HUB_DISABLE_XET and importlib.util.find_spec("hf_xet") is not None
+    print(f"huggingface_hub {__version__}, xet transfers: "
+          + ("on (hf_xet)" if xet else "off (HF_HUB_DISABLE_XET set or hf_xet missing)"))
+    try:
+        print(f"token user: {api.whoami()['name']}")
+    except LocalTokenNotFoundError:
+        # No token in this VM. A cloud environment's network secret adds it in transit to huggingface.co requests,
+        # which whoami() refuses to try; every other call here just sends the request and lets the proxy add it.
+        r = get_session().get(f"{constants.ENDPOINT}/api/whoami-v2")
+        if r.status_code == 401:
+            sys.exit("SELFTEST FAILED: no token reached huggingface.co. Set HF_TOKEN, run `hf auth login`, or (cloud) "
+                     "add a network secret for host huggingface.co, header Authorization, prefix Bearer.")
+        hf_raise_for_status(r)
+        print(f"token user: {r.json()['name']} (no token in this VM; added in transit, e.g. by a network secret)")
     info = api.repo_info(repo, repo_type="dataset")
     print(f"repo {repo}: private={info.private}")
     if not info.private:
         print("WARNING: the data repo is public; make it private on huggingface.co")
-    with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
-        os.makedirs(os.path.join(a, "_selftest", "all"))
-        sums = {}
-        for i, mb in enumerate((1, 8, 32)):
-            blob = os.urandom(mb << 20); fn = f"run_selftest{i}.bin"
-            open(os.path.join(a, "_selftest", "all", fn), "wb").write(blob)
-            sums[fn] = hashlib.sha256(blob).hexdigest()
-        push("_selftest", data=a, api=api, repo=repo)
-        pull(["_selftest"], data=b, repo=repo)
-        ok = all(hashlib.sha256(open(os.path.join(b, "_selftest", "all", fn), "rb").read()).hexdigest() == s
-                 for fn, s in sums.items())
-        api.delete_folder("_selftest", repo, repo_type="dataset", commit_message="selftest cleanup")
-    if hosts:
-        print("hosts contacted: " + " ".join(sorted(seen)))
+
+    def clean(msg):   # push() skips names already in the repo, so leftovers from a crashed run must go first
+        if any(f.startswith("_selftest/") for f in api.list_repo_files(repo, repo_type="dataset")):
+            api.delete_folder("_selftest", repo, repo_type="dataset", commit_message=msg)
+    clean("selftest: remove leftovers of an interrupted run")
+    try:
+        with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
+            os.makedirs(os.path.join(a, "_selftest", "all"))
+            sums = {}
+            for i, mb in enumerate((1, 8, 32)):
+                blob = os.urandom(mb << 20); fn = f"run_selftest{i}.bin"
+                open(os.path.join(a, "_selftest", "all", fn), "wb").write(blob)
+                sums[fn] = hashlib.sha256(blob).hexdigest()
+            push("_selftest", data=a, api=api, repo=repo)
+            pull(["_selftest"], data=b, repo=repo)
+            ok = all(hashlib.sha256(open(os.path.join(b, "_selftest", "all", fn), "rb").read()).hexdigest() == s
+                     for fn, s in sums.items())
+    finally:
+        clean("selftest cleanup")
+    if hosts:   # tunnels are what was actually opened; logs also name hosts that only appear in response headers
+        print("hosts contacted: " + " ".join(sorted(tunnels)))
+        print("  named in Python HTTP logs (not necessarily contacted): " + " ".join(sorted(logged)))
     print("SELFTEST OK" if ok else "SELFTEST FAILED: downloaded bytes differ")
     sys.exit(0 if ok else 1)
 
