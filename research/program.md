@@ -930,6 +930,12 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
   automatic promotion was reset to `heart_ka3` by the guard on the next line (verified); results.tsv carries an
   annotation row. `heart_hm2b` (sims 450) is running.
 
+- `heart_hm2b` (sims 450, 2× at the Heart) val: dscore=+0.0223, dwin=+0.007, P=0.831; **compute check: mean search
+  actions 3,237,066 vs 3,342,662 for the base (−3.2%), seconds 3.15 vs 3.18 → compute-neutral (cheaper), a keep
+  would be admissible.** Funnel: act-4 152 vs 158, Heart wins 36 vs 34, key-less clears 26 vs 18. Note on hm2's
+  +11 wins: they came with 173 act-4 runs vs 158, which a Heart-only budget cannot cause — the sims-470 trajectory
+  change was lucky on val; hm2b's +2 Heart wins at equal act-4 reach is the honest size of the Heart-fight effect.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
