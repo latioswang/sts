@@ -15,6 +15,8 @@ edit `research/program.md`, `research/results.tsv`, `research/REPORT.md` or `res
 5. Put the lines of your task file into `research/queue.txt` and run `research/tools/runq.sh` in the background
    (max timeout 7,200,000 ms). Watch its output with a Monitor on `^(vs |KEEP|pooled |no \(pooled|== .*(RESUME|START|END rc=[1-9]))|Traceback|FAIL|QUEUE EMPTY|SV id=|VR id=|best: .*candidate`.
    Background commands die at 2 hours: restart `runq.sh`; it resumes the interrupted line from `research/queue.current`.
+   The owner confirmed on 2026-11-02 at 14:33 UTC, in the coordinator session, that `runq.sh` is restarted immediately
+   after every 2-hour stop.
 6. After every finished line: `git add` the new files under `research/runs/`, `research/models/` (only `*.txt` and `*.meta`
    you created), `research/results.d/<NAME>.tsv`, `research/workers/<NAME>.log.md`, and any `research/best_*` file a keep
    changed; commit (end the message with the attribution lines the system gives you) and `git push -u origin worker/<NAME>`.
