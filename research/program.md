@@ -936,6 +936,9 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
   +11 wins: they came with 173 act-4 runs vs 158, which a Heart-only budget cannot cause — the sims-470 trajectory
   change was lucky on val; hm2b's +2 Heart wins at equal act-4 reach is the honest size of the Heart-fight effect.
 
+- `heart_hm2b` pooled: pooled val,dev2,dev3 [heart]: n=500  heart_hm2b win=0.110 floor=46.26  heart_ka3 win=0.104 floor=45.87  dscore=+0.0140 dwin=+0.006 P(improve)=0.787 → near-miss (dev2 −1 win, dev3 +2 wins); extended under the pooled near-miss rule (dev
+  slice, pooled 600; keep needs P ≥ 0.9 and dev-alone > 0; compute-neutral verified above).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
