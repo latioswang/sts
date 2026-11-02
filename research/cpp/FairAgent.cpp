@@ -194,6 +194,7 @@ void FairAgent::playBattle(GameContext &gc) {
             const auto task = bc.cardSelectInfo.cardSelectTask;
             putsOnTop = task == CardSelectTask::HEADBUTT || task == CardSelectTask::WARCRY;
         }
+        if (onCombatAction) onCombatAction(bc, a, s);
         a.execute(bc);
         if (vfLog && bc.outcome != Outcome::UNDECIDED && !vfRows.empty()) {
             // label every row of this battle with its final outcome and flush

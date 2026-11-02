@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d04312b..eb2be22 100644
+index d04312b..e7d1a6e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
@@ -11,7 +11,7 @@ index d04312b..eb2be22 100644
  
  pybind11_add_module(slaythespire bindings/slaythespire.cpp bindings/bindings-util.cpp ${sts_lightspeed_SOURCES})
  target_include_directories(slaythespire PUBLIC include)
-@@ -34,3 +34,16 @@ target_link_directories(small-test PRIVATE json::nlohmann_json)
+@@ -34,3 +34,24 @@ target_link_directories(small-test PRIVATE json::nlohmann_json)
  target_include_directories(small-test PUBLIC include)
  target_include_directories(small-test PUBLIC json/include)
  target_include_directories(small-test PUBLIC bindings)
@@ -28,6 +28,14 @@ index d04312b..eb2be22 100644
 +add_executable(fair_eval ${STS_RESEARCH_DIR}/eval/eval_main.cpp ${FAIR_SOURCES})
 +target_include_directories(fair_eval PUBLIC include ${STS_RESEARCH_DIR}/cpp ${STS_RESEARCH_DIR}/vf)
 +target_link_libraries(fair_eval stscore pthread)
++
++# ---- real-game bridge (research/realgame) ----
++if(EXISTS "${STS_RESEARCH_DIR}/realgame/bridge_main.cpp")
++  file(GLOB BRIDGE_SOURCES CONFIGURE_DEPENDS "${STS_RESEARCH_DIR}/realgame/*.cpp")
++  add_executable(sts_bridge ${BRIDGE_SOURCES} ${FAIR_SOURCES})
++  target_include_directories(sts_bridge PUBLIC include ${STS_RESEARCH_DIR}/realgame ${STS_RESEARCH_DIR}/cpp ${STS_RESEARCH_DIR}/vf)
++  target_link_libraries(sts_bridge stscore pthread)
++endif()
 diff --git a/include/combat/BattleContext.h b/include/combat/BattleContext.h
 index 767bbcd..16302ad 100644
 --- a/include/combat/BattleContext.h
@@ -72,6 +80,29 @@ index 04fceda..5a02ec9 100644
          void regainControl();
 +        void afterEscape();  // Smoke Bomb escape: no rewards
      };
+ 
+ 
+diff --git a/include/sim/search/GameAction.h b/include/sim/search/GameAction.h
+index 978eb8a..29d5fb1 100644
+--- a/include/sim/search/GameAction.h
++++ b/include/sim/search/GameAction.h
+@@ -7,6 +7,7 @@
+ 
+ #include "sts_common.h"
+ 
++#include <functional>
+ #include <iostream>
+ #include <vector>
+ 
+@@ -54,6 +55,10 @@ namespace sts::search {
+ 
+     };
+ 
++    // research: sees every out-of-combat action before it runs, on any GameContext (the real-game bridge
++    // mirrors them to the game). Empty outside the bridge.
++    extern std::function<void(const sts::GameContext &, const GameAction &)> gameActionObserver;
++
+ 
  
  
 diff --git a/src/combat/BattleContext.cpp b/src/combat/BattleContext.cpp
@@ -348,10 +379,23 @@ index fa10364..a61f11d 100644
                      pArr[1] = getRandomPotion(potionRng, cc);
                      pArr[2] = getRandomPotion(potionRng, cc);
 diff --git a/src/sim/search/GameAction.cpp b/src/sim/search/GameAction.cpp
-index 8c977ee..e26e1d6 100644
+index 8c977ee..fdfb075 100644
 --- a/src/sim/search/GameAction.cpp
 +++ b/src/sim/search/GameAction.cpp
-@@ -704,9 +704,11 @@ int search::GameAction::getValidEventSelectBits(const GameContext &gc) {
+@@ -413,7 +413,12 @@ void executeShopAction(GameContext &gc, const search::GameAction a) {
+     }
+ }
+ 
++std::function<void(const GameContext &, const search::GameAction &)> search::gameActionObserver;
++
+ void search::GameAction::execute(GameContext &gc) const {
++    if (gameActionObserver) {
++        gameActionObserver(gc, *this);
++    }
+ #ifdef sts_asserts
+     if (!isValidAction(gc)) {
+         std::cerr << "invalid game action taken: " << bits
+@@ -704,9 +709,11 @@ int search::GameAction::getValidEventSelectBits(const GameContext &gc) {
  
          case Event::NEOW:
          case Event::KNOWING_SKULL:
