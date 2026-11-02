@@ -59,6 +59,8 @@ private:
 
     void alignOutOfCombat(const sts::GameContext &gc);
     void compareOutOfCombat(const sts::GameContext &gc);
+    [[nodiscard]] Diffs outOfCombatDiffs(const sts::GameContext &gc) const;
+    void waitForEffects();
     void finishRun(const sts::GameContext &gc);
 };
 

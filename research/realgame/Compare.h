@@ -45,6 +45,8 @@ void compareSelectCards(const sts::GameContext &gc, const json &cards, Diffs &ou
 // has no gaps, so the n-th occupied slot is compared with the game's n-th monster.
 [[nodiscard]] std::vector<int> occupiedMonsterSlots(const sts::BattleContext &bc);
 [[nodiscard]] std::array<int, 5> gameIndexBySlot(const sts::BattleContext &bc);
+// Same mapping against the game's real list, which can hold dead monsters the simulator has dropped.
+std::array<int, 5> gameIndexBySlot(const sts::BattleContext &bc, const json &gameMonsters);
 
 // A player power's amount, or -1 for a power the simulator only stores as a flag.
 [[nodiscard]] int playerPowerAmount(const sts::Player &p, PlayerStatus s);

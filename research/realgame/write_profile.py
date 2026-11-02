@@ -4,8 +4,9 @@
 Usage: write_profile.py <preferences dir>
 
 A fresh profile differs from the simulator in ways that have nothing to do with RNG. Locked cards and relics
-change the reward pools, and the first run has no Neow (NEOW_SKIP in Exordium's constructor). Keys and values come
-from the game's UnlockTracker and TipTracker. Other keys in an existing file are kept.
+change the reward pools, the first run has no Neow (NEOW_SKIP in Exordium's constructor), unseen bosses are forced, and
+the final act is off until three characters have won. Keys and values come from the game's bytecode. Other keys in an
+existing file are kept.
 """
 import json
 import sys
@@ -29,6 +30,8 @@ LOCKED_RELICS = (
 LOCKED_CHARACTERS = ("The Silent", "Defect", "Watcher")
 CHARACTER_IDS = ("IRONCLAD", "THE_SILENT", "DEFECT", "WATCHER")
 MAX_UNLOCK_LEVEL = "5"
+# Until a boss has been seen, initializeBoss forces it instead of rolling the seed's shuffle.
+BOSSES = ("GUARDIAN", "GHOST", "SLIME", "CHAMP", "AUTOMATON", "COLLECTOR", "CROW", "DONUT", "WIZARD")
 
 TIPS = (
     "NEOW_SKIP", "NEOW_INTRO", "NO_FTUE", "COMBAT_TIP", "BLOCK TIP", "POWER_TIP", "M_POWER_TIP", "ENERGY_USE_TIP",
@@ -40,6 +43,9 @@ def profile() -> dict[str, dict[str, str]]:
     return {
         "STSUnlocks": {key: UNLOCKED for key in LOCKED_CARDS + LOCKED_RELICS + LOCKED_CHARACTERS},
         "STSUnlockProgress": {f"{c}UnlockLevel": MAX_UNLOCK_LEVEL for c in CHARACTER_IDS},
+        "STSSeenBosses": {boss: "1" for boss in BOSSES},
+        # Settings.setFinalActAvailability: keys, burning elites and act 4 need a win with these three characters.
+        "STSPlayer": {f"{c}_WIN": "true" for c in ("IRONCLAD", "THE_SILENT", "DEFECT")},
         "STSTips": {tip: "true" for tip in TIPS},
         # Fast Mode: Communication Mod is only tested with it. Upload Data: research runs must not reach the devs' stats.
         "STSGameplaySettings": {"Fast Mode": "true", "Upload Data": "false"},

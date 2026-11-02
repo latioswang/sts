@@ -24,6 +24,8 @@ def test_unlocks_everything_the_game_locks(tmp_path: Path, monkeypatch) -> None:
 def test_neow_is_on_and_uploads_are_off(tmp_path: Path, monkeypatch) -> None:
     run(tmp_path, monkeypatch)
     assert read(tmp_path, "STSTips")["NEOW_SKIP"] == "true"
+    assert read(tmp_path, "STSPlayer")["THE_SILENT_WIN"] == "true"
+    assert read(tmp_path, "STSSeenBosses")["GHOST"] == "1"
     settings = read(tmp_path, "STSGameplaySettings")
     assert settings["Upload Data"] == "false"
     assert settings["Fast Mode"] == "true"

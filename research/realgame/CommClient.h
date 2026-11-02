@@ -45,6 +45,7 @@ private:
     int commandsSent_ = 0;
 
     void sendLine(const std::string &line);
+    void sendAndWait(const std::string &cmd, double timeoutSec);
     bool readLine(std::string &out, double timeoutSec);
     // Takes in whatever has already arrived, until nothing more comes for quietSec.
     void drain(double quietSec);

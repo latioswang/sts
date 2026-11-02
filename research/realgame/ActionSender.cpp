@@ -57,6 +57,15 @@ std::string keyOf(const CardInstance &c) {
     return cardToGameId(c.getId()) + (up > 0 ? "+" + std::to_string(up) : "");
 }
 
+// How many cards with the same name come before position idx.
+template <typename Pile>
+int copyIndex(const Pile &pile, int idx) {
+    const std::string key = keyOf(pile[idx]);
+    int copy = 0;
+    for (int i = 0; i < idx; ++i) copy += keyOf(pile[i]) == key ? 1 : 0;
+    return copy;
+}
+
 int nthReward(const json &rewards, std::initializer_list<const char *> types, int n) {
     int seen = 0;
     for (int i = 0; i < static_cast<int>(rewards.size()); ++i) {
@@ -121,7 +130,8 @@ void ActionSender::applyGameAction(const GameContext &gc, const GameAction &a) {
     }
     switch (gc.screenState) {
         case ScreenState::EVENT_SCREEN:
-            applyEvent(gc, a.getIdx1());
+            if (gc.curEvent == Event::MATCH_AND_KEEP) applyMatchAndKeep(gc, a.getIdx1(), a.getIdx2());
+            else applyEvent(gc, a.getIdx1());
             break;
         case ScreenState::REWARDS:
             applyRewards(gc, a);
@@ -199,6 +209,34 @@ void ActionSender::applyEvent(const GameContext &gc, int option) {
     bridgeGap("EVENT", os.str());
 }
 
+// The mod lists the face-down cards in grid order, and a card leaves the list while it is face up. The simulator's
+// positions use the same grid (x + 4y), so a position converts to a list index by counting the face-down cards before it.
+void ActionSender::chooseMatchCard(const std::vector<int> &faceDown, int position) {
+    constexpr int kFlipWaits = 40;
+    constexpr int kFlipWaitFrames = 5;
+    for (int i = 0; i < kFlipWaits && gameState()["choice_list"].size() != faceDown.size(); ++i) {
+        game_.command("WAIT " + std::to_string(kFlipWaitFrames), kRoomChangeTimeoutSec);
+    }
+    if (gameState()["choice_list"].size() != faceDown.size()) {
+        bridgeGap("EVENT", "Match and Keep: expected " + std::to_string(faceDown.size()) + " cards, game lists " + gameState()["choice_list"].dump());
+    }
+    const auto it = std::find(faceDown.begin(), faceDown.end(), position);
+    send("CHOOSE " + std::to_string(it - faceDown.begin()));
+}
+
+void ActionSender::applyMatchAndKeep(const GameContext &gc, int first, int second) {
+    // The intro and rules pages have buttons; the game itself has none.
+    for (int page = 0; page < 4 && !gameState()["screen_state"]["options"].empty(); ++page) send("CHOOSE 0");
+    std::vector<int> faceDown;
+    const auto &cards = gc.info.toSelectCards;
+    for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
+        if (cards[i].deckIdx != 0) faceDown.push_back(i);
+    }
+    chooseMatchCard(faceDown, first);
+    faceDown.erase(std::find(faceDown.begin(), faceDown.end(), first));
+    chooseMatchCard(faceDown, second);
+}
+
 void ActionSender::applyRewards(const GameContext &gc, const GameAction &a) {
     const Rewards &r = gc.info.rewardsContainer;
     const auto type = a.getRewardsActionType();
@@ -227,7 +265,15 @@ void ActionSender::applyRewards(const GameContext &gc, const GameAction &a) {
     const json &rewards = gameState()["screen_state"]["rewards"];
     int entry = -1;
     switch (type) {
-        case RT::GOLD: entry = nthReward(rewards, {"GOLD", "STOLEN_GOLD"}, a.getIdx1()); break;
+        case RT::GOLD: {
+            // The game lists stolen gold first, the simulator last, so the amount identifies the entry.
+            const int amount = r.gold[a.getIdx1()];
+            for (int i = 0; i < static_cast<int>(rewards.size()) && entry < 0; ++i) {
+                const std::string t = rewards[i]["reward_type"];
+                if ((t == "GOLD" || t == "STOLEN_GOLD") && rewards[i].value("gold", -1) == amount) entry = i;
+            }
+            break;
+        }
         case RT::RELIC: entry = nthReward(rewards, {"RELIC"}, a.getIdx1()); break;
         case RT::KEY: entry = nthReward(rewards, {"SAPPHIRE_KEY", "EMERALD_KEY"}, 0); break;
         case RT::POTION: {
@@ -275,7 +321,9 @@ void ActionSender::applyShop(const GameContext &gc, const GameAction &a) {
     send("CHOOSE " + std::to_string(choice));
 }
 
-void ActionSender::chooseCardOnScreen(const std::string &key) {
+// Copies of a card play alike but sit at different places in their pile, and a selection can move the card it picks,
+// so `copy` says which of the same-named cards to choose.
+void ActionSender::chooseCardOnScreen(const std::string &key, int copy) {
     const std::string real = screenType();
     const char *listName = real == "HAND_SELECT" ? "hand" : "cards";
     const json &screen = gameState()["screen_state"];
@@ -289,6 +337,7 @@ void ActionSender::chooseCardOnScreen(const std::string &key) {
     for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
         if (keyOf(cards[i]) != key) continue;
         if (std::find(selected.begin(), selected.end(), cards[i].value("uuid", "")) != selected.end()) continue;
+        if (copy-- > 0) continue;
         send("CHOOSE " + std::to_string(i));
         return;
     }
@@ -303,7 +352,9 @@ void ActionSender::confirmIfRequired() {
 
 void ActionSender::applyCardSelect(const GameContext &gc, int index) {
     const std::string key = keyOf(gc.info.toSelectCards[index].card);
-    chooseCardOnScreen(key);
+    int copy = 0;
+    for (int i = 0; i < index; ++i) copy += keyOf(gc.info.toSelectCards[i].card) == key ? 1 : 0;
+    chooseCardOnScreen(key, copy);
     confirmIfRequired();
 }
 
@@ -367,24 +418,24 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                 case CardSelectTask::RECYCLE:
                 case CardSelectTask::SETUP:
                 case CardSelectTask::NIGHTMARE:
-                    chooseCardOnScreen(keyOf(bc.cards.hand[idx]));
+                    chooseCardOnScreen(keyOf(bc.cards.hand[idx]), copyIndex(bc.cards.hand, idx));
                     confirmIfRequired();
                     break;
                 case CardSelectTask::HEADBUTT:
                 case CardSelectTask::HOLOGRAM:
                 case CardSelectTask::LIQUID_MEMORIES_POTION:
                 case CardSelectTask::MEDITATE:
-                    chooseCardOnScreen(keyOf(bc.cards.discardPile[idx]));
+                    chooseCardOnScreen(keyOf(bc.cards.discardPile[idx]), copyIndex(bc.cards.discardPile, idx));
                     confirmIfRequired();
                     break;
                 case CardSelectTask::EXHUME:
-                    chooseCardOnScreen(keyOf(bc.cards.exhaustPile[idx]));
+                    chooseCardOnScreen(keyOf(bc.cards.exhaustPile[idx]), copyIndex(bc.cards.exhaustPile, idx));
                     confirmIfRequired();
                     break;
                 case CardSelectTask::SECRET_TECHNIQUE:
                 case CardSelectTask::SECRET_WEAPON:
                 case CardSelectTask::SEEK:
-                    chooseCardOnScreen(keyOf(bc.cards.drawPile[idx]));
+                    chooseCardOnScreen(keyOf(bc.cards.drawPile[idx]), copyIndex(bc.cards.drawPile, idx));
                     confirmIfRequired();
                     break;
                 default:
@@ -394,7 +445,7 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
             break;
         }
         case ActionType::MULTI_CARD_SELECT: {
-            for (const int idx : a.getSelectedIdxs()) chooseCardOnScreen(keyOf(bc.cards.hand[idx]));
+            for (const int idx : a.getSelectedIdxs()) chooseCardOnScreen(keyOf(bc.cards.hand[idx]), copyIndex(bc.cards.hand, idx));
             confirmIfRequired();
             break;
         }

@@ -109,7 +109,11 @@ std::string describePowers(const std::map<std::string, int> &powers) {
 // amount -1 means "no amount" in the game (boolean power); both sides then compare by presence only.
 void comparePowers(Diffs &out, const std::string &field, std::map<std::string, int> sim, const json &game) {
     std::map<std::string, int> real;
-    for (const auto &p : game) real[p["id"].get<std::string>()] = p["amount"].get<int>();
+    for (const auto &p : game) {
+        const std::string id = p["id"].get<std::string>();
+        // Display only in the game; the simulator splits large slimes by monster id.
+        if (id != "Split") real[id] = p["amount"].get<int>();
+    }
     for (auto &[id, amount] : real) {
         const auto it = sim.find(id);
         if (it != sim.end() && (amount == -1 || it->second == -1)) {
@@ -205,7 +209,9 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
     std::vector<std::string> gameHand;
     for (int i = 0; i < bc.cards.cardsInHand; ++i) {
         const auto &c = bc.cards.hand[i];
-        simHand.push_back(cardKey(c) + "(" + std::to_string(c.costForTurn) + ")");
+        // The simulator writes a curse's "unplayable" cost as -3, the game as -2. Neither ever pays it.
+        const int cost = c.costForTurn == -3 ? -2 : c.costForTurn;
+        simHand.push_back(cardKey(c) + "(" + std::to_string(cost) + ")");
     }
     // While a hand-select screen is up the game moves selected and ineligible cards out of `hand`.
     if (gs["screen_type"] == "NONE") {
@@ -227,10 +233,22 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
         }
         return;
     }
-    check(out, "monsters.count", slots.size(), monsters.size());
-    const int n = std::min<int>(static_cast<int>(slots.size()), static_cast<int>(monsters.size()));
-    for (int i = 0; i < n; ++i) {
-        compareMonster(bc, bc.monsters.arr[slots[i]], monsters[i], "monster[" + std::to_string(i) + "]", out);
+    const std::array<int, 5> aligned = gameIndexBySlot(bc, monsters);
+    const int count = static_cast<int>(monsters.size());
+    std::vector<bool> matched(monsters.size(), false);
+    for (const int slot : slots) {
+        const int index = aligned[slot];
+        if (index >= count) {
+            out.push_back({"monsters.count", std::to_string(slots.size()), std::to_string(count), true});
+            return;
+        }
+        matched[index] = true;
+        compareMonster(bc, bc.monsters.arr[slot], monsters[index], "monster[" + std::to_string(index) + "]", out);
+    }
+    for (int i = 0; i < count; ++i) {
+        if (!matched[i] && !monsters[i]["is_gone"].get<bool>()) {
+            out.push_back({"monster[" + std::to_string(i) + "].id", "(none)", monsters[i]["id"].get<std::string>(), true});
+        }
     }
 }
 
@@ -374,6 +392,21 @@ std::array<int, 5> gameIndexBySlot(const BattleContext &bc) {
     std::array<int, 5> out{0, 1, 2, 3, 4};
     const std::vector<int> slots = occupiedMonsterSlots(bc);
     for (int i = 0; i < static_cast<int>(slots.size()); ++i) out[slots[i]] = i;
+    return out;
+}
+
+// The game keeps a slime that has split in its list, between the two it spawned, and the simulator doesn't. So a dead
+// game monster that isn't the next simulator monster has no slot of its own.
+std::array<int, 5> gameIndexBySlot(const BattleContext &bc, const json &gameMonsters) {
+    std::array<int, 5> out{0, 1, 2, 3, 4};
+    const int count = static_cast<int>(gameMonsters.size());
+    int index = 0;
+    for (const int slot : occupiedMonsterSlots(bc)) {
+        const std::string id = monsterToGameId(bc.monsters.arr[slot].id);
+        while (index < count && gameMonsters[index]["is_gone"].get<bool>() && gameMonsters[index]["id"].get<std::string>() != id) ++index;
+        out[slot] = index;
+        ++index;
+    }
     return out;
 }
 

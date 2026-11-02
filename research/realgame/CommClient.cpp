@@ -17,9 +17,21 @@ namespace {
 constexpr double kStallSec = 8.0;
 constexpr int kNudgeFrames = 30;
 constexpr double kQuietSec = 0.3;
+constexpr int kMaxIntentWaits = 20;
+constexpr int kIntentWaitFrames = 5;
 
 double secondsSince(std::chrono::steady_clock::time_point t0) {
     return std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+}
+
+// The first turn becomes playable a few frames before monsters show their intents. Until then the mod reports the
+// placeholder intent DEBUG and a damage of -1.
+bool intentsPending(const json &msg) {
+    if (!msg.contains("game_state") || !msg["game_state"].contains("combat_state")) return false;
+    for (const auto &m : msg["game_state"]["combat_state"]["monsters"]) {
+        if (!m.value("is_gone", false) && m.value("intent", "") == "DEBUG") return true;
+    }
+    return false;
 }
 
 }  // namespace
@@ -82,6 +94,14 @@ void CommClient::drain(double quietSec) {
 }
 
 const json &CommClient::command(const std::string &cmd, double timeoutSec) {
+    sendAndWait(cmd, timeoutSec);
+    for (int i = 0; i < kMaxIntentWaits && intentsPending(last_); ++i) {
+        sendAndWait("WAIT " + std::to_string(kIntentWaitFrames), timeoutSec);
+    }
+    return last_;
+}
+
+void CommClient::sendAndWait(const std::string &cmd, double timeoutSec) {
     // A replayed or late message from before this command must not be read as its answer.
     drain(0.0);
 
@@ -101,7 +121,7 @@ const json &CommClient::command(const std::string &cmd, double timeoutSec) {
                 throw CommandRejected(msg["error"].get<std::string>() + " (command: " + cmd + ")");
             }
             last_ = std::move(msg);
-            if (last_.value("ready_for_command", false)) return last_;
+            if (last_.value("ready_for_command", false)) return;
             continue;
         }
         if (secondsSince(t0) > timeoutSec) {

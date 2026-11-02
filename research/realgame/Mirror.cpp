@@ -6,6 +6,7 @@
 #include "game/Game.h"
 #include "sim/search/GameAction.h"
 
+#include <algorithm>
 #include <chrono>
 #include <sstream>
 
@@ -18,6 +19,8 @@ namespace {
 
 constexpr int kMaxAlignSteps = 12;
 constexpr double kRoomChangeTimeoutSec = 180.0;
+constexpr int kEffectWaits = 3;
+constexpr int kEffectWaitFrames = 30;
 
 const char *screenStateName(ScreenState s) {
     switch (s) {
@@ -39,6 +42,17 @@ bool hasCommand(const json &msg, const std::string &name) {
         if (c == name) return true;
     }
     return false;
+}
+
+// A grid keeps selected cards in its list, and choosing one again deselects it.
+int firstUnselected(const json &grid) {
+    const json &cards = grid["cards"];
+    for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
+        bool selected = false;
+        for (const auto &s : grid["selected_cards"]) selected = selected || s["uuid"] == cards[i]["uuid"];
+        if (!selected) return i;
+    }
+    return 0;
 }
 
 bool rewardsEmpty(const Rewards &r) {
@@ -162,6 +176,8 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                 break;
             case ScreenState::CARD_SELECT:
                 if (real == "GRID" || real == "CARD_REWARD") return;
+                // Events reach their card screen through pages the simulator skips ([Continue], [Offer]).
+                if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
                 break;
             case ScreenState::EVENT_SCREEN:
                 if (real == "EVENT") return;
@@ -176,25 +192,45 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
     throw StopRun{"diverged", screenStateName(want), "the game is on a different screen", d};
 }
 
+// A card or relic from an event reaches the deck through an effect that outlives the action queue, so the mod can
+// report a state from before it lands. A real difference survives the wait.
+void Mirror::waitForEffects() {
+    log_ << json{{"t", "wait"}, {"step", step_}}.dump() << "\n";
+    game_.command("WAIT " + std::to_string(kEffectWaitFrames), kRoomChangeTimeoutSec);
+}
+
 void Mirror::compareOutOfCombat(const GameContext &gc) {
+    Diffs d = outOfCombatDiffs(gc);
+    for (int i = 0; i < kEffectWaits && anyHard(d); ++i) {
+        waitForEffects();
+        d = outOfCombatDiffs(gc);
+    }
+    if (gc.screenState == ScreenState::MAP_SCREEN) {
+        rewardsCompared_ = false;
+        mapComparedForAct_ = gc.act;
+    } else if (gc.screenState == ScreenState::REWARDS && screenType() == "COMBAT_REWARD") {
+        rewardsCompared_ = true;
+    }
+    logStep(screenStateName(gc.screenState), "", d);
+    stopOnDifference(screenStateName(gc.screenState), d);
+}
+
+Diffs Mirror::outOfCombatDiffs(const GameContext &gc) const {
     Diffs d;
     const json &gs = gameState();
     compareRun(gc, gs, d);
+    // The game charges for a shop removal once the card is chosen, the simulator when the removal starts.
+    if (gc.screenState == ScreenState::CARD_SELECT && gs.value("room_type", "") == "ShopRoom") {
+        d.erase(std::remove_if(d.begin(), d.end(), [](const Diff &x) { return x.field == "gold"; }), d.end());
+    }
     const json &screen = gs["screen_state"];
     switch (gc.screenState) {
         case ScreenState::MAP_SCREEN:
-            rewardsCompared_ = false;
-            if (mapComparedForAct_ != gc.act) {
-                compareMap(gc, gs, d);
-                mapComparedForAct_ = gc.act;
-            }
+            if (mapComparedForAct_ != gc.act) compareMap(gc, gs, d);
             break;
         case ScreenState::REWARDS:
             // Claiming a reward changes the run fields compared above, so the list is only worth checking once.
-            if (!rewardsCompared_ && screenType() == "COMBAT_REWARD") {
-                compareRewards(gc, screen, d);
-                rewardsCompared_ = true;
-            }
+            if (!rewardsCompared_ && screenType() == "COMBAT_REWARD") compareRewards(gc, screen, d);
             break;
         case ScreenState::SHOP_ROOM:
             compareShop(gc, screen, d);
@@ -211,8 +247,7 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
         default:
             break;
     }
-    logStep(screenStateName(gc.screenState), "", d);
-    stopOnDifference(screenStateName(gc.screenState), d);
+    return d;
 }
 
 // ---------------- combat ----------------
@@ -227,10 +262,15 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     a.printDesc(desc, bc);
     Diffs d;
     compareBattle(bc, gameState(), d);
+    for (int i = 0; i < kEffectWaits && anyHard(d); ++i) {
+        waitForEffects();
+        d.clear();
+        compareBattle(bc, gameState(), d);
+    }
     logStep("BATTLE", desc.str(), d);
     lastAction_ = desc.str();
     stopOnDifference("BATTLE turn " + std::to_string(bc.turn), d);
-    applyCombatAction(bc, a, gameIndexBySlot(bc));
+    applyCombatAction(bc, a, gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]));
 }
 
 // ---------------- run lifecycle ----------------
@@ -325,6 +365,8 @@ void returnToMainMenu(CommClient &game) {
                 game.command("LEAVE", kRoomChangeTimeoutSec);
             } else if (hasCommand(msg, "confirm")) {
                 game.command("CONFIRM", kRoomChangeTimeoutSec);
+            } else if (screen == "GRID") {
+                game.command("CHOOSE " + std::to_string(firstUnselected(gs["screen_state"])), kRoomChangeTimeoutSec);
             } else if (hasCommand(msg, "proceed")) {
                 game.command("PROCEED", kRoomChangeTimeoutSec);
             } else if (hasCommand(msg, "choose")) {

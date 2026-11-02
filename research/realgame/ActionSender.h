@@ -68,11 +68,13 @@ protected:
 
 private:
     void applyEvent(const sts::GameContext &gc, int option);
+    void applyMatchAndKeep(const sts::GameContext &gc, int first, int second);
+    void chooseMatchCard(const std::vector<int> &faceDown, int position);
     void applyRewards(const sts::GameContext &gc, const sts::search::GameAction &a);
     void applyShop(const sts::GameContext &gc, const sts::search::GameAction &a);
     void applyCardSelect(const sts::GameContext &gc, int index);
     void applyMap(const sts::GameContext &gc, int x);
-    void chooseCardOnScreen(const std::string &key);
+    void chooseCardOnScreen(const std::string &key, int copy = 0);
     void confirmIfRequired();
 };
 
