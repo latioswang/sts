@@ -4,3 +4,6 @@
 aee9e9d	val.a20	300	0	0.043	28.35	0.5984	+0.0031	0.635	discard	a20_mapd085: [a20 pooled500] port A0 keep: map discount 0.85 [map_discount=0.85] pooled dscore=+0.0062 dwin=+0.004 P(improve)=0.833
 aee9e9d	dev2.a20	100	0	0.010	27.11	0.5414	+0.0125	0.869	info	a20_mapd085: [a20 pooled500 slice] port A0 keep: map discount 0.85
 aee9e9d	dev3.a20	100	0	0.020	25.47	0.5190	+0.0092	0.704	info	a20_mapd085: [a20 pooled500 slice] port A0 keep: map discount 0.85
+ad9d06e	val.a20	300	0	0.023	27.45	0.5611	-0.0341	0.004	discard	a20_potv8: [a20 pooled500] port A0 keep: potions worth 8 in hallway fights [potion_v=8] pooled dscore=-0.0287 dwin=-0.012 P(improve)=0.002
+ad9d06e	dev2.a20	100	0	0.010	26.27	0.5249	-0.0039	0.455	info	a20_potv8: [a20 pooled500 slice] port A0 keep: potions worth 8 in hallway fights
+ad9d06e	dev3.a20	100	0	0.000	24.09	0.4724	-0.0375	0.002	info	a20_potv8: [a20 pooled500 slice] port A0 keep: potions worth 8 in hallway fights
