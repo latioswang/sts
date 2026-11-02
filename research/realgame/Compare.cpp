@@ -82,8 +82,10 @@ std::map<std::string, int> simMonsterPowers(const Monster &m) {
     std::map<std::string, int> out;
     for (int i = 0; i < static_cast<int>(MonsterStatus::INVALID); ++i) {
         const auto s = static_cast<MonsterStatus>(i);
+        const std::string id = monsterPowerToGameId(s);
+        if (id == "?") continue;  // simulator bookkeeping with no power in the game (Asleep, Minion Leader)
         if (s == MonsterStatus::STRENGTH ? m.strength != 0 : m.hasStatusInternal(s)) {
-            out[monsterPowerToGameId(s)] = isBooleanPower(s) ? -1 : m.getStatusInternal(s);
+            out[id] = isBooleanPower(s) ? -1 : m.getStatusInternal(s);
         }
     }
     return out;
@@ -93,7 +95,7 @@ std::map<std::string, int> simPlayerPowers(const Player &p) {
     std::map<std::string, int> out;
     for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
-        if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = p.getStatusRuntime(s);
+        if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = playerPowerAmount(p, s);
     }
     return out;
 }
@@ -190,7 +192,7 @@ void compareRun(const GameContext &gc, const json &gs, Diffs &out) {
     comparePile(out, "deck", gc.deck.cards, gs["deck"]);
 }
 
-void compareBattle(const BattleContext &bc, const json &gs, Diffs &out) {
+void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const std::array<int, 5> *gameIndex) {
     const json &cs = gs["combat_state"];
     const json &p = cs["player"];
     check(out, "player.current_hp", bc.player.curHp, p["current_hp"].get<int>());
@@ -217,10 +219,18 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out) {
     comparePotions(bc.potions, bc.potionCapacity, gs, out);
 
     const json &monsters = cs["monsters"];
-    check(out, "monsters.count", bc.monsters.monsterCount, monsters.size());
-    const int n = std::min<int>(bc.monsters.monsterCount, static_cast<int>(monsters.size()));
+    const std::vector<int> slots = occupiedMonsterSlots(bc);
+    if (gameIndex) {
+        for (const int slot : slots) {
+            const int index = (*gameIndex)[slot];
+            compareMonster(bc, bc.monsters.arr[slot], monsters[index], "monster[" + std::to_string(index) + "]", out);
+        }
+        return;
+    }
+    check(out, "monsters.count", slots.size(), monsters.size());
+    const int n = std::min<int>(static_cast<int>(slots.size()), static_cast<int>(monsters.size()));
     for (int i = 0; i < n; ++i) {
-        compareMonster(bc, bc.monsters.arr[i], monsters[i], "monster[" + std::to_string(i) + "]", out);
+        compareMonster(bc, bc.monsters.arr[slots[i]], monsters[i], "monster[" + std::to_string(i) + "]", out);
     }
 }
 
@@ -338,6 +348,35 @@ void compareSelectCards(const GameContext &gc, const json &cards, Diffs &out) {
     auto text = [](const std::string &v) { return v; };
     // The game's grid may sort differently; which cards are offered is what matters.
     check(out, "select_cards", sortedList(sim, text), sortedList(game, text));
+}
+
+std::vector<int> occupiedMonsterSlots(const BattleContext &bc) {
+    std::vector<int> slots;
+    for (int i = 0; i < bc.monsters.monsterCount; ++i) {
+        if (bc.monsters.arr[i].id != MonsterId::INVALID) slots.push_back(i);
+    }
+    return slots;
+}
+
+std::array<int, 5> gameIndexBySlot(const BattleContext &bc) {
+    std::array<int, 5> out{0, 1, 2, 3, 4};
+    const std::vector<int> slots = occupiedMonsterSlots(bc);
+    for (int i = 0; i < static_cast<int>(slots.size()); ++i) out[slots[i]] = i;
+    return out;
+}
+
+int playerPowerAmount(const Player &p, PlayerStatus s) {
+    switch (s) {
+        case PS::ARTIFACT:
+        case PS::DEXTERITY:
+        case PS::FOCUS:
+        case PS::STRENGTH:
+            return p.getStatusRuntime(s);
+        default: {
+            const auto it = p.statusMap.find(s);
+            return it == p.statusMap.end() ? -1 : it->second;
+        }
+    }
 }
 
 std::string describe(const Diffs &diffs) {

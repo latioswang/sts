@@ -1,8 +1,12 @@
 // sts_bridge: connects the research agent to the real game through commrelay.py. See README.md.
 //
-//   sts_bridge mirror --seed_start N --count K [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
+//   sts_bridge mirror --research_dir DIR --seed_start N --count K [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
+//   sts_bridge live --research_dir DIR --seed_start N --count K [--asc A] [--params FILE] [--param k=v ...]
+//   sts_bridge selftest --research_dir DIR --seed_start N --count K    (converter round trip, no game needed)
 #include "CommClient.h"
+#include "Live.h"
 #include "Mirror.h"
+#include "SelfTest.h"
 
 #include "bf_mlp.h"
 #include "game/Game.h"
@@ -119,6 +123,33 @@ int runMirror(const Args &args) {
     return 0;
 }
 
+int runLive(const Args &args) {
+    CommClient game(args.socketPath);
+    game.refresh();
+    std::ofstream results(args.logDir + "/live_results.jsonl", std::ios::app);
+    for (int i = 0; i < args.count; ++i) {
+        if (game.last().value("in_game", false)) {
+            std::cerr << "leaving the current run first\n";
+            returnToMainMenu(game);
+        }
+        LiveOptions options;
+        options.seed = args.seedStart + i;
+        options.ascension = args.ascension;
+        options.params = args.params;
+        options.logDir = args.logDir;
+        Live live(game, options);
+        const LiveResult r = live.run();
+        json row{{"seed", r.seed}, {"seed_text", r.seedText}, {"status", r.status}, {"victory", r.victory}, {"score", r.score},
+                 {"floor", r.floor}, {"act", r.act}, {"decisions", r.decisions}, {"fallbacks", r.fallbacks}, {"seconds", r.seconds}};
+        results << row.dump() << "\n";
+        results.flush();
+        std::cout << r.seed << " (" << r.seedText << ") " << r.status << (r.victory ? " WIN" : " loss") << " floor " << r.floor
+                  << " score " << r.score << " decisions " << r.decisions << " fallbacks " << r.fallbacks << " " << r.seconds << "s\n"
+                  << std::flush;
+    }
+    return 0;
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
@@ -127,6 +158,8 @@ int main(int argc, char **argv) {
         mkdir(args.logDir.c_str(), 0755);
         loadModelsOrDie(args);
         if (args.mode == "mirror") return runMirror(args);
+        if (args.mode == "live") return runLive(args);
+        if (args.mode == "selftest") return runSelfTest(args.params, args.seedStart, args.count, args.ascension);
         throw std::runtime_error("unknown mode " + args.mode);
     } catch (const std::exception &e) {
         std::cerr << "sts_bridge: " << e.what() << "\n";

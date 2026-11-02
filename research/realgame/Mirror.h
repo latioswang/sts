@@ -2,12 +2,10 @@
 // game, and stop at the first state difference. Every difference is a simulator bug or a bridge bug.
 #pragma once
 
-#include "CommClient.h"
-#include "Compare.h"
+#include "ActionSender.h"
 #include "FairAgent.h"
 
 #include <cstdint>
-#include <fstream>
 #include <string>
 #include <vector>
 
@@ -24,7 +22,7 @@ struct MirrorOptions {
 struct MirrorResult {
     std::uint64_t seed = 0;
     std::string seedText;
-    // completed | reached_limit | diverged | bridge_gap | error
+    // completed | reached_limit | diverged | bridge_gap
     std::string status;
     int floor = 0;
     int act = 0;
@@ -37,28 +35,20 @@ struct MirrorResult {
     double seconds = 0.0;
 };
 
-class Mirror {
+class Mirror : public ActionSender {
 public:
     Mirror(CommClient &game, MirrorOptions options);
     MirrorResult run();
 
+protected:
+    void onCardRewardOpened(const sts::CardReward &cards) override;
+
 private:
-    CommClient &game_;
     MirrorOptions options_;
     const sts::GameContext *target_ = nullptr;
-    std::ofstream log_;
-    int step_ = 0;
-    int floor_ = 0;
-    int act_ = 1;
-    std::string lastAction_;
     int mapComparedForAct_ = 0;
     bool rewardsCompared_ = false;
 
-    [[nodiscard]] const json &state() const { return game_.last(); }
-    [[nodiscard]] const json &gameState() const { return game_.last().at("game_state"); }
-    [[nodiscard]] std::string screenType() const;
-
-    void send(const std::string &command);
     void logStep(const std::string &where, const std::string &action, const Diffs &diffs);
     void stopOnDifference(const std::string &where, const Diffs &diffs);
 
@@ -67,17 +57,6 @@ private:
 
     void alignOutOfCombat(const sts::GameContext &gc);
     void compareOutOfCombat(const sts::GameContext &gc);
-    void applyGameAction(const sts::GameContext &gc, const sts::search::GameAction &a);
-
-    void applyEvent(const sts::GameContext &gc, int option);
-    void applyRewards(const sts::GameContext &gc, const sts::search::GameAction &a);
-    void applyShop(const sts::GameContext &gc, const sts::search::GameAction &a);
-    void applyCardSelect(const sts::GameContext &gc, int index);
-    void applyMap(const sts::GameContext &gc, int x);
-    void applyCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
-    void chooseCardOnScreen(const std::string &key);
-    void confirmIfRequired();
-
     void finishRun(const sts::GameContext &gc);
 };
 
