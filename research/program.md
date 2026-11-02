@@ -784,11 +784,13 @@ bit-identical on the three bests, leak test green with every new parameter on):
 ### Batch 49 (queued 01:05 UTC) — key acquisition on the Heart track
 
 In-process replay of the Heart best's val games (same binary, bit-identical; prints the keys held),
-first 154 of 300 games: key-less act-3 clears by keys held — `R-B` 11 (emerald missing), `-GB` 6
-(ruby missing), `-G-` 1; every run that reached act 4 held all three. So the emerald key (the
-burning elite, which the map policy only values at ≥ 60% HP and at +2) is missed about 60% of
-the time and the ruby key (rest-site Recall, acts 1–2 only, ≥ 65% HP, never at the pre-boss rest)
-about 40%. Six default-off parameters, queued behind a guarded rebuild (repro_check on the three
+all 300 games (replay matches the recorded run: 140 act-4 runs, 28 Heart wins; file
+`research/diag/heart_bfbonus25_g_heart_keys_val.txt`): key-less act-3 clears by keys held —
+`R-B` 20 (emerald missing), `-GB` 14 (ruby missing), `--B` 2, `-G-` 1 = 37; missing-key counts
+emerald 22, ruby 17, sapphire 1. Every run that reached act 4 held all three. So the emerald key
+(the burning elite, which the map policy only values at ≥ 60% HP and at +2) is missed in 59% of
+the key-less clears and the ruby key (rest-site Recall, acts 1–2 only, ≥ 65% HP, never at the
+pre-boss rest) in 46% (some lack both). Among all 84 runs that ended in act 3, 33 held all keys. Six default-off parameters, queued behind a guarded rebuild (repro_check on the three
 bests + leak test, else the queue is stashed): `w_burning_act3=3`, `burn_hp=0.5`, `w_burning=4`
 (emerald); `key_act3=1`, `key_rest_w=1 key_act3=1`, `key_rest_hp_preboss=0.8` (ruby). Prediction:
 each converts some of the 14% key-less clears into act-4 runs; the cost is the HP/heal they trade
