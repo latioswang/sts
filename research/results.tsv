@@ -385,3 +385,6 @@ c5a075f	dev3.a0	100	0	0.070	43.69	0.8935	+0.0135	0.689	info	heart_potsave: [hear
 36a2dcb	val.a0	300	0	0.093	46.31	0.9606	-0.0248	0.087	discard	heart_wea1: [heart pooled500] port A0 keep: act-1 elites +1 on the map (wea1p1) [w_elite_act1=1] pooled dscore=-0.0189 dwin=-0.014 P(improve)=0.064
 36a2dcb	dev2.a0	100	0	0.120	45.98	0.9827	-0.0088	0.311	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)
 36a2dcb	dev3.a0	100	0	0.050	43.08	0.8686	-0.0114	0.287	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)
+e917308	val.a0	300	0	0.113	46.46	0.9842	-0.0012	0.459	discard	heart_mapd: [heart pooled500] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0) [map_discount=0.85] pooled dscore=-0.0038 dwin=-0.002 P(improve)=0.272
+e917308	dev2.a0	100	0	0.120	46.11	0.9867	-0.0049	0.367	info	heart_mapd: [heart pooled500 slice] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0)
+e917308	dev3.a0	100	0	0.050	43.17	0.8692	-0.0108	0.095	info	heart_mapd: [heart pooled500 slice] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0)

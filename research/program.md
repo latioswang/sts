@@ -986,6 +986,10 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
   agent's games are different enough (elite choices, potions, the act-4 fights) that A0 tuning does not carry.
   Lesson kept: diff tracks, but test ports; never assume transfer.
 
+- `heart_mapd` (map discount 0.85 ported): pooled val,dev2,dev3 [heart]: n=500  heart_mapd win=0.102 floor=45.73  heart_ka3 win=0.104 floor=45.87  dscore=-0.0038 dwin=-0.002 P(improve)=0.272 → discard. **Batch 51 verdict: none of the four A0 keeps transfers
+  to the Heart track** (pmlp −0.006, potsave −0.015, wea1 −0.019, mapd −0.007 on the pooled 500). The track's
+  parameters stay as they are; `track_diff.sh` remains a wake-up check but ports are hypotheses, not debts.
+
 ### Batch 52 (queued 04:24 UTC) — the key bonuses were being discounted away
 
 Replay of `heart_ka3`'s val games (bit-identical: 158 act-4 runs, 34 Heart wins; file
