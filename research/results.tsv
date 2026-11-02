@@ -400,3 +400,6 @@ e917308	dev3.a0	100	0	0.050	43.17	0.8692	-0.0108	0.095	info	heart_mapd: [heart p
 95458f7	val.a0	300	0	0.133	46.84	1.0099	+0.0246	0.988	keep	heart_bfrelic10: [heart pooled500] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart) [bf_relic_w=10] pooled dscore=+0.0181 dwin=+0.016 P(improve)=0.986
 95458f7	dev2.a0	100	0	0.150	46.22	1.0155	+0.0239	0.844	info	heart_bfrelic10: [heart pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart)
 95458f7	dev3.a0	100	0	0.050	43.50	0.8727	-0.0073	0.087	info	heart_bfrelic10: [heart pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart)
+fcaa638	val.a20	300	0	0.043	28.31	0.5976	+0.0024	0.649	discard	a20_bfrelic10: [a20 pooled500] boss relics: KB tier value + 10 x simulated next-act fight gain [bf_relic_w=10] pooled dscore=+0.0056 dwin=+0.006 P(improve)=0.880
+fcaa638	dev2.a20	100	0	0.030	26.53	0.5496	+0.0208	0.950	info	a20_bfrelic10: [a20 pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain
+fcaa638	dev3.a20	100	0	0.010	25.52	0.5102	+0.0004	0.636	info	a20_bfrelic10: [a20 pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain
