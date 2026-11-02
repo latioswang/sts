@@ -336,3 +336,6 @@ b9ffe07	dev3.a20	100	0	0.020	24.95	0.5088	-0.0010	0.474	info	a20_ldw35: [a20 poo
 328a90e	dev3.a20	100	0	0.040	23.63	0.5025	-0.0073	0.382	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
 ddd3ff8	val.a0	300	0	0.707	47.06	1.6294	-0.0493	0.003	discard	esim: map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left) [elite_sim=1]
 75d313a	dev.a0	100	0	0.070	45.30	0.9269	+0.0300	0.953	info	heart_a4pot_dev: VERIFY: heart_a4pot on dev vs heart_bfbonus25_g_heart_dev (replication of a heart keep)
+a8e9409	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	discard	heart_wba3: [heart pooled500] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance) [w_burning_act3=3] pooled dscore=+0.0035 dwin=+0.004 P(improve)=0.893
+a8e9409	dev2.a0	100	0	0.130	45.65	0.9914	+0.0102	0.871	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
+a8e9409	dev3.a0	100	0	0.050	43.68	0.8800	-0.0020	0.000	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
