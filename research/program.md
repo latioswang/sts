@@ -895,6 +895,11 @@ the single-knob results.
   kept on top of ka3**. The queued `ext_pooled.sh heart_krw1 heart_wba3` line is informational (wrong base after
   the ka3 keep); if it promotes krw1, the best is reverted to ka3 and the results.tsv row annotated.
 
+- `heart_krw1` stale-base extension (vs wba3): dev +0.036 (+3 Heart wins); pooled val,dev2,dev3,dev [heart]: n=600  heart_krw1 win=0.110 floor=45.80  heart_wba3 win=0.098 floor=45.65  dscore=+0.0119 dwin=+0.012 P(improve)=0.823 → no (P < 0.9), nothing promoted.
+  Informational only (the superset step did not reach the near-miss band on 500, so no extension applies to it):
+  pooled val,dev2,dev3,dev [heart]: n=600  heart_krw1 win=0.110 floor=45.80  heart_ka3 win=0.102 floor=45.83  dscore=+0.0086 dwin=+0.008 P(improve)=0.746. Rest-site seeking stays unkept; it is the obvious first candidate for the next Heart batch if a
+  cleaner test is wanted (fresh val/dev2/dev3 on top of ka3).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
