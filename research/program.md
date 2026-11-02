@@ -96,7 +96,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 17:38 UTC
+### Current state (update after every batch) — 2026-11-02 17:43 UTC
+- **17:43 UTC: S2 scale-up done (worker):** sv16 −0.348 (best learned leaf; sv11 was −0.449), sv17 −0.384; line stays
+  open by its pre-registered rule. Both workers idle (no pre-registered batch). Main queue: v1 info cells 8–9, then empty.
 - **17:38 UTC: Phase R stage 2 closed without a keep.** Selection: ridge on 8,100 runs (gate passed). Card picks: vrb20
   −0.020, vrb50 +0.026 (near-miss; dev +0.078; pooled-400 P=0.884 → discard), vrb100 −0.050, vrb50_nobf −0.090. A0 best
   stays `mapd085`. Main queue: informational v1 cells 7–9 (≈ 1–2 h), then empty.
@@ -1104,6 +1106,12 @@ small net cuts the leaf error by ≈ 20% and removes the bias. Pre-registered "f
   ≈ 3.3×10⁶ leaf rows in total), models `sv16` (h=42) and `sv17` (h=96) on all rows, equal-wall-clock play tests.
   Predictions: leaf RMSE for h=42 drops ≈ 5% (MED); `sv16` beats `sv11` (−0.45) by a small margin (LOW–MED); no cell
   reaches 0 (HIGH). If `sv16` ≤ `sv11`, the leaf-value line is closed on this CPU.
+  **Result (worker s2scale, merged 17:43 UTC; equal wall-clock vs `mapd085`):** `sv16` 48.7% win, floor 43.0, -0.348 vs base, P=0.000 → scaling; `sv17` 45.3% win, floor 42.9, -0.384 vs base, P=0.000 → scaling.
+  Predictions: h=42 leaf RMSE −5% (MED) — partly (12.060 -> 11.736, −2.7%, different holdout); `sv16` beats `sv11` by a
+  small margin (LOW–MED) — held, by more than small (−0.348 vs −0.449); no cell reaches 0 (HIGH) — held. The close
+  condition (`sv16` ≤ `sv11`) is not met, so the line stays open: 4× leaf data bought +0.10 at equal wall-clock. sv17
+  fits better but pays its 1.415× cost (354 sims) and plays worse — on CPU the small net remains the cost-aware size.
+  Next S2 step needs more leaf data again (the slope is the open question), which needs workers to share data.
 
 ## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
 
