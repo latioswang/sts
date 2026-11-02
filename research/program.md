@@ -78,6 +78,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   with the hourly runs.
 - 14:28 UTC: **the user confirmed that the queue runner (here and in worker sessions) is restarted immediately
   after every 2-hour background stop.** Restarted at once; Phase R data resumes from chunk 45.
+- **Data store pending:** `research/tools/data_sync.py` (push/pull/ls/selftest through a private Hugging Face dataset
+  repo; dry-run checked here, never run against a real repo yet). Set-up and end-to-end test run in a session on the
+  user's Mac; the handoff is `research/data_store.json` on branch `setup/hf-datastore`. Until a fresh cloud session
+  has `HF_TOKEN` and the allowed hosts, workers stay self-contained.
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
   `heart_wba3` (act-3 burning elite +3; extension keep) and `heart_a4pot` (act-4 shop potions; pooled P=0.996, dev +3).
