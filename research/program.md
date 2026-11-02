@@ -56,15 +56,16 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 | M4 | test win ≥ 50% at A0 | move the main ladder to A20 (double boss) |
 | M5 | ✅ val win ≥ 70% at A0 (pre-registered 2026-11-01 15:20 UTC, reached by `bfbonus10_g1` 73.3%) | done: **test 66.6% [62.4%, 70.6%]** (500 seeds), +12.0 pts vs chest1's 54.6% test, P=1.000 |
 
-### Current state (update after every batch) — 2026-11-02 02:18 UTC
+### Current state (update after every batch) — 2026-11-02 02:50 UTC
 - **Heart best `heart_ka3`** (ruby key also at act-3 rest sites; extension keep, pooled 600 10.2% vs 9.8%, P=0.949) on
   top of `heart_wba3` (act-3 burning elite +3; extension keep, 9.8% vs 9.3%, P=0.958) and `heart_a4pot` (act-4 shop
   potions; pooled 500 P=0.996, dev +3 wins P=0.953). Key-less act-3 clears on val: 37 → 18.
-- **Batch 49 (key acquisition) nearly done on the rebuilt binary (repro ×3 + leak test green).** Heart chain on
-  the pooled 600: 8.2% → a4pot 9.3% → wba3 9.8% → ka3 10.2% (two extension keeps). Discards: pvh0, ltw1, ldw35,
-  brt8, esim (Heart); esim/esim3/esim_a23 (ext P=0.807), ltw1, ldw35, brt8 (A20); esim (A0, −13 wins); bhp05,
-  wb4 (Heart); krw1 not kept on top of ka3 (P=0.649). Left in the queue: `heart_kpb08`, `heart_hm2`, `a20_neow1p`.
-  The runner's 2-hour background limit falls at 02:23 UTC — restart it on the resume logic.
+- **Batches 48–49 done; batch 50 (Heart data regeneration → model 12) running overnight.** Night's keeps, all on the
+  Heart track and all pooled-rule: a4pot (act-4 shop potions) → wba3 (act-3 burning elite +3) → ka3 (ruby key in act 3):
+  Heart wins 8.2% → 10.2% on the pooled 600, key-less act-3 clears 37 → 18 of 300. Closed lines: boss-fight
+  value shapes (A0/A20), simulated elite gate (all tracks), Neow ranking (all tracks), Heart potion value, burning
+  HP threshold / bonus 4, pre-boss ruby key, rest-site seeking (P=0.65 on top of ka3), Heart search reallocation
+  (+0.014 at parity, P=0.82 on 600 — unproven). Runner restarts needed at each 2-hour limit (next ≈ 04:23 UTC).
 - **M5 test confirmation (500 test seeds, run 6 of the test budget): `bfbonus10_g1` 66.6% win, Wilson 95%
   [62.4%, 70.6%], floor 45.9; paired vs chest1's test run (54.6%): +0.163 score, +12.0 pts, P=1.000.** The
   val figure (73.3%) overstates it by ~7 pts — the usual winner's-curse gap of a chain of val-selected keeps
@@ -941,6 +942,12 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
 
 - `a20_neow1p` (Neow ranking at A20, pooled re-test): pooled val,dev2,dev3 [act3]: n=500  a20_neow1p win=0.024 floor=26.51  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0215 dwin=-0.004 P(improve)=0.086 → discard (negative on all three slices; the earlier
   val-only +0.010 was against an older base). Neow ranking is closed on all tracks (A0 ×2, A10, A20).
+
+- `heart_hm2b` extension: dev +0.0137 (+1 Heart win, P=0.661); pooled val,dev2,dev3,dev [heart]: n=600  heart_hm2b win=0.108 floor=46.14  heart_ka3 win=0.102 floor=45.83  dscore=+0.0140 dwin=+0.007 P(improve)=0.817 → **no** (P < 0.9). The Heart search
+  reallocation is positive but unproven: +0.014 score, +4 Heart wins on 600 seeds at compute parity. Closed for
+  now; a cleaner version would need a per-fight budget accounting in the harness rather than a global `sims` cut.
+- Batch 50 generation started 02:47 UTC: smoke cost 32.0 s/game → `bf_every=1`, 1,000 games in 50-game chunks
+  from seed 302000 (≈ 2.5 h including one 2-hour-limit restart), then model 12 and `heart_bfb25_g12`.
 
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
