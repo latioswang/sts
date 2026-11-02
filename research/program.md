@@ -807,6 +807,11 @@ the single-knob results.
   A20 versions (`a20_ltw1/ldw35/brt8/brt5`) stay queued because A20 bosses are the ones rollouts
   never win; expectation now: negative there too.
 
+- `heart_esim`: pooled val,dev2,dev3 [heart]: n=500  heart_esim win=0.088 floor=46.23  heart_a4pot win=0.098 floor=45.65  dscore=+0.0023 dwin=-0.010 P(improve)=0.573 → discard. Floors up (+0.6), Heart wins down (−5 of 500): on the keys track the gate
+  interacts with the emerald key — a deck that fails the 2-of-3 test gets `w_elite_lo`, which outweighs the
+  +2 burning-elite bonus, so key-less clears rise (val 44 vs 37). Cost: 4.60 s vs 3.35 s per game (+37%).
+  The gate's real target is A20 (no keys), next in the queue.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
