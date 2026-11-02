@@ -291,3 +291,4 @@ cda144e	val.a10	300	0	0.270	36.80	0.9916	-0.0346	0.031	discard	a10_aoe3: [a10] A
 e301817	dev3.a0	100	0	0.620	44.35	1.4896	+0.1471	0.988	info	bfbonus10_g1_dev3: VERIFY: bfbonus10_g1 on dev3 vs potsave2_dev3 (third slice)
 8260bf4	dev3.a10	100	0	0.170	30.61	0.7702			info	a10_eh075_dev3: VERIFY: a10_eh075 on dev3 (baseline, third slice)
 a656f3f	dev3.a10	100	0	0.280	35.45	0.9751	+0.2049	1.000	info	a10_bfbonus25_g1m_dev3: VERIFY: a10_bfbonus25_g1m on dev3 vs a10_eh075_dev3 (third slice)
+99b394c	val.a20	300	0	0.037	28.31	0.5911	-0.0041	0.258	discard	a20_resthp07: [a20] A20: rest rooms preferred below 70% HP [rest_hp=0.7]
