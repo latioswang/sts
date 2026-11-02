@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 19:17 UTC
+### Current state (update after every batch) — 2026-11-02 20:16 UTC
+- **20:16 UTC: R2 data, no errors on any VM:** r2w1 chunk 80/300, r2w2 chunk 125/300 (worker summaries), coordinator
+  chunk 70/300. Weighted re-runs at 8,100 runs: every net size now beats the mean (h=64 0.5230); ridge 0.5135 still leads.
 - **19:17 UTC: R2 data on three VMs, no errors:** r2w1 gate passed, chunk 30/300 (≈ 80 s/chunk); r2w2 chunk 50/300
   (≈ 50 s/chunk, faster VM); coordinator chunk 34/300 (≈ 80 s/chunk).
 - **18:20 UTC: Phase R2 started** (pre-registered above): 3 VMs × 30,000 A0 games of run states (≈ 7 h), subsampled
