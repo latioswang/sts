@@ -6,7 +6,7 @@ edit `research/program.md`, `research/results.tsv`, `research/REPORT.md` or `res
 
 ## Every worker, in order
 1. `git checkout -B worker/<NAME> origin/autoresearch/ironclad` (NAME is given in your task file).
-2. `bash research/setup.sh` (clones sts_lightspeed at the pinned commit, applies the patch, builds `fair_eval`).
+2. The repo must be at `/home/user/sts` (the simulator build hard-codes that path; symlink it if your clone is elsewhere). `bash research/setup.sh` (clones sts_lightspeed at the pinned commit, applies the patch, builds `fair_eval`).
 3. Bit-identity gate — all three must print `OK bit-identical`, otherwise stop and report:
    `research/tools/repro_check.sh mapd085 16`, `research/tools/repro_check.sh heart_bfrelic10 16`,
    `research/tools/repro_check.sh a20_restboss1 16`.
