@@ -426,3 +426,4 @@ dae6d52	val.a0	300	0	0.283	34.68	0.9634	-0.7153	0.000	scaling	sv5_s500: PHASE S 
 d538d34	val100.a0	98	2	0.357	39.20	1.1259	-0.5724	0.000	scaling	sv9_s500: PHASE S fixed-sims read: leaf model sv_9, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
 a2418af	val.a0	300	0	0.420	41.30	1.2298	-0.4489	0.000	scaling	sv11: PHASE S S2 leaf-trained, all leaf rows x 1e4 params: leaf value model sv_11, no rollouts, equal wall-clock (cost ratio 0.730, sims 685) vs mapd085
 4e07fca	val.a0	300	0	0.300	39.02	1.0652	-0.6135	0.000	scaling	sv12: PHASE S S2 leaf-trained, all leaf rows x 1e5 params: leaf value model sv_12, no rollouts, equal wall-clock (cost ratio 5.734, sims 87) vs mapd085
+3f5e172	val.a0	300	0	0.730	47.36	1.6587	-0.0200	0.262	discard	vrb20: Phase R: card picks + 20 x learned run value gain (V with card - without), V = vr_10 [vr_model=10 vr_bonus=20]
