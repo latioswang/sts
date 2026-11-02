@@ -915,6 +915,17 @@ model 12 on `bg1` + `bg_heart` + `bg_heart2` (per-file run ids), then `heart_bfb
 Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0) is the likely outcome, and a
 3× jump in any validation metric is a bug until proven otherwise.
 
+- `heart_hm2` (sims 470, 2× at the Heart) val: dscore=+0.0524, dwin=+0.037 (+11 Heart wins: 45 vs 34), P=0.994 —
+  **informational, not keepable: compute accounting shows +3.8% search actions per game (3,470,968 vs 3,342,662;
+  seconds 3.37 vs 3.18)**, so the 470 did not pay for the doubled Heart fight. From those two numbers the Heart fight
+  is ≈ 10% of a run's search actions, so neutrality needs ≈ 453 base simulations. Pre-registered (02:50 UTC, before
+  its run): `heart_hm2b` = sims 450 + heart_mult 2, decided under the pooled rule vs `heart_ka3`; its per-game
+  actions must be ≤ the base's for a keep to stand (checked and pasted with the result). If the runner promotes
+  `heart_hm2` on its pooled slices meanwhile, the queue line resets the best to `heart_ka3` before `hm2b` runs and
+  the hm2 keep row is annotated as budget-scaling. Why this might be real: the Heart is the one fight where
+  rollout noise at 500 simulations plausibly costs wins (750 HP, Beat of Death, Invincible), and the budget doubling
+  only applies there; why it might not: +11 wins on 300 is also what a lucky trajectory change looks like.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
