@@ -900,6 +900,11 @@ the single-knob results.
   pooled val,dev2,dev3,dev [heart]: n=600  heart_krw1 win=0.110 floor=45.80  heart_ka3 win=0.102 floor=45.83  dscore=+0.0086 dwin=+0.008 P(improve)=0.746. Rest-site seeking stays unkept; it is the obvious first candidate for the next Heart batch if a
   cleaner test is wanted (fresh val/dev2/dev3 on top of ka3).
 
+- `heart_kpb08` (ruby key at the pre-boss rest when HP ≥ 80%): pooled val,dev2,dev3 [heart]: n=500  heart_kpb08 win=0.104 floor=45.92  heart_ka3 win=0.104 floor=45.87  dscore=-0.0004 dwin=+0.000 P(improve)=0.443 → discard (val key-less clears 16 vs 18,
+  Heart wins equal; dev2/dev3 identical games). Batch 49 summary: of the 37 key-less clears, the act-3 burning
+  bonus and the act-3 ruby key removed 19 (37 → 18) and added ≈ +4 Heart wins per 300; the remaining 18 key-less
+  clears lack the emerald (path never reaches the burning elite at ≥ 60% HP) or the ruby (no eligible rest).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 

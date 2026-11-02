@@ -357,3 +357,6 @@ d3d4240	dev.a0	100	0	0.090	45.60	0.9467	+0.0100	0.626	info	heart_ka3_dev: VERIFY
 d3d4240	val.a0	300	0	0.113	46.54	0.9854	+0.0033	0.757	keep	heart_ka3: [heart pooled600 extension] KEEP: pooled600 dscore=+0.0034 dwin=+0.003 P(improve)=0.949 dev-alone dscore=0.01
 177521a	dev.a0	100	0	0.110	46.01	0.9725	+0.0359	0.850	info	heart_krw1_dev: VERIFY: heart_krw1 on dev vs heart_wba3_dev (replication of a heart keep)
 177521a	val.a0	300	0	0.123	46.83	1.0012	+0.0192	0.830	discard	heart_krw1: [heart pooled600 extension] no: pooled600 dscore=+0.0119 dwin=+0.012 P(improve)=0.823 dev-alone dscore=0.03588235294117647
+a359fd8	val.a0	300	0	0.113	46.55	0.9846	-0.0007	0.444	discard	heart_kpb08: [heart pooled500] ruby key: taken at the pre-boss rest site when HP >= 80% [key_rest_hp_preboss=0.8] pooled dscore=-0.0004 dwin=+0.000 P(improve)=0.443
+a359fd8	dev2.a0	100	0	0.130	45.94	0.9916	+0.0000	0.000	info	heart_kpb08: [heart pooled500 slice] ruby key: taken at the pre-boss rest site when HP >= 80%
+a359fd8	dev3.a0	100	0	0.050	43.99	0.8800	+0.0000	0.000	info	heart_kpb08: [heart pooled500 slice] ruby key: taken at the pre-boss rest site when HP >= 80%
