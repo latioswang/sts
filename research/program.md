@@ -1106,6 +1106,20 @@ ridge and v2 nets h = 64 / 256 / 1,024 at ≈ 39,000 and ≈ 99,000 training run
 mean; then a fresh card-pick test of the selected model at bonus 20 / 50 / 100 (val-300 rule vs the A0 best; a new
 model, so a new candidate family — not a second extension of `vrb50`). Predictions: the best R2 model's holdout RMSE
 < 0.505 (LOW–MED); a net beats ridge at ≈ 99,000 runs (MED); one card-pick run keeps (LOW).
+**R2 amendment (19:22 UTC, before any R2 model is trained): per-state weights.** Writing the multi-dir trainer exposed a
+weighting mismatch: winning runs log more states (3,000 runs of `rundata`: `per-run mean score 1.5645, per-state mean
+1.6892, mean states/run 158.0 (wins 176.4, losses 120.8)`), the holdout is scored per state, but v2 nets sample 16
+states per run (run-equal) — a ≈ 0.125 offset that alone lifts an RMSE of 0.518 to ≈ 0.533, i.e. a large part of why
+v2 nets "lost to the mean". Fix (`train_vr2.py --state-weights`): each kept state of a run weighs n_original/n_kept
+(original counts from `counts.tsv`, now written by `subsample_runs.py`); weighted moments, loss, ridge and validation.
+Holdout runs are never read from the training dirs. Smoke set (300 train runs, h=64 / ridge; pasted):
+  [--ridge] holdout_rmse=0.5292 predict_mean_rmse=0.5460 | [--hidden 64] 0.5378 / 0.5460 (both = the v2 code, unchanged)
+  [--hidden 64 --state-weights] 0.5314 / 0.5460
+  [--ridge --train-dirs sub --state-weights] 0.5289 / 0.5460 | [--hidden 64 --train-dirs sub --state-weights] 0.5306 / 0.5460
+  [--ridge --train-dirs sub] (unweighted) 0.5414 / 0.5633
+All R2 cells use `--state-weights`; R2 adds weighted re-runs at 8,100 runs (h=64/256/1,024 + ridge, full rows) so the
+data-size effect is read separately from the weighting fix. Prediction: weighted v2 nets beat the mean at 8,100 runs at
+every size (MED).
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs

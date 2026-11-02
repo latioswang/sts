@@ -30,26 +30,62 @@ def main():
     ap.add_argument("data_dir"); ap.add_argument("--id", type=int, required=True); ap.add_argument("--runs", type=int, required=True)
     ap.add_argument("--hidden", type=int, default=0); ap.add_argument("--layers", type=int, default=2); ap.add_argument("--k", type=int, default=16)
     ap.add_argument("--ridge", action="store_true"); ap.add_argument("--holdout", type=int, default=1000)
+    ap.add_argument("--state-weights", action="store_true",
+                    help="R2 fix: weight training states so the objective matches the per-state holdout (states of a run\n                    sampled k of n count n/k each; without it, per-run sampling under-weights long, winning runs by ~0.125)")
+    ap.add_argument("--train-dirs", nargs="*", default=None,
+                    help="Phase R2: training runs come from these (subsampled) dirs; DATA_DIR supplies only the holdout")
     a = ap.parse_args()
     files = sorted(glob.glob(os.path.join(a.data_dir, "run_*.bin")))
-    arr = np.concatenate([np.fromfile(f, dtype=np.float32) for f in files])
-    arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
-    X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
-    y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
-    runs = np.unique(run); rng = np.random.RandomState(12345); rng.shuffle(runs)
-    hold = runs[-a.holdout:]; pool = runs[:-a.holdout][: a.runs]
+    if a.train_dirs:
+        # holdout = the same 1,000 runs of DATA_DIR as without the flag (np.unique ids, RandomState(12345) shuffle);
+        # training pool = DATA_DIR's other runs first (same order as before), then every run of the train dirs in
+        # RandomState(23456) order; only holdout files of DATA_DIR and the train dirs' files are loaded.
+        ids = {f: int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) for f in files}
+        runs0 = np.unique(np.array(list(ids.values()))); rng = np.random.RandomState(12345); rng.shuffle(runs0)
+        hold = runs0[-a.holdout:]; hs = set(hold.tolist())
+        tfiles = sorted(f for d in a.train_dirs for f in glob.glob(os.path.join(d, "run_*.bin")))
+        tfiles = [f for f in tfiles if int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) not in hs]  # holdout runs only from DATA_DIR
+        parts = [np.fromfile(f, dtype=np.float32) for f in files if ids[f] in hs] + [np.fromfile(f, dtype=np.float32) for f in tfiles]
+        arr = np.concatenate(parts); del parts
+        arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
+        X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
+        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
+        have = set(np.unique(run).tolist()) - hs
+        first = [r for r in runs0[:-a.holdout].tolist() if r in have]; fs = set(first)
+        rest = np.array(sorted(have - fs), dtype=np.int64); np.random.RandomState(23456).shuffle(rest)
+        runs = np.concatenate([np.array(first, dtype=np.int64), rest, hold]); pool = runs[: len(runs) - a.holdout][: a.runs]
+    else:
+        arr = np.concatenate([np.fromfile(f, dtype=np.float32) for f in files])
+        arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
+        X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
+        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
+        runs = np.unique(run); rng = np.random.RandomState(12345); rng.shuffle(runs)
+        hold = runs[-a.holdout:]; pool = runs[:-a.holdout][: a.runs]
     nval = max(200, len(pool) // 10); val, trn = pool[-nval:], pool[:-nval]
+    nrun = {}                                   # original states per run (counts.tsv of subsampled dirs; else rows present)
+    for d in (a.train_dirs or []):
+        cp = os.path.join(d, "counts.tsv")
+        if os.path.exists(cp):
+            for line in open(cp):
+                r_, n_ = line.split(); nrun[int(r_)] = int(n_)
+        elif a.state_weights:
+            raise SystemExit(f"--state-weights needs {cp} (re-run subsample_runs.py)")
     order = np.argsort(run, kind="stable"); rs = run[order]
     def rows(ids):
         ids = np.sort(ids); lo = np.searchsorted(rs, ids, "left"); hi = np.searchsorted(rs, ids, "right")
         return [order[l:h] for l, h in zip(lo, hi)]
     Rt, Rv, Rh = rows(trn), rows(val), rows(hold)
     it = np.concatenate(Rt); iv = np.concatenate(Rv); ih = np.concatenate(Rh)
-    s1 = np.zeros(DIM); s2 = np.zeros(DIM)   # chunked moments: X[it].std(dtype=float64) needs ~2x8 GB at 9,000 runs (OOM)
+    wrow = np.ones(len(run), dtype=np.float64)    # per-row weight: n_original / n_present (1 for full runs)
+    if a.state_weights:
+        for rr in Rt + Rv:
+            n0 = nrun.get(int(run[rr[0]]), len(rr)); wrow[rr] = n0 / len(rr)
+    s1 = np.zeros(DIM); s2 = np.zeros(DIM); W = 0.0   # chunked (weighted) moments: X[it].std(dtype=float64) OOMs at 9,000 runs
     for i in range(0, len(it), 200000):
-        c = X[it[i:i + 200000]].astype(np.float64); s1 += c.sum(0); s2 += (c * c).sum(0)
-    mu = s1 / len(it); sd = np.sqrt(np.maximum(s2 / len(it) - mu ** 2, 0.0)); sd[sd < 1e-6] = 1.0
-    ymean = float(y[it].mean()); ysd = float(y[it].std() + 1e-6)
+        c = X[it[i:i + 200000]].astype(np.float64); w = wrow[it[i:i + 200000]][:, None]
+        s1 += (w * c).sum(0); s2 += (w * c * c).sum(0); W += float(w.sum())
+    mu = s1 / W; sd = np.sqrt(np.maximum(s2 / W - mu ** 2, 0.0)); sd[sd < 1e-6] = 1.0
+    ymean = float(np.average(y[it], weights=wrow[it])); ysd = float(np.sqrt(np.average((y[it] - ymean) ** 2, weights=wrow[it])) + 1e-6)
     base = float(np.sqrt(((y[ih] - ymean) ** 2).mean()))
     print(f"runs total={len(runs)} train={len(trn)} val={len(val)} holdout={len(hold)}; rows train={len(it)} val={len(iv)} holdout={len(ih)}", flush=True)
     def std(idx):
@@ -58,13 +94,14 @@ def main():
     if a.ridge:
         S = np.zeros((DIM, DIM)); b = np.zeros(DIM)
         for i in range(0, len(it), 200000):
-            Z = std(it[i:i + 200000]); S += Z.T @ Z; b += Z.T @ (y[it[i:i + 200000]] - ymean)
-        S /= len(it); b /= len(it)
+            ch = it[i:i + 200000]; Z = std(ch); w = wrow[ch][:, None]
+            S += (Z * w).T @ Z; b += (Z * w).T @ (y[ch] - ymean)
+        S /= wrow[it].sum(); b /= wrow[it].sum()
         def pred(w, idx):
             return np.concatenate([std(idx[i:i + 200000]) @ w for i in range(0, len(idx), 200000)]) + ymean
         best = None
         for lam in (1e-3, 1e-2, 1e-1, 1.0, 10.0):
-            w = np.linalg.solve(S + lam * np.eye(DIM), b); r = float(np.sqrt(((pred(w, iv) - y[iv]) ** 2).mean()))
+            w = np.linalg.solve(S + lam * np.eye(DIM), b); r = float(np.sqrt(np.average((pred(w, iv) - y[iv]) ** 2, weights=wrow[iv])))
             print(f"lambda {lam:g} val_rmse={r:.4f}", flush=True)
             if best is None or r < best[0]: best = (r, lam, w)
         w = best[2]; ph = pred(w, ih)
@@ -90,14 +127,19 @@ def main():
                 out.append(model(xb).squeeze(1).numpy() * ysd + ymean)
         return np.concatenate(out)
     best = (1e30, None, -1); bad = 0
+    wnet = np.ones(len(run), dtype=np.float32)   # per sampled state: n_original / n_sampled of its run (--state-weights)
+    if a.state_weights:
+        for rr in Rt:
+            wnet[rr] = wrow[rr] * len(rr) / min(len(rr), a.k)
     for ep in range(80):
         model.train()
         idx = np.concatenate([r if len(r) <= a.k else g.choice(r, a.k, replace=False) for r in Rt]); g.shuffle(idx)
         for i in range(0, len(idx), 512):
             bi = idx[i:i + 512]
             xb = (torch.from_numpy(X[bi]) - mu_t) / sd_t; yb = (torch.from_numpy(y[bi]) - ymean) / ysd
-            loss = ((model(xb).squeeze(1) - yb) ** 2).mean(); opt.zero_grad(); loss.backward(); opt.step()
-        model.eval(); pv = predict(iv); r = float(np.sqrt(((pv - y[iv]) ** 2).mean()))
+            wb = torch.from_numpy(wnet[bi])
+            loss = (wb * (model(xb).squeeze(1) - yb) ** 2).sum() / wb.sum(); opt.zero_grad(); loss.backward(); opt.step()
+        model.eval(); pv = predict(iv); r = float(np.sqrt(np.average((pv - y[iv]) ** 2, weights=wrow[iv])))
         print(f"ep {ep+1:2d} val_rmse={r:.4f} {time.time()-t0:.0f}s", flush=True)
         if r < best[0] - 1e-5:
             best = (r, [(m.weight.detach().numpy().astype(np.float64).copy(), m.bias.detach().numpy().astype(np.float64).copy()) for m in model if isinstance(m, nn.Linear)], ep); bad = 0
