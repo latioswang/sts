@@ -76,7 +76,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
 - 14:25 UTC: the queue runner hit the 2-hour background limit during the Phase R data line (chunk 44/100 done,
   `research/queue.current` intact, chunks resume). It restarts at the 15:15 hourly run, so later 2-hour stops line up
   with the hourly runs.
-- 14:33 UTC: **the user confirmed that the queue runner (here and in worker sessions) is restarted immediately
+- 14:28 UTC: **the user confirmed that the queue runner (here and in worker sessions) is restarted immediately
   after every 2-hour background stop.** Restarted at once; Phase R data resumes from chunk 45.
 - **Heart best `heart_bfrelic10`** (boss relics chosen by KB value + 10× simulated next-act fights; pooled 500 12.0% vs
   10.4%, P=0.986, dev replication queued) on top of `heart_ka3` (ruby key in act 3; extension keep 10.2% vs 9.8%),
