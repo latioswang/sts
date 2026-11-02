@@ -339,3 +339,6 @@ ddd3ff8	val.a0	300	0	0.707	47.06	1.6294	-0.0493	0.003	discard	esim: map: elite n
 a8e9409	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	discard	heart_wba3: [heart pooled500] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance) [w_burning_act3=3] pooled dscore=+0.0035 dwin=+0.004 P(improve)=0.893
 a8e9409	dev2.a0	100	0	0.130	45.65	0.9914	+0.0102	0.871	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
 a8e9409	dev3.a0	100	0	0.050	43.68	0.8800	-0.0020	0.000	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
+89bcf75	val.a0	300	0	0.103	46.25	0.9744	-0.0045	0.000	discard	heart_bhp05: [heart pooled500] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold) [burn_hp=0.5] pooled dscore=-0.0027 dwin=-0.002 P(improve)=0.000
+89bcf75	dev2.a0	100	0	0.120	45.60	0.9812	+0.0000	0.000	info	heart_bhp05: [heart pooled500 slice] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold)
+89bcf75	dev3.a0	100	0	0.050	43.70	0.8820	+0.0000	0.000	info	heart_bhp05: [heart pooled500 slice] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold)

@@ -869,6 +869,9 @@ the single-knob results.
 - `heart_wba3`: pooled val,dev2,dev3 [heart]: n=500  heart_wba3 win=0.102 floor=45.71  heart_a4pot win=0.098 floor=45.65  dscore=+0.0035 dwin=+0.004 P(improve)=0.893 → near-miss (P 0.893); val funnel: key-less clears 29 vs 37, act-4 runs 147 vs 140, Heart
   wins 33 vs 32; dev2 +1 win, dev3 flat. Extended under the pooled near-miss rule (dev slice, pooled 600).
 
+- `heart_bhp05`: pooled val,dev2,dev3 [heart]: n=500  heart_bhp05 win=0.096 floor=45.61  heart_a4pot win=0.098 floor=45.65  dscore=-0.0027 dwin=-0.002 P(improve)=0.000 → discard (val key-less clears 37 vs 37, act-4 139 vs 140; dev2/dev3 identical games):
+  HP is not what blocks the emerald key; the map value of the burning elite's path is.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
