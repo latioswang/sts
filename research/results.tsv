@@ -335,3 +335,4 @@ b9ffe07	dev3.a20	100	0	0.020	24.95	0.5088	-0.0010	0.474	info	a20_ldw35: [a20 poo
 328a90e	dev2.a20	100	0	0.010	25.15	0.5029	-0.0259	0.029	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
 328a90e	dev3.a20	100	0	0.040	23.63	0.5025	-0.0073	0.382	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
 ddd3ff8	val.a0	300	0	0.707	47.06	1.6294	-0.0493	0.003	discard	esim: map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left) [elite_sim=1]
+75d313a	dev.a0	100	0	0.070	45.30	0.9269	+0.0300	0.953	info	heart_a4pot_dev: VERIFY: heart_a4pot on dev vs heart_bfbonus25_g_heart_dev (replication of a heart keep)

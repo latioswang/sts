@@ -25,7 +25,8 @@ in `research/results.tsv`. Phase 1 (hand-tuned agent) is summarised first, then 
 | `a20_bfbonus10_g2m` (a20_restlo + 10× deck-value bonus from the three-ascension model; pooled val+dev keep, P=0.935; second slice +0.007, P=0.608 — unreplicated) | val, 300, asc 20 | 1.0% | — | 26.6 |
 | `a20_restlo` (elite gate 80% HP, act-1 elites avoided, rest valued higher) | val, 300, asc 20 | 1.3% | — | 25.6 |
 | `base_a20` (A0 params at ascension 20, untuned) | val, 300, asc 20 | 2.3% | — | 21.8 |
-| **Heart best `heart_bfbonus25_g_heart`** (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | **9.3%** | — | 46.3 |
+| **Heart best `heart_a4pot`** (heart_bfbonus25_g_heart + spare gold buys potions in the act-4 shop; pooled-500 keep P=0.996, dev replication +3 Heart wins P=0.953) | val, 300, keys | **10.7%** | — | 46.3 |
+| `heart_bfbonus25_g_heart` (keys + 25× bonus from the Heart-labelled model 6; win = Heart beaten) | val, 300, keys | 9.3% | — | 46.3 |
 | `priormlp_d0` (chests + learned move prior at the root) | val, 300 | 61.3% | — | 44.6 |
 | `chest1` (fixed sim, chests opened) | val, 300 | 57.7% | — | 44.2 |
 | **same, test confirmation** | **test, 500** | **54.6%** | **[50.2%, 58.9%]** | 43.7 |
@@ -123,7 +124,15 @@ the same agent won 4/100 vs 9/100 for its predecessor (score −0.034, P=0.20); 
 scored +0.054 (P=0.93) with Heart wins 9/100 vs 8/100, and on a third (dev3) +0.047 (P=0.98) with Heart
 wins equal. Floors replicate on two of three slices and Heart wins are flat on all three, so this keep is
 reported as "floor-replicated, Heart wins unchanged"; Heart conversion
-remains the weakest, noisiest track (a 2–3-point Heart-win difference is one or two runs). (An earlier draft of this report
+remains the weakest, noisiest track (a 2–3-point Heart-win difference is one or two runs). Because of
+that noise, Heart (and A20) keep decisions moved on 2026-11-02 to a pre-registered pooled rule (val 300 +
+dev2 100 + dev3 100, same paired bootstrap), with dev as the untouched replication slice. Its first keep is
+`heart_a4pot`: spare gold buys potions in the act-4 shop (the last shop, so gold has no other use), which is
+a pure conversion gain — floors unchanged, Heart wins +4/300 on val, +3/100 on dev2, +1/100 on dev3
+(pooled 9.8% vs 8.2%, P=0.996) and +3/100 on the replication slice (P=0.953): +11 Heart wins on 600 seeds.
+A replay of the val games also showed where the next Heart wins are: 37 of 300 runs (14% over 600 seeds)
+beat the act-3 boss without all three keys — the emerald key (burning elite) missing in 22, the ruby key
+(rest-site Recall) in 17 — and never reach the Heart; key-acquisition experiments are queued. (An earlier draft of this report
 said 16.3% / 47% — that mistakenly counted key-less Act-3 clears as wins; the harness now defines a
 Heart-track win as `act ≥ 4 && win`.) ~90% of Act-4 deaths are at the Heart itself, with winning runs
 finishing on ~28 HP, so Act-4 conversion is a damage-race problem. Tracked separately from the A0
