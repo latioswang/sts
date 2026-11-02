@@ -30,6 +30,9 @@ cp "$WORKSHOP/1605833019/BaseMod.jar" "$WORKSHOP/2131373661/CommunicationMod.jar
 echo "game folder: $RUN_DIR"
 
 "$PYTHON" "$HERE/write_profile.py" "$RUN_DIR/preferences"
+# Width, height, frame limit, fullscreen, windowed fullscreen, vsync. With vsync on, the game drops to a few frames per
+# second once the display sleeps or the window is covered.
+printf '1280\n720\n240\nfalse\nfalse\nfalse\n' > "$RUN_DIR/info.displayconfig"
 
 CONFIG_DIR="$HOME/Library/Preferences/ModTheSpire/CommunicationMod"
 CONFIG="$CONFIG_DIR/config.properties"
