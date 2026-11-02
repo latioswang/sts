@@ -237,6 +237,12 @@ Maximise **Ironclad win rate** in `sts_lightspeed` with an agent that uses
 - Batch 45 (pre-boss rest and card-value knobs): A20 `a20_restboss1` 4.0% win, floor 28.4, +0.014 vs base, P=0.875 → discard (near-miss → pooled extension queued);
   `a20_restboss05` 3.7% win, floor 27.1, -0.014 vs base, P=0.111 → discard; `a20_aoe3` 3.7% win, floor 28.0, +0.004 vs base, P=0.751 → discard; `a20_scal4` 2.7% win, floor 27.9, -0.007 vs base, P=0.180 → discard; `a20_upgpow3` 3.0% win, floor 27.5, -0.011 vs base, P=0.121 → discard. A10 `a10_restboss1` 26.0% win, floor 36.6, -0.048 vs base, P=0.015 → discard; `a10_aoe3` 27.0% win, floor 36.8, -0.035 vs base, P=0.031 → discard — at A10 the pre-boss upgrade beats the heal
   and AoE bonuses hurt; both ladders are at their optimum for these knobs.
+- Batch 46 (third replication slice): A0 and A10 learned-bonus keeps replicate (see the replication section).
+  Batch 47 (A20 healing follow-ups, vs a20_restboss1): `a20_resthp07` 3.7% win, floor 28.3, -0.004 vs base, P=0.258 → discard; `a20_wrest7` 4.0% win, floor 28.3, -0.000 vs base, P=0.470 → discard; `a20_rh07` 4.0% win, floor 27.5, -0.017 vs base, P=0.134 → discard — flat; the pre-boss heal is
+  the only healing knob that moved A20.
+- Queue empty at 2026-11-02 00:20 UTC. Overnight: idle except the hourly wake-ups (nothing cheap is left
+  to test; the day-2 plan — A20 act-1 survival and Heart conversion need new mechanisms, speed is
+  architectural — starts when work resumes).
 - Running (sequential queue, `research/queue.txt`): overnight hygiene — regenerate the A10 fight set on the
   fixed simulator (`bg_a10c`, same seeds as bg_a10) and retrain the A10 model (11) → `a10_bfbonus25_g2c`.
   Result: `a10_bfbonus25_g2c` 30.3% win, floor 37.6, +0.014 vs base, P=0.642 → discard — neutral; clean A10 data from the newer agent neither helps nor hurts (consistent with
