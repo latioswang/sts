@@ -937,6 +937,23 @@ Unlike the leaf value (Phase S) V is called ≈ 50 times per run, so model size 
   an additive integration keeps (LOW–MED; the deck-model bonus already captures part of the signal); the replacement
   `vrb50_nobf` does not beat the current agent (MED).
 
+**Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
+games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
+34.865 predicting the mean. Root-trained Phase S nets scored on the same leaf holdout (`research/analysis/cross_eval_sv.py`):
+
+    leaf holdout: 50000 states; predict-mean RMSE 34.86
+    sv_7: RMSE on leaf states 15.13  bias +2.81  corr 0.905
+    sv_8: RMSE on leaf states 15.63  bias +2.78  corr 0.899
+    sv_9: RMSE on leaf states 15.72  bias +3.05  corr 0.898
+    sv_11: RMSE on leaf states 12.06  bias +0.06  corr 0.938
+
+On the states the search actually asks about, the three root-trained nets are equally bad (RMSE 15.1–15.7, bias ≈ +3,
+i.e. they overrate leaves) although their root-holdout RMSE was 10.2 / 8.0 / 5.65: the larger nets fit the root
+distribution more tightly and transfer no better. That explains both Phase S puzzles — why more simulations did not
+help (a biased leaf) and why the cheapest net played best (equal leaf error, more simulations). The leaf-trained
+small net cuts the leaf error by ≈ 20% and removes the bias. Pre-registered "far below" (MED): partly — 12.1 vs
+15.1 is a clear but not a large reduction. Play tests decide.
+
 ## Magic-number audit (2026-11-02 11:05 UTC, prompted by the user: "only the final score is fixed; every other number should be learned")
 
 Inventory [computed from the code and results.tsv]: 161 named parameters; 97 have been tested at least once by the
