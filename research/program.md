@@ -950,6 +950,13 @@ Prediction: LOW confidence of a keep; a replication of the model-6 result (≈ 0
 - Batch 50 generation started 02:47 UTC: smoke cost 32.0 s/game → `bf_every=1`, 1,000 games in 50-game chunks
   from seed 302000 (≈ 2.5 h including one 2-hour-limit restart), then model 12 and `heart_bfb25_g12`.
 
+- Batch 50: `bg_heart2` done (1,000 games of heart_ka3, 522 reached act 4, 100 Heart wins, 288 MB). Model 12 on
+  bg1 + bg_heart + bg_heart2 (pasted from the trainer): `exported research/models/bf_g12.txt (epoch 24, boss_bce 0.4046
+  vs base 0.6739, pair_corr 0.094)`; per-epoch val at epoch 24: `boss_bce=0.4046 (base 0.6739) hall_bce=0.1029 (base
+  0.1500) pair_corr=0.155 pair_sign_acc=0.593 (n=5439) pair_corr_boss_dmg=0.160`. No 3× jump (the run-id collision
+  bug showed paired corr 0.35–0.48), repro_check bit-identical, leak test PASS with the model on. `heart_bfb25_g12`
+  (pooled rule vs heart_ka3) running.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
