@@ -18,3 +18,11 @@ repro_check research/runs/a20_restboss1.val.a20.tsv: 16 games compared, 0 differ
   - pooled val,dev2,dev3 [act3]: n=500  a20_potv8 win=0.016 floor=26.54  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0287 dwin=-0.012 P(improve)=0.002
 
 Queue empty; no keeps on A10 or A20; best_a10_* / best_a20_* unchanged. (note.py shows the last stage row for A20 names; the pooled line is the verdict.)
+
+## Near-miss extension (coordinator request): ext_pooled.sh a20_mapd085 a20_restboss1
+```
+pooled val,dev2,dev3,dev [act3]: n=600  a20_mapd085 win=0.028 floor=27.32  a20_restboss1 win=0.027 floor=27.23  dscore=+0.0033 dwin=+0.002 P(improve)=0.704
+no
+no (pooled 600 P=0.704, dev-alone dscore=-0.011176470588235293)
+```
+Not kept; best_a20_* unchanged.
