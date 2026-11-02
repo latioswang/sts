@@ -37,3 +37,7 @@ Caveat: the holdout block is the last 50,000 of a fixed shuffle of *this* datase
 ```
 SV id=17 rows=3225306 hidden=96 layers=2 params=29089 holdout_rmse=11.216 predict_mean_rmse=34.737 exported /home/user/sts/research/models/sv_17.txt
 ```
+### Line 6 (leak test, leaf_sv=16)
+```
+LEAKTEST checked=123 mismatches=0 PASS
+```
