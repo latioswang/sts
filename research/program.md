@@ -818,6 +818,10 @@ the single-knob results.
   100 simulations is too lenient in act 1 (the simulated fight starts from the current HP, before the
   hallway fight that precedes the elite). Cost 2.07 s vs 1.39 s per game. The 3-of-3 variant is next.
 
+- Queued from the funnel: `a20_esim_a23` — the gate with the blanket act-1 penalty kept (`w_elite_act1=-2`
+  stays), so the simulated test only decides act-2/3 elites, where it reduced elite deaths. Prediction: small
+  positive on floors (fewer Slavers/Leader/Book deaths), wins within noise.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
