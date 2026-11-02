@@ -878,6 +878,9 @@ the single-knob results.
   P ≥ 0.9 and dev-alone > 0), new Heart best.** Chain: heart_bfbonus25_g_heart 8.2% → heart_a4pot 9.3% →
   heart_wba3 9.8% Heart wins on the pooled 600. Labelled "extension keep" — dev is consumed, no further slice.
 
+- `heart_wb4` (on top of wba3): pooled val,dev2,dev3 [heart]: n=500  heart_wb4 win=0.102 floor=45.82  heart_wba3 win=0.102 floor=45.71  dscore=-0.0004 dwin=+0.000 P(improve)=0.490; val act-4 161 vs 147, key-less clears 24 vs 29, Heart wins 35 vs 33;
+  dev2 −4 wins, dev3 +2 → discard.
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 

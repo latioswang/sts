@@ -344,3 +344,6 @@ a8e9409	dev3.a0	100	0	0.050	43.68	0.8800	-0.0020	0.000	info	heart_wba3: [heart p
 89bcf75	dev3.a0	100	0	0.050	43.70	0.8820	+0.0000	0.000	info	heart_bhp05: [heart pooled500 slice] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold)
 b689e1f	dev.a0	100	0	0.080	45.36	0.9367	+0.0098	0.629	info	heart_wba3_dev: VERIFY: heart_wba3 on dev vs heart_a4pot_dev (replication of a heart keep)
 b689e1f	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	keep	heart_wba3: [heart pooled600 extension] KEEP: pooled600 dscore=+0.0045 dwin=+0.005 P(improve)=0.958 dev-alone dscore=0.00980392156862745
+cf1058b	val.a0	300	0	0.117	46.86	0.9941	+0.0121	0.823	discard	heart_wb4: [heart pooled500] emerald key: burning-elite map bonus 4 (was 2) [w_burning=4] pooled dscore=-0.0004 dwin=+0.000 P(improve)=0.490
+cf1058b	dev2.a0	100	0	0.090	45.33	0.9433	-0.0480	0.041	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
+cf1058b	dev3.a0	100	0	0.070	43.19	0.8900	+0.0100	0.709	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
