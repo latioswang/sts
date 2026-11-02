@@ -844,6 +844,8 @@ the single-knob results.
   near-miss rule above (dev slice, pooled 600). Val funnel: floor 28.43 vs 28.36, wins 9 vs 12, act-2 elite
   deaths 38 vs 40, boss deaths 143 vs 150, 2.14 s vs 1.39 s per game.
 
+- `a20_ltw1`: pooled val,dev2,dev3 [act3]: n=500  a20_ltw1 win=0.026 floor=27.22  a20_restboss1 win=0.028 floor=27.41  dscore=-0.0057 dwin=-0.002 P(improve)=0.312 → discard (val exactly flat, both slices slightly negative).
+
 Compute note: `elite_sim` adds strategic-layer simulations (like the `bf_*` fights, outside the
 per-combat-decision budget); its per-game `secs` is reported with the result.
 
