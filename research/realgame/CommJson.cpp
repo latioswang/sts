@@ -21,7 +21,9 @@ json cardJson(const Card &c) { return cardJson(c.getId(), c.getUpgraded(), 0, c.
 
 json cardJson(const CardInstance &c) {
     const int upgrades = c.id == CardId::SEARING_BLOW ? c.specialData : (c.upgraded ? 1 : 0);
-    return cardJson(c.getId(), upgrades, c.costForTurn, c.usesSpecialData() ? c.specialData : 0, c.requiresTarget());
+    // The game reports a curse's "unplayable" cost as -2; the simulator stores -3.
+    const int cost = c.costForTurn == -3 ? -2 : c.costForTurn;
+    return cardJson(c.getId(), upgrades, cost, c.usesSpecialData() ? c.specialData : 0, c.requiresTarget());
 }
 
 template <typename Range>

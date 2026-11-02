@@ -9,16 +9,23 @@ Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spir
 
 | Part | State |
 |---|---|
-| Simulator build on macOS | Works |
-| Agent hooks | Unset in research runs; 40 `fair_eval` games identical before and after |
-| JSON to simulator converter | Passes the offline round trip: 100 games, 42,765 battle decisions, 0 action or visible-field differences, no dependence on draw order |
-| Divergence report | Works on sample results; no real results yet |
-| Translation from actions to commands | Reviewed against the mod's Java source; never run against the game |
-| Game launch and Communication Mod connection | **Not run yet** |
-| Mirror mode on the real game | **Not run yet** |
-| Live mode on the real game | **Not run yet** |
+| Game launch and Communication Mod connection | Works |
+| Mirror mode, 20 seeds to the end of act 1 | 18 matched, 2 stopped where the game itself isn't deterministic ([report](reports/divergences-act1.md)) |
+| Mirror mode, acts 2 to 4 | Only checked as far as floor 18 so far; expect more differences |
+| Live mode | Won its first real run (seed 5000, floor 51, no fallbacks) |
+| Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
+| JSON to simulator converter | Passes the offline round trip |
+| Agent hooks | Unset in research runs |
 
-The mods are not installed on this machine yet. Everything that talks to the game is written against the mod's Java source and has never talked to the game, so expect bridge bugs on first contact.
+## Which simulator
+
+`research/setup.sh` builds upstream plus `patches/sts_lightspeed.patch` by default, which is what the research loop uses. The bridge is meant to run against branch `fidelity` of [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed), which adds the fixes in [reports/simulator_fixes.md](reports/simulator_fixes.md):
+
+```bash
+STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=fidelity STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+```
+
+The fixes change simulation results, so research numbers from before them aren't comparable with runs after them.
 
 ## Setup
 
@@ -53,7 +60,7 @@ Subscribing is not needed, and wouldn't help: ModTheSpire's Workshop search need
 **3. Build**
 
 ```bash
-STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=fidelity STS_TARGETS="fair_eval sts_bridge" research/setup.sh
 ```
 
 `setup.sh` still defaults to the cloud paths when `STS_SIM_DIR` is unset.
@@ -67,7 +74,7 @@ research/realgame/setup_game.sh
 Run this with the game closed. It does three things.
 
 - **Builds a separate game folder**, `~/.sts_realgame` (`STS_GAME_DIR` overrides it). The game keeps preferences, saves and run history in its working directory, so running from here keeps the research profile and runs out of the Steam install, where Steam Cloud could sync them. The Steam folder stays unchanged.
-- **Writes the profile the simulator assumes** (`write_profile.py`): everything unlocked, tutorials off, Neow on (a fresh profile skips Neow on its first run), Fast Mode on, and Upload Data off so research runs don't reach the developers' stats.
+- **Writes the profile the simulator assumes** (`write_profile.py`): everything unlocked, all bosses seen (an unseen boss is forced), the final act on (it needs a win with three characters), tutorials off, Neow on (a fresh profile skips Neow on its first run), Fast Mode on, and Upload Data off so research runs don't reach the developers' stats.
 - **Writes** `~/Library/Preferences/ModTheSpire/CommunicationMod/config.properties`:
 
 ```
@@ -101,6 +108,20 @@ research/realgame/commctl.py state
 research/realgame/commctl.py send "START IRONCLAD 0 ABC"
 ```
 
+## Long batches
+
+The game's heap fills up after dozens of runs in one process. `run_batch.sh` restarts the game every few seeds and carries on after a crash:
+
+```bash
+research/realgame/run_batch.sh mirror 1000 20 --chunk 5 --max_floor 17
+```
+
+```bash
+research/realgame/run_batch.sh live 5000 3 --chunk 2
+```
+
+It starts and stops the game itself, so close any game you started by hand.
+
 ## Mirror mode
 
 ```bash
@@ -118,6 +139,8 @@ Each step goes in this order:
 Compared: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics, event ID, and in combat the player, hand, all three piles in order, and each monster's HP, block, powers, move, and intent damage.
 
 A *soft* difference means the comparison itself is unsure (for example a move byte missing from the table). It is logged but does not stop the run.
+
+A stop with status `game_nondeterminism` isn't a simulator bug. After a discovery (Attack, Skill, Power or Colorless Potion, or the card), the game rolls `cardRandomRng` once per generation on every frame of about 0.25 seconds, so that stream depends on the frame rate until the next floor. The same seed and actions can play out differently in the game itself.
 
 After a stop, the bridge loses the current run on purpose to get back to the main menu, since the mod has no abandon command. This takes a minute or two.
 
@@ -156,12 +179,12 @@ Plays games in the simulator and sends every decision's state through JSON and t
 python3 -m pytest research/realgame/test_report.py
 ```
 
-## Things to watch for on the first real runs
+## Things to keep in mind
 
-- **Neow.** In the game's `NeowEvent`, a standard run reads the `<CLASS>_SPIRITS` preference and offers two blessings if it is 0, while a seeded run always gets four. Every run the bridge starts is seeded (`START` with a seed sets `Settings.seedSet`), so four is expected. Mirror mode still handles two if it ever sees them, and compares the four options' text with the simulator's rolls.
-- **Locked content.** The simulator assumes everything is unlocked. In the game, `Settings.treatEverythingAsUnlocked()` covers daily and trial runs only, so seeded runs use the profile's unlocks. `write_profile.py` unlocks everything; the game's log should show `RED UNLOCKS: 9/9` and `RELIC UNLOCKS: 24/24` at startup.
+- **Screen.** Keep the Mac awake and unlocked while a batch runs.
 - **Models.** `bf_model` loads from `research/models`. The bridge sets the path itself and refuses to start if the model fails to load. `fair_eval` falls back to `/home/user/...` and silently plays untrained when the file is missing, so set `BF_MODEL_DIR` when running it on this Mac.
 - **Agent randomness across platforms.** `std::default_random_engine` and `std` distributions differ between libc++ and libstdc++, so a given seed can play differently here than on the Linux cloud runs. The simulator's own RNG does not use them.
+- **Game saves.** `saves/IRONCLAD.autosave` in the game folder is base64 XORed with `key`. Decoding it shows the game's real relic pools and RNG counters, which is the quickest check when a pool looks wrong.
 
 ## Files
 
@@ -178,6 +201,7 @@ python3 -m pytest research/realgame/test_report.py
 | `Live` | Live mode |
 | `CommJson`, `SelfTest` | Offline converter round trip |
 | `report.py` | Divergence report |
-| `setup_game.sh`, `launch_game.sh` | Mod config and game launch |
+| `setup_game.sh`, `write_profile.py`, `launch_game.sh`, `run_batch.sh` | Game folder, profile, launch and batches |
+| `reports/` | Divergence reports and the list of simulator fixes |
 
 Changes outside this directory, all unset or unchanged in research runs: `FairAgent::onCombatAction` and a public `stepOutOfCombat`; `search::gameActionObserver` in the simulator patch; a `sts_bridge` CMake target; `STS_RESEARCH_DIR` as a CMake cache variable; `STS_SIM_DIR` and `STS_TARGETS` in `setup.sh`.
