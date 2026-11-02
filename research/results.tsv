@@ -429,3 +429,4 @@ a2418af	val.a0	300	0	0.420	41.30	1.2298	-0.4489	0.000	scaling	sv11: PHASE S S2 l
 3f5e172	val.a0	300	0	0.730	47.36	1.6587	-0.0200	0.262	discard	vrb20: Phase R: card picks + 20 x learned run value gain (V with card - without), V = vr_10 [vr_model=10 vr_bonus=20]
 b4d6084	val.a0	300	0	0.777	47.31	1.7043	+0.0256	0.761	discard	vrb50: Phase R: card picks + 50 x learned run value gain, V = vr_10 [vr_model=10 vr_bonus=50]
 ebd8d4c	val.a0	300	0	0.727	46.02	1.6291	-0.0496	0.107	discard	vrb100: Phase R: card picks + 100 x learned run value gain, V = vr_10 [vr_model=10 vr_bonus=100]
+a663616	val.a0	300	0	0.697	45.51	1.5891	-0.0896	0.011	discard	vrb50_nobf: Phase R: run value gain (50x) replaces the deck-model bonus (bf_bonus 0) [vr_model=10 vr_bonus=50 bf_bonus=0]
