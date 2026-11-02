@@ -1052,6 +1052,10 @@ record the exact A0 commit/params it branched from and re-diff after every A0 ke
 - `a20_bfrelic10` extension: dev −0.010; pooled val,dev2,dev3,dev [act3]: n=600  a20_bfrelic10 win=0.030 floor=27.22  a20_restboss1 win=0.027 floor=27.23  dscore=+0.0030 dwin=+0.003 P(improve)=0.743 → no. Relic choice by simulation: Heart keep, A0 flat, A20 near-miss
   unconfirmed; A10 and the 25× weight still queued.
 
+- `a10_bfrelic10` (A10, val rule): win=0.293 floor=37.35 dscore=-0.0005 P=0.498 → discard (flat, like A0).
+  Verdict so far for relic choice by simulation: it helps only where the next fights are the Heart and Shield & Spear
+  (a known, fixed pair the simulation can target); against sampled next-act fights it is no better than the tier list.
+
 ### Batch 53 (queued 04:52 UTC) — boss relics chosen by simulated fights
 
 Boss relics are the largest single decisions in a run and are currently picked by a tier list (`boss_pol=1`) that
