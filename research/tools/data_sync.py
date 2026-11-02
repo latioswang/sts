@@ -17,7 +17,7 @@ usage:
 Files are sharded into 256 subfolders (first 2 hex digits of sha1(file name)) to stay well under the Hub's
 per-folder file-count guidance.
 """
-import glob, hashlib, json, os, sys, tempfile
+import glob, hashlib, json, os, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # research/
 DATA = os.path.join(ROOT, "vf", "data")
@@ -52,6 +52,7 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
         print(f"push {name} (dry run): {len(plan)} files, {total / 1e6:.1f} MB, e.g. {plan[0][0]}")
         return
     from huggingface_hub import HfApi, CommitOperationAdd
+    from huggingface_hub.errors import HfHubHTTPError
     api = api or HfApi(); repo = repo or repo_id()
     have = {f for f in api.list_repo_files(repo, repo_type="dataset") if f.startswith(name + "/all/")}
     todo = [(r, p) for r, p in plan if r not in have]
@@ -61,8 +62,24 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
         nonlocal batch, size, done
         if not batch:
             return
-        api.create_commit(repo, [CommitOperationAdd(path_in_repo=r, path_or_fileobj=p) for r, p in batch],
-                          commit_message=f"{name}: {len(batch)} files", repo_type="dataset")
+        left = batch
+        for attempt in range(5):
+            try:
+                api.create_commit(repo, [CommitOperationAdd(path_in_repo=r, path_or_fileobj=p) for r, p in left],
+                                  commit_message=f"{name}: {len(left)} files", repo_type="dataset")
+                break
+            except HfHubHTTPError as e:
+                # A 5xx can arrive after the commit landed (seen: 502 from /commit, files there), so never blindly
+                # resend: re-list, and commit only what is still missing. Re-uploaded bytes dedupe on Xet.
+                code = getattr(getattr(e, "response", None), "status_code", None) or 0
+                if not (code >= 500 or code == 429) or attempt == 4:
+                    raise
+                print(f"push {name}: commit got HTTP {code}; retry {attempt + 1}/4 in {15 << attempt}s", flush=True)
+                time.sleep(15 << attempt)
+                have_now = set(api.list_repo_files(repo, repo_type="dataset"))
+                left = [(r, p) for r, p in left if r not in have_now]
+                if not left:
+                    break
         done += len(batch)
         print(f"push {name}: {done}/{len(todo)} files uploaded", flush=True)
         batch, size = [], 0
