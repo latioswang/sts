@@ -1185,6 +1185,8 @@ the R2 trainer at ≈ 1.9×10^5 training runs with 16 kept states per run (memor
 holdout; selection among all R2 + R3 cells -> new vr id, gate; then the card-pick test (bonus 10 / 20 / 40) on A0 vs the
 then-best, and ports on success. Predictions: best holdout RMSE < 0.500 (LOW–MED); a net larger than h=64 is best (MED);
 an A0 card-pick keep over `vr2b20` (LOW).
+Workers (fresh sessions, batch as their initial task): `r3w4` session_01USafwjCmHfU33M4nKBEaNm, `r3w5`
+session_01USafwfxVxqFj3VUoacBkds, `r3w6` session_01USafwiFvm2TuvHQBbsV8tv (started 06:11 UTC).
 
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
