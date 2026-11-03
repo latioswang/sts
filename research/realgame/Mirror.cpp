@@ -195,6 +195,11 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
             send(hasCommand(state(), "confirm") ? "CONFIRM" : "CHOOSE 0");
             continue;
         }
+        // The fight ends at once in the simulator, but the game waits for the player to run off after a Smoke Bomb.
+        if (gameState().value("room_phase", "") == "COMBAT" && real == "NONE") {
+            send("WAIT 30");
+            continue;
+        }
         switch (want) {
             case ScreenState::MAP_SCREEN:
                 if (real == "MAP") return;
@@ -264,6 +269,8 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
     for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"cardRng", &gc.cardRng}, {"treasureRng", &gc.treasureRng},
                                        {"relicRng", &gc.relicRng}, {"potionRng", &gc.potionRng}, {"merchantRng", &gc.merchantRng},
                                        {"eventRng", &gc.eventRng}, {"monsterRng", &gc.monsterRng}, {"miscRng", &gc.miscRng}}) {
+        // miscRng is reseeded on entering every room, and the game rolls it once while setting up an act.
+        if ((gc.floorNum == 0 || gc.screenState == ScreenState::MAP_SCREEN) && stream == &gc.miscRng) continue;
         addRngDiff(d, name, *stream);
     }
     if (gc.screenState == ScreenState::MAP_SCREEN) {
