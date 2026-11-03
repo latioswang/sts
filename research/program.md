@@ -1260,7 +1260,8 @@ keep needs pooled-400 P >= 0.9 and dev-alone dscore > 0.
   printed KEEP). New A0 best `vr3b40` (R3 run value vr_61, bonus 40). Pooled 400: 80.5% vs 78.0% for `vr2b20`.
 **Ports of `vr3b40` (pre-registered 21:50 UTC):** A10 `a10_vr3b40` (val-300 vs `a10_vr2b20`), A20 `a20_vr3b40` and Heart
 `heart_vr3b40` (pooled-500 vs their `*_vr2b20` bests). Predictions: each keeps (LOW–MED; the A0 gain over the R2 model is
-at the edge of significance). A10: `a10_vr3b40` 35.3% win, floor 39.0, +0.021 vs base, P=0.716 → discard; near-miss extension declared 21:53 UTC (dev 100 vs `a10_vr2b20_dev`, pooled 400).
+at the edge of significance). A10: `a10_vr3b40` 35.3% win, floor 39.0, +0.021 vs base, P=0.716 → discard; near-miss extension declared 21:53 UTC (dev 100 vs `a10_vr2b20_dev`, pooled 400). A20: `pooled val,dev2,dev3 [act3]: n=500  a20_vr3b40 win=0.044 floor=28.39  a20_vr2b20 win=0.036 floor=28.60  dscore=+0.0037 dwin=+0.008 P(improve)=0.604` -> no keep. Heart: `pooled val,dev2,dev3 [heart]: n=500  heart_vr3b40 win=0.118 floor=48.05  heart_vr2b20 win=0.148 floor=47.56  dscore=-0.0210 dwin=-0.030 P(improve)=0.148` -> no keep
+(Heart wins 14.8% -> 11.8%; the Heart track prefers the R2 model at bonus 20).
 
 
 
