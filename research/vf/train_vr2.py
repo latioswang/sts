@@ -45,8 +45,11 @@ def main():
         hold = runs0[-a.holdout:]; hs = set(hold.tolist())
         tfiles = sorted(f for d in a.train_dirs for f in glob.glob(os.path.join(d, "run_*.bin")))
         tfiles = [f for f in tfiles if int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) not in hs]  # holdout runs only from DATA_DIR
-        parts = [np.fromfile(f, dtype=np.float32) for f in files if ids[f] in hs] + [np.fromfile(f, dtype=np.float32) for f in tfiles]
-        arr = np.concatenate(parts); del parts
+        sel = [f for f in files if ids[f] in hs] + tfiles      # preallocate: np.concatenate of a list peaks at 2x (≈ 17 GB at 10^5 runs)
+        tot = sum(os.path.getsize(f) // 4 for f in sel); arr = np.empty(tot, dtype=np.float32); o = 0
+        for f in sel:
+            v = np.fromfile(f, dtype=np.float32); arr[o:o + v.size] = v; o += v.size
+        arr = arr[:o]
         arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
         X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
         y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)

@@ -1127,6 +1127,12 @@ Holdout runs are never read from the training dirs. Smoke set (300 train runs, h
 All R2 cells use `--state-weights`; R2 adds weighted re-runs at 8,100 runs (h=64/256/1,024 + ridge, full rows) so the
 data-size effect is read separately from the weighting fix. Prediction: weighted v2 nets beat the mean at 8,100 runs at
 every size (MED).
+**R2 training plan (fixed 00:19 UTC, before any R2 data is trained on):** holdout = the same 1,000 `rundata` runs (full rows);
+training dirs = `rundata_k32` (the original 9,000 training runs, 32 states each) + `rundata_w1/w2/w3_k32`; pool order =
+the original 9,000 first, then the 90,000 new runs in a fixed shuffle. Cells: ridge / h=64 / 256 / 1,024 at 39,000
+(ids 30–33) and 99,000 training runs (34–37), all `--state-weights`. Selection: lowest holdout RMSE among 22–25 and
+30–37 -> `vr_41` (`research/tools/vr_select3.sh`), gate vs its predict-mean RMSE; leak test; `vr2b20/50/100` (val-300 vs
+the A0 best). Memory: the loader preallocates (a list concatenate peaks at 2×, ≈ 17 GB at 10^5 runs).
 Weighted re-runs at 8,100 runs (full rows; pasted):
   `VR2 id=23 runs=8100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5230 holdout_corr=0.317 predict_mean_rmse=0.5451 238s`
   `VR2 id=24 runs=8100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5318 holdout_corr=0.320 predict_mean_rmse=0.5451 352s`
