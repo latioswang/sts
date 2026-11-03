@@ -35,6 +35,7 @@ struct Counters {
     std::map<std::string, long> internals;      // monster + field whose rebuilt hidden value differs
     std::map<std::string, long> fields;         // visible field that differs
     std::map<std::string, long> screenMisses;   // screen or event whose action set differs
+    std::map<std::string, long> events;         // decisions made on each event's screens
     std::map<std::string, long> warnings;
     std::vector<std::string> examples;
 };
@@ -163,6 +164,7 @@ void checkScreen(const GameContext &gc, Counters &c) {
     run.nodeY = gc.curMapNodeY;
     const GameContext rebuilt = gameContextFromState(gs, 777, run, notes);
     for (const auto &w : notes.warnings) ++c.warnings[w];
+    if (gc.screenState == ScreenState::EVENT_SCREEN) ++c.events[gs["screen_state"].value("event_id", "")];
 
     if (gc.screenState == ScreenState::REWARDS) return;  // card lists are hidden until opened, by design
     const auto original = sortedBits(search::GameAction::getAllActionsInState(gc));
@@ -215,6 +217,7 @@ int runSelfTest(const fair::Params &params, std::uint64_t seedStart, int count, 
     printMap("hidden monster fields rebuilt differently", c.internals);
     printMap("screens with a different action set", c.screenMisses);
     printMap("converter warnings", c.warnings);
+    printMap("event screens reached", c.events);
     if (!c.examples.empty()) std::cout << "examples:\n";
     for (const auto &e : c.examples) std::cout << "  " << e << "\n";
 

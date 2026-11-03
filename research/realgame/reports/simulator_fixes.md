@@ -46,6 +46,17 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Necronomicon tested the wrong flag | `freeToPlayOnce`, so it copies a Havoc card and not a Forethought one | `968e0f3` |
 | code | Hand of Greed was treated as HP loss | It's an attack, so Curl Up, Angry, Thorns and The Boot see it | `968e0f3` |
 | code | Enlightenment+ raised a lower cost for the turn to 1; Liquid Memories with Sacred Bark took one card; Forethought+ with one card opened no screen | `EnlightenmentAction`, `BetterDiscardPileToHandAction`, `ForethoughtAction` | `968e0f3` |
+| 2004, 8 | Metamorphosis and Chrysalis made an X-cost card cost 0 | They only change a positive cost | `90deb45` |
+| 1000, 54 | The player stayed surrounded after a Spire guard died | The survivor no longer attacks from behind | `fc24e0e` |
+| 2002, 18 | Necronomicon's copy of Rampage saw the first hit's bonus | `ModifyDamageAction` finds Double Tap's copy in limbo, but not Necronomicon's | `5c502b2` |
+| 2102, 50 | Upgrading Blood for Blood put its cost back to 3 | It lowers the current cost by 1 | `381ef31` |
+| 2103, 33 | Brutality cost HP before it drew, and Rupture didn't see it or Pain | It draws first, and both count as the player's own loss | `8126ff3` |
+| 2106, 23 | Dropkick's damage left out Vigor | It's worked out when the card is played | `3b47231` |
+| 2111, 6 | Jack of All Trades rolled when its action ran | It rolls when played, and adds its cards in that order | `3b47231` |
+| 2106, 31 | Sever Soul exhausted after its damage | It exhausts first | `84a699d` |
+| 2116, 6 | No Draw ended before Combust's HP loss, so Runic Cube drew | It ends after, so Runic Cube draws nothing | `84a699d` |
+| 2120, 50 | Skills kept in hand kept their cost under Corruption | They go back to 0 on the next draw | `84a699d` |
+| 2126, 50 | Unceasing Top didn't draw when Time Warp ended the turn on an empty hand | It does | `84a699d` |
 
 ## Monsters
 
@@ -75,6 +86,13 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2005, 35 | Exploder's Explode showed 30 damage | Its intent is unknown; the 30 damage itself is unchanged | `fc8113e` |
 | code | Back attacks multiplied before Weak and Vulnerable | The attack multiplies its rounded output last, and the intent its unrounded damage | `fc8113e` |
 | code | Reptomancer stopped summoning one dagger early | `canSpawn` allows three others | `fc8113e` |
+| 2002, 12 | Lagavulin's third idle turn rolled a move and kept Metallicize | It wakes by itself: Metallicize goes and a `SetMoveAction` sets the attack, so no AI roll | `fc24e0e` |
+| 2104, 35 | A Darkling downed by Thorns kept attacking | `DamageAction` also drops the remaining hits of a half-dead attacker | `381ef31` |
+| 2103, 39 | The Spire Growth went straight to Smash after two tackles on a low roll | It uses Constrict if it can | `7b7d75f` |
+| 2100, 30; 2105; 2114 | Enrage only worked in the first slot | It works in any, as Colosseum's Gremlin Nob is in the second | `84a699d` |
+| 2118, 33 | Philosopher's Stone gave Strength to empty slots, which Bronze Orbs later fill | It only gives it to monsters that are there | `84a699d` |
+| 2116, 37 | A Darkling that went down kept its old debuff amounts, which came back with the next one | `powers.clear()` removes them, so Shockwave+ gives 5 Weak, not 6 | `c54860c` |
+| 2116, 50 | Combust did nothing while Awakened One was half dead with nothing else alive | `areMonstersBasicallyDead` only looks at `isDying` and `isEscaping` | `dad125b` |
 
 ## Run and rewards
 
@@ -107,6 +125,15 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Cauldron's screen rolled no cards | The same, and the relic takes it back out | `a02bcd0` |
 | code | Designer's Clean Up took the gold and did nothing | It opens a two-card transform grid | `a02bcd0` |
 | code | We Meet Again removed the first identical copy; Knowing Skull rolled a potion under Sozu | It removes the copy it picked; it rolls none | `a02bcd0` |
+| 2002, 9 | N'loth's Hungry Face did nothing | It starts with one charge, so the next chest loses its relic and the sapphire key linked to it | `90deb45` |
+| code | Eight cards had the wrong color, so transforming Brutality or Combust used the wrong range | All 361 cards were compared with the game's class folders | `3a39cef` |
+| 2100, 0 | `miscRng` started one roll early, so Astrolabe's transforms came out one card along | `MainMusic` rolls it while the first act sets up | `64d4805` |
+| 1005, 12 | A potion could drop when every monster escaped | The chance is 0, though the roll still happens | `64d4805` |
+| 1005, 41; 2106, 23 | An egg didn't upgrade the cards on the reward screen it came from | It does | `8d46c42` |
+| 2100, 10 | Ancient Tea Set only worked in the room after a rest site | It stays ready until the next fight | `8d46c42` |
+| 2100, 30; 2105, 29 | Colosseum's second fight reseeded its streams and didn't shuffle | It's the same room, so they carry on, and `Colosseum.reopen` runs `preBattlePrep`, whose shuffle nothing uses | `8126ff3`, `3b47231` |
+| 2113, 39 | Smiling Mask's purge price came down further with discounts | `ShopScreen.applyDiscount` sets it to 50 whatever else applies | `23d1fbd` |
+| 2115 | Transforming several different cards removed the wrong ones, and curses left out one card too many | `removeSelected` ignored its sorted indices; a transform picks from a list that leaves out only the card itself | `e4aeb1d` |
 
 ## Differences no simulator can match
 
@@ -123,3 +150,4 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
+- **Player power order.** The game triggers powers in the order they were gained, and the simulator in a fixed order. No Draw is handled on its own, as above. Others can differ when two powers at the end of a turn change the same thing.
