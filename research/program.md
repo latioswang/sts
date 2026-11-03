@@ -1190,6 +1190,8 @@ session_01USafwfxVxqFj3VUoacBkds, `r3w6` session_01USafwiFvm2TuvHQBbsV8tv (start
 Trainer option for R3 memory: `train_vr2.py --rows-per-run 16` (deterministic per run; weights unchanged since they use
 the original state counts). Smoke set, ridge, 300 train runs (pasted): 32 kept `holdout_rmse=0.5289 predict_mean_rmse=0.5460`;
 16 kept `holdout_rmse=0.5294 predict_mean_rmse=0.5460`.
+**Bonus refinement (pre-registered 06:16 UTC, this VM while R3 data generates):** `vr2b10`, `vr2b30` vs `vr2b20` (val-300 rule).
+Prediction: neither keeps (MED; the 20/50/100 curve peaks at 20 and the noise is ±0.03).
 
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
