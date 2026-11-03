@@ -18,7 +18,7 @@ public:
     using std::runtime_error::runtime_error;
 };
 
-enum class ScenarioKind { Relic, Card, Potion, PoolFront, Monster, Elite };
+enum class ScenarioKind { Relic, Card, Potion, PoolFront, Monster, Elite, Keys };
 
 struct ScenarioItem {
     ScenarioKind kind = ScenarioKind::Relic;

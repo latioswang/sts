@@ -7,6 +7,7 @@ import com.badlogic.gdx.Graphics;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.PotionHelper;
@@ -68,6 +69,7 @@ public class BridgeScenario implements PostUpdateSubscriber {
 
     @Override
     public void receivePostUpdate() {
+        TracingRandom.install(System.getenv("STS_TRACE_RNG"));
         // Not in initialize: the game's window sets Gdx.graphics after mods have initialized.
         if (!timeScaled) {
             timeScaled = true;
@@ -125,6 +127,11 @@ public class BridgeScenario implements PostUpdateSubscriber {
             case "elite":
                 AbstractDungeon.eliteMonsterList.set(0, command[1]);
                 break;
+            case "keys":
+                Settings.hasEmeraldKey = true;
+                Settings.hasRubyKey = true;
+                Settings.hasSapphireKey = true;
+                break;
             default:
                 throw new IllegalArgumentException("unknown command " + command[0]);
         }
@@ -144,12 +151,19 @@ public class BridgeScenario implements PostUpdateSubscriber {
         return out.toString();
     }
 
-    private static void giveRelic(String id) {
-        if (!RelicLibrary.isARelic(id)) {
+    private static AbstractRelic relicById(String id) {
+        // getRelic answers with Circlet for an id it doesn't know.
+        AbstractRelic relic = RelicLibrary.getRelic(id);
+        if (!relic.relicId.equals(id)) {
             throw new IllegalArgumentException("unknown relic " + id);
         }
+        return relic;
+    }
+
+    private static void giveRelic(String id) {
+        AbstractRelic relic = relicById(id);
         removeFromPools(id);
-        RelicLibrary.getRelic(id).makeCopy().instantObtain();
+        relic.makeCopy().instantObtain();
     }
 
     private static void giveCard(String id, int upgrades) {
@@ -173,9 +187,7 @@ public class BridgeScenario implements PostUpdateSubscriber {
     }
 
     private static void putAtFrontOfPool(String tier, String id) {
-        if (!RelicLibrary.isARelic(id)) {
-            throw new IllegalArgumentException("unknown relic " + id);
-        }
+        relicById(id);
         removeFromPools(id);
         pool(tier).add(0, id);
     }

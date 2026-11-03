@@ -23,9 +23,13 @@ UNREACHABLE_RELICS = {
     "Dark Core", "Derp Rock", "Discerning Monocle", "Dodecahedron", "Red Circlet", "Test 1", "Test 3", "Test 4", "Test 5", "Test 6",
 }
 UNREACHABLE_POTIONS = {
-    "BottledMiracle", "CunningPotion", "EssenceOfDarkness", "PoisonPotion", "PotionOfCapacity", "FocusPotion", "Ambrosia",
-    "StancePotion", "GhostInAJar",
+    "BottledMiracle", "CunningPotion", "EssenceOfDarkness", "Poison Potion", "PotionOfCapacity", "FocusPotion", "Ambrosia",
+    "StancePotion", "GhostInAJar", "Potion Slot",
 }
+# It offers other classes' cards, which end a mirror run, so it gets a seed of its own instead of sharing one.
+UNPLAYABLE_RELICS = {"PrismaticShard"}
+# Its curse arrives through a screen effect, so in the game it lands after the scenario's cards.
+RELICS_AFTER_CARDS = {"Necronomicon"}
 # Tier of each relic whose equip effect opens a screen.
 SCREEN_RELICS = {
     "Astrolabe": "boss", "Calling Bell": "boss", "Empty Cage": "boss", "Pandora's Box": "boss", "Tiny House": "boss",
@@ -55,10 +59,11 @@ def plan_scenarios(relics, cards, potions, relics_per_seed=5, cards_per_seed=6, 
         some_fronted, fronted = take(fronted, 1)
         some_cards, cards = take(cards, cards_per_seed)
         some_potions, potions = take(potions, potions_per_seed)
-        items = [f"relic:{r}" for r in some_relics]
+        items = [f"relic:{r}" for r in some_relics if r not in RELICS_AFTER_CARDS]
         items += [f"front:{SCREEN_RELICS[r]}:{r}" for r in some_fronted]
         items += [f"card:{c}{'+1' if upgrade else ''}" for c in some_cards]
         items += [f"potion:{p}" for p in some_potions]
+        items += [f"relic:{r}" for r in some_relics if r in RELICS_AFTER_CARDS]
         scenarios.append(";".join(items))
     return scenarios
 
@@ -82,7 +87,7 @@ def main():
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "GameIdTables.inc"), encoding="utf-8") as table_file:
         table = table_file.read()
 
-    relics = universe["relics"] - UNREACHABLE_RELICS
+    relics = universe["relics"] - UNREACHABLE_RELICS - UNPLAYABLE_RELICS
     cards = universe["cards_played"] | universe["cards_seen"]
     potions = universe["potions_seen"] - UNREACHABLE_POTIONS
     if not args.all:

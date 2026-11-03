@@ -33,3 +33,8 @@ class PlanTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_necronomicon_comes_after_the_cards():
+    [scenario] = plan_scenarios({"Necronomicon", "Anchor"}, {"Bash"}, set())
+    assert scenario.split(";") == ["relic:Anchor", "card:Bash", "relic:Necronomicon"]

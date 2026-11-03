@@ -65,6 +65,9 @@ ScenarioItem parseItem(const std::string &text) {
     } else if (kind == "monster" || kind == "elite") {
         item.kind = kind == "monster" ? ScenarioKind::Monster : ScenarioKind::Elite;
         if (!encounterFromGameId(rest)) throw ScenarioError("unknown encounter: " + rest);
+    } else if (kind == "keys") {
+        item.kind = ScenarioKind::Keys;
+        if (rest != "all") throw ScenarioError("keys only takes all: " + text);
     } else {
         throw ScenarioError("unknown scenario kind: " + kind);
     }
@@ -79,6 +82,7 @@ std::string commandLine(const ScenarioItem &item) {
         case ScenarioKind::PoolFront: return "front\t" + item.tier + "\t" + item.id;
         case ScenarioKind::Monster: return "monster\t" + item.id;
         case ScenarioKind::Elite: return "elite\t" + item.id;
+        case ScenarioKind::Keys: return "keys";
     }
     return "";
 }
@@ -174,6 +178,11 @@ void applyScenarioToSimulator(GameContext &gc, const std::vector<ScenarioItem> &
                 break;
             case ScenarioKind::Elite:
                 gc.eliteMonsterList[gc.eliteMonsterListOffset] = *encounterFromGameId(item.id);
+                break;
+            case ScenarioKind::Keys:
+                gc.obtainKey(Key::EMERALD_KEY);
+                gc.obtainKey(Key::RUBY_KEY);
+                gc.obtainKey(Key::SAPPHIRE_KEY);
                 break;
         }
     }
