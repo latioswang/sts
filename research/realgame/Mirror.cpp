@@ -304,7 +304,7 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
                                        {"relicRng", &gc.relicRng}, {"potionRng", &gc.potionRng}, {"merchantRng", &gc.merchantRng},
                                        {"eventRng", &gc.eventRng}, {"monsterRng", &gc.monsterRng}, {"miscRng", &gc.miscRng}}) {
         // miscRng is reseeded on entering every room, and the game rolls it once while setting up an act.
-        if ((gc.floorNum == 0 || gc.screenState == ScreenState::MAP_SCREEN) && stream == &gc.miscRng) continue;
+        if (gc.screenState == ScreenState::MAP_SCREEN && stream == &gc.miscRng) continue;
         addRngDiff(d, name, *stream);
     }
     if (gc.screenState == ScreenState::MAP_SCREEN) {

@@ -122,6 +122,16 @@ research/realgame/run_batch.sh live 5000 3 --chunk 2
 
 It starts and stops the game itself, so close any game you started by hand.
 
+Mirror batches should set `STS_TIME_SCALE=5`, which needs the test mod (see [Scenarios](#scenarios)). Nearly all of a run's time is animation, and the mod scales the clock the game reads, so a full run takes about three minutes instead of about eight. Live runs should not set it. `setup_game.sh` turns vsync off in the game folder: with it on, the game drops to a few frames per second once the display sleeps.
+
+To stop a batch, use patterns that can't match your own shell's command line:
+
+```bash
+pkill -f "run_batc[h].sh"
+```
+
+Don't rebuild `build/sts_bridge` or `BridgeScenario.jar` while a batch runs.
+
 ## Mirror mode
 
 ```bash
@@ -136,11 +146,13 @@ Each step goes in this order:
 2. Compare the states. Any hard difference stops the run.
 3. Send the agent's action.
 
-Compared: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics, event ID, and in combat the player, hand, all three piles in order, and each monster's HP, block, powers, move, and intent damage.
+Compared: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics, event ID, and in combat the player, hand, draw and discard piles in order, the exhaust pile as a set, and each monster's HP, block, powers, move, and intent damage. With the test mod installed, the state of every random stream is compared too, so a run stops at the first extra or missing roll and names the stream.
 
 A *soft* difference means the comparison itself is unsure (for example a move byte missing from the table). It is logged but does not stop the run.
 
-A stop with status `game_nondeterminism` isn't a simulator bug. After a discovery (Attack, Skill, Power or Colorless Potion, or the card), the game rolls `cardRandomRng` once per generation on every frame of about 0.25 seconds, so that stream depends on the frame rate until the next floor. The same seed and actions can play out differently in the game itself.
+A stop with status `game_nondeterminism` isn't a simulator bug. After a discovery (Attack, Skill, Power or Colorless Potion, or the card), the game rolls `cardRandomRng` once per generation on every frame of about 0.25 seconds, so that stream depends on the frame rate. The test mod lets mirror take the game's state after a discovery and carry on. The run still stops when something queued behind the discovery rolls first, such as Strange Spoon or Hex. [The fix list](reports/simulator_fixes.md) has the other things no simulator can match.
+
+A stop with status `unsupported_card` isn't a difference either. Prismatic Shard offers every class's cards, the simulator can only play Ironclad and colorless ones, and the run stops when the agent takes another.
 
 After a stop, the bridge loses the current run on purpose to get back to the main menu, since the mod has no abandon command. This takes a minute or two.
 
@@ -149,6 +161,41 @@ research/realgame/report.py
 ```
 
 This writes `reports/divergences.md` with the first difference per seed, a repro command, and a suspected cause. The suspected cause is only where to look first. Confirm it from the log before calling it a simulator bug, and do not change simulator behaviour without saying so, because the research results depend on it.
+
+## Scenarios
+
+Mirror runs rarely reach most relics and cards, so `scenario_mod` is a test-only mod that gives the player things at the start of a run. `launch_game.sh` loads it when the jar is there, and it does nothing else unless the bridge asks. Build it with a JDK 8:
+
+```bash
+JAVA8_HOME=$HOME/Projects/sts_lightspeed/.modbuild/tools/jdk8/Contents/Home research/realgame/scenario_mod/build.sh
+```
+
+A scenario is a `;`-separated list applied to both the game and the simulator. A scenario file has one `seed<TAB>scenario` per line.
+
+| Item | Example | Effect |
+|---|---|---|
+| `relic:` | `relic:Anchor` | Gives the relic |
+| `card:` | `card:Bash+1` | Adds the card, upgraded that many times if it can be |
+| `potion:` | `potion:FairyPotion` | Gives the potion |
+| `front:` | `front:boss:Astrolabe` | Puts a relic at the front of its pool, for relics that open a screen |
+| `monster:`, `elite:` | `elite:Gremlin Nob` | Sets the next encounter |
+| `keys:` | `keys:all` | Gives all three keys, which opens act 4 |
+
+```bash
+research/realgame/scenario_plan.py --logs research/realgame/logs --jar ~/.sts_realgame/desktop-1.0.jar \
+  --javap $HOME/Projects/sts_lightspeed/.modbuild/tools/jdk8/Contents/Home/bin/javap \
+  --seed_start 2000 -o research/realgame/logs/plan.tsv
+```
+
+```bash
+STS_TIME_SCALE=5 research/realgame/run_batch.sh mirror 2000 9 --chunk 3 --scenario_file research/realgame/logs/plan.tsv
+```
+
+`scenario_plan.py` writes one scenario per seed from what the transcripts haven't reached yet. `--all` includes everything, and `--upgrade` gives the cards upgraded. `coverage_report.py` lists what has come up so far.
+
+To find out what rolled a stream, set `STS_TRACE_RNG=cardRng,miscRng` when starting a batch. The mod logs each roll's call stack to `bridge_rng_trace.txt` in the game folder.
+
+The mod also does three things for mirror runs that a real run wouldn't need. It holds the play clock past 800 seconds, because Secret Portal only joins act 3's events after that. It answers with the random streams' state. And it turns the player to a card's target in Spire Shield and Spear's fight: the card and potion screens do this in a normal game, and Communication Mod plays around them, while back attacks depend on it.
 
 ## Live mode
 
@@ -165,6 +212,9 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge live --research_dir research --se
 - Unknown until seen, as they are to a player: a louse's bite damage and a Darkling's Nip damage before the first one (defaults are used).
 - Not tracked: gold stolen by Looters and Muggers, burning elite position on the map (the JSON does not show it, so this matters only with `keys=1`), bottled cards, and cards auto-played outside the bridge's own commands.
 - A monster's move history starts when the bridge first sees the fight, so start the bridge before the fight begins.
+- Without the test mod, Communication Mod never turns the player to a target, so Spire Shield and Spear's back attacks don't follow the player's targeting as they do in a normal game. The rebuilt state doesn't know which way the player is facing either.
+- Search only ever exhausts no cards with Purity and picks one card with Forethought+, which limits the agent's play there.
+- Other classes' cards do nothing when played in the simulator, so search can't value them. See [the fix list](reports/simulator_fixes.md).
 - The effects still queued behind a mid-card selection (for example Burning Pact's draw) are not in the rebuilt state.
 
 ## Testing without the game
@@ -176,7 +226,7 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge selftest --research_dir research 
 Plays games in the simulator and sends every decision's state through JSON and the converter. This tests the converter only. It says nothing about whether the simulator matches the game. Event screens with several phases are reported but do not fail the test, because the test's JSON has no real page structure; only the real game can test those.
 
 ```bash
-python3 -m pytest research/realgame/test_report.py
+python3 -m pytest research/realgame/test_report.py research/realgame/test_scenario_plan.py research/realgame/test_coverage_report.py
 ```
 
 ## Things to keep in mind
@@ -197,6 +247,8 @@ python3 -m pytest research/realgame/test_report.py
 | `Compare` | Simulator state compared with game JSON |
 | `ActionSender` | Simulator actions to mod commands, shared by both modes |
 | `Mirror` | Mirror mode |
+| `Scenario`, `scenario_mod/` | Scenario files and the test-only mod they apply through |
+| `scenario_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached, and list what has |
 | `StateConverter` | Game JSON to simulator state |
 | `Live` | Live mode |
 | `CommJson`, `SelfTest` | Offline converter round trip |

@@ -30,9 +30,9 @@ UNREACHABLE_POTIONS = {
 UNPLAYABLE_RELICS = {"PrismaticShard"}
 # Its curse arrives through a screen effect, so in the game it lands after the scenario's cards.
 RELICS_AFTER_CARDS = {"Necronomicon"}
-# Tier of each relic whose equip effect opens a screen.
+# Tier of each relic whose equip effect opens a screen or replaces another relic.
 SCREEN_RELICS = {
-    "Astrolabe": "boss", "Calling Bell": "boss", "Empty Cage": "boss", "Pandora's Box": "boss", "Tiny House": "boss",
+    "Astrolabe": "boss", "Black Blood": "boss", "Calling Bell": "boss", "Empty Cage": "boss", "Pandora's Box": "boss", "Tiny House": "boss",
     "Bottled Flame": "uncommon", "Bottled Lightning": "uncommon", "Bottled Tornado": "uncommon",
     "Cauldron": "shop", "DollysMirror": "shop", "Orrery": "shop",
 }
