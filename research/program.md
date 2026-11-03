@@ -1287,6 +1287,10 @@ Workers (fresh sessions, started 22:18 UTC): `r4w7` session_01USafwfhhUVVsE85jmw
 Disk for R4 (coordinator): deleted the local full `rundata` (in the store: `rundata 10000 files`; R4 does not use it, its
 32-state subsample `rundata_k32` stays) and the Hugging Face Xet cache; `rundata` must be re-pulled before any A0-holdout
 training.
+R4 training plan (fixed 23:19 UTC, before any A10 data exists here): holdout dir `rundata_a10_hold` (1,000 A10 runs, full rows);
+reference `score_vr.py vr_61` on it; ids 70 / 71 / 72 = ridge / h=64 / h=256 on the A10 subsamples only (16 kept states);
+ids 73 / 74 = h=64 / h=256 on A10 + all A0 subsamples (8 kept states, memory); selection among 70–74 -> `vr_81`, gate; leak
+test; `a10_vr4b20`, `a10_vr4b40` vs the A10 best (val-300 rule). The A0 model `vr_61` is not in the selection (scored only).
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
