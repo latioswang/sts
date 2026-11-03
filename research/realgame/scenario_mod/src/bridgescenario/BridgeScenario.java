@@ -4,7 +4,6 @@ import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.math.RandomXS128;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -13,6 +12,7 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.PotionHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import java.io.IOException;
 import java.lang.reflect.Proxy;
@@ -30,8 +30,8 @@ import java.util.List;
  * sees. The bridge writes bridge_scenario_in.txt in the game folder, one tab-separated command per line, and this
  * applies it on the game thread and answers in bridge_scenario_out.txt. It does nothing unless that file appears.
  *
- * <p>The command cardRandomRng answers with that generator's state. The game's discovery action rolls it once per frame
- * while its screen opens, which no simulator can predict, so mirror mode copies the state afterwards.
+ * <p>The command rng answers with the state of every random stream. Mirror mode compares them at each step, and copies
+ * cardRandomRng after a discovery, whose action rolls it once per frame while its screen opens.
  *
  * <p>Nearly all of a mirror run's time is spent waiting for animations, so STS_TIME_SCALE also speeds up the clock the
  * game reads. Game logic only uses that clock to time its animations and actions.
@@ -86,9 +86,8 @@ public class BridgeScenario implements PostUpdateSubscriber {
         String answer = "ok";
         try {
             for (String line : Files.readAllLines(IN, StandardCharsets.UTF_8)) {
-                if (line.equals("cardRandomRng")) {
-                    RandomXS128 random = AbstractDungeon.cardRandomRng.random;
-                    answer += "\t" + random.getState(0) + "\t" + random.getState(1) + "\t" + AbstractDungeon.cardRandomRng.counter;
+                if (line.equals("rng")) {
+                    answer += rngStates();
                 } else if (!line.isEmpty()) {
                     apply(line.split("\t"));
                 }
@@ -129,6 +128,20 @@ public class BridgeScenario implements PostUpdateSubscriber {
             default:
                 throw new IllegalArgumentException("unknown command " + command[0]);
         }
+    }
+
+    private static String rngStates() {
+        String[] names = {"cardRng", "treasureRng", "relicRng", "potionRng", "merchantRng", "eventRng", "monsterRng", "miscRng", "aiRng",
+            "monsterHpRng", "shuffleRng", "cardRandomRng"};
+        Random[] streams = {AbstractDungeon.cardRng, AbstractDungeon.treasureRng, AbstractDungeon.relicRng, AbstractDungeon.potionRng,
+            AbstractDungeon.merchantRng, AbstractDungeon.eventRng, AbstractDungeon.monsterRng, AbstractDungeon.miscRng, AbstractDungeon.aiRng,
+            AbstractDungeon.monsterHpRng, AbstractDungeon.shuffleRng, AbstractDungeon.cardRandomRng};
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < names.length; ++i) {
+            out.append('\t').append(names[i]).append('=').append(streams[i].random.getState(0)).append(',')
+                .append(streams[i].random.getState(1)).append(',').append(streams[i].counter);
+        }
+        return out.toString();
     }
 
     private static void giveRelic(String id) {

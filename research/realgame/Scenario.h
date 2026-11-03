@@ -42,13 +42,15 @@ void applyScenarioToSimulator(sts::GameContext &gc, const std::vector<ScenarioIt
 // Hands the items to the mod and waits for its answer. Throws ScenarioError if it reports an error or never answers.
 void applyScenarioToGame(const std::vector<ScenarioItem> &items);
 
-// The game's cardRandomRng, read through the mod. Empty if the mod isn't installed.
+// The state of one of the game's random streams.
 struct RngState {
     std::uint64_t seed0 = 0;
     std::uint64_t seed1 = 0;
     int counter = 0;
 };
-std::optional<RngState> readGameCardRandomRng();
+
+// Every random stream in the game by name, read through the mod. Empty if the mod isn't installed.
+std::map<std::string, RngState> readGameRngs();
 
 // The folder the game runs from: STS_GAME_DIR, or ~/.sts_realgame. Empty if neither is known.
 std::string gameFolder();

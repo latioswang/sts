@@ -185,16 +185,22 @@ void applyScenarioToGame(const std::vector<ScenarioItem> &items) {
     askMod(commands);
 }
 
-std::optional<RngState> readGameCardRandomRng() {
-    if (!std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) return std::nullopt;
-    std::stringstream answer(askMod("cardRandomRng\n"));
-    std::string seed0;
-    std::string seed1;
-    std::string counter;
-    if (!std::getline(answer, seed0, '\t') || !std::getline(answer, seed1, '\t') || !std::getline(answer, counter)) {
-        throw ScenarioError("scenario mod: bad answer to cardRandomRng");
+std::map<std::string, RngState> readGameRngs() {
+    std::map<std::string, RngState> states;
+    if (!std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) return states;
+    std::stringstream answer(askMod("rng\n"));
+    for (std::string entry; std::getline(answer, entry, '\t');) {
+        const auto equals = entry.find('=');
+        const auto comma = entry.find(',');
+        const auto comma2 = entry.rfind(',');
+        if (equals == std::string::npos || comma == std::string::npos || comma2 == comma) {
+            throw ScenarioError("scenario mod: bad answer to rng: " + entry);
+        }
+        states[entry.substr(0, equals)] = RngState{static_cast<std::uint64_t>(std::stoll(entry.substr(equals + 1, comma - equals - 1))),
+                                                   static_cast<std::uint64_t>(std::stoll(entry.substr(comma + 1, comma2 - comma - 1))),
+                                                   std::stoi(entry.substr(comma2 + 1))};
     }
-    return RngState{static_cast<std::uint64_t>(std::stoll(seed0)), static_cast<std::uint64_t>(std::stoll(seed1)), std::stoi(counter)};
+    return states;
 }
 
 }  // namespace realgame

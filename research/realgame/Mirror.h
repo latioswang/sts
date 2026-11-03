@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ActionSender.h"
+#include "Scenario.h"
 #include "FairAgent.h"
 
 #include <cstdint>
@@ -51,6 +52,7 @@ private:
     int mapComparedForAct_ = 0;
     int discoveryFloor_ = -1;
     bool copyCardRandomRng_ = false;
+    std::map<std::string, RngState> gameRngs_;
     bool rewardsCompared_ = false;
 
     [[nodiscard]] int choiceCount() const;
@@ -61,6 +63,7 @@ private:
     void onGameAction(const sts::GameContext &gc, const sts::search::GameAction &a);
     void onCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
     void copyGameCardRandomRng(const sts::BattleContext &bc);
+    void addRngDiff(Diffs &out, const std::string &name, const sts::Random &sim) const;
     [[nodiscard]] Diffs battleDiffs(const sts::BattleContext &bc) const;
 
     void alignOutOfCombat(const sts::GameContext &gc);

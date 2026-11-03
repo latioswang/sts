@@ -260,6 +260,12 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
         waitForEffects();
         d = outOfCombatDiffs(gc);
     }
+    gameRngs_ = readGameRngs();
+    for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"cardRng", &gc.cardRng}, {"treasureRng", &gc.treasureRng},
+                                       {"relicRng", &gc.relicRng}, {"potionRng", &gc.potionRng}, {"merchantRng", &gc.merchantRng},
+                                       {"eventRng", &gc.eventRng}, {"monsterRng", &gc.monsterRng}, {"miscRng", &gc.miscRng}}) {
+        addRngDiff(d, name, *stream);
+    }
     if (gc.screenState == ScreenState::MAP_SCREEN) {
         rewardsCompared_ = false;
         mapComparedForAct_ = gc.act;
@@ -325,15 +331,23 @@ Diffs Mirror::battleDiffs(const BattleContext &bc) const {
 // simulator can take the game's state afterwards and the run goes on. Without it, a difference on this floor stops the
 // run as game_nondeterminism. The agent's battle context isn't const; only the callback's view of it is.
 void Mirror::copyGameCardRandomRng(const BattleContext &bc) {
+    gameRngs_ = readGameRngs();
     if (!copyCardRandomRng_) return;
     copyCardRandomRng_ = false;
-    const auto rng = readGameCardRandomRng();
-    if (!rng) return;
+    const auto it = gameRngs_.find("cardRandomRng");
+    if (it == gameRngs_.end()) return;
     auto &live = const_cast<BattleContext &>(bc);
-    live.cardRandomRng.seed0 = rng->seed0;
-    live.cardRandomRng.seed1 = rng->seed1;
-    live.cardRandomRng.counter = rng->counter;
+    live.cardRandomRng.seed0 = it->second.seed0;
+    live.cardRandomRng.seed1 = it->second.seed1;
+    live.cardRandomRng.counter = it->second.counter;
     discoveryFloor_ = -1;
+}
+
+// A stream that has moved apart shows up here at once, before it changes anything else the game shows.
+void Mirror::addRngDiff(Diffs &out, const std::string &name, const Random &sim) const {
+    const auto it = gameRngs_.find(name);
+    if (it == gameRngs_.end() || (it->second.seed0 == sim.seed0 && it->second.seed1 == sim.seed1)) return;
+    out.push_back({"rng." + name, "rolls " + std::to_string(sim.counter), "rolls " + std::to_string(it->second.counter), true});
 }
 
 void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
@@ -354,6 +368,11 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     for (int i = 0; i < kEffectWaits && anyHard(d); ++i) {
         waitForEffects();
         d = battleDiffs(bc);
+    }
+    for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"aiRng", &bc.aiRng}, {"monsterHpRng", &bc.monsterHpRng},
+                                       {"shuffleRng", &bc.shuffleRng}, {"cardRandomRng", &bc.cardRandomRng},
+                                       {"miscRng", &bc.miscRng}, {"potionRng", &bc.potionRng}}) {
+        addRngDiff(d, name, *stream);
     }
     logStep("BATTLE", desc.str(), d);
     lastAction_ = desc.str();
