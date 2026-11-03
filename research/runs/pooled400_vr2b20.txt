@@ -1,0 +1,2 @@
+pooled val,dev [act3]: n=400  vr2b20 win=0.780 floor=47.29  mapd085 win=0.733 floor=46.92  dscore=+0.0548 dwin=+0.048 P(improve)=0.973
+KEEP

@@ -119,9 +119,9 @@
     },
     {
       "id": "R2",
-      "label": "Phase R2: learned run value at 10^5 runs",
-      "status": "running",
-      "when": ""
+      "label": "Phase R2: learned run value at 10^5 runs — first learned-value keep (vr2b20: +4.8 pts pooled 400)",
+      "status": "done",
+      "when": "2026-11-03 05:53"
     }
   ],
   "phases": [
@@ -167,7 +167,7 @@
     }
   ],
   "next_up": [
-    "Phase R2 (running): 10^5 runs of run-state data across three VMs via the Hugging Face store (≈ 7 h), then ridge and nets at ≈ 39,000 / 99,000 runs and a fresh card-pick test of the selected model.",
+    "Ports of the R2 keep to A10, A20 and the Heart (queued); then more data or stronger regularisation for the bigger nets, and the run value for shop / relic choices.",
     "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
     "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
     "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",

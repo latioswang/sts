@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 05:16 UTC
+### Current state (update after every batch) — 2026-11-03 05:53 UTC
+- **05:53 UTC: A0 best `vr2b20`** (card picks + 20 × the R2 run value, h=64 net on 89,100 runs): val 81.0% (+6.0 pts,
+  P=0.978); dev +1.0 pt (P=0.66); pooled 400 +4.8 pts, P=0.973. vr2b50 / vr2b100 discard (peak at 20). Ports to A10 / A20 /
+  Heart queued.
 - **05:16 UTC: R2 training, 7 of 8 cells done** (last: h=1,024 at 89,100 runs, running). Cells (pasted):
   `VR2 id=30 runs=35100 ridge lambda=0.001 holdout_rmse=0.5135 holdout_corr=0.338 predict_mean_rmse=0.5451 31s`
   `VR2 id=31 runs=35100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5128 holdout_corr=0.356 predict_mean_rmse=0.5451 49s`
@@ -1160,7 +1163,11 @@ Weighted re-runs at 8,100 runs (full rows; pasted):
   `VR2 id=25 runs=8100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5359 holdout_corr=0.302 predict_mean_rmse=0.5451 475s`
 **R2 result:** selection `VR SELECT: vr_35 -> vr_41 (0.504600 0.386810 89100 64 2 46913 0.545105)`, `VR GATE OK`, leak test
 `LEAKTEST checked=87 mismatches=0 PASS`. Card picks: `vr2b20` 81.0% win, floor 47.6, +0.065 vs base, P=0.978 → keep (pre-registered "one card-pick run keeps" (LOW): held so far).
-The first keep driven by a learned value against the final score; dev replication `rep_dev.sh vr2b20 mapd085` queued. Next: `vr2b50` 79.0% win, floor 47.6, -0.021 vs base, P=0.238 → discard (vs vr2b20). Then `vr2b100` 72.7% win, floor 46.5, -0.105 vs base, P=0.002 → discard (vs vr2b20).
+The first keep driven by a learned value against the final score; dev replication `rep_dev.sh vr2b20 mapd085` queued. Next: `vr2b50` 79.0% win, floor 47.6, -0.021 vs base, P=0.238 → discard (vs vr2b20). Then `vr2b100` 72.7% win, floor 46.5, -0.105 vs base, P=0.002 → discard (vs vr2b20). Dev replication: `vr2b20_dev` 69.0% win, floor 46.3, +0.025 vs base, P=0.660 → info; pooled val+dev (informational): `pooled val,dev [act3]: n=400  vr2b20 win=0.780 floor=47.29  mapd085 win=0.733 floor=46.92  dscore=+0.0548 dwin=+0.048 P(improve)=0.973`. The keep holds on 400 seeds
+(+4.8 win pts); the dev slice alone is weak (+1.0 pt, n=100), so the val figure (+6.0) carries some winner's curse.
+**Ports of `vr2b20` (pre-registered 05:53 UTC):** the run value is trained on A0 runs only, so transfer is uncertain: `a10_vr2b20`
+(A10, val-300 rule), `a20_vr2b20` (A20, pooled-500), `heart_vr2b20` (Heart, pooled-500). Predictions: A10 keeps (LOW–MED);
+A20 keeps (LOW); Heart keeps (LOW).
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
