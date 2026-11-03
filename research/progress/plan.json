@@ -125,9 +125,9 @@
     },
     {
       "id": "R3",
-      "label": "Phase R3: run value at 1.9×10^5 runs",
-      "status": "running",
-      "when": ""
+      "label": "Phase R3: run value at 1.7×10^5 runs — A0 keep vr3b40 (bonus 40), pooled 400 P=0.900",
+      "status": "done",
+      "when": "2026-11-03 21:49"
     }
   ],
   "phases": [

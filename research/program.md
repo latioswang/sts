@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 21:17 UTC
+### Current state (update after every batch) — 2026-11-03 21:49 UTC
+- **21:49 UTC: A0 best `vr3b40`** (R3 run value, bonus 40) via the near-miss extension: pooled 400 80.5% vs 78.0%
+  (`vr2b20`), P=0.900 — at the bar. Ports to A10 / A20 / Heart not yet run.
 - **21:17 UTC:** R3 cell 53 (h=1,024, patience 3) at 60 min, expected ≈ 21:30; then control 54, selection, leak test, card picks.
 - **19:16 UTC: R3 training,** cells so far (pasted):
   `VR2 id=50 runs=170100 ridge lambda=0.001 holdout_rmse=0.5141 holdout_corr=0.341 predict_mean_rmse=0.5475 99s`
@@ -831,6 +833,7 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 | `a10_potv2` vs `a10_bfbonus25_g1m` | +0.028, P=0.865 | -0.000, P=0.497 | +0.0208, P=0.811 | discard |
 | `ct45` vs `bfbonus10_g1` | +0.015, P=0.721 | +0.006, P=0.584 | +0.0129, P=0.732 | discard |
 | `vrb50` vs `mapd085` | +0.026, P=0.761 | +0.0775, P=0.866 | +0.0386, P=0.884 | discard |
+| `vr3b40` vs `vr2b20` | +0.023, P=0.758 | +0.0876, P=0.885 | +0.0392, P=0.900 | **KEEP** |
 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
 family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
@@ -1253,6 +1256,8 @@ shift cost ≈ 0.003 on the old-policy holdout; 1.9× the data more than pays fo
 Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Card picks vs `vr2b20`: `vr3b10` 77.3% win, floor 47.8, -0.033 vs base, P=0.153 → discard; `vr3b20` 78.7% win, floor 47.8, -0.019 vs base, P=0.268 → discard; `vr3b40` 82.3% win, floor 48.1, +0.023 vs base, P=0.758 → discard.
 **Near-miss extension declared 21:47 UTC (before any dev seed):** `vr3b40` (+0.023, P=0.758) — once, 100 dev seeds vs `vr2b20_dev`;
 keep needs pooled-400 P >= 0.9 and dev-alone dscore > 0.
+  Result: dev alone `vr3b40_dev` 75.0% win, floor 47.7, +0.088 vs base, P=0.885 → info; `pooled val,dev [act3]: n=400  vr3b40 win=0.805 floor=48.02  vr2b20 win=0.780 floor=47.29  dscore=+0.0392 dwin=+0.025 P(improve)=0.900` -> **KEEP** (P exactly at the bar: the rule compares the unrounded P, and the script
+  printed KEEP). New A0 best `vr3b40` (R3 run value vr_61, bonus 40). Pooled 400: 80.5% vs 78.0% for `vr2b20`.
 
 
 
