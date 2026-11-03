@@ -42,11 +42,25 @@ def main():
         # holdout = the same 1,000 runs of DATA_DIR as without the flag (np.unique ids, RandomState(12345) shuffle);
         # training pool = DATA_DIR's other runs first (same order as before), then every run of the train dirs in
         # RandomState(23456) order; only holdout files of DATA_DIR and the train dirs' files are loaded.
-        ids = {f: int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) for f in files}
+        def run_ids(fs, d):   # cached file -> run id map (a scan of ~2e5 files takes ~25 min on this disk); same values
+            cp = os.path.join(d, "ids_cache.tsv"); m = {}
+            if os.path.exists(cp):
+                m = {os.path.join(d, a): int(b) for a, b in (l.split("\t") for l in open(cp))}
+            if not all(f in m for f in fs):
+                m = {f: int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) for f in fs}
+                try:
+                    open(cp + ".tmp", "w").write("".join(f"{os.path.basename(f)}\t{r}\n" for f, r in m.items())); os.replace(cp + ".tmp", cp)
+                except OSError:
+                    pass
+            return m
+        ids = run_ids(files, a.data_dir)
         runs0 = np.unique(np.array(list(ids.values()))); rng = np.random.RandomState(12345); rng.shuffle(runs0)
         hold = runs0[-a.holdout:]; hs = set(hold.tolist())
-        tfiles = sorted(f for d in a.train_dirs for f in glob.glob(os.path.join(d, "run_*.bin")))
-        tfiles = [f for f in tfiles if int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) not in hs]  # holdout runs only from DATA_DIR
+        tfiles = []
+        for d in a.train_dirs:
+            fs = sorted(glob.glob(os.path.join(d, "run_*.bin"))); m = run_ids(fs, d)
+            tfiles += [f for f in fs if m[f] not in hs]   # holdout runs only from DATA_DIR
+        tfiles.sort()
         sel = [f for f in files if ids[f] in hs] + tfiles      # preallocate: np.concatenate of a list peaks at 2x (≈ 17 GB at 10^5 runs)
         R = DIM + EXTRA; kmax = a.rows_per_run
         tot = sum((os.path.getsize(f) // 4) if (kmax <= 0 or f not in set(tfiles)) else min(os.path.getsize(f) // 4, kmax * R) for f in sel)

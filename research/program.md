@@ -1204,6 +1204,9 @@ an A0 card-pick keep over `vr2b20` (LOW).
 R3 training plan (fixed 12:17 UTC, before any R3 data exists here): ids 50–53 = ridge / h=64 / 256 / 1,024 on all ≈ 189,000
 training runs, 16 kept states per run, `--state-weights`; id 54 = h=64 at 99,000 runs with 16 kept states (control for the
 cap); selection over 22–25, 30–37, 50–54 -> `vr_61`, gate; leak test; `vr3b10/20/40` vs the A0 best (val-300 rule).
+Trainer speed-up (no change in results): a cached file -> run-id map per data dir (`ids_cache.tsv`); the scan of
+≈ 2×10^5 run files took > 20 min per cell and the first R3 cell was killed by the 2-hour limit mid-scan. Smoke set: identical
+output with and without the cache (`holdout_rmse=0.5289 predict_mean_rmse=0.5460` both).
 R3 data (merged from the workers, pasted):
   `SUBSAMPLE research/vf/data/rundata_w4/all -> research/vf/data/rundata_w4_k32/all: 30000 runs, rows 4904478 -> 957344 (k=32)`
   `PUSH rundata_w4_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
