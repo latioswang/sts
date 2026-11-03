@@ -10,9 +10,11 @@ Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spir
 | Part | State |
 |---|---|
 | Game launch and Communication Mod connection | Works |
-| Mirror mode, 20 seeds to the end of act 1 | 18 matched, 2 stopped where the game itself isn't deterministic ([report](reports/divergences-act1.md)) |
-| Mirror mode, acts 2 to 4 | Only checked as far as floor 18 so far; expect more differences |
-| Live mode | Won its first real run (seed 5000, floor 51, no fallbacks) |
+| Mirror mode, ascension 0 | Seeds 1000 to 1029 played to the end of each run: 29 had no difference, and 1006 stopped on floor 50 on a bug since fixed |
+| Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference |
+| Mirror mode, ascension 20 | On each seed's latest run, 27 of 28 seeds with items injected had no difference, 19 of them reaching floor 50 or later, and 2105 stopped after a Discovery. 19 of 20 seeds without items had no difference, most ending early when the agent died. 4004 stopped at A20's Proceed button before the bridge handled it, and hasn't been rerun |
+| Mirror mode, other ascensions | Not yet run on the game; the rules were compared with the game's bytecode |
+| Live mode | Three real runs: two wins and one loss |
 | Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
 | JSON to simulator converter | Passes the offline round trip |
 | Agent hooks | Unset in research runs |
@@ -25,7 +27,14 @@ Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spir
 STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=fidelity STS_TARGETS="fair_eval sts_bridge" research/setup.sh
 ```
 
-The fixes change simulation results, so research numbers from before them aren't comparable with runs after them.
+The fixes change simulation results, so research numbers from before them aren't comparable with runs after them. On the same 300 validation seeds with `best_params.txt` and `best_a20_params.txt`, on this Mac with `BF_MODEL_DIR` set:
+
+| Ascension | Baseline `e47bb63` | Fork | Paired difference, 95% |
+|---|---|---|---|
+| 0 | 69.7% | 67.3% | -2.3% +- 5.8% |
+| 20 | 1.7% | 1.0% | -0.7% +- 1.8% |
+
+Neither difference is significant. Deaths on floor 50 at ascension 0 went from 20 to 36. The research record for the same seeds and parameters is 75.0% on Linux, and how much of that gap comes from the platform's random numbers hasn't been checked.
 
 ## Setup
 
