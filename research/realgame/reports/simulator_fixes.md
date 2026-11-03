@@ -176,6 +176,7 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **End-of-turn exhaust order.** `DiscardAtEndOfTurnAction` runs `Collections.shuffle` with no seed. Ethereal cards and the like exhaust in a random order, so mirror mode compares the exhaust pile as a multiset.
 - **Secret Portal.** It joins act 3's events after 800 seconds of play. The simulator assumes it has, and the scenario mod holds the game's clock at that point during mirror runs.
 - **A curse's transform preview.** While a transform's confirm screen is up, `GridCardSelectScreen` changes its preview every 0.1 seconds, and a curse's preview rolls `cardRng` through `CardLibrary.getCurse`. The rolls depend on how long the screen stays up. Mirror mode takes the game's state after one.
+- **The time scale.** `STS_TIME_SCALE` speeds up the game's timers, but an action still takes at least a frame. When a minion leader dies with minions alive, the queue keeps running until the death animations end and `endBattle` clears it. At 5x those animations can end before a heal queued behind Reaper's effects runs, which is what seed 2123 showed on floor 42 at 5x; the same seed matches to floor 52 at normal speed. Rerun a difference like this at normal speed before believing it.
 
 ## Known gaps
 

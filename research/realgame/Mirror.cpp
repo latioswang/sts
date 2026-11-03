@@ -220,7 +220,7 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
         }
         // The fight ends at once in the simulator, but the game waits for the player to run off after a Smoke Bomb.
         if (gameState().value("room_phase", "") == "COMBAT" && real == "NONE") {
-            send("WAIT 30");
+            send("WAIT 120");  // about two seconds at the game's normal speed
             continue;
         }
         // A confirmation grid shows what a relic gave (Pandora's Box, Calling Bell). The simulator has no such screen.
