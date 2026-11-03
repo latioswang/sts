@@ -32,6 +32,7 @@ def main():
     ap.add_argument("--ridge", action="store_true"); ap.add_argument("--holdout", type=int, default=1000)
     ap.add_argument("--state-weights", action="store_true",
                     help="R2 fix: weight training states so the objective matches the per-state holdout (states of a run\n                    sampled k of n count n/k each; without it, per-run sampling under-weights long, winning runs by ~0.125)")
+    ap.add_argument("--patience", type=int, default=6, help="early-stopping patience in epochs (default 6)")
     ap.add_argument("--rows-per-run", type=int, default=0,
                     help="R3: keep at most this many states per training run at load (deterministic, RandomState(run id)); memory")
     ap.add_argument("--train-dirs", nargs="*", default=None,
@@ -171,7 +172,7 @@ def main():
             best = (r, [(m.weight.detach().numpy().astype(np.float64).copy(), m.bias.detach().numpy().astype(np.float64).copy()) for m in model if isinstance(m, nn.Linear)], ep); bad = 0
         else:
             bad += 1
-            if bad >= 6: break
+            if bad >= a.patience: break
     with torch.no_grad():
         for m, (W, b) in zip([m for m in model if isinstance(m, nn.Linear)], best[1]):
             m.weight.copy_(torch.tensor(W, dtype=torch.float32)); m.bias.copy_(torch.tensor(b, dtype=torch.float32))

@@ -1215,6 +1215,10 @@ output with and without the cache (`holdout_rmse=0.5289 predict_mean_rmse=0.5460
 Loader bug (fixed 18:58 UTC, no change in results): the `--rows-per-run` preallocation rebuilt `set(tfiles)` once per file
 (O(n²): a 40-minute CPU hang at ≈ 2×10^5 files; invisible on the 800-file smoke set). Smoke output unchanged
 (`holdout_rmse=0.5294 predict_mean_rmse=0.5460`, 16 kept). Cell 50 re-run.
+**R3 amendment (20:16 UTC, before cell 53 finished): `--patience 3` for the h=1,024 cell only.** At ≈ 170,000 runs it needs
+≈ 7 epochs × ≈ 16 min plus loading, past the runner's 2-hour window, so it would be killed and restarted forever. Every net
+trained on >= 8,100 runs so far peaked at epoch 1 or 2 (R2 ids 14–19, 31–37; R3 ids 51–52), so patience 3 is not expected to
+change the selected epoch. The first attempt (patience 6) was stopped at 33 min; the cell restarts with patience 3.
 R3 data (merged from the workers, pasted):
   `SUBSAMPLE research/vf/data/rundata_w4/all -> research/vf/data/rundata_w4_k32/all: 30000 runs, rows 4904478 -> 957344 (k=32)`
   `PUSH rundata_w4_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
