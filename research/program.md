@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 21:49 UTC
+### Current state (update after every batch) — 2026-11-03 22:07 UTC
+- **22:07 UTC: R3 closed.** A0 best `vr3b40` (pooled 400 80.5%, P=0.900 vs `vr2b20`). Ports of the R3 model: A10 near-miss ->
+  extension discard (pooled 400 P=0.870), A20 discard (P=0.604), Heart discard (P=0.148). Other tracks keep the R2 model.
+  Main queue empty; all workers finished.
 - **21:49 UTC: A0 best `vr3b40`** (R3 run value, bonus 40) via the near-miss extension: pooled 400 80.5% vs 78.0%
   (`vr2b20`), P=0.900 — at the bar. Ports to A10 / A20 / Heart not yet run.
 - **21:17 UTC:** R3 cell 53 (h=1,024, patience 3) at 60 min, expected ≈ 21:30; then control 54, selection, leak test, card picks.
@@ -834,6 +837,7 @@ candidates failed on dev gets no further extensions. Cost: one 100-game run per 
 | `ct45` vs `bfbonus10_g1` | +0.015, P=0.721 | +0.006, P=0.584 | +0.0129, P=0.732 | discard |
 | `vrb50` vs `mapd085` | +0.026, P=0.761 | +0.0775, P=0.866 | +0.0386, P=0.884 | discard |
 | `vr3b40` vs `vr2b20` | +0.023, P=0.758 | +0.0876, P=0.885 | +0.0392, P=0.900 | **KEEP** |
+| `a10_vr3b40` vs `a10_vr2b20` | +0.021, P=0.716 | +0.0778, P=0.867 | +0.0348, P=0.870 | discard |
 
 Two of seven extensions kept (potions saved for bosses on A0; the model-3 bonus on A20); the bonus-weight
 family (25/50) and the threshold family (4.5) were val-only artefacts. Eighth use, declared before its dev
@@ -1261,7 +1265,8 @@ keep needs pooled-400 P >= 0.9 and dev-alone dscore > 0.
 **Ports of `vr3b40` (pre-registered 21:50 UTC):** A10 `a10_vr3b40` (val-300 vs `a10_vr2b20`), A20 `a20_vr3b40` and Heart
 `heart_vr3b40` (pooled-500 vs their `*_vr2b20` bests). Predictions: each keeps (LOW–MED; the A0 gain over the R2 model is
 at the edge of significance). A10: `a10_vr3b40` 35.3% win, floor 39.0, +0.021 vs base, P=0.716 → discard; near-miss extension declared 21:53 UTC (dev 100 vs `a10_vr2b20_dev`, pooled 400). A20: `pooled val,dev2,dev3 [act3]: n=500  a20_vr3b40 win=0.044 floor=28.39  a20_vr2b20 win=0.036 floor=28.60  dscore=+0.0037 dwin=+0.008 P(improve)=0.604` -> no keep. Heart: `pooled val,dev2,dev3 [heart]: n=500  heart_vr3b40 win=0.118 floor=48.05  heart_vr2b20 win=0.148 floor=47.56  dscore=-0.0210 dwin=-0.030 P(improve)=0.148` -> no keep
-(Heart wins 14.8% -> 11.8%; the Heart track prefers the R2 model at bonus 20).
+(Heart wins 14.8% -> 11.8%; the Heart track prefers the R2 model at bonus 20). A10 extension: dev `a10_vr3b40_dev` 30.0% win, floor 38.0, +0.078 vs base, P=0.867 → info; `pooled val,dev [act3]: n=400  a10_vr3b40 win=0.340 floor=38.72  a10_vr2b20 win=0.325 floor=37.71  dscore=+0.0348 dwin=+0.015 P(improve)=0.870` -> discard
+(pooled P below 0.9; no second extension). Bests stay: A10 `a10_vr2b20`, A20 `a20_vr2b20`, Heart `heart_vr2b20`; A0 `vr3b40`.
 
 
 

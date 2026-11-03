@@ -1,0 +1,2 @@
+pooled val,dev [act3]: n=400  a10_vr3b40 win=0.340 floor=38.72  a10_vr2b20 win=0.325 floor=37.71  dscore=+0.0348 dwin=+0.015 P(improve)=0.870
+no
