@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 17:15 UTC
+### Current state (update after every batch) — 2026-11-03 18:16 UTC
+- **18:16 UTC:** all R3 data done and pulled (3 × 30,000 runs; all workers finished). Training cell 50 (ridge, ≈ 189,000 runs)
+  running since 17:54 (file scan of ≈ 200,000 run files first).
 - **17:15 UTC:** R3 subsamples here: w5 and w6 complete (30,001 linked each); w4 finishing in the queue. Training ids 50–54 next.
 - **16:15 UTC:** R3 subsamples downloading (w4 26,610 / w5 15,760 / w6 15,492 of 30,001 files; ≈ 22,000 files/h in total,
   ≈ 1.5 h left). Training ids 50–54 follows.
@@ -1202,6 +1204,16 @@ an A0 card-pick keep over `vr2b20` (LOW).
 R3 training plan (fixed 12:17 UTC, before any R3 data exists here): ids 50–53 = ridge / h=64 / 256 / 1,024 on all ≈ 189,000
 training runs, 16 kept states per run, `--state-weights`; id 54 = h=64 at 99,000 runs with 16 kept states (control for the
 cap); selection over 22–25, 30–37, 50–54 -> `vr_61`, gate; leak test; `vr3b10/20/40` vs the A0 best (val-300 rule).
+R3 data (merged from the workers, pasted):
+  `SUBSAMPLE research/vf/data/rundata_w4/all -> research/vf/data/rundata_w4_k32/all: 30000 runs, rows 4904478 -> 957344 (k=32)`
+  `PUSH rundata_w4_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
+  `PUSH rundata_w4 DONE: 30000 files in latioswang/sts-ironclad-data`
+  `SUBSAMPLE research/vf/data/rundata_w5/all -> research/vf/data/rundata_w5_k32/all: 30000 runs, rows 4906995 -> 957186 (k=32)`
+  `PUSH rundata_w5 DONE: 30000 files in latioswang/sts-ironclad-data`
+  `PUSH rundata_w5_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
+  `SUBSAMPLE research/vf/data/rundata_w6/all -> research/vf/data/rundata_w6_k32/all: 30000 runs, rows 4904860 -> 957471 (k=32)`
+  `PUSH rundata_w6_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
+  `PUSH rundata_w6 DONE: 30000 files in latioswang/sts-ironclad-data`
 Workers (fresh sessions, batch as their initial task): `r3w4` session_01USafwjCmHfU33M4nKBEaNm, `r3w5`
 session_01USafwfxVxqFj3VUoacBkds, `r3w6` session_01USafwiFvm2TuvHQBbsV8tv (started 06:11 UTC).
 Trainer option for R3 memory: `train_vr2.py --rows-per-run 16` (deterministic per run; weights unchanged since they use
