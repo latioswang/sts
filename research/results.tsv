@@ -442,3 +442,4 @@ dfb53f4	val.a10	300	0	0.343	38.43	1.0968	+0.0707	0.979	keep	a10_vr2b20: [a10] po
 9675a6f	val.a0	300	0	0.153	48.62	1.0599	+0.0499	0.977	keep	heart_vr2b20: [heart pooled500] port A0 keep: card picks + 20 x R2 run value (vr_41) [vr_model=41 vr_bonus=20] pooled dscore=+0.0513 dwin=+0.028 P(improve)=0.996
 9675a6f	dev2.a0	100	0	0.170	47.68	1.0551	+0.0396	0.846	info	heart_vr2b20: [heart pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
 9675a6f	dev3.a0	100	0	0.110	44.24	0.9396	+0.0669	0.968	info	heart_vr2b20: [heart pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
+87f5f70	dev.a10	100	0	0.270	35.56	0.9673	+0.0849	0.918	info	a10_vr2b20_dev: VERIFY: a10_vr2b20 on dev vs a10_bfbonus25_g1m_dev (replication of a a10 keep)

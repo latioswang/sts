@@ -1172,7 +1172,20 @@ The first keep driven by a learned value against the final score; dev replicatio
 (A10, val-300 rule), `a20_vr2b20` (A20, pooled-500), `heart_vr2b20` (Heart, pooled-500). Predictions: A10 keeps (LOW–MED);
 A20 keeps (LOW); Heart keeps (LOW). A10: `a10_vr2b20` 34.3% win, floor 38.4, +0.071 vs base, P=0.979 → keep (prediction LOW–MED: held); dev replication queued. A20: `pooled val,dev2,dev3 [act3]: n=500  a20_vr2b20 win=0.036 floor=28.60  a20_restboss1 win=0.028 floor=27.41  dscore=+0.0312 dwin=+0.008 P(improve)=0.978` -> **KEEP** (prediction LOW: beaten; every slice positive:
 val +0.022, dev2 +0.041, dev3 +0.049; the gain is mostly floor, +1.2, with wins 2.8% -> 3.6%). Heart: `pooled val,dev2,dev3 [heart]: n=500  heart_vr2b20 win=0.148 floor=47.56  heart_bfrelic10 win=0.120 floor=46.05  dscore=+0.0513 dwin=+0.028 P(improve)=0.996` -> **KEEP** (prediction LOW: beaten;
-slices val +0.050, dev2 +0.040, dev3 +0.067). **All four tracks keep the same A0-trained run value at bonus 20.**
+slices val +0.050, dev2 +0.040, dev3 +0.067). **All four tracks keep the same A0-trained run value at bonus 20.** A10 dev replication: `a10_vr2b20_dev` 27.0% win, floor 35.6, +0.085 vs base, P=0.918 → info.
+Test split: not used — the amended cap allows one test run per confirmed milestone (M-A10 / M-A20 / Heart), and none
+is reached (A10 34.3% val vs 35%).
+
+**Phase R3 — 1.9×10^5 runs (pre-registered 2026-11-03 06:10 UTC).** Why: at 89,100 runs every net is still improving with data
+(h=64 0.5230 / 0.5128 / 0.5046 at 8,100 / 35,100 / 89,100; h=256 and h=1,024 only start to pay off at the largest size) while
+ridge is flat, and the 89,100-run h=64 net produced keeps on all four tracks. Data: 90,000 more A0 games with the current
+A0 best (`vr2b20` — note: the data-generating agent changes from R2, a small distribution shift, accepted) and `rv_log=1`,
+seeds 440000–529999 (unused), three fresh workers × 30,000 (`research/workers/r3data.md`; 3,000-file commits). Training:
+the R2 trainer at ≈ 1.9×10^5 training runs with 16 kept states per run (memory), ridge + h = 64 / 256 / 1,024, same
+holdout; selection among all R2 + R3 cells -> new vr id, gate; then the card-pick test (bonus 10 / 20 / 40) on A0 vs the
+then-best, and ports on success. Predictions: best holdout RMSE < 0.500 (LOW–MED); a net larger than h=64 is best (MED);
+an A0 card-pick keep over `vr2b20` (LOW).
+
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
