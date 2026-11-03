@@ -1258,6 +1258,9 @@ Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Card picks vs `vr2b20`: `vr3b
 keep needs pooled-400 P >= 0.9 and dev-alone dscore > 0.
   Result: dev alone `vr3b40_dev` 75.0% win, floor 47.7, +0.088 vs base, P=0.885 → info; `pooled val,dev [act3]: n=400  vr3b40 win=0.805 floor=48.02  vr2b20 win=0.780 floor=47.29  dscore=+0.0392 dwin=+0.025 P(improve)=0.900` -> **KEEP** (P exactly at the bar: the rule compares the unrounded P, and the script
   printed KEEP). New A0 best `vr3b40` (R3 run value vr_61, bonus 40). Pooled 400: 80.5% vs 78.0% for `vr2b20`.
+**Ports of `vr3b40` (pre-registered 21:50 UTC):** A10 `a10_vr3b40` (val-300 vs `a10_vr2b20`), A20 `a20_vr3b40` and Heart
+`heart_vr3b40` (pooled-500 vs their `*_vr2b20` bests). Predictions: each keeps (LOW–MED; the A0 gain over the R2 model is
+at the edge of significance).
 
 
 
