@@ -67,6 +67,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2126, 33 | Unceasing Top with an empty draw pile handed control back before its shuffle and draw ran | They run first | `d2615b4` |
 | 4011, 16 | Anger's copy was a new card | `makeStatEquivalentCopy` keeps a cost that Snecko Oil or Confusion changed | `d2615b4` |
 | 1006, 50 | A card made free for the turn stayed free if drawn again that turn | `Soul.update` runs `clearPowers` when a card lands on a pile | `e1f0ce4` |
+| 2110, 33 (A10) | A skill Snecko Oil gave a cost kept it under Corruption until the next draw | `onCardDrawOrDiscard` also runs from `UseCardAction` | `1fc1ef5` |
 
 ## Monsters
 
@@ -151,6 +152,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Du-Vu Doll gave no Strength | Its counter is every curse in the deck, including Ascender's Bane | `16613b4` |
 | 2111, 20 | Knowing Skull's options were gold, card, potion | They are potion, gold, card | `68c57ef` |
 | code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
+| 1101, 22; 1103, 24 | Orrery's and Cauldron's cards in a shop rolled a 3% rare chance | `ShopRoom` sets `baseRareCardChance` to 9 | `3347784` |
 
 ## Ascension
 
