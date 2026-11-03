@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 02:17 UTC
+### Current state (update after every batch) — 2026-11-03 03:15 UTC
+- **03:15 UTC:** coordinator full-set upload resumed after the 429 (3,000-file commits; each commit draws a transient 502
+  that the re-list retry clears): `push rundata_w3: 18000/21000 files uploaded`. Then guarded delete, pull of `rundata_w1_k32`, R2 training. Workers idle.
 - **02:17 UTC: all R2 data generated (3 × 30,000 runs).** Store has the r2w1 and r2w2 subsamples and the coordinator's
   `rundata_w3_k32` (30,001 files, one HTTP 502 on the last commit, retried). Coordinator now uploading its full set, then
   frees 12 GB, pulls `rundata_w1_k32`, and trains the eight R2 cells.
