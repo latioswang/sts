@@ -63,6 +63,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 16 | A Blood for Blood made mid-fight cost 4 once its turn ended | `makeCopy` counts the fight's HP losses | `b2c3491` |
 | 2113, 16 | Mind Blast off the draw pile counted the pile when played | `PlayTopCardAction` runs `applyPowers` as it takes the card, with the next cards still there | `b2c3491` |
 | 2114, 33 | Meat on the Bone checked HP after Burning Blood's heal | `endBattle` triggers it before other relics' `onVictory` | `b2c3491` |
+| 2119, 36 | A shuffle for a card off the top of the draw pile didn't trigger Abacus or Sundial | `EmptyDeckShuffleAction` calls `onShuffle` in its constructor | `2787535` |
 
 ## Monsters
 
