@@ -344,6 +344,24 @@ void ActionSender::chooseCardOnScreen(const std::string &key, int copy) {
     bridgeGap(real, "card " + key + " not on screen: " + cards.dump());
 }
 
+// Secret Technique and Secret Weapon list the draw pile in a random order, so same-named copies are only told apart by
+// uuid. Where the simulator's pile isn't in the game's order the copies are interchangeable to the agent anyway.
+void ActionSender::chooseDrawPileCardOnScreen(const BattleContext &bc, int drawIdx) {
+    if (!drawPileMatchesGame()) {
+        chooseCardOnScreen(keyOf(bc.cards.drawPile[drawIdx]), copyIndex(bc.cards.drawPile, drawIdx));
+        return;
+    }
+    const std::string uuid = gameState()["combat_state"]["draw_pile"][drawIdx].value("uuid", "");
+    const json &cards = gameState()["screen_state"]["cards"];
+    for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
+        if (cards[i].value("uuid", "") == uuid) {
+            send("CHOOSE " + std::to_string(i));
+            return;
+        }
+    }
+    bridgeGap(screenType(), "draw pile card " + uuid + " not on screen: " + cards.dump());
+}
+
 void ActionSender::confirmIfRequired() {
     if (screenType() == "GRID" || screenType() == "HAND_SELECT") {
         if (hasCommand(state(), "confirm")) send("CONFIRM");
@@ -435,7 +453,7 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                 case CardSelectTask::SECRET_TECHNIQUE:
                 case CardSelectTask::SECRET_WEAPON:
                 case CardSelectTask::SEEK:
-                    chooseCardOnScreen(keyOf(bc.cards.drawPile[idx]), copyIndex(bc.cards.drawPile, idx));
+                    chooseDrawPileCardOnScreen(bc, idx);
                     confirmIfRequired();
                     break;
                 default:

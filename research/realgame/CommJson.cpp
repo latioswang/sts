@@ -83,7 +83,7 @@ json monsterJson(const BattleContext &bc, const Monster &m) {
         const DamageInfo info = m.getMoveBaseDamage(bc);
         out["move_id"] = *moveByte;
         out["move_base_damage"] = info.damage;
-        out["move_adjusted_damage"] = info.damage > 0 ? m.calculateDamageToPlayer(bc, info.damage) : info.damage;
+        out["move_adjusted_damage"] = info.damage > 0 ? m.intentDamageToPlayer(bc, info.damage) : info.damage;
         out["move_hits"] = info.attackCount;
     }
     const auto lastByte = moveToGameByte(m.id, m.moveHistory[1]);
@@ -95,7 +95,17 @@ json combatJson(const BattleContext &bc) {
     json powers = json::array();
     for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
-        if (bc.player.hasStatusRuntime(s)) powers.push_back({{"id", playerPowerToGameId(s)}, {"amount", playerPowerAmount(bc.player, s)}});
+        if (!bc.player.hasStatusRuntime(s)) continue;
+        if (s == PS::PANACHE) {
+            powers.push_back({{"id", playerPowerToGameId(s)}, {"amount", bc.player.panacheCounter}, {"damage", playerPowerAmount(bc.player, s)}});
+        } else {
+            powers.push_back({{"id", playerPowerToGameId(s)}, {"amount", playerPowerAmount(bc.player, s)}});
+        }
+    }
+    const int bombs[] = {bc.player.bomb1, bc.player.bomb2, bc.player.bomb3};
+    for (int turnsLeft = 1; turnsLeft <= 3; ++turnsLeft) {
+        const int damage = bombs[turnsLeft - 1];
+        if (damage) powers.push_back({{"id", "TheBomb" + std::to_string(turnsLeft)}, {"amount", turnsLeft}, {"damage", damage}});
     }
     json monsters = json::array();
     for (const int slot : occupiedMonsterSlots(bc)) monsters.push_back(monsterJson(bc, bc.monsters.arr[slot]));

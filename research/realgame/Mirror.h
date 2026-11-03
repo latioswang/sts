@@ -24,7 +24,7 @@ struct MirrorOptions {
 struct MirrorResult {
     std::uint64_t seed = 0;
     std::string seedText;
-    // completed | reached_limit | diverged | bridge_gap
+    // completed | reached_limit | diverged | game_nondeterminism | unsupported_card | bridge_gap
     std::string status;
     int floor = 0;
     int act = 0;
@@ -52,6 +52,7 @@ private:
     int mapComparedForAct_ = 0;
     int discoveryFloor_ = -1;
     bool copyCardRandomRng_ = false;
+    bool copyCardRng_ = false;
     std::map<std::string, RngState> gameRngs_;
     bool rewardsCompared_ = false;
 
@@ -62,7 +63,10 @@ private:
 
     void onGameAction(const sts::GameContext &gc, const sts::search::GameAction &a);
     void onCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
+    [[nodiscard]] bool drawPileMatchesGame() const override { return true; }
     void copyGameCardRandomRng(const sts::BattleContext &bc);
+    void noteCurseTransform(const sts::GameContext &gc, const sts::search::GameAction &a);
+    void stopOnUnsupportedCard(const sts::GameContext &gc) const;
     void addRngDiff(Diffs &out, const std::string &name, const sts::Random &sim) const;
     [[nodiscard]] Diffs battleDiffs(const sts::BattleContext &bc) const;
 

@@ -693,10 +693,21 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
             notes.warn("unknown player power " + id);
             continue;
         }
-        setPlayerStatus(p, *status, power.value("amount", 0), power.value("just_applied", false));
+        if (*status == PS::THE_BOMB) {
+            const int turnsLeft = power.value("amount", 0);
+            auto &bomb = turnsLeft == 1 ? p.bomb1 : turnsLeft == 2 ? p.bomb2 : p.bomb3;
+            bomb = static_cast<std::int16_t>(bomb + power.value("damage", 0));
+            continue;
+        }
+        // Panache's amount is its countdown, and its damage is what the simulator keeps as the status.
+        const int amount = *status == PS::PANACHE ? power.value("damage", 0) : power.value("amount", 0);
+        setPlayerStatus(p, *status, amount, power.value("just_applied", false));
+        if (*status == PS::PANACHE) p.panacheCounter = static_cast<std::int8_t>(power.value("amount", 0));
         if (*status == PS::COMBUST) p.combustHpLoss = static_cast<std::int8_t>(power.value("misc", 1));
         if (*status == PS::ECHO_FORM) p.echoFormCardsDoubled = static_cast<std::int8_t>(power.value("misc", 0));
     }
+
+    p.redSkullActive = p.hasRelic<RelicId::RED_SKULL>() && p.curHp <= p.maxHp / 2;
 
     // The game's list has no gaps and keeps dead monsters; the simulator has five slots and expects summoners and
     // split slimes in particular ones. Monsters keep their game order either way.

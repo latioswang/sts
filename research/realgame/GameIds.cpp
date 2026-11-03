@@ -94,6 +94,8 @@ bool isUntrackedPower(const std::string &id) {
 }
 
 std::optional<PlayerStatus> playerPowerFromGameId(const std::string &id) {
+    // Each bomb is a power of its own: TheBomb0, TheBomb1 and so on.
+    if (id.rfind("TheBomb", 0) == 0) return PlayerStatus::THE_BOMB;
     const auto &m = forwardMap(kPlayerPowers);
     const auto it = m.find(id);
     if (it == m.end()) return std::nullopt;

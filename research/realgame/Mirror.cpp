@@ -152,13 +152,36 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
     if (options_.maxFloor > 0 && gc.floorNum > options_.maxFloor) {
         throw StopRun{"reached_limit", screenStateName(gc.screenState), "floor limit", {}};
     }
+    stopOnUnsupportedCard(gc);
     alignOutOfCombat(gc);
     adoptCourierCard();
     compareOutOfCombat(gc);
+    noteCurseTransform(gc, a);
     if (gc.screenState == ScreenState::SHOP_ROOM && gc.hasRelic(RelicId::THE_COURIER) && a.getRewardsActionType() == GameAction::RewardsActionType::CARD) {
         courierCardSlot_ = a.getIdx1() < 5 ? a.getIdx1() : -1;
     }
     applyGameAction(gc, a);
+}
+
+// Prismatic Shard offers every class's cards, and the simulator can only play Ironclad and colorless ones.
+void Mirror::stopOnUnsupportedCard(const GameContext &gc) const {
+    for (const auto &card : gc.deck.cards) {
+        const CardColor color = getCardColor(card.getId());
+        if (color == CardColor::GREEN || color == CardColor::BLUE || color == CardColor::PURPLE) {
+            throw StopRun{"unsupported_card", screenStateName(gc.screenState),
+                          std::string("the simulator can't play ") + card.getName(), {}};
+        }
+    }
+}
+
+// While a transform's confirm screen is up, GridCardSelectScreen changes its preview every 0.1 seconds, and a curse's
+// preview rolls cardRng (CardLibrary.getCurse). The rolls depend on how long the screen stays up, so no simulator can
+// match them, and the simulator takes the game's state instead.
+void Mirror::noteCurseTransform(const GameContext &gc, const GameAction &a) {
+    if (gc.screenState != ScreenState::CARD_SELECT) return;
+    const auto type = gc.info.selectScreenType;
+    if (type != CardSelectScreenType::TRANSFORM && type != CardSelectScreenType::TRANSFORM_UPGRADE) return;
+    if (getCardColor(gc.info.toSelectCards[a.getIdx1()].card.getId()) == CardColor::CURSE) copyCardRng_ = true;
 }
 
 // The Courier's new class card is drawn with the game's unseeded MathUtils, so no simulator can predict it. Its type,
@@ -216,6 +239,8 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                 break;
             case ScreenState::REWARDS:
                 if (real == "COMBAT_REWARD" || real == "CARD_REWARD") return;
+                // Calling Bell shows its curse on a confirm-only grid first.
+                if (real == "GRID" && hasCommand(state(), "confirm")) { send("CONFIRM"); continue; }
                 // Single-button event pages the simulator skips: Lab's [Search], Wheel of Change's spin and [Prize!], and
                 // Neow's [Leave], where the simulator leaves through an empty reward screen.
                 if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
@@ -266,6 +291,15 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
         d = outOfCombatDiffs(gc);
     }
     gameRngs_ = readGameRngs();
+    if (copyCardRng_) {
+        copyCardRng_ = false;
+        const auto it = gameRngs_.find("cardRng");
+        if (it != gameRngs_.end()) {
+            target_->cardRng.seed0 = it->second.seed0;
+            target_->cardRng.seed1 = it->second.seed1;
+            target_->cardRng.counter = it->second.counter;
+        }
+    }
     for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"cardRng", &gc.cardRng}, {"treasureRng", &gc.treasureRng},
                                        {"relicRng", &gc.relicRng}, {"potionRng", &gc.potionRng}, {"merchantRng", &gc.merchantRng},
                                        {"eventRng", &gc.eventRng}, {"monsterRng", &gc.monsterRng}, {"miscRng", &gc.miscRng}}) {
@@ -383,7 +417,8 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     }
     logStep("BATTLE", desc.str(), d);
     lastAction_ = desc.str();
-    if (a.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::DISCOVERY) {
+    if (a.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::DISCOVERY &&
+        bc.cardSelectInfo.discoveryIsFree) {
         discoveryFloor_ = floor_;
         copyCardRandomRng_ = true;
     }

@@ -104,11 +104,17 @@ std::map<std::string, int> simMonsterPowers(const Monster &m) {
     return out;
 }
 
+// The game's bombs are separate powers whose amount is the turns left, so both sides compare damage by turns left.
+std::string bombKey(int turnsLeft) { return "TheBomb in " + std::to_string(turnsLeft); }
+
 std::map<std::string, int> simPlayerPowers(const Player &p) {
     std::map<std::string, int> out;
+    if (p.bomb1) out[bombKey(1)] = p.bomb1;
+    if (p.bomb2) out[bombKey(2)] = p.bomb2;
+    if (p.bomb3) out[bombKey(3)] = p.bomb3;
     for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
-        if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = playerPowerAmount(p, s);
+        if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = s == PS::PANACHE ? p.panacheCounter : playerPowerAmount(p, s);  // the game shows the countdown
     }
     return out;
 }
@@ -124,7 +130,11 @@ void comparePowers(Diffs &out, const std::string &field, std::map<std::string, i
     std::map<std::string, int> real;
     for (const auto &p : game) {
         const std::string id = p["id"].get<std::string>();
-        if (!isUntrackedPower(id)) real[id] = p["amount"].get<int>();
+        if (id.rfind("TheBomb", 0) == 0) {
+            real[bombKey(p["amount"].get<int>())] += p.value("damage", 0);
+        } else if (!isUntrackedPower(id)) {
+            real[id] = p["amount"].get<int>();
+        }
     }
     for (auto &[id, amount] : real) {
         const auto it = sim.find(id);
@@ -162,7 +172,7 @@ void compareMonster(const BattleContext &bc, const Monster &m, const json &game,
     }
     const DamageInfo info = m.getMoveBaseDamage(bc);
     if (info.damage > 0) {
-        check(out, prefix + ".move_adjusted_damage", m.calculateDamageToPlayer(bc, info.damage),
+        check(out, prefix + ".move_adjusted_damage", m.intentDamageToPlayer(bc, info.damage),
               game.value("move_adjusted_damage", -1));
         check(out, prefix + ".move_hits", info.attackCount, game.value("move_hits", -1));
     } else {

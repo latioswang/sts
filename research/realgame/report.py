@@ -96,14 +96,17 @@ def render(stops: Iterable[Stop]) -> str:
     clean = [s for s in stops if s.status in ("completed", "reached_limit")]
     # Not simulator bugs: the game itself plays differently from run to run here (see Mirror::stopOnDifference).
     nondeterministic = [s for s in stops if s.status == "game_nondeterminism"]
-    stopped = [s for s in stops if s not in clean and s not in nondeterministic]
+    # Not simulator differences yet: the agent took a card from another class, which the simulator can't play.
+    unsupported = [s for s in stops if s.status == "unsupported_card"]
+    stopped = [s for s in stops if s not in clean and s not in nondeterministic and s not in unsupported]
     fields = Counter(s.first_field for s in stopped)
 
     lines = [
         "# Mirror divergence report",
         "",
         f"{len(stops)} seeds: {len(clean)} matched to their end point, {len(stopped)} stopped at a difference, "
-        f"{len(nondeterministic)} stopped where the game itself is not deterministic.",
+        f"{len(nondeterministic)} stopped where the game itself is not deterministic, "
+        f"{len(unsupported)} stopped at another class's card.",
         "",
     ]
     if fields:

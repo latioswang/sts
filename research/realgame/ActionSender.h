@@ -61,6 +61,9 @@ protected:
     // monsterIndex maps a simulator monster slot to the game's monster list.
     void applyCombatAction(const sts::BattleContext &bc, const sts::search::Action &a, const std::array<int, 5> &monsterIndex);
 
+    // Whether the simulator's draw pile is in the game's order, as in mirror mode.
+    [[nodiscard]] virtual bool drawPileMatchesGame() const { return false; }
+
     // A card reward's cards become visible only once it is opened.
     virtual void onCardRewardOpened(const sts::CardReward &) {}
     // Declining a reward leaves it on the game's list; a mode that tracks this overrides it.
@@ -75,6 +78,7 @@ private:
     void applyCardSelect(const sts::GameContext &gc, int index);
     void applyMap(const sts::GameContext &gc, int x);
     void chooseCardOnScreen(const std::string &key, int copy = 0);
+    void chooseDrawPileCardOnScreen(const sts::BattleContext &bc, int drawIdx);
     void confirmIfRequired();
 };
 

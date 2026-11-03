@@ -26,6 +26,16 @@ def test_nondeterministic_stops_are_listed_apart() -> None:
     assert "### Seed 1 " not in text
 
 
+def test_unsupported_card_is_not_a_difference() -> None:
+    stops = [
+        Stop(seed=1, seed_text="A", status="unsupported_card", floor=7, act=1, step=9, where="REWARDS", last_action="",
+             message="the simulator can't play Noxious Fumes"),
+    ]
+    text = render(stops)
+    assert "0 stopped at a difference" in text
+    assert "1 stopped at another class's card" in text
+
+
 def test_newest_result_per_seed_wins(tmp_path):
     diff = {"field": "gold", "sim": "99", "game": "100", "hard": True}
     path = write_results(tmp_path, [row(1, "diverged", [diff]), row(1, "completed")])
@@ -54,6 +64,6 @@ def test_suspect_uses_longest_meaningful_prefix():
 def test_render_counts_and_lists_repro(tmp_path):
     diff = {"field": "player.block", "sim": "5", "game": "8", "hard": True}
     report = render(load_stops(write_results(tmp_path, [row(4, "completed"), row(5, "diverged", [diff])])))
-    assert "2 seeds: 1 matched to their end point, 1 stopped at a difference, 0 stopped where the game itself is not deterministic." in report
+    assert "2 seeds: 1 matched to their end point, 1 stopped at a difference, 0 stopped where the game itself is not deterministic, 0 stopped at another class's card." in report
     assert "`player.block`" in report
     assert "sts_bridge mirror --seed_start 5 --count 1" in report
