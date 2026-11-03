@@ -237,6 +237,8 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
                     continue;
                 }
                 if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }
+                // Match and Keep's board stays up for a moment after the last attempt.
+                if (real == "EVENT" && gc.curEvent == Event::MATCH_AND_KEEP) { send("WAIT 30"); continue; }
                 break;
             case ScreenState::SHOP_ROOM:
                 if (real == "SHOP_SCREEN") return;

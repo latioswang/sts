@@ -64,6 +64,8 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2113, 16 | Mind Blast off the draw pile counted the pile when played | `PlayTopCardAction` runs `applyPowers` as it takes the card, with the next cards still there | `b2c3491` |
 | 2114, 33 | Meat on the Bone checked HP after Burning Blood's heal | `endBattle` triggers it before other relics' `onVictory` | `b2c3491` |
 | 2119, 36 | A shuffle for a card off the top of the draw pile didn't trigger Abacus or Sundial | `EmptyDeckShuffleAction` calls `onShuffle` in its constructor | `2787535` |
+| 2126, 33 | Unceasing Top with an empty draw pile handed control back before its shuffle and draw ran | They run first | `d2615b4` |
+| 4011, 16 | Anger's copy was a new card | `makeStatEquivalentCopy` keeps a cost that Snecko Oil or Confusion changed | `d2615b4` |
 
 ## Monsters
 
