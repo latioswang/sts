@@ -63,9 +63,12 @@ void comparePile(Diffs &out, const std::string &field, const Range &sim, const j
 // DiscardAtEndOfTurnAction triggers the hand's end-of-turn effects in the order of an unseeded Collections.shuffle, so
 // ethereal cards reach the exhaust pile in a different order on every run. Only the pile's contents can be compared.
 template <typename Range>
-void compareExhaustPile(Diffs &out, const Range &sim, const json &game) {
+void compareExhaustPile(Diffs &out, const Range &sim, const json &game, bool exhumeGridOpen) {
     std::vector<std::string> simCards;
-    for (const auto &c : sim) simCards.push_back(cardKey(c));
+    for (const auto &c : sim) {
+        // ExhumeAction takes Exhumes out of the pile while its grid is open, and puts them back after.
+        if (!exhumeGridOpen || c.getId() != CardId::EXHUME) simCards.push_back(cardKey(c));
+    }
     std::vector<std::string> gameCards;
     for (const auto &c : game) gameCards.push_back(cardKey(c));
     std::sort(simCards.begin(), simCards.end());
@@ -243,8 +246,11 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
         check(out, "hand", join(simHand), join(gameHand));
     }
     comparePile(out, "draw_pile", bc.cards.drawPile, cs["draw_pile"]);
-    comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
-    compareExhaustPile(out, bc.cards.exhaustPile, cs["exhaust_pile"]);
+    // A grid that takes two cards (Liquid Memories with Sacred Bark) moves them when it closes; the simulator picks one at a time.
+    const bool gridPartlyChosen = gs["screen_type"] == "GRID" && !gs["screen_state"].value("selected_cards", json::array()).empty();
+    if (!gridPartlyChosen) comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
+    const bool exhumeGridOpen = bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::EXHUME;
+    compareExhaustPile(out, bc.cards.exhaustPile, cs["exhaust_pile"], exhumeGridOpen);
 
     comparePotions(bc.potions, bc.potionCapacity, gs, out);
 

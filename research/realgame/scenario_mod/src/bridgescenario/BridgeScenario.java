@@ -172,7 +172,7 @@ public class BridgeScenario implements PostUpdateSubscriber {
             throw new IllegalArgumentException("unknown card " + id);
         }
         AbstractCard copy = card.makeCopy();
-        for (int i = 0; i < upgrades; ++i) {
+        for (int i = 0; i < upgrades && copy.canUpgrade(); ++i) {
             copy.upgrade();
         }
         AbstractDungeon.player.masterDeck.addToTop(copy);

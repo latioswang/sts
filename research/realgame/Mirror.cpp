@@ -402,6 +402,7 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
         Diffs d{{"screen", "BATTLE", screenType(), true}};
         throw StopRun{"diverged", "BATTLE", "the simulator is in a battle, the game is not", d};
     }
+    const bool afterDiscovery = copyCardRandomRng_;
     copyGameCardRandomRng(bc);
     std::ostringstream desc;
     a.printDesc(desc, bc);
@@ -421,6 +422,10 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
         bc.cardSelectInfo.discoveryIsFree) {
         discoveryFloor_ = floor_;
         copyCardRandomRng_ = true;
+    }
+    // Something queued behind a discovery, such as Hex's Dazed, rolled the stream before the simulator could take it.
+    if (afterDiscovery && anyHard(d)) {
+        throw StopRun{"game_nondeterminism", "BATTLE turn " + std::to_string(bc.turn), "difference right after a discovery; cardRandomRng depends on the frame rate", d};
     }
     stopOnDifference("BATTLE turn " + std::to_string(bc.turn), d);
     applyCombatAction(bc, a, gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]));

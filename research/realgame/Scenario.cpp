@@ -158,7 +158,7 @@ void applyScenarioToSimulator(GameContext &gc, const std::vector<ScenarioItem> &
             }
             case ScenarioKind::Card: {
                 Card card(*cardFromGameId(item.id));
-                for (int i = 0; i < item.upgrades; ++i) card.upgrade();
+                for (int i = 0; i < item.upgrades && card.canUpgrade(); ++i) card.upgrade();
                 gc.deck.obtainRaw(card);
                 break;
             }
