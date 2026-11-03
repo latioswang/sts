@@ -60,6 +60,9 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2102, 40 | A minion leader's death cleared the action queue, so the turn's draw and its shuffle were lost, which Sundial counts | `clearPostCombatActions` needs every monster dying, and its minions only die in actions to come | `f5c6799` |
 | 2103, 16 | No Draw always ended after Combust's HP loss | Powers act in the order gained, so No Draw played first has gone, and Centennial Puzzle or Runic Cube draws | `f5c6799` |
 | 2100, 23 | Toy Ornithopter's heal was lost with Smoke Bomb | Its `HealAction` still runs | `f5c6799` |
+| 2110, 16 | A Blood for Blood made mid-fight cost 4 once its turn ended | `makeCopy` counts the fight's HP losses | `b2c3491` |
+| 2113, 16 | Mind Blast off the draw pile counted the pile when played | `PlayTopCardAction` runs `applyPowers` as it takes the card, with the next cards still there | `b2c3491` |
+| 2114, 33 | Meat on the Bone checked HP after Burning Blood's heal | `endBattle` triggers it before other relics' `onVictory` | `b2c3491` |
 
 ## Monsters
 
@@ -96,6 +99,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2118, 33 | Philosopher's Stone gave Strength to empty slots, which Bronze Orbs later fill | It only gives it to monsters that are there | `84a699d` |
 | 2116, 37 | A Darkling that went down kept its old debuff amounts, which came back with the next one | `powers.clear()` removes them, so Shockwave+ gives 5 Weak, not 6 | `c54860c` |
 | 2116, 50 | Combust did nothing while Awakened One was half dead with nothing else alive | `areMonstersBasicallyDead` only looks at `isDying` and `isEscaping` | `dad125b` |
+| 2103, 16 | The Guardian lost its Defensive Mode block when Combust crossed the threshold at the end of a turn | `ChangeStateAction` queues the block behind the queued monster start of turn | `dc6e79d` |
 
 ## Run and rewards
 
@@ -141,6 +145,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Torii cut event damage | Only Shining Light's: other events' damage has no owner or is HP loss | `66b4f61` |
 | code | The act change moved a `cardRng` counter of exactly 250 or 500 on | `dungeonTransitionSetup` leaves those alone, and 0 | `66b4f61` |
 | code | Du-Vu Doll gave no Strength | Its counter is every curse in the deck, including Ascender's Bane | `16613b4` |
+| 2111, 20 | Knowing Skull's options were gold, card, potion | They are potion, gold, card | `68c57ef` |
 
 ## Ascension
 
