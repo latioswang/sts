@@ -102,12 +102,16 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 04:16 UTC
-- **04:16 UTC: R2 training running** (all data in: 99,000 training runs + the 1,000-run holdout). Cells so far (pasted):
+### Current state (update after every batch) — 2026-11-03 05:16 UTC
+- **05:16 UTC: R2 training, 7 of 8 cells done** (last: h=1,024 at 89,100 runs, running). Cells (pasted):
   `VR2 id=30 runs=35100 ridge lambda=0.001 holdout_rmse=0.5135 holdout_corr=0.338 predict_mean_rmse=0.5451 31s`
   `VR2 id=31 runs=35100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5128 holdout_corr=0.356 predict_mean_rmse=0.5451 49s`
   `VR2 id=32 runs=35100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5321 holdout_corr=0.318 predict_mean_rmse=0.5451 90s`
-  Ridge is flat (0.5135 at 8,100 and 35,100 runs); h=64 passes it (0.5128); h=256 does not improve with data.
+  `VR2 id=33 runs=35100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5289 holdout_corr=0.312 predict_mean_rmse=0.5451 1152s`
+  `VR2 id=34 runs=89100 ridge lambda=0.001 holdout_rmse=0.5125 holdout_corr=0.342 predict_mean_rmse=0.5451 85s`
+  `VR2 id=35 runs=89100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5046 holdout_corr=0.387 predict_mean_rmse=0.5451 64s`
+  `VR2 id=36 runs=89100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5108 holdout_corr=0.368 predict_mean_rmse=0.5451 265s`
+  Best: h=64 at 89,100 runs (0.5046, corr 0.387); ridge nearly flat (0.5135 -> 0.5125); bigger nets need more data.
 - **03:15 UTC:** coordinator full-set upload resumed after the 429 (3,000-file commits; each commit draws a transient 502
   that the re-list retry clears): `push rundata_w3: 18000/21000 files uploaded`. Then guarded delete, pull of `rundata_w1_k32`, R2 training. Workers idle.
 - **02:17 UTC: all R2 data generated (3 × 30,000 runs).** Store has the r2w1 and r2w2 subsamples and the coordinator's
