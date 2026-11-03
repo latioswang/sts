@@ -21,7 +21,8 @@ import glob, hashlib, json, os, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # research/
 DATA = os.path.join(ROOT, "vf", "data")
-BATCH_FILES, BATCH_BYTES = 500, 2 << 30
+BATCH_FILES = int(os.environ.get("STS_PUSH_BATCH", 500))   # fewer, larger commits: the Hub rate-limits commits (429)
+BATCH_BYTES = 2 << 30
 
 
 def repo_id():
@@ -63,7 +64,7 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
         if not batch:
             return
         left = batch
-        for attempt in range(5):
+        for attempt in range(8):
             try:
                 api.create_commit(repo, [CommitOperationAdd(path_in_repo=r, path_or_fileobj=p) for r, p in left],
                                   commit_message=f"{name}: {len(left)} files", repo_type="dataset")
@@ -72,10 +73,11 @@ def push(name, data=DATA, dry=False, api=None, repo=None):
                 # A 5xx can arrive after the commit landed (seen: 502 from /commit, files there), so never blindly
                 # resend: re-list, and commit only what is still missing. Re-uploaded bytes dedupe on Xet.
                 code = getattr(getattr(e, "response", None), "status_code", None) or 0
-                if not (code >= 500 or code == 429) or attempt == 4:
+                if not (code >= 500 or code == 429) or attempt == 7:
                     raise
-                print(f"push {name}: commit got HTTP {code}; retry {attempt + 1}/4 in {15 << attempt}s", flush=True)
-                time.sleep(15 << attempt)
+                wait = 600 if code == 429 else min(15 << attempt, 600)   # 429 = commit rate limit: back off for minutes
+                print(f"push {name}: commit got HTTP {code}; retry {attempt + 1}/7 in {wait}s", flush=True)
+                time.sleep(wait)
                 have_now = set(api.list_repo_files(repo, repo_type="dataset"))
                 left = [(r, p) for r, p in left if r not in have_now]
                 if not left:
