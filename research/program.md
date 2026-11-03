@@ -1191,6 +1191,9 @@ the R2 trainer at ≈ 1.9×10^5 training runs with 16 kept states per run (memor
 holdout; selection among all R2 + R3 cells -> new vr id, gate; then the card-pick test (bonus 10 / 20 / 40) on A0 vs the
 then-best, and ports on success. Predictions: best holdout RMSE < 0.500 (LOW–MED); a net larger than h=64 is best (MED);
 an A0 card-pick keep over `vr2b20` (LOW).
+R3 training plan (fixed 12:17 UTC, before any R3 data exists here): ids 50–53 = ridge / h=64 / 256 / 1,024 on all ≈ 189,000
+training runs, 16 kept states per run, `--state-weights`; id 54 = h=64 at 99,000 runs with 16 kept states (control for the
+cap); selection over 22–25, 30–37, 50–54 -> `vr_61`, gate; leak test; `vr3b10/20/40` vs the A0 best (val-300 rule).
 Workers (fresh sessions, batch as their initial task): `r3w4` session_01USafwjCmHfU33M4nKBEaNm, `r3w5`
 session_01USafwfxVxqFj3VUoacBkds, `r3w6` session_01USafwiFvm2TuvHQBbsV8tv (started 06:11 UTC).
 Trainer option for R3 memory: `train_vr2.py --rows-per-run 16` (deterministic per run; weights unchanged since they use
