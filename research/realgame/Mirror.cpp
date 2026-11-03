@@ -223,6 +223,11 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
             send("WAIT 30");
             continue;
         }
+        // A confirmation grid shows what a relic gave (Pandora's Box, Calling Bell). The simulator has no such screen.
+        if (want != ScreenState::CARD_SELECT && real == "GRID" && hasCommand(state(), "confirm")) {
+            send("CONFIRM");
+            continue;
+        }
         switch (want) {
             case ScreenState::MAP_SCREEN:
                 if (real == "MAP") return;
@@ -240,7 +245,6 @@ void Mirror::alignOutOfCombat(const GameContext &gc) {
             case ScreenState::REWARDS:
                 if (real == "COMBAT_REWARD" || real == "CARD_REWARD") return;
                 // Calling Bell shows its curse on a confirm-only grid first.
-                if (real == "GRID" && hasCommand(state(), "confirm")) { send("CONFIRM"); continue; }
                 // Single-button event pages the simulator skips: Lab's [Search], Wheel of Change's spin and [Prize!], and
                 // Neow's [Leave], where the simulator leaves through an empty reward screen.
                 if (real == "EVENT" && choiceCount() == 1) { send("CHOOSE 0"); continue; }

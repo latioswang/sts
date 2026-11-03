@@ -28,6 +28,8 @@ UNREACHABLE_POTIONS = {
 }
 # It offers other classes' cards, which end a mirror run, so it gets a seed of its own instead of sharing one.
 UNPLAYABLE_RELICS = {"PrismaticShard"}
+# The character starts with it.
+STARTING_RELICS = {"Burning Blood"}
 # Its curse arrives through a screen effect, so in the game it lands after the scenario's cards.
 RELICS_AFTER_CARDS = {"Necronomicon"}
 # Tier of each relic whose equip effect opens a screen or replaces another relic.
@@ -87,7 +89,7 @@ def main():
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "GameIdTables.inc"), encoding="utf-8") as table_file:
         table = table_file.read()
 
-    relics = universe["relics"] - UNREACHABLE_RELICS - UNPLAYABLE_RELICS
+    relics = universe["relics"] - UNREACHABLE_RELICS - UNPLAYABLE_RELICS - STARTING_RELICS
     cards = universe["cards_played"] | universe["cards_seen"]
     potions = universe["potions_seen"] - UNREACHABLE_POTIONS
     if not args.all:

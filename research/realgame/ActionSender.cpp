@@ -187,6 +187,8 @@ void ActionSender::applyEvent(const GameContext &gc, int option) {
             if (b == option) rank = validCount;
             ++validCount;
         }
+        // The simulator lists Vampires' Blood Vial first, and the game second.
+        if (gc.curEvent == Event::VAMPIRES && validCount == 3 && rank >= 0 && rank < 2) rank = 1 - rank;
         log_ << json{{"t", "event"}, {"step", step_}, {"event", gs["screen_state"].value("event_id", "")},
                      {"sim_option", option}, {"sim_valid_bits", bits}, {"rank", rank}, {"labels", labels}, {"page", page}}.dump() << "\n";
         if (rank >= 0 && enabled == validCount) {
