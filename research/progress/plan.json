@@ -128,6 +128,12 @@
       "label": "Phase R3: run value at 1.7×10^5 runs — A0 keep vr3b40 (bonus 40), pooled 400 P=0.900",
       "status": "done",
       "when": "2026-11-03 21:49"
+    },
+    {
+      "id": "R4",
+      "label": "Phase R4: A10 run value from A10 games",
+      "status": "running",
+      "when": ""
     }
   ],
   "phases": [
@@ -173,7 +179,7 @@
     }
   ],
   "next_up": [
-    "Phase R3 (running on three workers): 90,000 more runs (≈ 1.9×10^5 in total) to train bigger run-value nets; then a fresh card-pick test and ports.",
+    "Phase R4 (starting): an A10-trained run value — 90,000 A10 games on three workers, then A10-only and A0+A10 models scored on an A10 holdout, and A10 card picks (A10 is closest to its 35% target).",
     "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
     "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
     "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",

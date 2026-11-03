@@ -1270,6 +1270,17 @@ at the edge of significance). A10: `a10_vr3b40` 35.3% win, floor 39.0, +0.021 vs
 
 
 
+**Phase R4 — an A10 run value (pre-registered 2026-11-03 22:17 UTC).** Why: the A0-trained run value kept on every track at
+bonus 20 (R2), but the sharper R3 model at bonus 40 kept only on A0 (A10 pooled-400 P=0.870, A20 P=0.604, Heart P=0.148):
+the model knows A0 runs, and heavier weight exposes the mismatch. A10 is the closest track to its target (pooled 400 34.0%
+vs 35%). Data: 90,000 A10 games with the A10 best (`a10_vr2b20`) and `rv_log=1`, seeds 800000–889999 (unused), three fresh
+workers × 30,000 (`research/workers/r4data.md`; `sv_gen.sh` now takes ASC / PARF, defaults unchanged); holdout = the first
+1,000 A10 games of W=7 (seeds 800000–800999, full rows, `rundata_a10_hold`). Training (R2/R3 trainer, `--state-weights`,
+16 kept states): (a) A10 only, h=64 / 256 + ridge; (b) A10 + all A0 data, h=64 / 256; all scored on the A10 holdout.
+Selection -> new vr id, gate vs its predict-mean RMSE; then A10 card picks at bonus 20 / 40 vs `a10_vr2b20` (val-300 rule).
+Predictions: an A10-only net beats the A0-trained `vr_61` on the A10 holdout (MED); A0 + A10 beats A10-only (LOW–MED);
+an A10 card-pick keep (LOW–MED); A10 reaches 35% on val (LOW–MED).
+
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
 34.865 predicting the mean. Root-trained Phase S nets scored on the same leaf holdout (`research/analysis/cross_eval_sv.py`):
