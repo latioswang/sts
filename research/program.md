@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 22:07 UTC
+### Current state (update after every batch) — 2026-11-03 22:18 UTC
+- **22:18 UTC: Phase R4 started** — three workers generating 90,000 A10 games (A10 run value). Bests: A0 `vr3b40`,
+  A10 `a10_vr2b20`, A20 `a20_vr2b20`, Heart `heart_vr2b20`.
 - **22:07 UTC: R3 closed.** A0 best `vr3b40` (pooled 400 80.5%, P=0.900 vs `vr2b20`). Ports of the R3 model: A10 near-miss ->
   extension discard (pooled 400 P=0.870), A20 discard (P=0.604), Heart discard (P=0.148). Other tracks keep the R2 model.
   Main queue empty; all workers finished.
@@ -1280,6 +1282,8 @@ workers × 30,000 (`research/workers/r4data.md`; `sv_gen.sh` now takes ASC / PAR
 Selection -> new vr id, gate vs its predict-mean RMSE; then A10 card picks at bonus 20 / 40 vs `a10_vr2b20` (val-300 rule).
 Predictions: an A10-only net beats the A0-trained `vr_61` on the A10 holdout (MED); A0 + A10 beats A10-only (LOW–MED);
 an A10 card-pick keep (LOW–MED); A10 reaches 35% on val (LOW–MED).
+Workers (fresh sessions, started 22:18 UTC): `r4w7` session_01USafwfhhUVVsE85jmwM53y (also the A10 holdout),
+`r4w8` session_01USafwiw7hG5CMTDQ8CrUA7, `r4w9` session_01USafwhXKwYrTj1fmyx4u2d.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
