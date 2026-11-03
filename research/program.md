@@ -1167,7 +1167,7 @@ The first keep driven by a learned value against the final score; dev replicatio
 (+4.8 win pts); the dev slice alone is weak (+1.0 pt, n=100), so the val figure (+6.0) carries some winner's curse.
 **Ports of `vr2b20` (pre-registered 05:53 UTC):** the run value is trained on A0 runs only, so transfer is uncertain: `a10_vr2b20`
 (A10, val-300 rule), `a20_vr2b20` (A20, pooled-500), `heart_vr2b20` (Heart, pooled-500). Predictions: A10 keeps (LOW–MED);
-A20 keeps (LOW); Heart keeps (LOW).
+A20 keeps (LOW); Heart keeps (LOW). A10: `a10_vr2b20` 34.3% win, floor 38.4, +0.071 vs base, P=0.979 → keep (prediction LOW–MED: held); dev replication queued.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
