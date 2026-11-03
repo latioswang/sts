@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 05:53 UTC
+### Current state (update after every batch) — 2026-11-03 06:08 UTC
+- **06:08 UTC: the R2 run value (vr_41, bonus 20) keeps on every track:** A0 `vr2b20` (pooled 400 +4.8 pts), A10
+  `a10_vr2b20` 34.3% (+5.0 pts, P=0.979; dev replication running), A20 `a20_vr2b20` pooled 500 3.6% (P=0.978), Heart
+  `heart_vr2b20` pooled 500 14.8% Heart wins (12.0% before, P=0.996).
 - **05:53 UTC: A0 best `vr2b20`** (card picks + 20 × the R2 run value, h=64 net on 89,100 runs): val 81.0% (+6.0 pts,
   P=0.978); dev +1.0 pt (P=0.66); pooled 400 +4.8 pts, P=0.973. vr2b50 / vr2b100 discard (peak at 20). Ports to A10 / A20 /
   Heart queued.
@@ -1168,7 +1171,8 @@ The first keep driven by a learned value against the final score; dev replicatio
 **Ports of `vr2b20` (pre-registered 05:53 UTC):** the run value is trained on A0 runs only, so transfer is uncertain: `a10_vr2b20`
 (A10, val-300 rule), `a20_vr2b20` (A20, pooled-500), `heart_vr2b20` (Heart, pooled-500). Predictions: A10 keeps (LOW–MED);
 A20 keeps (LOW); Heart keeps (LOW). A10: `a10_vr2b20` 34.3% win, floor 38.4, +0.071 vs base, P=0.979 → keep (prediction LOW–MED: held); dev replication queued. A20: `pooled val,dev2,dev3 [act3]: n=500  a20_vr2b20 win=0.036 floor=28.60  a20_restboss1 win=0.028 floor=27.41  dscore=+0.0312 dwin=+0.008 P(improve)=0.978` -> **KEEP** (prediction LOW: beaten; every slice positive:
-val +0.022, dev2 +0.041, dev3 +0.049; the gain is mostly floor, +1.2, with wins 2.8% -> 3.6%).
+val +0.022, dev2 +0.041, dev3 +0.049; the gain is mostly floor, +1.2, with wins 2.8% -> 3.6%). Heart: `pooled val,dev2,dev3 [heart]: n=500  heart_vr2b20 win=0.148 floor=47.56  heart_bfrelic10 win=0.120 floor=46.05  dscore=+0.0513 dwin=+0.028 P(improve)=0.996` -> **KEEP** (prediction LOW: beaten;
+slices val +0.050, dev2 +0.040, dev3 +0.067). **All four tracks keep the same A0-trained run value at bonus 20.**
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
