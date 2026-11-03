@@ -63,8 +63,9 @@ def main():
         tfiles.sort()
         sel = [f for f in files if ids[f] in hs] + tfiles      # preallocate: np.concatenate of a list peaks at 2x (≈ 17 GB at 10^5 runs)
         R = DIM + EXTRA; kmax = a.rows_per_run
-        tot = sum((os.path.getsize(f) // 4) if (kmax <= 0 or f not in set(tfiles)) else min(os.path.getsize(f) // 4, kmax * R) for f in sel)
-        arr = np.empty(tot, dtype=np.float32); o = 0; tset = set(tfiles)
+        tset = set(tfiles)   # built once (it was rebuilt per file: O(n^2), a 40-min hang at 2e5 files)
+        tot = sum((os.path.getsize(f) // 4) if (kmax <= 0 or f not in tset) else min(os.path.getsize(f) // 4, kmax * R) for f in sel)
+        arr = np.empty(tot, dtype=np.float32); o = 0
         for f in sel:
             v = np.fromfile(f, dtype=np.float32)
             if kmax > 0 and f in tset and v.size > kmax * R:

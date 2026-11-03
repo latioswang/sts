@@ -1207,6 +1207,9 @@ cap); selection over 22–25, 30–37, 50–54 -> `vr_61`, gate; leak test; `vr3
 Trainer speed-up (no change in results): a cached file -> run-id map per data dir (`ids_cache.tsv`); the scan of
 ≈ 2×10^5 run files took > 20 min per cell and the first R3 cell was killed by the 2-hour limit mid-scan. Smoke set: identical
 output with and without the cache (`holdout_rmse=0.5289 predict_mean_rmse=0.5460` both).
+Loader bug (fixed 18:58 UTC, no change in results): the `--rows-per-run` preallocation rebuilt `set(tfiles)` once per file
+(O(n²): a 40-minute CPU hang at ≈ 2×10^5 files; invisible on the 800-file smoke set). Smoke output unchanged
+(`holdout_rmse=0.5294 predict_mean_rmse=0.5460`, 16 kept). Cell 50 re-run.
 R3 data (merged from the workers, pasted):
   `SUBSAMPLE research/vf/data/rundata_w4/all -> research/vf/data/rundata_w4_k32/all: 30000 runs, rows 4904478 -> 957344 (k=32)`
   `PUSH rundata_w4_k32 DONE: 30001 files in latioswang/sts-ironclad-data`
