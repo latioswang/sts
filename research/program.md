@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-02 23:16 UTC
+### Current state (update after every batch) — 2026-11-03 01:16 UTC
+- **01:16 UTC: R2 data:** r2w2 done (store: `rundata_w2` 30,000 + `rundata_w2_k32` 30,001 incl. counts.tsv; pulled here);
+  r2w1 generation done, uploading `rundata_w1_k32` (6,000 files so far, its container restarted once); coordinator
+  sv chunk 286/300 (this container restarted at ≈ 01:00 UTC; runner resumed 01:13, data intact). R2 training queued behind.
 - **23:16 UTC: R2 data:** r2w2 generation done, uploading (store: `rundata_w2_k32` 15,500 files so far; counts.tsv to be
   checked when complete); r2w1 chunk 220/300; coordinator chunk 204/300. No errors.
 - **22:16 UTC: R2 data, no errors:** r2w1 chunk 170/300, r2w2 chunk 250/300, coordinator chunk 159/300.
