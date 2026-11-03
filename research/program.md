@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 16:15 UTC
+### Current state (update after every batch) — 2026-11-03 17:15 UTC
+- **17:15 UTC:** R3 subsamples here: w5 and w6 complete (30,001 linked each); w4 finishing in the queue. Training ids 50–54 next.
 - **16:15 UTC:** R3 subsamples downloading (w4 26,610 / w5 15,760 / w6 15,492 of 30,001 files; ≈ 22,000 files/h in total,
   ≈ 1.5 h left). Training ids 50–54 follows.
 - **15:23 UTC:** pulling the R3 subsamples here (w4 in the queue at ≈ 7 files/s; w5 and w6 started in parallel so the queue's
