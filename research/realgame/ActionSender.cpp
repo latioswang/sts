@@ -355,14 +355,22 @@ void ActionSender::chooseDrawPileCardOnScreen(const BattleContext &bc, int drawI
         return;
     }
     const std::string uuid = gameState()["combat_state"]["draw_pile"][drawIdx].value("uuid", "");
-    const json &cards = gameState()["screen_state"]["cards"];
+    if (!chooseCardByUuid(uuid)) {
+        bridgeGap(screenType(), "draw pile card " + uuid + " not on screen: " + gameState()["screen_state"].dump());
+    }
+}
+
+bool ActionSender::chooseCardByUuid(const std::string &uuid) {
+    const json &screen = gameState()["screen_state"];
+    if (uuid.empty() || !screen.contains("cards")) return false;
+    const json &cards = screen["cards"];
     for (int i = 0; i < static_cast<int>(cards.size()); ++i) {
         if (cards[i].value("uuid", "") == uuid) {
             send("CHOOSE " + std::to_string(i));
-            return;
+            return true;
         }
     }
-    bridgeGap(screenType(), "draw pile card " + uuid + " not on screen: " + cards.dump());
+    return false;
 }
 
 void ActionSender::confirmIfRequired() {
@@ -372,6 +380,13 @@ void ActionSender::confirmIfRequired() {
 }
 
 void ActionSender::applyCardSelect(const GameContext &gc, int index) {
+    // Copies in the deck shuffle differently, so picking the right one matters to a bottle or a transform.
+    const int deckIdx = gc.info.toSelectCards[index].deckIdx;
+    const json &deck = gameState()["deck"];
+    if (deckIdx >= 0 && deckIdx < static_cast<int>(deck.size()) && chooseCardByUuid(deck[deckIdx].value("uuid", ""))) {
+        confirmIfRequired();
+        return;
+    }
     const std::string key = keyOf(gc.info.toSelectCards[index].card);
     int copy = 0;
     for (int i = 0; i < index; ++i) copy += keyOf(gc.info.toSelectCards[i].card) == key ? 1 : 0;

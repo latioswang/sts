@@ -79,6 +79,7 @@ private:
     void applyMap(const sts::GameContext &gc, int x);
     void chooseCardOnScreen(const std::string &key, int copy = 0);
     void chooseDrawPileCardOnScreen(const sts::BattleContext &bc, int drawIdx);
+    [[nodiscard]] bool chooseCardByUuid(const std::string &uuid);
     void confirmIfRequired();
 };
 
