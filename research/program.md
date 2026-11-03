@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 09:16 UTC
+### Current state (update after every batch) — 2026-11-03 10:16 UTC
+- **10:16 UTC:** R3 data still generating on three workers (≈ 14:20 UTC expected). This VM idle.
 - **09:16 UTC:** R3 worker r3w4 at chunk 111/300 (≈ 37 chunks/h; generation done ≈ 14:20 UTC, uploads after). This VM idle.
 - **08:17 UTC:** R3 workers all active (last update 08:16); data expected ≈ 14:00–15:00 UTC. This VM idle until then.
 - **07:17 UTC: R3 data on three workers,** chunks 36–37/300 after one hour (≈ 8 h projected; the generating agent now
