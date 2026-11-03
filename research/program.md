@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 18:16 UTC
+### Current state (update after every batch) — 2026-11-03 19:16 UTC
+- **19:16 UTC: R3 training,** cells so far (pasted):
+  `VR2 id=50 runs=170100 ridge lambda=0.001 holdout_rmse=0.5141 holdout_corr=0.341 predict_mean_rmse=0.5475 99s`
+  `VR2 id=51 runs=170100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5019 holdout_corr=0.397 predict_mean_rmse=0.5475 184s`
+  Note: predict-mean RMSE moved 0.5451 -> 0.5475 because the R3 runs come from the stronger `vr2b20` agent (higher mean
+  score) while the holdout is from the original agent; holdout RMSE is now confounded by this policy shift.
 - **18:16 UTC:** all R3 data done and pulled (3 × 30,000 runs; all workers finished). Training cell 50 (ridge, ≈ 189,000 runs)
   running since 17:54 (file scan of ≈ 200,000 run files first).
 - **17:15 UTC:** R3 subsamples here: w5 and w6 complete (30,001 linked each); w4 finishing in the queue. Training ids 50–54 next.
