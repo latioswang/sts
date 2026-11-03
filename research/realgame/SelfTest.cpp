@@ -114,7 +114,9 @@ void checkBattle(const GameContext &gc, const BattleContext &bc, BattleMemory &m
 
     const auto original = actionKeys(bc, gameIndexBySlot(bc));
     const auto converted = actionKeys(rebuilt.bc, rebuilt.gameMonsterIndex);
-    if (original != converted) {
+    // Exhume's open grid hides Exhumes from the JSON's pile, so the same card has another index in the rebuilt state.
+    const bool exhumeGridOpen = bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::EXHUME;
+    if (original != converted && !exhumeGridOpen) {
         ++c.battleActionMismatch;
         if (c.examples.size() < 12) {
             c.examples.push_back("actions differ, floor " + std::to_string(gc.floorNum) + " turn " + std::to_string(bc.turn) +

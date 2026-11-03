@@ -110,6 +110,16 @@ json combatJson(const BattleContext &bc) {
     json monsters = json::array();
     for (const int slot : occupiedMonsterSlots(bc)) monsters.push_back(monsterJson(bc, bc.monsters.arr[slot]));
 
+    // ExhumeAction takes Exhumes out of the pile while its grid is open.
+    json exhaustJson = pileJson(bc.cards.exhaustPile);
+    if (bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::EXHUME) {
+        json visible = json::array();
+        for (const auto &c : exhaustJson) {
+            if (c.value("id", "") != "Exhume") visible.push_back(c);
+        }
+        exhaustJson = visible;
+    }
+
     json hand = json::array();
     for (int i = 0; i < bc.cards.cardsInHand; ++i) {
         json card = cardJson(bc.cards.hand[i]);
@@ -121,7 +131,7 @@ json combatJson(const BattleContext &bc) {
                 {"hand", hand},
                 {"draw_pile", pileJson(bc.cards.drawPile)},
                 {"discard_pile", pileJson(bc.cards.discardPile)},
-                {"exhaust_pile", pileJson(bc.cards.exhaustPile)},
+                {"exhaust_pile", exhaustJson},
                 {"limbo", json::array()},
                 {"monsters", monsters},
                 {"times_damaged", bc.player.timesDamagedThisCombat},

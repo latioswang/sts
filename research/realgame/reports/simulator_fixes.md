@@ -106,7 +106,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2001, 0 | Calling Bell's screen rolled no cards | `CombatRewardScreen.open` rolls a card reward, and the relic clears the screen after | `968e0f3` |
 | code | Cauldron's screen rolled no cards | The same, and the relic takes it back out | `a02bcd0` |
 | code | Designer's Clean Up took the gold and did nothing | It opens a two-card transform grid | `a02bcd0` |
-| code | We Meet Again removed the first identical copy; Knowing Skull rolled a potion under Sozu; a potion reward was lost with a full belt | It removes the copy it picked; it rolls none; the reward stays on the screen | `a02bcd0` |
+| code | We Meet Again removed the first identical copy; Knowing Skull rolled a potion under Sozu | It removes the copy it picked; it rolls none | `a02bcd0` |
 
 ## Differences no simulator can match
 
@@ -121,4 +121,5 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 
 - **Other classes' cards.** The simulator has use code for 108 of the 320 cards in Prismatic Shard's pools. Rewards roll correctly, but the rest do nothing when played. Mirror mode stops with status `unsupported_card` when the agent takes one.
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
+- **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
