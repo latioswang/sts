@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 19:16 UTC
+### Current state (update after every batch) — 2026-11-03 21:17 UTC
+- **21:17 UTC:** R3 cell 53 (h=1,024, patience 3) at 60 min, expected ≈ 21:30; then control 54, selection, leak test, card picks.
 - **19:16 UTC: R3 training,** cells so far (pasted):
   `VR2 id=50 runs=170100 ridge lambda=0.001 holdout_rmse=0.5141 holdout_corr=0.341 predict_mean_rmse=0.5475 99s`
   `VR2 id=51 runs=170100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5019 holdout_corr=0.397 predict_mean_rmse=0.5475 184s`
