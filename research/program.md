@@ -1284,6 +1284,9 @@ Predictions: an A10-only net beats the A0-trained `vr_61` on the A10 holdout (ME
 an A10 card-pick keep (LOW–MED); A10 reaches 35% on val (LOW–MED).
 Workers (fresh sessions, started 22:18 UTC): `r4w7` session_01USafwfhhUVVsE85jmwM53y (also the A10 holdout),
 `r4w8` session_01USafwiw7hG5CMTDQ8CrUA7, `r4w9` session_01USafwhXKwYrTj1fmyx4u2d.
+Disk for R4 (coordinator): deleted the local full `rundata` (in the store: `rundata 10000 files`; R4 does not use it, its
+32-state subsample `rundata_k32` stays) and the Hugging Face Xet cache; `rundata` must be re-pulled before any A0-holdout
+training.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
