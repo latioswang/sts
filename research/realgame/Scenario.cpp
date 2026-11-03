@@ -194,6 +194,10 @@ void applyScenarioToGame(const std::vector<ScenarioItem> &items) {
     askMod(commands);
 }
 
+void faceGameMonster(int gameIndex) {
+    if (std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) askMod("face\t" + std::to_string(gameIndex) + "\n");
+}
+
 std::map<std::string, RngState> readGameRngs() {
     std::map<std::string, RngState> states;
     if (!std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) return states;

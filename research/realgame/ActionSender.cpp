@@ -1,6 +1,7 @@
 #include "ActionSender.h"
 
 #include "GameIds.h"
+#include "Scenario.h"
 
 #include <algorithm>
 #include <sstream>
@@ -400,7 +401,10 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
         case ActionType::CARD: {
             const auto &card = bc.cards.hand[a.getSourceIdx()];
             std::string cmd = "PLAY " + std::to_string(a.getSourceIdx() + 1);
-            if (card.requiresTarget()) cmd += " " + std::to_string(monsterIndex[a.getTargetIdx()]);
+            if (card.requiresTarget()) {
+                cmd += " " + std::to_string(monsterIndex[a.getTargetIdx()]);
+                if (bc.player.hasStatus<PS::SURROUNDED>()) faceGameMonster(monsterIndex[a.getTargetIdx()]);
+            }
             send(cmd);
             break;
         }
@@ -409,6 +413,7 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
             if (a.getTargetIdx() > 5) {
                 send("POTION Discard " + std::to_string(slot));
             } else if (potionRequiresTarget(bc.potions[slot])) {
+                if (bc.player.hasStatus<PS::SURROUNDED>()) faceGameMonster(monsterIndex[a.getTargetIdx()]);
                 send("POTION Use " + std::to_string(slot) + " " + std::to_string(monsterIndex[a.getTargetIdx()]));
             } else {
                 send("POTION Use " + std::to_string(slot));

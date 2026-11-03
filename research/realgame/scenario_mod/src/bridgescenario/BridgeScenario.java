@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.PotionHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -126,6 +127,11 @@ public class BridgeScenario implements PostUpdateSubscriber {
                 break;
             case "elite":
                 AbstractDungeon.eliteMonsterList.set(0, command[1]);
+                break;
+            case "face":
+                // The card and potion screens turn the player to the target, and Communication Mod plays around them.
+                AbstractMonster target = AbstractDungeon.getMonsters().monsters.get(Integer.parseInt(command[1]));
+                AbstractDungeon.player.flipHorizontal = target.drawX < AbstractDungeon.player.drawX;
                 break;
             case "keys":
                 Settings.hasEmeraldKey = true;

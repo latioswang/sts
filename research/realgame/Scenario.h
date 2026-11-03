@@ -49,6 +49,9 @@ struct RngState {
     int counter = 0;
 };
 
+// Turns the player to a monster, as the game's card and potion screens do. Spire Shield and Spear's back attacks depend on it.
+void faceGameMonster(int gameIndex);
+
 // Every random stream in the game by name, read through the mod. Empty if the mod isn't installed.
 std::map<std::string, RngState> readGameRngs();
 
