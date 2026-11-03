@@ -720,7 +720,10 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         const int amount = *status == PS::PANACHE ? power.value("damage", 0) : power.value("amount", 0);
         setPlayerStatus(p, *status, amount, power.value("just_applied", false));
         if (*status == PS::PANACHE) p.panacheCounter = static_cast<std::int8_t>(power.value("amount", 0));
-        if (*status == PS::COMBUST) p.combustHpLoss = static_cast<std::int8_t>(power.value("misc", 1));
+        if (*status == PS::COMBUST) {
+            p.combustHpLoss = static_cast<std::int8_t>(power.value("misc", 1));
+            p.noDrawBeforeCombust = p.hasStatus<PS::NO_DRAW>();  // the list keeps the order they were gained
+        }
         if (*status == PS::ECHO_FORM) p.echoFormCardsDoubled = static_cast<std::int8_t>(power.value("misc", 0));
     }
 

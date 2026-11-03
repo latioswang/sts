@@ -57,6 +57,9 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2116, 6 | No Draw ended before Combust's HP loss, so Runic Cube drew | It ends after, so Runic Cube draws nothing | `84a699d` |
 | 2120, 50 | Skills kept in hand kept their cost under Corruption | They go back to 0 on the next draw | `84a699d` |
 | 2126, 50 | Unceasing Top didn't draw when Time Warp ended the turn on an empty hand | It does | `84a699d` |
+| 2102, 40 | A minion leader's death cleared the action queue, so the turn's draw and its shuffle were lost, which Sundial counts | `clearPostCombatActions` needs every monster dying, and its minions only die in actions to come | `f5c6799` |
+| 2103, 16 | No Draw always ended after Combust's HP loss | Powers act in the order gained, so No Draw played first has gone, and Centennial Puzzle or Runic Cube draws | `f5c6799` |
+| 2100, 23 | Toy Ornithopter's heal was lost with Smoke Bomb | Its `HealAction` still runs | `f5c6799` |
 
 ## Monsters
 
@@ -146,7 +149,7 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
 | 4000, 0 | Neow's 10% loss took 8 of 75 max HP | `(int)(maxHealth * 0.1f)` is 7; its bonuses use the same number, doubled for 20% | `66b4f61` |
-| code | Neow's damage was worth 70% left of a round number only | It takes `currentHealth / 10 * 3` off | `66b4f61` |
+| code | Neow's damage left `curHp / 10 * 7`, which is only right at a round number | It takes `currentHealth / 10 * 3` off | `66b4f61` |
 | 4001, 3 | A16 cut shop prices by 20% | `applyDiscount(1.1f, false)` raises them and leaves the purge price | `8f1fb08` |
 | 4000, 6 | Gremlin Nob at A18 never used Skull Bash | It opens with it, then goes Rush, Rush, Skull Bash | `69eb46c` |
 | 4002, 22 | Snake Plant at A17 could Spore on consecutive turns | It keeps two turns between them | `69eb46c` |
