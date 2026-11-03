@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 07:17 UTC
+### Current state (update after every batch) — 2026-11-03 08:17 UTC
+- **08:17 UTC:** R3 workers all active (last update 08:16); data expected ≈ 14:00–15:00 UTC. This VM idle until then.
 - **07:17 UTC: R3 data on three workers,** chunks 36–37/300 after one hour (≈ 8 h projected; the generating agent now
   evaluates vr_41 at card picks). Bonus refinement done: vr2b10 / vr2b30 both discard vs vr2b20 (20 stays). This VM idle.
 - **06:08 UTC: the R2 run value (vr_41, bonus 20) keeps on every track:** A0 `vr2b20` (pooled 400 +4.8 pts), A10
