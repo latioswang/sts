@@ -1238,6 +1238,19 @@ the original state counts). Smoke set, ridge, 300 train runs (pasted): 32 kept `
 **Bonus refinement (pre-registered 06:16 UTC, this VM while R3 data generates):** `vr2b10`, `vr2b30` vs `vr2b20` (val-300 rule).
 Prediction: neither keeps (MED; the 20/50/100 curve peaks at 20 and the noise is ±0.03).
   Result: `vr2b10` 75.7% win, floor 47.9, -0.048 vs base, P=0.052 → discard. `vr2b30` 77.7% win, floor 47.1, -0.044 vs base, P=0.031 → discard. Prediction "neither keeps" (MED): held; 20 stays.
+**R3 grid result (pasted):**
+  `VR2 id=50 runs=170100 ridge lambda=0.001 holdout_rmse=0.5141 holdout_corr=0.341 predict_mean_rmse=0.5475 99s`
+  `VR2 id=51 runs=170100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5019 holdout_corr=0.397 predict_mean_rmse=0.5475 184s`
+  `VR2 id=52 runs=170100 hidden=256 layers=2 params=236801 best_epoch=1 holdout_rmse=0.5042 holdout_corr=0.394 predict_mean_rmse=0.5475 609s`
+  `VR2 id=53 runs=170100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5074 holdout_corr=0.383 predict_mean_rmse=0.5475 4120s`
+  `VR2 id=54 runs=89100 hidden=64 layers=2 params=46913 best_epoch=1 holdout_rmse=0.5079 holdout_corr=0.380 predict_mean_rmse=0.5474 75s`
+  `VR SELECT: vr_51 -> vr_61 (0.501870 0.397442 170100 64 2 46913 0.547537)`
+  `VR GATE OK: 0.501870 < 0.547537`
+Predictions: best holdout RMSE < 0.500 (LOW–MED) — failed (0.5019); a net larger than h=64 is best (MED) — failed (h=256
+0.5042, h=1,024 0.5074; the gaps to h=64 shrink with data); patience 3 for cell 53 changed nothing (best epoch 1). The
+control (h=64, 89,100 runs, 16 states, mixed-policy pool) 0.5079 vs R2 vr_35 0.5046: the 16-state cap and the policy
+shift cost ≈ 0.003 on the old-policy holdout; 1.9× the data more than pays for it (0.5019). `vr_61` = vr_51.
+
 
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
