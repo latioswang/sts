@@ -1160,7 +1160,7 @@ Weighted re-runs at 8,100 runs (full rows; pasted):
   `VR2 id=25 runs=8100 hidden=1024 layers=2 params=1733633 best_epoch=1 holdout_rmse=0.5359 holdout_corr=0.302 predict_mean_rmse=0.5451 475s`
 **R2 result:** selection `VR SELECT: vr_35 -> vr_41 (0.504600 0.386810 89100 64 2 46913 0.545105)`, `VR GATE OK`, leak test
 `LEAKTEST checked=87 mismatches=0 PASS`. Card picks: `vr2b20` 81.0% win, floor 47.6, +0.065 vs base, P=0.978 → keep (pre-registered "one card-pick run keeps" (LOW): held so far).
-The first keep driven by a learned value against the final score; dev replication `rep_dev.sh vr2b20 mapd085` queued.
+The first keep driven by a learned value against the final score; dev replication `rep_dev.sh vr2b20 mapd085` queued. Next: `vr2b50` 79.0% win, floor 47.6, -0.021 vs base, P=0.238 → discard (vs vr2b20).
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs

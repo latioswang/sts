@@ -432,3 +432,4 @@ ebd8d4c	val.a0	300	0	0.727	46.02	1.6291	-0.0496	0.107	discard	vrb100: Phase R: c
 a663616	val.a0	300	0	0.697	45.51	1.5891	-0.0896	0.011	discard	vrb50_nobf: Phase R: run value gain (50x) replaces the deck-model bonus (bf_bonus 0) [vr_model=10 vr_bonus=50 bf_bonus=0]
 589ab21	dev.a0	100	0	0.740	46.48	1.6514	+0.0775	0.866	info	vrb50_dev: VERIFY: vrb50 on dev vs mapd085_dev (replication of a a0 keep)
 7538b72	val.a0	300	0	0.810	47.61	1.7436	+0.0649	0.978	keep	vr2b20: Phase R2: card picks + 20 x learned run value gain, V = vr_41 (selected from 10^5-run grid) [vr_model=41 vr_bonus=20]
+f752a59	val.a0	300	0	0.790	47.58	1.7229	-0.0207	0.238	discard	vr2b50: Phase R2: card picks + 50 x learned run value gain, V = vr_41 (selected from 10^5-run grid) [vr_model=41 vr_bonus=50]
