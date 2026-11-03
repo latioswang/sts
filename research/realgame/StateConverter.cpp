@@ -302,6 +302,19 @@ int countDone(const std::vector<MMID> &log, MMID move) {
     return static_cast<int>(std::count(log.begin(), log.end() - 1, move));
 }
 
+// What the simulator keeps for its next Boost: 0 or 1 Boosts this cycle. At A19 a cycle after a Hyper Beam starts from -1.
+int bronzeAutomatonBoosts(const std::vector<MMID> &log, int ascension) {
+    if (log.empty()) return 0;
+    int boosts = 0;
+    auto move = log.rbegin() + 1;  // the last entry is the move it intends, not one it has done
+    for (; move != log.rend() && *move != MMID::BRONZE_AUTOMATON_HYPER_BEAM; ++move) {
+        if (*move == MMID::BRONZE_AUTOMATON_BOOST) ++boosts;
+    }
+    const bool afterBeam = move != log.rend();
+    if (afterBeam && ascension >= 19) return boosts == 3 ? 0 : boosts - 1;
+    return boosts % 2;
+}
+
 // Simulator-only fields the JSON has no slot for, recovered from the moves the bridge has watched. A few are unknown
 // until seen (a louse's bite damage before its first bite); the player does not know them either.
 void fillMonsterInternals(Monster &m, int gameIndex, int ascension, const BattleMemory &memory) {
@@ -332,10 +345,14 @@ void fillMonsterInternals(Monster &m, int gameIndex, int ascension, const Battle
         case MonsterId::BOOK_OF_STABBING: {
             const auto it = memory.stabCount.find(gameIndex);
             m.miscInfo = it != memory.stabCount.end() ? it->second : 1;
+            // From A18 a single stab adds a hit too, unseen until the next multi stab.
+            if (ascension >= 18) {
+                for (auto move = log.rbegin(); move != log.rend() && *move != MMID::BOOK_OF_STABBING_MULTI_STAB; ++move) ++m.miscInfo;
+            }
             break;
         }
         case MonsterId::BRONZE_AUTOMATON:
-            m.miscInfo = countDone(log, MMID::BRONZE_AUTOMATON_BOOST) % 2;
+            m.miscInfo = bronzeAutomatonBoosts(log, ascension);
             break;
         case MonsterId::BRONZE_ORB:
             m.miscInfo = countDone(log, MMID::BRONZE_ORB_STASIS) > 0 ? 1 : 0;

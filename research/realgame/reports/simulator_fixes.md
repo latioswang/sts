@@ -134,6 +134,28 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2100, 30; 2105, 29 | Colosseum's second fight reseeded its streams and didn't shuffle | It's the same room, so they carry on, and `Colosseum.reopen` runs `preBattlePrep`, whose shuffle nothing uses | `8126ff3`, `3b47231` |
 | 2113, 39 | Smiling Mask's purge price came down further with discounts | `ShopScreen.applyDiscount` sets it to 50 whatever else applies | `23d1fbd` |
 | 2115 | Transforming several different cards removed the wrong ones, and curses left out one card too many | `removeSelected` ignored its sorted indices; a transform picks from a list that leaves out only the card itself | `e4aeb1d` |
+| 4004, 27 | Colosseum could start at its second phase after Scrap Ooze | Every event starts its own phase; the simulator kept one number between events | `66b4f61` |
+| code | Torii cut event damage | Only Shining Light's: other events' damage has no owner or is HP loss | `66b4f61` |
+| code | The act change moved a `cardRng` counter of exactly 250 or 500 on | `dungeonTransitionSetup` leaves those alone, and 0 | `66b4f61` |
+| code | Du-Vu Doll gave no Strength | Its counter is every curse in the deck, including Ascender's Bane | `16613b4` |
+
+## Ascension
+
+Runs at ascension 0 can't show these. Rows marked "code" came from comparing each monster and event that reads `ascensionLevel` with the simulator, and wait to be seen on a run.
+
+| Seed, floor | Simulator did | The game does | Commit |
+|---|---|---|---|
+| 4000, 0 | Neow's 10% loss took 8 of 75 max HP | `(int)(maxHealth * 0.1f)` is 7; its bonuses use the same number, doubled for 20% | `66b4f61` |
+| code | Neow's damage was worth 70% left of a round number only | It takes `currentHealth / 10 * 3` off | `66b4f61` |
+| 4001, 3 | A16 cut shop prices by 20% | `applyDiscount(1.1f, false)` raises them and leaves the purge price | `8f1fb08` |
+| 4000, 6 | Gremlin Nob at A18 never used Skull Bash | It opens with it, then goes Rush, Rush, Skull Bash | `69eb46c` |
+| 4002, 22 | Snake Plant at A17 could Spore on consecutive turns | It keeps two turns between them | `69eb46c` |
+| code | Book of Stabbing at A18 didn't add a hit on a single stab; Bronze Automaton at A19 fired Hyper Beam every 4 turns, not 6; Romeo at A17 never repeated Cross Slash; Large Acid Slime at A17 tested the medium one's spit, which skipped an AI roll; Blue Slaver at A17 could rake twice | `getMove` and `takeTurn` of each | `69eb46c` |
+| code | Giant Head at A18 was a turn late, and The Collector's Mega Debuff stayed 3 at A19 | Its `count` starts one lower; 5 turns at A19 | `69eb46c` |
+| code | Darkling's Nip added 2 at A2 | Its roll already moved to 9 to 13 | `69eb46c` |
+| code | Gremlin Leader's block and Nemesis's Burns changed at A3; The Collector's block changed at A4 | A18, A18 and A9 | `69eb46c` |
+| code | Snecko's A17 Tail Whip and Time Eater's Ripple applied debuffs in the other order, which decides what Artifact stops | Weak then Vulnerable, and Vulnerable then Weak | `69eb46c` |
+| code | Mind Bloom's I Am War paid 50 gold up to A14 | `ascensionLevel >= 13` pays 25 | `66b4f61` |
 
 ## Differences no simulator can match
 
