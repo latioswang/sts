@@ -1192,6 +1192,7 @@ the original state counts). Smoke set, ridge, 300 train runs (pasted): 32 kept `
 16 kept `holdout_rmse=0.5294 predict_mean_rmse=0.5460`.
 **Bonus refinement (pre-registered 06:16 UTC, this VM while R3 data generates):** `vr2b10`, `vr2b30` vs `vr2b20` (val-300 rule).
 Prediction: neither keeps (MED; the 20/50/100 curve peaks at 20 and the noise is ±0.03).
+  Result: `vr2b10` 75.7% win, floor 47.9, -0.048 vs base, P=0.052 → discard.
 
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
