@@ -1250,6 +1250,7 @@ Predictions: best holdout RMSE < 0.500 (LOW–MED) — failed (0.5019); a net la
 0.5042, h=1,024 0.5074; the gaps to h=64 shrink with data); patience 3 for cell 53 changed nothing (best epoch 1). The
 control (h=64, 89,100 runs, 16 states, mixed-policy pool) 0.5079 vs R2 vr_35 0.5046: the 16-state cap and the policy
 shift cost ≈ 0.003 on the old-policy holdout; 1.9× the data more than pays for it (0.5019). `vr_61` = vr_51.
+Leak test `LEAKTEST checked=87 mismatches=0 PASS`. Card picks vs `vr2b20`: `vr3b10` 77.3% win, floor 47.8, -0.033 vs base, P=0.153 → discard.
 
 
 
