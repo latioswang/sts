@@ -66,6 +66,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2119, 36 | A shuffle for a card off the top of the draw pile didn't trigger Abacus or Sundial | `EmptyDeckShuffleAction` calls `onShuffle` in its constructor | `2787535` |
 | 2126, 33 | Unceasing Top with an empty draw pile handed control back before its shuffle and draw ran | They run first | `d2615b4` |
 | 4011, 16 | Anger's copy was a new card | `makeStatEquivalentCopy` keeps a cost that Snecko Oil or Confusion changed | `d2615b4` |
+| 1006, 50 | A card made free for the turn stayed free if drawn again that turn | `Soul.update` runs `clearPowers` when a card lands on a pile | `e1f0ce4` |
 
 ## Monsters
 
@@ -149,6 +150,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | The act change moved a `cardRng` counter of exactly 250 or 500 on | `dungeonTransitionSetup` leaves those alone, and 0 | `66b4f61` |
 | code | Du-Vu Doll gave no Strength | Its counter is every curse in the deck, including Ascender's Bane | `16613b4` |
 | 2111, 20 | Knowing Skull's options were gold, card, potion | They are potion, gold, card | `68c57ef` |
+| code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
 
 ## Ascension
 
@@ -185,3 +187,4 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
 - **Player power order.** The game triggers powers in the order they were gained, and the simulator in a fixed order. No Draw is handled on its own, as above. Others can differ when two powers at the end of a turn change the same thing.
+- **Empty Cage and Tiny House on the game.** The agent never picks them, so they've only been compared with the game's code. Empty Cage's automatic removal with two or fewer removable cards isn't in the simulator.
