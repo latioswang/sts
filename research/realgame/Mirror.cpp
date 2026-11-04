@@ -163,11 +163,11 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
     applyGameAction(gc, a);
 }
 
-// Prismatic Shard offers every class's cards, and the simulator can't play the Silent's or the Watcher's yet.
+// Prismatic Shard offers every class's cards, and the simulator can't play the Watcher's yet.
 void Mirror::stopOnUnsupportedCard(const GameContext &gc) const {
     for (const auto &card : gc.deck.cards) {
         const CardColor color = getCardColor(card.getId());
-        if (color == CardColor::GREEN || color == CardColor::PURPLE) {
+        if (color == CardColor::PURPLE) {
             throw StopRun{"unsupported_card", screenStateName(gc.screenState),
                           std::string("the simulator can't play ") + card.getName(), {}};
         }

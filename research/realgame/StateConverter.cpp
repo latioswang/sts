@@ -52,7 +52,7 @@ void setPlayerStatus(Player &p, PlayerStatus s, int amount, bool justApplied) {
         PS_CASE(NOXIOUS_FUMES) PS_CASE(OMEGA) PS_CASE(PANACHE) PS_CASE(PHANTASMAL) PS_CASE(PLATED_ARMOR) PS_CASE(RAGE) PS_CASE(REGEN)
         PS_CASE(RITUAL) PS_CASE(RUPTURE) PS_CASE(SADISTIC) PS_CASE(STATIC_DISCHARGE) PS_CASE(THORNS) PS_CASE(THOUSAND_CUTS)
         PS_CASE(TOOLS_OF_THE_TRADE) PS_CASE(VIGOR) PS_CASE(WAVE_OF_THE_HAND) PS_CASE(EQUILIBRIUM) PS_CASE(THE_BOMB)
-        PS_CASE(ENERGIZED_BLUE) PS_CASE(HEATSINK) PS_CASE(MACHINE_LEARNING) PS_CASE(SELF_REPAIR) PS_CASE(STORM)
+        PS_CASE(ENERGIZED_BLUE) PS_CASE(HEATSINK) PS_CASE(MACHINE_LEARNING) PS_CASE(SELF_REPAIR) PS_CASE(STORM) PS_CASE(RETAIN_CARDS)
 #undef PS_CASE
 #define PS_TIMED(NAME) case PS::NAME: p.setHasStatus<PS::NAME>(true); p.setStatusValueNoChecks<PS::NAME>(amount); p.setJustApplied<PS::NAME>(justApplied); break;
         PS_TIMED(DOUBLE_DAMAGE) PS_TIMED(DRAW_REDUCTION) PS_TIMED(FRAIL) PS_TIMED(INTANGIBLE) PS_TIMED(VULNERABLE) PS_TIMED(WEAK)
@@ -460,6 +460,10 @@ CardSelectTask taskFromAction(const std::string &action, const std::string &scre
     if (action == "BetterDiscardPileToHandAction") return CardSelectTask::LIQUID_MEMORIES_POTION;
     if (action == "BetterDrawPileToHandAction") return CardSelectTask::SEEK;
     if (action == "RecycleAction") return CardSelectTask::RECYCLE;
+    if (action == "DiscardAction") return CardSelectTask::DISCARD;
+    if (action == "NightmareAction") return CardSelectTask::NIGHTMARE;
+    if (action == "RetainCardsAction") return CardSelectTask::RETAIN;
+    if (action == "SetupAction") return CardSelectTask::SETUP;
     if (action == "SkillFromDeckToHandAction") return CardSelectTask::SECRET_TECHNIQUE;
     if (action == "AttackFromDeckToHandAction") return CardSelectTask::SECRET_WEAPON;
     if (action == "CodexAction") return CardSelectTask::CODEX;
@@ -708,6 +712,11 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
 
     for (const auto &power : player["powers"]) {
         const std::string id = power["id"].get<std::string>();
+        if (id == "Night Terror") {  // one power for each card it will copy
+            if (power.contains("card")) p.addNightmare(instanceFromJson(power["card"], -1, notes));
+            else notes.warn("Night Terror without its card");
+            continue;
+        }
         const auto status = playerPowerFromGameId(id);
         if (!status) {
             notes.warn("unknown player power " + id);
@@ -892,6 +901,22 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         bc.inputState = InputState::CARD_SELECT;
         bc.cardSelectInfo.cardSelectTask = task;
         bc.cardSelectInfo.pickCount = maxCards;
+        // These take one card at a time in the simulator, where a pick has already gone to the discard pile or to the end of
+        // the hand. The game's screen holds its picks apart until it closes.
+        if (task == CardSelectTask::DISCARD || task == CardSelectTask::RETAIN) {
+            const json selected = screenState.value("selected", json::array());
+            bc.cardSelectInfo.pickCount = maxCards - static_cast<int>(selected.size());
+            bc.cardSelectInfo.data0 = task == CardSelectTask::DISCARD ? static_cast<int>(bc.cards.discardPile.size()) : static_cast<int>(selected.size());
+            for (const auto &c : selected) {
+                CardInstance card = instanceFromJson(c, bc.cards.nextUniqueCardId++, notes, p.energy);
+                if (task == CardSelectTask::DISCARD) {
+                    bc.cards.moveToDiscardPile(card);
+                } else {
+                    card.retain = !card.isEthereal();
+                    bc.cards.moveToHand(card);
+                }
+            }
+        }
         if (screen == "CARD_REWARD") {
             int i = 0;
             for (const auto &c : screenState["cards"]) {

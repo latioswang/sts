@@ -476,6 +476,23 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                     chooseCardOnScreen(keyOf(bc.cards.hand[idx]), copyIndex(bc.cards.hand, idx));
                     confirmIfRequired();
                     break;
+                case CardSelectTask::DISCARD:
+                    // The screen's confirm button only comes up with the last pick.
+                    chooseCardOnScreen(keyOf(bc.cards.hand[idx]), copyIndex(bc.cards.hand, idx));
+                    confirmIfRequired();
+                    break;
+                case CardSelectTask::RETAIN: {
+                    // This screen allows any number up to its limit, so its button is always up. The simulator keeps the
+                    // picks at the end of the hand, where they don't change which copy of a card this one is.
+                    const int unpicked = bc.cards.cardsInHand - bc.cardSelectInfo.data0;
+                    if (idx != CardSelectInfo::RETAIN_DONE_IDX) {
+                        chooseCardOnScreen(keyOf(bc.cards.hand[idx]), copyIndex(bc.cards.hand, idx));
+                    }
+                    if (idx == CardSelectInfo::RETAIN_DONE_IDX || bc.cardSelectInfo.pickCount <= 1 || unpicked <= 1) {
+                        confirmIfRequired();
+                    }
+                    break;
+                }
                 case CardSelectTask::HEADBUTT:
                 case CardSelectTask::HOLOGRAM:
                 case CardSelectTask::LIQUID_MEMORIES_POTION:

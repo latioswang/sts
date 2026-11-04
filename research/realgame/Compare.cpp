@@ -119,6 +119,7 @@ std::map<std::string, int> simPlayerPowers(const Player &p) {
         const auto s = static_cast<PlayerStatus>(i);
         if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = s == PS::PANACHE ? p.panacheCounter : playerPowerAmount(p, s);  // the game shows the countdown
     }
+    if (p.nightmareCount > 0) out["Night Terror"] = p.nightmareCount * Player::NIGHTMARE_COPIES;  // the game keeps one power for each
     return out;
 }
 
@@ -135,6 +136,8 @@ void comparePowers(Diffs &out, const std::string &field, std::map<std::string, i
         const std::string id = p["id"].get<std::string>();
         if (id.rfind("TheBomb", 0) == 0) {
             real[bombKey(p["amount"].get<int>())] += p.value("damage", 0);
+        } else if (id == "Night Terror") {
+            real[id] += p["amount"].get<int>();
         } else if (!isUntrackedPower(id)) {
             real[id] = p["amount"].get<int>();
         }
@@ -258,8 +261,10 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
     }
     // A grid that takes two cards (Liquid Memories with Sacred Bark, Seek+) moves them when it closes; the simulator picks one at a time.
     const bool gridPartlyChosen = gs["screen_type"] == "GRID" && !gs["screen_state"].value("selected_cards", json::array()).empty();
+    // So does a hand screen that takes more than one discard. The screen's list is called `selected` here.
+    const bool handPartlyChosen = gs["screen_type"] == "HAND_SELECT" && !gs["screen_state"].value("selected", json::array()).empty();
     if (!gridPartlyChosen) comparePile(out, "draw_pile", bc.cards.drawPile, cs["draw_pile"]);
-    if (!gridPartlyChosen) comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
+    if (!gridPartlyChosen && !handPartlyChosen) comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
     const bool exhumeGridOpen = bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::EXHUME;
     compareExhaustPile(out, bc.cards.exhaustPile, cs["exhaust_pile"], exhumeGridOpen);
 

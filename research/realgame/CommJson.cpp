@@ -102,6 +102,9 @@ json combatJson(const BattleContext &bc) {
             powers.push_back({{"id", playerPowerToGameId(s)}, {"amount", playerPowerAmount(bc.player, s)}});
         }
     }
+    for (int i = 0; i < bc.player.nightmareCount; ++i) {
+        powers.push_back({{"id", "Night Terror"}, {"amount", Player::NIGHTMARE_COPIES}, {"card", cardJson(bc.player.nightmareCards[i])}});
+    }
     const int bombs[] = {bc.player.bomb1, bc.player.bomb2, bc.player.bomb3};
     for (int turnsLeft = 1; turnsLeft <= 3; ++turnsLeft) {
         const int damage = bombs[turnsLeft - 1];
@@ -160,6 +163,10 @@ const char *actionFor(CardSelectTask task) {
         case CardSelectTask::LIQUID_MEMORIES_POTION: return "BetterDiscardPileToHandAction";
         case CardSelectTask::SEEK: return "BetterDrawPileToHandAction";
         case CardSelectTask::RECYCLE: return "RecycleAction";
+        case CardSelectTask::DISCARD: return "DiscardAction";
+        case CardSelectTask::NIGHTMARE: return "NightmareAction";
+        case CardSelectTask::RETAIN: return "RetainCardsAction";
+        case CardSelectTask::SETUP: return "SetupAction";
         case CardSelectTask::SECRET_TECHNIQUE: return "SkillFromDeckToHandAction";
         case CardSelectTask::SECRET_WEAPON: return "AttackFromDeckToHandAction";
         case CardSelectTask::CODEX: return "CodexAction";
@@ -190,6 +197,18 @@ void addBattleScreen(const BattleContext &bc, json &gs) {
     } else {
         gs["screen_type"] = "HAND_SELECT";
         gs["screen_state"] = {{"max_cards", bc.cardSelectInfo.pickCount}, {"hand", json::array()}};
+        if (task == CardSelectTask::RETAIN) {
+            // The simulator keeps the picks at the end of the hand. The game's screen holds them apart.
+            const int picked = bc.cardSelectInfo.data0;
+            json selected = json::array();
+            json &hand = gs["combat_state"]["hand"];
+            for (int i = 0; i < picked; ++i) {
+                selected.insert(selected.begin(), hand.back());
+                hand.erase(hand.size() - 1);
+            }
+            gs["screen_state"]["selected"] = selected;
+            gs["screen_state"]["max_cards"] = bc.cardSelectInfo.pickCount + picked;
+        }
     }
 }
 
