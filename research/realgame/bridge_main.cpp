@@ -1,10 +1,11 @@
 // sts_bridge: connects the research agent to the real game through commrelay.py. See README.md.
 //
-//   sts_bridge mirror --research_dir DIR --seed_start N --count K [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
+//   sts_bridge mirror --research_dir DIR --seed_start N --count K [--class C] [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
 //   sts_bridge live --research_dir DIR --seed_start N --count K [--asc A] [--params FILE] [--param k=v ...]
 //   sts_bridge selftest --research_dir DIR --seed_start N --count K    (converter round trip, no game needed)
 //   sts_bridge replay --trace FILE [--trace FILE ...]    (checks recorded runs, no game needed; one JSON line per run)
 #include "CommClient.h"
+#include "GameIds.h"
 #include "Live.h"
 #include "Mirror.h"
 #include "ReplayClient.h"
@@ -29,6 +30,7 @@ struct Args {
     std::string mode;
     std::uint64_t seedStart = 1000;
     int count = 1;
+    sts::CharacterClass character = sts::CharacterClass::IRONCLAD;
     int ascension = 0;
     int maxFloor = 0;
     std::string scenarioFile;
@@ -60,6 +62,7 @@ Args parseArgs(int argc, char **argv) {
         if (a == "--seed_start") args.seedStart = std::stoull(next());
         else if (a == "--count") args.count = std::stoi(next());
         else if (a == "--asc") args.ascension = std::stoi(next());
+        else if (a == "--class") args.character = characterFromGameId(next());
         else if (a == "--max_floor") args.maxFloor = std::stoi(next());
         else if (a == "--scenario_file") args.scenarioFile = next();
         else if (a == "--sock") args.socketPath = next();
@@ -115,6 +118,7 @@ int runReplay(const Args &args) {
             MirrorOptions options;
             options.seed = header.seed;
             options.ascension = header.ascension;
+            options.character = characterFromGameId(header.character);
             options.scenario = header.scenario;
             options.noteCard = header.noteCard;
             options.noteUpgrades = header.noteUpgrades;
@@ -159,6 +163,7 @@ int runMirror(const Args &args) {
         }
         MirrorOptions options;
         options.seed = args.seedStart + i;
+        options.character = args.character;
         options.ascension = args.ascension;
         options.maxFloor = args.maxFloor;
         options.params = args.params;

@@ -155,4 +155,21 @@ std::optional<MonsterEncounter> encounterFromGameId(const std::string &id) {
 
 std::string encounterToGameId(MonsterEncounter e) { return reverseLookup(kEncounterIds, e); }
 
+CharacterClass characterFromGameId(const std::string &id) {
+    if (id == "IRONCLAD") return CharacterClass::IRONCLAD;
+    if (id == "THE_SILENT" || id == "SILENT") return CharacterClass::SILENT;
+    if (id == "DEFECT") return CharacterClass::DEFECT;
+    if (id == "WATCHER") return CharacterClass::WATCHER;
+    throw std::runtime_error("unknown class: " + id);
+}
+
+std::string characterToGameId(CharacterClass character) {
+    switch (character) {
+        case CharacterClass::SILENT: return "THE_SILENT";
+        case CharacterClass::DEFECT: return "DEFECT";
+        case CharacterClass::WATCHER: return "WATCHER";
+        default: return "IRONCLAD";
+    }
+}
+
 }  // namespace realgame

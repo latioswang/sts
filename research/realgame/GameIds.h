@@ -2,6 +2,7 @@
 #pragma once
 
 #include "constants/Cards.h"
+#include "constants/CharacterClasses.h"
 #include "constants/Events.h"
 #include "constants/MonsterEncounters.h"
 #include "constants/MonsterIds.h"
@@ -15,6 +16,10 @@
 #include <string>
 
 namespace realgame {
+
+// The class as the mod's START command names it. Takes SILENT too. Throws std::runtime_error on anything else.
+sts::CharacterClass characterFromGameId(const std::string &id);
+std::string characterToGameId(sts::CharacterClass character);
 
 std::optional<sts::CardId> cardFromGameId(const std::string &id);
 std::string cardToGameId(sts::CardId id);

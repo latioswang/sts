@@ -25,6 +25,7 @@ struct RecordingStop : std::runtime_error {
 
 struct TraceHeader {
     std::string trace;  // <transcript>#<run>
+    std::string character = "IRONCLAD";  // as the START command names it
     std::uint64_t seed = 0;
     int ascension = 0;
     std::string scenario;

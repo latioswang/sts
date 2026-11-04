@@ -68,6 +68,7 @@ ReplayClient::ReplayClient(const std::string &path) : data_(readAll(path)) {
             const json h = parseText(line);
             header_.trace = h.at("trace").get<std::string>();
             header_.seed = h.at("seed").get<std::uint64_t>();
+            header_.character = h.value("class", "IRONCLAD");
             header_.ascension = h.at("asc").get<int>();
             header_.scenario = h.value("scenario", "");
             header_.scenarioSource = h.value("scenario_source", "");

@@ -16,6 +16,7 @@ class ReplayClient;
 
 struct MirrorOptions {
     std::uint64_t seed = 0;
+    sts::CharacterClass character = sts::CharacterClass::IRONCLAD;
     int ascension = 0;
     int maxFloor = 0;  // stop cleanly after this floor (0 = play the whole run)
     std::string scenario;  // extra items for both sides, see Scenario.h

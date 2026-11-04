@@ -26,7 +26,7 @@ REALGAME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REALGAME)  # python3 -I leaves the script's folder off the path
 from coverage_report import FILLER_RELICS, game_universe  # noqa: E402
 
-CACHE_VERSION = 3
+CACHE_VERSION = 4
 
 # Targets. Below its target an item scores count/target, and a category is the mean of its items.
 # A card has to be played often enough, upgraded, and in different situations, since most card bugs need an interaction
@@ -66,7 +66,7 @@ class RunScan:
     """Turns one run's lines into events, each [kind, command index, ...]. A state's events carry the commands sent before it."""
 
     def __init__(self, trace: str, parts: list, t: float):
-        self.run = {"trace": trace, "class": parts[1].lower() if len(parts) > 1 else "?",
+        self.run = {"trace": trace, "class": parts[1].lower().removeprefix("the_") if len(parts) > 1 else "?",
                     "asc": int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0,
                     "seed": parts[3] if len(parts) > 3 else "", "t0": t, "t1": t, "n": 1, "n_all": 1, "over": None,
                     "victory": False, "bad_plays": 0, "cmds": [" ".join(parts)], "events": []}

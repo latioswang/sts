@@ -565,7 +565,7 @@ MirrorResult Mirror::run() {
     const auto t0 = std::chrono::steady_clock::now();
     if (!options_.replay) log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
-    GameContext gc(CharacterClass::IRONCLAD, options_.seed, options_.ascension);
+    GameContext gc(options_.character, options_.seed, options_.ascension);
     if (options_.replay) {
         if (const auto card = cardFromGameId(options_.noteCard)) gc.noteForYourselfCard = Card(*card, options_.noteUpgrades);
     } else {
@@ -584,7 +584,7 @@ MirrorResult Mirror::run() {
 
     const int commandsBefore = game_.commandsSent();
     try {
-        send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
+        send("START " + characterToGameId(options_.character) + " " + std::to_string(options_.ascension) + " " + result.seedText);
         if (!options_.scenario.empty()) {
             const auto items = parseScenario(options_.scenario);
             applyScenarioToSimulator(gc, items);
