@@ -118,6 +118,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   0.557). Doubling A10 data (R4-local 40k -> 80k runs) moved the A10-only cells ≤ 0.011 and the best cell 0.548 -> 0.544.
   **Near-miss extension of `a10_vr4b20` declared 16:48 UTC, before any dev seed** (dev 100, pooled 400; keep needs pooled
   P >= 0.9 unrounded and dev-alone dscore > 0); queued after `a10_vr4b40` (running).
+  `a10_vr4b40` val-300: win 0.347 vs 0.343, dscore +0.0130, P=0.639 -> discard (below the 0.7 near-miss band; no extension).
 - **16:17 UTC:** runner stopped 16:15 at its 2-hour limit mid w9 pull (≈ 85% on disk) with 524 MB free: the Xet chunk cache
   had grown to 1.1 GB during the pull; deleted it (cache only) -> 1.6 GB; w9 bookkeeping kept so the resumed pull skips stored
   files; runner restarted 16:15; disk monitor armed (< 400 MB). Lesson for the shard format: per-file pulls cost bookkeeping
