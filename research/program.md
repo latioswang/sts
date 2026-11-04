@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 09:16 UTC
+### Current state (update after every batch) — 2026-11-04 09:57 UTC
+- **09:57 UTC: R4-local fits done; `a10_vr4lb20` discard; `a10_vr4lb40` running.** A10-trained run value fits the A10 holdout
+  far better than the A0 model (RMSE 0.548 vs 0.709), but at bonus 20 the card picks do not move (dscore −0.006, P=0.437).
 - **09:16 UTC:** R4-local blocks 0–4 done (25,000 games; `SUBSAMPLE ... rundata_a10_l4 ... 5000 runs, rows 643127 -> 158469`),
   block 5 at 17/50 (ends ≈ 09:26), then score `vr_61` on the A10 holdout and training cells 75–79. Runner restarted 08:23
   after its 2-hour stop (resume, nothing lost). Disk 3.1 GB free. R4 workers idle; HF decision pending.
@@ -1334,6 +1336,25 @@ A10 only (16 kept states); 78 / 79 = h=64 / h=256 on A10 + all A0 subsamples (8 
 near-miss extension rule as usual). `vr_61` scored on the holdout for reference. If storage is fixed later, the original
 R4 (ids 70–74 -> `vr_81`, 90,000 games) still runs as pre-registered; R4-local does not replace it.
 Predictions: an A10-only net beats `vr_61` on the A10 holdout (MED); A10 card-pick keep at bonus 20 or 40 (LOW).
+
+**R4-local results (pasted 09:57 UTC).** Data: 30,000 local A10 games + the 15,000-run partial `rundata_a10_w7_k32` (its
+`counts.tsv` arrived, so it joined by the rule); 40,050 A10 training runs after the holdout and validation split.
+
+    SCORE vr_61.txt on rundata_a10_hold: runs=1000 states=129910 rmse=0.7093 corr=0.472
+    VR2 id=75 runs=40050 ridge lambda=0.001 holdout_rmse=0.5573 holdout_corr=0.507 predict_mean_rmse=0.6466
+    VR2 id=76 runs=40050 hidden=64  best_epoch=1 holdout_rmse=0.5615 holdout_corr=0.499 predict_mean_rmse=0.6466
+    VR2 id=77 runs=40050 hidden=256 best_epoch=1 holdout_rmse=0.5730 holdout_corr=0.475 predict_mean_rmse=0.6466
+    VR2 id=78 runs=211050 hidden=64  best_epoch=1 holdout_rmse=0.5505 holdout_corr=0.534 predict_mean_rmse=0.7815
+    VR2 id=79 runs=211050 hidden=256 best_epoch=1 holdout_rmse=0.5481 holdout_corr=0.531 predict_mean_rmse=0.7815
+    VR SELECT: vr_79 -> vr_82; VR GATE OK: 0.548130 < 0.781471
+    LEAKTEST checked=87 mismatches=0 PASS (vr_model=82 vr_bonus=20)
+    a10_vr4lb20 val-300: win 0.337 (101/300) vs a10_vr2b20 0.343 (103/300); dscore -0.0059, P=0.437 -> discard
+
+Reading: prediction 1 (A10-only beats `vr_61` on the A10 holdout) holds by a wide margin (0.557 vs 0.709) [the A0 model
+mis-levels A10: its state mean is off]. A0 + A10 beats A10-only slightly (0.548 vs 0.557; prediction 2 holds, small).
+Caveat: the gate's predict-mean baseline for 78/79 (0.7815) is the train mean of mixed A0 + A10 data, a weaker reference
+than the A10-only 0.6466; vr_82 also clears the stricter one. A better-fitting model did not change A10 card picks at
+bonus 20.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
