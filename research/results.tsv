@@ -470,3 +470,4 @@ a671e8d	val.a10	300	0	0.370	38.97	1.1342	+0.0374	0.856	discard	a10_vr4lb40: [a10
 338f726	dev.a10	100	0	0.260	37.11	0.9876	+0.0204	0.614	info	a10_vr4lb40_dev: VERIFY: a10_vr4lb40 on dev vs a10_vr2b20_dev (replication of a a10 keep)
 af7352c	val.a10	300	0	0.363	38.81	1.1243	+0.0275	0.785	discard	a10_vr4b20: [a10] Phase R4: A10 card picks + 20 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=20]
 7ce05c9	val.a10	300	0	0.347	38.92	1.1098	+0.0130	0.639	discard	a10_vr4b40: [a10] Phase R4: A10 card picks + 40 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=40]
+c144212	dev.a10	100	0	0.260	36.82	0.9820	+0.0147	0.593	info	a10_vr4b20_dev: VERIFY: a10_vr4b20 on dev vs a10_vr2b20_dev (replication of a a10 keep)

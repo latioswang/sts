@@ -102,7 +102,15 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 16:48 UTC
+### Current state (update after every batch) — 2026-11-04 16:55 UTC
+- **16:55 UTC: Phase R4 closed — no keep.** Extension of `a10_vr4b20`: dev `a10_vr4b20_dev` 26.0% win, floor 36.82, +0.0147,
+  P=0.593 (info); `pooled val,dev [act3]: n=400  a10_vr4b20 win=0.338 floor=38.31  a10_vr2b20 win=0.325 floor=37.71
+  dscore=+0.0243 dwin=+0.013 P(improve)=0.802` -> discard. Prediction "A10 card-pick keep (LOW–MED)" failed. Three A10
+  run-value variants in a row came out positive and unresolved (pooled 400 P = 0.870, 0.855, 0.802; +1.3 to +1.8 pts win):
+  consistent with a small real effect below what 400 games resolve, or with noise; post hoc, so it is not evidence for a keep
+  and the rule is not changed for these results. Fit scaling: more A10 data barely helps (0.548 -> 0.544 at 2x); the A0 data
+  helps more than doubling A10. Runner idle (queue empty).
+- **Next:** the compressed-shard data format (decided 13:16 UTC), then the next research phase.
 - **16:48 UTC: R4 fits and first card-pick test.** Pasted:
 
       SCORE vr_61.txt on rundata_a10_hold: runs=1000 states=129910 rmse=0.7093 corr=0.472

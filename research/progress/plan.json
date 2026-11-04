@@ -131,9 +131,9 @@
   },
   {
    "id": "R4",
-   "label": "Phase R4: A10 run value from A10 games — 90,000 worker games in the store (12:20); training next. R4-local (45k runs): fit 0.548 vs 0.709, card picks no keep (b40 pooled P=0.855)",
-   "status": "running",
-   "when": ""
+   "label": "Phase R4: A10 run value — fit 0.709 -> 0.544 on the A10 holdout, card picks no keep (b20 pooled 400 P=0.802; three A10 near misses)",
+   "status": "done",
+   "when": "2026-11-04 16:55"
   }
  ],
  "phases": [
@@ -179,7 +179,6 @@
   }
  ],
  "next_up": [
-  "Phase R4 (data complete): pull the three A10 subsamples, train A10-only and A0+A10 run-value models (ids 70-74 -> vr_81) scored on the A10 holdout, then A10 card picks at bonus 20/40 vs the A10 best.",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
   "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
   "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
