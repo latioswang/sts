@@ -72,6 +72,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
 | 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
 | 2324, 1 | Hello World+ and Creative AI+ rolled each other's cards, because powers ran in a fixed order | Powers are sorted by priority, in the order gained within a priority | `780e3d0` |
+| 2417, 44 | A Parasite from Writhing Mass paid no Ceramic Fish gold | `AddCardToDeckAction` triggers `onObtainCard` during the fight, and the simulator's fight-end add was overwritten by the player's gold | `c1e59d6` |
 | 2321, 16 | Stack off the draw pile counted the discard pile when played, so Distilled Chaos gave one block too many | `PlayTopCardAction` runs `applyPowers` as it takes the card, before the cards ahead of it have landed | `800cfad`, on `other-classes` |
 
 ## Monsters
