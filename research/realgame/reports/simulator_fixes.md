@@ -68,6 +68,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 4011, 16 | Anger's copy was a new card | `makeStatEquivalentCopy` keeps a cost that Snecko Oil or Confusion changed | `d2615b4` |
 | 1006, 50 | A card made free for the turn stayed free if drawn again that turn | `Soul.update` runs `clearPowers` when a card lands on a pile | `e1f0ce4` |
 | 2110, 33 (A10) | A skill Snecko Oil gave a cost kept it under Corruption until the next draw | `onCardDrawOrDiscard` also runs from `UseCardAction` | `1fc1ef5` |
+| 1118, 48 | A monster's Intangible raised 0 damage to 1, so Body Slam with no block hit | `atDamageFinalReceive` only lowers damage above 1 | `f00b16f` |
 
 ## Monsters
 
