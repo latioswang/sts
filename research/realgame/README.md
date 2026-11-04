@@ -7,13 +7,15 @@ Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spir
 
 ## Status
 
+The [progress log](PROGRESS.md) has the steps taken, the full results and what's next.
+
 | Part | State |
 |---|---|
 | Game launch and Communication Mod connection | Works |
-| Mirror mode, ascension 0 | Seeds 1000 to 1029 played to the end of each run: 29 had no difference, and 1006 stopped on floor 50 on a bug since fixed |
+| Mirror mode, ascension 0 | 60 seeds played to the end of each run, all with no difference on their latest run |
 | Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference |
-| Mirror mode, ascension 20 | On each seed's latest run, 27 of 28 seeds with items injected had no difference, 19 of them reaching floor 50 or later, and 2105 stopped after a Discovery. 19 of 20 seeds without items had no difference, most ending early when the agent died. 4004 stopped at A20's Proceed button before the bridge handled it, and hasn't been rerun |
-| Mirror mode, other ascensions | Not yet run on the game; the rules were compared with the game's bytecode |
+| Mirror mode, ascension 20 | 27 of 28 seeds with items injected had no difference, and 2105 stopped after a Discovery. All 20 seeds without items had no difference, most ending early when the agent died |
+| Mirror mode, ascensions 5, 10, 15, 18 | 26 of 28 seeds with items injected had no difference. Two at ascension 10 are being rechecked |
 | Live mode | Three real runs: two wins and one loss |
 | Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
 | JSON to simulator converter | Passes the offline round trip |
