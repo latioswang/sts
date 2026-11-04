@@ -1485,7 +1485,7 @@ cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most 
 Why: A10/A20 bests use the A0-trained `vr_41` for card picks (bonus 20) and boss relics (w 20); R4's `vr_81` (A10 + A0 data)
 fits A10 states far better (A10 holdout RMSE 0.544 vs 0.709 for `vr_61`), and with card picks alone it was a near miss
 (pooled 400 P=0.802). Cells: `a10_r81` (A10 best + vr_model=81: both hooks use `vr_81`; val-300 rule), `a20_r81` (A20 best +
-vr_model=81; pooled-500 rule). Leak test A10 params + vr_model=81: see the line pasted below. Predictions: A10 keep LOW–MED,
+vr_model=81; pooled-500 rule). Leak test A10 params + vr_model=81: `LEAKTEST checked=105 mismatches=0 PASS`. Predictions: A10 keep LOW–MED,
 A20 keep LOW. No A10 test run follows (the M-A10 run is spent).
 
 **Phase R6 — the run value on rest sites and card removal (pre-registered 2026-11-04 18:17 UTC, before any of these games).**
