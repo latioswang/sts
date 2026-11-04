@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:32 UTC
+### Current state (update after every batch) — 2026-11-04 17:34 UTC
+- **17:34 UTC: A10 KEEP `a10_relic20`** (boss relics + 20 x run-value gain, `vr_41`): val-300 win 0.387, floor 39.69, dscore
+  +0.0681, dwin +0.043, P=0.999 vs `a10_vr2b20` -> new A10 best; **38.7% ≥ the 35% A10 target on val.** Prediction (MED-LOW)
+  held. **M-A10 sequence declared now, before any further game:** dev replication (`rep_dev.sh`); if the dev dscore > 0,
+  the one test run allowed per confirmed milestone (500 test seeds, report with 95% Wilson CI; not used for any decision).
 - **17:32 UTC:** R5 A0 cells done (relic20 KEEP and replicated on dev +6.0; relic40, shop, upgrades discard). Ports of the
   relic keep to A10 / A20 / Heart pre-registered and queued (see "Phase R5 results and ports").
 - **R5 first cell: KEEP.** `vr5relic20` (boss relics: KB value + 20 x run-value gain) val-300 win 0.847, floor 48.38,
