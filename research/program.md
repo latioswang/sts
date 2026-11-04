@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 12:20 UTC
+### Current state (update after every batch) — 2026-11-04 13:15 UTC
+- **13:15 UTC:** R4-local subsamples l0–l5 stored (`LOCAL A10 PUSHED AND FREED`, counts 5,002 each); `rundata_a10_w7_k32`
+  pull at 95%. Disk 4.3 GB free but the w8 + w9 subsamples need ≈ 4.9 GB, so `research/tools/push_old_local.sh` moves the
+  local-only Phase A/B/S sets `gen0`, `gen1`, `svdata` (≈ 1.7 GB) to the store (count-verified) and frees them; a queue guard
+  holds the w9 pull until then.
 - **12:20 UTC: all R4 data in the store; all workers archived.** Pasted from the logs: r4w7 `SV GEN rundata_a10_w7 DONE:
   30000 files`, `SUBSAMPLE ... 30000 runs, rows 3889335 -> 951436 (k=32)`, holdout file count 1000, `PUSH rundata_a10_hold DONE:
   1000 files`, `PUSH rundata_a10_w7_k32 DONE: 30001 files`, `PUSH rundata_a10_w7 DONE: 30000 files`; r4w9 `PUSH
