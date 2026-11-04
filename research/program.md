@@ -102,11 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:55 UTC
-- **17:55 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
+### Current state (update after every batch) — 2026-11-04 17:14 UTC
+- **17:14 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
   rundata_w6_k32 -> shards (58M)`); `research/vf/data` 2.2 GB, disk 26 GB free (was 1.5 GB). `push_shards.sh` uploads
   them as `<name>_z` with a count check (backs up the local-only `rundata_k32`, `rundata_w3_k32`).
-- **17:25 UTC: compressed run-data shards (`research/vf/runstore.py`) — bit-identity shown, local data converting.**
+- **17:08 UTC: compressed run-data shards (`research/vf/runstore.py`) — bit-identity shown, local data converting.**
   Format: `index.tsv` (name, shard, offset, nbytes) + `shard_NNNNN.z` (zlib-6 of up to 1,000 consecutive run files, by
   name); readers (`train_vr2.py`, `score_vr.py`, `subsample_runs.py`) call `runstore.list_runs / size / read`, which mirror
   `sorted(glob)`, `os.path.getsize`, `np.fromfile` for either layout. Pasted:
@@ -126,7 +126,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   Local conversion (`research/tools/shard_local.sh`: pack, byte-verify, swap into `all/`, delete per-file copy) running;
   then push the shard sets to the store under new names `<name>_z` (`rundata_k32`, `rundata_w3_k32` exist only here).
   Deleting the store's per-file copies stays the owner's decision.
-- **16:55 UTC: Phase R4 closed — no keep.** Extension of `a10_vr4b20`: dev `a10_vr4b20_dev` 26.0% win, floor 36.82, +0.0147,
+- **16:50 UTC: Phase R4 closed — no keep.** Extension of `a10_vr4b20`: dev `a10_vr4b20_dev` 26.0% win, floor 36.82, +0.0147,
   P=0.593 (info); `pooled val,dev [act3]: n=400  a10_vr4b20 win=0.338 floor=38.31  a10_vr2b20 win=0.325 floor=37.71
   dscore=+0.0243 dwin=+0.013 P(improve)=0.802` -> discard. Prediction "A10 card-pick keep (LOW–MED)" failed. Three A10
   run-value variants in a row came out positive and unresolved (pooled 400 P = 0.870, 0.855, 0.802; +1.3 to +1.8 pts win):

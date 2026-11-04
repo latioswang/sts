@@ -133,7 +133,7 @@
    "id": "R4",
    "label": "Phase R4: A10 run value — fit 0.709 -> 0.544 on the A10 holdout, card picks no keep (b20 pooled 400 P=0.802; three A10 near misses)",
    "status": "done",
-   "when": "2026-11-04 16:55"
+   "when": "2026-11-04 16:50"
   }
  ],
  "phases": [
