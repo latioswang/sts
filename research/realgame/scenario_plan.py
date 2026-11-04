@@ -40,6 +40,34 @@ SCREEN_RELICS = {
 }
 
 
+# Every blue card the game's library holds, six to a seed. Each seed starts with Prismatic Shard, the only way this
+# class gets an orb slot, and the helpers give the cards what they need to do something.
+DEFECT_SEEDS = [
+    (["Zap", "Dualcast", "Ball Lightning", "Cold Snap", "Darkness", "Redo"], []),
+    (["Capacitor", "Rainbow", "Compile Driver", "Barrage", "Chaos", "Multi-Cast"], ["relic:Chemical X"]),
+    (["Coolheaded", "Glacier", "Blizzard", "Fusion", "Fission", "Loop"], []),
+    (["Tempest", "Thunder Strike", "Electrodynamics", "Storm", "Defragment", "Static Discharge"], []),
+    (["Doom and Gloom", "Consume", "Biased Cognition", "Reprogram", "Hyperbeam", "Lockon"], ["card:Zap", "card:Capacitor"]),
+    (["Meteor Strike", "Chill", "Gash", "All For One", "Beam Cell", "Go for the Eyes"], []),
+    (["FTL", "Sunder", "Melter", "Scrape", "Streamline", "Rebound"], []),
+    (["Sweeping Beam", "Rip and Tear", "Core Surge", "Seek", "Hologram", "Recycle"], []),
+    (["Leap", "Steam", "Stack", "Auto Shields", "BootSequence", "Force Field"], ["card:Inflame"]),
+    (["Undo", "Reinforced Body", "Genetic Algorithm", "Conserve Battery", "Buffer", "Self Repair"], []),
+    (["Turbo", "Steam Power", "Skim", "Aggregate", "Double Energy", "Reboot"], []),
+    (["Amplify", "Heatsinks", "Hello World", "Creative AI", "White Noise", "Machine Learning"], []),
+    (["Echo Form", "Strike_B", "Defend_B"], ["card:Zap"]),
+]
+
+
+def defect_scenarios():
+    """Every blue card as it comes, then every one upgraded, since upgrades change more than numbers here."""
+    scenarios = []
+    for suffix in ("", "+1"):
+        for cards, helpers in DEFECT_SEEDS:
+            scenarios.append(";".join(["relic:PrismaticShard"] + helpers + [f"card:{c}{suffix}" for c in cards]))
+    return scenarios
+
+
 def known_ids(table_text, enum):
     return set(re.findall(r'\{"([^"]+)", ' + enum + r"::\w+\}", table_text))
 
@@ -72,14 +100,25 @@ def plan_scenarios(relics, cards, potions, relics_per_seed=5, cards_per_seed=6, 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--logs", required=True, help="folder searched recursively for transcripts")
-    parser.add_argument("--jar", required=True)
+    parser.add_argument("--logs", help="folder searched recursively for transcripts")
+    parser.add_argument("--jar")
     parser.add_argument("--javap", default="javap")
     parser.add_argument("--seed_start", type=int, required=True)
     parser.add_argument("--upgrade", action="store_true", help="give the cards upgraded")
     parser.add_argument("--all", action="store_true", help="include things that have already come up")
+    parser.add_argument("--defect", action="store_true", help="write the fixed plan for the blue cards, which needs no logs or jar")
     parser.add_argument("-o", "--output", required=True)
     args = parser.parse_args()
+
+    if args.defect:
+        scenarios = defect_scenarios()
+        with open(args.output, "w", encoding="utf-8") as output:
+            for i, scenario in enumerate(scenarios):
+                output.write(f"{args.seed_start + i}\t{scenario}\n")
+        print(f"{len(scenarios)} seeds from {args.seed_start}")
+        return 0
+    if not args.logs or not args.jar:
+        parser.error("--logs and --jar are required without --defect")
 
     seen = empty_seen()
     for path in glob.glob(os.path.join(args.logs, "**", "transcript-*.jsonl"), recursive=True):

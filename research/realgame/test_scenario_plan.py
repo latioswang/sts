@@ -2,7 +2,7 @@
 """Tests for scenario_plan.py. Run: python3 test_scenario_plan.py"""
 import unittest
 
-from scenario_plan import known_ids, plan_scenarios
+from scenario_plan import DEFECT_SEEDS, defect_scenarios, known_ids, plan_scenarios
 
 
 class PlanTest(unittest.TestCase):
@@ -38,3 +38,12 @@ if __name__ == "__main__":
 def test_necronomicon_comes_after_the_cards():
     [scenario] = plan_scenarios({"Necronomicon", "Anchor"}, {"Bash"}, set())
     assert scenario.split(";") == ["relic:Anchor", "card:Bash", "relic:Necronomicon"]
+
+
+def test_defect_plan_covers_every_blue_card_with_a_slot():
+    cards = [c for group, _ in DEFECT_SEEDS for c in group]
+    assert len(cards) == 75 and len(set(cards)) == 75
+    scenarios = defect_scenarios()
+    assert len(scenarios) == 2 * len(DEFECT_SEEDS)
+    assert all(s.startswith("relic:PrismaticShard;") for s in scenarios)
+    assert "card:Zap+1" in scenarios[len(DEFECT_SEEDS)]
