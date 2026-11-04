@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 20:18 UTC
+### Current state (update after every batch) — 2026-11-04 21:16 UTC
+- **21:16 UTC:** R8 workers past their gates (r8w11 log: three repro_check `OK bit-identical`, store lists `rundata_w1_k32_z`)
+  and generating A20 games (r8w12 at 56/300 chunks at 20:54 -> generation ends ≈ 23:00). Coordinator queue waiting for
+  `rundata_a20_hold_z`.
 - **20:18 UTC: Phase R8 started** (pre-registered 20:16 UTC): workers r8w10 session_01USafwkB4NY1U4Sjop31yUk (also the A20
   holdout), r8w11 session_01USafwg72vBSu3xsVLMTaFH, r8w12 session_01USafwgGyDBXGvSYd6uMw5A, each 30,000 A20 games shipped
   as shards; this VM's queue waits for the four shard sets, then trains ids 100–104 -> `vr_121` and runs `a20_r121`.
