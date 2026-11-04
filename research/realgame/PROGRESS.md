@@ -104,6 +104,36 @@ Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
 
 **How often.** A pass costs about a minute, so at 1% of the machine's time it can run every 100 minutes.
 
+## Coverage and score
+
+[`tools/coverage.py`](tools/coverage.py) counts what the runs on the game have exercised and gives a score out of 100. [`tools/update_progress.py`](tools/update_progress.py) runs the regression test and the count together and writes the files behind a private dashboard. Only what still replays with no difference on the current simulator counts.
+
+| Category | Points | Target for each item |
+|---|---|---|
+| Cards | 35 | 10 plays, 5 upgraded, 8 different situations. Curses and statuses: 5 turns in hand |
+| Relics | 15 | Held in 5 runs |
+| Potions | 5 | Used 5 times |
+| Monsters | 15 | 3 fights below ascension 17, and 3 from 17 up |
+| Events | 10 | 3 visits, and every option chosen |
+| Powers | 5 | Seen in 3 runs |
+| Ascensions | 5 | 3 runs reaching floor 17, at each of 0 to 20 |
+| Full runs per class | 10 | 60 clean runs, then 300 |
+
+The class target comes from the rule of three: with no failure in n independent runs, the chance of a failure per run is below 3/n at 95% confidence. So 60 clean runs bound it at 5%, and 300 at 1%. The other targets are judgment calls and can change. A situation is a combination of Strength, Weak, Frail, a Vulnerable or Weak target, a target with block, several monsters, an elite, a boss, and high ascension.
+
+On 2026-11-04 the score is 64.0, with the Defect cards counted from branch `other-classes`.
+
+| Class | Cards played | Clean full runs | What's left |
+|---|---|---|---|
+| Ironclad | 75 of 75 | 116 | More new seeds, up to 300 |
+| Defect | 72 of 76, inside Ironclad runs | 0 | Run the seeds that stopped on other classes' cards, then start runs as Defect |
+| Silent | 0 of 75 | 0 | The port is in progress |
+| Watcher | 0 of 77 | 0 | Port it after Silent |
+
+Every run so far starts as Ironclad. The simulator can set up the other classes' starting decks and relics, but mirror mode only starts Ironclad, and the agent's choices outside combat are tuned for it, so starting as the other classes is work still to do.
+
+A score of 100 means these targets were met. It doesn't prove the simulator matches everywhere.
+
 ## How the agent and the checks compare
 
 Checked on 2026-11-04. Other projects use their own seeds and setups, so these figures are a guide and not a controlled comparison.

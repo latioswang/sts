@@ -71,6 +71,8 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 1118, 48 | A monster's Intangible raised 0 damage to 1, so Body Slam with no block hit | `atDamageFinalReceive` only lowers damage above 1 | `f00b16f` |
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
 | 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
+| 2324, 1 | Hello World+ and Creative AI+ rolled each other's cards, because powers ran in a fixed order | Powers are sorted by priority, in the order gained within a priority | `780e3d0` |
+| 2321, 16 | Stack off the draw pile counted the discard pile when played, so Distilled Chaos gave one block too many | `PlayTopCardAction` runs `applyPowers` as it takes the card, before the cards ahead of it have landed | `800cfad`, on `other-classes` |
 
 ## Monsters
 
@@ -192,5 +194,5 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
-- **Player power order.** The game triggers powers in the order they were gained, and the simulator in a fixed order. No Draw is handled on its own, as above. Others can differ when two powers at the end of a turn change the same thing.
+- **Player powers kept as plain fields.** Powers in the simulator's status map now trigger in the game's order. Strength, Dexterity and a few others live outside that map, so their place in the order isn't modeled. No Draw before Combust is still handled on its own.
 - **Empty Cage and Tiny House on the game.** The agent never picks them, so they've only been compared with the game's code. Empty Cage's automatic removal with two or fewer removable cards isn't in the simulator.
