@@ -24,7 +24,7 @@ Work ran from 2026-11-02 to 2026-11-04.
 4. **Played whole runs.** Ordinary seeds 1000 to 1029 ran to the end of each run, which found most of the early differences.
 5. **Forced rare content.** The agent only reaches some cards and relics by luck, so a test-only mod gives each seed a few items that hadn't come up. `plan_a` covers what was missing, and `plan_u` gives every card upgraded. `plan_k` gives all three keys, to reach act 4.
 6. **Went to ascension 20.** Two audits compared every `ascensionLevel` read in the game's monsters, events and dungeons with the simulator. Real runs then found what the audits missed.
-7. **Checked the time scale.** Batches run at 5x. Seed 2123 stopped at 5x and matched to floor 52 at normal speed, so a difference that looks odd gets rerun at normal speed before anyone believes it.
+7. **Checked the time scale.** Batches run at 5x. Seed 2123 reached the same state on floor 42 at both speeds, with Reaper killing Reptomancer and two daggers alive. HP afterwards was 76 at 5x and 86 at normal speed, which is what the simulator says. So a difference that looks odd gets rerun at normal speed before anyone believes it. Seed 2115 stopped the same way at 5x, but its normal speed run took another path and never repeated that kill.
 8. **Tried what no run had seen.** Ascensions 5, 10, 15 and 18, and 30 new seeds (1100 to 1129). These found new bugs, such as a shop's rare card chance.
 9. **Looked at other simulators.** Another fork's fix list found three bugs we still had. See [Other simulators](#other-simulators).
 10. **Measured the effect on research.** See [Effect on the agent](#effect-on-the-agent).
@@ -49,17 +49,13 @@ Counted on 2026-11-04. Each seed's latest run counts, on the build of that time,
 | Ascension 0, seeds 1100 to 1129, new for this round | 30 of 30, after fixes for the three that stopped |
 | Ascension 20, seeds 2100 to 2127 with items injected | 27 of 28, 19 reaching floor 50 or later. 2105 stops after a Discovery, which can't be matched |
 | Ascension 20, seeds 4000 to 4019 | 20 of 20, most ending early when the agent dies |
-| Ascensions 5, 10, 15, 18, seeds 2100 to 2127 with items injected | 27 of 28. 2110 ran clean to floor 51 after its fix. 2115 is below |
+| Ascensions 5, 10, 15, 18, seeds 2100 to 2127 with items injected | 28 of 28. 2110 and 2115 needed fixes first, and 2115 ran at normal speed |
 | Act 4 with all keys | Five seeds reached the Heart with no difference |
 | Live mode | Three real runs: two wins and one loss |
 
-The fix list has 149 rows: 120 found by a seed on the game and 29 found by reading code.
+The fix list has 150 rows: 121 found by a seed on the game and 29 found by reading code.
 
 "No difference" means none on that seed's path. It doesn't prove the simulator matches everywhere, and new seeds were still finding bugs in the latest round.
-
-**Open checks:**
-
-- **Seed 2115, ascension 10.** At 5x it stopped when Reaper killed Reptomancer with minions alive, the same pattern as seed 2123's time scale artifact. It's rerunning at normal speed to confirm.
 
 **Known gaps** are listed in the [fix list](reports/simulator_fixes.md#known-gaps). The largest is other classes' cards.
 
