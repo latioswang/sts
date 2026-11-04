@@ -72,6 +72,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
 | 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
 | 2324, 1 | Hello World+ and Creative AI+ rolled each other's cards, because powers ran in a fixed order | Powers are sorted by priority, in the order gained within a priority | `780e3d0` |
+| 7102, 16 | Random cards in combat were always Ironclad's, whatever the class | `returnTrulyRandomCardInCombat` reads the class's src pools, each in reverse, with no HEALING cards | `ffa2500` |
 | 6018, 16 (A8) | The Guardian's Vent Steam applied Vulnerable first, so Artifact stopped the wrong debuff | `useVentSteam` applies Weak, then Vulnerable | `7ab42f5` |
 | 2509, 29 | Smoke Bomb in the Colosseum's first fight went to the map | `Colosseum.reopen` offers the second choice however the fight ended | `a6cc442` |
 | code | Smoke Bomb in the Colosseum's second fight kept its relics in their pools | The event takes them off when the fight is chosen | `a6cc442` |
