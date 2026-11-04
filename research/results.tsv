@@ -462,3 +462,6 @@ e656d88	dev.a10	100	0	0.300	38.00	1.0451	+0.0778	0.867	info	a10_vr3b40_dev: VERI
 e39f232	val.a20	300	0	0.027	28.57	0.5863	-0.0308	0.052	discard	a20_vr3b20: [a20 pooled500] R3 run value (vr_61) at bonus 20 on A20 [vr_model=61 vr_bonus=20] pooled dscore=-0.0253 dwin=-0.010 P(improve)=0.038
 e39f232	dev2.a20	100	0	0.040	27.31	0.5747	+0.0047	0.536	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
 e39f232	dev3.a20	100	0	0.010	26.03	0.5202	-0.0386	0.063	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
+abdd280	val.a0	300	0	0.127	47.94	1.0201	-0.0398	0.051	discard	heart_vr3b20: [heart pooled500] R3 run value (vr_61) at bonus 20 on the Heart track [vr_model=61 vr_bonus=20] pooled dscore=-0.0347 dwin=-0.032 P(improve)=0.022
+abdd280	dev2.a0	100	0	0.140	47.71	1.0282	-0.0269	0.227	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track
+abdd280	dev3.a0	100	0	0.060	45.56	0.9122	-0.0275	0.249	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track

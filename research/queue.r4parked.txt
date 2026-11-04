@@ -1,0 +1,32 @@
+# ---- R3 model at bonus 20 on the other tracks (pre-registered 05:16 UTC; runs ahead of the paused R4 lines) ----
+for i in $(seq 1 72); do n=$(python3 research/tools/data_sync.py ls 2>/dev/null | awk '$1=="rundata_a10_w7_k32"{print $2}'); [ "$n" = "30001" ] && break; echo "waiting for rundata_a10_w7_k32 ($n files)"; sleep 300; done; python3 research/tools/data_sync.py pull rundata_a10_w7_k32
+# ---- Phase S remaining cells, cheap and informative first; the 850-wide cells (50-simulation floor, ~70 min each) and the fixed-sims reads last ----
+# ---- Phase S2 (pre-registered 10:45 UTC): train the leaf value on the states the search actually evaluates ----
+# ---- Phase R data (queued 11:00 UTC, user-approved plan): run states labelled with the final score, 10,000 A0 games (seeds 330000+) ----
+# ---- Phase R training grid + integration (pre-registered 11:40 UTC) ----
+# ---- Phase R amendment (pre-registered, see program.md): v2 trainer grid ids 11-19 + ridge 20-22, gated selection ----
+# ---- near-miss extension of vrb50 (declared 17:27 UTC, before any dev seed; rule of 2026-11-01 11:40) ----
+# ---- Phase R v1 cells 7-9 re-run after the OOM fix (informational: v1 is superseded by the amendment; not in the selection) ----
+# ---- Phase R2 data, coordinator share (pre-registered 18:19 UTC) ----
+# ---- Phase R2 training (pre-registered 00:19 UTC; ids 30-37, select -> vr_41, gate, fresh card-pick test) ----
+# ---- dev replication of the R2 keep (as usual for keeps) ----
+# ---- ports of vr2b20 (pre-registered 05:53 UTC) ----
+# ---- bonus-size refinement around 20 with vr_41 (pre-registered 06:16 UTC) ----
+# ---- Phase R3 training (pre-registered 12:17 UTC: ids 50-54, select -> vr_61, gate, leak test, vr3b10/20/40 vs the A0 best) ----
+# ---- near-miss extension of vr3b40 (declared 21:47 UTC, before any dev seed; rule of 2026-11-01 11:40) ----
+# ---- ports of vr3b40 (pre-registered 21:50 UTC) ----
+# ---- near-miss extension of a10_vr3b40 (declared 21:53 UTC, before any dev seed) ----
+# ---- Phase R4 training (pre-registered 23:19 UTC: ids 70-74, select -> vr_81, gate, leak test, a10_vr4b20/40) ----
+for i in $(seq 1 72); do n=$(python3 research/tools/data_sync.py ls 2>/dev/null | awk '$1=="rundata_a10_w8_k32"{print $2}'); [ "$n" = "30001" ] && break; echo "waiting for rundata_a10_w8_k32 ($n files)"; sleep 300; done; python3 research/tools/data_sync.py pull rundata_a10_w8_k32
+for i in $(seq 1 72); do n=$(python3 research/tools/data_sync.py ls 2>/dev/null | awk '$1=="rundata_a10_w9_k32"{print $2}'); [ "$n" = "30001" ] && break; echo "waiting for rundata_a10_w9_k32 ($n files)"; sleep 300; done; python3 research/tools/data_sync.py pull rundata_a10_w9_k32
+ls research/vf/data/rundata_a10_w7_k32/all/counts.tsv research/vf/data/rundata_a10_w8_k32/all/counts.tsv research/vf/data/rundata_a10_w9_k32/all/counts.tsv
+python3 research/analysis/score_vr.py research/models/vr_61.txt research/vf/data/rundata_a10_hold/all
+python3 research/vf/train_vr2.py research/vf/data/rundata_a10_hold/all --id 70 --runs 999999 --ridge --state-weights --rows-per-run 16 --train-dirs research/vf/data/rundata_a10_w7_k32/all research/vf/data/rundata_a10_w8_k32/all research/vf/data/rundata_a10_w9_k32/all 2>&1 | tail -1
+python3 research/vf/train_vr2.py research/vf/data/rundata_a10_hold/all --id 71 --runs 999999 --hidden 64 --state-weights --rows-per-run 16 --train-dirs research/vf/data/rundata_a10_w7_k32/all research/vf/data/rundata_a10_w8_k32/all research/vf/data/rundata_a10_w9_k32/all 2>&1 | tail -1
+python3 research/vf/train_vr2.py research/vf/data/rundata_a10_hold/all --id 72 --runs 999999 --hidden 256 --state-weights --rows-per-run 16 --train-dirs research/vf/data/rundata_a10_w7_k32/all research/vf/data/rundata_a10_w8_k32/all research/vf/data/rundata_a10_w9_k32/all 2>&1 | tail -1
+python3 research/vf/train_vr2.py research/vf/data/rundata_a10_hold/all --id 73 --runs 999999 --hidden 64 --state-weights --rows-per-run 8 --train-dirs research/vf/data/rundata_a10_w7_k32/all research/vf/data/rundata_a10_w8_k32/all research/vf/data/rundata_a10_w9_k32/all research/vf/data/rundata_k32/all research/vf/data/rundata_w1_k32/all research/vf/data/rundata_w2_k32/all research/vf/data/rundata_w3_k32/all research/vf/data/rundata_w4_k32/all research/vf/data/rundata_w5_k32/all research/vf/data/rundata_w6_k32/all 2>&1 | tail -1
+python3 research/vf/train_vr2.py research/vf/data/rundata_a10_hold/all --id 74 --runs 999999 --hidden 256 --state-weights --rows-per-run 8 --train-dirs research/vf/data/rundata_a10_w7_k32/all research/vf/data/rundata_a10_w8_k32/all research/vf/data/rundata_a10_w9_k32/all research/vf/data/rundata_k32/all research/vf/data/rundata_w1_k32/all research/vf/data/rundata_w2_k32/all research/vf/data/rundata_w3_k32/all research/vf/data/rundata_w4_k32/all research/vf/data/rundata_w5_k32/all research/vf/data/rundata_w6_k32/all 2>&1 | tail -1
+research/tools/vr_select3.sh 81 70 71 72 73 74
+/home/user/sts_lightspeed/build/fair_eval --leaktest --seed_start 100000 --count 2 --param end_turn_w=0.05 --param prior_mlp=1 --param vr_model=81 --param vr_bonus=20 | tail -1
+TRACK=a10 research/exp.sh a10_vr4b20 "Phase R4: A10 card picks + 20 x A10-trained run value (vr_81)" vr_model=81 vr_bonus=20
+TRACK=a10 research/exp.sh a10_vr4b40 "Phase R4: A10 card picks + 40 x A10-trained run value (vr_81)" vr_model=81 vr_bonus=40

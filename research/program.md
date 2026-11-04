@@ -1279,7 +1279,11 @@ at the edge of significance). A10: `a10_vr3b40` 35.3% win, floor 39.0, +0.021 vs
 (Heart wins 14.8% -> 11.8%; the Heart track prefers the R2 model at bonus 20).
 **R3 model at bonus 20 on the other tracks (pre-registered 05:16 UTC, while R4 waits on storage):** `a10_vr3b20` (val-300 vs
 `a10_vr2b20`), `a20_vr3b20`, `heart_vr3b20` (pooled 500 vs their bests). Question: was bonus 40, not the model, what hurt
-off A0? Predictions: none keeps (MED); Heart no longer loses (MED). A10 extension: dev `a10_vr3b40_dev` 30.0% win, floor 38.0, +0.078 vs base, P=0.867 → info; `pooled val,dev [act3]: n=400  a10_vr3b40 win=0.340 floor=38.72  a10_vr2b20 win=0.325 floor=37.71  dscore=+0.0348 dwin=+0.015 P(improve)=0.870` -> discard
+off A0? Predictions: none keeps (MED); Heart no longer loses (MED).
+  Results: `a10_vr3b20` 35.3% win, floor 38.8, +0.017 vs base, P=0.684 → discard; A20 `pooled val,dev2,dev3 [act3]: n=500  a20_vr3b20 win=0.026 floor=27.81  a20_vr2b20 win=0.036 floor=28.60  dscore=-0.0253 dwin=-0.010 P(improve)=0.038` -> no; Heart `pooled val,dev2,dev3 [heart]: n=500  heart_vr3b20 win=0.116 floor=47.42  heart_vr2b20 win=0.148 floor=47.56  dscore=-0.0347 dwin=-0.032 P(improve)=0.022` -> no. Verdict: "none keeps" held; "Heart no longer
+  loses" failed — the R3 model loses on A20 and the Heart at both bonus 20 and 40, so the model (trained on runs of the
+  stronger A0 agent, A0 only) is the problem off A0, not only the weight. Supports R4 (track-specific data). R4 lines parked
+  in `research/queue.r4parked.txt` until the storage quota is resolved. A10 extension: dev `a10_vr3b40_dev` 30.0% win, floor 38.0, +0.078 vs base, P=0.867 → info; `pooled val,dev [act3]: n=400  a10_vr3b40 win=0.340 floor=38.72  a10_vr2b20 win=0.325 floor=37.71  dscore=+0.0348 dwin=+0.015 P(improve)=0.870` -> discard
 (pooled P below 0.9; no second extension). Bests stay: A10 `a10_vr2b20`, A20 `a20_vr2b20`, Heart `heart_vr2b20`; A0 `vr3b40`.
 
 
