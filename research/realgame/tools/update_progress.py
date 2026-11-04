@@ -26,8 +26,9 @@ REPORTS = os.path.join(HERE, "reports")
 OUT = os.path.join(REPORTS, "dashboard")
 RESULTS = os.path.join(HERE, "logs", "replay_results.jsonl")
 HISTORY = os.path.join(REPORTS, "regression_history.tsv")
-CARDS_REPO = os.path.expanduser("~/Projects/sts_bridge_cards/research/realgame")
-DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_cards/build-cards/sts_bridge")
+# Other classes' batches keep their mirror logs and plans in their own checkouts, while all transcripts land here.
+CLASS_REPOS = [os.path.expanduser(f"~/Projects/{name}/research/realgame") for name in ("sts_bridge_cards", "sts_bridge_silent", "sts_bridge_watcher")]
+DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_silent/build-cards/sts_bridge")
 HOURS_BACK = 24
 PASS_COLUMNS = ["time", "commit", "total", "change_24h", "weakest", "weakest_left", "runs", "recordings", "pass", "limited", "fail", "worse", "seconds", "checked_share",
                 "points_per_hour", "hours_to_100", "runs_left", "hours_left"]
@@ -132,7 +133,10 @@ def main() -> int:
     os.makedirs(OUT, exist_ok=True)
     now = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M")
 
-    run_step([sys.executable, "-I", os.path.join(TOOLS, "export_traces.py"), "--mirror_logs", os.path.join(CARDS_REPO, "logs"), "--plans", os.path.join(CARDS_REPO, "plans")])
+    sources = []
+    for repo in CLASS_REPOS:
+        sources += ["--mirror_logs", os.path.join(repo, "logs"), "--plans", os.path.join(repo, "plans")]
+    run_step([sys.executable, "-I", os.path.join(TOOLS, "export_traces.py"), *sources])
     reg = regression(args.bridge)
     done = run_step([sys.executable, "-I", os.path.join(TOOLS, "coverage.py"), "--replay_results", RESULTS, "--estimate"])
     if done.returncode != 0:
