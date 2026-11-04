@@ -100,10 +100,15 @@ void ReplayClient::adopt(std::size_t event) {
     lastEvent_ = event;
 }
 
-// The game's first ready message after the command, as CommClient takes it.
+// The game's first ready message after the command, as CommClient takes it. CommClient nudges a command the game is slow
+// to answer with a WAIT of its own, so the answer can come after that.
 void ReplayClient::answer(std::size_t client) {
     next_ = client + 1;
-    for (std::size_t i = next_; i < events_.size() && events_[i].kind != Kind::Client; ++i) {
+    for (std::size_t i = next_; i < events_.size(); ++i) {
+        if (events_[i].kind == Kind::Client) {
+            if (isWait(events_[i].text)) continue;
+            return;
+        }
         if (events_[i].kind != Kind::Game) continue;
         json msg = parseText(events_[i].text);
         if (msg.contains("error")) {
