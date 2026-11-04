@@ -35,6 +35,12 @@ struct BattleMemory {
     int attacksPlayed = 0;
     int skillsPlayed = 0;
     int knownTop = 0;
+    // The game's JSON leaves these out, so they follow what's played.
+    Stance stance = Stance::NEUTRAL;
+    int mantraGained = 0;
+    int devaEnergy = 1;
+    sts::CardType lastCardType = sts::CardType::INVALID;
+    sts::CardType previousCardType = sts::CardType::INVALID;
     // Each monster's moves, by the game's index in its monster list.
     std::map<int, std::vector<sts::MMID>> moves;
     std::map<int, int> attackDamage;  // bite/nip/divider base damage last seen

@@ -254,6 +254,19 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
         const int cost = c.costForTurn == -3 ? -2 : c.costForTurn;
         simHand.push_back(cardKey(c) + "(" + std::to_string(cost) + ")");
     }
+    // The scry screen shows the top of the draw pile, top card first, and keeps its picks in the list until it closes.
+    if (gs["screen_type"] == "GRID" && bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::SCRY) {
+        std::vector<std::string> simScry;
+        std::vector<std::string> gameScry;
+        const int drawSize = static_cast<int>(bc.cards.drawPile.size());
+        for (int i = 0; i < bc.cardSelectInfo.pickCount; ++i) simScry.push_back(cardKey(bc.cards.drawPile[drawSize - 1 - i]));
+        std::vector<std::string> picked;
+        for (const auto &c : gs["screen_state"].value("selected_cards", json::array())) picked.push_back(c.value("uuid", ""));
+        for (const auto &c : gs["screen_state"].value("cards", json::array())) {
+            if (std::find(picked.begin(), picked.end(), c.value("uuid", "")) == picked.end()) gameScry.push_back(cardKey(c));
+        }
+        check(out, "scry_cards", join(simScry), join(gameScry));
+    }
     // While a hand-select screen is up the game moves selected and ineligible cards out of `hand`.
     if (gs["screen_type"] == "NONE") {
         for (const auto &c : cs["hand"]) gameHand.push_back(cardKey(c) + "(" + std::to_string(c["cost"].get<int>()) + ")");

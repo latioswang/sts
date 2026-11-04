@@ -167,6 +167,11 @@ const char *actionFor(CardSelectTask task) {
         case CardSelectTask::NIGHTMARE: return "NightmareAction";
         case CardSelectTask::RETAIN: return "RetainCardsAction";
         case CardSelectTask::SETUP: return "SetupAction";
+        case CardSelectTask::SCRY: return "ScryAction";
+        case CardSelectTask::MEDITATE: return "MeditateAction";
+        case CardSelectTask::OMNISCIENCE: return "OmniscienceAction";
+        case CardSelectTask::FOREIGN_INFLUENCE: return "ForeignInfluenceAction";
+        case CardSelectTask::WISH: return "ChooseOneAction";
         case CardSelectTask::SECRET_TECHNIQUE: return "SkillFromDeckToHandAction";
         case CardSelectTask::SECRET_WEAPON: return "AttackFromDeckToHandAction";
         case CardSelectTask::CODEX: return "CodexAction";
@@ -183,17 +188,26 @@ void addBattleScreen(const BattleContext &bc, json &gs) {
     if (bc.inputState != InputState::CARD_SELECT) return;
     const CardSelectTask task = bc.cardSelectInfo.cardSelectTask;
     gs["current_action"] = actionFor(task);
-    if (task == CardSelectTask::DISCOVERY || task == CardSelectTask::CODEX) {
+    if (task == CardSelectTask::DISCOVERY || task == CardSelectTask::CODEX || task == CardSelectTask::FOREIGN_INFLUENCE || task == CardSelectTask::WISH) {
         gs["screen_type"] = "CARD_REWARD";
         json cards = json::array();
         CardSelectInfo info = bc.cardSelectInfo;  // discovery_Cards() has no const overload
-        for (int i = 0; i < 3; ++i) cards.push_back(cardJson(info.discovery_Cards()[i], 0, 0, 0, false));
+        const int upgrades = task == CardSelectTask::WISH ? info.wish_Upgraded() : 0;
+        for (int i = 0; i < 3; ++i) cards.push_back(cardJson(info.discovery_Cards()[i], upgrades, 0, 0, false));
         gs["screen_state"] = {{"cards", cards}};
     } else if (task == CardSelectTask::EXHUME || task == CardSelectTask::HEADBUTT || task == CardSelectTask::HOLOGRAM ||
                task == CardSelectTask::LIQUID_MEMORIES_POTION || task == CardSelectTask::SEEK ||
-               task == CardSelectTask::SECRET_TECHNIQUE || task == CardSelectTask::SECRET_WEAPON) {
+               task == CardSelectTask::SECRET_TECHNIQUE || task == CardSelectTask::SECRET_WEAPON ||
+               task == CardSelectTask::MEDITATE || task == CardSelectTask::OMNISCIENCE || task == CardSelectTask::SCRY) {
         gs["screen_type"] = "GRID";
         gs["screen_state"] = {{"num_cards", bc.cardSelectInfo.pickCount}, {"cards", json::array()}};
+        if (task == CardSelectTask::SCRY) {
+            json cards = json::array();
+            const int size = static_cast<int>(bc.cards.drawPile.size());
+            for (int i = 0; i < bc.cardSelectInfo.pickCount; ++i) cards.push_back(cardJson(bc.cards.drawPile[size - 1 - i]));
+            gs["screen_state"]["cards"] = cards;
+            gs["screen_state"]["any_number"] = true;
+        }
     } else {
         gs["screen_type"] = "HAND_SELECT";
         gs["screen_state"] = {{"max_cards", bc.cardSelectInfo.pickCount}, {"hand", json::array()}};

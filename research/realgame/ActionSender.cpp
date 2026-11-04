@@ -463,7 +463,31 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                     else send("CHOOSE " + std::to_string(idx));
                     break;
                 case CardSelectTask::DISCOVERY:
+                case CardSelectTask::FOREIGN_INFLUENCE:
+                case CardSelectTask::WISH:
                     send("CHOOSE " + std::to_string(idx));
+                    break;
+                case CardSelectTask::SCRY: {
+                    // The screen lists the top of the pile, top card first, and any number can be picked, so its button is
+                    // always up. It's pressed when the simulator is done with the screen.
+                    if (idx != CardSelectInfo::SCRY_DONE_IDX) {
+                        const auto &pile = bc.cards.drawPile;
+                        const int size = static_cast<int>(pile.size());
+                        const std::string key = keyOf(pile[size - 1 - idx]);
+                        int copy = 0;
+                        for (int above = 0; above < idx; ++above) {
+                            if (keyOf(pile[size - 1 - above]) == key) ++copy;
+                        }
+                        chooseCardOnScreen(key, copy);
+                    }
+                    if (idx == CardSelectInfo::SCRY_DONE_IDX || idx + 1 >= bc.cardSelectInfo.pickCount) {
+                        confirmIfRequired();
+                    }
+                    break;
+                }
+                case CardSelectTask::OMNISCIENCE:
+                    chooseDrawPileCardOnScreen(bc, idx);
+                    confirmIfRequired();
                     break;
                 case CardSelectTask::ARMAMENTS:
                 case CardSelectTask::DUAL_WIELD:

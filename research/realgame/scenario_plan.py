@@ -96,6 +96,37 @@ def silent_scenarios():
     return scenarios
 
 
+# Every purple card in the game's library, six to a seed where they can use each other, by the game's own ids. Foresight is
+# Wireheading, Pressure Points PathToVictory, Rushdown Adaptation, Tranquility ClearTheMind, Simmering Fury Vengeance and
+# Fasting Fasting2. The game's purple package also holds Discipline and Unraveling, which aren't in the library, so the scenario
+# mod can't give them and no run can offer them. Each seed starts with Prismatic Shard, as a run that finds these cards would,
+# and the helpers give the cards what they need.
+WATCHER_SEEDS = [
+    (["Strike_P", "Defend_P", "Eruption", "Vigilance", "ClearTheMind", "Crescendo"], []),
+    (["EmptyBody", "EmptyFist", "EmptyMind", "FlurryOfBlows", "InnerPeace", "Indignation"], []),
+    (["ThirdEye", "CutThroughFate", "JustLucky", "Weave", "Nirvana", "Wireheading"], []),
+    (["Worship", "Prostrate", "Pray", "Devotion", "Brilliance", "Blasphemy"], []),
+    (["FollowUp", "SashWhip", "CrushJoints", "Sanctity", "Consecrate", "BowlingBash"], []),
+    (["Perseverance", "WindmillStrike", "SandsOfTime", "Protect", "FlyingSleeves", "Establishment"], []),
+    (["Conclude", "Meditate", "Vault", "Halt", "Tantrum", "FearNoEvil"], []),
+    (["Alpha", "ReachHeaven", "Evaluate", "Study", "CarveReality", "DeceiveReality"], []),
+    (["BattleHymn", "MasterReality", "Collect", "ConjureBlade", "Ragnarok", "Judgement"], ["relic:Chemical X"]),
+    (["DevaForm", "Fasting2", "LikeWater", "MentalFortress", "Adaptation", "Swivel"], []),
+    (["PathToVictory", "TalkToTheHand", "WaveOfTheHand", "Wallop", "WheelKick", "Vengeance"], []),
+    (["ForeignInfluence", "Omniscience", "Wish", "Scrawl", "SpiritShield", "DeusExMachina"], []),
+    (["LessonLearned", "SignatureMove", "WreathOfFlame"], ["card:Defend_R"]),
+]
+
+
+def watcher_scenarios():
+    """Every purple card as it comes, then every one upgraded."""
+    scenarios = []
+    for suffix in ("", "+1"):
+        for cards, helpers in WATCHER_SEEDS:
+            scenarios.append(";".join(["relic:PrismaticShard"] + helpers + [f"card:{c}{suffix}" for c in cards]))
+    return scenarios
+
+
 def known_ids(table_text, enum):
     return set(re.findall(r'\{"([^"]+)", ' + enum + r"::\w+\}", table_text))
 
@@ -136,18 +167,19 @@ def main():
     parser.add_argument("--all", action="store_true", help="include things that have already come up")
     parser.add_argument("--defect", action="store_true", help="write the fixed plan for the blue cards, which needs no logs or jar")
     parser.add_argument("--silent", action="store_true", help="write the fixed plan for the green cards, which needs no logs or jar")
+    parser.add_argument("--watcher", action="store_true", help="write the fixed plan for the purple cards, which needs no logs or jar")
     parser.add_argument("-o", "--output", required=True)
     args = parser.parse_args()
 
-    if args.defect or args.silent:
-        scenarios = defect_scenarios() if args.defect else silent_scenarios()
+    if args.defect or args.silent or args.watcher:
+        scenarios = defect_scenarios() if args.defect else silent_scenarios() if args.silent else watcher_scenarios()
         with open(args.output, "w", encoding="utf-8") as output:
             for i, scenario in enumerate(scenarios):
                 output.write(f"{args.seed_start + i}\t{scenario}\n")
         print(f"{len(scenarios)} seeds from {args.seed_start}")
         return 0
     if not args.logs or not args.jar:
-        parser.error("--logs and --jar are required without --defect or --silent")
+        parser.error("--logs and --jar are required without --defect, --silent or --watcher")
 
     seen = empty_seen()
     for path in glob.glob(os.path.join(args.logs, "**", "transcript-*.jsonl"), recursive=True):

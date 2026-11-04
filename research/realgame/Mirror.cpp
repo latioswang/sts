@@ -157,7 +157,6 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
     if (options_.maxFloor > 0 && gc.floorNum > options_.maxFloor) {
         throw StopRun{"reached_limit", screenStateName(gc.screenState), "floor limit", {}};
     }
-    stopOnUnsupportedCard(gc);
     alignOutOfCombat(gc);
     adoptCourierCard();
     compareOutOfCombat(gc);
@@ -167,17 +166,6 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
     }
     stopIfNoRecordedMove();
     applyGameAction(gc, a);
-}
-
-// Prismatic Shard offers every class's cards, and the simulator can't play the Watcher's yet.
-void Mirror::stopOnUnsupportedCard(const GameContext &gc) const {
-    for (const auto &card : gc.deck.cards) {
-        const CardColor color = getCardColor(card.getId());
-        if (color == CardColor::PURPLE) {
-            throw StopRun{"unsupported_card", screenStateName(gc.screenState),
-                          std::string("the simulator can't play ") + card.getName(), {}};
-        }
-    }
 }
 
 // While a transform's confirm screen is up, GridCardSelectScreen changes its preview every 0.1 seconds, and a curse's
