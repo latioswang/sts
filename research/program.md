@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 19:21 UTC
+### Current state (update after every batch) — 2026-11-04 20:01 UTC
+- **20:01 UTC: all 11 shard sets are in the store** as `<name>_z` (`ALL SHARD SETS PUSHED`; each count-verified). The store's
+  per-file copies of the same data (`rundata_a10_*`, `rundata_w1..w6_k32`, `rundata_k32` was never there) are now redundant;
+  deleting them is the owner's decision (asked).
 - **19:21 UTC: Phase R7 results.** `a10_r81` (A10 best + vr_model=81) val-300 win 0.440, floor 39.95, dscore +0.0584, dwin +0.053,
   P=0.942 vs `a10_relic20` -> **KEEP (new A10 best)**; dev replication `a10_r81_dev`: win 0.340, dscore +0.1116,
   P=0.952 (info). `a20_r81` pooled val,dev2,dev3: n=500 win 0.040 floor 28.06 vs `a20_relic20` win 0.056 floor 28.93,
