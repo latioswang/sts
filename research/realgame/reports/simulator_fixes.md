@@ -70,6 +70,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 33 (A10) | A skill Snecko Oil gave a cost kept it under Corruption until the next draw | `onCardDrawOrDiscard` also runs from `UseCardAction` | `1fc1ef5` |
 | 1118, 48 | A monster's Intangible raised 0 damage to 1, so Body Slam with no block hit | `atDamageFinalReceive` only lowers damage above 1 | `f00b16f` |
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
+| 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
 
 ## Monsters
 
