@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 14:19 UTC
+### Current state (update after every batch) — 2026-11-04 15:20 UTC
+- **15:20 UTC:** w8 pulled (30,001 files; 50/50 sampled files read as whole 670-float rows); w9 pull running. Disk was 2.6 GB
+  free against ≈ 2.9 GB per pulled set: deleted the download bookkeeping `_hf/.cache` of w7 and w8 (30,001 `.metadata` +
+  30,001 `.lock` files each, no data) -> 3.3 GB; a queue line after the w9 pull removes its bookkeeping and the Xet chunk
+  cache (≈ 0.75 GB) before training.
 - **14:19 UTC:** old local-only sets moved to the store (`gen0` 1,500 / `gen1` 1,500 / `svdata` 2,500 files, counts match;
   local copies freed). Runner restarted 14:14 after its 2-hour stop, mid w8 pull (resumes; stored files are re-checked).
   Then the w9 pull and R4 training (ids 70–74).
