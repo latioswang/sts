@@ -1489,6 +1489,18 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
 
+**Phase R8 — an A20 run value (pre-registered 2026-11-04 20:16 UTC, before any A20 data exists).** Why: the A10-trained
+`vr_81` kept on A10 (R7, +5.3 val, +7.0 dev) but lost on A20 (pooled −1.6 win, every slice negative): the run value must
+be trained on the track's own games. A20 is the weakest track (5.6% vs the 25% target). Data: 90,000 A20 games with the A20
+best (`a20_relic20`) and `rv_log=1`, seeds 1,000,000–1,089,999 (unused; clear of test 900000–900499), three fresh workers
+× 30,000 (`research/workers/r8data.md`), shipped as compressed shards (`<name>_z`); holdout = the first 1,000 games of W=10
+(seeds 1,000,000–1,000,999, full rows, `rundata_a20_hold_z`). Training (same trainer, `--state-weights`): ids 100 / 101 / 102
+= ridge / h=64 / h=256 on the A20 subsamples only (16 kept states); 103 / 104 = h=64 / h=256 on A20 + A10 + A0 subsamples
+(6 kept states, memory); all scored on the A20 holdout; `vr_61` and `vr_81` scored for reference. Selection 100–104 -> `vr_121`
+(`vr_select3.sh`, gate), leak test, then `a20_r121` (A20 best + vr_model=121, cards and relics) vs `a20_relic20` (pooled-500
+rule). Predictions: an A20-only net beats `vr_61`/`vr_81` on the A20 holdout (MED); the mixed-data net beats A20-only (MED);
+an A20 keep (LOW–MED).
+
 **Phase R7 — the A10-trained run value under the relic keep (pre-registered 2026-11-04 19:16 UTC, before any of these games).**
 Why: A10/A20 bests use the A0-trained `vr_41` for card picks (bonus 20) and boss relics (w 20); R4's `vr_81` (A10 + A0 data)
 fits A10 states far better (A10 holdout RMSE 0.544 vs 0.709 for `vr_61`), and with card picks alone it was a near miss
