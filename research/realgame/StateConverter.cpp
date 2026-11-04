@@ -707,6 +707,7 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     p.relicBits1 = gc.relics.relicBits1;
     p.timesDamagedThisCombat = static_cast<std::int16_t>(cs.value("times_damaged", 0));
     p.cardsDiscardedThisTurn = static_cast<std::int16_t>(cs.value("cards_discarded_this_turn", 0));
+    p.kiteTriggeredThisTurn = p.cardsDiscardedThisTurn > 0;
     p.cardsPlayedThisTurn = static_cast<std::int16_t>(memory.cardsPlayed);
     p.attacksPlayedThisTurn = static_cast<std::int16_t>(memory.attacksPlayed);
     p.skillsPlayedThisTurn = static_cast<std::int16_t>(memory.skillsPlayed);

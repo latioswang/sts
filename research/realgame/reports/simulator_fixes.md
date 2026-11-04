@@ -72,6 +72,14 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
 | 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
 | 2324, 1 | Hello World+ and Creative AI+ rolled each other's cards, because powers ran in a fixed order | Powers are sorted by priority, in the order gained within a priority | `780e3d0` |
+| 7403, 1 | Hovering Kite did nothing | The first manual discard each turn gives 1 energy | `9c03d07` |
+| 7314, 35 | Nuclear Battery's Plasma paid nothing on turn 1 | `applyStartOfTurnOrbs` runs on turn 1 too | `9c03d07` |
+| code | Tingsha and Tough Bandages did nothing | Each manual discard queues 3 damage to a random enemy, or a flat 3 block | `9c03d07` |
+| code | The Specimen left the fight in an input state nothing handled | The dead monster's poison goes to a random enemy | `9c03d07` |
+| code | Ring of the Serpent, Frozen Core and Holy Water were added beside the relic they replace | They take its slot | `9c03d07` |
+| code | Emotion Chip did nothing | HP lost sets a pulse, and next turn each orb triggers | `9c03d07` |
+| code | Nilry's Codex always offered Ironclad's cards | It offers the class's own | `9c03d07` |
+| code | Poison, Mark and Choke on an Intangible Nemesis did full damage | `Nemesis.damage` caps HP loss too | `6803eff` |
 | 7410, 33 | A new Eviscerate from Dead Branch or a potion ignored the turn's discards | Its `makeCopy` sets the cost for the turn, as Blood for Blood's does for the fight | `0bcad57` |
 | 7102, 16 | Random cards in combat were always Ironclad's, whatever the class | `returnTrulyRandomCardInCombat` reads the class's src pools, each in reverse, with no HEALING cards | `ffa2500` |
 | 6018, 16 (A8) | The Guardian's Vent Steam applied Vulnerable first, so Artifact stopped the wrong debuff | `useVentSteam` applies Weak, then Vulnerable | `7ab42f5` |
