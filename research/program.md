@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 19:16 UTC
+### Current state (update after every batch) — 2026-11-04 19:21 UTC
+- **19:21 UTC: Phase R7 results.** `a10_r81` (A10 best + vr_model=81) val-300 win 0.440, floor 39.95, dscore +0.0584, dwin +0.053,
+  P=0.942 vs `a10_relic20` -> **KEEP (new A10 best)**; dev replication `a10_r81_dev`: win 0.340, dscore +0.1116,
+  P=0.952 (info). `a20_r81` pooled val,dev2,dev3: n=500 win 0.040 floor 28.06 vs `a20_relic20` win 0.056 floor 28.93,
+  dscore −0.0328, dwin −0.016, P=0.020 -> discard (slices −0.030 / −0.025 / −0.050). Predictions: A10 LOW–MED (held), A20
+  LOW (held). Caveat on A10 val numbers: the M-A10 test showed val ≈ 6.5 points above test for the previous best.
 - **19:16 UTC: Phase R7 pre-registered and queued** (A10/A20 bests with the A10-trained `vr_81`). Shard upload: 8 of 11 sets
   verified in the store (incl. the local-only `rundata_k32`, `rundata_w3_k32`); restarted 19:12 with skip markers for w4–w6.
 - **18:26 UTC: Phase R6 closed — no keep.** `vr6rest` dscore −0.0290, dwin −0.023, P=0.089; `vr6rm` dscore −0.0554, dwin
