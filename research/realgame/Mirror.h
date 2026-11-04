@@ -12,6 +12,8 @@
 
 namespace realgame {
 
+class ReplayClient;
+
 struct MirrorOptions {
     std::uint64_t seed = 0;
     int ascension = 0;
@@ -19,12 +21,17 @@ struct MirrorOptions {
     std::string scenario;  // extra items for both sides, see Scenario.h
     fair::Params params;
     std::string logDir;
+    // Plays a recording instead of the agent: the moves come from it, and nothing is logged. It is also the game client.
+    ReplayClient *replay = nullptr;
+    std::string noteCard;  // replay only: the card Note For Yourself held in the recorded run
+    int noteUpgrades = 0;
 };
 
 struct MirrorResult {
     std::uint64_t seed = 0;
     std::string seedText;
-    // completed | reached_limit | diverged | game_nondeterminism | unsupported_card | bridge_gap
+    // completed | reached_limit | diverged | game_nondeterminism | unsupported_card | bridge_gap,
+    // and with a recording, what RecordingStop says
     std::string status;
     int floor = 0;
     int act = 0;
@@ -63,6 +70,14 @@ private:
 
     void onGameAction(const sts::GameContext &gc, const sts::search::GameAction &a);
     void onCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
+    void alignCombat();
+    void updateGameRngs();
+    void playRecorded(sts::GameContext &gc);
+    void playRecordedBattle(sts::GameContext &gc);
+    void stopIfNoRecordedMove() const;
+    bool noRecordedMove_ = false;
+    template <typename Action, typename Apply>
+    [[nodiscard]] Action pickRecorded(const std::vector<Action> &actions, const Action &fallback, Apply apply);
     [[nodiscard]] bool drawPileMatchesGame() const override { return true; }
     void copyGameCardRandomRng(const sts::BattleContext &bc);
     void noteCurseTransform(const sts::GameContext &gc, const sts::search::GameAction &a);

@@ -17,15 +17,13 @@ namespace {
 constexpr double kStallSec = 8.0;
 constexpr int kNudgeFrames = 30;
 constexpr double kQuietSec = 0.3;
-constexpr int kMaxIntentWaits = 20;
-constexpr int kIntentWaitFrames = 5;
 
 double secondsSince(std::chrono::steady_clock::time_point t0) {
     return std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
 }
 
-// The first turn becomes playable a few frames before monsters show their intents. Until then the mod reports the
-// placeholder intent DEBUG and a damage of -1.
+}  // namespace
+
 bool intentsPending(const json &msg) {
     if (!msg.contains("game_state") || !msg["game_state"].contains("combat_state")) return false;
     for (const auto &m : msg["game_state"]["combat_state"]["monsters"]) {
@@ -33,8 +31,6 @@ bool intentsPending(const json &msg) {
     }
     return false;
 }
-
-}  // namespace
 
 CommClient::CommClient(const std::string &socketPath) {
     fd_ = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -83,6 +79,10 @@ bool CommClient::readLine(std::string &out, double timeoutSec) {
         if (n <= 0) throw GameUnavailable("relay connection closed (game exited?)");
         buffer_.append(chunk, static_cast<size_t>(n));
     }
+}
+
+void CommClient::note(const std::string &text) {
+    sendLine("#" + text);
 }
 
 void CommClient::drain(double quietSec) {
