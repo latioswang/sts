@@ -28,7 +28,8 @@ RESULTS = os.path.join(HERE, "logs", "replay_results.jsonl")
 HISTORY = os.path.join(REPORTS, "regression_history.tsv")
 # Other classes' batches keep their mirror logs and plans in their own checkouts, while all transcripts land here.
 CLASS_REPOS = [os.path.expanduser(f"~/Projects/{name}/research/realgame") for name in ("sts_bridge_cards", "sts_bridge_silent", "sts_bridge_watcher")]
-DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_silent/build-cards/sts_bridge")
+# A build of its own, since the one a real-game batch runs from can't be rebuilt while it runs.
+DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_silent/build-replay/sts_bridge")
 HOURS_BACK = 24
 PASS_COLUMNS = ["time", "commit", "total", "change_24h", "weakest", "weakest_left", "runs", "recordings", "pass", "limited", "fail", "worse", "seconds", "checked_share",
                 "points_per_hour", "hours_to_100", "runs_left", "hours_left"]
