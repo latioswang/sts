@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 10:21 UTC
+### Current state (update after every batch) — 2026-11-04 10:27 UTC
+- **10:27 UTC: store freed.** `ALL DELETED 178430`, `usedStorage GB 22.6` (from 99.8). Integrity check of what was kept:
+  `VERIFY 27/27 files download with matching sha256` (two random files of every data set, plus the three shortest
+  `rundata_w5_k32` runs, the kind whose object was shared with a deleted full file). Worker uploads started (usage 23.5 GB at
+  10:26 and rising).
 - **10:10 UTC: store cleanup (owner-approved in chat, 2026-11-04 ≈ 10:00 UTC: "那就删除吧").** Deleted the six full A0 sets
   `rundata_w1..w6` from the HF store (each checked first: its `_k32` copy has 30,001 files; the full sets were used only to
   build those subsamples), then squashed the store's history. Kept: `rundata` (A0 full-row holdout), `leafdata`, all `_k32`
