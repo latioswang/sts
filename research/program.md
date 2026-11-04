@@ -102,7 +102,14 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 13:15 UTC
+### Current state (update after every batch) — 2026-11-04 13:18 UTC
+- **13:18 UTC:** `rundata_a10_w7_k32` pulled (30,001 files); w8 pull starting; old-data push (gen0/gen1/svdata) running.
+- **Next infrastructure step (decided 13:16 UTC, after R4 training):** compressed shards. Measured on 300 files each:
+  full rows zlib-6 72.7x, lzma 284.9x; k32 subsample zlib 46.8x, lzma 117.3x; sparse (index+value) ≈ 9.8x; column-major + zlib
+  25x (worse than row-major: the redundancy is zeros + near-identical consecutive states). zlib decompresses ≈ 500 MB/s.
+  Plan: 1,000 runs per zlib shard (stdlib only), written at subsample / push time (the C++ logger is unchanged); trainer,
+  scorer, subsampler and data_sync read shards; switch only after a model retrained from shards is bit-identical to its
+  per-file original; migrating the store (and deleting its per-file copies) is the owner's decision.
 - **13:15 UTC:** R4-local subsamples l0–l5 stored (`LOCAL A10 PUSHED AND FREED`, counts 5,002 each); `rundata_a10_w7_k32`
   pull at 95%. Disk 4.3 GB free but the w8 + w9 subsamples need ≈ 4.9 GB, so `research/tools/push_old_local.sh` moves the
   local-only Phase A/B/S sets `gen0`, `gen1`, `svdata` (≈ 1.7 GB) to the store (count-verified) and frees them; a queue guard
