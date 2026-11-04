@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 07:18 UTC
+### Current state (update after every batch) — 2026-11-04 08:17 UTC
+- **08:17 UTC:** R4-local blocks 0–2 done (15,000 games; `SUBSAMPLE ... rundata_a10_l2 ... 5000 runs, rows 649776 -> 158425`),
+  block 3 at 21/50; generation ends ≈ 09:35, then the training cells 75–79. Disk 3.9 GB free (low point ≈ 1.7 GB during
+  block 5). R4 workers idle, no new commits; HF decision pending.
 - **07:18 UTC:** R4-local block 0 done (`SV GEN rundata_a10_l0 DONE: 5000 files`; `SUBSAMPLE ... 5000 runs, rows 641807 ->
   158576 (k=32)`; full rows deleted), block 1 at 24/50 chunks (~33 min per block, generation ends ≈ 09:50). Partial
   `rundata_a10_w7_k32` pulled: 15,000 runs, and its `counts.tsv` arrived (30,000 lines; the trainer weights only runs
