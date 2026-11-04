@@ -19,6 +19,7 @@ in the baseline with the reason in its last column. --update_baseline fills that
 later got further, since most of those came from older versions of the bridge (shorter waits, for one).
 """
 import argparse
+import glob
 import concurrent.futures
 import json
 import os
@@ -28,7 +29,7 @@ import time
 from typing import Iterable, NamedTuple, Optional
 
 PASS_STATUSES = {"completed", "trace_end"}
-LIMITED_STATUSES = {"unsupported_card", "game_nondeterminism", "no_rng", "trace_mismatch", "reached_limit"}
+LIMITED_STATUSES = {"unsupported_card", "game_nondeterminism", "no_rng", "trace_mismatch", "reached_limit", "past_real_stop"}
 TRACES_PER_PROCESS = 8
 MAX_REASONS_SHOWN = 12
 
@@ -38,6 +39,38 @@ class Row(NamedTuple):
     status: str
     commands: int
     note: str
+
+
+def real_results(directories: Iterable[str]) -> dict[str, list[tuple[int, str]]]:
+    """Each seed's runs on the game, as (commands sent by the time mirror mode stopped, status)."""
+    found: dict[str, list[tuple[int, str]]] = {}
+    for directory in directories:
+        try:
+            with open(os.path.join(directory, "mirror_results.jsonl")) as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+        except OSError:
+            continue
+        for row in rows:
+            if "seed_text" in row and "commands" in row:
+                found.setdefault(row["seed_text"], []).append((int(row["commands"]), row["status"]))
+    return found
+
+
+def mark_past_real_stop(results: list[dict], real: dict[str, list[tuple[int, str]]]) -> None:
+    """A run on the game that stopped on a card the simulator couldn't play then still has to get to the end of the run, so
+    finishRun picks the first option on each screen, with none of mirror mode's waits. Those commands were never compared
+    and there's nothing to learn from them, so a recording that gets that far has passed what the game played."""
+    for row in results:
+        if row["status"] in PASS_STATUSES:
+            continue
+        total = row.get("commands_total", 0)
+        runs = [r for r in real.get(row.get("seed_text", ""), []) if r[0] <= total]
+        if not runs:
+            continue
+        commands, status = max(runs)
+        if status == "unsupported_card" and row.get("commands_replayed", 0) >= commands:
+            row["status"] = "past_real_stop"
+            row["message"] = f"past where mirror mode stopped on the game, after {commands} commands: {row.get('message', '')}"
 
 
 def kind_of(row: dict) -> str:
@@ -138,6 +171,8 @@ def main() -> int:
     ap.add_argument("--update_baseline", action="store_true")
     ap.add_argument("--skip_export", action="store_true", help="don't look for new transcripts first")
     ap.add_argument("--only", default="", help="only recordings whose file name contains this")
+    ap.add_argument("--mirror_logs", action="append", default=None,
+                    help="a logs folder holding mirror_results.jsonl; default this checkout's and each sts_bridge_* one's")
     args = ap.parse_args()
 
     if not args.skip_export:
@@ -152,6 +187,11 @@ def main() -> int:
     seconds = time.time() - started
     for row in results:
         row.setdefault("trace", os.path.basename(row["file"]))
+    logs = args.mirror_logs
+    if logs is None:
+        logs = [os.path.join(os.path.dirname(os.path.abspath(args.traces)), "logs"), os.path.join(here, "logs")]
+        logs += glob.glob(os.path.expanduser("~/Projects/sts_bridge_*/research/realgame/logs"))
+    mark_past_real_stop(results, real_results(sorted(set(logs))))
 
     with open(args.results, "w") as f:
         for row in results:

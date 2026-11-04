@@ -4,7 +4,7 @@ import json
 import unittest
 
 from export_traces import find_note_card, find_scenario, seed_from_text, split_runs, state_items, strip_state
-from run_regression import Row, compare, kind_of, later_runs_got_further
+from run_regression import Row, compare, kind_of, later_runs_got_further, mark_past_real_stop
 
 STARTER = [{"id": "Strike_R"}] * 5 + [{"id": "Defend_R"}] * 4 + [{"id": "Bash"}]
 
@@ -120,6 +120,24 @@ class CompareTest(unittest.TestCase):
                 {"file": "b", "trace": "b", "seed": 1, "asc": 0, "status": "completed", "floor": 9},
                 {"file": "c", "trace": "c", "seed": 2, "asc": 0, "status": "diverged", "floor": 5}]
         self.assertEqual(later_runs_got_further(rows), {"a"})
+
+
+class PastRealStopTest(unittest.TestCase):
+    def test_tail_after_a_stop_on_an_unsupported_card_is_not_a_failure(self):
+        row = {"seed_text": "1YN", "status": "diverged", "commands_total": 70, "commands_replayed": 47}
+        mark_past_real_stop([row], {"1YN": [(44, "unsupported_card")]})
+        self.assertEqual(row["status"], "past_real_stop")
+        self.assertEqual(kind_of(row), "limited")
+
+    def test_a_difference_before_the_stop_still_fails(self):
+        row = {"seed_text": "1YN", "status": "diverged", "commands_total": 70, "commands_replayed": 30}
+        mark_past_real_stop([row], {"1YN": [(44, "unsupported_card")]})
+        self.assertEqual(row["status"], "diverged")
+
+    def test_a_later_full_run_of_the_seed_isnt_excused(self):
+        row = {"seed_text": "1YN", "status": "diverged", "commands_total": 800, "commands_replayed": 500}
+        mark_past_real_stop([row], {"1YN": [(44, "unsupported_card"), (800, "diverged")]})
+        self.assertEqual(row["status"], "diverged")
 
 
 if __name__ == "__main__":
