@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 18:26 UTC
+### Current state (update after every batch) — 2026-11-04 19:16 UTC
+- **19:16 UTC: Phase R7 pre-registered and queued** (A10/A20 bests with the A10-trained `vr_81`). Shard upload: 8 of 11 sets
+  verified in the store (incl. the local-only `rundata_k32`, `rundata_w3_k32`); restarted 19:12 with skip markers for w4–w6.
 - **18:26 UTC: Phase R6 closed — no keep.** `vr6rest` dscore −0.0290, dwin −0.023, P=0.089; `vr6rm` dscore −0.0554, dwin
   −0.047, P=0.018; `vr6relic10` dscore −0.0034, dwin −0.003, P=0.000 (vs `vr5relic20`) -> all discard. Predictions: rest
   LOW–MED (failed), removal LOW (held), relic10 LOW (held). Reading: the run value helps where the KB prior is weak and the
@@ -1478,6 +1480,13 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R7 — the A10-trained run value under the relic keep (pre-registered 2026-11-04 19:16 UTC, before any of these games).**
+Why: A10/A20 bests use the A0-trained `vr_41` for card picks (bonus 20) and boss relics (w 20); R4's `vr_81` (A10 + A0 data)
+fits A10 states far better (A10 holdout RMSE 0.544 vs 0.709 for `vr_61`), and with card picks alone it was a near miss
+(pooled 400 P=0.802). Cells: `a10_r81` (A10 best + vr_model=81: both hooks use `vr_81`; val-300 rule), `a20_r81` (A20 best +
+vr_model=81; pooled-500 rule). Leak test A10 params + vr_model=81: see the line pasted below. Predictions: A10 keep LOW–MED,
+A20 keep LOW. No A10 test run follows (the M-A10 run is spent).
 
 **Phase R6 — the run value on rest sites and card removal (pre-registered 2026-11-04 18:17 UTC, before any of these games).**
 Why: boss relics (one decision with a clear hypothetical state) kept on all four tracks; rest sites and removals are the
