@@ -1,6 +1,8 @@
 #include "Mirror.h"
 
+#include "FairSearch.h"
 #include "GameIds.h"
+#include "ReplayClient.h"
 #include "Scenario.h"
 #include "StateConverter.h"
 
@@ -11,6 +13,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <optional>
 #include <sstream>
 
 using namespace sts;
@@ -24,6 +27,8 @@ constexpr int kMaxAlignSteps = 12;
 constexpr double kRoomChangeTimeoutSec = 180.0;
 constexpr int kEffectWaits = 8;  // a transformed card reaches the deck after about two seconds at normal speed
 constexpr int kEffectWaitFrames = 30;
+constexpr int kMaxRecordedSteps = 20000;
+constexpr int kDeclineCard = 5;  // a card reward action's second index for taking none
 
 const char *screenStateName(ScreenState s) {
     switch (s) {
@@ -160,6 +165,7 @@ void Mirror::onGameAction(const GameContext &gc, const GameAction &a) {
     if (gc.screenState == ScreenState::SHOP_ROOM && gc.hasRelic(RelicId::THE_COURIER) && a.getRewardsActionType() == GameAction::RewardsActionType::CARD) {
         courierCardSlot_ = a.getIdx1() < 5 ? a.getIdx1() : -1;
     }
+    stopIfNoRecordedMove();
     applyGameAction(gc, a);
 }
 
@@ -296,7 +302,7 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
         waitForEffects();
         d = outOfCombatDiffs(gc);
     }
-    gameRngs_ = readGameRngs();
+    updateGameRngs();
     if (copyCardRng_) {
         copyCardRng_ = false;
         const auto it = gameRngs_.find("cardRng");
@@ -304,6 +310,8 @@ void Mirror::compareOutOfCombat(const GameContext &gc) {
             target_->cardRng.seed0 = it->second.seed0;
             target_->cardRng.seed1 = it->second.seed1;
             target_->cardRng.counter = it->second.counter;
+        } else if (options_.replay) {
+            throw RecordingStop("no_rng", "a curse's transform rolled cardRng, and this recording doesn't have the game's streams");
         }
     }
     for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"cardRng", &gc.cardRng}, {"treasureRng", &gc.treasureRng},
@@ -378,7 +386,7 @@ Diffs Mirror::battleDiffs(const BattleContext &bc) const {
 // simulator can take the game's state afterwards and the run goes on. Without it, a difference on this floor stops the
 // run as game_nondeterminism. The agent's battle context isn't const; only the callback's view of it is.
 void Mirror::copyGameCardRandomRng(const BattleContext &bc) {
-    gameRngs_ = readGameRngs();
+    updateGameRngs();
     if (!copyCardRandomRng_) return;
     copyCardRandomRng_ = false;
     const auto it = gameRngs_.find("cardRandomRng");
@@ -390,6 +398,16 @@ void Mirror::copyGameCardRandomRng(const BattleContext &bc) {
     discoveryFloor_ = -1;
 }
 
+// The transcript keeps the streams, so that a recording can check them too.
+void Mirror::updateGameRngs() {
+    if (options_.replay) {
+        gameRngs_ = options_.replay->recordedRngs();
+        return;
+    }
+    gameRngs_ = readGameRngs();
+    if (!gameRngs_.empty()) game_.note("rng " + formatGameRngs(gameRngs_));
+}
+
 // A stream that has moved apart shows up here at once, before it changes anything else the game shows.
 void Mirror::addRngDiff(Diffs &out, const std::string &name, const Random &sim) const {
     const auto it = gameRngs_.find(name);
@@ -397,11 +415,8 @@ void Mirror::addRngDiff(Diffs &out, const std::string &name, const Random &sim) 
     out.push_back({"rng." + name, "rolls " + std::to_string(sim.counter), "rolls " + std::to_string(it->second.counter), true});
 }
 
-void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
-    ++step_;
-    if (options_.maxFloor > 0 && bc.floorNum > options_.maxFloor) {
-        throw StopRun{"reached_limit", "BATTLE", "floor limit", {}};
-    }
+// Real-only steps before the simulator's next action in a battle.
+void Mirror::alignCombat() {
     // An event's fight starts behind a [Fight] button the simulator doesn't have.
     for (int i = 0; i < kMaxAlignSteps && screenType() == "EVENT" && choiceCount() == 1; ++i) send("CHOOSE 0");
     // So does A20's second boss, behind a Proceed button.
@@ -412,6 +427,14 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
         Diffs d{{"screen", "BATTLE", screenType(), true}};
         throw StopRun{"diverged", "BATTLE", "the simulator is in a battle, the game is not", d};
     }
+}
+
+void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
+    ++step_;
+    if (options_.maxFloor > 0 && bc.floorNum > options_.maxFloor) {
+        throw StopRun{"reached_limit", "BATTLE", "floor limit", {}};
+    }
+    alignCombat();
     const bool afterDiscovery = copyCardRandomRng_;
     copyGameCardRandomRng(bc);
     std::ostringstream desc;
@@ -438,7 +461,87 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
         throw StopRun{"game_nondeterminism", "BATTLE turn " + std::to_string(bc.turn), "difference right after a discovery; cardRandomRng depends on the frame rate", d};
     }
     stopOnDifference("BATTLE turn " + std::to_string(bc.turn), d);
+    stopIfNoRecordedMove();
     applyCombatAction(bc, a, gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]));
+}
+
+// ---------------- playing a recording ----------------
+
+void Mirror::stopIfNoRecordedMove() const {
+    if (!noRecordedMove_) return;
+    const ReplayClient &replay = *options_.replay;
+    if (replay.exhausted()) throw RecordingStop("trace_end", "the recording ends here");
+    throw RecordingStop("trace_mismatch", "no legal action sends what the recording has next: " + replay.nextCommand());
+}
+
+// The recording has the commands that were sent, not the simulator actions behind them, so each legal action is tried
+// against it and the one that sends what was recorded is taken. Trying one has no lasting effect. If none fits, the
+// fallback still goes through the normal comparison, which reports a difference if there is one, and is never sent.
+template <typename Action, typename Apply>
+Action Mirror::pickRecorded(const std::vector<Action> &actions, const Action &fallback, Apply apply) {
+    ReplayClient &replay = *options_.replay;
+    const int floor = floor_;
+    const int act = act_;
+    const std::string lastAction = lastAction_;
+    const Action *best = nullptr;
+    int bestMatched = -1;
+    for (const Action &a : actions) {
+        const ReplayClient::Mark start = replay.mark();
+        bool fits = true;
+        try {
+            apply(a);
+        } catch (const StopRun &) {
+            // Having sent the right commands, it stopped on something else. The real attempt will report that.
+            fits = replay.commandsReplayed() > start.replayed;
+        } catch (const RecordingStop &) {
+            fits = false;
+        } catch (const std::exception &) {
+            fits = false;  // this action doesn't suit what's on the screen
+        }
+        const int matched = replay.commandsReplayed() - start.replayed;
+        replay.restore(start);
+        floor_ = floor;
+        act_ = act;
+        lastAction_ = lastAction;
+        if (fits && matched > bestMatched) {
+            best = &a;
+            bestMatched = matched;
+        }
+    }
+    noRecordedMove_ = best == nullptr;
+    return best ? *best : fallback;
+}
+
+void Mirror::playRecordedBattle(GameContext &gc) {
+    BattleContext bc;
+    bc.init(gc);
+    for (int steps = 0; bc.outcome == Outcome::UNDECIDED; ++steps) {
+        if (steps > kMaxRecordedSteps) throw RecordingStop("trace_stuck", "too many moves in one battle");
+        alignCombat();
+        const auto monsters = gameIndexBySlot(bc, gameState()["combat_state"]["monsters"]);
+        const search::Action a = pickRecorded(fair::enumerateActions(bc), search::Action(search::ActionType::END_TURN),
+                                              [&](const search::Action &candidate) { applyCombatAction(bc, candidate, monsters); });
+        onCombatAction(bc, a);
+        a.execute(bc);
+    }
+    bc.exitBattle(gc);
+}
+
+void Mirror::playRecorded(GameContext &gc) {
+    for (int steps = 0; gc.outcome == GameOutcome::UNDECIDED; ++steps) {
+        if (steps > kMaxRecordedSteps) throw RecordingStop("trace_stuck", "too many moves in one run");
+        if (gc.screenState == ScreenState::BATTLE) {
+            playRecordedBattle(gc);
+            continue;
+        }
+        alignOutOfCombat(gc);
+        auto actions = GameAction::getAllActionsInState(gc);
+        // Turning down a card isn't among the simulator's reward actions. The agent builds that one itself.
+        if (gc.screenState == ScreenState::REWARDS) {
+            for (int i = 0; i < gc.info.rewardsContainer.cardRewardCount; ++i) actions.emplace_back(GameAction::RewardsActionType::CARD, i, kDeclineCard);
+        }
+        pickRecorded(actions, GameAction(0), [&](const GameAction &candidate) { applyGameAction(gc, candidate); }).execute(gc);
+    }
 }
 
 // ---------------- run lifecycle ----------------
@@ -472,17 +575,24 @@ MirrorResult Mirror::run() {
     result.seed = options_.seed;
     result.seedText = SeedHelper::getString(options_.seed);
     const auto t0 = std::chrono::steady_clock::now();
-    log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
+    if (!options_.replay) log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
     GameContext gc(CharacterClass::IRONCLAD, options_.seed, options_.ascension);
-    loadNoteCard(gc);
-    // Same agent seed derivation as fair_eval, so a mirror run is the run the research harness would play.
-    fair::FairAgent agent(options_.params, options_.seed * 0x9E3779B97F4A7C15ULL + 12345);
+    if (options_.replay) {
+        if (const auto card = cardFromGameId(options_.noteCard)) gc.noteForYourselfCard = Card(*card, options_.noteUpgrades);
+    } else {
+        loadNoteCard(gc);
+    }
     target_ = &gc;
     const ObserverScope observing([this](const GameContext &g, const GameAction &a) { onGameAction(g, a); });
-    agent.onCombatAction = [this](const BattleContext &bc, const search::Action &a, const fair::FairSearcher &) {
-        onCombatAction(bc, a);
-    };
+    std::optional<fair::FairAgent> agent;
+    if (!options_.replay) {
+        // Same agent seed derivation as fair_eval, so a mirror run is the run the research harness would play.
+        agent.emplace(options_.params, options_.seed * 0x9E3779B97F4A7C15ULL + 12345);
+        agent->onCombatAction = [this](const BattleContext &bc, const search::Action &a, const fair::FairSearcher &) {
+            onCombatAction(bc, a);
+        };
+    }
 
     const int commandsBefore = game_.commandsSent();
     try {
@@ -490,12 +600,13 @@ MirrorResult Mirror::run() {
         if (!options_.scenario.empty()) {
             const auto items = parseScenario(options_.scenario);
             applyScenarioToSimulator(gc, items);
-            applyScenarioToGame(items);
+            if (!options_.replay) applyScenarioToGame(items);
             log_ << json{{"t", "note"}, {"note", "scenario: " + options_.scenario}}.dump() << "\n";
             game_.refresh();
         }
         prepareNeow(gc);
-        agent.playout(gc);
+        if (options_.replay) playRecorded(gc);
+        else agent->playout(gc);
         finishRun(gc);
         result.status = "completed";
     } catch (const StopRun &stop) {
@@ -503,6 +614,12 @@ MirrorResult Mirror::run() {
         result.where = stop.where;
         result.message = stop.message;
         result.diffs = stop.diffs;
+        // A recording that ends mid-animation can't reach the screen the simulator is already on.
+        const bool onlyScreen = stop.diffs.size() == 1 && stop.diffs.front().field == "screen";
+        if (options_.replay && options_.replay->exhausted() && onlyScreen) result.status = "trace_end";
+    } catch (const RecordingStop &stop) {
+        result.status = stop.status;
+        result.message = stop.what();
     } catch (const CommandRejected &e) {
         result.status = "bridge_gap";
         result.message = e.what();

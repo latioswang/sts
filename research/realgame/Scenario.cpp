@@ -87,6 +87,8 @@ std::string commandLine(const ScenarioItem &item) {
     return "";
 }
 
+bool noGameRunning = false;
+
 // Writes commands for the mod and returns what follows "ok" in its answer.
 std::string askMod(const std::string &commands) {
     const std::string folder = gameFolder();
@@ -194,14 +196,32 @@ void applyScenarioToGame(const std::vector<ScenarioItem> &items) {
     askMod(commands);
 }
 
+void setNoGameRunning() {
+    noGameRunning = true;
+}
+
 void faceGameMonster(int gameIndex) {
+    if (noGameRunning) return;
     if (std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) askMod("face\t" + std::to_string(gameIndex) + "\n");
 }
 
 std::map<std::string, RngState> readGameRngs() {
+    if (noGameRunning || !std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) return {};
+    return parseGameRngs(askMod("rng\n"));
+}
+
+std::string formatGameRngs(const std::map<std::string, RngState> &states) {
+    std::string text;
+    for (const auto &[name, s] : states) {
+        if (!text.empty()) text += '\t';
+        text += name + "=" + std::to_string(static_cast<std::int64_t>(s.seed0)) + "," + std::to_string(static_cast<std::int64_t>(s.seed1)) + "," + std::to_string(s.counter);
+    }
+    return text;
+}
+
+std::map<std::string, RngState> parseGameRngs(const std::string &text) {
     std::map<std::string, RngState> states;
-    if (!std::ifstream(gameFolder() + "/mods/BridgeScenario.jar")) return states;
-    std::stringstream answer(askMod("rng\n"));
+    std::stringstream answer(text);
     for (std::string entry; std::getline(answer, entry, '\t');) {
         const auto equals = entry.find('=');
         const auto comma = entry.find(',');

@@ -228,6 +228,26 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge live --research_dir research --se
 - Other classes' cards do nothing when played in the simulator, so search can't value them. See [the fix list](reports/simulator_fixes.md).
 - The effects still queued behind a mid-card selection (for example Burning Pact's draw) are not in the rebuilt state.
 
+## Regression test
+
+```bash
+python3 -I research/realgame/tools/run_regression.py
+```
+
+This checks the simulator against every recorded run, with no game running. It takes under a minute for about 600 runs, and exits 1 if anything got worse than `regression_baseline.tsv`. The game is only needed to collect new runs.
+
+It makes a recording from each run in the transcripts (`tools/export_traces.py`, kept in `traces/`, which is gitignored for now), then plays each one back through mirror mode with `sts_bridge replay`. The moves come from the recording rather than the agent, and the comparison is the same code as a real mirror run. Each legal action is tried against the recording, and the one that sends what was recorded is taken.
+
+| Result | Meaning |
+|---|---|
+| pass | It reached the end of the recording with no difference. A run that once stopped on a bug should pass after the fix |
+| limited | It stopped for a reason that says nothing about the simulator: a card the build can't play yet, a Discovery in a recording with no random streams, a move the bridge no longer sends, or a difference in a run whose scenario could only be rebuilt from what the game showed |
+| fail | The simulator differs from what the game did. Known failures are in the baseline, with the reason in the last column |
+
+After fixing the simulator, run it before and after to see what the fix changed. Update the baseline with `--update_baseline` once the result is understood, since a run that now gets further raises the bar for later changes. Use `STS_BRIDGE` or `--bridge` to test another build.
+
+Recordings made since 2026-11-04 also hold the game's random streams, as `#` notes that the relay keeps out of the game's input. Older ones can't check those streams, and stop at a difference after a Discovery.
+
 ## Testing without the game
 
 ```bash
@@ -237,7 +257,7 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge selftest --research_dir research 
 Plays games in the simulator and sends every decision's state through JSON and the converter. This tests the converter only. It says nothing about whether the simulator matches the game. Event screens with several phases are reported but do not fail the test, because the test's JSON has no real page structure; only the real game can test those.
 
 ```bash
-python3 -m pytest research/realgame/test_report.py research/realgame/test_scenario_plan.py research/realgame/test_coverage_report.py
+python3 -m pytest research/realgame/test_report.py research/realgame/test_scenario_plan.py research/realgame/test_coverage_report.py research/realgame/tools/test_regression_tools.py
 ```
 
 ## Things to keep in mind
@@ -258,6 +278,7 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 | `Compare` | Simulator state compared with game JSON |
 | `ActionSender` | Simulator actions to mod commands, shared by both modes |
 | `Mirror` | Mirror mode |
+| `ReplayClient`, `tools/export_traces.py`, `tools/run_regression.py`, `regression_baseline.tsv` | The regression test: recordings stand in for the game |
 | `Scenario`, `scenario_mod/` | Scenario files and the test-only mod they apply through |
 | `scenario_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached, and list what has |
 | `StateConverter` | Game JSON to simulator state |
