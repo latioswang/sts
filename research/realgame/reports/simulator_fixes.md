@@ -154,6 +154,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2111, 20 | Knowing Skull's options were gold, card, potion | They are potion, gold, card | `68c57ef` |
 | code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
 | 1101, 22; 1103, 24 | Orrery's and Cauldron's cards in a shop rolled a 3% rare chance | `ShopRoom` sets `baseRareCardChance` to 9 | `3347784` |
+| code | Removing a card with all three bottles full, or removing a curse, left the bottles' indices stale; a removed Necronomicurse stayed gone | Found in [jdc5549/sts_lightspeed](https://github.com/jdc5549/sts_lightspeed)'s fix list; `onRemoveFromMasterDeck` adds a new Necronomicurse | `8bf1499` |
 
 ## Ascension
 
