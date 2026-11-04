@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:25 UTC
+### Current state (update after every batch) — 2026-11-04 17:55 UTC
+- **17:55 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
+  rundata_w6_k32 -> shards (58M)`); `research/vf/data` 2.2 GB, disk 26 GB free (was 1.5 GB). `push_shards.sh` uploads
+  them as `<name>_z` with a count check (backs up the local-only `rundata_k32`, `rundata_w3_k32`).
 - **17:25 UTC: compressed run-data shards (`research/vf/runstore.py`) — bit-identity shown, local data converting.**
   Format: `index.tsv` (name, shard, offset, nbytes) + `shard_NNNNN.z` (zlib-6 of up to 1,000 consecutive run files, by
   name); readers (`train_vr2.py`, `score_vr.py`, `subsample_runs.py`) call `runstore.list_runs / size / read`, which mirror
