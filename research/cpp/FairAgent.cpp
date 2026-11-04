@@ -894,6 +894,21 @@ void FairAgent::cardSelect(GameContext &gc) {
             for (int j = 0; j < k; ++j) { bool ok; GameContext h = hypFor(idx[j], ok); if (ok) hyps.push_back(h); }
             if (!hyps.empty()) bfLogOptions(gc, hyps, isUpg ? 1 : 2);
         }
+        if (type == CardSelectScreenType::REMOVE && n > 0 && getp(P, "vr_remove", 0) > 0) {
+            // Phase R6 vr_remove: remove a curse if any, else the card whose removal gives the highest run value (default off)
+            const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+            if (vrm.trained) {
+                int bestI = -1; float bestV = -1e30f;
+                for (int i = 0; i < n; ++i) {
+                    if (gc.info.toSelectCards[i].card.getType() == CardType::CURSE) { bestI = i; break; }
+                    bool ok; GameContext h = hypFor(i, ok);
+                    if (!ok) continue;
+                    const float v = vr::value(vrm, h);
+                    if (v > bestV) { bestV = v; bestI = i; }
+                }
+                if (bestI >= 0) { search::GameAction(bestI).execute(gc); return; }
+            }
+        }
         if (bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained && n > 0
             && ((isUpg && getp(P, "bf_upgrade", 0) > 0) || (isRemove && getp(P, "bf_remove", 0) > 0))) {
             int bestI = -1; float bestV = -1e30f;
@@ -1028,6 +1043,24 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
                 const double th = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
                 const bool canHeal = !gc.relics.has(RelicId::COFFEE_DRIPPER);
                 const bool canUpg = !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0;
+                if (getp(P, "vr_rest", 0) > 0 && canHeal && canUpg) {
+                    // Phase R6 vr_rest: rest vs smith by the learned run value: heal (30% max HP, +15 Regal Pillow) vs
+                    // the best single upgrade by V (default off)
+                    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+                    if (vrm.trained) {
+                        GameContext h = gc;
+                        h.curHp = std::min(gc.maxHp, gc.curHp + gc.fractionMaxHp(0.30f) + (gc.relics.has(RelicId::REGAL_PILLOW) ? 15 : 0));
+                        const float vHeal = vr::value(vrm, h);
+                        float vUpg = -1e30f;
+                        for (int i = 0; i < gc.deck.size(); ++i) {
+                            if (!gc.deck.cards[i].canUpgrade()) continue;
+                            GameContext u = gc; u.deck.upgrade(i);
+                            vUpg = std::max(vUpg, vr::value(vrm, u));
+                        }
+                        search::GameAction(vHeal >= vUpg ? 0 : 1).execute(gc);
+                        return;
+                    }
+                }
                 if (canHeal && (hpf < th || !canUpg)) { search::GameAction(0).execute(gc); return; }
                 if (canUpg) { search::GameAction(1).execute(gc); return; }
             }

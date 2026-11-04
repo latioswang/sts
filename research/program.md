@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:46 UTC
+### Current state (update after every batch) — 2026-11-04 18:17 UTC
+- **18:17 UTC: Phase R6 pre-registered and queued** (run value on rest sites and removals, relic weight 10; A0 vs `vr5relic20`).
+  Shard upload continues (2 of 11 sets confirmed at 17:45).
 - **17:46 UTC: Phase R5 ports — KEEP on all three tracks; M-A10 NOT confirmed on test.** Pasted:
 
       a20_relic20 pooled val,dev2,dev3 [act3]: n=500 win=0.056 floor=28.93 vs a20_vr2b20 win=0.036 floor=28.60
@@ -1471,6 +1473,16 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R6 — the run value on rest sites and card removal (pre-registered 2026-11-04 18:17 UTC, before any of these games).**
+Why: boss relics (one decision with a clear hypothetical state) kept on all four tracks; rest sites and removals are the
+same kind of decision. Hooks (default off; build: `repro_check vr5relic20 16` -> 0 of 16 differ; leak tests with each on: 98
+checked, 0 mismatches): `vr_rest` 1: when both are possible, rest if V(healed by 30% max HP, +15 Regal Pillow) >= max over
+upgradeable cards of V(upgraded), else smith (replaces the HP-threshold rule; the ruby-key rule still comes first);
+`vr_remove` 1: on removal screens a curse first, else the card whose removal gives the highest V (replaces the fixed
+curse > Strike > Defend > lowest-value order). Cells (A0 val-300 vs `vr5relic20`, usual rules): `vr6rest`, `vr6rm`,
+plus the relic-weight refinement `vr6relic10` (vr_relic_w=10; 40 already lost). Predictions: `vr6rest` keep LOW–MED
+(the threshold rule is crude), `vr6rm` keep LOW (the fixed order is near-optimal early), `vr6relic10` keep LOW.
 
 **Phase R5 results (pasted 17:32 UTC) and ports (pre-registered 17:32 UTC, before any port game).**
 
