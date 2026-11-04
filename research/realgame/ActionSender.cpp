@@ -354,7 +354,22 @@ void ActionSender::chooseDrawPileCardOnScreen(const BattleContext &bc, int drawI
         chooseCardOnScreen(keyOf(bc.cards.drawPile[drawIdx]), copyIndex(bc.cards.drawPile, drawIdx));
         return;
     }
-    const std::string uuid = gameState()["combat_state"]["draw_pile"][drawIdx].value("uuid", "");
+    // Seek+ takes two cards and moves them when its grid closes, so the game's pile still holds the first pick.
+    std::vector<std::string> selected;
+    const json &screen = gameState()["screen_state"];
+    if (screen.contains("selected_cards")) {
+        for (const auto &c : screen["selected_cards"]) selected.push_back(c.value("uuid", ""));
+    }
+    std::string uuid;
+    int position = 0;
+    for (const auto &c : gameState()["combat_state"]["draw_pile"]) {
+        const std::string candidate = c.value("uuid", "");
+        if (std::find(selected.begin(), selected.end(), candidate) != selected.end()) continue;
+        if (position++ == drawIdx) {
+            uuid = candidate;
+            break;
+        }
+    }
     if (!chooseCardByUuid(uuid)) {
         bridgeGap(screenType(), "draw pile card " + uuid + " not on screen: " + gameState()["screen_state"].dump());
     }
