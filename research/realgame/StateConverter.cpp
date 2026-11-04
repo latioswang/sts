@@ -735,7 +735,7 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     const json &orbs = player["orbs"];
     p.orbSlots = static_cast<std::int8_t>(std::min<int>(static_cast<int>(orbs.size()), Player::MAX_ORB_SLOTS));
     for (int i = 0; i < p.orbSlots; ++i) {
-        const std::string id = orbs[i].value("id", "");
+        const std::string id = orbs[i].value("id", "Empty");  // Communication Mod leaves out an empty slot's id
         const auto orb = orbFromGameId(id);
         if (!orb) notes.warn("unknown orb " + id);
         p.orbs[i] = orb.value_or(Orb::EMPTY);

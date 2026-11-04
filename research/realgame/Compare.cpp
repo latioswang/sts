@@ -238,8 +238,8 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
     for (int i = 0; i < bc.player.orbSlots; ++i) {
         simOrbs.push_back(orbToGameId(bc.player.orbs[i]) + "(" + std::to_string(bc.player.orbEvokeAmount(i)) + "," + std::to_string(bc.player.orbPassiveAmount(i)) + ")");
     }
-    for (const auto &o : p["orbs"]) {
-        gameOrbs.push_back(o["id"].get<std::string>() + "(" + std::to_string(o["evoke_amount"].get<int>()) + "," + std::to_string(o["passive_amount"].get<int>()) + ")");
+    for (const auto &o : p["orbs"]) {  // Communication Mod leaves out an empty slot's id
+        gameOrbs.push_back(o.value("id", "Empty") + "(" + std::to_string(o["evoke_amount"].get<int>()) + "," + std::to_string(o["passive_amount"].get<int>()) + ")");
     }
     check(out, "player.orbs", join(simOrbs), join(gameOrbs));
 
