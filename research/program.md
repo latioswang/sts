@@ -108,7 +108,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   build those subsamples), then squashed the store's history. Kept: `rundata` (A0 full-row holdout), `leafdata`, all `_k32`
   sets, `rundata_a10_hold`, `rundata_a10_w7_k32` (partial). Used storage still reads 99.8 GB after the squash (a 1 MB probe
   upload succeeded); waiting for the store to account the freed space before the R4 workers re-push.
-- **≈10:40 UTC: freeing the store for real.** Deletes + squash left used storage at 99.8 GB (the objects stay). Listing
+- **10:19 UTC: freeing the store for real.** Deletes + squash left used storage at 99.8 GB (the objects stay). Listing
   the store's LFS objects: 386,926 total; the six deleted full sets hold 178,659 (77.8 GB). 229 of those are byte-identical
   to files of the kept subsamples (runs with ≤ 32 states: the subsample is the whole file; same object) and are kept — found
   by matching every candidate's oid against the 208,483 oids of current files. The other 178,430 (77.7 GB) are being
