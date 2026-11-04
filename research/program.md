@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 03:20 UTC
+### Current state (update after every batch) — 2026-11-04 04:17 UTC
+- **04:17 UTC:** still blocked on the Hugging Face storage quota; all three R4 workers idle with their A10 data unpushed.
 - **03:20 UTC: R4 BLOCKED — Hugging Face private storage full** (workers r4w7, r4w8 report it; r4w7's A10 subsample is at
   15,000/30,001 files; r4w8's data is only on its VM). Coordinator runner stopped (resume marker intact) so it cannot train
   on a partial pull. Awaiting the user: upgrade the HF plan, or authorise deleting the full (non-subsampled) R2/R3 sets
