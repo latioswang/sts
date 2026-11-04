@@ -50,10 +50,10 @@ public:
     // Commands other than WAIT and STATE.
     [[nodiscard]] int commandsReplayed() const { return commandsReplayed_; }
     [[nodiscard]] int commandsTotal() const { return commandsTotal_; }
-    // Nothing more was sent in the recorded run, so the game's state stops changing here.
-    [[nodiscard]] bool exhausted() const { return nextClient(next_) >= events_.size(); }
     // The next command other than WAIT and STATE, or nothing if there is none.
     [[nodiscard]] std::string nextCommand() const;
+    // The recorded run sent nothing more that changes the game. Waits may be left, from a stop on a difference.
+    [[nodiscard]] bool exhausted() const { return nextCommand().empty(); }
 
     // Lets a move be tried and taken back.
     struct Mark {
