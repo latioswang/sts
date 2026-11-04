@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-03 22:18 UTC
+### Current state (update after every batch) — 2026-11-04 00:16 UTC
+- **00:16 UTC:** R4 workers generating A10 games; this VM's R4 training queue waits for the A10 holdout and subsamples.
 - **22:18 UTC: Phase R4 started** — three workers generating 90,000 A10 games (A10 run value). Bests: A0 `vr3b40`,
   A10 `a10_vr2b20`, A20 `a20_vr2b20`, Heart `heart_vr2b20`.
 - **22:07 UTC: R3 closed.** A0 best `vr3b40` (pooled 400 80.5%, P=0.900 vs `vr2b20`). Ports of the R3 model: A10 near-miss ->
