@@ -466,3 +466,4 @@ abdd280	val.a0	300	0	0.127	47.94	1.0201	-0.0398	0.051	discard	heart_vr3b20: [hea
 abdd280	dev2.a0	100	0	0.140	47.71	1.0282	-0.0269	0.227	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track
 abdd280	dev3.a0	100	0	0.060	45.56	0.9122	-0.0275	0.249	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track
 25d54f0	val.a10	300	0	0.337	38.46	1.0908	-0.0059	0.437	discard	a10_vr4lb20: [a10] Phase R4-local: A10 card picks + 20 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=20]
+a671e8d	val.a10	300	0	0.370	38.97	1.1342	+0.0374	0.856	discard	a10_vr4lb40: [a10] Phase R4-local: A10 card picks + 40 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=40]

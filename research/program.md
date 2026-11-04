@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 09:57 UTC
+### Current state (update after every batch) — 2026-11-04 09:59 UTC
+- **09:59 UTC:** `a10_vr4lb40` near miss (37.0% vs 34.3% val, P=0.856); pre-registered extension (dev 100, pooled 400) running.
 - **09:57 UTC: R4-local fits done; `a10_vr4lb20` discard; `a10_vr4lb40` running.** A10-trained run value fits the A10 holdout
   far better than the A0 model (RMSE 0.548 vs 0.709), but at bonus 20 the card picks do not move (dscore −0.006, P=0.437).
 - **09:16 UTC:** R4-local blocks 0–4 done (25,000 games; `SUBSAMPLE ... rundata_a10_l4 ... 5000 runs, rows 643127 -> 158469`),
@@ -1354,7 +1355,9 @@ Reading: prediction 1 (A10-only beats `vr_61` on the A10 holdout) holds by a wid
 mis-levels A10: its state mean is off]. A0 + A10 beats A10-only slightly (0.548 vs 0.557; prediction 2 holds, small).
 Caveat: the gate's predict-mean baseline for 78/79 (0.7815) is the train mean of mixed A0 + A10 data, a weaker reference
 than the A10-only 0.6466; vr_82 also clears the stricter one. A better-fitting model did not change A10 card picks at
-bonus 20.
+bonus 20. At bonus 40: `a10_vr4lb40` val-300 win 0.370 (111/300) vs 0.343, floor 38.97, dscore +0.0374, P=0.856 ->
+discard by the val rule, a near miss (0.7 <= P < 0.9): **extension declared 09:59 UTC, before any dev seed** (rule of
+2026-11-01 11:40): dev 100 vs `a10_vr2b20_dev`, pooled 400; keep needs pooled-400 P >= 0.9 (unrounded) and dev-alone dscore > 0.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
