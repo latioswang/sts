@@ -2,7 +2,8 @@
 """Tests for scenario_plan.py. Run: python3 test_scenario_plan.py"""
 import unittest
 
-from scenario_plan import known_ids, plan_scenarios
+from scenario_plan import (DEFECT_SEEDS, SILENT_SEEDS, WATCHER_SEEDS, defect_scenarios, known_ids, plan_scenarios,
+                           silent_scenarios, watcher_scenarios)
 
 
 class PlanTest(unittest.TestCase):
@@ -38,3 +39,31 @@ if __name__ == "__main__":
 def test_necronomicon_comes_after_the_cards():
     [scenario] = plan_scenarios({"Necronomicon", "Anchor"}, {"Bash"}, set())
     assert scenario.split(";") == ["relic:Anchor", "card:Bash", "relic:Necronomicon"]
+
+
+def test_defect_plan_covers_every_blue_card_with_a_slot():
+    cards = [c for group, _ in DEFECT_SEEDS for c in group]
+    assert len(cards) == 75 and len(set(cards)) == 75
+    scenarios = defect_scenarios()
+    assert len(scenarios) == 2 * len(DEFECT_SEEDS)
+    assert all(s.startswith("relic:PrismaticShard;") for s in scenarios)
+    assert "card:Zap+1" in scenarios[len(DEFECT_SEEDS)]
+
+
+def test_silent_plan_covers_every_green_card():
+    cards = [c for group, _ in SILENT_SEEDS for c in group]
+    assert len(cards) == 75 and len(set(cards)) == 75
+    scenarios = silent_scenarios()
+    assert len(scenarios) == 2 * len(SILENT_SEEDS)
+    assert all(s.startswith("relic:PrismaticShard;") for s in scenarios)
+    assert "card:Neutralize+1" in scenarios[len(SILENT_SEEDS)]
+
+
+def test_watcher_plan_covers_every_purple_card_in_the_library():
+    cards = [c for group, _ in WATCHER_SEEDS for c in group]
+    assert len(cards) == 75 and len(set(cards)) == 75
+    assert "Discipline" not in cards and "Unraveling" not in cards
+    scenarios = watcher_scenarios()
+    assert len(scenarios) == 2 * len(WATCHER_SEEDS)
+    assert all(s.startswith("relic:PrismaticShard;") for s in scenarios)
+    assert "card:Strike_P+1" in scenarios[len(WATCHER_SEEDS)]

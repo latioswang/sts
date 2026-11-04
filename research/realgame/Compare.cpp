@@ -115,10 +115,11 @@ std::map<std::string, int> simPlayerPowers(const Player &p) {
     if (p.bomb1) out[bombKey(1)] = p.bomb1;
     if (p.bomb2) out[bombKey(2)] = p.bomb2;
     if (p.bomb3) out[bombKey(3)] = p.bomb3;
-    for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
+    for (int i = 1; i <= static_cast<int>(kLastPlayerStatus); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
         if (p.hasStatusRuntime(s)) out[playerPowerToGameId(s)] = s == PS::PANACHE ? p.panacheCounter : playerPowerAmount(p, s);  // the game shows the countdown
     }
+    if (p.nightmareCount > 0) out["Night Terror"] = p.nightmareCount * Player::NIGHTMARE_COPIES;  // the game keeps one power for each
     return out;
 }
 
@@ -135,6 +136,8 @@ void comparePowers(Diffs &out, const std::string &field, std::map<std::string, i
         const std::string id = p["id"].get<std::string>();
         if (id.rfind("TheBomb", 0) == 0) {
             real[bombKey(p["amount"].get<int>())] += p.value("damage", 0);
+        } else if (id == "Night Terror") {
+            real[id] += p["amount"].get<int>();
         } else if (!isUntrackedPower(id)) {
             real[id] = p["amount"].get<int>();
         }
@@ -232,6 +235,17 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
     check(out, "player.energy", bc.player.energy, p["energy"].get<int>());
     comparePowers(out, "player.powers", simPlayerPowers(bc.player), p["powers"]);
 
+    // Slots in order, each with what it would do next. The game lists the empty ones too.
+    std::vector<std::string> simOrbs;
+    std::vector<std::string> gameOrbs;
+    for (int i = 0; i < bc.player.orbSlots; ++i) {
+        simOrbs.push_back(orbToGameId(bc.player.orbs[i]) + "(" + std::to_string(bc.player.orbEvokeAmount(i)) + "," + std::to_string(bc.player.orbPassiveAmount(i)) + ")");
+    }
+    for (const auto &o : p["orbs"]) {  // Communication Mod leaves out an empty slot's id
+        gameOrbs.push_back(o.value("id", "Empty") + "(" + std::to_string(o["evoke_amount"].get<int>()) + "," + std::to_string(o["passive_amount"].get<int>()) + ")");
+    }
+    check(out, "player.orbs", join(simOrbs), join(gameOrbs));
+
     std::vector<std::string> simHand;
     std::vector<std::string> gameHand;
     for (int i = 0; i < bc.cards.cardsInHand; ++i) {
@@ -240,15 +254,30 @@ void compareBattle(const BattleContext &bc, const json &gs, Diffs &out, const st
         const int cost = c.costForTurn == -3 ? -2 : c.costForTurn;
         simHand.push_back(cardKey(c) + "(" + std::to_string(cost) + ")");
     }
+    // The scry screen shows the top of the draw pile, top card first, and keeps its picks in the list until it closes.
+    if (gs["screen_type"] == "GRID" && bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::SCRY) {
+        std::vector<std::string> simScry;
+        std::vector<std::string> gameScry;
+        const int drawSize = static_cast<int>(bc.cards.drawPile.size());
+        for (int i = 0; i < bc.cardSelectInfo.pickCount; ++i) simScry.push_back(cardKey(bc.cards.drawPile[drawSize - 1 - i]));
+        std::vector<std::string> picked;
+        for (const auto &c : gs["screen_state"].value("selected_cards", json::array())) picked.push_back(c.value("uuid", ""));
+        for (const auto &c : gs["screen_state"].value("cards", json::array())) {
+            if (std::find(picked.begin(), picked.end(), c.value("uuid", "")) == picked.end()) gameScry.push_back(cardKey(c));
+        }
+        check(out, "scry_cards", join(simScry), join(gameScry));
+    }
     // While a hand-select screen is up the game moves selected and ineligible cards out of `hand`.
     if (gs["screen_type"] == "NONE") {
         for (const auto &c : cs["hand"]) gameHand.push_back(cardKey(c) + "(" + std::to_string(c["cost"].get<int>()) + ")");
         check(out, "hand", join(simHand), join(gameHand));
     }
-    comparePile(out, "draw_pile", bc.cards.drawPile, cs["draw_pile"]);
-    // A grid that takes two cards (Liquid Memories with Sacred Bark) moves them when it closes; the simulator picks one at a time.
+    // A grid that takes two cards (Liquid Memories with Sacred Bark, Seek+) moves them when it closes; the simulator picks one at a time.
     const bool gridPartlyChosen = gs["screen_type"] == "GRID" && !gs["screen_state"].value("selected_cards", json::array()).empty();
-    if (!gridPartlyChosen) comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
+    // So does a hand screen that takes more than one discard. The screen's list is called `selected` here.
+    const bool handPartlyChosen = gs["screen_type"] == "HAND_SELECT" && !gs["screen_state"].value("selected", json::array()).empty();
+    if (!gridPartlyChosen) comparePile(out, "draw_pile", bc.cards.drawPile, cs["draw_pile"]);
+    if (!gridPartlyChosen && !handPartlyChosen) comparePile(out, "discard_pile", bc.cards.discardPile, cs["discard_pile"]);
     const bool exhumeGridOpen = bc.inputState == InputState::CARD_SELECT && bc.cardSelectInfo.cardSelectTask == CardSelectTask::EXHUME;
     compareExhaustPile(out, bc.cards.exhaustPile, cs["exhaust_pile"], exhumeGridOpen);
 

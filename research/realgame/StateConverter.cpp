@@ -52,6 +52,8 @@ void setPlayerStatus(Player &p, PlayerStatus s, int amount, bool justApplied) {
         PS_CASE(NOXIOUS_FUMES) PS_CASE(OMEGA) PS_CASE(PANACHE) PS_CASE(PHANTASMAL) PS_CASE(PLATED_ARMOR) PS_CASE(RAGE) PS_CASE(REGEN)
         PS_CASE(RITUAL) PS_CASE(RUPTURE) PS_CASE(SADISTIC) PS_CASE(STATIC_DISCHARGE) PS_CASE(THORNS) PS_CASE(THOUSAND_CUTS)
         PS_CASE(TOOLS_OF_THE_TRADE) PS_CASE(VIGOR) PS_CASE(WAVE_OF_THE_HAND) PS_CASE(EQUILIBRIUM) PS_CASE(THE_BOMB)
+        PS_CASE(ENERGIZED_BLUE) PS_CASE(HEATSINK) PS_CASE(MACHINE_LEARNING) PS_CASE(SELF_REPAIR) PS_CASE(STORM) PS_CASE(RETAIN_CARDS)
+        PS_CASE(MENTAL_FORTRESS) PS_CASE(NIRVANA) PS_CASE(RUSHDOWN) PS_CASE(STUDY)
 #undef PS_CASE
 #define PS_TIMED(NAME) case PS::NAME: p.setHasStatus<PS::NAME>(true); p.setStatusValueNoChecks<PS::NAME>(amount); p.setJustApplied<PS::NAME>(justApplied); break;
         PS_TIMED(DOUBLE_DAMAGE) PS_TIMED(DRAW_REDUCTION) PS_TIMED(FRAIL) PS_TIMED(INTANGIBLE) PS_TIMED(VULNERABLE) PS_TIMED(WEAK)
@@ -457,7 +459,17 @@ CardSelectTask taskFromAction(const std::string &action, const std::string &scre
     if (action == "PutOnDeckAction" || action == "WarcryAction") return CardSelectTask::WARCRY;
     if (action == "DiscardPileToTopOfDeckAction" || action == "HeadbuttAction") return CardSelectTask::HEADBUTT;
     if (action == "BetterDiscardPileToHandAction") return CardSelectTask::LIQUID_MEMORIES_POTION;
-    if (action == "SeekAction") return CardSelectTask::SEEK;
+    if (action == "BetterDrawPileToHandAction") return CardSelectTask::SEEK;
+    if (action == "RecycleAction") return CardSelectTask::RECYCLE;
+    if (action == "DiscardAction") return CardSelectTask::DISCARD;
+    if (action == "ScryAction") return CardSelectTask::SCRY;
+    if (action == "MeditateAction") return CardSelectTask::MEDITATE;
+    if (action == "OmniscienceAction") return CardSelectTask::OMNISCIENCE;
+    if (action == "ForeignInfluenceAction") return CardSelectTask::FOREIGN_INFLUENCE;
+    if (action == "ChooseOneAction") return CardSelectTask::WISH;
+    if (action == "NightmareAction") return CardSelectTask::NIGHTMARE;
+    if (action == "RetainCardsAction") return CardSelectTask::RETAIN;
+    if (action == "SetupAction") return CardSelectTask::SETUP;
     if (action == "SkillFromDeckToHandAction") return CardSelectTask::SECRET_TECHNIQUE;
     if (action == "AttackFromDeckToHandAction") return CardSelectTask::SECRET_WEAPON;
     if (action == "CodexAction") return CardSelectTask::CODEX;
@@ -541,6 +553,8 @@ void BattleMemory::observe(const json &gs) {
 
 void BattleMemory::onCardPlayed(CardType type) {
     ++cardsPlayed;
+    previousCardType = lastCardType;
+    lastCardType = type;
     if (type == CardType::ATTACK) ++attacksPlayed;
     if (type == CardType::SKILL) ++skillsPlayed;
 }
@@ -566,6 +580,7 @@ GameContext gameContextFromState(const json &gs, std::uint64_t rngSeed, const Ru
             continue;
         }
         gc.relics.add(RelicInstance{*relic, relicDataFromCounter(*relic, r.value("counter", -1))});
+        if (*relic == RelicId::PRISMATIC_SHARD) gc.masterMaxOrbs = 1;  // PrismaticShard.onEquip
     }
 
     gc.deck = Deck{};
@@ -695,6 +710,11 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     p.cardsPlayedThisTurn = static_cast<std::int16_t>(memory.cardsPlayed);
     p.attacksPlayedThisTurn = static_cast<std::int16_t>(memory.attacksPlayed);
     p.skillsPlayedThisTurn = static_cast<std::int16_t>(memory.skillsPlayed);
+    // The game's JSON doesn't have the stance, Mantra gained or the cards played this fight, so these come from what was played.
+    p.stance = memory.stance;
+    p.mantraGained = static_cast<std::int16_t>(memory.mantraGained);
+    p.lastCardTypePlayed = memory.lastCardType;
+    p.previousCardTypePlayed = memory.previousCardType;
     p.happyFlowerCounter = static_cast<std::int8_t>(std::max(gc.relics.getRelicValue(RelicId::HAPPY_FLOWER), 0));
     p.incenseBurnerCounter = static_cast<std::int8_t>(std::max(gc.relics.getRelicValue(RelicId::INCENSE_BURNER), 0));
     p.inkBottleCounter = static_cast<std::int8_t>(std::max(gc.relics.getRelicValue(RelicId::INK_BOTTLE), 0));
@@ -705,6 +725,12 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
 
     for (const auto &power : player["powers"]) {
         const std::string id = power["id"].get<std::string>();
+        if (id == "Night Terror") {  // one power for each card it will copy
+            if (power.contains("card")) p.addNightmare(instanceFromJson(power["card"], -1, notes));
+            else notes.warn("Night Terror without its card");
+            continue;
+        }
+        if (id == "DevaForm") p.devaFormEnergyPerTurn = static_cast<std::int16_t>(memory.devaEnergy);  // not in the JSON either
         const auto status = playerPowerFromGameId(id);
         if (!status) {
             notes.warn("unknown player power " + id);
@@ -725,6 +751,18 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
             p.noDrawBeforeCombust = p.hasStatus<PS::NO_DRAW>();  // the list keeps the order they were gained
         }
         if (*status == PS::ECHO_FORM) p.echoFormCardsDoubled = static_cast<std::int8_t>(power.value("misc", 0));
+        if (*status == PS::MACHINE_LEARNING) p.cardDrawPerTurn = static_cast<std::int8_t>(p.cardDrawPerTurn + amount);  // DrawPower raises the hand size
+    }
+
+    // The JSON doesn't say how many orbs were channeled so far, so Thunder Strike and Blizzard start counting from here.
+    const json &orbs = player["orbs"];
+    p.orbSlots = static_cast<std::int8_t>(std::min<int>(static_cast<int>(orbs.size()), Player::MAX_ORB_SLOTS));
+    for (int i = 0; i < p.orbSlots; ++i) {
+        const std::string id = orbs[i].value("id", "Empty");  // Communication Mod leaves out an empty slot's id
+        const auto orb = orbFromGameId(id);
+        if (!orb) notes.warn("unknown orb " + id);
+        p.orbs[i] = orb.value_or(Orb::EMPTY);
+        if (p.orbs[i] == Orb::DARK) p.darkOrbEvoke[i] = static_cast<std::int16_t>(orbs[i].value("evoke_amount", 6));
     }
 
     p.redSkullActive = p.hasRelic<RelicId::RED_SKULL>() && p.curHp <= p.maxHp / 2;
@@ -868,12 +906,98 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     if (screen == "HAND_SELECT" || screen == "GRID" || screen == "CARD_REWARD") {
         const json &screenState = gs["screen_state"];
         const int maxCards = screen == "HAND_SELECT" ? screenState.value("max_cards", 1) : screenState.value("num_cards", 1);
-        const CardSelectTask task = taskFromAction(gs.value("current_action", ""), screen, maxCards);
+        CardSelectTask task = taskFromAction(gs.value("current_action", ""), screen, maxCards);
+        // Hologram and Liquid Memories share an action, and only Liquid Memories makes the card free.
+        if (task == CardSelectTask::LIQUID_MEMORIES_POTION && cs.contains("card_in_play") && cs["card_in_play"].value("id", "") == "Hologram") {
+            task = CardSelectTask::HOLOGRAM;
+        }
         if (task == CardSelectTask::INVALID) notes.warn("unknown card select action " + gs.value("current_action", ""));
+        // Wish and Stance Potion share an action, and only the options tell them apart.
+        if (task == CardSelectTask::WISH) {
+            const json options = screenState.value("cards", json::array());
+            if (!options.empty() && options[0].value("id", "") == "Wrath") task = CardSelectTask::CHOOSE_STANCE;
+        }
         bc.inputState = InputState::CARD_SELECT;
         bc.cardSelectInfo.cardSelectTask = task;
         bc.cardSelectInfo.pickCount = maxCards;
-        if (screen == "CARD_REWARD") {
+        // These take one card at a time in the simulator, where a pick has already gone to the discard pile or to the end of
+        // the hand. The game's screen holds its picks apart until it closes.
+        if (task == CardSelectTask::DISCARD || task == CardSelectTask::RETAIN) {
+            const json selected = screenState.value("selected", json::array());
+            bc.cardSelectInfo.pickCount = maxCards - static_cast<int>(selected.size());
+            bc.cardSelectInfo.data0 = task == CardSelectTask::DISCARD ? static_cast<int>(bc.cards.discardPile.size()) : static_cast<int>(selected.size());
+            for (const auto &c : selected) {
+                CardInstance card = instanceFromJson(c, bc.cards.nextUniqueCardId++, notes, p.energy);
+                if (task == CardSelectTask::DISCARD) {
+                    bc.cards.moveToDiscardPile(card);
+                } else {
+                    card.retain = !card.isEthereal();
+                    bc.cards.moveToHand(card);
+                }
+            }
+        }
+        if (task == CardSelectTask::SCRY) {
+            // The screen shows the top of the pile, top card first, and holds its picks until it closes.
+            const json selected = screenState.value("selected_cards", json::array());
+            std::vector<std::string> selectedIds;
+            for (const auto &c : selected) selectedIds.push_back(c.value("uuid", ""));
+            auto takeFromDraw = [&bc](const CardInstance &wanted) {
+                auto &pile = bc.cards.drawPile;
+                for (int i = static_cast<int>(pile.size()) - 1; i >= 0; --i) {
+                    if (pile[i].getId() == wanted.getId() && pile[i].isUpgraded() == wanted.isUpgraded()) {
+                        const CardInstance found = pile[i];
+                        bc.cards.removeFromDrawPileAtIdx(i);
+                        return found;
+                    }
+                }
+                return wanted;
+            };
+            std::vector<CardInstance> onScreen;
+            for (const auto &c : screenState.value("cards", json::array())) {
+                const CardInstance card = instanceFromJson(c, -1, notes, p.energy);
+                const CardInstance fromPile = takeFromDraw(card);
+                if (std::find(selectedIds.begin(), selectedIds.end(), c.value("uuid", "")) != selectedIds.end()) {
+                    bc.cards.moveToDiscardPile(fromPile);
+                } else {
+                    onScreen.push_back(fromPile);
+                }
+            }
+            for (auto it = onScreen.rbegin(); it != onScreen.rend(); ++it) {
+                bc.cards.moveToDrawPileTop(*it);
+            }
+            bc.cardSelectInfo.pickCount = static_cast<int>(onScreen.size());
+            bc.cardSelectInfo.scry_Passed() = 0;
+            bc.cardSelectInfo.canPickZero = true;
+            bc.cardSelectInfo.canPickAnyNumber = true;
+        }
+        if (task == CardSelectTask::MEDITATE) {
+            // The simulator takes one pick at a time, into the hand.
+            const json selected = screenState.value("selected_cards", json::array());
+            bc.cardSelectInfo.pickCount = maxCards - static_cast<int>(selected.size());
+            for (const auto &c : selected) {
+                const CardInstance wanted = instanceFromJson(c, -1, notes, p.energy);
+                for (int i = 0; i < static_cast<int>(bc.cards.discardPile.size()); ++i) {
+                    if (bc.cards.discardPile[i].getId() == wanted.getId() && bc.cards.discardPile[i].isUpgraded() == wanted.isUpgraded()) {
+                        CardInstance found = bc.cards.discardPile[i];
+                        bc.cards.removeFromDiscard(i);
+                        found.retain = true;
+                        bc.cards.moveToHand(found);
+                        break;
+                    }
+                }
+            }
+        }
+        if (task == CardSelectTask::OMNISCIENCE) {
+            bc.cardSelectInfo.omniscience_PlayCount() = 2;
+        }
+        if (task == CardSelectTask::WISH) {
+            const json options = screenState.value("cards", json::array());
+            bc.cardSelectInfo.wish_Upgraded() = !options.empty() && options[0].value("upgrades", 0) > 0;
+        }
+        if (task == CardSelectTask::FOREIGN_INFLUENCE) {
+            bc.cardSelectInfo.foreignInfluence_Upgraded() = 0;  // the JSON doesn't say which it is, and only the card's cost this turn depends on it
+        }
+        if (screen == "CARD_REWARD" && task != CardSelectTask::CHOOSE_STANCE) {
             int i = 0;
             for (const auto &c : screenState["cards"]) {
                 if (i >= 3) break;

@@ -126,6 +126,12 @@ void Live::decideBattle() {
     if (action.getActionType() == search::ActionType::CARD) {
         battleMemory_.onCardPlayed(bc.cards.hand[action.getSourceIdx()].getType());
     }
+    // The game's JSON has no stance. The simulator's next state does, apart from anything a random draw would change.
+    BattleContext after = bc;
+    action.execute(after);
+    battleMemory_.stance = after.player.stance;
+    battleMemory_.mantraGained = after.player.mantraGained;
+    battleMemory_.devaEnergy = after.player.devaFormEnergyPerTurn;
     if (action.getActionType() == search::ActionType::SINGLE_CARD_SELECT && bc.inputState == InputState::CARD_SELECT) {
         const auto task = bc.cardSelectInfo.cardSelectTask;
         putOnTopPending_ = task == CardSelectTask::HEADBUTT || task == CardSelectTask::WARCRY;

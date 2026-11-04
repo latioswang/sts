@@ -104,6 +104,25 @@ std::optional<PlayerStatus> playerPowerFromGameId(const std::string &id) {
 
 std::string playerPowerToGameId(PlayerStatus s) { return reverseLookup(kPlayerPowers, s); }
 
+std::optional<Orb> orbFromGameId(const std::string &id) {
+    if (id == "Empty") return Orb::EMPTY;
+    if (id == "Dark") return Orb::DARK;
+    if (id == "Frost") return Orb::FROST;
+    if (id == "Plasma") return Orb::PLASMA;
+    if (id == "Lightning") return Orb::LIGHTNING;
+    return std::nullopt;
+}
+
+std::string orbToGameId(Orb orb) {
+    switch (orb) {
+        case Orb::DARK: return "Dark";
+        case Orb::FROST: return "Frost";
+        case Orb::PLASMA: return "Plasma";
+        case Orb::LIGHTNING: return "Lightning";
+        default: return "Empty";
+    }
+}
+
 std::optional<MMID> moveFromGameByte(MonsterId monster, int moveByte) {
     for (const auto &e : kMoveBytes) {
         if (e.monster == monster && e.byte == moveByte) return e.move;

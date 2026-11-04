@@ -93,7 +93,7 @@ json monsterJson(const BattleContext &bc, const Monster &m) {
 
 json combatJson(const BattleContext &bc) {
     json powers = json::array();
-    for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
+    for (int i = 1; i <= static_cast<int>(kLastPlayerStatus); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
         if (!bc.player.hasStatusRuntime(s)) continue;
         if (s == PS::PANACHE) {
@@ -102,11 +102,19 @@ json combatJson(const BattleContext &bc) {
             powers.push_back({{"id", playerPowerToGameId(s)}, {"amount", playerPowerAmount(bc.player, s)}});
         }
     }
+    for (int i = 0; i < bc.player.nightmareCount; ++i) {
+        powers.push_back({{"id", "Night Terror"}, {"amount", Player::NIGHTMARE_COPIES}, {"card", cardJson(bc.player.nightmareCards[i])}});
+    }
     const int bombs[] = {bc.player.bomb1, bc.player.bomb2, bc.player.bomb3};
     for (int turnsLeft = 1; turnsLeft <= 3; ++turnsLeft) {
         const int damage = bombs[turnsLeft - 1];
         if (damage) powers.push_back({{"id", "TheBomb" + std::to_string(turnsLeft)}, {"amount", turnsLeft}, {"damage", damage}});
     }
+    json orbs = json::array();
+    for (int i = 0; i < bc.player.orbSlots; ++i) {
+        orbs.push_back({{"id", orbToGameId(bc.player.orbs[i])}, {"evoke_amount", bc.player.orbEvokeAmount(i)}, {"passive_amount", bc.player.orbPassiveAmount(i)}});
+    }
+
     json monsters = json::array();
     for (const int slot : occupiedMonsterSlots(bc)) monsters.push_back(monsterJson(bc, bc.monsters.arr[slot]));
 
@@ -137,7 +145,7 @@ json combatJson(const BattleContext &bc) {
                 {"times_damaged", bc.player.timesDamagedThisCombat},
                 {"cards_discarded_this_turn", bc.player.cardsDiscardedThisTurn},
                 {"player", {{"current_hp", bc.player.curHp}, {"max_hp", bc.player.maxHp}, {"block", bc.player.block},
-                            {"energy", bc.player.energy}, {"powers", powers}, {"orbs", json::array()}}}};
+                            {"energy", bc.player.energy}, {"powers", powers}, {"orbs", orbs}}}};
 }
 
 const char *actionFor(CardSelectTask task) {
@@ -153,7 +161,18 @@ const char *actionFor(CardSelectTask task) {
         case CardSelectTask::HEADBUTT: return "DiscardPileToTopOfDeckAction";
         case CardSelectTask::HOLOGRAM:
         case CardSelectTask::LIQUID_MEMORIES_POTION: return "BetterDiscardPileToHandAction";
-        case CardSelectTask::SEEK: return "SeekAction";
+        case CardSelectTask::SEEK: return "BetterDrawPileToHandAction";
+        case CardSelectTask::RECYCLE: return "RecycleAction";
+        case CardSelectTask::DISCARD: return "DiscardAction";
+        case CardSelectTask::NIGHTMARE: return "NightmareAction";
+        case CardSelectTask::RETAIN: return "RetainCardsAction";
+        case CardSelectTask::SETUP: return "SetupAction";
+        case CardSelectTask::SCRY: return "ScryAction";
+        case CardSelectTask::MEDITATE: return "MeditateAction";
+        case CardSelectTask::OMNISCIENCE: return "OmniscienceAction";
+        case CardSelectTask::FOREIGN_INFLUENCE: return "ForeignInfluenceAction";
+        case CardSelectTask::WISH: return "ChooseOneAction";
+        case CardSelectTask::CHOOSE_STANCE: return "ChooseOneAction";
         case CardSelectTask::SECRET_TECHNIQUE: return "SkillFromDeckToHandAction";
         case CardSelectTask::SECRET_WEAPON: return "AttackFromDeckToHandAction";
         case CardSelectTask::CODEX: return "CodexAction";
@@ -170,20 +189,46 @@ void addBattleScreen(const BattleContext &bc, json &gs) {
     if (bc.inputState != InputState::CARD_SELECT) return;
     const CardSelectTask task = bc.cardSelectInfo.cardSelectTask;
     gs["current_action"] = actionFor(task);
-    if (task == CardSelectTask::DISCOVERY || task == CardSelectTask::CODEX) {
+    if (task == CardSelectTask::CHOOSE_STANCE) {
+        gs["screen_type"] = "CARD_REWARD";
+        gs["screen_state"] = {{"cards", json::array({json{{"id", "Wrath"}, {"upgrades", 0}}, json{{"id", "Calm"}, {"upgrades", 0}}})}};
+        return;
+    }
+    if (task == CardSelectTask::DISCOVERY || task == CardSelectTask::CODEX || task == CardSelectTask::FOREIGN_INFLUENCE || task == CardSelectTask::WISH) {
         gs["screen_type"] = "CARD_REWARD";
         json cards = json::array();
         CardSelectInfo info = bc.cardSelectInfo;  // discovery_Cards() has no const overload
-        for (int i = 0; i < 3; ++i) cards.push_back(cardJson(info.discovery_Cards()[i], 0, 0, 0, false));
+        const int upgrades = task == CardSelectTask::WISH ? info.wish_Upgraded() : 0;
+        for (int i = 0; i < 3; ++i) cards.push_back(cardJson(info.discovery_Cards()[i], upgrades, 0, 0, false));
         gs["screen_state"] = {{"cards", cards}};
     } else if (task == CardSelectTask::EXHUME || task == CardSelectTask::HEADBUTT || task == CardSelectTask::HOLOGRAM ||
                task == CardSelectTask::LIQUID_MEMORIES_POTION || task == CardSelectTask::SEEK ||
-               task == CardSelectTask::SECRET_TECHNIQUE || task == CardSelectTask::SECRET_WEAPON) {
+               task == CardSelectTask::SECRET_TECHNIQUE || task == CardSelectTask::SECRET_WEAPON ||
+               task == CardSelectTask::MEDITATE || task == CardSelectTask::OMNISCIENCE || task == CardSelectTask::SCRY) {
         gs["screen_type"] = "GRID";
         gs["screen_state"] = {{"num_cards", bc.cardSelectInfo.pickCount}, {"cards", json::array()}};
+        if (task == CardSelectTask::SCRY) {
+            json cards = json::array();
+            const int size = static_cast<int>(bc.cards.drawPile.size());
+            for (int i = 0; i < bc.cardSelectInfo.pickCount; ++i) cards.push_back(cardJson(bc.cards.drawPile[size - 1 - i]));
+            gs["screen_state"]["cards"] = cards;
+            gs["screen_state"]["any_number"] = true;
+        }
     } else {
         gs["screen_type"] = "HAND_SELECT";
         gs["screen_state"] = {{"max_cards", bc.cardSelectInfo.pickCount}, {"hand", json::array()}};
+        if (task == CardSelectTask::RETAIN) {
+            // The simulator keeps the picks at the end of the hand. The game's screen holds them apart.
+            const int picked = bc.cardSelectInfo.data0;
+            json selected = json::array();
+            json &hand = gs["combat_state"]["hand"];
+            for (int i = 0; i < picked; ++i) {
+                selected.insert(selected.begin(), hand.back());
+                hand.erase(hand.size() - 1);
+            }
+            gs["screen_state"]["selected"] = selected;
+            gs["screen_state"]["max_cards"] = bc.cardSelectInfo.pickCount + picked;
+        }
     }
 }
 

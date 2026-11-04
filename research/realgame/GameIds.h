@@ -37,6 +37,9 @@ std::optional<PlayerStatus> playerPowerFromGameId(const std::string &id);
 bool isUntrackedPower(const std::string &id);
 std::string playerPowerToGameId(PlayerStatus s);
 
+std::optional<Orb> orbFromGameId(const std::string &id);
+std::string orbToGameId(Orb orb);
+
 // A monster's move byte (EnemyMoveInfo.nextMove) as the simulator's move id.
 std::optional<sts::MMID> moveFromGameByte(sts::MonsterId monster, int moveByte);
 // The byte the game uses for a simulator move, or nullopt if the table has no entry.

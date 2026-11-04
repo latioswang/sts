@@ -81,7 +81,6 @@ private:
     [[nodiscard]] bool drawPileMatchesGame() const override { return true; }
     void copyGameCardRandomRng(const sts::BattleContext &bc);
     void noteCurseTransform(const sts::GameContext &gc, const sts::search::GameAction &a);
-    void stopOnUnsupportedCard(const sts::GameContext &gc) const;
     void addRngDiff(Diffs &out, const std::string &name, const sts::Random &sim) const;
     [[nodiscard]] Diffs battleDiffs(const sts::BattleContext &bc) const;
 
