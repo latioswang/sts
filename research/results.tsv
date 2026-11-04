@@ -459,3 +459,6 @@ fd8c53a	val.a0	300	0	0.823	48.11	1.7666	+0.0230	0.758	keep	vr3b40: near-miss ext
 3a7c39c	dev3.a0	100	0	0.090	46.16	0.9514	+0.0118	0.615	info	heart_vr3b40: [heart pooled500 slice] port A0 keep: card picks + 40 x R3 run value (vr_61)
 e656d88	dev.a10	100	0	0.300	38.00	1.0451	+0.0778	0.867	info	a10_vr3b40_dev: VERIFY: a10_vr3b40 on dev vs a10_vr2b20_dev (replication of a a10 keep)
 0387624	val.a10	300	0	0.353	38.80	1.1142	+0.0174	0.684	discard	a10_vr3b20: [a10] R3 run value (vr_61) at bonus 20 on A10 [vr_model=61 vr_bonus=20]
+e39f232	val.a20	300	0	0.027	28.57	0.5863	-0.0308	0.052	discard	a20_vr3b20: [a20 pooled500] R3 run value (vr_61) at bonus 20 on A20 [vr_model=61 vr_bonus=20] pooled dscore=-0.0253 dwin=-0.010 P(improve)=0.038
+e39f232	dev2.a20	100	0	0.040	27.31	0.5747	+0.0047	0.536	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
+e39f232	dev3.a20	100	0	0.010	26.03	0.5202	-0.0386	0.063	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
