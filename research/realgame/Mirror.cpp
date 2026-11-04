@@ -22,7 +22,7 @@ namespace {
 
 constexpr int kMaxAlignSteps = 12;
 constexpr double kRoomChangeTimeoutSec = 180.0;
-constexpr int kEffectWaits = 3;
+constexpr int kEffectWaits = 8;  // a transformed card reaches the deck after about two seconds at normal speed
 constexpr int kEffectWaitFrames = 30;
 
 const char *screenStateName(ScreenState s) {

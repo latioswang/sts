@@ -49,7 +49,7 @@ Counted on 2026-11-04. Each seed's latest run counts, on the build of that time,
 | Ascension 0, seeds 1100 to 1129, new for this round | 30 of 30, after fixes for the three that stopped |
 | Ascension 20, seeds 2100 to 2127 with items injected | 27 of 28, 19 reaching floor 50 or later. 2105 stops after a Discovery, which can't be matched |
 | Ascension 20, seeds 4000 to 4019 | 20 of 20, most ending early when the agent dies |
-| Ascensions 5, 10, 15, 18, seeds 2100 to 2127 with items injected | 26 of 28. 2110 and 2115 stopped at ascension 10, and their reruns are below |
+| Ascensions 5, 10, 15, 18, seeds 2100 to 2127 with items injected | 27 of 28. 2110 ran clean to floor 51 after its fix. 2115 is below |
 | Act 4 with all keys | Five seeds reached the Heart with no difference |
 | Live mode | Three real runs: two wins and one loss |
 
@@ -59,7 +59,6 @@ The fix list has 149 rows: 120 found by a seed on the game and 29 found by readi
 
 **Open checks:**
 
-- **Seed 2110, ascension 10.** Rerunning with the Snecko Oil fix (`b83e4d4`).
 - **Seed 2115, ascension 10.** At 5x it stopped when Reaper killed Reptomancer with minions alive, the same pattern as seed 2123's time scale artifact. It's rerunning at normal speed to confirm.
 
 **Known gaps** are listed in the [fix list](reports/simulator_fixes.md#known-gaps). The largest is other classes' cards.
@@ -107,4 +106,5 @@ Cleanup put off for later:
 - **Passing parameters in zsh.** `$P` doesn't split into words, so `fair_eval` silently used its defaults. Use an array.
 - **A self-test pass doesn't prove much.** A crash from `areMonstersBasicallyDead` passed 50 seeds of self-test and only appeared on a real run at floor 50.
 - **Scenario relics in the wrong pool.** A boss relic put in the common pool can arrive through Neow or Scrap Ooze, which a real run can't do, and the stop that follows means nothing. Offer it through a boss chest instead (`plan_b`).
+- **Normal speed needs longer waits.** Mirror's waits were tuned at 5x. At normal speed they ran out during a Smoke Bomb, after Nilry's Codex and after a transform, and each looked like a difference until the wait was lengthened.
 - **Rebuilding during a batch.** Don't rebuild `build/` while one is running. Use a second build folder.
