@@ -51,6 +51,8 @@ def profile() -> dict[str, dict[str, str]]:
         "STSTips": {tip: "true" for tip in TIPS},
         # Fast Mode: Communication Mod is only tested with it. Upload Data: research runs must not reach the devs' stats.
         "STSGameplaySettings": {"Fast Mode": "true", "Upload Data": "false"},
+        # Batches and live runs play for hours, so the game stays silent.
+        "STSSound": {"Master Volume": "0.0", "Music Volume": "0.0", "Sound Volume": "0.0"},
         # The profile name stops the game opening the save slot screen at the main menu.
         "STSSaveSlots": {"DEFAULT_SLOT": "0", "PROFILE_NAME": "Bridge"},
     }

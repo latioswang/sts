@@ -83,7 +83,7 @@ research/realgame/setup_game.sh
 Run this with the game closed. It does three things.
 
 - **Builds a separate game folder**, `~/.sts_realgame` (`STS_GAME_DIR` overrides it). The game keeps preferences, saves and run history in its working directory, so running from here keeps the research profile and runs out of the Steam install, where Steam Cloud could sync them. The Steam folder stays unchanged.
-- **Writes the profile the simulator assumes** (`write_profile.py`): everything unlocked, all bosses seen (an unseen boss is forced), the final act on (it needs a win with three characters), tutorials off, Neow on (a fresh profile skips Neow on its first run), Fast Mode on, and Upload Data off so research runs don't reach the developers' stats.
+- **Writes the profile the simulator assumes** (`write_profile.py`): the game muted, everything unlocked, all bosses seen (an unseen boss is forced), the final act on (it needs a win with three characters), tutorials off, Neow on (a fresh profile skips Neow on its first run), Fast Mode on, and Upload Data off so research runs don't reach the developers' stats.
 - **Writes** `~/Library/Preferences/ModTheSpire/CommunicationMod/config.properties`:
 
 ```

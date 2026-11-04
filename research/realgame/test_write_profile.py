@@ -26,6 +26,7 @@ def test_neow_is_on_and_uploads_are_off(tmp_path: Path, monkeypatch) -> None:
     assert read(tmp_path, "STSTips")["NEOW_SKIP"] == "true"
     assert read(tmp_path, "STSPlayer")["THE_SILENT_WIN"] == "true"
     assert read(tmp_path, "STSSeenBosses")["GHOST"] == "1"
+    assert read(tmp_path, "STSSound")["Master Volume"] == "0.0"
     settings = read(tmp_path, "STSGameplaySettings")
     assert settings["Upload Data"] == "false"
     assert settings["Fast Mode"] == "true"

@@ -406,6 +406,8 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     for (int i = 0; i < kMaxAlignSteps && screenType() == "EVENT" && choiceCount() == 1; ++i) send("CHOOSE 0");
     // So does A20's second boss, behind a Proceed button.
     if (screenType() == "COMPLETE") send("PROCEED");
+    // Nilry's Codex's screen can close with the next turn still being dealt, which shows at normal speed.
+    for (int i = 0; i < kMaxAlignSteps && screenType() == "NONE" && !hasCommand(state(), "play") && !hasCommand(state(), "end"); ++i) send("WAIT 30");
     if (!state().value("in_game", false) || gameState().value("room_phase", "") != "COMBAT") {
         Diffs d{{"screen", "BATTLE", screenType(), true}};
         throw StopRun{"diverged", "BATTLE", "the simulator is in a battle, the game is not", d};
