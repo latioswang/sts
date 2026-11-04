@@ -29,6 +29,7 @@ Work ran from 2026-11-02 to 2026-11-04.
 9. **Looked at other simulators.** Another fork's fix list found three bugs we still had. See [Other simulators](#other-simulators).
 10. **Measured the effect on research.** See [Effect on the agent](#effect-on-the-agent).
 11. **Added a regression test.** Every recorded run can now be checked with no game running, so the game is only needed for new runs. See [Regression test](#regression-test).
+12. **Ported the other classes' cards.** Defect from Attemory's fork, Silent and Watcher from SpireSim, with spire-gym as a second reference. Each card was read against the game's bytecode, and the bytecode won wherever they disagreed. Each class then played 26 seeds on the game inside Ironclad runs. See below for what they found.
 
 ## How one difference gets fixed
 
@@ -121,16 +122,16 @@ Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
 
 The class target comes from the rule of three: with no failure in n independent runs, the chance of a failure per run is below 3/n at 95% confidence. So 60 clean runs bound it at 5%, and 300 at 1%. The other targets are judgment calls and can change. A situation is a combination of Strength, Weak, Frail, a Vulnerable or Weak target, a target with block, several monsters, an elite, a boss, and high ascension.
 
-On 2026-11-04 the score is 64.0, with the Defect cards counted from branch `other-classes`.
+On 2026-11-05 the score is 81.5.
 
 | Class | Cards played | Clean full runs | What's left |
 |---|---|---|---|
 | Ironclad | 75 of 75 | 116 | More new seeds, up to 300 |
-| Defect | 72 of 76, inside Ironclad runs | 0 | Run the seeds that stopped on other classes' cards, then start runs as Defect |
-| Silent | 0 of 75 | 0 | The port is in progress |
-| Watcher | 0 of 77 | 0 | Port it after Silent |
+| Defect | 74 of 75, inside Ironclad runs | 0 | Start runs as Defect |
+| Silent | 73 of 75, inside Ironclad runs | 0 | Start runs as Silent |
+| Watcher | 74 of 75, inside Ironclad runs | 0 | Start runs as Watcher |
 
-Every run so far starts as Ironclad. The simulator can set up the other classes' starting decks and relics, but mirror mode only starts Ironclad, and the agent's choices outside combat are tuned for it, so starting as the other classes is work still to do.
+Until now every run started as Ironclad. Mirror mode can now start as any class, though the agent's choices outside combat are tuned for Ironclad. The card totals above leave out Discipline, Unraveling and Impulse, which aren't in the game's card library, but the score still counts them for now.
 
 A score of 100 means these targets were met. It doesn't prove the simulator matches everywhere.
 
@@ -168,9 +169,10 @@ Anything borrowed gets the same treatment as our own fixes: read it against the 
 
 ## What's next
 
-1. **Other classes' cards.** 212 of the 320 cards in Prismatic Shard's pools do nothing when played. Port Defect from Attemory's fork, then Silent and Watcher from SpireSim. Check each card against the game's bytecode and on the real game, and keep Ironclad results unchanged on runs without other classes' cards.
-2. **Empty Cage and Tiny House.** The agent never takes them, so they've only been compared with the game's code.
-3. **The floor 50 deaths** above.
+1. **Runs as the other classes.** Mirror mode can now start as any class (`--class`). Run them up to the targets in [Coverage and score](#coverage-and-score), and fix what they find.
+2. **What's still at zero in the coverage list.** Mostly other classes' relics and potions, which come with item 1, and the rest of the ascension levels.
+3. **Empty Cage and Tiny House.** The agent never takes them, so they've only been compared with the game's code.
+4. **The floor 50 deaths** above.
 
 Cleanup put off for later:
 

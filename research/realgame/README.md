@@ -16,6 +16,8 @@ The [progress log](PROGRESS.md) has the steps taken, the full results and what's
 | Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference |
 | Mirror mode, ascension 20 | 27 of 28 seeds with items injected had no difference, and 2105 stopped after a Discovery. All 20 seeds without items had no difference, most ending early when the agent died |
 | Mirror mode, ascensions 5, 10, 15, 18 | All 28 seeds with items injected had no difference on their latest run |
+| Other classes' cards, inside Ironclad runs | 26 seeds each for Defect, Silent and Watcher. 5 differences found and fixed, and all 14 reruns had none |
+| Runs started as other classes | Just started. Use `--class DEFECT`, `THE_SILENT` or `WATCHER` |
 | Live mode | Three real runs: two wins and one loss |
 | Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
 | JSON to simulator converter | Passes the offline round trip |
@@ -163,7 +165,7 @@ A *soft* difference means the comparison itself is unsure (for example a move by
 
 A stop with status `game_nondeterminism` isn't a simulator bug. After a discovery (Attack, Skill, Power or Colorless Potion, or the card), the game rolls `cardRandomRng` once per generation on every frame of about 0.25 seconds, so that stream depends on the frame rate. The test mod lets mirror take the game's state after a discovery and carry on. The run still stops when something queued behind the discovery rolls first, such as Strange Spoon or Hex. [The fix list](reports/simulator_fixes.md) has the other things no simulator can match.
 
-A stop with status `unsupported_card` isn't a difference either. Prismatic Shard offers every class's cards, the simulator can only play Ironclad and colorless ones, and the run stops when the agent takes another.
+Prismatic Shard offers every class's cards, and the simulator now plays all of them. A recording made while a class wasn't ported yet may end with status `unsupported_card`, which isn't a difference.
 
 After a stop, the bridge loses the current run on purpose to get back to the main menu, since the mod has no abandon command. This takes a minute or two.
 
@@ -225,7 +227,7 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge live --research_dir research --se
 - A monster's move history starts when the bridge first sees the fight, so start the bridge before the fight begins.
 - Without the test mod, Communication Mod never turns the player to a target, so Spire Shield and Spear's back attacks don't follow the player's targeting as they do in a normal game. The rebuilt state doesn't know which way the player is facing either.
 - Search only ever exhausts no cards with Purity and picks one card with Forethought+, which limits the agent's play there.
-- Other classes' cards do nothing when played in the simulator, so search can't value them. See [the fix list](reports/simulator_fixes.md).
+- The agent's choices outside combat are tuned for Ironclad, so it plays other classes' cards and runs poorly. Live mode can't see a few values the mod's JSON leaves out, such as stance, Glass Knife's lost damage and Claw's growth.
 - The effects still queued behind a mid-card selection (for example Burning Pact's draw) are not in the rebuilt state.
 
 ## Regression test

@@ -195,7 +195,8 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 
 ## Known gaps
 
-- **Other classes' cards.** The simulator has use code for 108 of the 320 cards in Prismatic Shard's pools. Rewards roll correctly, but the rest do nothing when played. Mirror mode stops with status `unsupported_card` when the agent takes one.
+- **Other classes' relics and runs.** All other classes' cards are ported, and have been played on the game inside Ironclad runs. Their starting relics and class relics have barely been checked, because runs have only just started as those classes.
+- **Stance on the game.** The mod's JSON doesn't report stance, so it's only compared indirectly, through intents, energy and HP.
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
