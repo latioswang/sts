@@ -28,6 +28,7 @@ Work ran from 2026-11-02 to 2026-11-04.
 8. **Tried what no run had seen.** Ascensions 5, 10, 15 and 18, and 30 new seeds (1100 to 1129). These found new bugs, such as a shop's rare card chance.
 9. **Looked at other simulators.** Another fork's fix list found three bugs we still had. See [Other simulators](#other-simulators).
 10. **Measured the effect on research.** See [Effect on the agent](#effect-on-the-agent).
+11. **Added a regression test.** Every recorded run can now be checked with no game running, so the game is only needed for new runs. See [Regression test](#regression-test).
 
 ## How one difference gets fixed
 
@@ -83,6 +84,26 @@ Surveyed on 2026-11-04 by cloning each one and counting implemented cards, since
 | [klottick/sts_lightspeed_all_characters](https://github.com/klottick/sts_lightspeed_all_characters) | No more cards than upstream, despite the name |
 | [GaoPeng415/SlayTheSpireHeadlessEngine](https://github.com/GaoPeng415/SlayTheSpireHeadlessEngine) | Decompiled game code with no license. Don't copy from it |
 
+## Regression test
+
+[`tools/run_regression.py`](tools/run_regression.py) plays every recording back through mirror mode with no game. See the [README](README.md#regression-test) for how it works.
+
+Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
+
+| Measure | Result |
+|---|---|
+| Recordings | 613 runs, 51 MB |
+| Time | 42 seconds on 4 processes with the machine otherwise quiet, and 80 to 95 seconds under load |
+| Pass | 307 |
+| Limited | 267: mostly a Discovery in a recording with no random streams (132) and other classes' cards (28) |
+| Known failures | 39: 35 older recordings whose seed later got further, and 4 not looked into |
+
+**Does it catch a bug?** We reverted one fix (`3347784`, a shop's rare card chance) in a copy of the simulator and ran it. It reported three runs as worse and exited 1, naming seeds 1103 and 1101 and the card rewards that differ. The unchanged build exits 0.
+
+**What it can't do.** It only checks paths the game has already played, so new content still needs the game.
+
+**How often.** A pass costs about a minute, so at 1% of the machine's time it can run every 100 minutes.
+
 ## How the agent and the checks compare
 
 Checked on 2026-11-04. Other projects use their own seeds and setups, so these figures are a guide and not a controlled comparison.
@@ -120,7 +141,6 @@ Anything borrowed gets the same treatment as our own fixes: read it against the 
 1. **Other classes' cards.** 212 of the 320 cards in Prismatic Shard's pools do nothing when played. Port Defect from Attemory's fork, then Silent and Watcher from SpireSim. Check each card against the game's bytecode and on the real game, and keep Ironclad results unchanged on runs without other classes' cards.
 2. **Empty Cage and Tiny House.** The agent never takes them, so they've only been compared with the game's code.
 3. **The floor 50 deaths** above.
-4. **A regression test from recorded runs.** Replay recorded runs in the simulator with no game running, so the game is only needed to collect new runs.
 
 Cleanup put off for later:
 
