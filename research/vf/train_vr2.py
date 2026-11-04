@@ -12,6 +12,7 @@ meta: rmse corr train_runs hidden layers params predict_mean_rmse"""
 import argparse, glob, os, time
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
+import sys; sys.path.insert(0, HERE); import runstore   # per-file or compressed-shard run dirs, same bytes
 DIM, EXTRA = 666, 4
 
 
@@ -38,7 +39,7 @@ def main():
     ap.add_argument("--train-dirs", nargs="*", default=None,
                     help="Phase R2: training runs come from these (subsampled) dirs; DATA_DIR supplies only the holdout")
     a = ap.parse_args()
-    files = sorted(glob.glob(os.path.join(a.data_dir, "run_*.bin")))
+    files = runstore.list_runs(a.data_dir)
     if a.train_dirs:
         # holdout = the same 1,000 runs of DATA_DIR as without the flag (np.unique ids, RandomState(12345) shuffle);
         # training pool = DATA_DIR's other runs first (same order as before), then every run of the train dirs in
@@ -48,7 +49,7 @@ def main():
             if os.path.exists(cp):
                 m = {os.path.join(d, a): int(b) for a, b in (l.split("\t") for l in open(cp))}
             if not all(f in m for f in fs):
-                m = {f: int(np.fromfile(f, dtype=np.float32, count=DIM + EXTRA)[DIM + 3]) for f in fs}
+                m = {f: int(runstore.read(f, DIM + EXTRA)[DIM + 3]) for f in fs}
                 try:
                     open(cp + ".tmp", "w").write("".join(f"{os.path.basename(f)}\t{r}\n" for f, r in m.items())); os.replace(cp + ".tmp", cp)
                 except OSError:
@@ -59,16 +60,16 @@ def main():
         hold = runs0[-a.holdout:]; hs = set(hold.tolist())
         tfiles = []
         for d in a.train_dirs:
-            fs = sorted(glob.glob(os.path.join(d, "run_*.bin"))); m = run_ids(fs, d)
+            fs = runstore.list_runs(d); m = run_ids(fs, d)
             tfiles += [f for f in fs if m[f] not in hs]   # holdout runs only from DATA_DIR
         tfiles.sort()
         sel = [f for f in files if ids[f] in hs] + tfiles      # preallocate: np.concatenate of a list peaks at 2x (≈ 17 GB at 10^5 runs)
         R = DIM + EXTRA; kmax = a.rows_per_run
         tset = set(tfiles)   # built once (it was rebuilt per file: O(n^2), a 40-min hang at 2e5 files)
-        tot = sum((os.path.getsize(f) // 4) if (kmax <= 0 or f not in tset) else min(os.path.getsize(f) // 4, kmax * R) for f in sel)
+        tot = sum((runstore.size(f) // 4) if (kmax <= 0 or f not in tset) else min(runstore.size(f) // 4, kmax * R) for f in sel)
         arr = np.empty(tot, dtype=np.float32); o = 0
         for f in sel:
-            v = np.fromfile(f, dtype=np.float32)
+            v = runstore.read(f)
             if kmax > 0 and f in tset and v.size > kmax * R:
                 m = v.reshape(-1, R); rid = int(m[0, DIM + 3])
                 v = m[np.sort(np.random.RandomState(rid % (2 ** 32) + 1).choice(len(m), kmax, replace=False))].ravel()
@@ -82,12 +83,13 @@ def main():
         rest = np.array(sorted(have - fs), dtype=np.int64); np.random.RandomState(23456).shuffle(rest)
         runs = np.concatenate([np.array(first, dtype=np.int64), rest, hold]); pool = runs[: len(runs) - a.holdout][: a.runs]
     else:
-        arr = np.concatenate([np.fromfile(f, dtype=np.float32) for f in files])
+        arr = np.concatenate([runstore.read(f) for f in files])
         arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
         X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
         y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
         runs = np.unique(run); rng = np.random.RandomState(12345); rng.shuffle(runs)
         hold = runs[-a.holdout:]; pool = runs[:-a.holdout][: a.runs]
+    runstore.release()   # drop the decompressed-shard cache before fitting (no-op for per-file dirs)
     nval = max(200, len(pool) // 10); val, trn = pool[-nval:], pool[:-nval]
     nrun = {}                                   # original states per run (counts.tsv of subsampled dirs; else rows present)
     for d in (a.train_dirs or []):
@@ -115,6 +117,10 @@ def main():
     ymean = float(np.average(y[it], weights=wrow[it])); ysd = float(np.sqrt(np.average((y[it] - ymean) ** 2, weights=wrow[it])) + 1e-6)
     base = float(np.sqrt(((y[ih] - ymean) ** 2).mean()))
     print(f"runs total={len(runs)} train={len(trn)} val={len(val)} holdout={len(hold)}; rows train={len(it)} val={len(iv)} holdout={len(ih)}", flush=True)
+    if os.environ.get("STS_DEBUG_HASH"):   # layout-equivalence checks (runstore): hash every array the fit depends on
+        import hashlib
+        for nm, v in (("arr", arr), ("runs", runs), ("trn", trn), ("val", val), ("hold", hold), ("it", it), ("iv", iv), ("ih", ih), ("wrow", wrow), ("mu", mu), ("sd", sd)):
+            print(f"HASH {nm} {hashlib.sha1(np.ascontiguousarray(v).tobytes()).hexdigest()[:16]} {v.dtype} {v.shape} {getattr(v, 'flags', None) and v.flags['C_CONTIGUOUS']}", flush=True)
     def std(idx):
         return ((X[idx].astype(np.float64) - mu) / sd)
     t0 = time.time()

@@ -102,7 +102,27 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 16:55 UTC
+### Current state (update after every batch) — 2026-11-04 17:25 UTC
+- **17:25 UTC: compressed run-data shards (`research/vf/runstore.py`) — bit-identity shown, local data converting.**
+  Format: `index.tsv` (name, shard, offset, nbytes) + `shard_NNNNN.z` (zlib-6 of up to 1,000 consecutive run files, by
+  name); readers (`train_vr2.py`, `score_vr.py`, `subsample_runs.py`) call `runstore.list_runs / size / read`, which mirror
+  `sorted(glob)`, `os.path.getsize`, `np.fromfile` for either layout. Pasted:
+
+      PACK rundata_a10_hold:   1000 files, 1 shard,   348.2 MB -> 4.8 MB  (72.5x), verify OK
+      PACK rundata_a10_w7_k32: 30000 files, 30 shards, 2549.8 MB -> 54.0 MB (47.3x), verify OK   (w8, w9: same)
+      SCORE vr_61 on rundata_a10_hold/sh: rmse=0.7093 corr=0.472 state_mean=1.216   (identical to per-file)
+      ridge (cell 70 from shards, id 90): model file and meta byte-identical to vr_70
+      STS_DEBUG_HASH: arr, runs, trn, val, hold, it, iv, ih, wrow, mu, sd — all identical across layouts
+      h=64 (cell 71 from shards, id 91): NOT identical (0.5554 vs 0.5576); per-file retrain (id 92) == vr_71 exactly;
+      shards with the decompressed-shard cache freed after loading (id 93) == vr_71 exactly
+
+  Finding: the net fit depends on memory layout (an extra 85 MB cache alive during training changed the result by 0.002
+  RMSE with identical inputs and seeds) — float-level nondeterminism of the CPU kernels, reproducible only for an
+  identical allocation pattern. So R4 cell gaps of ~0.002 (71 vs 70, 0.5576 vs 0.5569) are within this noise.
+  `runstore.release()` after loading keeps old fits reproducible. Test models 90–93, 99 deleted.
+  Local conversion (`research/tools/shard_local.sh`: pack, byte-verify, swap into `all/`, delete per-file copy) running;
+  then push the shard sets to the store under new names `<name>_z` (`rundata_k32`, `rundata_w3_k32` exist only here).
+  Deleting the store's per-file copies stays the owner's decision.
 - **16:55 UTC: Phase R4 closed — no keep.** Extension of `a10_vr4b20`: dev `a10_vr4b20_dev` 26.0% win, floor 36.82, +0.0147,
   P=0.593 (info); `pooled val,dev [act3]: n=400  a10_vr4b20 win=0.338 floor=38.31  a10_vr2b20 win=0.325 floor=37.71
   dscore=+0.0243 dwin=+0.013 P(improve)=0.802` -> discard. Prediction "A10 card-pick keep (LOW–MED)" failed. Three A10

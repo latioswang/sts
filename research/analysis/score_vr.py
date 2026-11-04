@@ -3,13 +3,14 @@
 (same metric as the trainers' holdout): RMSE and correlation with the final score. usage: score_vr.py MODEL_TXT DATA_DIR"""
 import glob, os, sys
 import numpy as np
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "vf")); import runstore
 DIM, EXTRA = 666, 4
 tok = open(sys.argv[1]).read().split(); nl = int(tok[1]); p = 3; layers = []
 for _ in range(nl):
     i, o = int(tok[p]), int(tok[p + 1]); p += 2
     W = np.array(tok[p:p + i * o], float).reshape(o, i); p += i * o; b = np.array(tok[p:p + o], float); p += o; layers.append((W, b))
-fs = sorted(glob.glob(os.path.join(sys.argv[2], "run_*.bin")))
-arr = np.concatenate([np.fromfile(f, dtype=np.float32) for f in fs]).reshape(-1, DIM + EXTRA)
+fs = runstore.list_runs(sys.argv[2])
+arr = np.concatenate([runstore.read(f) for f in fs]).reshape(-1, DIM + EXTRA)
 y = np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]; a = arr[:, :DIM].astype(np.float64)
 for l, (W, b) in enumerate(layers):
     a = a @ W.T + b

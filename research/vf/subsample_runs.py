@@ -4,12 +4,13 @@ already samples 16 rows per run per epoch, so K=32 fixed rows per run lose littl
 RandomState(run_id % 2**32) without replacement (all rows if a run has fewer). usage: subsample_runs.py IN_DIR OUT_DIR [--k 32]"""
 import argparse, glob, os
 import numpy as np
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import runstore   # input: per-file or shards
 DIM, EXTRA = 666, 4
 ap = argparse.ArgumentParser(); ap.add_argument("inp"); ap.add_argument("out"); ap.add_argument("--k", type=int, default=32)
 a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); n = rows_in = rows_out = 0
 counts = open(os.path.join(a.out, "counts.tsv"), "w")   # run_id <tab> original rows: lets the trainer restore per-state weights
-for f in sorted(glob.glob(os.path.join(a.inp, "run_*.bin"))):
-    x = np.fromfile(f, dtype=np.float32); x = x[: (x.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
+for f in runstore.list_runs(a.inp):
+    x = runstore.read(f); x = x[: (x.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
     if len(x) == 0: continue
     rid = int(x[0, DIM + 3]); idx = np.arange(len(x))
     if len(x) > a.k: idx = np.sort(np.random.RandomState(rid % (2 ** 32)).choice(len(x), a.k, replace=False))
