@@ -102,7 +102,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:35 UTC
+### Current state (update after every batch) — 2026-11-04 17:21 UTC
 - **R5 first cell: KEEP.** `vr5relic20` (boss relics: KB value + 20 x run-value gain) val-300 win 0.847, floor 48.38,
   dscore +0.0286, dwin +0.023, P=0.951 vs `vr3b40` -> **new A0 best**. Prediction (LOW) failed in the good direction.
   Remaining R5 cells now run against `vr5relic20` (standard greedy order: exp.sh compares with the current best and inherits
