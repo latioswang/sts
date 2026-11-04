@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 15:20 UTC
+### Current state (update after every batch) — 2026-11-04 16:17 UTC
+- **16:17 UTC:** runner stopped 16:15 at its 2-hour limit mid w9 pull (≈ 85% on disk) with 524 MB free: the Xet chunk cache
+  had grown to 1.1 GB during the pull; deleted it (cache only) -> 1.6 GB; w9 bookkeeping kept so the resumed pull skips stored
+  files; runner restarted 16:15; disk monitor armed (< 400 MB). Lesson for the shard format: per-file pulls cost bookkeeping
+  (≈ 0.38 GB per 30k files) plus cache, on top of the data.
 - **15:20 UTC:** w8 pulled (30,001 files; 50/50 sampled files read as whole 670-float rows); w9 pull running. Disk was 2.6 GB
   free against ≈ 2.9 GB per pulled set: deleted the download bookkeeping `_hf/.cache` of w7 and w8 (30,001 `.metadata` +
   30,001 `.lock` files each, no data) -> 3.3 GB; a queue line after the w9 pull removes its bookkeeping and the Xet chunk
