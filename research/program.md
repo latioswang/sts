@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 21:16 UTC
+### Current state (update after every batch) — 2026-11-04 22:16 UTC
+- **22:16 UTC:** R8 generation halfway (r8w10 at 150/300 chunks at 21:57 -> ends ≈ 23:40, then pack + push); coordinator
+  queue waiting for `rundata_a20_hold_z` (runner alive).
 - **21:16 UTC:** R8 workers past their gates (r8w11 log: three repro_check `OK bit-identical`, store lists `rundata_w1_k32_z`)
   and generating A20 games (r8w12 at 56/300 chunks at 20:54 -> generation ends ≈ 23:00). Coordinator queue waiting for
   `rundata_a20_hold_z`.
