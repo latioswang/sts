@@ -107,6 +107,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   `VERIFY 27/27 files download with matching sha256` (two random files of every data set, plus the three shortest
   `rundata_w5_k32` runs, the kind whose object was shared with a deleted full file). Worker uploads started (usage 23.5 GB at
   10:26 and rising).
+- **11:15 UTC: finished worker sessions archived** (owner request): r2w1, r2w2 (their last log commits merged first), r3w4,
+  r3w5, r3w6, a10ports, s2scale. Active: r4w7, r4w8, r4w9 (uploading).
 - **10:30 UTC: local disk for R4.** `research/tools/push_local_a10.sh` uploads the six R4-local subsamples to the store,
   checks each set's file count there, then deletes the local copies (+2.4 GB); a guard line in the R4 queue holds the
   w8 / w9 pulls until it is done (3.7 GB free now; the three A10 subsamples need ≈ 6 GB).
