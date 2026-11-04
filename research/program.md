@@ -102,7 +102,22 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:34 UTC
+### Current state (update after every batch) — 2026-11-04 17:46 UTC
+- **17:46 UTC: Phase R5 ports — KEEP on all three tracks; M-A10 NOT confirmed on test.** Pasted:
+
+      a20_relic20 pooled val,dev2,dev3 [act3]: n=500 win=0.056 floor=28.93 vs a20_vr2b20 win=0.036 floor=28.60
+                  dscore=+0.0262 dwin=+0.020 P=0.999 -> KEEP (slices +0.033 / +0.009 / +0.024)
+      heart_relic20 pooled val,dev2,dev3 [heart]: n=500 win=0.150 floor=48.22 vs heart_vr2b20 win=0.148 floor=47.56
+                  dscore=+0.0132 dwin=+0.002 P=0.904 -> KEEP (slices +0.020 / +0.005 / +0.001: marginal, mostly floor)
+      a10_relic20_dev: dscore +0.0249, dwin +0.000, P=0.735 (info; > 0, so the declared test run ran)
+      TEST a10_relic20 (500 test seeds, A10): 161/500 = 32.2%, 95% Wilson CI [28.3%, 36.4%], floor 37.80, 0 aborted
+
+  The val 38.7% did not hold on test (32.2%; the CI includes 35% but the point estimate is below): **M-A10 (≥ 35%) is not
+  confirmed.** Likely cause: selection on the val seeds — the A10 val split has been used for ~30 keep decisions, so the
+  best-of-many val number is biased upward [INFERRED, MED]; the A10 dev slice also runs low (26–27%). The M-A10 test run is
+  spent; the next A10 test run needs a new milestone claim under the same rule. Predictions: A10 keep MED-LOW (held),
+  A20 keep LOW (beaten), Heart keep LOW–MED (held, marginal).
+  Bests now: A0 `vr5relic20`, A10 `a10_relic20`, A20 `a20_relic20`, Heart `heart_relic20`.
 - **17:34 UTC: A10 KEEP `a10_relic20`** (boss relics + 20 x run-value gain, `vr_41`): val-300 win 0.387, floor 39.69, dscore
   +0.0681, dwin +0.043, P=0.999 vs `a10_vr2b20` -> new A10 best; **38.7% ≥ the 35% A10 target on val.** Prediction (MED-LOW)
   held. **M-A10 sequence declared now, before any further game:** dev replication (`rep_dev.sh`); if the dev dscore > 0,

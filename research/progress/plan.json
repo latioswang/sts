@@ -134,6 +134,12 @@
    "label": "Phase R4: A10 run value — fit 0.709 -> 0.544 on the A10 holdout, card picks no keep (b20 pooled 400 P=0.802; three A10 near misses)",
    "status": "done",
    "when": "2026-11-04 16:50"
+  },
+  {
+   "id": "R5",
+   "label": "Phase R5: run value on boss relics — KEEP on all four tracks (A0 +2.3 val / +6.0 dev; A10 38.7% val; A20 5.6% pooled; Heart marginal). M-A10 test 32.2% [28.3, 36.4]: not confirmed",
+   "status": "done",
+   "when": "2026-11-04 17:46"
   }
  ],
  "phases": [
@@ -179,10 +185,10 @@
   }
  ],
  "next_up": [
+  "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
   "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
   "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
-  "Phase R next stages, if the card experiments keep: run value for shop and boss relics, then as the fight's terminal value (replacing the win bonus, HP and potion constants).",
   "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
  ],
  "done": [
