@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:18 UTC
+### Current state (update after every batch) — 2026-11-04 17:35 UTC
+- **R5 first cell: KEEP.** `vr5relic20` (boss relics: KB value + 20 x run-value gain) val-300 win 0.847, floor 48.38,
+  dscore +0.0286, dwin +0.023, P=0.951 vs `vr3b40` -> **new A0 best**. Prediction (LOW) failed in the good direction.
+  Remaining R5 cells now run against `vr5relic20` (standard greedy order: exp.sh compares with the current best and inherits
+  its params, so `vr5shop` / `vr5upg40` test their hook on top of the relic keep; `vr5relic40` tests W=40 vs W=20). Dev
+  replication of the keep queued (informational). Ports to A10/A20/Heart after the A0 cells.
 - **17:18 UTC: Phase R5 pre-registered and queued** (run value on boss relics, shop cards, upgrades; four A0 cells vs
   `vr3b40`). Shard upload (`push_shards.sh`) still running.
 - **17:14 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
