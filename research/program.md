@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 13:18 UTC
+### Current state (update after every batch) — 2026-11-04 14:19 UTC
+- **14:19 UTC:** old local-only sets moved to the store (`gen0` 1,500 / `gen1` 1,500 / `svdata` 2,500 files, counts match;
+  local copies freed). Runner restarted 14:14 after its 2-hour stop, mid w8 pull (resumes; stored files are re-checked).
+  Then the w9 pull and R4 training (ids 70–74).
 - **13:18 UTC:** `rundata_a10_w7_k32` pulled (30,001 files); w8 pull starting; old-data push (gen0/gen1/svdata) running.
 - **Next infrastructure step (decided 13:16 UTC, after R4 training):** compressed shards. Measured on 300 files each:
   full rows zlib-6 72.7x, lzma 284.9x; k32 subsample zlib 46.8x, lzma 117.3x; sparse (index+value) ≈ 9.8x; column-major + zlib
