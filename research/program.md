@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 20:01 UTC
+### Current state (update after every batch) — 2026-11-04 20:18 UTC
+- **20:18 UTC: Phase R8 started** (pre-registered 20:16 UTC): workers r8w10 session_01USafwkB4NY1U4Sjop31yUk (also the A20
+  holdout), r8w11 session_01USafwg72vBSu3xsVLMTaFH, r8w12 session_01USafwgGyDBXGvSYd6uMw5A, each 30,000 A20 games shipped
+  as shards; this VM's queue waits for the four shard sets, then trains ids 100–104 -> `vr_121` and runs `a20_r121`.
+  Open owner question: delete the store's per-file sets that now have `_z` shard twins (≈ 23 GB).
 - **20:01 UTC: all 11 shard sets are in the store** as `<name>_z` (`ALL SHARD SETS PUSHED`; each count-verified). The store's
   per-file copies of the same data (`rundata_a10_*`, `rundata_w1..w6_k32`, `rundata_k32` was never there) are now redundant;
   deleting them is the owner's decision (asked).
