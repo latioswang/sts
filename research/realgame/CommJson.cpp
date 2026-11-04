@@ -172,6 +172,7 @@ const char *actionFor(CardSelectTask task) {
         case CardSelectTask::OMNISCIENCE: return "OmniscienceAction";
         case CardSelectTask::FOREIGN_INFLUENCE: return "ForeignInfluenceAction";
         case CardSelectTask::WISH: return "ChooseOneAction";
+        case CardSelectTask::CHOOSE_STANCE: return "ChooseOneAction";
         case CardSelectTask::SECRET_TECHNIQUE: return "SkillFromDeckToHandAction";
         case CardSelectTask::SECRET_WEAPON: return "AttackFromDeckToHandAction";
         case CardSelectTask::CODEX: return "CodexAction";
@@ -188,6 +189,11 @@ void addBattleScreen(const BattleContext &bc, json &gs) {
     if (bc.inputState != InputState::CARD_SELECT) return;
     const CardSelectTask task = bc.cardSelectInfo.cardSelectTask;
     gs["current_action"] = actionFor(task);
+    if (task == CardSelectTask::CHOOSE_STANCE) {
+        gs["screen_type"] = "CARD_REWARD";
+        gs["screen_state"] = {{"cards", json::array({json{{"id", "Wrath"}, {"upgrades", 0}}, json{{"id", "Calm"}, {"upgrades", 0}}})}};
+        return;
+    }
     if (task == CardSelectTask::DISCOVERY || task == CardSelectTask::CODEX || task == CardSelectTask::FOREIGN_INFLUENCE || task == CardSelectTask::WISH) {
         gs["screen_type"] = "CARD_REWARD";
         json cards = json::array();

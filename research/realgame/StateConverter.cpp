@@ -912,6 +912,11 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
             task = CardSelectTask::HOLOGRAM;
         }
         if (task == CardSelectTask::INVALID) notes.warn("unknown card select action " + gs.value("current_action", ""));
+        // Wish and Stance Potion share an action, and only the options tell them apart.
+        if (task == CardSelectTask::WISH) {
+            const json options = screenState.value("cards", json::array());
+            if (!options.empty() && options[0].value("id", "") == "Wrath") task = CardSelectTask::CHOOSE_STANCE;
+        }
         bc.inputState = InputState::CARD_SELECT;
         bc.cardSelectInfo.cardSelectTask = task;
         bc.cardSelectInfo.pickCount = maxCards;
@@ -992,7 +997,7 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         if (task == CardSelectTask::FOREIGN_INFLUENCE) {
             bc.cardSelectInfo.foreignInfluence_Upgraded() = 0;  // the JSON doesn't say which it is, and only the card's cost this turn depends on it
         }
-        if (screen == "CARD_REWARD") {
+        if (screen == "CARD_REWARD" && task != CardSelectTask::CHOOSE_STANCE) {
             int i = 0;
             for (const auto &c : screenState["cards"]) {
                 if (i >= 3) break;

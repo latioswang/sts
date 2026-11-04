@@ -465,6 +465,7 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                 case CardSelectTask::DISCOVERY:
                 case CardSelectTask::FOREIGN_INFLUENCE:
                 case CardSelectTask::WISH:
+                case CardSelectTask::CHOOSE_STANCE:
                     send("CHOOSE " + std::to_string(idx));
                     break;
                 case CardSelectTask::SCRY: {
