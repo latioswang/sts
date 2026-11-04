@@ -480,3 +480,6 @@ d0f575a	dev.a0	100	0	0.810	48.23	1.7557	+0.0696	0.983	info	vr5relic20_dev: VERIF
 c11cd34	val.a20	300	0	0.067	29.81	0.6499	+0.0327	0.996	keep	a20_relic20: [a20 pooled500] port A0 keep: boss relics + 20 x run value gain [vr_relic_w=20] pooled dscore=+0.0262 dwin=+0.020 P(improve)=0.999
 c11cd34	dev2.a20	100	0	0.040	27.52	0.5788	+0.0088	0.698	info	a20_relic20: [a20 pooled500 slice] port A0 keep: boss relics + 20 x run value gain
 c11cd34	dev3.a20	100	0	0.040	27.72	0.5827	+0.0239	0.942	info	a20_relic20: [a20 pooled500 slice] port A0 keep: boss relics + 20 x run value gain
+550d25a	val.a0	300	0	0.160	49.44	1.0801	+0.0203	0.927	keep	heart_relic20: [heart pooled500] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value) [vr_relic_w=20] pooled dscore=+0.0132 dwin=+0.002 P(improve)=0.904
+550d25a	dev2.a0	100	0	0.180	47.38	1.0598	+0.0047	0.609	info	heart_relic20: [heart pooled500 slice] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value)
+550d25a	dev3.a0	100	0	0.090	45.41	0.9402	+0.0006	0.516	info	heart_relic20: [heart pooled500 slice] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value)
