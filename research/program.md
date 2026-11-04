@@ -108,6 +108,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   build those subsamples), then squashed the store's history. Kept: `rundata` (A0 full-row holdout), `leafdata`, all `_k32`
   sets, `rundata_a10_hold`, `rundata_a10_w7_k32` (partial). Used storage still reads 99.8 GB after the squash (a 1 MB probe
   upload succeeded); waiting for the store to account the freed space before the R4 workers re-push.
+- **10:15 UTC: R4 queue unparked** (it waits for each complete A10 subsample, then pulls and trains ids 70–74 -> `vr_81`).
+  Workers r4w7–r4w9 told (information) that space was freed; they push once the store's counter drops. Local disk: the
+  three A10 subsamples need ≈ 6 GB [7.5 GB with the 15,000 w7 files already here counted], 3.7 GB free; plan: once the store
+  accepts writes, push the R4-local subsamples `rundata_a10_l0..l5_k32` there (keeps them) and delete them locally (+2.4 GB).
 - **R4-local closed:** `a10_vr4lb20` discard; `a10_vr4lb40` near miss, extension pooled 400 P=0.855 -> discard.
 - **09:57 UTC:** `a10_vr4lb40` near miss (37.0% vs 34.3% val, P=0.856); pre-registered extension (dev 100, pooled 400) running.
 - **09:57 UTC: R4-local fits done; `a10_vr4lb20` discard; `a10_vr4lb40` running.** A10-trained run value fits the A10 holdout
