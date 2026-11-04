@@ -472,3 +472,7 @@ af7352c	val.a10	300	0	0.363	38.81	1.1243	+0.0275	0.785	discard	a10_vr4b20: [a10]
 7ce05c9	val.a10	300	0	0.347	38.92	1.1098	+0.0130	0.639	discard	a10_vr4b40: [a10] Phase R4: A10 card picks + 40 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=40]
 c144212	dev.a10	100	0	0.260	36.82	0.9820	+0.0147	0.593	info	a10_vr4b20_dev: VERIFY: a10_vr4b20 on dev vs a10_vr2b20_dev (replication of a a10 keep)
 f5b62ff	val.a0	300	0	0.847	48.38	1.7952	+0.0286	0.951	keep	vr5relic20: Phase R5: boss relics KB + 20 x run value gain (vr_61) [vr_relic_w=20]
+d0f575a	val.a0	300	0	0.840	48.31	1.7872	-0.0080	0.000	discard	vr5relic40: Phase R5: boss relics KB + 40 x run value gain (vr_61) [vr_relic_w=40]
+d0f575a	val.a0	300	0	0.847	48.20	1.7918	-0.0035	0.417	discard	vr5shop: Phase R5: shop cards KB + vr_bonus x run value gain after paying (vr_61) [vr_shop=1]
+d0f575a	val.a0	300	0	0.847	48.46	1.7969	+0.0017	0.540	discard	vr5upg40: Phase R5: upgrades KB + 40 x run value gain (vr_61) [vr_upg_w=40]
+d0f575a	dev.a0	100	0	0.810	48.23	1.7557	+0.0696	0.983	info	vr5relic20_dev: VERIFY: vr5relic20 on dev vs vr3b40_dev (replication of a a0 keep)

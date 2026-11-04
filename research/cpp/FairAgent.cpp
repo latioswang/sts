@@ -536,6 +536,10 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
     // when the player holds it, so there is no hidden-info leak.
     int best = 3;  // 3 = skip
     double bestV = -1e18;
+    // Phase R5: vr_relic_w x (learned run value with the relic - without it), added to the KB value on both relic paths (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrRw = vrm.trained ? getp(P, "vr_relic_w", 0.0) : 0.0;
+    const float vr0 = vrRw != 0.0 ? vr::value(vrm, gc) : 0.f;
     const double relicW = getp(P, "bf_relic_w", 0.0);
     if (relicW > 0) {
         // KB tier value + bf_relic_w x (simulated next-act fight value with the relic - without it); the KB value
@@ -548,7 +552,8 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
             GameContext hyp = gc;
             RelicInstance ri; ri.id = r; ri.data = 0;
             hyp.relics.add(ri);
-            const double v = kbBossRelicValue(r) + relicW * (bfRelicValue(hyp, seed) - vSkip);
+            const double v = kbBossRelicValue(r) + relicW * (bfRelicValue(hyp, seed) - vSkip)
+                             + (vrRw != 0.0 ? vrRw * (vr::value(vrm, hyp) - vr0) : 0.0);
             if (v > bestV) { bestV = v; best = i; }
         }
         return best;
@@ -566,10 +571,6 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
         }
         return best;
     }
-    // Phase R5: vr_relic_w x (learned run value with the relic - without it), added to the KB value (default off)
-    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
-    const double vrRw = vrm.trained ? getp(P, "vr_relic_w", 0.0) : 0.0;
-    const float vr0 = vrRw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < 3; ++i) {
         const RelicId r = gc.info.bossRelics[i];
         if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;

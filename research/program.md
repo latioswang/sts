@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:21 UTC
+### Current state (update after every batch) — 2026-11-04 17:32 UTC
+- **17:32 UTC:** R5 A0 cells done (relic20 KEEP and replicated on dev +6.0; relic40, shop, upgrades discard). Ports of the
+  relic keep to A10 / A20 / Heart pre-registered and queued (see "Phase R5 results and ports").
 - **R5 first cell: KEEP.** `vr5relic20` (boss relics: KB value + 20 x run-value gain) val-300 win 0.847, floor 48.38,
   dscore +0.0286, dwin +0.023, P=0.951 vs `vr3b40` -> **new A0 best**. Prediction (LOW) failed in the good direction.
   Remaining R5 cells now run against `vr5relic20` (standard greedy order: exp.sh compares with the current best and inherits
@@ -1450,6 +1452,21 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R5 results (pasted 17:32 UTC) and ports (pre-registered 17:32 UTC, before any port game).**
+
+    vr5relic20 val-300: win 0.847 floor 48.38 vs vr3b40: dscore +0.0286 dwin +0.023 P=0.951 -> KEEP (new A0 best)
+    vr5relic20_dev:     win 0.810 vs vr3b40_dev: dscore +0.0696 dwin +0.060 P=0.983 (info; replicates)
+    vr5relic40 vs vr5relic20: win 0.840, dscore -0.0080, P=0.000 -> discard
+    vr5shop    vs vr5relic20: win 0.847, dscore -0.0035, P=0.417 -> discard
+    vr5upg40   vs vr5relic20: win 0.847, dscore +0.0017, P=0.540 -> discard
+
+Ports of `vr5relic20` (boss relics + 20 x run-value gain, each track's own best `vr_model`, i.e. `vr_41`):
+`a10_relic20` (A10, val-300 rule), `a20_relic20` and `heart_relic20` (pooled-500 rule, `exp_pooled.sh`). The Heart track
+picks boss relics with simulated fights (`bf_relic_w=10`), which returned before the new term; the term now adds on that
+path too (default off; after the rebuild `repro_check` vr5relic20 / heart_vr2b20 / a10_vr2b20: 0 of 16 differ each; leak
+test Heart params + vr_relic_w=20: 92 checked, 0 mismatches). Predictions: A10 keep MED-LOW, A20 keep LOW (few runs reach a
+boss relic decision that matters), Heart keep LOW–MED.
 
 **Phase R4-local — A10 data generated on this VM while the store is full (pre-registered 2026-11-04 06:23 UTC, before any
 of these games exist).** Why: the 90,000 worker games cannot reach this VM (HF private storage full; user decision pending)
