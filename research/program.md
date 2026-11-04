@@ -102,8 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:33 UTC
-- **17:33 UTC: Phase R5 pre-registered and queued** (run value on boss relics, shop cards, upgrades; four A0 cells vs
+### Current state (update after every batch) — 2026-11-04 17:18 UTC
+- **17:18 UTC: Phase R5 pre-registered and queued** (run value on boss relics, shop cards, upgrades; four A0 cells vs
   `vr3b40`). Shard upload (`push_shards.sh`) still running.
 - **17:14 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
   rundata_w6_k32 -> shards (58M)`); `research/vf/data` 2.2 GB, disk 26 GB free (was 1.5 GB). `push_shards.sh` uploads
@@ -1435,7 +1435,7 @@ reference `score_vr.py vr_61` on it; ids 70 / 71 / 72 = ridge / h=64 / h=256 on 
 ids 73 / 74 = h=64 / h=256 on A10 + all A0 subsamples (8 kept states, memory); selection among 70–74 -> `vr_81`, gate; leak
 test; `a10_vr4b20`, `a10_vr4b40` vs the A10 best (val-300 rule). The A0 model `vr_61` is not in the selection (scored only).
 
-**Phase R5 — the run value on more decisions (pre-registered 2026-11-04 17:33 UTC, before any of these games).** Why: the
+**Phase R5 — the run value on more decisions (pre-registered 2026-11-04 17:18 UTC, before any of these games).** Why: the
 learned run value V (666 features incl. relic one-hots, gold, upgrades, deck) kept on A0 card picks (`vr3b40`: card value +
 40 x ΔV) but so far scores only card rewards. Three default-off hooks in `FairAgent.cpp` (build: `repro_check vr3b40 16` ->
 0 of 16 games differ; leak tests with each flag on: 98 checked, 0 mismatches):
