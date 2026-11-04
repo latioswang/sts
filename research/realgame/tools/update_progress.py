@@ -29,7 +29,7 @@ HISTORY = os.path.join(REPORTS, "regression_history.tsv")
 # Other classes' batches keep their mirror logs and plans in their own checkouts, while all transcripts land here.
 CLASS_REPOS = [os.path.expanduser(f"~/Projects/{name}/research/realgame") for name in ("sts_bridge_cards", "sts_bridge_silent", "sts_bridge_watcher")]
 # A build of its own, since the one a real-game batch runs from can't be rebuilt while it runs.
-DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_silent/build-replay/sts_bridge")
+DEFAULT_BRIDGE = os.path.expanduser("~/Projects/sts_lightspeed_watcher/build-replay/sts_bridge")
 HOURS_BACK = 24
 PASS_COLUMNS = ["time", "commit", "total", "change_24h", "weakest", "weakest_left", "runs", "recordings", "pass", "limited", "fail", "worse", "seconds", "checked_share",
                 "points_per_hour", "hours_to_100", "runs_left", "hours_left"]
@@ -40,9 +40,9 @@ CLASS_LABELS = {"ironclad": "铁甲战士", "silent": "静默猎手", "defect": 
 # What each class still needs, in order, for the classes table.
 CLASS_NEXT = {
     "ironclad": "继续跑新种子，直到 300 局无差异",
-    "silent": "卡牌移植进行中，之后在真实游戏上验证",
+    "silent": "卡牌已移植并在铁甲局里跑过 26 个种子。还差用该职业开局",
     "defect": "卡牌已移植并在铁甲局里验证。还差用该职业开局",
-    "watcher": "卡牌未移植，等 Silent 完成后开始",
+    "watcher": "卡牌已移植，正在铁甲局里验证。还差用该职业开局",
 }
 FIELD_LABELS = {"plays": "打出", "upgraded": "升级后打出", "signatures": "情境", "in_hand": "在手牌回合", "runs": "局数", "uses": "使用", "fights": "战斗",
                 "visits": "遇到", "options_chosen": "选过的选项比例", "runs_to_floor": "到 17 层以上的局", "clean_distinct_seeds": "无差异的不同种子"}
