@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 04:17 UTC
+### Current state (update after every batch) — 2026-11-04 06:23 UTC
+- **06:23 UTC: Phase R4-local started** (pre-registered above): 30,000 A10 games generated on this VM in blocks of 5,000,
+  subsampled as they finish; pull of the partial `rundata_a10_w7_k32` alongside. R4 proper still blocked on the HF storage
+  quota; workers r4w7–r4w9 idle with their data only on their VMs (merged their logs).
 - **04:17 UTC:** still blocked on the Hugging Face storage quota; all three R4 workers idle with their A10 data unpushed.
 - **03:20 UTC: R4 BLOCKED — Hugging Face private storage full** (workers r4w7, r4w8 report it; r4w7's A10 subsample is at
   15,000/30,001 files; r4w8's data is only on its VM). Coordinator runner stopped (resume marker intact) so it cannot train
@@ -1307,6 +1310,20 @@ R4 training plan (fixed 23:19 UTC, before any A10 data exists here): holdout dir
 reference `score_vr.py vr_61` on it; ids 70 / 71 / 72 = ridge / h=64 / h=256 on the A10 subsamples only (16 kept states);
 ids 73 / 74 = h=64 / h=256 on A10 + all A0 subsamples (8 kept states, memory); selection among 70–74 -> `vr_81`, gate; leak
 test; `a10_vr4b20`, `a10_vr4b40` vs the A10 best (val-300 rule). The A0 model `vr_61` is not in the selection (scored only).
+
+**Phase R4-local — A10 data generated on this VM while the store is full (pre-registered 2026-11-04 06:23 UTC, before any
+of these games exist).** Why: the 90,000 worker games cannot reach this VM (HF private storage full; user decision pending)
+and this VM's 4 vCPUs are idle. Data: 30,000 A10 games, same agent/params/logger as R4 (`a10_vr2b20`, `rv_log=1`), seeds
+920000–949999 (unused; clear of test 900000–900499), six blocks of 5,000 (`rundata_a10_l0..l5`); each block is subsampled
+to 32 states/run (`rundata_a10_lB_k32`) and its full rows deleted (disk: 7.3 GB free). Also pulled: the 15,000 files of
+`rundata_a10_w7_k32` already in the store; rule fixed now: that partial set joins the training dirs iff its `counts.tsv`
+arrived (else it is deleted unused). Holdout: the R4 holdout `rundata_a10_hold` (already here, seeds 800000–800999; the
+trainer drops holdout ids from train dirs). Cells (same trainer and options as R4): ids 75 / 76 / 77 = ridge / h=64 / h=256 on
+A10 only (16 kept states); 78 / 79 = h=64 / h=256 on A10 + all A0 subsamples (8 kept states); selection among 75–79 ->
+`vr_82` (`vr_select3.sh`, gate vs predict-mean); leak test; `a10_vr4lb20`, `a10_vr4lb40` vs the A10 best (val-300 rule,
+near-miss extension rule as usual). `vr_61` scored on the holdout for reference. If storage is fixed later, the original
+R4 (ids 70–74 -> `vr_81`, 90,000 games) still runs as pre-registered; R4-local does not replace it.
+Predictions: an A10-only net beats `vr_61` on the A10 holdout (MED); A10 card-pick keep at bonus 20 or 40 (LOW).
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
