@@ -69,6 +69,10 @@ class Relay:
             line = raw.rstrip("\n")
             if not line:
                 continue
+            # A line starting with # is for the transcript only. No mod command starts that way.
+            if line.startswith("#"):
+                self.record("note", line[1:])
+                continue
             self.record("client", line)
             sys.stdout.write(line + "\n")
             sys.stdout.flush()

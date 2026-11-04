@@ -28,6 +28,7 @@ Work ran from 2026-11-02 to 2026-11-04.
 8. **Tried what no run had seen.** Ascensions 5, 10, 15 and 18, and 30 new seeds (1100 to 1129). These found new bugs, such as a shop's rare card chance.
 9. **Looked at other simulators.** Another fork's fix list found three bugs we still had. See [Other simulators](#other-simulators).
 10. **Measured the effect on research.** See [Effect on the agent](#effect-on-the-agent).
+11. **Added a regression test.** Every recorded run can now be checked with no game running, so the game is only needed for new runs. See [Regression test](#regression-test).
 
 ## How one difference gets fixed
 
@@ -82,6 +83,58 @@ Surveyed on 2026-11-04 by cloning each one and counting implemented cards, since
 | [jdc5549/sts_lightspeed](https://github.com/jdc5549/sts_lightspeed) (C++) | Bug fixes found the same way. Three went into `8bf1499` |
 | [klottick/sts_lightspeed_all_characters](https://github.com/klottick/sts_lightspeed_all_characters) | No more cards than upstream, despite the name |
 | [GaoPeng415/SlayTheSpireHeadlessEngine](https://github.com/GaoPeng415/SlayTheSpireHeadlessEngine) | Decompiled game code with no license. Don't copy from it |
+
+## Regression test
+
+[`tools/run_regression.py`](tools/run_regression.py) plays every recording back through mirror mode with no game. See the [README](README.md#regression-test) for how it works.
+
+Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
+
+| Measure | Result |
+|---|---|
+| Recordings | 613 runs, 51 MB |
+| Time | 42 seconds on 4 processes with the machine otherwise quiet, and 80 to 95 seconds under load |
+| Pass | 307 |
+| Limited | 267: mostly a Discovery in a recording with no random streams (132) and other classes' cards (28) |
+| Known failures | 39: 35 older recordings whose seed later got further, and 4 not looked into |
+
+**Does it catch a bug?** We reverted one fix (`3347784`, a shop's rare card chance) in a copy of the simulator and ran it. It reported three runs as worse and exited 1, naming seeds 1103 and 1101 and the card rewards that differ. The unchanged build exits 0.
+
+**What it can't do.** It only checks paths the game has already played, so new content still needs the game.
+
+**How often.** A pass costs about a minute, so at 1% of the machine's time it can run every 100 minutes.
+
+## How the agent and the checks compare
+
+Checked on 2026-11-04. Other projects use their own seeds and setups, so these figures are a guide and not a controlled comparison.
+
+| Agent | Setting | Result | Played on |
+|---|---|---|---|
+| This project, Ironclad | Ascension 0 | 31 wins on 60 plain seeds (52%) | Real game, mirror mode |
+| This project, Ironclad | Ascension 0 | 34 wins on the same 60 seeds (57%). 67.3% over 300 validation seeds | Simulator, the fork |
+| This project, Ironclad | Ascension 0 | 75.0% over 300 validation seeds, the research record from before the fixes | Simulator, Linux |
+| This project, Ironclad | Ascension 20 | 1.0% over 300 validation seeds on the fork. The research record is 4.0% | Simulator |
+| This project, Ironclad | Live mode | 2 wins in 3 runs | Real game |
+| [bottled_ai](https://github.com/xaved88/bottled_ai), Ironclad | Ascension 0 | 20% over 50 runs, average floor 32.7 | Real game |
+| bottled_ai, Watcher, its best | Ascension 0 | 52% over 50 runs | Real game |
+| [sts-rl-agent](https://huggingface.co/Jialeiv/sts-rl-agent) | Ascension 0 | 14% over 50 seeds | sts_lightspeed |
+| GPT-6.1 Sol, from [Epoch AI](https://epoch.ai/publications/ai-systems-are-improving-rapidly-at-slay-the-spire-and-its-sequel) | Ascension 0 | 97% over 60 runs, all classes | Not checked |
+| GPT-6.1 Sol | Ascension 20 with the Heart | 20% over 60 runs. Ironclad 27% over 15 | Not checked |
+
+- **bottled_ai's ascension.** Its documents don't name one, and some articles say 20. Its code starts every run with `start <class> 0 <seed>`, which is ascension 0, at tag `release-03` as well. The ten Ironclad wins at the top of its table score 726 to 828. Ours score around 800 at ascension 0 and 1,863 to 2,308 at ascension 20. Its 50 Ironclad runs give a 95% interval of 8.9% to 31.1%.
+- **Mirror runs are real play.** The agent's moves are played on the real game, so they count as well as live runs. On seeds 1000 to 1029 and 1100 to 1129, each seed's latest run won 31 of 60, with a margin of about 13 points. `fair_eval` on the same seeds, with the same settings on a newer build, won 34, and 52 of the 60 ended the same way on the same floor. The other 8 ran on older builds, which is the likely reason, but this hasn't been checked. So the gap down from 67% or 75% isn't a gap between the simulator and the game. It comes from which seeds were played, the platform and the fixes, and how much from each hasn't been measured.
+- **Ascension 20.** No open source project we looked at publishes an ascension 20 win rate we could confirm. AlphaStS's README gives no win rate for whole runs.
+
+Real game checks in other simulators, from their own documents:
+
+| Project | Checked against the game |
+|---|---|
+| This project | 360 runs on 128 seeds, about 156,000 compared steps. Mostly Ironclad, ascensions 0 to 20. Counts repeat runs and runs on older builds |
+| SpireSim | Four complete ascension 20 Heart runs, one per class, plus recorded cases |
+| sts-engine | Act 1 Ironclad snapshots |
+| spire-gym | Its README says it doesn't establish parity with the game |
+
+Anything borrowed gets the same treatment as our own fixes: read it against the game's bytecode, then run it on the real game.
 
 ## What's next
 

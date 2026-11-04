@@ -3,9 +3,11 @@
 //   sts_bridge mirror --research_dir DIR --seed_start N --count K [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
 //   sts_bridge live --research_dir DIR --seed_start N --count K [--asc A] [--params FILE] [--param k=v ...]
 //   sts_bridge selftest --research_dir DIR --seed_start N --count K    (converter round trip, no game needed)
+//   sts_bridge replay --trace FILE [--trace FILE ...]    (checks recorded runs, no game needed; one JSON line per run)
 #include "CommClient.h"
 #include "Live.h"
 #include "Mirror.h"
+#include "ReplayClient.h"
 #include "Scenario.h"
 #include "SelfTest.h"
 
@@ -35,6 +37,7 @@ struct Args {
     std::string logDir;
     std::string paramsFile;
     fair::Params params;
+    std::vector<std::string> traces;
 };
 
 void addParam(fair::Params &params, const std::string &kv) {
@@ -64,8 +67,10 @@ Args parseArgs(int argc, char **argv) {
         else if (a == "--log_dir") args.logDir = next();
         else if (a == "--params") args.paramsFile = next();
         else if (a == "--param") addParam(overrides, next());
+        else if (a == "--trace") args.traces.push_back(next());
         else throw std::runtime_error("unknown option " + a);
     }
+    if (args.mode == "replay") return args;  // no agent, so no parameters or models
     if (args.researchDir.empty()) throw std::runtime_error("--research_dir is required (the research/ directory)");
     if (args.logDir.empty()) args.logDir = args.researchDir + "/realgame/logs";
     if (args.paramsFile.empty()) args.paramsFile = args.researchDir + "/best_params.txt";
@@ -93,6 +98,53 @@ void loadModelsOrDie(const Args &args) {
     }
 }
 
+json diffsToJson(const Diffs &diffs) {
+    json list = json::array();
+    for (const auto &d : diffs) list.push_back({{"field", d.field}, {"sim", d.simulator}, {"game", d.game}, {"hard", d.hard}});
+    return list;
+}
+
+int runReplay(const Args &args) {
+    setNoGameRunning();
+    for (const std::string &path : args.traces) {
+        json row{{"file", path}};
+        try {
+            ReplayClient game(path);
+            const TraceHeader &header = game.header();
+            row["trace"] = header.trace;
+            MirrorOptions options;
+            options.seed = header.seed;
+            options.ascension = header.ascension;
+            options.scenario = header.scenario;
+            options.noteCard = header.noteCard;
+            options.noteUpgrades = header.noteUpgrades;
+            options.replay = &game;
+            Mirror mirror(game, options);
+            const MirrorResult r = mirror.run();
+            row["seed"] = r.seed;
+            row["seed_text"] = r.seedText;
+            row["asc"] = header.ascension;
+            row["scenario_source"] = header.scenarioSource;
+            row["status"] = r.status;
+            row["floor"] = r.floor;
+            row["act"] = r.act;
+            row["step"] = r.step;
+            row["where"] = r.where;
+            row["last_action"] = r.lastAction;
+            row["message"] = r.message;
+            row["seconds"] = r.seconds;
+            row["diffs"] = diffsToJson(r.diffs);
+            row["commands_replayed"] = game.commandsReplayed();
+            row["commands_total"] = game.commandsTotal();
+        } catch (const std::exception &e) {
+            row["status"] = "replay_error";
+            row["message"] = e.what();
+        }
+        std::cout << row.dump(-1, ' ', false, json::error_handler_t::replace) << "\n" << std::flush;
+    }
+    return 0;
+}
+
 int runMirror(const Args &args) {
     CommClient game(args.socketPath);
     game.refresh();
@@ -118,9 +170,7 @@ int runMirror(const Args &args) {
         json row{{"seed", r.seed}, {"seed_text", r.seedText}, {"status", r.status}, {"floor", r.floor}, {"act", r.act},
                  {"step", r.step}, {"commands", r.commands}, {"where", r.where}, {"last_action", r.lastAction},
                  {"message", r.message}, {"seconds", r.seconds}};
-        json list = json::array();
-        for (const auto &d : r.diffs) list.push_back({{"field", d.field}, {"sim", d.simulator}, {"game", d.game}, {"hard", d.hard}});
-        row["diffs"] = list;
+        row["diffs"] = diffsToJson(r.diffs);
         results << row.dump() << "\n";
         results.flush();
         std::cout << r.seed << " (" << r.seedText << ") " << r.status << " floor " << r.floor << " step " << r.step
@@ -166,6 +216,7 @@ int runLive(const Args &args) {
 int main(int argc, char **argv) {
     try {
         const Args args = parseArgs(argc, argv);
+        if (args.mode == "replay") return runReplay(args);
         mkdir(args.logDir.c_str(), 0755);
         loadModelsOrDie(args);
         if (args.mode == "mirror") return runMirror(args);

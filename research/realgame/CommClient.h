@@ -20,29 +20,42 @@ struct GameUnavailable : std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
+// The first turn becomes playable a few frames before monsters show their intents. Until then the mod reports the
+// placeholder intent DEBUG and a damage of -1.
+[[nodiscard]] bool intentsPending(const json &msg);
+
 class CommClient {
 public:
     explicit CommClient(const std::string &socketPath);
-    ~CommClient();
+    virtual ~CommClient();
     CommClient(const CommClient &) = delete;
     CommClient &operator=(const CommClient &) = delete;
 
     // Sends `cmd` and returns the next stable state (ready_for_command). Throws CommandRejected on a mod error.
-    const json &command(const std::string &cmd, double timeoutSec = kDefaultTimeoutSec);
+    virtual const json &command(const std::string &cmd, double timeoutSec = kDefaultTimeoutSec);
 
     // Asks for the current state without changing anything. Returns the latest message.
-    const json &refresh();
+    virtual const json &refresh();
+
+    // Writes a line to the relay's transcript. The game never sees it, and no answer comes back.
+    virtual void note(const std::string &text);
 
     [[nodiscard]] const json &last() const { return last_; }
     [[nodiscard]] int commandsSent() const { return commandsSent_; }
 
     static constexpr double kDefaultTimeoutSec = 90.0;
+    static constexpr int kMaxIntentWaits = 20;
+    static constexpr int kIntentWaitFrames = 5;
+
+protected:
+    CommClient() = default;  // for a stand-in that has no socket
+
+    json last_;
+    int commandsSent_ = 0;
 
 private:
     int fd_ = -1;
     std::string buffer_;
-    json last_;
-    int commandsSent_ = 0;
 
     void sendLine(const std::string &line);
     void sendAndWait(const std::string &cmd, double timeoutSec);

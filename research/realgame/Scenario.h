@@ -55,6 +55,13 @@ void faceGameMonster(int gameIndex);
 // Every random stream in the game by name, read through the mod. Empty if the mod isn't installed.
 std::map<std::string, RngState> readGameRngs();
 
+// The streams as text, tab-separated name=seed0,seed1,counter. The mod answers in this form, and recordings keep it.
+std::map<std::string, RngState> parseGameRngs(const std::string &text);
+std::string formatGameRngs(const std::map<std::string, RngState> &states);
+
+// With no game running, faceGameMonster does nothing and readGameRngs finds nothing.
+void setNoGameRunning();
+
 // The folder the game runs from: STS_GAME_DIR, or ~/.sts_realgame. Empty if neither is known.
 std::string gameFolder();
 
