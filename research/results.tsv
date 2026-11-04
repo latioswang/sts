@@ -486,3 +486,4 @@ c11cd34	dev3.a20	100	0	0.040	27.72	0.5827	+0.0239	0.942	info	a20_relic20: [a20 p
 8d1f31d	dev.a10	100	0	0.270	36.83	0.9922	+0.0249	0.735	info	a10_relic20_dev: VERIFY: a10_relic20 on dev vs a10_vr2b20_dev (replication of a a10 keep)
 1ee6871	val.a0	300	0	0.823	48.09	1.7662	-0.0290	0.089	discard	vr6rest: Phase R6: rest vs smith by the run value (vr_61) [vr_rest=1]
 ad52fa0	val.a0	300	0	0.800	47.93	1.7398	-0.0554	0.018	discard	vr6rm: Phase R6: card removal by the run value, curses first (vr_61) [vr_remove=1]
+bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase R6: boss relics KB + 10 x run value gain [vr_relic_w=10]

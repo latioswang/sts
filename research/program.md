@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 18:17 UTC
+### Current state (update after every batch) — 2026-11-04 18:26 UTC
+- **18:26 UTC: Phase R6 closed — no keep.** `vr6rest` dscore −0.0290, dwin −0.023, P=0.089; `vr6rm` dscore −0.0554, dwin
+  −0.047, P=0.018; `vr6relic10` dscore −0.0034, dwin −0.003, P=0.000 (vs `vr5relic20`) -> all discard. Predictions: rest
+  LOW–MED (failed), removal LOW (held), relic10 LOW (held). Reading: the run value helps where the KB prior is weak and the
+  choice is between different *items* (relics, cards); replacing hand rules for HP vs upgrades and removal order hurts —
+  V is trained on the agent's own outcomes under those rules and is least reliable for HP trade-offs [INFERRED, LOW–MED].
 - **18:17 UTC: Phase R6 pre-registered and queued** (run value on rest sites and removals, relic weight 10; A0 vs `vr5relic20`).
   Shard upload continues (2 of 11 sets confirmed at 17:45).
 - **17:46 UTC: Phase R5 ports — KEEP on all three tracks; M-A10 NOT confirmed on test.** Pasted:
