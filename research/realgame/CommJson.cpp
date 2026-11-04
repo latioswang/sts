@@ -93,7 +93,7 @@ json monsterJson(const BattleContext &bc, const Monster &m) {
 
 json combatJson(const BattleContext &bc) {
     json powers = json::array();
-    for (int i = 1; i <= static_cast<int>(PlayerStatus::THE_BOMB); ++i) {
+    for (int i = 1; i <= static_cast<int>(kLastPlayerStatus); ++i) {
         const auto s = static_cast<PlayerStatus>(i);
         if (!bc.player.hasStatusRuntime(s)) continue;
         if (s == PS::PANACHE) {
@@ -107,6 +107,11 @@ json combatJson(const BattleContext &bc) {
         const int damage = bombs[turnsLeft - 1];
         if (damage) powers.push_back({{"id", "TheBomb" + std::to_string(turnsLeft)}, {"amount", turnsLeft}, {"damage", damage}});
     }
+    json orbs = json::array();
+    for (int i = 0; i < bc.player.orbSlots; ++i) {
+        orbs.push_back({{"id", orbToGameId(bc.player.orbs[i])}, {"evoke_amount", bc.player.orbEvokeAmount(i)}, {"passive_amount", bc.player.orbPassiveAmount(i)}});
+    }
+
     json monsters = json::array();
     for (const int slot : occupiedMonsterSlots(bc)) monsters.push_back(monsterJson(bc, bc.monsters.arr[slot]));
 
@@ -137,7 +142,7 @@ json combatJson(const BattleContext &bc) {
                 {"times_damaged", bc.player.timesDamagedThisCombat},
                 {"cards_discarded_this_turn", bc.player.cardsDiscardedThisTurn},
                 {"player", {{"current_hp", bc.player.curHp}, {"max_hp", bc.player.maxHp}, {"block", bc.player.block},
-                            {"energy", bc.player.energy}, {"powers", powers}, {"orbs", json::array()}}}};
+                            {"energy", bc.player.energy}, {"powers", powers}, {"orbs", orbs}}}};
 }
 
 const char *actionFor(CardSelectTask task) {
@@ -153,7 +158,8 @@ const char *actionFor(CardSelectTask task) {
         case CardSelectTask::HEADBUTT: return "DiscardPileToTopOfDeckAction";
         case CardSelectTask::HOLOGRAM:
         case CardSelectTask::LIQUID_MEMORIES_POTION: return "BetterDiscardPileToHandAction";
-        case CardSelectTask::SEEK: return "SeekAction";
+        case CardSelectTask::SEEK: return "BetterDrawPileToHandAction";
+        case CardSelectTask::RECYCLE: return "RecycleAction";
         case CardSelectTask::SECRET_TECHNIQUE: return "SkillFromDeckToHandAction";
         case CardSelectTask::SECRET_WEAPON: return "AttackFromDeckToHandAction";
         case CardSelectTask::CODEX: return "CodexAction";

@@ -200,6 +200,11 @@ static const std::pair<const char *, PlayerStatus> kPlayerPowers[] = {
     {"Dexterity", PlayerStatus::DEXTERITY},
     {"Strength", PlayerStatus::STRENGTH},
     {"TheBomb", PlayerStatus::THE_BOMB},
+    {"EnergizedBlue", PlayerStatus::ENERGIZED_BLUE},
+    {"Heatsink", PlayerStatus::HEATSINK},
+    {"Draw", PlayerStatus::MACHINE_LEARNING},
+    {"Repair", PlayerStatus::SELF_REPAIR},
+    {"Storm", PlayerStatus::STORM},
 };
 
 struct MoveByte { MonsterId monster; int byte; MMID move; };

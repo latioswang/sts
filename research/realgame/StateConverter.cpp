@@ -52,6 +52,7 @@ void setPlayerStatus(Player &p, PlayerStatus s, int amount, bool justApplied) {
         PS_CASE(NOXIOUS_FUMES) PS_CASE(OMEGA) PS_CASE(PANACHE) PS_CASE(PHANTASMAL) PS_CASE(PLATED_ARMOR) PS_CASE(RAGE) PS_CASE(REGEN)
         PS_CASE(RITUAL) PS_CASE(RUPTURE) PS_CASE(SADISTIC) PS_CASE(STATIC_DISCHARGE) PS_CASE(THORNS) PS_CASE(THOUSAND_CUTS)
         PS_CASE(TOOLS_OF_THE_TRADE) PS_CASE(VIGOR) PS_CASE(WAVE_OF_THE_HAND) PS_CASE(EQUILIBRIUM) PS_CASE(THE_BOMB)
+        PS_CASE(ENERGIZED_BLUE) PS_CASE(HEATSINK) PS_CASE(MACHINE_LEARNING) PS_CASE(SELF_REPAIR) PS_CASE(STORM)
 #undef PS_CASE
 #define PS_TIMED(NAME) case PS::NAME: p.setHasStatus<PS::NAME>(true); p.setStatusValueNoChecks<PS::NAME>(amount); p.setJustApplied<PS::NAME>(justApplied); break;
         PS_TIMED(DOUBLE_DAMAGE) PS_TIMED(DRAW_REDUCTION) PS_TIMED(FRAIL) PS_TIMED(INTANGIBLE) PS_TIMED(VULNERABLE) PS_TIMED(WEAK)
@@ -457,7 +458,8 @@ CardSelectTask taskFromAction(const std::string &action, const std::string &scre
     if (action == "PutOnDeckAction" || action == "WarcryAction") return CardSelectTask::WARCRY;
     if (action == "DiscardPileToTopOfDeckAction" || action == "HeadbuttAction") return CardSelectTask::HEADBUTT;
     if (action == "BetterDiscardPileToHandAction") return CardSelectTask::LIQUID_MEMORIES_POTION;
-    if (action == "SeekAction") return CardSelectTask::SEEK;
+    if (action == "BetterDrawPileToHandAction") return CardSelectTask::SEEK;
+    if (action == "RecycleAction") return CardSelectTask::RECYCLE;
     if (action == "SkillFromDeckToHandAction") return CardSelectTask::SECRET_TECHNIQUE;
     if (action == "AttackFromDeckToHandAction") return CardSelectTask::SECRET_WEAPON;
     if (action == "CodexAction") return CardSelectTask::CODEX;
@@ -566,6 +568,7 @@ GameContext gameContextFromState(const json &gs, std::uint64_t rngSeed, const Ru
             continue;
         }
         gc.relics.add(RelicInstance{*relic, relicDataFromCounter(*relic, r.value("counter", -1))});
+        if (*relic == RelicId::PRISMATIC_SHARD) gc.masterMaxOrbs = 1;  // PrismaticShard.onEquip
     }
 
     gc.deck = Deck{};
@@ -725,6 +728,18 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
             p.noDrawBeforeCombust = p.hasStatus<PS::NO_DRAW>();  // the list keeps the order they were gained
         }
         if (*status == PS::ECHO_FORM) p.echoFormCardsDoubled = static_cast<std::int8_t>(power.value("misc", 0));
+        if (*status == PS::MACHINE_LEARNING) p.cardDrawPerTurn = static_cast<std::int8_t>(p.cardDrawPerTurn + amount);  // DrawPower raises the hand size
+    }
+
+    // The JSON doesn't say how many orbs were channeled so far, so Thunder Strike and Blizzard start counting from here.
+    const json &orbs = player["orbs"];
+    p.orbSlots = static_cast<std::int8_t>(std::min<int>(static_cast<int>(orbs.size()), Player::MAX_ORB_SLOTS));
+    for (int i = 0; i < p.orbSlots; ++i) {
+        const std::string id = orbs[i].value("id", "");
+        const auto orb = orbFromGameId(id);
+        if (!orb) notes.warn("unknown orb " + id);
+        p.orbs[i] = orb.value_or(Orb::EMPTY);
+        if (p.orbs[i] == Orb::DARK) p.darkOrbEvoke[i] = static_cast<std::int16_t>(orbs[i].value("evoke_amount", 6));
     }
 
     p.redSkullActive = p.hasRelic<RelicId::RED_SKULL>() && p.curHp <= p.maxHp / 2;
@@ -868,7 +883,11 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
     if (screen == "HAND_SELECT" || screen == "GRID" || screen == "CARD_REWARD") {
         const json &screenState = gs["screen_state"];
         const int maxCards = screen == "HAND_SELECT" ? screenState.value("max_cards", 1) : screenState.value("num_cards", 1);
-        const CardSelectTask task = taskFromAction(gs.value("current_action", ""), screen, maxCards);
+        CardSelectTask task = taskFromAction(gs.value("current_action", ""), screen, maxCards);
+        // Hologram and Liquid Memories share an action, and only Liquid Memories makes the card free.
+        if (task == CardSelectTask::LIQUID_MEMORIES_POTION && cs.contains("card_in_play") && cs["card_in_play"].value("id", "") == "Hologram") {
+            task = CardSelectTask::HOLOGRAM;
+        }
         if (task == CardSelectTask::INVALID) notes.warn("unknown card select action " + gs.value("current_action", ""));
         bc.inputState = InputState::CARD_SELECT;
         bc.cardSelectInfo.cardSelectTask = task;
