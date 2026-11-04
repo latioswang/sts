@@ -3,7 +3,7 @@
 import json
 import unittest
 
-from coverage_report import empty_seen, read_transcript, report
+from coverage_report import empty_seen, parse_relic_library, read_transcript, report
 
 
 def game(state):
@@ -56,6 +56,22 @@ class TranscriptTest(unittest.TestCase):
         seen = empty_seen()
         read_transcript(["not json", sent("PLAY 1"), json.dumps({"dir": "game", "line": "nope"})], seen)
         self.assertEqual(seen, empty_seen())
+
+    def test_note_lines_are_not_commands(self):
+        seen = empty_seen()
+        read_transcript([game(COMBAT), json.dumps({"dir": "note", "line": "PLAY 1 0"})], seen)
+        self.assertEqual(seen["cards_played"], {})
+
+    def test_relic_library_gives_each_relic_its_class(self):
+        signature = ":(Lcom/megacrit/cardcrawl/relics/AbstractRelic;)V"
+        bytecode = "\n".join([
+            "4: new #3 // class com/megacrit/cardcrawl/relics/Abacus",
+            "11: invokestatic #5 // Method add" + signature,
+            "14: new #6 // class com/megacrit/cardcrawl/relics/BurningBlood",
+            "21: invokestatic #7 // Method addRed" + signature,
+        ])
+        self.assertEqual(parse_relic_library(bytecode), {"com.megacrit.cardcrawl.relics.Abacus": "any",
+                                                         "com.megacrit.cardcrawl.relics.BurningBlood": "ironclad"})
 
     def test_report_lists_what_never_came_up(self):
         seen = empty_seen()

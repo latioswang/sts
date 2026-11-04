@@ -24,6 +24,12 @@ JAR_PREFIXES = {
     "monsters": ("monsters/exordium/", "monsters/city/", "monsters/beyond/", "monsters/ending/"),
     "events": ("events/exordium/", "events/city/", "events/beyond/", "events/shrines/"),
 }
+CARD_FOLDERS = {"ironclad": ("cards/red/",), "silent": ("cards/green/",), "defect": ("cards/blue/",), "watcher": ("cards/purple/",),
+                "colorless": ("cards/colorless/", "cards/tempCards/"), "curse": ("cards/curses/",), "status": ("cards/status/",)}
+RELIC_COLOURS = {"Red": "ironclad", "Green": "silent", "Blue": "defect", "Purple": "watcher"}
+# Monster classes that are never fought: the game's fallback when it has no encounter, and Hexaghost's visuals.
+NOT_FOUGHT = {"Apology Slime", "HexaghostBody", "HexaghostOrb"}
+FILLER_RELICS = {"Circlet", "Red Circlet"}  # what the game gives once a relic pool runs out; RelicLibrary doesn't list them
 
 
 def empty_seen():
@@ -93,21 +99,71 @@ def read_transcript(lines, seen):
             state = message.get("game_state") or state
             if message.get("game_state"):
                 note_state(seen, message["game_state"])
-        else:
+        elif row.get("dir") != "note":
             note_command(seen, row.get("line", ""), state)
+
+
+def jar_classes(jar, prefixes, exclude=()):
+    """Names the classes under some folders of com/megacrit/cardcrawl in the game's jar."""
+    root = "com/megacrit/cardcrawl/"
+    with zipfile.ZipFile(jar) as archive:
+        names = [n for n in archive.namelist() if n.endswith(".class") and "$" not in n]
+    wanted = tuple(root + p for p in prefixes)
+    unwanted = tuple(root + p for p in exclude)
+    return [n[:-6].replace("/", ".") for n in names if n.startswith(wanted) and not (unwanted and n.startswith(unwanted))]
+
+
+def class_ids(jar, javap, classes):
+    """Returns {class: id} from each class's public ID constant. Classes without one, such as abstract bases, are left out."""
+    output = subprocess.run([javap, "-constants", "-p", "-cp", jar, *classes], capture_output=True, text=True, check=True).stdout
+    ids, current = {}, None
+    for line in output.splitlines():
+        header = re.search(r"\b(?:class|interface) (com\.megacrit\S+)", line)
+        if header:
+            current = header.group(1)
+        constant = re.search(r'static final java\.lang\.String (?:POTION_|POWER_)?ID = "([^"]+)"', line)
+        if constant and current:
+            ids[current] = constant.group(1)
+    return ids
 
 
 def ids_in_jar(jar, javap):
     """Returns {category: set of ids} from each class's public ID constant."""
-    with zipfile.ZipFile(jar) as archive:
-        names = [n for n in archive.namelist() if n.endswith(".class") and "$" not in n]
-    root = "com/megacrit/cardcrawl/"
-    universe = {}
-    for category, prefixes in JAR_PREFIXES.items():
-        classes = [n[:-6].replace("/", ".") for n in names if n.startswith(tuple(root + p for p in prefixes))]
-        output = subprocess.run([javap, "-constants", "-p", "-cp", jar, *classes], capture_output=True, text=True, check=True).stdout
-        universe[category] = set(re.findall(r'static final java\.lang\.String (?:POTION_)?ID = "([^"]+)"', output))
-    return universe
+    return {category: set(class_ids(jar, javap, jar_classes(jar, prefixes)).values()) for category, prefixes in JAR_PREFIXES.items()}
+
+
+def parse_relic_library(bytecode):
+    """RelicLibrary builds each relic and passes it to add, addRed, addGreen, addBlue or addPurple. Returns {class: owner}."""
+    owners, last = {}, None
+    for line in bytecode.splitlines():
+        built = re.search(r"new .*// class com/megacrit/cardcrawl/relics/(\w+)", line)
+        added = re.search(r"Method add(Red|Green|Blue|Purple)?:\(Lcom/megacrit/cardcrawl/relics/AbstractRelic;\)V", line)
+        if built:
+            last = built.group(1)
+        elif added and last:
+            owners["com.megacrit.cardcrawl.relics." + last] = RELIC_COLOURS.get(added.group(1), "any")
+            last = None
+    return owners
+
+
+def game_universe(jar, javap):
+    """Everything the game contains by id, for measuring coverage. Relics come from RelicLibrary, which leaves out deprecated ones."""
+    def ids(prefixes, exclude=()):
+        return set(class_ids(jar, javap, jar_classes(jar, prefixes, exclude)).values())
+
+    cards = {}
+    for owner, folders in CARD_FOLDERS.items():
+        kind = "unplayable" if owner in ("curse", "status") else "card"
+        cards.update({card: {"class": owner, "kind": kind} for card in ids(folders)})
+    library = subprocess.run([javap, "-c", "-p", "-cp", jar, "com.megacrit.cardcrawl.helpers.RelicLibrary"],
+                             capture_output=True, text=True, check=True).stdout
+    owners = parse_relic_library(library)
+    relic_ids = class_ids(jar, javap, list(owners))
+    return {"cards": cards, "relics": {relic_ids[c]: owner for c, owner in owners.items() if c in relic_ids},
+            "potions": sorted(ids(JAR_PREFIXES["potions_seen"]) - {"Potion Slot"}),
+            "monsters": sorted(ids(JAR_PREFIXES["monsters"]) - NOT_FOUGHT),
+            "events": sorted(ids(JAR_PREFIXES["events"]) | {"Neow Event"}),  # Neow's class sits outside the event folders
+            "powers": sorted(ids(("powers/",), ("powers/deprecated/",)))}
 
 
 def report(seen, universe=None):
