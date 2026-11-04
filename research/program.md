@@ -102,7 +102,13 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 22:16 UTC
+### Current state (update after every batch) — 2026-11-04 23:17 UTC
+- **23:17 UTC: R8 data arriving.** Pasted: r8w11 `SV GEN rundata_a20_w11 DONE: 30000 files`; `SUBSAMPLE ... 30000 runs, rows
+  2859991 -> 942249 (k=32)`; `PACK ... rundata_a20_w11_k32_z: 30 shards, 2525.2 MB -> 46.9 MB (53.9x), verify OK`; `PUSH
+  rundata_a20_w11_k32_z DONE: 32 files`; `PACK ... rundata_a20_w11_z: 7664.8 MB -> 101.9 MB (75.2x), verify OK`; `PUSH
+  rundata_a20_w11_z DONE: 31 files` (session archived). r8w12: `SV GEN ... DONE`, `SUBSAMPLE ... rows 2861950 -> 942376`,
+  `PUSH rundata_a20_w12_k32_z DONE: 32 files`; full set pushing. r8w10 (holdout) still running. Coordinator waits for
+  `rundata_a20_hold_z`.
 - **22:16 UTC:** R8 generation halfway (r8w10 at 150/300 chunks at 21:57 -> ends ≈ 23:40, then pack + push); coordinator
   queue waiting for `rundata_a20_hold_z` (runner alive).
 - **21:16 UTC:** R8 workers past their gates (r8w11 log: three repro_check `OK bit-identical`, store lists `rundata_w1_k32_z`)
