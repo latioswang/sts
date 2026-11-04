@@ -102,7 +102,13 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 09:57 UTC
+### Current state (update after every batch) — 2026-11-04 10:10 UTC
+- **10:10 UTC: store cleanup (owner-approved in chat, 2026-11-04 ≈ 10:00 UTC: "那就删除吧").** Deleted the six full A0 sets
+  `rundata_w1..w6` from the HF store (each checked first: its `_k32` copy has 30,001 files; the full sets were used only to
+  build those subsamples), then squashed the store's history. Kept: `rundata` (A0 full-row holdout), `leafdata`, all `_k32`
+  sets, `rundata_a10_hold`, `rundata_a10_w7_k32` (partial). Used storage still reads 99.8 GB after the squash (a 1 MB probe
+  upload succeeded); waiting for the store to account the freed space before the R4 workers re-push.
+- **R4-local closed:** `a10_vr4lb20` discard; `a10_vr4lb40` near miss, extension pooled 400 P=0.855 -> discard.
 - **09:57 UTC:** `a10_vr4lb40` near miss (37.0% vs 34.3% val, P=0.856); pre-registered extension (dev 100, pooled 400) running.
 - **09:57 UTC: R4-local fits done; `a10_vr4lb20` discard; `a10_vr4lb40` running.** A10-trained run value fits the A10 holdout
   far better than the A0 model (RMSE 0.548 vs 0.709), but at bonus 20 the card picks do not move (dscore −0.006, P=0.437).
@@ -1358,6 +1364,10 @@ than the A10-only 0.6466; vr_82 also clears the stricter one. A better-fitting m
 bonus 20. At bonus 40: `a10_vr4lb40` val-300 win 0.370 (111/300) vs 0.343, floor 38.97, dscore +0.0374, P=0.856 ->
 discard by the val rule, a near miss (0.7 <= P < 0.9): **extension declared 09:57 UTC, before any dev seed** (rule of
 2026-11-01 11:40): dev 100 vs `a10_vr2b20_dev`, pooled 400; keep needs pooled-400 P >= 0.9 (unrounded) and dev-alone dscore > 0.
+Extension result: dev `a10_vr4lb40_dev` 26.0% win, floor 37.11, +0.0204 vs base, P=0.614 (info);
+`pooled val,dev [act3]: n=400  a10_vr4lb40 win=0.343 floor=38.51  a10_vr2b20 win=0.325 floor=37.71  dscore=+0.0331 dwin=+0.018
+P(improve)=0.855` -> **discard** (P < 0.9). Second A10 near miss at bonus 40 in a row (R3 model: pooled P=0.870): the sign is
+positive both times, the size is below what 400 games resolve. R4-local closed; R4 proper (90k games) still the planned test.
 
 **Phase S2 first result — the distribution mismatch is real (pasted, 2026-11-02 12:55 UTC).** Leaf data: 2,500
 games, 815,531 tree-leaf states (labels = mean of 8 rollouts). `sv11` (h=42, leaf-trained): holdout RMSE 12.060 vs
