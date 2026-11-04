@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 11:18 UTC
+### Current state (update after every batch) — 2026-11-04 11:47 UTC
+- **11:47 UTC: r4w8 done** (pasted from its log): `SV GEN rundata_a10_w8 DONE: 30000 files`; `SUBSAMPLE ... rundata_a10_w8_k32:
+  30000 runs, rows 3872106 -> 951209 (k=32)`; `PUSH rundata_a10_w8_k32 DONE: 30001 files`; `PUSH rundata_a10_w8 DONE: 30000
+  files`. Session archived. `rundata_a10_w7_k32` at 24,000/30,001; R4-local l0–l2 stored, l3 going.
 - **11:18 UTC:** uploads under the Hub's commit rate limit (HTTP 429, retried): `rundata_a10_w7_k32` 18,000/30,001 in the
   store; R4-local subsamples l0–l2 stored (`PUSH rundata_a10_l2_k32 DONE: 5002 files`), l3–l5 going. R4 queue waiting on
   w7. No new worker commits.
