@@ -83,11 +83,41 @@ Surveyed on 2026-11-04 by cloning each one and counting implemented cards, since
 | [klottick/sts_lightspeed_all_characters](https://github.com/klottick/sts_lightspeed_all_characters) | No more cards than upstream, despite the name |
 | [GaoPeng415/SlayTheSpireHeadlessEngine](https://github.com/GaoPeng415/SlayTheSpireHeadlessEngine) | Decompiled game code with no license. Don't copy from it |
 
+## How the agent and the checks compare
+
+Checked on 2026-11-04. Other projects use their own seeds and setups, so these figures are a guide and not a controlled comparison.
+
+| Agent | Setting | Result | Played on |
+|---|---|---|---|
+| This project, Ironclad | Ascension 0 | 75.0% over 300 seeds, average floor 47.5. 67 to 70% on this Mac | Simulator |
+| This project, Ironclad | Ascension 20 | 4.0% over 300 seeds | Simulator |
+| This project, Ironclad | Live mode | 2 wins in 3 runs | Real game |
+| [bottled_ai](https://github.com/xaved88/bottled_ai), Ironclad | Ascension 0 | 20% over 50 runs, average floor 32.7 | Real game |
+| bottled_ai, Watcher, its best | Ascension 0 | 52% over 50 runs | Real game |
+| [sts-rl-agent](https://huggingface.co/Jialeiv/sts-rl-agent) | Ascension 0 | 14% over 50 seeds | sts_lightspeed |
+| GPT-6.1 Sol, from [Epoch AI](https://epoch.ai/publications/ai-systems-are-improving-rapidly-at-slay-the-spire-and-its-sequel) | Ascension 0 | 97% over 60 runs, all classes | Not checked |
+| GPT-6.1 Sol | Ascension 20 with the Heart | 20% over 60 runs. Ironclad 27% over 15 | Not checked |
+
+- **bottled_ai's ascension.** Its documents don't name one, and some articles say 20. Its code starts every run with `start <class> 0 <seed>`, which is ascension 0, at tag `release-03` as well. Its 50 Ironclad runs give a 95% interval of 8.9% to 31.1%.
+- **What's missing.** The agent's 75% comes from the simulator, and only three live runs back it. No open source project we looked at publishes an ascension 20 win rate we could confirm. AlphaStS's README gives no win rate for whole runs.
+
+Real game checks in other simulators, from their own documents:
+
+| Project | Checked against the game |
+|---|---|
+| This project | 215 runs on 125 seeds, about 100,000 compared steps. Mostly Ironclad, ascensions 0 to 20. Counts repeat runs and runs on older builds |
+| SpireSim | Four complete ascension 20 Heart runs, one per class, plus recorded cases |
+| sts-engine | Act 1 Ironclad snapshots |
+| spire-gym | Its README says it doesn't establish parity with the game |
+
+Anything borrowed gets the same treatment as our own fixes: read it against the game's bytecode, then run it on the real game.
+
 ## What's next
 
 1. **Other classes' cards.** 212 of the 320 cards in Prismatic Shard's pools do nothing when played. Port Defect from Attemory's fork, then Silent and Watcher from SpireSim. Check each card against the game's bytecode and on the real game, and keep Ironclad results unchanged on runs without other classes' cards.
 2. **Empty Cage and Tiny House.** The agent never takes them, so they've only been compared with the game's code.
 3. **The floor 50 deaths** above.
+4. **More live runs.** Measure the agent on the real game, with enough runs to compare with its simulator figure and with bottled_ai.
 
 Cleanup put off for later:
 
