@@ -1,0 +1,2 @@
+pooled val,dev2,dev3 [act3]: n=500  a20_r81 win=0.040 floor=28.06  a20_relic20 win=0.056 floor=28.93  dscore=-0.0328 dwin=-0.016 P(improve)=0.020
+no
