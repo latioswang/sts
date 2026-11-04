@@ -566,11 +566,21 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
         }
         return best;
     }
+    // Phase R5: vr_relic_w x (learned run value with the relic - without it), added to the KB value (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrRw = vrm.trained ? getp(P, "vr_relic_w", 0.0) : 0.0;
+    const float vr0 = vrRw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < 3; ++i) {
         const RelicId r = gc.info.bossRelics[i];
         if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
-        const double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
-                                                    : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
+                                              : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        if (vrRw != 0.0) {
+            GameContext hyp = gc;
+            RelicInstance ri; ri.id = r; ri.data = 0;
+            hyp.relics.add(ri);
+            v += vrRw * (vr::value(vrm, hyp) - vr0);
+        }
         if (v > bestV) { bestV = v; best = i; }
     }
     return best;
@@ -830,6 +840,10 @@ void FairAgent::shop(GameContext &gc) {
     int bestI = -1; double bestV = -1e18;
     const double bfw = (getp(P, "bf_shop", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_bonus", 0.0) : 0.0;
     const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
+    // Phase R5 vr_shop: vr_bonus x (learned run value after buying - now), the price paid in gold (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrSw = (getp(P, "vr_shop", 0) > 0 && vrm.trained) ? getp(P, "vr_bonus", 0.0) : 0.0;
+    const float vrS0 = vrSw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < 7; ++i) {
         if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
         double v = addValue(gc, s.cards[i]);
@@ -837,6 +851,12 @@ void FairAgent::shop(GameContext &gc) {
             GameContext hyp = gc;
             hyp.deck.obtainRaw(s.cards[i]);
             v += bfw * (bfValue(hyp) - vBase);
+        }
+        if (vrSw != 0.0) {
+            GameContext hyp = gc;
+            hyp.gold -= s.cardPrice(i);
+            hyp.deck.obtainRaw(s.cards[i]);
+            v += vrSw * (vr::value(vrm, hyp) - vrS0);
         }
         if (v > bestV) { bestV = v; bestI = i; }
     }
@@ -889,6 +909,10 @@ void FairAgent::cardSelect(GameContext &gc) {
     const double upgW = (gc.info.selectScreenType == CardSelectScreenType::UPGRADE
                          && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_upg_bonus", 0.0) : 0.0;
     const float upgBase = upgW != 0.0 ? bfValue(gc) : 0.f;
+    // Phase R5 vr_upg_w: + w x (learned run value with the upgrade - without it) on upgrade screens (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrUw = (gc.info.selectScreenType == CardSelectScreenType::UPGRADE && vrm.trained) ? getp(P, "vr_upg_w", 0.0) : 0.0;
+    const float vrU0 = vrUw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < gc.info.toSelectCards.size(); ++i) {
         const auto &c = gc.info.toSelectCards[i].card;
         double v;
@@ -912,6 +936,14 @@ void FairAgent::cardSelect(GameContext &gc) {
                         GameContext hyp = gc;
                         hyp.deck.upgrade(di);
                         v += upgW * (bfValue(hyp) - upgBase);
+                    }
+                }
+                if (vrUw != 0.0) {
+                    const int di = gc.info.toSelectCards[i].deckIdx;
+                    if (di >= 0 && di < gc.deck.size()) {
+                        GameContext hyp = gc;
+                        hyp.deck.upgrade(di);
+                        v += vrUw * (vr::value(vrm, hyp) - vrU0);
                     }
                 }
                 break;

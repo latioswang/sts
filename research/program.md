@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 17:14 UTC
+### Current state (update after every batch) — 2026-11-04 17:33 UTC
+- **17:33 UTC: Phase R5 pre-registered and queued** (run value on boss relics, shop cards, upgrades; four A0 cells vs
+  `vr3b40`). Shard upload (`push_shards.sh`) still running.
 - **17:14 UTC: all 11 local run-data sets are shards** (`shard_local.sh`: pack, byte-verify, swap; e.g. `SWAPPED
   rundata_w6_k32 -> shards (58M)`); `research/vf/data` 2.2 GB, disk 26 GB free (was 1.5 GB). `push_shards.sh` uploads
   them as `<name>_z` with a count check (backs up the local-only `rundata_k32`, `rundata_w3_k32`).
@@ -1432,6 +1434,17 @@ R4 training plan (fixed 23:19 UTC, before any A10 data exists here): holdout dir
 reference `score_vr.py vr_61` on it; ids 70 / 71 / 72 = ridge / h=64 / h=256 on the A10 subsamples only (16 kept states);
 ids 73 / 74 = h=64 / h=256 on A10 + all A0 subsamples (8 kept states, memory); selection among 70–74 -> `vr_81`, gate; leak
 test; `a10_vr4b20`, `a10_vr4b40` vs the A10 best (val-300 rule). The A0 model `vr_61` is not in the selection (scored only).
+
+**Phase R5 — the run value on more decisions (pre-registered 2026-11-04 17:33 UTC, before any of these games).** Why: the
+learned run value V (666 features incl. relic one-hots, gold, upgrades, deck) kept on A0 card picks (`vr3b40`: card value +
+40 x ΔV) but so far scores only card rewards. Three default-off hooks in `FairAgent.cpp` (build: `repro_check vr3b40 16` ->
+0 of 16 games differ; leak tests with each flag on: 98 checked, 0 mismatches):
+`vr_relic_w` W: boss relic = KB relic value + W x (V with the relic − V); `vr_shop` 1: shop card = KB value + vr_bonus x
+(V after buying, price paid in gold − V); `vr_upg_w` W: upgrade choice = KB upgrade value + W x (V upgraded − V).
+Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usual): `vr5relic20` (W=20), `vr5relic40`
+(W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
+Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
+cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
 
 **Phase R4-local — A10 data generated on this VM while the store is full (pre-registered 2026-11-04 06:23 UTC, before any
 of these games exist).** Why: the 90,000 worker games cannot reach this VM (HF private storage full; user decision pending)
