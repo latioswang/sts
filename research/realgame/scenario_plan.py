@@ -68,6 +68,34 @@ def defect_scenarios():
     return scenarios
 
 
+# Every green card the game's library holds, six to a seed where they can use each other, by the game's own ids. Each seed
+# starts with Prismatic Shard, as a run that finds these cards would, and the helpers give the cards what they need.
+SILENT_SEEDS = [
+    (["Neutralize", "Sucker Punch", "Heel Hook", "Leg Sweep", "Crippling Poison", "PiercingWail"], []),
+    (["Deadly Poison", "Bane", "Catalyst", "Noxious Fumes", "Envenom", "Bouncing Flask"], ["relic:Snake Skull"]),
+    (["Corpse Explosion", "Poisoned Stab", "Choke", "Terror", "Dash", "Die Die Die"], []),
+    (["Blade Dance", "Cloak And Dagger", "Accuracy", "Infinite Blades", "Storm of Steel", "A Thousand Cuts"], []),
+    (["Survivor", "Reflex", "Tactician", "Acrobatics", "Prepared", "Dagger Throw"], []),
+    (["Eviscerate", "Underhanded Strike", "Concentrate", "Calculated Gamble", "Unload", "All Out Attack"], ["card:Survivor"]),
+    (["Tools of the Trade", "Well Laid Plans", "Night Terror", "Setup", "Expertise", "Bullet Time"], []),
+    (["Finisher", "Flechettes", "Slice", "Quick Slash", "Backstab", "Dagger Spray"], ["card:Deflect"]),
+    (["Skewer", "Malaise", "Doppelganger", "Burst", "Phantasmal Killer", "Flying Knee"], ["relic:Chemical X"]),
+    (["After Image", "Caltrops", "Footwork", "Dodge and Roll", "Deflect", "Blur"], []),
+    (["Wraith Form v2", "Outmaneuver", "Predator", "Endless Agony", "Masterful Stab", "Glass Knife"], []),
+    (["Grand Finale", "Backflip", "Adrenaline", "Escape Plan", "Riddle With Holes", "Venomology"], ["card:Offering"]),
+    (["Distraction", "Strike_G", "Defend_G"], ["card:Survivor"]),
+]
+
+
+def silent_scenarios():
+    """Every green card as it comes, then every one upgraded."""
+    scenarios = []
+    for suffix in ("", "+1"):
+        for cards, helpers in SILENT_SEEDS:
+            scenarios.append(";".join(["relic:PrismaticShard"] + helpers + [f"card:{c}{suffix}" for c in cards]))
+    return scenarios
+
+
 def known_ids(table_text, enum):
     return set(re.findall(r'\{"([^"]+)", ' + enum + r"::\w+\}", table_text))
 
@@ -107,18 +135,19 @@ def main():
     parser.add_argument("--upgrade", action="store_true", help="give the cards upgraded")
     parser.add_argument("--all", action="store_true", help="include things that have already come up")
     parser.add_argument("--defect", action="store_true", help="write the fixed plan for the blue cards, which needs no logs or jar")
+    parser.add_argument("--silent", action="store_true", help="write the fixed plan for the green cards, which needs no logs or jar")
     parser.add_argument("-o", "--output", required=True)
     args = parser.parse_args()
 
-    if args.defect:
-        scenarios = defect_scenarios()
+    if args.defect or args.silent:
+        scenarios = defect_scenarios() if args.defect else silent_scenarios()
         with open(args.output, "w", encoding="utf-8") as output:
             for i, scenario in enumerate(scenarios):
                 output.write(f"{args.seed_start + i}\t{scenario}\n")
         print(f"{len(scenarios)} seeds from {args.seed_start}")
         return 0
     if not args.logs or not args.jar:
-        parser.error("--logs and --jar are required without --defect")
+        parser.error("--logs and --jar are required without --defect or --silent")
 
     seen = empty_seen()
     for path in glob.glob(os.path.join(args.logs, "**", "transcript-*.jsonl"), recursive=True):
