@@ -102,7 +102,22 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 16:17 UTC
+### Current state (update after every batch) — 2026-11-04 16:48 UTC
+- **16:48 UTC: R4 fits and first card-pick test.** Pasted:
+
+      SCORE vr_61.txt on rundata_a10_hold: runs=1000 states=129910 rmse=0.7093 corr=0.472
+      VR2 id=70 runs=80100 ridge holdout_rmse=0.5569 holdout_corr=0.508 predict_mean_rmse=0.6468
+      VR2 id=71 runs=80100 hidden=64  best_epoch=1 holdout_rmse=0.5576 holdout_corr=0.510 predict_mean_rmse=0.6468
+      VR2 id=72 runs=80100 hidden=256 best_epoch=1 holdout_rmse=0.5623 holdout_corr=0.503 predict_mean_rmse=0.6468
+      VR2 id=73 runs=251100 hidden=64  best_epoch=2 holdout_rmse=0.5494 holdout_corr=0.535 predict_mean_rmse=0.7521
+      VR2 id=74 runs=251100 hidden=256 best_epoch=1 holdout_rmse=0.5442 holdout_corr=0.539 predict_mean_rmse=0.7521
+      VR SELECT: vr_74 -> vr_81; VR GATE OK: 0.544239 < 0.752132; LEAKTEST checked=87 mismatches=0 PASS
+      a10_vr4b20 val-300: win 0.363 vs 0.343, floor 38.81, dscore +0.0275, P=0.785 -> discard (near miss)
+
+  Predictions: A10-only beats `vr_61` on the A10 holdout — yes (0.557 vs 0.709); A0 + A10 beats A10-only — yes (0.544 vs
+  0.557). Doubling A10 data (R4-local 40k -> 80k runs) moved the A10-only cells ≤ 0.011 and the best cell 0.548 -> 0.544.
+  **Near-miss extension of `a10_vr4b20` declared 16:48 UTC, before any dev seed** (dev 100, pooled 400; keep needs pooled
+  P >= 0.9 unrounded and dev-alone dscore > 0); queued after `a10_vr4b40` (running).
 - **16:17 UTC:** runner stopped 16:15 at its 2-hour limit mid w9 pull (≈ 85% on disk) with 524 MB free: the Xet chunk cache
   had grown to 1.1 GB during the pull; deleted it (cache only) -> 1.6 GB; w9 bookkeeping kept so the resumed pull skips stored
   files; runner restarted 16:15; disk monitor armed (< 400 MB). Lesson for the shard format: per-file pulls cost bookkeeping

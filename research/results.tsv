@@ -468,3 +468,4 @@ abdd280	dev3.a0	100	0	0.060	45.56	0.9122	-0.0275	0.249	info	heart_vr3b20: [heart
 25d54f0	val.a10	300	0	0.337	38.46	1.0908	-0.0059	0.437	discard	a10_vr4lb20: [a10] Phase R4-local: A10 card picks + 20 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=20]
 a671e8d	val.a10	300	0	0.370	38.97	1.1342	+0.0374	0.856	discard	a10_vr4lb40: [a10] Phase R4-local: A10 card picks + 40 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=40]
 338f726	dev.a10	100	0	0.260	37.11	0.9876	+0.0204	0.614	info	a10_vr4lb40_dev: VERIFY: a10_vr4lb40 on dev vs a10_vr2b20_dev (replication of a a10 keep)
+af7352c	val.a10	300	0	0.363	38.81	1.1243	+0.0275	0.785	discard	a10_vr4b20: [a10] Phase R4: A10 card picks + 20 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=20]
