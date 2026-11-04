@@ -12,6 +12,7 @@ RESEARCH="$(cd "$HERE/.." && pwd)"
 BRIDGE="${STS_BRIDGE:-$HOME/Projects/sts_lightspeed/build/sts_bridge}"
 SOCK=/tmp/sts_commrelay.sock
 GAME_START_TIMEOUT_SEC=120
+GAME_APPEAR_SEC=10
 
 mode="$1"; seed="$2"; remaining="$3"; shift 3
 chunk=10
@@ -43,7 +44,8 @@ start_game() {
       if [ -S "$SOCK" ] && python3 -I "$HERE/commctl.py" state 2>/dev/null | grep -q "not in game"; then
         return 0
       fi
-      pgrep -f "ModTheSpire.jar" > /dev/null || break
+      # Java takes a moment to appear. Checking sooner reads as a failed start and launches a second game.
+      [ "$waited" -lt "$GAME_APPEAR_SEC" ] || pgrep -f "ModTheSpire.jar" > /dev/null || break
       sleep 2
       waited=$((waited + 2))
     done
