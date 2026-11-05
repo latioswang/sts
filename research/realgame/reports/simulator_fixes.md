@@ -178,6 +178,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
 | 1101, 22; 1103, 24 | Orrery's and Cauldron's cards in a shop rolled a 3% rare chance | `ShopRoom` sets `baseRareCardChance` to 9 | `3347784` |
 | code | Removing a card with all three bottles full, or removing a curse, left the bottles' indices stale; a removed Necronomicurse stayed gone | Found in [jdc5549/sts_lightspeed](https://github.com/jdc5549/sts_lightspeed)'s fix list; `onRemoveFromMasterDeck` adds a new Necronomicurse | `8bf1499` |
+| 8200, 0 | Neow's "lose your starting relic" looked for the class's starting relic by name | `NeowReward` takes whatever is in slot 0, which a boss relic can already hold | `0d65403` |
 | 7459, 0 | A map node on floor 8 or 14 that got no room counted as a monster at once, so the node to its right couldn't be one | It stays empty until `lastMinuteNodeChecker`, after every node has had its turn | `9fab0df` |
 
 ## Ascension
