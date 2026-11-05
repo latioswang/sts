@@ -144,6 +144,10 @@ const json &ReplayClient::command(const std::string &cmd, double) {
         if (w >= events_.size() || !isWait(events_[w].text)) break;
         answer(w);
     }
+    if (!fightWithHiddenIntents(last_).empty()) {  // CommClient::command's wait at such a fight's start, if recorded
+        const std::size_t w = nextClient(next_);
+        if (w < events_.size() && events_[w].text == "WAIT " + std::to_string(kHiddenIntentWaitFrames)) answer(w);
+    }
     return last_;
 }
 
