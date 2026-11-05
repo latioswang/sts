@@ -107,12 +107,13 @@ def main() -> None:
     parser.add_argument("--name", required=True, help="files are plan_<name>_<class>.tsv")
     parser.add_argument("--seed_start", type=int, required=True)
     parser.add_argument("--mix", type=int, default=0, help="this many shuffled passes of everything, not what's short")
+    parser.add_argument("--first_pass", type=int, default=0, help="with --mix, the shuffle to start from, to get new ones")
     args = parser.parse_args()
     with open(args.coverage) as f:
         items = json.load(f)["items"]
     for i, (cls, need) in enumerate(split_by_class(items).items()):
         if args.mix:
-            scenarios = [s for n in range(args.mix) for s in mix_scenarios(items, cls, n)]
+            scenarios = [s for n in range(args.first_pass, args.first_pass + args.mix) for s in mix_scenarios(items, cls, n)]
         else:
             scenarios = scenarios_for(need)
         start = args.seed_start + i * CLASS_SEED_STEP
