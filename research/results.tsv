@@ -505,3 +505,6 @@ d20ea17	val.a0	300	0	0.847	48.45	1.7967	+0.0014	0.505	discard	a0_r121: Phase R10
 091e8cf	val.a20	300	0	0.037	29.37	0.6119	-0.0380	0.029	discard	a20_bm15: [a20 pooled500] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere) [sims=405 boss_mult=1.5] pooled dscore=-0.0260 dwin=-0.018 P(improve)=0.033
 091e8cf	dev2.a20	100	0	0.060	27.70	0.6020	+0.0231	0.785	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
 091e8cf	dev3.a20	100	0	0.020	26.73	0.5437	-0.0390	0.035	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
+2c6dfe2	val.a20	300	0	0.040	28.73	0.6025	-0.0474	0.004	discard	a20_bm2: [a20 pooled500] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere) [sims=340 boss_mult=2] pooled dscore=-0.0364 dwin=-0.026 P(improve)=0.003
+2c6dfe2	dev2.a20	100	0	0.010	28.25	0.5637	-0.0151	0.332	info	a20_bm2: [a20 pooled500 slice] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere)
+2c6dfe2	dev3.a20	100	0	0.020	27.47	0.5582	-0.0245	0.129	info	a20_bm2: [a20 pooled500 slice] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere)
