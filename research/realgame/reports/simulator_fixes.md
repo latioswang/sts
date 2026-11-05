@@ -199,6 +199,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 8103, 11 | Omamori stopped a curse from Note For Yourself | The event adds the card itself and runs `onObtainCard`, and Omamori is in the obtain effects it doesn't use | `dfda16c` |
 | 8200, 0 | Neow's "lose your starting relic" looked for the class's starting relic by name | `NeowReward` takes whatever is in slot 0, which a boss relic can already hold | `0d65403` |
 | 7459, 0 | A map node on floor 8 or 14 that got no room counted as a monster at once, so the node to its right couldn't be one | It stays empty until `lastMinuteNodeChecker`, after every node has had its turn | `9fab0df` |
+| 9108, 25 | Face of Cleric did nothing after a Smoke Bomb escape, and ignored Magic Flower | `endBattle` calls `onVictory` however the fight ended, and the room is still in combat | `8571846` |
 
 ## Ascension
 
