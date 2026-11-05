@@ -82,6 +82,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Nilry's Codex always offered Ironclad's cards | It offers the class's own | `9c03d07` |
 | code | Poison, Mark and Choke on an Intangible Nemesis did full damage | `Nemesis.damage` caps HP loss too | `6803eff` |
 | 7410, 33 | A new Eviscerate from Dead Branch or a potion ignored the turn's discards | Its `makeCopy` sets the cost for the turn, as Blood for Blood's does for the fight | `0bcad57` |
+| 9115, 18 | An Eviscerate kept in hand into the next turn stayed at the cost the discards had brought it to | `Eviscerate.atTurnStart` resets it, and `applyStartOfTurnCards` runs on the draw pile, hand and discard pile | `fd86474` |
 | 7102, 16 | Random cards in combat were always Ironclad's, whatever the class | `returnTrulyRandomCardInCombat` reads the class's src pools, each in reverse, with no HEALING cards | `ffa2500` |
 | 6018, 16 (A8) | The Guardian's Vent Steam applied Vulnerable first, so Artifact stopped the wrong debuff | `useVentSteam` applies Weak, then Vulnerable | `7ab42f5` |
 | 2509, 29 | Smoke Bomb in the Colosseum's first fight went to the map | `Colosseum.reopen` offers the second choice however the fight ended | `a6cc442` |
