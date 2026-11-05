@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 05:28 UTC
+### Current state (update after every batch) — 2026-11-05 05:38 UTC
+- **05:38 UTC: Phase R10 closed — no keep.** `a0_r121` dscore +0.0014, dwin +0.000, P=0.505; `a0_r121s` (scale-matched)
+  dscore −0.0113, dwin −0.007, P=0.340 (vs `vr5relic20`) -> both discard. Predictions held (LOW–MED / LOW). Second failed test
+  of the scale idea (after R8b): it is dropped. Pattern across R4, R7 (A20), R8, R10: a better holdout fit does not by itself
+  improve play; the one exception (`a10_r81`) came with the relic hook. Runner idle.
 - **05:28 UTC: Phase R10 pre-registered and queued** (A0 with the mixed-data `vr_121`, inherited and scale-matched weights);
   fresh-A0 fit table in "Phase R10".
 - **05:16 UTC:** `rundata` pulled (`PULL rundata DONE: 10000 files`) and packed (`PACK ... 4233.9 MB -> 58.2 MB (72.7x), verify
