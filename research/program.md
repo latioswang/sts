@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 08:19 UTC
+### Current state (update after every batch) — 2026-11-05 08:42 UTC
+- **08:42 UTC: `a20_r121s32f` keep REPLICATES** on a second fresh slice fs1205500n1000: `a20_relic20` win 0.050 floor 28.60
+  score 0.6098; `a20_r121s32f` win 0.065 floor 29.27 score 0.6377; dscore +0.0279, dwin +0.015, P=0.993. Across the two
+  fresh slices (2,000 seeds): 6.35% vs 4.80% win. **A20 honest level ≈ 6.3%** (target 25%). A0 best re-measured on
+  fs1203000n500: `vr5relic20` win 0.804 floor 48.13 score 1.7476 (selection-slice val 84.7%; prediction "below" held).
+  A10 and Heart re-measurements running.
 - **08:19 UTC: A20 KEEP under the fresh-slice rule — `a20_r121s32f`** (A20 best + vr_model=121, vr_bonus=32, vr_relic_w=32)
   on fs1202000n1000: base `a20_relic20` win 0.046 floor 27.93 score 0.5926; challenger win 0.062 floor 28.31 score 0.6158;
   dscore +0.0232, dwin +0.016, P=0.972 -> **new A20 best**. The same config was discarded as R8b on the selection seeds
