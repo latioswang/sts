@@ -102,7 +102,13 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 08:42 UTC
+### Current state (update after every batch) — 2026-11-05 08:53 UTC
+- **08:53 UTC: A10 best re-measured on a fresh slice:** `a10_r81` on fs1203500n1000: win 0.372 (372/1000; 95% Wilson CI
+  [34.3%, 40.2%]), floor 37.42, score 1.1058 (selection-slice val 44.0%; prediction "below" held). **New M-A10 claim declared
+  now, before any test game:** `a10_r81` meets the preconditions of the first claim (val 44.0% ≥ 35%, dev replication +0.112
+  P=0.952) plus an honest fresh-slice 37.2%; the rule allows one test run per milestone claim (the first was spent on
+  `a10_relic20`: 32.2%, not confirmed). Test run: 500 test seeds, A10, report with 95% Wilson CI; confirmed iff the point
+  estimate ≥ 35% (same criterion as before); queued after the Heart re-measurement; not used for any decision.
 - **08:42 UTC: `a20_r121s32f` keep REPLICATES** on a second fresh slice fs1205500n1000: `a20_relic20` win 0.050 floor 28.60
   score 0.6098; `a20_r121s32f` win 0.065 floor 29.27 score 0.6377; dscore +0.0279, dwin +0.015, P=0.993. Across the two
   fresh slices (2,000 seeds): 6.35% vs 4.80% win. **A20 honest level ≈ 6.3%** (target 25%). A0 best re-measured on
