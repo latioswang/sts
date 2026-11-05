@@ -152,6 +152,12 @@
    "label": "A20 boss-search reallocation: no keep (compute-neutral x1.5 / x2 and +compute x2 all lose ~2–3 pts)",
    "status": "done",
    "when": "2026-11-05 06:30"
+  },
+  {
+   "id": "Fresh",
+   "label": "Selection bias found (A20 best 5.6% -> 4.4% on fresh seeds); keep rule now uses a never-used seed slice per decision (exp_fresh.sh)",
+   "status": "done",
+   "when": "2026-11-05 07:50"
   }
  ],
  "phases": [
@@ -197,6 +203,7 @@
   }
  ],
  "next_up": [
+  "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
   "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",

@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 07:50 UTC
+### Current state (update after every batch) — 2026-11-05 08:16 UTC
+- **08:16 UTC:** first fresh-slice decision: `a20_bm15f` on fs1201000n1000 — base `a20_relic20` win 0.049 floor 28.48;
+  challenger dscore −0.0131, dwin −0.010, P=0.097 -> discard (on the selection seeds it read −0.026 / −1.8 points: about half
+  of that was the base's selection gain). `exp_fresh.sh` fixed (BrokenPipe from `head -1` killed the first attempt after the
+  base run; FRESH_SLICE resumes an allocated slice). `a20_r121s32f` running on fs1202000n1000.
 - **07:50 UTC: fresh-slice keep protocol adopted** (see "PROTOCOL AMENDMENT"); two A20 re-tests queued under it.
 - **07:49 UTC: SELECTION BIAS CONFIRMED (A20 diagnostic, 1,000 fresh seeds 1,200,000–1,200,999, report only).** Pasted:
 
