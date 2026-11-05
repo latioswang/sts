@@ -1047,3 +1047,12 @@ transcript-20261105-181829.jsonl#0	completed	1219
 transcript-20261105-181829.jsonl#1	completed	241	
 transcript-20261105-182521.jsonl#0	diverged	6	left the run straight after a difference, so the transforms' obtain effects were lost in the room change; the rerun of 9610 replaces it
 transcript-20261105-182521.jsonl#1	completed	814	
+transcript-20261105-182521.jsonl#2	completed	314	
+transcript-20261105-183235.jsonl#0	completed	216	
+transcript-20261105-183235.jsonl#1	completed	321	
+transcript-20261105-183543.jsonl#0	completed	97	
+transcript-20261105-183543.jsonl#1	completed	437	
+transcript-20261105-183543.jsonl#2	completed	331	
+transcript-20261105-183941.jsonl#0	diverged	6	left the run straight after a difference, so the transforms' obtain effects were lost in the room change; a rerun of 9618 would replace it
+transcript-20261105-183941.jsonl#1	completed	249	
+transcript-20261105-184119.jsonl#0	completed	673	
