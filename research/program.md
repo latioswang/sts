@@ -102,7 +102,17 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-04 23:17 UTC
+### Current state (update after every batch) — 2026-11-05 00:09 UTC
+- **00:09 UTC: R8 training under way** (container restarted ≈ 00:05 during cell 102; runner restarted, it resumes). Pasted:
+
+      PULL rundata_a20_hold_z / w10 / w11 / w12 _k32_z DONE (2 / 32 / 32 / 32 files)
+      SCORE vr_61 on rundata_a20_hold_z: runs=1000 states=93746 rmse=0.8800 corr=0.437 state_mean=0.737
+      SCORE vr_81 on rundata_a20_hold_z: runs=1000 states=93746 rmse=0.4206 corr=0.545
+      VR2 id=100 runs=80100 ridge lambda=0.01 holdout_rmse=0.3452 holdout_corr=0.579 predict_mean_rmse=0.4233
+      VR2 id=101 runs=80100 hidden=64 best_epoch=1 holdout_rmse=0.3560 holdout_corr=0.546 predict_mean_rmse=0.4233
+
+  The A0 model mis-levels A20 badly (0.880, worse than predicting the mean 0.423); the A10 model is about at the mean
+  (0.421); A20-only ridge 0.345 — prediction 1 (A20-only beats both) holds.
 - **23:17 UTC: R8 data arriving.** Pasted: r8w11 `SV GEN rundata_a20_w11 DONE: 30000 files`; `SUBSAMPLE ... 30000 runs, rows
   2859991 -> 942249 (k=32)`; `PACK ... rundata_a20_w11_k32_z: 30 shards, 2525.2 MB -> 46.9 MB (53.9x), verify OK`; `PUSH
   rundata_a20_w11_k32_z DONE: 32 files`; `PACK ... rundata_a20_w11_z: 7664.8 MB -> 101.9 MB (75.2x), verify OK`; `PUSH
