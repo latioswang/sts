@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 01:17 UTC
+### Current state (update after every batch) — 2026-11-05 01:26 UTC
+- **01:26 UTC: Phase R9 closed — no keep.** `vr9srel` dscore −0.0046, dwin −0.003, P=0.343; `vr9srelg` dscore +0.0026, dwin
+  +0.003, P=0.559 (vs `vr5relic20`) -> both discard. Predictions LOW–MED / LOW held (no effect either way). Shop relics are
+  a small decision at A0 (few shops with two affordable relics) [INFERRED, LOW]. Runner idle.
 - **01:17 UTC: Phase R9 pre-registered and queued** (run value on shop relics; two A0 cells vs `vr5relic20`).
 - **00:45 UTC: R8b — no keep; the A20 learned run value line is closed for now.** `pooled val,dev2,dev3 [act3]: n=500  a20_r121s32 win=0.050 floor=28.52  a20_relic20 win=0.056 floor=28.93  dscore=-0.0140 dwin=-0.006 P(improve)=0.204` (slices −0.011 / −0.019 /
   −0.017). Scale-matching moved the loss from −0.037 to ≈ −0.015 but not above zero: the weakened pull explains part of R8,
