@@ -28,6 +28,7 @@ struct MirrorOptions {
     int noteUpgrades = 0;
     // Takes the event option tried least so far instead of the agent's, so that the ones it never picks get compared too.
     bool exploreEvents = false;
+    int neowOption = -1;  // with exploreEvents, takes this one at Neow, to reach a reward on a seed known to offer it
 };
 
 struct MirrorResult {

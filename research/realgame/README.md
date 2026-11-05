@@ -206,7 +206,7 @@ STS_TIME_SCALE=5 research/realgame/run_batch.sh mirror 2000 9 --chunk 3 --scenar
 
 `scenario_plan.py` writes one scenario per seed from what the transcripts haven't reached yet. `--all` includes everything, and `--upgrade` gives the cards upgraded. `coverage_report.py` lists what has come up so far.
 
-`--explore_events` makes a mirror run take the event option tried least so far instead of the agent's, counted in `logs/event_options_tried.json`, so that options the agent never picks get compared with the game too.
+`--explore_events` makes a mirror run take the event option tried least so far instead of the agent's, counted in `logs/event_options_tried.json`, so that options the agent never picks get compared with the game too. `--neow_option N` with it takes that option at Neow, to reach a reward on a seed known to offer it.
 
 To find out what rolled a stream, set `STS_TRACE_RNG=cardRng,miscRng` when starting a batch. The mod logs each roll's call stack to `bridge_rng_trace.txt` in the game folder.
 

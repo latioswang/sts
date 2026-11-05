@@ -538,6 +538,14 @@ bool Mirror::takeLeastTriedEventOption(GameContext &gc) {
     if (gc.curEvent == Event::MATCH_AND_KEEP) return false;  // its moves are pairs of cards, not options
     const auto actions = GameAction::getAllActionsInState(gc);
     if (actions.size() < 2) return false;
+    if (gc.curEvent == Event::NEOW && options_.neowOption >= 0) {
+        for (const auto &a : actions) {
+            if (a.getIdx1() == options_.neowOption) {
+                a.execute(gc);
+                return true;
+            }
+        }
+    }
 
     const std::string path = options_.logDir + "/event_options_tried.json";
     json tried = json::object();

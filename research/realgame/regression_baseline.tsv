@@ -1032,3 +1032,18 @@ transcript-20261105-172942.jsonl#0	completed	474
 transcript-20261105-172942.jsonl#1	completed	152	
 transcript-20261105-173524.jsonl#0	completed	205	
 transcript-20261105-173524.jsonl#1	completed	174	
+transcript-20261105-173524.jsonl#2	completed	620	
+transcript-20261105-175029.jsonl#0	completed	225	
+transcript-20261105-175029.jsonl#1	completed	735	
+transcript-20261105-175951.jsonl#0	completed	786	
+transcript-20261105-175951.jsonl#1	completed	170	
+transcript-20261105-175951.jsonl#2	completed	731	
+transcript-20261105-180859.jsonl#0	completed	363	
+transcript-20261105-180859.jsonl#1	completed	605	
+transcript-20261105-181410.jsonl#0	completed	246	
+transcript-20261105-181410.jsonl#1	completed	232	
+transcript-20261105-181410.jsonl#2	completed	474	
+transcript-20261105-181829.jsonl#0	completed	1219	
+transcript-20261105-181829.jsonl#1	completed	241	
+transcript-20261105-182521.jsonl#0	diverged	6	left the run straight after a difference, so the transforms' obtain effects were lost in the room change; the rerun of 9610 replaces it
+transcript-20261105-182521.jsonl#1	completed	814	

@@ -143,7 +143,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
-| code | Neow's curse with two transforms gave no curse | `NeowReward.update` gives the curse whichever reward it came with, after the grid has its list | `aa5b858` |
+| 9610, 0 | Neow's curse with two transforms gave no curse | `NeowReward.update` rolls it at once, and its obtain effect lands after the picks and before the transformed cards | `aa5b858`, `9ec3e2c` |
 | code | Neow's curse with colorless cards rolled the curse first | `activate` rolls the cards from `cardRng`, and the curse comes after, in `update` | `aa5b858` |
 | code | Cursed Tome ignored books the player owned | `randomBook` offers the ones they lack, and Circlet with none left | `aa5b858` |
 | code | Omamori from Big Fish's box or Addict's robbery stopped that event's own curse | The curse's obtain effect is created first, as at The Mausoleum | `aa5b858` |
