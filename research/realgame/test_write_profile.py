@@ -14,6 +14,12 @@ def read(directory: Path, name: str) -> dict[str, str]:
     return json.loads((directory / name).read_text(encoding="utf-8"))
 
 
+def test_every_class_has_every_ascension_for_note_for_yourself(tmp_path: Path, monkeypatch) -> None:
+    run(tmp_path, monkeypatch)
+    for name in ("STSDataVagabond", "STSDataTheSilent", "STSDataDefect", "STSDataWatcher"):
+        assert read(tmp_path, name)["ASCENSION_LEVEL"] == "20"
+
+
 def test_unlocks_everything_the_game_locks(tmp_path: Path, monkeypatch) -> None:
     run(tmp_path, monkeypatch)
     unlocks = read(tmp_path, "STSUnlocks")

@@ -47,7 +47,7 @@ def profile() -> dict[str, dict[str, str]]:
         # Settings.setFinalActAvailability: keys, burning elites and act 4 need a win with these three characters.
         "STSPlayer": {f"{c}_WIN": "true" for c in ("IRONCLAD", "THE_SILENT", "DEFECT")},
         # isNoteForYourselfAvailable: from A1 to A14 it needs an ascension above the run's, which the simulator assumes.
-        "STSDataVagabond": {"ASCENSION_LEVEL": "20"},
+        **{f"STSData{c}": {"ASCENSION_LEVEL": "20"} for c in ("Vagabond", "TheSilent", "Defect", "Watcher")},
         "STSTips": {tip: "true" for tip in TIPS},
         # Fast Mode: Communication Mod is only tested with it. Upload Data: research runs must not reach the devs' stats.
         "STSGameplaySettings": {"Fast Mode": "true", "Upload Data": "false"},

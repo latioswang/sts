@@ -20,5 +20,8 @@ if [ -e "$RUN_DIR/mods/BridgeScenario.jar" ]; then
   MODS="$MODS,bridgescenario"
 fi
 
+# A run's end writes the character's file back, so the profile goes on again at each start.
+python3 -I "$(dirname "$0")/write_profile.py" "$RUN_DIR/preferences" > /dev/null
+
 cd "$RUN_DIR"
 exec arch -x86_64 jre/bin/java -Xmx3G -jar "$MTS" --skip-launcher --skip-intro --mods "$MODS"

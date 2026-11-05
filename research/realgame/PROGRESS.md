@@ -183,6 +183,7 @@ Cleanup put off for later:
 
 ## Things that caught us out
 
+- **The profile only unlocked ascensions for Ironclad.** Note For Yourself is in the event pool from A1 to A14 only if the character has unlocked a higher ascension, so the first other-class runs above A0 got different events on seeds 8004 and 8012. The profile now sets every class, and `launch_game.sh` applies it again at each start, since the end of a run writes that class's file back.
 - **`fair_eval` without `BF_MODEL_DIR`.** On this Mac it silently plays untrained, which cost one comparison.
 - **Passing parameters in zsh.** `$P` doesn't split into words, so `fair_eval` silently used its defaults. Use an array.
 - **A self-test pass doesn't prove much.** A crash from `areMonstersBasicallyDead` passed 50 seeds of self-test and only appeared on a real run at floor 50.
