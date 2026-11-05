@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 04:17 UTC
+### Current state (update after every batch) — 2026-11-05 05:16 UTC
+- **05:16 UTC:** `rundata` pulled (`PULL rundata DONE: 10000 files`) and packed (`PACK ... 4233.9 MB -> 58.2 MB (72.7x), verify
+  OK`). Scoring on it OOM'd (rc 137) — `score_vr.py` now scores in 200k-row chunks (A10 holdout check reproduces 0.7093 /
+  0.472). `rundata` is in-sample for `vr_81` / `vr_121` (their A0 subsample covers all 10k runs), so a fresh A0 holdout is
+  being generated (1,000 games, seeds 1,100,000–1,100,999, unused; 3/10 chunks at 05:16) for an uncontaminated comparison.
 - **04:17 UTC:** idle 01:26–04:16 (the session's worker process restarted; the 02:15 and 03:16 wakes were delivered at
   04:16). Now pulling the A0 holdout `rundata` back (deleted locally on 11-03 for disk), packing it to shards (`rundata_z`)
   and scoring `vr_41` / `vr_61` / `vr_81` / `vr_121` on it (informational; decides whether an A0 cell with `vr_121` is worth
