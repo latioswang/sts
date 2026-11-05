@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 07:49 UTC
+### Current state (update after every batch) — 2026-11-05 07:50 UTC
+- **07:50 UTC: fresh-slice keep protocol adopted** (see "PROTOCOL AMENDMENT"); two A20 re-tests queued under it.
 - **07:49 UTC: SELECTION BIAS CONFIRMED (A20 diagnostic, 1,000 fresh seeds 1,200,000–1,200,999, report only).** Pasted:
 
       a20_relic20_fresh  fresh a20 n=1000 win=0.044 floor=28.88 score=0.6094±0.0119   (pooled-500 selection seeds: 0.056 / 28.93)
@@ -1567,6 +1568,19 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**PROTOCOL AMENDMENT — fresh-slice keep rule (adopted 2026-11-05 07:50 UTC; applies to every keep decision from now on).**
+Problem (shown above): the bests were selected on the val/dev slices that every later challenger is compared on, so the
+base's score there is the maximum of many noisy tries — challengers lose by the selection gain (A20: ≈ 1–3 win points;
+`a20_bm2x` "−3.0, P=0.005" was a dead heat on fresh seeds). New rule (`research/tools/exp_fresh.sh`): each experiment
+allocates a never-used seed slice from `research/eval/fresh_next.txt` (starts at 1,201,000; 500 seeds on A0/A10, 1,000 on
+A20/Heart) before any game, re-runs the current best on that slice, and keeps the challenger iff the paired dscore > 0 and
+P >= 0.9 on that slice alone (Heart: win = Heart beaten, as before). The slice is never reused, so no best is ever compared on
+seeds that selected it. Old val/dev/dev2/dev3 results stay as history; near-miss extensions use a second fresh slice. Cost:
+2x games per decision. The test split rule is unchanged. `run.py` accepts split names `fs<START>n<COUNT>`.
+Re-tests of today's A20 discards that were judged against the inflated base (compute-neutral ones only): `a20_bm15f`
+(sims 405, boss_mult 1.5) and `a20_r121s32f` (vr_model 121, bonus 32, relic 32), each on its own fresh 1,000-seed slice vs
+`a20_relic20`. Predictions: each keep LOW.
 
 **Selection-bias diagnostic on A20 (pre-registered 2026-11-05 07:23 UTC, before any of these games; report only).** All
 five A20 search changes today lost 1.8–3.2 points vs `a20_relic20` on the pooled 500 (bm15 3.8%, bm2 3.0%, bm2x 2.6%,

@@ -107,7 +107,10 @@ def main():
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--winmode", default="act3", choices=["act3", "heart"])
     a = ap.parse_args()
-    start, count = SPLITS[a.split]
+    if a.split.startswith("fs"):   # fresh-slice protocol (2026-11-05): "fs<START>n<COUNT>", e.g. fs1201000n500
+        start, count = (int(x) for x in a.split[2:].split("n"))
+    else:
+        start, count = SPLITS[a.split]
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     out = os.path.join(ROOT, "runs", f"{a.name}.{a.split}.a{a.asc}.tsv")
     cmd = [BIN, "--agent", a.agent, "--seed_start", str(start), "--count", str(count),
