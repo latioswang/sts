@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 13:22 UTC
+### Current state (update after every batch) — 2026-11-05 14:21 UTC
+- **14:21 UTC:** P1 data 4/7 stored (p1w17 `PUSH poldata_p1_w17_z DONE: 5 files`; session archived); p1w16 and p1w21 in their
+  last chunks (≈ 35–40 min). **p1w18 stalled 12:07–14:20** at 15/40 chunks: its runner hit the 2-hour limit and it waited for
+  a restart OK it already had (its task carries the owner's approval) — reminded by message; ≈ 3 h left after restart, so P1
+  stage 2 (which waits for all seven sets, as pre-registered) starts ≈ 17:30. X1: x1w13 `PUSH rundata_x1_hold_z DONE: 2
+  files`, `PUSH rundata_x1_w13_k32_z DONE: 32 files` (ahead of 17:00); coordinator queue pulling as sets land.
 - **13:22 UTC: P1 data 3/7 in the store** (`PUSH poldata_p1_w19_z / w20_z / w22_z DONE: 5 files` each; p1w20 4,000 games packed
   146.4 MB verify OK; p1w22 146.1 MB) — workers p1w19, p1w20, p1w22 archived; p1w16–18, p1w21 finishing. p1_stage2.sh
   restarted after its 2-hour stop (it waits; pulls/unpacks are idempotent). X1 ≈ 17:00.
