@@ -1,6 +1,6 @@
 // sts_bridge: connects the research agent to the real game through commrelay.py. See README.md.
 //
-//   sts_bridge mirror --research_dir DIR --seed_start N --count K [--class C] [--max_floor F] [--asc A] [--params FILE] [--param k=v ...]
+//   sts_bridge mirror --research_dir DIR --seed_start N --count K [--class C] [--max_floor F] [--asc A] [--explore_events] [--params FILE] [--param k=v ...]
 //   sts_bridge live --research_dir DIR --seed_start N --count K [--asc A] [--params FILE] [--param k=v ...]
 //   sts_bridge selftest --research_dir DIR --seed_start N --count K    (converter round trip, no game needed)
 //   sts_bridge replay --trace FILE [--trace FILE ...]    (checks recorded runs, no game needed; one JSON line per run)
@@ -34,6 +34,7 @@ struct Args {
     int ascension = 0;
     int maxFloor = 0;
     std::string scenarioFile;
+    bool exploreEvents = false;
     std::string socketPath = "/tmp/sts_commrelay.sock";
     std::string researchDir;
     std::string logDir;
@@ -65,6 +66,7 @@ Args parseArgs(int argc, char **argv) {
         else if (a == "--class") args.character = characterFromGameId(next());
         else if (a == "--max_floor") args.maxFloor = std::stoi(next());
         else if (a == "--scenario_file") args.scenarioFile = next();
+        else if (a == "--explore_events") args.exploreEvents = true;
         else if (a == "--sock") args.socketPath = next();
         else if (a == "--research_dir") args.researchDir = next();
         else if (a == "--log_dir") args.logDir = next();
@@ -166,6 +168,7 @@ int runMirror(const Args &args) {
         options.character = args.character;
         options.ascension = args.ascension;
         options.maxFloor = args.maxFloor;
+        options.exploreEvents = args.exploreEvents;
         options.params = args.params;
         options.logDir = args.logDir;
         if (const auto it = scenarios.find(options.seed); it != scenarios.end()) options.scenario = it->second;

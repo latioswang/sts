@@ -26,6 +26,8 @@ struct MirrorOptions {
     ReplayClient *replay = nullptr;
     std::string noteCard;  // replay only: the card Note For Yourself held in the recorded run
     int noteUpgrades = 0;
+    // Takes the event option tried least so far instead of the agent's, so that the ones it never picks get compared too.
+    bool exploreEvents = false;
 };
 
 struct MirrorResult {
@@ -73,6 +75,8 @@ private:
     void onCombatAction(const sts::BattleContext &bc, const sts::search::Action &a);
     void alignCombat();
     void updateGameRngs();
+    void playExploringEvents(sts::GameContext &gc, fair::FairAgent &agent);
+    bool takeLeastTriedEventOption(sts::GameContext &gc);
     void playRecorded(sts::GameContext &gc);
     void playRecordedBattle(sts::GameContext &gc);
     void stopIfNoRecordedMove() const;

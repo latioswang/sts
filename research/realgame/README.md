@@ -206,6 +206,8 @@ STS_TIME_SCALE=5 research/realgame/run_batch.sh mirror 2000 9 --chunk 3 --scenar
 
 `scenario_plan.py` writes one scenario per seed from what the transcripts haven't reached yet. `--all` includes everything, and `--upgrade` gives the cards upgraded. `coverage_report.py` lists what has come up so far.
 
+`--explore_events` makes a mirror run take the event option tried least so far instead of the agent's, counted in `logs/event_options_tried.json`, so that options the agent never picks get compared with the game too.
+
 To find out what rolled a stream, set `STS_TRACE_RNG=cardRng,miscRng` when starting a batch. The mod logs each roll's call stack to `bridge_rng_trace.txt` in the game folder.
 
 The mod also does three things for mirror runs that a real run wouldn't need. It holds the play clock past 800 seconds, because Secret Portal only joins act 3's events after that. It answers with the random streams' state. And it turns the player to a card's target in Spire Shield and Spear's fight: the card and potion screens do this in a normal game, and Communication Mod plays around them, while back attacks depend on it.

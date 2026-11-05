@@ -532,6 +532,42 @@ void Mirror::playRecorded(GameContext &gc) {
     }
 }
 
+// ---------------- taking the event options the agent doesn't ----------------
+
+bool Mirror::takeLeastTriedEventOption(GameContext &gc) {
+    if (gc.curEvent == Event::MATCH_AND_KEEP) return false;  // its moves are pairs of cards, not options
+    const auto actions = GameAction::getAllActionsInState(gc);
+    if (actions.size() < 2) return false;
+
+    const std::string path = options_.logDir + "/event_options_tried.json";
+    json tried = json::object();
+    if (std::ifstream in(path); in) {
+        tried = json::parse(in, nullptr, false);
+        if (tried.is_discarded()) throw std::runtime_error("can't read " + path);
+    }
+    json &counts = tried[std::to_string(static_cast<int>(gc.curEvent))];
+    if (counts.is_null()) counts = json::object();
+    const auto timesTried = [&](const GameAction &a) { return counts.value(std::to_string(a.getIdx1()), 0); };
+    const GameAction least = *std::min_element(actions.begin(), actions.end(), [&](const GameAction &a, const GameAction &b) {
+        return timesTried(a) < timesTried(b);
+    });
+    counts[std::to_string(least.getIdx1())] = timesTried(least) + 1;
+    std::ofstream(path) << tried.dump(1) << "\n";
+    least.execute(gc);
+    return true;
+}
+
+void Mirror::playExploringEvents(GameContext &gc, fair::FairAgent &agent) {
+    for (int steps = 0; gc.outcome == GameOutcome::UNDECIDED; ++steps) {
+        if (steps > kMaxRecordedSteps) throw RecordingStop("agent_stuck", "too many moves in one run");
+        if (gc.screenState == ScreenState::BATTLE) {
+            agent.playBattle(gc);
+        } else if (gc.screenState != ScreenState::EVENT_SCREEN || !takeLeastTriedEventOption(gc)) {
+            agent.stepOutOfCombat(gc);
+        }
+    }
+}
+
 // ---------------- run lifecycle ----------------
 
 void Mirror::finishRun(const GameContext &gc) {
@@ -594,6 +630,7 @@ MirrorResult Mirror::run() {
         }
         prepareNeow(gc);
         if (options_.replay) playRecorded(gc);
+        else if (options_.exploreEvents) playExploringEvents(gc, *agent);
         else agent->playout(gc);
         finishRun(gc);
         result.status = "completed";
