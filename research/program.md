@@ -102,7 +102,14 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 09:24 UTC
+### Current state (update after every batch) — 2026-11-05 09:27 UTC
+- **09:27 UTC: owner decision — finish X1 on the current simulator, then switch** the loop to the real-game-matched fork
+  (`latioswang/sts_lightspeed` commit `dfda16c`, branch `fidelity`, pinned; relayed by the bridge session, confirmed by the
+  owner in this chat: "finish X1 first"). Fork source cloned to `/home/user/sts_lightspeed_fid` at dfda16c; building it was
+  refused by the auto-mode classifier (external code) — owner approval needed at switch time. Switch plan: pin dfda16c in
+  `research/setup.sh` (no patch on top), build `fair_eval` with `-DSTS_RESEARCH_DIR`, leak test, mark results by simulator,
+  re-baseline all four bests on fresh slices, then decide on retraining V on new-sim data. X1 coordinator queue written
+  (waits for the exploration shard sets).
 - **09:24 UTC: MILESTONE M-A10 CONFIRMED.** `a10_r81 test a10 n=500 crash=0 win=0.368 floor=38.03 score=1.1137±0.0313`:
   184/500 = 36.8%, 95% Wilson CI [32.7%, 41.1%]; criterion (point estimate ≥ 35%, declared 08:53 before the run) met. Second
   A10 test use (the first, `a10_relic20` 32.2%, did not confirm). Consistent with the fresh-slice 37.2% (1,000 seeds).
