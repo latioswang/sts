@@ -746,11 +746,9 @@ ConvertedBattle battleFromState(const GameContext &gc, const json &gs, const Bat
         // Panache's amount is its countdown, and its damage is what the simulator keeps as the status.
         const int amount = *status == PS::PANACHE ? power.value("damage", 0) : power.value("amount", 0);
         setPlayerStatus(p, *status, amount, power.value("just_applied", false));
+        p.notePowerGained(*status);  // the list keeps the order they were gained
         if (*status == PS::PANACHE) p.panacheCounter = static_cast<std::int8_t>(power.value("amount", 0));
-        if (*status == PS::COMBUST) {
-            p.combustHpLoss = static_cast<std::int8_t>(power.value("misc", 1));
-            p.noDrawBeforeCombust = p.hasStatus<PS::NO_DRAW>();  // the list keeps the order they were gained
-        }
+        if (*status == PS::COMBUST) p.combustHpLoss = static_cast<std::int8_t>(power.value("misc", 1));
         if (*status == PS::ECHO_FORM) p.echoFormCardsDoubled = static_cast<std::int8_t>(power.value("misc", 0));
         if (*status == PS::MACHINE_LEARNING) p.cardDrawPerTurn = static_cast<std::int8_t>(p.cardDrawPerTurn + amount);  // DrawPower raises the hand size
     }

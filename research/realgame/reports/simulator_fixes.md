@@ -89,6 +89,12 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2504, 36 | A Darkling killed by Thorns on its own turn revived a turn early | `Darkling.damage` queues a `SetMoveAction` that lands after its `RollMoveAction`, so the wait comes back | `766198c` |
 | 2417, 44 | A Parasite from Writhing Mass paid no Ceramic Fish gold | `AddCardToDeckAction` triggers `onObtainCard` during the fight, and the simulator's fight-end add was overwritten by the player's gold | `c1e59d6` |
 | 8054, 18 | After Vault, monsters that count their own turns moved a turn early, because the count came from the battle's turn number | Looter's `slashCount`, The Maw's `turnCount`, the Heart's `moveCount` and the like don't move on a turn the monster doesn't take | `db710c3` |
+| code | Hologram or Liquid Memories with a full hand moved the card to the end of the discard pile | `BetterDiscardPileToHandAction` leaves it where it is, and the pile's order decides the next shuffle | `aa5b858` |
+| code | Dead Branch and Dark Embrace acted after the last kill, and Dead Branch rolled `cardRandomRng` | Both check `areMonstersBasicallyDead` | `aa5b858` |
+| code | Innate cards beyond the first turn's draw were drawn before the battle-start relics' cards | `initializeDeck` uses `addToTurnStart`, which waits for the queue to empty | `aa5b858` |
+| code | Mummified Hand only checked the front of the card queue | It removes every queued card from its choices | `aa5b858` |
+| code | Constricted acted in the order gained, and No Draw came off after every other power unless Combust was played after it | `ConstrictedPower` has priority 105, so it acts last, and No Draw comes off in its own place in the order | `aa5b858` |
+| code | Equilibrium kept the hand without marking it retained, so Perseverance, Windmill Strike and Sands of Time got nothing | `EquilibriumPower` sets `retain` on each non-ethereal card, which runs `onRetained` | `aa5b858` |
 | 8101, 33 | Mutagenic Strength always wore off, and Gremlin Visage's Weak always landed, with Clockwork Souvenir | Those relics go on top of the queue at battle start, so the later one acts first, and its Artifact can stop the Strength's loss. Visage's Weak is at the bottom, so the Artifact stops that too | `e869a20` |
 | 8201, 42 | Nightmare's copies came after every other power's cards at the start of a turn | Each `NightmarePower` takes its turn among the powers, in the order gained | `47b4456` |
 | 8305, 33 | A Bronze Orb taking the last card in the draw and discard piles got Stasis | `ApplyStasisAction` looks for two empty piles on every frame, so the next frame ends it before it applies the power, and the card stays in limbo for the rest of the fight | `35241d7` |
@@ -131,11 +137,19 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2116, 37 | A Darkling that went down kept its old debuff amounts, which came back with the next one | `powers.clear()` removes them, so Shockwave+ gives 5 Weak, not 6 | `c54860c` |
 | 2116, 50 | Combust did nothing while Awakened One was half dead with nothing else alive | `areMonstersBasicallyDead` only looks at `isDying` and `isEscaping` | `dad125b` |
 | 2103, 16 | The Guardian lost its Defensive Mode block when Combust crossed the threshold at the end of a turn | `ChangeStateAction` queues the block behind the queued monster start of turn | `dc6e79d` |
+| code | Lagavulin woke on the battle's third turn, and Hexaghost's Burn+ started by the battle's turn, so Vault moved both early | `idleCount` only moves on a turn it takes, and `burnUpgraded` is set by Inferno | `aa5b858` |
 
 ## Run and rewards
 
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
+| code | Neow's curse with two transforms gave no curse | `NeowReward.update` gives the curse whichever reward it came with, after the grid has its list | `aa5b858` |
+| code | Neow's curse with colorless cards rolled the curse first | `activate` rolls the cards from `cardRng`, and the curse comes after, in `update` | `aa5b858` |
+| code | Cursed Tome ignored books the player owned | `randomBook` offers the ones they lack, and Circlet with none left | `aa5b858` |
+| code | Omamori from Big Fish's box or Addict's robbery stopped that event's own curse | The curse's obtain effect is created first, as at The Mausoleum | `aa5b858` |
+| code | Drug Dealer's transform left out bottled cards | It opens on `getPurgeableCards`, unlike other events | `aa5b858` |
+| code | `getEvent`'s fallback to a shrine rolled the live `eventRng` | It uses the copy it was given, so the live stream doesn't move | `aa5b858` |
+| code | Max HP could go below 1 | `decreaseMaxHealth` stops at 1 | `aa5b858` |
 | 1000, 5; 1003, 7 | Match and Keep was off, which changed most shrine rolls | It is in the pool. Search can play it now, without seeing face-down cards | `2865777` |
 | 1004, 0 | Neow's "transform two cards" always added a curse | A curse comes only with the curse drawback | `341261d` |
 | 1010, 0 | Neow's max HP bonuses didn't heal | `increaseMaxHp(amount, true)` heals by the same amount | `21433d5` |
@@ -219,5 +233,6 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
+- **Found reading the bytecode, too rare to fix yet.** The Bomb fires before other end-of-turn powers, whatever the order gained, which shows with Combust. Start-of-turn relics run in a fixed order, which shows with Emotion Chip and Mercury Hourglass. Evolve's draw clears Scrape's draw history in the game. A stacked Hex gives as many Dazed as its amount, and no fight stacks it.
 - **Player powers kept as plain fields.** Powers in the simulator's status map now trigger in the game's order. Strength, Dexterity and a few others live outside that map, so their place in the order isn't modeled. No Draw before Combust is still handled on its own.
 - **Empty Cage and Tiny House on the game.** The agent never picks them, so they've only been compared with the game's code. Empty Cage's automatic removal with two or fewer removable cards isn't in the simulator.
