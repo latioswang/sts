@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 00:09 UTC
+### Current state (update after every batch) — 2026-11-05 00:16 UTC
+- **00:16 UTC: all R8 data in the store; workers archived.** Pasted: r8w10 `SV GEN rundata_a20_w10 DONE: 30000 files`, holdout
+  file count 1000 (seeds 1000000–1000999), `PUSH rundata_a20_hold_z DONE: 2 files`, `PUSH rundata_a20_w10_k32_z DONE: 32
+  files`, `PUSH rundata_a20_w10_z DONE: 31 files`; r8w12 `PUSH rundata_a20_w12_z DONE: 31 files`. Sessions r8w10, r8w12
+  archived (r8w11 at 23:17); no active workers. Coordinator training resumed at cell 102.
 - **00:09 UTC: R8 training under way** (container restarted ≈ 00:05 during cell 102; runner restarted, it resumes). Pasted:
 
       PULL rundata_a20_hold_z / w10 / w11 / w12 _k32_z DONE (2 / 32 / 32 / 32 files)
