@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 05:38 UTC
+### Current state (update after every batch) — 2026-11-05 06:18 UTC
+- **06:18 UTC: Phase B20 pre-registered and queued** (A20: search budget moved to boss fights, compute-neutral; boss fights
+  are 39% of A20 losses and 47% of its search compute).
 - **05:38 UTC: Phase R10 closed — no keep.** `a0_r121` dscore +0.0014, dwin +0.000, P=0.505; `a0_r121s` (scale-matched)
   dscore −0.0113, dwin −0.007, P=0.340 (vs `vr5relic20`) -> both discard. Predictions held (LOW–MED / LOW). Second failed test
   of the scale idea (after R8b): it is dropped. Pattern across R4, R7 (A20), R8, R10: a better holdout fit does not by itself
@@ -1540,6 +1542,17 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase B20 — A20 search budget moved to boss fights (pre-registered 2026-11-05 06:18 UTC, before any of these games).**
+Why: the A20 best (`a20_relic20`, pooled 500: 28 wins) dies at a boss in 186 of 472 losses (floor 16: 84, floor 33: 102;
+computed from its val/dev2/dev3 rows). Calibration (train seeds 300000–300099, used only for timing, never for keeps):
+100 games at boss_mult=1 -> 156.8 s summed, at boss_mult=2 -> 230.3 s, so boss fights take ≈ 0.469 of A20 search compute.
+Compute-neutral cells: non-boss sims x = 500 / (0.531 + 0.469 m): `a20_bm15` (sims=405, boss_mult=1.5; boss 608) and
+`a20_bm2` (sims=340, boss_mult=2; boss 680), pooled-500 rule vs `a20_relic20`; each cell's summed secs reported against the
+base (neutral within ±5% or flagged). Informational, +47% compute (not a keep candidate under the equal-compute rule):
+`a20_bm2x` (sims=500, boss_mult=2). History: A0 `realloc` (400 sims, bosses x2.25) lost (−0.042, P=0.067); Heart `heart_hm2b`
+(compute-neutral, 2x at the Heart) +0.022, P=0.83. Predictions: `a20_bm15` keep LOW–MED, `a20_bm2` keep LOW (the other
+fights lose 32% of their search), `a20_bm2x` positive MED.
 
 **Phase R10 — the mixed-data run value on A0 (pre-registered 2026-11-05 05:28 UTC, before any of these games).** Fit on a
 fresh A0 holdout (1,000 games of the current A0 best, seeds 1,100,000–1,100,999, unused, in no model's training data;
