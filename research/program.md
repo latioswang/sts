@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 09:15 UTC
+### Current state (update after every batch) — 2026-11-05 09:16 UTC
+- **09:16 UTC: honest levels of all four bests (fresh slices, report only):** A0 `vr5relic20` 80.4% (500; selection 84.7%);
+  A10 `a10_r81` 37.2% (1,000; 44.0%); A20 `a20_r121s32f` 6.35% (2 x 1,000); Heart `heart_relic20` 12.7% Heart wins (1,000:
+  `heart_relic20 fs1204500n1000 win=0.127 floor=48.05 score=1.0220 act4=0.606`; selection 15.0%). All three "below"
+  predictions held. X1 workers started: x1w13 session_01USafwhnZj2ip6UeUk7vDAf, x1w14 session_01USafwiyaHFCjBt4jskZjMV,
+  x1w15 session_01USafwhAjgv5r44RMxUeZ66. The second M-A10 test run (`a10_r81`) is next in this VM's queue.
 - **09:15 UTC: Phase X1 pre-registered** (exploration data for V; three A0 workers starting).
 - **08:53 UTC: A10 best re-measured on a fresh slice:** `a10_r81` on fs1203500n1000: win 0.372 (372/1000; 95% Wilson CI
   [34.3%, 40.2%]), floor 37.42, score 1.1058 (selection-slice val 44.0%; prediction "below" held). **New M-A10 claim declared
