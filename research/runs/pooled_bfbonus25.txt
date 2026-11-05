@@ -1,0 +1,2 @@
+pooled val,dev: n=400  bfbonus25 win=0.688 floor=46.68  bfbonus10 win=0.688 floor=46.29  dscore=+0.0075 dwin=+0.000 P(improve)=0.609
+no

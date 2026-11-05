@@ -1,0 +1,2 @@
+pooled val,dev: n=400  a20_restboss1 win=0.035 floor=27.85  a20_bfb25 win=0.030 floor=27.40  dscore=+0.0138 dwin=+0.005 P(improve)=0.912
+KEEP

@@ -1,0 +1,425 @@
+commit	split	n	crash	winrate	mean_floor	score	dscore_vs_best	p_improve	status	description
+302ea3e	dev.a0	100	0	0.020	21.60	0.4435	+0.0445	0.924	ref	scum_cheat: CHEATING reference: lightspeed ScumSearchAgent2 @500 sims (RNG-aware search), legacy policy
+302ea3e	dev.a0	100	0	0.000	20.35	0.3990			baseline	fair0: leak-free MCTS @500 + legacy out-of-combat policy
+302ea3e	dev.a0	100	0	0.050	26.70	0.5735	+0.1745	1.000	keep	pol1: map DP + rest + KB-tier card picks + shop + select policies
+e9630ee	val.a0	300	0	0.030	26.56	0.5508			best	pol1: val baseline for loop
+e9630ee	val.a0	300	0	0.100	32.51	0.7375	+0.1866	1.000	keep	c_etw02: rollout END_TURN weight 0.2 [end_turn_w=0.2]
+e9630ee	val.a0	300	0	0.027	22.76	0.4729	-0.0780	0.000	discard	c_rt3: rollout cutoff 3 turns + heuristic [rollout_turns=3]
+e9630ee	val.a0	300	0	0.100	32.38	0.7348	-0.0026	0.452	discard	c_c03: exploration 0.3 [c=0.3]
+e9630ee	val.a0	300	0	0.113	32.73	0.7550	+0.0176	0.764	discard	c_c15: exploration 1.5 [c=1.5]
+c17f587	val.a0	300	0	0.127	33.56	0.7847	+0.0473	0.976	keep*	ev1: event policy (subagent-written rules) [ev_pol=1]
+c17f587	val.a0	300	0	0.140	33.95	0.8057	+0.0682	0.997	keep	c_etw005: rollout END_TURN weight 0.05 [end_turn_w=0.05]
+c17f587	val.a0	300	0	0.147	34.43	0.8217	+0.0160	0.720	discard	c_prw02: rollout potion weight 0.2 [potion_roll_w=0.2]
+c17f587	val.a0	300	0	0.147	34.01	0.8135	+0.0078	0.667	discard	r_boss09: heal pre-boss if hp<90% [rest_boss_frac=0.9]
+c17f587	val.a0	300	0	0.140	33.92	0.8051	-0.0006	0.474	discard	c_pvb0: boss potions worth 0 (use freely) [potion_v_boss=0]
+f68ad01	val.a0	300	0	0.110	33.76	0.7719	-0.0338	0.001	best	rebase1: re-baseline of c_etw005 params on new binary (Runic Dome never taken)
+f68ad01	val.a0	300	0	0.137	34.84	0.8198	+0.0479	0.983	keep	ev2: event policy on honest baseline [ev_pol=1]
+f68ad01	val.a0	300	0	0.183	35.14	0.8724	+0.0525	0.988	keep	boss_kb: KB-tier boss relic choice [boss_pol=1]
+f68ad01	val.a0	300	0	0.167	35.54	0.8635	-0.0088	0.372	discard	reuse1: tree reuse across decisions [tree_reuse=1]
+f68ad01	val.a0	300	0	0.203	36.44	0.9178	+0.0455	0.990	keep	aoe2: AoE bonus +2 when deck has none [aoe_bonus=2]
+f68ad01	val.a0	300	0	0.170	35.29	0.8620	-0.0559	0.035	discard	c_c15b: exploration 1.5 retest [c=1.5]
+72b476b	val.a0	300	0	0.013	22.93	0.4630	-0.4548	0.000	discard	rok1: rollout bias toward expert play order k=1 [roll_order_k=1]
+72b476b	val.a0	300	0	0.160	36.33	0.8724	-0.0454	0.054	discard	elite08: fight elites only at hp>=80% [elite_hp=0.8]
+72b476b	val.a0	300	0	0.157	36.36	0.8696	-0.0482	0.040	discard	ct4: card threshold 4 (take more cards) [card_thresh=4]
+72b476b	val.a0	300	0	0.197	35.73	0.8973	-0.0206	0.254	discard	ct6: card threshold 6 (take fewer) [card_thresh=6]
+72b476b	val.a0	300	0	0.173	35.83	0.8759	-0.0419	0.067	discard	realloc: same total compute: 400 sims, bosses x2.25 [sims=400 boss_mult=2.25]
+a11c955	val.a0	300	0	0.183	36.09	0.8910	-0.0268	0.075	discard	aoe4: AoE bonus 4 [aoe_bonus=4]
+69006bf	val.a0	281	16	0.096	30.38	0.6918	-0.2047	0.000	diag	DIAG_cheatcombat: DIAGNOSTIC ONLY: best policy + CHEATING lightspeed combat search @500 (bossx3)
+5ba5edc	val.a0	300	0	0.203	35.98	0.9088	-0.0091	0.388	discard	neow1: Neow option ranking (boss relic excluded) [neow_pol=1]
+5ba5edc	val.a0	300	0	0.203	36.11	0.9114	-0.0065	0.389	discard	elite045: fight elites down to 45% hp [elite_hp=0.45]
+5ba5edc	val.a0	300	0	0.210	36.36	0.9229	+0.0051	0.580	discard	welite3: elite path value 3 when healthy [w_elite_hi=3]
+5ba5edc	val.a0	300	0	0.230	37.00	0.9556	+0.0377	0.981	keep	scal15: scaling-card bonus 1.5 when <2 in deck [scaling_bonus=1.5]
+5ba5edc	val.a0	300	0	0.203	36.40	0.9171	-0.0385	0.079	discard	blk15: block-card bonus 1.5 when <3 in deck [block_bonus=1.5]
+5ba5edc	val.a0	300	0	0.183	35.95	0.8882	-0.0674	0.012	discard	rbw3: rollout: skills x3 when incoming dmg > block [roll_block_w=3]
+5ba5edc	val.a0	300	0	0.160	35.82	0.8624	-0.0932	0.002	discard	raw2: rollout: attacks x2 when no incoming dmg [roll_atk_w=2]
+eebf97f	val.a0	300	0	0.240	36.95	0.9644	+0.0089	0.694	discard	scal3: scaling bonus 3 [scaling_bonus=3]
+2a7102e	val.a0	300	0	0.237	37.13	0.9648	+0.0092	0.753	discard	scalw3: scaling wanted up to 3 cards [scaling_want=3]
+2a7102e	val.a0	300	0	0.207	37.41	0.9401	-0.0154	0.288	discard	csp0: no deck-size penalty on card picks [card_size_pen=0]
+2a7102e	val.a0	300	0	0.227	36.79	0.9481	-0.0075	0.384	discard	csp02: deck-size penalty 0.2 [card_size_pen=0.2]
+2a7102e	val.a0	300	0	0.227	36.71	0.9465	-0.0091	0.279	discard	rh04: rest: heal below 40% [rest_heal_frac=0.4]
+2a7102e	val.a0	300	0	0.217	37.02	0.9425	-0.0131	0.214	discard	rh06: rest: heal below 60% [rest_heal_frac=0.6]
+2a7102e	val.a0	300	0	0.183	36.11	0.8914	-0.0642	0.024	discard	hpw2: combat value hp x2 [hp_w=2]
+6c01d8f	val.a0	300	0	0.157	34.79	0.8388	-0.1168	0.000	discard	wb100: combat: win bonus 100 (prioritise winning over hp) [win_bonus=100]
+6c01d8f	val.a0	300	0	0.223	37.44	0.9574	+0.0018	0.532	discard	wb15: combat: win bonus 15 [win_bonus=15]
+6c01d8f	val.a0	300	0	0.170	36.61	0.8878	-0.0677	0.006	discard	spot1: shop: buy potions when a slot is free [shop_potion=1]
+6c01d8f	val.a0	300	0	0.243	36.96	0.9680	+0.0125	0.779	discard	upgpow2: upgrade: powers +2 [upg_power_bonus=2]
+6c01d8f	val.a0	300	0	0.210	36.55	0.9267	-0.0288	0.096	discard	md10: map: no discount on future rooms [map_discount=1.0]
+71c9c1f	val.a0	300	0	0.300	38.21	1.0492	+0.0937	0.987	keep	wev15: map: event value 1.5 [w_event=1.5]
+71c9c1f	val.a0	300	0	0.173	36.06	0.8803	-0.1689	0.000	discard	wmon15: map: hallway fight value 1.5 [w_monster=1.5]
+71c9c1f	test.a0	500	0	0.276	37.76	1.0164			MILESTONE	wev15: M1/M2 test check of best (test run 1/5)
+7d5a6fe	val.a0	300	0	0.313	38.53	1.0689	+0.0197	0.739	discard	wev2: map: event value 2.0 [w_event=2.0]
+7d5a6fe	val.a0	300	0	0.280	38.29	1.0308	-0.0184	0.313	discard	wev25: map: event value 2.5 [w_event=2.5]
+7d5a6fe	val.a0	300	0	0.317	38.78	1.0771	+0.0279	0.841	discard	combo1: near-misses combined: scaling 3, want 3, power upgrades +2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2]
+7d5a6fe	val.a0	300	0	0.297	37.79	1.0377	-0.0115	0.077	discard	wrl5: map: low-hp rest value 5 [w_rest_lo=5]
+7d5a6fe	val.a0	300	0	0.307	38.32	1.0581	+0.0089	0.660	discard	wsr3: map: shop value 3 when rich [w_shop_rich=3]
+347f3fc	val.a0	300	0	0.293	39.56	1.0690	+0.0197	0.733	discard	wmon05: map: hallway fight value 0.5 [w_monster=0.5]
+347f3fc	val.a0	300	0	0.363	39.09	1.1297	+0.0805	0.994	info	INFO_sims1000: INFO ONLY: best params at 2x compute (sims=1000), never promoted
+649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0510	0.915	keep	combo2: all batch-8 near-misses: combo1 + w_event 2 + rich shop 3 + monster 0.5 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2 w_shop_rich=3 w_monster=0.5]
+649c86f	val.a0	300	0	0.320	39.79	1.1002	+0.0000	0.000	discard	combo3: combo1 + w_event 2 [scaling_bonus=3 scaling_want=3 upg_power_bonus=2 w_event=2]
+13d3c84	val.a0	300	0	0.357	40.43	1.1493	+0.0492	0.934	keep	hallpot0: no potions in hallway-fight search (unless hp<25%) [hall_potions=0]
+4bb2cb5	val.a0	300	0	0.360	40.56	1.1553	+0.0059	0.620	discard	pve2: elite fights: potions worth 2 (use more freely) [potion_v_elite=2]
+4bb2cb5	val.a0	300	0	0.360	40.57	1.1556	+0.0062	0.685	discard	pvb2: boss fights: potions worth 2 [potion_v_boss=2]
+4bb2cb5	val.a0	300	0	0.367	40.64	1.1635	+0.0141	0.687	discard	c05: exploration 0.5 [c=0.5]
+de8a766	val.a0	300	0	0.357	40.43	1.1493	+0.0000	0.000	discard	wtr3: map: treasure value 3 [w_treasure=3]
+de8a766	val.a0	300	0	0.357	40.00	1.1410	-0.0083	0.365	discard	sct6: shop: buy cards only if value >= 6 [shop_card_thresh=6]
+de8a766	val.a0	300	0	0.320	39.62	1.0968	-0.0525	0.024	discard	wea1m: map: act-1 elites -1 [w_elite_act1=-1]
+de8a766	val.a0	300	0	0.367	40.84	1.1674	+0.0180	0.703	discard	etw002: rollout END_TURN weight 0.02 [end_turn_w=0.02]
+59482e1	val.a0	300	0	0.343	40.29	1.1333	-0.0161	0.332	discard	combo4: batch-10 near-misses combined: potion_v elite/boss 2, c 0.5, end_turn_w 0.02 [potion_v_elite=2 potion_v_boss=2 c=0.5 end_turn_w=0.02]
+59482e1	val.a0	300	0	0.357	40.21	1.1451	-0.0042	0.457	discard	combo5: c 0.5 + end_turn_w 0.02 [c=0.5 end_turn_w=0.02]
+3cebf0d	val.a0	300	0	0.360	40.74	1.1588	+0.0094	0.672	discard	combo6: potion_v elite/boss 2 [potion_v_elite=2 potion_v_boss=2]
+d71cf8b	test.a0	500	0	0.338	39.33	1.1091			FINAL	hallpot0: final best agent on test (test run 2/5)
+d71cf8b	test.a0	500	0	0.004	19.75	0.3912			baseline	fair0: leak-free search + legacy policy on test (test run 3/5)
+d71cf8b	test.a0	500	0	0.008	22.13	0.4420			ref	scum_cheat: CHEATING lightspeed agent @500 on test (test run 4/5)
+c3e3d15	val.a0	297	3	0.347	39.97	1.1306	-0.0185	0.236	best	rb2: RE-BASELINE on fixed sim (player.cc fix; Entropic+Dome allowed; known-top tracking) — invalidates earlier paired comparisons
+59cbbae	val.a0	300	0	0.380	40.48	1.1737	+0.0428	0.894	best	rb3: RE-BASELINE on fully fixed sim (phase-2 fix batch) — new reference for all later paired comparisons
+59cbbae	val.a0	300	0	0.337	39.40	1.1092	-0.0646	0.031	discard	bud_base: action budget 7500 (≈500 sims), no cutoff: compute redistribution only [budget_actions=7500]
+3626bde	val.a0	300	0	0.203	34.97	0.8890	-0.2848	0.000	discard	bud_rt3: budget 7500 + rollout cutoff 3 turns + heuristic leaf [budget_actions=7500 rollout_turns=3]
+b03d7fe	val.a0	300	0	0.267	37.44	1.0007	-0.1730	0.000	discard	bud_rt6: budget 7500 + cutoff 6 [budget_actions=7500 rollout_turns=6]
+4934362	val.a0	300	0	0.147	33.37	0.8010	-0.3727	0.000	discard	bud_rt2: budget 7500 + cutoff 2 [budget_actions=7500 rollout_turns=2]
+4934362	val.a0	300	0	0.387	40.49	1.1806	+0.0069	0.764	discard	esc15: Smoke Bomb escape penalty 15 [escape_pen=15]
+b66021d	val.a0	297	3	0.407	40.74	1.2063	+0.0375	0.861	discard	spd_s650: throughput 1.3x (lean enumerator + fixed piles) converted to sims=650 at equal wall-clock [sims=650]
+c3af33c	val.a0	299	1	0.234	36.75	0.9547	-0.2163	0.000	discard	rt3_s750: rollout cutoff 3 + heuristic leaf at equal compute (sims 750, cost ratio 0.67) [rollout_turns=3 sims=750]
+5ea4a71	val.a0	298	2	0.282	38.05	1.0280	-0.1402	0.000	discard	rt6_s570: rollout cutoff 6 at equal compute (sims 570, cost ratio 0.88) [rollout_turns=6 sims=570]
+19752a3	val.a0	300	0	0.387	40.64	1.1836	+0.0099	0.608	discard	lowhp1: risk-aware HP utility: extra -1 per HP below 20 at fight end [lowhp_pen=1]
+ef13847	val.a0	300	0	0.217	33.19	0.8675	-0.3062	0.000	discard	lowhp2: risk-aware HP utility: -2 per HP below 25 [lowhp_pen=2 lowhp_thresh=25]
+af4b237	val.a0	300	0	0.380	40.32	1.1707	-0.0031	0.384	discard	nodome: ablation: never take Runic Dome [allow_dome=0]
+af4b237	val.a0	300	0	0.363	40.46	1.1567	-0.0170	0.343	discard	neow2: Neow ranking incl. boss-relic swap [neow_pol=1]
+be06630	val.a0	300	0	0.377	39.47	1.1507	-0.0231	0.245	discard	maxhp05: combat value: +0.5 per max HP (Feed kills) [maxhp_w=0.5]
+3c39f0c	val.a0	300	0	0.577	44.23	1.4440	+0.2703	1.000	keep	chest1: open treasure chests (never opened before: inverted legacy action index) [chest_pol=1]
+3c39f0c	val.a0	300	0	0.567	44.24	1.4341	-0.0099	0.390	discard	prior1: PUCT with learned bilinear move prior (gen1 root visits), sims 500 [prior=1]
+3c39f0c	val.a0	300	0	0.570	44.36	1.4399	-0.0041	0.448	discard	prior1_s450: learned move prior at ~equal wall-clock (sims 450) [prior=1 sims=450]
+8c6b0b1	val.a0	300	0	0.327	39.50	1.1011	-0.3429	0.000	discard	rvpick1: V_run one-step lookahead for card/shop/boss-relic picks [rv_pick=1]
+3d8992e	val.a0	300	0	0.163	42.31	0.9661			info	INFO_keys1: INFO: keys=1 chest_pol=1 — win now means beating the Heart (see act4 rate)
+e5ad22d	test.a0	500	0	0.546	43.72	1.4033			MILESTONE	chest1: M4 criterion (val ≥ 50%) test confirmation — test run 5/5
+0fddd2d	val.a0	300	0	0.567	44.85	1.4461	+0.0021	0.516	discard	prior2: clean-data bilinear move prior (298k decisions), sims 500 [prior=1]
+0fddd2d	val.a0	300	0	0.587	44.82	1.4655	+0.0215	0.734	discard	prior2_s450: clean-data prior at ~equal wall-clock (sims 450) [prior=1 sims=450]
+0fddd2d	val.a0	300	0	0.347	38.97	1.1107	-0.3333	0.000	discard	rvpick2: clean-data V_run one-step lookahead (card/shop/boss relic) [rv_pick=1]
+0fddd2d	val.a0	300	0	0.170	33.29	0.8228	-0.6212	0.000	discard	rvpick2_m: V_run lookahead with 0.02 margin over skipping [rv_pick=1 rv_margin=0.02]
+0fddd2d	val.a0	300	0	0.607	43.85	1.4665	+0.0225	0.752	discard	spd650b: throughput->sims conversion re-run on fixed build (sims 650) [sims=650]
+b3eccbc	val.a0	300	0	0.377	40.81	1.1768	-0.2672	0.000	discard	cfpick1: counterfactual card picks: 3 sampled fights x 60 sims per option (paired CRN) [cf_pick=1]
+b3eccbc	val.a0	300	0	0.423	40.63	1.2200	-0.2240	0.000	discard	cfpick2: counterfactual card picks: 4 fights x 100 sims [cf_pick=1 cf_fights=4 cf_sims=100]
+b3eccbc	val.a0	300	0	0.147	42.46	0.9510	-0.0151	0.099	discard	wb3: [heart] heart track: burning-elite path bonus 3 [w_burning=3]
+b3eccbc	val.a0	300	0	0.130	42.32	0.9306	-0.0356	0.011	discard	krh05: [heart] heart track: take the ruby key down to 50% HP [key_rest_hp=0.5]
+0fb2c40	val.a0	300	0	0.613	44.59	1.4876	+0.0437	0.900	keep	priormlp_d0: MLP move prior at the root only (PUCT, prior_c 1.5), ~zero extra cost [prior_mlp=1 prior_mlp_depth=0]
+0fb2c40	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	priormlp_d0_c1: root-only MLP prior, prior_c 1.0 [prior_mlp=1 prior_mlp_depth=0 prior_c=1.0]
+0fb2c40	val.a0	300	0	0.600	44.74	1.4772	-0.0105	0.363	discard	priormlp_d1_c07_s365: MLP prior to depth 1, prior_c 0.7, equal wall-clock (sims 365) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7 sims=365]
+0fb2c40	val.a0	300	0	0.603	44.66	1.4791	-0.0086	0.400	discard	priormlp_d1_c07: MLP prior to depth 1, prior_c 0.7, sims 500 (+~40% compute, informational) [prior_mlp=1 prior_mlp_depth=1 prior_c=0.7]
+5317fe2	val.a0	300	0	0.640	44.81	1.5186	+0.0310	0.818	discard	pm_c10: root MLP prior, PUCT c 1.0 [prior_c=1.0]
+5317fe2	val.a0	300	0	0.623	44.87	1.5032	+0.0156	0.671	discard	pm_c07: root MLP prior, PUCT c 0.7 [prior_c=0.7]
+5317fe2	val.a0	300	0	0.627	44.44	1.4981	+0.0105	0.619	discard	pm_c05: root MLP prior, PUCT c 0.5 [prior_c=0.5]
+af273d7	val.a0	300	0	0.583	44.40	1.4539	-0.0338	0.151	discard	priormlp2_d0: root MLP prior distilled from 2000-sim self-play of the best agent [prior_mlp=1 prior_mlp_depth=0]
+af273d7	val.a10	300	0	0.163	30.83	0.7678			best	base_a10: [a10] track baseline = current A0 best params at ascension 10
+af273d7	val.a0	300	0	0.590	44.43	1.4612	-0.0264	0.230	discard	bossprep1: boss-aware card valuation (act boss known from the map): AoE/block/power/0-cost adjustments [boss_prep=1]
+af273d7	val.a0	300	0	0.620	44.46	1.4918	+0.0042	0.541	discard	bossprep2: boss prep, stronger (AoE +3, block +2) [boss_prep=1 boss_aoe_bonus=3 boss_block_bonus=2]
+af273d7	val.a0	300	0	0.157	41.65	0.9473	-0.0188	0.218	discard	bossprep_h: [heart] boss prep on the Heart track [boss_prep=1]
+af273d7	val.a10	300	0	0.173	30.78	0.7769	+0.0091	0.632	discard	bossprep_a10: [a10] boss prep at ascension 10 [boss_prep=1]
+64e149a	val.a0	300	0	0.063	42.31	0.8661			best	INFO_keys1: [heart] baseline recomputed with the Heart win definition (act>=4 && win)
+d26a9b6	val.a0	300	0	0.597	44.34	1.4660	-0.0216	0.259	discard	ocpot1: out-of-combat potion use: Fruit Juice now, Blood Potion when low, Entropic Brew with 2+ empty slots [oc_potions=1]
+d26a9b6	val.a0	300	0	0.503	42.80	1.3425	-0.1452	0.000	discard	pm_t07: root MLP prior sharpened (temperature 0.7) [prior_temp=0.7]
+d26a9b6	val.a0	300	0	0.600	43.96	1.4620	-0.0257	0.210	discard	pm_t15: root MLP prior flattened (temperature 1.5) [prior_temp=1.5]
+d26a9b6	val.a0	300	0	0.050	42.34	0.8525	-0.0136	0.123	discard	act4prep1: [heart] Act-4 prep: AoE/block/scaling bonuses once all keys are held in Act 3 [act4_prep=1]
+d26a9b6	val.a0	300	0	0.060	42.50	0.8653	-0.0008	0.456	discard	ocpot_h: [heart] out-of-combat potions on the Heart track [oc_potions=1]
+d26a9b6	val.a10	300	0	0.183	31.37	0.7985	+0.0307	0.838	discard	a10_elite075: [a10] A10: fight elites only at >=75% HP [elite_hp=0.75]
+d26a9b6	val.a10	300	0	0.187	31.67	0.8076	+0.0399	0.988	keep	a10_rest06: [a10] A10: heal at rest below 60% [rest_heal_frac=0.6]
+d26a9b6	val.a10	300	0	0.203	32.26	0.8358	+0.0282	0.890	discard	a10_ct4: [a10] A10: take more cards (threshold 4) [card_thresh=4]
+fb6c062	val.a0	300	0	0.627	44.61	1.5014	+0.0137	0.652	discard	priormlp3_d0: root MLP prior v3: gen0+gen1+gen2 (465k decisions), hidden 128 [prior_mlp=1 prior_mlp_depth=0]
+61f9e07	val.a10	300	0	0.187	33.17	0.8371	+0.0295	0.784	discard	a10_combo: [a10] A10: take more cards (4) + elites only at 75% HP [card_thresh=4 elite_hp=0.75]
+61f9e07	val.a10	300	0	0.187	32.01	0.8143	+0.0067	0.584	discard	a10_ct35: [a10] A10: card threshold 3.5 [card_thresh=3.5]
+61f9e07	val.a10	300	0	0.187	32.38	0.8216	+0.0140	0.660	discard	a10_wrl4: [a10] A10: low-HP rest value 4 [w_rest_lo=4]
+61f9e07	val.a10	300	0	0.183	33.02	0.8307	+0.0231	0.739	discard	a10_eh08: [a10] A10: elites only at 80% HP [elite_hp=0.8]
+61f9e07	val.a0	300	0	0.627	44.74	1.5040	+0.0163	0.695	discard	pm_c12: root MLP prior, PUCT c 1.2 [prior_c=1.2]
+c345b43	val.a0	300	0	0.617	44.58	1.4908	+0.0032	0.529	discard	selq03: final move = best mean value among edges with >=30% of max visits (robust child) [select_q=0.3]
+6c81998	val.a0	300	0	0.627	44.42	1.4977	+0.0101	0.597	discard	selq05: robust child, 50% visit floor [select_q=0.5]
+6c81998	val.a0	300	0	0.613	44.59	1.4876	+0.0000	0.000	discard	sbd0: removal order: Defends before Strikes [strike_before_defend=0]
+6c81998	val.a0	300	0	0.607	44.60	1.4811	-0.0065	0.302	discard	ca1b2: act-1 card-pick bonus 2 (take more early) [card_act1_bonus=2]
+6c81998	val.a0	300	0	0.637	45.13	1.5215	+0.0339	0.954	keep	wea1p1: map: +1 for act-1 elites (relics) [w_elite_act1=1]
+6c81998	val.a20	300	0	0.023	21.78	0.4499			best	base_a20: [a20] track baseline = current A0 best params at ascension 20
+80b20b7	val.a0	300	0	0.633	44.96	1.5149	-0.0066	0.426	discard	kbsyn1: KB synergy bonuses in card picks (card-card 0.5, relic-card 0.75 per listed synergy, cap 3) [kb_syn=1]
+80b20b7	val.a0	300	0	0.600	45.14	1.4850	-0.0365	0.177	discard	kbsyn2: KB synergy bonuses, double weights [kb_syn=1 kb_syn_card_w=1.0 kb_syn_relic_w=1.5]
+0817198	val.a0	300	0	0.623	44.96	1.5048	-0.0167	0.284	discard	kbsyn_rel: KB relic-card synergies only [kb_syn=1 kb_syn_card_w=0]
+83dfe3a	val.a10	300	0	0.243	33.45	0.8992	+0.0915	0.995	keep	a10_kbsyn: [a10] A10: KB synergy bonuses [kb_syn=1]
+1c64b96	val.a20	300	0	0.020	21.66	0.4444	-0.0056	0.219	discard	a20_rest06: [a20] A20: heal at rest below 60% (A10 keep transferred) [rest_heal_frac=0.6]
+dcd74bb	val.a20	300	0	0.017	21.76	0.4429	-0.0070	0.201	discard	a20_ct4: [a20] A20: take more cards (threshold 4) [card_thresh=4]
+92c3958	val.a0	300	0	0.630	45.04	1.5131	-0.0084	0.337	discard	wea1p2: map: +2 for act-1 elites [w_elite_act1=2]
+7bb7e49	val.a0	300	0	0.643	44.86	1.5229	+0.0014	0.518	discard	weh25: map: elite value 2.5 when healthy (all acts) [w_elite_hi=2.5]
+61dc0af	val.a0	300	0	0.627	44.91	1.5072	-0.0143	0.218	discard	eh05: fight elites down to 50% HP [elite_hp=0.5]
+824c121	val.a10	300	0	0.243	32.31	0.8769	-0.0223	0.214	discard	a10_wea1p1: [a10] A10: +1 for act-1 elites (A0 keep transferred) [w_elite_act1=1]
+50c35df	val.a20	300	0	0.013	24.17	0.4871	+0.0371	0.986	keep	a20_eh08: [a20] A20: elites only at 80% HP [elite_hp=0.8]
+099e29f	val.a20	300	0	0.010	25.32	0.5062	+0.0192	0.902	keep	a20_noel1: [a20] A20: avoid act-1 elites (act-1 elite value below a hallway fight) [w_elite_act1=-2]
+471a9cb	val.a20	300	0	0.007	24.68	0.4904	-0.0158	0.039	discard	a20_el04: [a20] A20: elites valued below hallway fights in every act [w_elite_hi=0.4 w_elite_act1=0]
+661da97	val.a20	300	0	0.013	24.79	0.4991	-0.0071	0.205	discard	a20_mon1: [a20] A20: hallway fights valued 1.0 (more fights/rewards before elites) [w_monster=1.0]
+c128857	val.a20	300	0	0.013	25.61	0.5153	+0.0091	0.920	keep	a20_restlo: [a20] A20: rest below 60% HP valued 5 [rest_hp=0.6 w_rest_lo=5]
+d46ae3f	val.a0	300	0	0.630	45.11	1.5144	-0.0071	0.410	discard	potv2: combat value: potion worth 2 HP (use potions more freely) [potion_v=2]
+e82c291	val.a0	300	0	0.650	45.56	1.5433	+0.0218	0.770	discard	potv8: combat value: potion worth 8 HP (hoard potions) [potion_v=8]
+ec3ef7e	val.a0	300	0	0.640	45.39	1.5301	+0.0086	0.685	discard	rh06b: rest: heal below 60% (A10 keep; A0 retest on the current agent) [rest_heal_frac=0.6]
+5e5c1e9	val.a20	300	0	0.023	24.79	0.5090	-0.0063	0.318	discard	a20_kbsyn: [a20] A20: KB synergy bonuses (A10 keep transferred) [kb_syn=1]
+4908750	val.a10	300	0	0.193	32.50	0.8307	-0.0685	0.017	discard	a10_kbsyn2: [a10] A10: KB synergy bonuses, double weights [kb_syn_card_w=1.0 kb_syn_relic_w=1.5]
+635e643	val.a10	300	0	0.227	32.73	0.8685	-0.0307	0.177	discard	a10_kbsyn_rel: [a10] A10: relic-card synergies only [kb_syn_card_w=0]
+3dbe86f	val.a10	300	0	0.243	33.81	0.9063	+0.0072	0.617	discard	a10_ct4b: [a10] A10: take more cards (threshold 4) — retest on a10_kbsyn [card_thresh=4]
+e6aa6ab	val.a10	300	0	0.270	35.40	0.9641	+0.0650	0.981	keep	a10_eh075: [a10] A10: elites only at 75% HP — retest on a10_kbsyn [elite_hp=0.75]
+60984f2	val.a0	300	0	0.593	44.16	1.4592	-0.0624	0.033	discard	rollprior_cal: prior-guided rollouts (bilinear fast policy, eps 0.25) at equal wall-clock: sims 210 (cost ratio 2.430) [roll_prior=1 sims=210]
+299b416	val.a0	300	0	0.650	45.75	1.5471	+0.0256	0.807	discard	potsave: potions: worth 8 HP in hallway fights, 2 in boss fights, 4 vs elites (save them for bosses) [potion_v=8 potion_v_boss=2 potion_v_elite=4]
+823e807	val.a0	300	0	0.617	44.63	1.4917	-0.0298	0.146	discard	potv12: combat value: potion worth 12 HP (hoard harder) [potion_v=12]
+bb846c8	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	discard	potsave2: potions: worth 8 HP in hallway fights, 4 in boss fights [potion_v=8 potion_v_boss=4]
+0f89025	dev.a0	100	0	0.570	43.64	1.4257			info	wea1p1_dev: A0 best on dev (baseline for pooled near-miss decisions)
+0f89025	dev.a0	100	0	0.600	44.24	1.4675	+0.0418	0.750	info	potsave_dev: potsave on dev (extension of the val near-miss)
+e66a8cf	dev.a0	100	0	0.630	44.37	1.5000	+0.0743	0.886	info	potsave2_dev: potsave2 on dev (extension of the val near-miss)
+e66a8cf	val.a0	300	0	0.663	45.53	1.5561	+0.0346	0.875	keep	potsave2: POOLED KEEP (pre-registered extension): val 300 +0.035/P 0.875, dev 100 +0.074/P 0.886, pooled 400 dscore +0.0445 dwin +0.035 P=0.949 -> new A0 best [potion_v=8 potion_v_boss=4]
+6c7a325	dev.a10	100	0	0.150	31.76	0.7727			info	a10_rest06_dev: VERIFY: a10_rest06 params on dev (100 fresh seeds)
+9a46f62	dev.a10	100	0	0.150	31.56	0.7688	-0.0039	0.478	info	a10_kbsyn_dev: VERIFY: a10_kbsyn params on dev vs a10_rest06_dev (independent seeds)
+1e1eb34	dev.a10	100	0	0.180	34.05	0.8476	+0.0749	0.928	info	a10_eh075_dev: VERIFY: A10 keep chain (a10_eh075) on dev vs a10_rest06_dev (independent seeds)
+d92fe8d	dev.a20	100	0	0.010	21.92	0.4396			info	base_a20_dev: VERIFY: base_a20 params on dev (100 fresh seeds)
+ee8f5c8	dev.a20	100	0	0.030	25.22	0.5239	+0.0843	0.999	info	a20_restlo_dev: VERIFY: A20 keep chain (a20_restlo) on dev vs base_a20_dev (independent seeds)
+16c76cf	val.a0	300	0	0.667	45.66	1.5620	+0.0059	0.656	discard	potsave3: potions: hallway 8, boss 4, elites 4 [potion_v_elite=4]
+fdf12b2	val.a0	300	0	0.660	45.58	1.5538	-0.0023	0.363	discard	potsave4: potions: hallway 8, boss 6 [potion_v_boss=6]
+20a41f8	val.a10	300	0	0.203	34.18	0.8735	-0.0907	0.000	discard	a10_potsave2: [a10] A10: potions saved for bosses (A0 keep transferred) [potion_v=8 potion_v_boss=4]
+f8c97f1	val.a0	300	0	0.663	45.53	1.5561			diag	DIAG_deaths: DIAG: current A0 best re-run for the death_enc / potions_left columns (identical games)
+6f1722c	train.a0	500	0	0.598	43.84	1.4576			info	bf0: bf0: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+dd3727f	val.a0	300	0	0.560	45.32	1.4486	-0.1075	0.004	discard	bfpick_g0: interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_pick=1]
+d366d47	val.a0	300	0	0.503	43.76	1.3613	-0.1948	0.000	discard	bfpick_g0_m02: interventional deck value: card rewards, margin 0.02 [bf_pick=1 bf_margin=0.02]
+6d52486	val.a0	300	0	0.663	45.75	1.5603	+0.0042	0.559	discard	bfupg_g0: interventional deck value: rest upgrades = argmax predicted fight value [bf_upgrade=1]
+c74e8dd	val.a0	300	0	0.543	44.50	1.4158	-0.1403	0.000	discard	bfrem_g0: interventional deck value: removals = argmax predicted fight value [bf_remove=1]
+04352bf	val.a10	300	0	0.200	34.94	0.8850	-0.0791	0.041	discard	a10_bfpick_g0: [a10] interventional deck value: card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_pick=1]
+8193c9a	val.a10	300	0	0.127	32.13	0.7566	-0.2075	0.000	discard	a10_bfpick_g0_m02: [a10] interventional deck value: card rewards, margin 0.02 [bf_pick=1 bf_margin=0.02]
+d695571	val.a10	300	0	0.217	34.27	0.8886	-0.0755	0.003	discard	a10_bfupg_g0: [a10] interventional deck value: rest upgrades = argmax predicted fight value [bf_upgrade=1]
+5c29a66	val.a10	300	0	0.147	32.64	0.7867	-0.1774	0.000	discard	a10_bfrem_g0: [a10] interventional deck value: removals = argmax predicted fight value [bf_remove=1]
+ed9dd2e	val.a0	300	0	0.693	46.75	1.6099	+0.0539	0.952	keep	bfbonus10: card picks: KB value + 10 x predicted fight-value gain (bf model g0) [bf_bonus=10]
+36ad687	val.a0	300	0	0.707	47.05	1.6292	+0.0192	0.729	discard	bfbonus25: card picks: KB value + 25 x predicted fight-value gain [bf_bonus=25]
+1d5079c	val.a0	300	0	0.737	46.63	1.6510	+0.0410	0.876	discard	bfbonus50: card picks: KB value + 50 x predicted fight-value gain [bf_bonus=50]
+860429f	dev.a0	100	0	0.670	44.93	1.5510	+0.0510	0.876	info	bfbonus10_dev: VERIFY: bfbonus10 on dev vs potsave2_dev (independent seeds)
+5a2367f	dev.a0	100	0	0.630	45.57	1.5235	-0.0275	0.325	info	bfbonus25_dev: bfbonus25 on dev (extension of the val near-miss)
+3bc2a34	dev.a0	100	0	0.640	44.94	1.5212	-0.0298	0.340	info	bfbonus50_dev: bfbonus50 on dev (extension of the val near-miss)
+4c38e7e	val.a0	300	0	0.713	46.97	1.6343	+0.0244	0.744	discard	bfbonus100: card picks: KB value + 100 x predicted fight-value gain (trend probe) [bf_bonus=100]
+a4106d4	train.a0	500	0	0.654	44.73	1.5311			info	bg1: bg1: 500 train games of the A0 best with the g1 fight logger (boss damage + next-act boss labels; bf_sims 100)
+f9c460e	val.a0	300	0	0.073	44.58	0.9135	+0.0473	0.983	keep	heart_cur: [heart] Heart: current A0 best (potions saved, deck-value bonus) with keys [bf_bonus=10]
+8f3f173	train.a10	500	0	0.158	31.78	0.7811			info	bg_a10: bg_a10: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+6788ffb	val.a0	300	0	0.643	45.92	1.5438	-0.0661	0.052	discard	bfpick_g1: interventional deck value (g1): card rewards = argmax predicted fight-value gain (skip unless > margin 0) [bf_model=1 bf_pick=1 bf_bonus=0]
+b3e72f4	val.a0	300	0	0.643	45.84	1.5421	-0.0678	0.028	discard	bfrem_g1: interventional deck value (g1): removals = argmax predicted fight value [bf_model=1 bf_remove=1]
+2f1e61a	val.a0	300	0	0.733	47.29	1.6606	+0.0507	0.947	keep	bfbonus10_g1: card picks: KB value + 10 x predicted fight-value gain (model g1) [bf_model=1 bf_bonus=10]
+a7ef072	val.a0	300	0	0.717	46.61	1.6305	-0.0301	0.176	discard	bfbonus25_g1: card picks: KB value + 25 x predicted fight-value gain (model g1) [bf_model=1 bf_bonus=25]
+5161e29	dev.a0	100	0	0.680	45.59	1.5739	+0.0229	0.663	info	bfbonus10_g1_dev: VERIFY: bfbonus10_g1 on dev vs bfbonus10_dev (independent seeds)
+c901110	val.a0	300	0	0.710	47.06	1.6328	-0.0278	0.200	discard	bfbonus10_g1m: card picks: KB value + 10 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=10]
+e3519f1	val.a0	300	0	0.730	47.15	1.6546	-0.0060	0.432	discard	bfbonus25_g1m: card picks: KB value + 25 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=25]
+a3ce283	val.a10	300	0	0.277	35.69	0.9765	+0.0124	0.663	discard	a10_bfbonus10_g1m: [a10] card picks: KB value + 10 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=10]
+bca48c8	val.a10	300	0	0.293	37.37	1.0261	+0.0620	0.950	keep	a10_bfbonus25_g1m: [a10] card picks: KB value + 25 x predicted fight-value gain (model g1m) [bf_model=2 bf_bonus=25]
+da45a35	test.a0	500	0	0.666	45.89	1.5658	+0.1626	1.000	MILESTONE	bfbonus10_g1: M5: A0 best bfbonus10_g1 on the test split (500 seeds), paired vs chest1 test (54.6%)
+466c930	val.a0	300	0	0.720	46.95	1.6407	-0.0199	0.073	discard	bfshop10: deck-value bonus (model 1, 10x) applied to shop card purchases too [bf_shop=1]
+a25c73d	val.a0	300	0	0.733	47.29	1.6605	-0.0001	0.504	discard	bfupgb10: rest upgrades: KB value + 10 x predicted fight-value gain of the upgrade (model 1) [bf_upg_bonus=10]
+e4f9a5d	val.a0	300	0	0.710	47.01	1.6318	-0.0288	0.102	discard	bfupgb25: rest upgrades: KB value + 25 x predicted fight-value gain of the upgrade (model 1) [bf_upg_bonus=25]
+f7a6de7	dev.a10	100	0	0.210	34.29	0.8824	+0.0347	0.738	info	a10_bfbonus25_g1m_dev: VERIFY: a10_bfbonus25_g1m on dev vs a10_eh075_dev (independent seeds)
+b189e39	train.a20	500	0	0.016	23.51	0.4766			info	bg_a20: bg_a20: 500 train games of the asc-20 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+2ec3cc0	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	discard	a20_bfbonus10_g2m: [a20] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
+438837a	val.a10	300	0	0.257	36.02	0.9630	-0.0631	0.039	discard	a10_bfbonus10_g2m: [a10] card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
+a561267	val.a0	300	0	0.717	46.86	1.6355	-0.0251	0.217	discard	bfbonus10_g2m: card picks: KB value + 10 x predicted fight-value gain (model g2m) [bf_model=3 bf_bonus=10]
+a9d28f6	dev.a20	100	0	0.020	27.08	0.5506	+0.0267	0.863	info	a20_bfbonus10_g2m_dev: a20_bfbonus10_g2m on dev (extension of the val near-miss)
+a9d28f6	val.a20	300	0	0.010	26.63	0.5320	+0.0167	0.881	keep	a20_bfbonus10_g2m: POOLED KEEP (pre-registered extension): val 300 +0.017/P 0.881, dev 100 +0.027/P 0.863, pooled 400 dscore +0.0192 P=0.935 -> new A20 best [bf_model=3 bf_bonus=10]
+f6b104c	val.a10	300	0	0.280	36.52	0.9960	-0.0301	0.181	discard	a10_bfbonus25_g2m: [a10] A10: model 3 (three ascensions) at the kept weight 25x (model-only comparison vs model 2) [bf_model=3 bf_bonus=25]
+24da2b8	val.a10	300	0	0.320	37.43	1.0540	+0.0278	0.865	discard	a10_potv2: [a10] A10: potions worth 2 HP (spend freely; saving them was -6.7 pts) [potion_v=2]
+081265e	val.a20	300	0	0.010	26.28	0.5251	-0.0069	0.308	discard	a20_potv2: [a20] A20: potions worth 2 HP (spend freely) [potion_v=2]
+8cc46ef	val.a20	300	0	0.010	26.74	0.5342	+0.0022	0.647	discard	a20_ca1b2: [a20] A20: act-1 card-pick bonus 2 (take more early cards) [card_act1_bonus=2]
+1331d8c	val.a20	300	0	0.020	26.37	0.5367	+0.0047	0.651	discard	a20_rest07: [a20] A20: heal at rest below 70% [rest_heal_frac=0.7]
+2c52672	dev.a0	100	0	0.100	42.10	0.9016			info	INFO_keys1_dev: VERIFY: Heart baseline INFO_keys1 on dev (100 fresh seeds, Heart winmode)
+454a933	dev.a0	100	0	0.090	44.27	0.9312	+0.0296	0.790	info	heart_cur_dev: VERIFY: heart_cur on dev vs INFO_keys1_dev (independent seeds, Heart winmode)
+0dbdb59	dev.a10	100	0	0.200	34.78	0.8820	-0.0004	0.497	info	a10_potv2_dev: a10_potv2 on dev (extension of the val near-miss)
+194b746	val.a10	300	0	0.267	37.00	0.9922	-0.0339	0.152	discard	a10_bfbonus25_g_a10: [a10] card picks: KB value + 25 x predicted fight-value gain (model g_a10) [bf_model=4 bf_bonus=25]
+13e2543	val.a20	300	0	0.010	26.48	0.5290	-0.0031	0.412	discard	a20_bfbonus10_g_a20: [a20] card picks: KB value + 10 x predicted fight-value gain (model g_a20) [bf_model=5 bf_bonus=10]
+79d346b	val.a20	300	0	0.010	27.17	0.5426	+0.0106	0.762	discard	a20_bfbonus25_g_a20: [a20] card picks: KB value + 25 x predicted fight-value gain (model g_a20) [bf_model=5 bf_bonus=25]
+f6eb95d	val.a0	300	0	0.743	47.55	1.6757	+0.0151	0.721	discard	ct45: card threshold 4.5 (take slightly more; the model bonus shifts values by up to ±1) [card_thresh=4.5]
+fd6cc3f	val.a0	300	0	0.713	46.67	1.6284	-0.0322	0.131	discard	ct55: card threshold 5.5 (take slightly fewer) [card_thresh=5.5]
+9a03a4f	dev.a0	100	0	0.680	45.91	1.5802	+0.0063	0.584	info	ct45_dev: ct45 on dev (extension of the val near-miss)
+ea661fc	train.a0	500	0	0.192	42.87	1.0042			info	bg_heart: bg_heart: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+20f5d65	val.a0	300	0	0.080	45.25	0.9335	+0.0201	0.859	discard	heart_bfbonus10_g_heart: [heart] card picks: KB value + 10 x predicted fight-value gain (model g_heart) [bf_model=6 bf_bonus=10]
+58d78fd	val.a0	300	0	0.093	46.33	0.9656	+0.0522	0.989	keep	heart_bfbonus25_g_heart: [heart] card picks: KB value + 25 x predicted fight-value gain (model g_heart) [bf_model=6 bf_bonus=25]
+cf25f83	train.a0	500	0	0.702	46.27	1.6093			info	bg1b: bg1b: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+15d84b7	dev.a0	100	0	0.040	45.27	0.8969	-0.0343	0.197	info	heart_bfbonus25_g_heart_dev: VERIFY: heart_bfbonus25_g_heart on dev vs heart_cur_dev (independent seeds, Heart winmode)
+00f9bba	val.a0	300	0	0.720	47.01	1.6417	-0.0189	0.285	discard	bfbonus10_g1b: card picks: KB value + 10 x predicted fight-value gain (model g1b) [bf_model=8 bf_bonus=10]
+a146188	train.a10	500	0	0.266	36.40	0.9798			info	bg_a10b: bg_a10b: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+b16559b	val.a10	300	0	0.240	37.01	0.9658	-0.0604	0.031	discard	a10_bfbonus25_g_a10b: [a10] card picks: KB value + 25 x predicted fight-value gain (model g_a10b) [bf_model=7 bf_bonus=25]
+c8aa8ca	dev2.a0	100	0	0.080	43.18	0.8976			info	heart_cur_dev2: VERIFY: heart_cur on dev2 (100 fresh seeds, Heart winmode)
+88c1953	dev2.a0	100	0	0.090	45.61	0.9512	+0.0535	0.929	info	heart_bfbonus25_g_heart_dev2: VERIFY: heart_bfbonus25_g_heart on dev2 vs heart_cur_dev2 (second independent slice)
+1077801	train.a0	500	0	0.676	45.73	1.5727			info	bg1k3: bg1k3: 500 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+100d940	val.a0	300	0	0.727	47.20	1.6522	-0.0084	0.402	discard	bfbonus10_g1k3: card picks: KB value + 10 x predicted fight-value gain (model g1k3) [bf_model=9 bf_bonus=10]
+668a3fb	val.a0	300	0	0.743	47.36	1.6719	+0.0113	0.639	discard	bfbonus10_g1k3p: card picks: KB value + 10 x predicted fight-value gain (model g1k3p) [bf_model=10 bf_bonus=10]
+f641edc	val.a0	300	0	0.737	47.12	1.6606	-0.0000	0.492	discard	wev15: map: event rooms valued 1.5 [w_event=1.5]
+4e429bf	val.a0	300	0	0.700	46.94	1.6204	-0.0402	0.037	discard	wev25: map: event rooms valued 2.5 [w_event=2.5]
+e32e41c	val.a0	300	0	0.733	47.11	1.6571	-0.0035	0.441	discard	wsr2: map: shop valued 2 when rich [w_shop_rich=2]
+580d7f0	val.a0	300	0	0.733	47.04	1.6556	-0.0050	0.384	discard	wsr4: map: shop valued 4 when rich [w_shop_rich=4]
+82081d6	val.a0	300	0	0.720	47.07	1.6429	-0.0176	0.107	discard	resthp04: map: rest rooms preferred below 40% HP [rest_hp=0.4]
+7efda3e	val.a0	300	0	0.733	47.39	1.6625	+0.0020	0.561	discard	resthp06: map: rest rooms preferred below 60% HP [rest_hp=0.6]
+504030c	val.a0	300	0	0.750	47.36	1.6787	+0.0181	0.913	keep	mapd085: map: path discount 0.85 (shorter horizon) [map_discount=0.85]
+fd1c65c	val.a0	300	0	0.723	47.06	1.6461	-0.0326	0.037	discard	mapd095: map: path discount 0.95 (longer horizon) [map_discount=0.95]
+095f16b	dev.a0	100	0	0.680	45.59	1.5739	+0.0000	0.431	info	mapd085_dev: VERIFY: mapd085 on dev vs bfbonus10_g1_dev (independent seeds)
+2b972ee	val.a0	300	0	0.733	47.16	1.6580	-0.0207	0.086	discard	mapd080: map: path discount 0.80 (the trend 0.95 < 0.9 < 0.85 continued) [map_discount=0.80]
+98c2d64	val.a10	300	0	0.300	37.83	1.0417	+0.0156	0.768	discard	a10_wev25: [a10] A10: event rooms valued 2.5 [w_event=2.5]
+664e81b	val.a10	300	0	0.290	37.51	1.0256	-0.0006	0.492	discard	a10_resthp06: [a10] A10: rest rooms preferred below 60% HP [rest_hp=0.6]
+2969032	val.a10	300	0	0.283	37.52	1.0191	-0.0071	0.299	discard	a10_wsr4: [a10] A10: shop valued 4 when rich [w_shop_rich=4]
+4dc2cb7	val.a10	300	0	0.300	37.67	1.0386	+0.0125	0.771	discard	a10_mapd095: [a10] A10: path discount 0.95 [map_discount=0.95]
+0d30e5a	val.a10	300	0	0.283	37.34	1.0154	-0.0107	0.130	discard	a10_potb2: [a10] A10: potions worth 2 HP in boss fights only (spend them where runs end) [potion_v_boss=2]
+2b45cb4	val.a10	300	0	0.277	37.31	1.0082	-0.0180	0.152	discard	a10_weh2: [a10] A10: elite rooms valued 2 when healthy [w_elite_hi=2]
+bbcca51	val.a10	300	0	0.290	37.58	1.0268	+0.0007	0.521	discard	a10_ct45: [a10] A10: card threshold 4.5 [card_thresh=4.5]
+7630235	val.a20	300	0	0.017	26.97	0.5452	+0.0131	0.998	keep	a20_potb2: [a20] A20: potions worth 2 HP in boss fights only [potion_v_boss=2]
+a639c90	val.a20	300	0	0.020	27.15	0.5519	+0.0067	0.725	discard	a20_eh09: [a20] A20: elites only above 90% HP [elite_hp=0.9]
+5137e65	val.a20	300	0	0.020	27.11	0.5512	+0.0061	0.794	discard	a20_weh1: [a20] A20: elite rooms valued 1 when healthy [w_elite_hi=1]
+d3c5c0b	val.a20	300	0	0.037	27.79	0.5808	+0.0356	0.991	keep	a20_bfb25: [a20] A20: deck-value bonus 25x (model 3) [bf_bonus=25]
+9879603	dev3.a0	100	0	0.040	41.11	0.8255			info	heart_cur_dev3: VERIFY: heart_cur on dev3 (tiebreaker slice, Heart winmode)
+75f575f	dev3.a0	100	0	0.040	43.71	0.8720	+0.0465	0.984	info	heart_bfbonus25_g_heart_dev3: VERIFY: heart_bfbonus25_g_heart on dev3 vs heart_cur_dev3 (tiebreaker: dev negative, dev2 positive)
+39daffb	dev.a20	100	0	0.020	26.97	0.5484	-0.0022	0.321	info	a20_potb2_dev: VERIFY: a20_potb2 on dev vs a20_bfbonus10_g2m_dev (independent seeds)
+def9eb4	dev.a20	100	0	0.010	26.23	0.5241	-0.0265	0.146	info	a20_bfb25_dev: VERIFY: a20_bfb25 (two keeps on) on dev vs a20_bfbonus10_g2m_dev (independent seeds)
+a259677	dev.a10	100	0	0.210	34.17	0.8800	-0.0024	0.460	info	a10_wev25_dev: a10_wev25 on dev (extension of the val near-miss)
+1f6f80c	val.a20	300	0	0.010	28.32	0.5651	-0.0157	0.185	discard	a20_bfb50: [a20] A20: deck-value bonus 50x (model 3) [bf_bonus=50]
+1577add	val.a10	300	0	0.300	37.39	1.0331	+0.0070	0.581	discard	a10_bfb50: [a10] A10: deck-value bonus 50x (model 2) [bf_bonus=50]
+16a8f2a	val.a20	300	0	0.043	27.95	0.5906	+0.0098	0.663	discard	a20_neow1: [a20] A20: Neow option ranking (neow_pol=1) [neow_pol=1]
+126d20c	val.a10	300	0	0.310	36.74	1.0303	+0.0042	0.542	discard	a10_neow1: [a10] A10: Neow option ranking (neow_pol=1) [neow_pol=1]
+ed3242f	dev2.a0	100	0	0.580	45.19	1.4661			info	potsave2_dev2: VERIFY: potsave2 on dev2 (baseline for the A0 learned-bonus keep)
+4f4df49	dev2.a0	100	0	0.720	46.79	1.6375	+0.1714	0.996	info	bfbonus10_g1_dev2: VERIFY: bfbonus10_g1 on dev2 vs potsave2_dev2 (second independent slice for the learned bonus)
+f4e4c09	dev2.a10	100	0	0.180	32.44	0.8161			info	a10_eh075_dev2: VERIFY: a10_eh075 on dev2 (baseline for the A10 model-bonus keep)
+e50e039	dev2.a10	100	0	0.260	36.57	0.9771	+0.1610	0.991	info	a10_bfbonus25_g1m_dev2: VERIFY: a10_bfbonus25_g1m on dev2 vs a10_eh075_dev2 (second slice)
+5df1f88	dev2.a20	100	0	0.020	22.97	0.4700			info	a20_restlo_dev2: VERIFY: a20_restlo on dev2 (baseline for the A20 model-bonus keep)
+5df1f88	dev2.a20	100	0	0.010	23.85	0.4775	+0.0075	0.608	info	a20_bfbonus10_g2m_dev2: VERIFY: a20_bfbonus10_g2m on dev2 vs a20_restlo_dev2 (second slice)
+9cbdb1c	train.a10	500	0	0.236	35.22	0.9265			info	bg_a10c: bg_a10c: 500 train games of the asc-10 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+53c9f82	val.a10	300	0	0.303	37.56	1.0398	+0.0137	0.642	discard	a10_bfbonus25_g2c: [a10] card picks: KB value + 25 x predicted fight-value gain (model g2c) [bf_model=11 bf_bonus=25]
+234a520	val.a20	300	0	0.040	28.36	0.5952	+0.0144	0.875	discard	a20_restboss1: [a20] A20: always heal at the pre-boss rest site [rest_boss_frac=1.0]
+27966bb	val.a20	300	0	0.037	27.07	0.5667	-0.0141	0.111	discard	a20_restboss05: [a20] A20: pre-boss rest heals only below 50% (upgrade otherwise) [rest_boss_frac=0.5]
+6ced18c	val.a20	300	0	0.037	28.01	0.5852	+0.0044	0.751	discard	a20_aoe3: [a20] A20: AoE card bonus 3 (Slime Boss / act-2 fights) [aoe_bonus=3]
+633b672	val.a20	300	0	0.027	27.92	0.5735	-0.0073	0.180	discard	a20_scal4: [a20] A20: scaling card bonus 4 [scaling_bonus=4]
+3a8d1e1	val.a20	300	0	0.030	27.54	0.5695	-0.0113	0.121	discard	a20_upgpow3: [a20] A20: upgrade powers first (bonus 3) [upg_power_bonus=3]
+f3bc179	val.a10	300	0	0.260	36.61	0.9778	-0.0483	0.015	discard	a10_restboss1: [a10] A10: always heal at the pre-boss rest site [rest_boss_frac=1.0]
+cda144e	val.a10	300	0	0.270	36.80	0.9916	-0.0346	0.031	discard	a10_aoe3: [a10] A10: AoE card bonus 3 [aoe_bonus=3]
+6a9831f	dev.a20	100	0	0.020	26.34	0.5361	+0.0120	0.851	info	a20_restboss1_dev: a20_restboss1 on dev (extension of the val near-miss)
+6a9831f	val.a20	300	0	0.040	28.36	0.5952	+0.0144	0.875	keep	a20_restboss1: POOLED KEEP (pre-registered A20 extension): val 300 +0.014/P 0.875, dev 100 +0.012/P 0.851, pooled 400 dscore +0.0138 P=0.912 -> new A20 best [rest_boss_frac=1.0]
+1bc9fed	dev3.a0	100	0	0.530	41.44	1.3425			info	potsave2_dev3: VERIFY: potsave2 on dev3 (baseline, third slice)
+e301817	dev3.a0	100	0	0.620	44.35	1.4896	+0.1471	0.988	info	bfbonus10_g1_dev3: VERIFY: bfbonus10_g1 on dev3 vs potsave2_dev3 (third slice)
+8260bf4	dev3.a10	100	0	0.170	30.61	0.7702			info	a10_eh075_dev3: VERIFY: a10_eh075 on dev3 (baseline, third slice)
+a656f3f	dev3.a10	100	0	0.280	35.45	0.9751	+0.2049	1.000	info	a10_bfbonus25_g1m_dev3: VERIFY: a10_bfbonus25_g1m on dev3 vs a10_eh075_dev3 (third slice)
+99b394c	val.a20	300	0	0.037	28.31	0.5911	-0.0041	0.258	discard	a20_resthp07: [a20] A20: rest rooms preferred below 70% HP [rest_hp=0.7]
+c7fdd09	val.a20	300	0	0.040	28.34	0.5948	-0.0004	0.470	discard	a20_wrest7: [a20] A20: rest rooms valued 7 when below the threshold [w_rest_lo=7]
+6d67161	val.a20	300	0	0.040	27.49	0.5782	-0.0171	0.134	discard	a20_rh07: [a20] A20: heal at rest below 70% (retest on the new best) [rest_heal_frac=0.7]
+7c4139f	dev2.a20	100	0	0.010	26.47	0.5288			info	a20_restboss1: base slice for pooled decisions (a20)
+7c4139f	dev3.a20	100	0	0.010	25.50	0.5098			info	a20_restboss1: base slice for pooled decisions (a20)
+7b3b2b8	val.a0	300	0	0.093	46.33	0.9656	+0.0000	0.403	discard	heart_pvh0: [heart pooled500] Heart fight: potions worth 0 (the last fight; no credit for potions kept) [potion_v_heart=0] pooled dscore=-0.0020 dwin=-0.002 P(improve)=0.251
+7b3b2b8	dev2.a0	100	0	0.080	45.61	0.9412	-0.0100	0.000	info	heart_pvh0: [heart pooled500 slice] Heart fight: potions worth 0 (the last fight; no credit for potions kept)
+7b3b2b8	dev3.a0	100	0	0.040	43.71	0.8720	+0.0000	0.000	info	heart_pvh0: [heart pooled500 slice] Heart fight: potions worth 0 (the last fight; no credit for potions kept)
+a0e5125	val.a0	300	0	0.107	46.32	0.9790	+0.0133	0.935	keep	heart_a4pot: [heart pooled500] act-4 shop: spare gold buys potions for the Heart [act4_shop_potion=1] pooled dscore=+0.0160 dwin=+0.016 P(improve)=0.996
+a0e5125	dev2.a0	100	0	0.120	45.60	0.9812	+0.0300	0.956	info	heart_a4pot: [heart pooled500 slice] act-4 shop: spare gold buys potions for the Heart
+a0e5125	dev3.a0	100	0	0.050	43.70	0.8820	+0.0100	0.629	info	heart_a4pot: [heart pooled500 slice] act-4 shop: spare gold buys potions for the Heart
+257904d	val.a0	300	0	0.090	46.36	0.9651	-0.0139	0.260	discard	heart_ltw1: [heart pooled500] loss value: survival credit 1.0 per turn (was 0.2) [loss_turn_w=1] pooled dscore=-0.0026 dwin=-0.004 P(improve)=0.436
+257904d	dev2.a0	100	0	0.150	46.23	1.0220	+0.0408	0.874	info	heart_ltw1: [heart pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+257904d	dev3.a0	100	0	0.050	43.20	0.8696	-0.0124	0.342	info	heart_ltw1: [heart pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+c8a2c68	val.a0	300	0	0.093	45.47	0.9525	-0.0265	0.129	discard	heart_ldw35: [heart pooled500] loss value: damage credit on the win-bonus scale (35, was 10) [loss_dmg_w=35] pooled dscore=-0.0205 dwin=-0.012 P(improve)=0.111
+c8a2c68	dev2.a0	100	0	0.130	45.88	0.9963	+0.0151	0.628	info	heart_ldw35: [heart pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+c8a2c68	dev3.a0	100	0	0.020	43.37	0.8435	-0.0384	0.073	info	heart_ldw35: [heart pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+ac2f72b	val.a0	300	0	0.090	44.72	0.9378	-0.0412	0.021	discard	heart_brt8: [heart pooled500] boss fights: rollouts cut at 8 turns, cutoff value (HP counts) [boss_rollout_turns=8] pooled dscore=-0.0329 dwin=-0.012 P(improve)=0.011
+ac2f72b	dev2.a0	100	0	0.110	44.14	0.9455	-0.0357	0.156	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+ac2f72b	dev3.a0	100	0	0.050	43.38	0.8767	-0.0053	0.395	info	heart_brt8: [heart pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+bfadc00	val.a0	300	0	0.093	46.87	0.9778	-0.0011	0.478	discard	heart_esim: [heart pooled500] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left) [elite_sim=1] pooled dscore=+0.0023 dwin=-0.010 P(improve)=0.573
+bfadc00	dev2.a0	100	0	0.100	46.33	0.9769	-0.0043	0.432	info	heart_esim: [heart pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left)
+bfadc00	dev3.a0	100	0	0.060	44.22	0.9012	+0.0192	0.932	info	heart_esim: [heart pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left)
+0b65895	val.a20	300	0	0.030	27.48	0.5682	-0.0271	0.061	discard	a20_esim: [a20 pooled500] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off [elite_sim=1 w_elite_act1=0] pooled dscore=-0.0154 dwin=-0.002 P(improve)=0.108
+0b65895	dev2.a20	100	0	0.040	27.04	0.5694	+0.0406	0.945	info	a20_esim: [a20 pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off
+0b65895	dev3.a20	100	0	0.000	24.15	0.4735	-0.0363	0.050	info	a20_esim: [a20 pooled500 slice] map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left), blanket act-1 penalty off
+7114e51	val.a20	300	0	0.030	27.48	0.5682	-0.0271	0.061	discard	a20_esim3: [a20 pooled500] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off [elite_sim=1 w_elite_act1=0 elite_sim_pwin=1.0] pooled dscore=-0.0154 dwin=-0.002 P(improve)=0.108
+7114e51	dev2.a20	100	0	0.040	27.04	0.5694	+0.0406	0.945	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
+7114e51	dev3.a20	100	0	0.000	24.15	0.4735	-0.0363	0.050	info	a20_esim3: [a20 pooled500 slice] simulated elite gate requiring 3/3 wins, blanket act-1 penalty off
+955c1ab	val.a20	300	0	0.030	28.43	0.5868	-0.0084	0.195	discard	a20_esim_a23: [a20 pooled500] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2) [elite_sim=1] pooled dscore=+0.0057 dwin=+0.002 P(improve)=0.759
+955c1ab	dev2.a20	100	0	0.040	26.75	0.5637	+0.0349	0.984	info	a20_esim_a23: [a20 pooled500 slice] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2)
+955c1ab	dev3.a20	100	0	0.020	25.97	0.5288	+0.0190	0.986	info	a20_esim_a23: [a20 pooled500 slice] simulated elite gate (2/3 wins, 35% HP) for acts 2-3 only: the blanket act-1 penalty stays (-2)
+ba87e7f	val.a20	300	0	0.040	28.36	0.5953	+0.0001	0.493	discard	a20_ltw1: [a20 pooled500] loss value: survival credit 1.0 per turn (was 0.2) [loss_turn_w=1] pooled dscore=-0.0057 dwin=-0.002 P(improve)=0.312
+ba87e7f	dev2.a20	100	0	0.000	25.88	0.5075	-0.0214	0.135	info	a20_ltw1: [a20 pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+ba87e7f	dev3.a20	100	0	0.010	25.13	0.5025	-0.0073	0.370	info	a20_ltw1: [a20 pooled500 slice] loss value: survival credit 1.0 per turn (was 0.2)
+65dca58	dev.a20	100	0	0.020	26.74	0.5439	+0.0078	0.697	info	a20_esim_a23_dev: VERIFY: a20_esim_a23 on dev vs a20_restboss1_dev (replication of a a20 keep)
+65dca58	val.a20	300	0	0.030	28.43	0.5868	-0.0084	0.195	discard	a20_esim_a23: [a20 pooled600 extension] no: pooled600 dscore=+0.0061 dwin=+0.002 P(improve)=0.807 dev-alone dscore=0.00784313725490196
+b9ffe07	val.a20	300	0	0.030	27.38	0.5662	-0.0290	0.034	discard	a20_ldw35: [a20 pooled500] loss value: damage credit on the win-bonus scale (35, was 10) [loss_dmg_w=35] pooled dscore=-0.0239 dwin=-0.004 P(improve)=0.024
+b9ffe07	dev2.a20	100	0	0.010	24.86	0.4973	-0.0316	0.119	info	a20_ldw35: [a20 pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+b9ffe07	dev3.a20	100	0	0.020	24.95	0.5088	-0.0010	0.474	info	a20_ldw35: [a20 pooled500 slice] loss value: damage credit on the win-bonus scale (35, was 10)
+328a90e	val.a20	300	0	0.020	26.44	0.5381	-0.0571	0.000	discard	a20_brt8: [a20 pooled500] boss fights: rollouts cut at 8 turns, cutoff value (HP counts) [boss_rollout_turns=8] pooled dscore=-0.0409 dwin=-0.006 P(improve)=0.000
+328a90e	dev2.a20	100	0	0.010	25.15	0.5029	-0.0259	0.029	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+328a90e	dev3.a20	100	0	0.040	23.63	0.5025	-0.0073	0.382	info	a20_brt8: [a20 pooled500 slice] boss fights: rollouts cut at 8 turns, cutoff value (HP counts)
+ddd3ff8	val.a0	300	0	0.707	47.06	1.6294	-0.0493	0.003	discard	esim: map: elite nodes gated by 3 simulated elite fights (2/3 wins, 35% HP left) [elite_sim=1]
+75d313a	dev.a0	100	0	0.070	45.30	0.9269	+0.0300	0.953	info	heart_a4pot_dev: VERIFY: heart_a4pot on dev vs heart_bfbonus25_g_heart_dev (replication of a heart keep)
+a8e9409	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	discard	heart_wba3: [heart pooled500] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance) [w_burning_act3=3] pooled dscore=+0.0035 dwin=+0.004 P(improve)=0.893
+a8e9409	dev2.a0	100	0	0.130	45.65	0.9914	+0.0102	0.871	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
+a8e9409	dev3.a0	100	0	0.050	43.68	0.8800	-0.0020	0.000	info	heart_wba3: [heart pooled500 slice] emerald key: +3 extra map value on the act-3 burning elite while the key is missing (last chance)
+89bcf75	val.a0	300	0	0.103	46.25	0.9744	-0.0045	0.000	discard	heart_bhp05: [heart pooled500] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold) [burn_hp=0.5] pooled dscore=-0.0027 dwin=-0.002 P(improve)=0.000
+89bcf75	dev2.a0	100	0	0.120	45.60	0.9812	+0.0000	0.000	info	heart_bhp05: [heart pooled500 slice] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold)
+89bcf75	dev3.a0	100	0	0.050	43.70	0.8820	+0.0000	0.000	info	heart_bhp05: [heart pooled500 slice] emerald key: burning-elite bonus already from 50% HP (was the 60% elite threshold)
+b689e1f	dev.a0	100	0	0.080	45.36	0.9367	+0.0098	0.629	info	heart_wba3_dev: VERIFY: heart_wba3 on dev vs heart_a4pot_dev (replication of a heart keep)
+b689e1f	val.a0	300	0	0.110	46.40	0.9820	+0.0031	0.740	keep	heart_wba3: [heart pooled600 extension] KEEP: pooled600 dscore=+0.0045 dwin=+0.005 P(improve)=0.958 dev-alone dscore=0.00980392156862745
+cf1058b	val.a0	300	0	0.117	46.86	0.9941	+0.0121	0.823	discard	heart_wb4: [heart pooled500] emerald key: burning-elite map bonus 4 (was 2) [w_burning=4] pooled dscore=-0.0004 dwin=+0.000 P(improve)=0.490
+cf1058b	dev2.a0	100	0	0.090	45.33	0.9433	-0.0480	0.041	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
+cf1058b	dev3.a0	100	0	0.070	43.19	0.8900	+0.0100	0.709	info	heart_wb4: [heart pooled500 slice] emerald key: burning-elite map bonus 4 (was 2)
+e268c01	val.a0	300	0	0.113	46.54	0.9854	+0.0033	0.757	discard	heart_ka3: [heart pooled500] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65% [key_act3=1] pooled dscore=+0.0020 dwin=+0.002 P(improve)=0.851
+e268c01	dev2.a0	100	0	0.130	45.90	0.9916	+0.0002	0.626	info	heart_ka3: [heart pooled500 slice] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65%
+e268c01	dev3.a0	100	0	0.050	43.84	0.8800	+0.0000	0.000	info	heart_ka3: [heart pooled500 slice] ruby key: also taken at act-3 rest sites (not pre-boss) when HP >= 65%
+f7c0051	val.a0	300	0	0.123	46.83	1.0012	+0.0192	0.830	discard	heart_krw1: [heart pooled500] ruby key: rest sites worth +1 on the map while the key is missing, through act 3 [key_rest_w=1 key_act3=1] pooled dscore=+0.0071 dwin=+0.008 P(improve)=0.701
+f7c0051	dev2.a0	100	0	0.130	44.61	0.9731	-0.0182	0.238	info	heart_krw1: [heart pooled500 slice] ruby key: rest sites worth +1 on the map while the key is missing, through act 3
+f7c0051	dev3.a0	100	0	0.050	43.69	0.8765	-0.0035	0.441	info	heart_krw1: [heart pooled500 slice] ruby key: rest sites worth +1 on the map while the key is missing, through act 3
+d3d4240	dev.a0	100	0	0.090	45.60	0.9467	+0.0100	0.626	info	heart_ka3_dev: VERIFY: heart_ka3 on dev vs heart_wba3_dev (replication of a heart keep)
+d3d4240	val.a0	300	0	0.113	46.54	0.9854	+0.0033	0.757	keep	heart_ka3: [heart pooled600 extension] KEEP: pooled600 dscore=+0.0034 dwin=+0.003 P(improve)=0.949 dev-alone dscore=0.01
+177521a	dev.a0	100	0	0.110	46.01	0.9725	+0.0359	0.850	info	heart_krw1_dev: VERIFY: heart_krw1 on dev vs heart_wba3_dev (replication of a heart keep)
+177521a	val.a0	300	0	0.123	46.83	1.0012	+0.0192	0.830	discard	heart_krw1: [heart pooled600 extension] no: pooled600 dscore=+0.0119 dwin=+0.012 P(improve)=0.823 dev-alone dscore=0.03588235294117647
+a359fd8	val.a0	300	0	0.113	46.55	0.9846	-0.0007	0.444	discard	heart_kpb08: [heart pooled500] ruby key: taken at the pre-boss rest site when HP >= 80% [key_rest_hp_preboss=0.8] pooled dscore=-0.0004 dwin=+0.000 P(improve)=0.443
+a359fd8	dev2.a0	100	0	0.130	45.94	0.9916	+0.0000	0.000	info	heart_kpb08: [heart pooled500 slice] ruby key: taken at the pre-boss rest site when HP >= 80%
+a359fd8	dev3.a0	100	0	0.050	43.99	0.8800	+0.0000	0.000	info	heart_kpb08: [heart pooled500 slice] ruby key: taken at the pre-boss rest site when HP >= 80%
+502183a	val.a0	300	0	0.150	47.54	1.0377	+0.0524	0.994	keep	heart_hm2: [heart pooled500] search budget reallocated to the Heart fight: 2x simulations at the Heart, 470 elsewhere (per-game compute ~neutral) [sims=470 heart_mult=2] pooled dscore=+0.0414 dwin=+0.032 P(improve)=0.995
+502183a	dev2.a0	100	0	0.160	45.17	1.0071	+0.0155	0.647	info	heart_hm2: [heart pooled500 slice] search budget reallocated to the Heart fight: 2x simulations at the Heart, 470 elsewhere (per-game compute ~neutral)
+502183a	dev3.a0	100	0	0.070	44.72	0.9145	+0.0345	0.897	info	heart_hm2: [heart pooled500 slice] search budget reallocated to the Heart fight: 2x simulations at the Heart, 470 elsewhere (per-game compute ~neutral)
+502183a	val.a0	300	0	0.150	47.54	1.0377	+0.0524	0.994	info	heart_hm2: BUDGET-SCALING ANNOTATION: the keep row above is informational — heart_hm2 uses +3.8% search actions per game vs heart_ka3 (not compute-neutral); the best is reset to heart_ka3 by the next queue line and the compute-neutral heart_hm2b (sims 450) is the real candidate
+d1a7425	val.a0	300	0	0.120	47.28	1.0076	+0.0223	0.831	discard	heart_hm2b: [heart pooled500] compute-neutral Heart search reallocation: 2x simulations at the Heart, 450 elsewhere (hm2 at 470 used +3.8% actions per game: informational only) [sims=450 heart_mult=2] pooled dscore=+0.0140 dwin=+0.006 P(improve)=0.787
+d1a7425	dev2.a0	100	0	0.120	45.76	0.9792	-0.0124	0.388	info	heart_hm2b: [heart pooled500 slice] compute-neutral Heart search reallocation: 2x simulations at the Heart, 450 elsewhere (hm2 at 470 used +3.8% actions per game: informational only)
+d1a7425	dev3.a0	100	0	0.070	43.72	0.8955	+0.0155	0.712	info	heart_hm2b: [heart pooled500 slice] compute-neutral Heart search reallocation: 2x simulations at the Heart, 450 elsewhere (hm2 at 470 used +3.8% actions per game: informational only)
+13927e0	val.a20	300	0	0.030	27.66	0.5718	-0.0234	0.134	discard	a20_neow1p: [a20 pooled500] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test [neow_pol=1] pooled dscore=-0.0215 dwin=-0.004 P(improve)=0.086
+13927e0	dev2.a20	100	0	0.010	25.58	0.5114	-0.0175	0.315	info	a20_neow1p: [a20 pooled500 slice] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test
+13927e0	dev3.a20	100	0	0.020	24.00	0.4902	-0.0196	0.221	info	a20_neow1p: [a20 pooled500 slice] A20 Neow option ranking (val-only +0.010, P=0.66 earlier), pooled re-test
+93f637b	dev.a0	100	0	0.100	45.54	0.9604	+0.0137	0.661	info	heart_hm2b_dev: VERIFY: heart_hm2b on dev vs heart_ka3_dev (replication of a heart keep)
+93f637b	val.a0	300	0	0.120	47.28	1.0076	+0.0223	0.831	discard	heart_hm2b: [heart pooled600 extension] no: pooled600 dscore=+0.0140 dwin=+0.007 P(improve)=0.817 dev-alone dscore=0.013725490196078426
+20c2234	train.a0	1000	0	0.146	46.13	1.0102			info	bg_heart2: bg_heart2: 1000 train games of the asc-0 best with the interventional fight logger (bf_log=1, bf_every=1, bf_sims 100)
+5239384	val.a0	300	0	0.110	46.65	0.9856	+0.0003	0.517	discard	heart_bfb25_g12: [heart pooled500] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data [bf_model=12] pooled dscore=+0.0062 dwin=+0.000 P(improve)=0.633
+5239384	dev2.a0	100	0	0.080	46.16	0.9449	-0.0467	0.121	info	heart_bfb25_g12: [heart pooled500 slice] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data
+5239384	dev3.a0	100	0	0.110	45.06	0.9569	+0.0769	0.969	info	heart_bfb25_g12: [heart pooled500 slice] deck-value bonus from model 12: Heart-labelled data regenerated with the current best (1,000 games) + the old 500 + A0 data
+cf15856	val.a0	300	0	0.093	46.79	0.9724	-0.0130	0.275	discard	heart_pmlp: [heart pooled500] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0) [prior_mlp=1 prior_mlp_depth=0] pooled dscore=-0.0059 dwin=-0.006 P(improve)=0.365
+cf15856	dev2.a0	100	0	0.150	45.81	1.0063	+0.0147	0.644	info	heart_pmlp: [heart pooled500 slice] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0)
+cf15856	dev3.a0	100	0	0.060	43.26	0.8747	-0.0053	0.435	info	heart_pmlp: [heart pooled500 slice] port A0 keep: root MLP move prior (prior_mlp=1, depth 0; +3.6 pts at A0)
+c5a075f	val.a0	300	0	0.107	46.65	0.9816	-0.0038	0.419	discard	heart_potsave: [heart pooled500] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2) [potion_v=8 potion_v_boss=4] pooled dscore=-0.0145 dwin=-0.012 P(improve)=0.143
+c5a075f	dev2.a0	100	0	0.070	45.15	0.9167	-0.0749	0.001	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
+c5a075f	dev3.a0	100	0	0.070	43.69	0.8935	+0.0135	0.689	info	heart_potsave: [heart pooled500 slice] port A0 keep: potions worth 8 in hallway fights, 4 in boss fights (potsave2)
+36a2dcb	val.a0	300	0	0.093	46.31	0.9606	-0.0248	0.087	discard	heart_wea1: [heart pooled500] port A0 keep: act-1 elites +1 on the map (wea1p1) [w_elite_act1=1] pooled dscore=-0.0189 dwin=-0.014 P(improve)=0.064
+36a2dcb	dev2.a0	100	0	0.120	45.98	0.9827	-0.0088	0.311	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)
+36a2dcb	dev3.a0	100	0	0.050	43.08	0.8686	-0.0114	0.287	info	heart_wea1: [heart pooled500 slice] port A0 keep: act-1 elites +1 on the map (wea1p1)
+e917308	val.a0	300	0	0.113	46.46	0.9842	-0.0012	0.459	discard	heart_mapd: [heart pooled500] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0) [map_discount=0.85] pooled dscore=-0.0038 dwin=-0.002 P(improve)=0.272
+e917308	dev2.a0	100	0	0.120	46.11	0.9867	-0.0049	0.367	info	heart_mapd: [heart pooled500 slice] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0)
+e917308	dev3.a0	100	0	0.050	43.17	0.8692	-0.0108	0.095	info	heart_mapd: [heart pooled500 slice] port A0 keep: map discount 0.85 (mapd085, unreplicated at A0)
+9b7a098	val.a0	300	0	0.127	46.98	1.0037	+0.0184	0.942	discard	heart_kud: [heart pooled500] key bonuses (burning elite, ruby-key rest sites) undiscounted in the path DP: a key ten rows away keeps its full bonus [key_undiscounted=1] pooled dscore=+0.0009 dwin=+0.004 P(improve)=0.539
+9b7a098	dev2.a0	100	0	0.100	45.23	0.9469	-0.0447	0.034	info	heart_kud: [heart pooled500 slice] key bonuses (burning elite, ruby-key rest sites) undiscounted in the path DP: a key ten rows away keeps its full bonus
+9b7a098	dev3.a0	100	0	0.060	43.03	0.8741	-0.0059	0.318	info	heart_kud: [heart pooled500 slice] key bonuses (burning elite, ruby-key rest sites) undiscounted in the path DP: a key ten rows away keeps its full bonus
+86bdffb	val.a0	300	0	0.133	47.17	1.0146	+0.0293	0.935	discard	heart_kud_krw: [heart pooled500] undiscounted key channel + rest sites worth +1 while the ruby key is missing [key_undiscounted=1 key_rest_w=1] pooled dscore=+0.0096 dwin=+0.012 P(improve)=0.759
+86bdffb	dev2.a0	100	0	0.120	44.04	0.9506	-0.0410	0.111	info	heart_kud_krw: [heart pooled500 slice] undiscounted key channel + rest sites worth +1 while the ruby key is missing
+86bdffb	dev3.a0	100	0	0.060	43.51	0.8814	+0.0014	0.517	info	heart_kud_krw: [heart pooled500 slice] undiscounted key channel + rest sites worth +1 while the ruby key is missing
+8be06a2	dev.a0	100	0	0.100	46.68	0.9720	+0.0253	0.722	info	heart_kud_krw_dev: VERIFY: heart_kud_krw on dev vs heart_ka3_dev (replication of a heart keep)
+8be06a2	val.a0	300	0	0.133	47.17	1.0146	+0.0293	0.935	discard	heart_kud_krw: [heart pooled600 extension] no: pooled600 dscore=+0.0123 dwin=+0.012 P(improve)=0.806 dev-alone dscore=0.02529411764705882
+615028d	val.a0	300	0	0.750	47.47	1.6807	+0.0020	0.559	discard	bfrelic10: boss relics: KB tier value + 10 x simulated next-act fight gain (2 boss + 2 hallway fights per option, common seeds) [bf_relic_w=10]
+95458f7	val.a0	300	0	0.133	46.84	1.0099	+0.0246	0.988	keep	heart_bfrelic10: [heart pooled500] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart) [bf_relic_w=10] pooled dscore=+0.0181 dwin=+0.016 P(improve)=0.986
+95458f7	dev2.a0	100	0	0.150	46.22	1.0155	+0.0239	0.844	info	heart_bfrelic10: [heart pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart)
+95458f7	dev3.a0	100	0	0.050	43.50	0.8727	-0.0073	0.087	info	heart_bfrelic10: [heart pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain (act-3 relic simulated against Shield & Spear + the Heart)
+fcaa638	val.a20	300	0	0.043	28.31	0.5976	+0.0024	0.649	discard	a20_bfrelic10: [a20 pooled500] boss relics: KB tier value + 10 x simulated next-act fight gain [bf_relic_w=10] pooled dscore=+0.0056 dwin=+0.006 P(improve)=0.880
+fcaa638	dev2.a20	100	0	0.030	26.53	0.5496	+0.0208	0.950	info	a20_bfrelic10: [a20 pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain
+fcaa638	dev3.a20	100	0	0.010	25.52	0.5102	+0.0004	0.636	info	a20_bfrelic10: [a20 pooled500 slice] boss relics: KB tier value + 10 x simulated next-act fight gain
+6961696	dev.a0	100	0	0.090	45.82	0.9518	+0.0051	0.603	info	heart_bfrelic10_dev: VERIFY: heart_bfrelic10 on dev vs heart_ka3_dev (replication of a heart keep)
+6961696	dev.a20	100	0	0.010	26.32	0.5259	-0.0102	0.000	info	a20_bfrelic10_dev: VERIFY: a20_bfrelic10 on dev vs a20_restboss1_dev (replication of a a20 keep)
+6961696	val.a20	300	0	0.043	28.31	0.5976	+0.0024	0.649	discard	a20_bfrelic10: [a20 pooled600 extension] no: pooled600 dscore=+0.0030 dwin=+0.003 P(improve)=0.743 dev-alone dscore=-0.010196078431372548
+6ae6429	val.a10	300	0	0.293	37.35	1.0257	-0.0005	0.498	discard	a10_bfrelic10: [a10] boss relics: KB tier value + 10 x simulated next-act fight gain [bf_relic_w=10]
+95a6d08	val.a0	300	0	0.743	47.35	1.6717	-0.0070	0.359	discard	bfrelic25: boss relics: KB tier value + 25 x simulated next-act fight gain [bf_relic_w=25]
+c81c754	val.a0	300	0	0.120	47.39	1.0067	-0.0033	0.466	discard	heart_combo: [heart pooled500] combined near-misses: compute-neutral Heart search reallocation (sims 450, 2x at the Heart) + undiscounted key channel + rest-site seeking [sims=450 heart_mult=2 key_undiscounted=1 key_rest_w=1] pooled dscore=-0.0038 dwin=-0.010 P(improve)=0.425
+c81c754	dev2.a0	100	0	0.130	45.82	0.9910	-0.0245	0.281	info	heart_combo: [heart pooled500 slice] combined near-misses: compute-neutral Heart search reallocation (sims 450, 2x at the Heart) + undiscounted key channel + rest-site seeking
+c81c754	dev3.a0	100	0	0.060	44.13	0.8882	+0.0155	0.698	info	heart_combo: [heart pooled500 slice] combined near-misses: compute-neutral Heart search reallocation (sims 450, 2x at the Heart) + undiscounted key channel + rest-site seeking
+0d75a00	val.a0	300	0	0.067	24.86	0.5541	-1.1246	0.000	scaling	sv1: PHASE S 1e4 rows x 1e4 params: leaf value model sv_1, no rollouts, equal wall-clock (cost ratio 0.400, sims 1250) vs mapd085
+412ea8e	val.a0	300	0	0.267	36.56	0.9835	-0.6952	0.000	scaling	sv5: PHASE S 1e5 rows x 1e5 params: leaf value model sv_5, no rollouts, equal wall-clock (cost ratio 3.326, sims 150) vs mapd085
+cfa4355	val.a0	300	0	0.270	37.90	1.0132	-0.6655	0.000	scaling	sv9: PHASE S 1e6 rows x 1e6 params: leaf value model sv_9, no rollouts, equal wall-clock (cost ratio 83.791, sims 50) vs mapd085
+2815261	val.a0	300	0	0.260	35.76	0.9611	-0.7176	0.000	scaling	sv2: PHASE S 1e4 rows x 1e5 params: leaf value model sv_2, no rollouts, equal wall-clock (cost ratio 3.205, sims 156) vs mapd085
+080cda5	val.a0	300	0	0.343	38.28	1.0939	-0.5848	0.000	scaling	sv4: PHASE S 1e5 rows x 1e4 params: leaf value model sv_4, no rollouts, equal wall-clock (cost ratio 0.482, sims 1036) vs mapd085
+2043588	val.a0	300	0	0.360	38.42	1.1134	-0.5653	0.000	scaling	sv7: PHASE S 1e6 rows x 1e4 params: leaf value model sv_7, no rollouts, equal wall-clock (cost ratio 0.442, sims 1132) vs mapd085
+06d5c06	val.a0	300	0	0.297	38.13	1.0443	-0.6344	0.000	scaling	sv8: PHASE S 1e6 rows x 1e5 params: leaf value model sv_8, no rollouts, equal wall-clock (cost ratio 4.656, sims 108) vs mapd085
+2a434b5	val.a0	300	0	0.117	30.97	0.7239	-0.9548	0.000	scaling	svctrl: PHASE S CONTROL: heuristic cutoff leaf, no rollouts, equal wall-clock (sims 3423) vs mapd085
+e09b561	val.a0	300	0	0.247	36.84	0.9690	-0.7097	0.000	scaling	sv6: PHASE S 1e5 rows x 1e6 params: leaf value model sv_6, no rollouts, equal wall-clock (cost ratio 37.790, sims 50) vs mapd085
+0d3ffac	val.a0	300	0	0.260	34.83	0.9429	-0.7358	0.000	scaling	sv3: PHASE S 1e4 rows x 1e6 params: leaf value model sv_3, no rollouts, equal wall-clock (cost ratio 39.313, sims 50) vs mapd085
+b7018e2	val.a0	300	0	0.047	24.63	0.5297	-1.1490	0.000	scaling	sv1_s500: PHASE S fixed-sims read: leaf model sv_1, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
+dae6d52	val.a0	300	0	0.283	34.68	0.9634	-0.7153	0.000	scaling	sv5_s500: PHASE S fixed-sims read: leaf model sv_5, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085

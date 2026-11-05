@@ -1,0 +1,2 @@
+pooled val,dev: n=400  potsave2 win=0.655 floor=45.24  wea1p1 win=0.620 floor=44.76  dscore=+0.0445 dwin=+0.035 P(improve)=0.949
+KEEP

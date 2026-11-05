@@ -1,0 +1,2 @@
+load before timing: 0.43 2.59 3.48
+best: 22.81s  candidate: 55.42s  candidate/best = 2.430  (scale candidate sims by 0.412 for equal wall-clock)

@@ -1,0 +1,410 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d04312b..e7d1a6e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_FLAGS  "-Wno-shift-count-overflow -O3")
+ 
+ add_subdirectory(json)
+-add_subdirectory(pybind11)
++find_package(pybind11 CONFIG REQUIRED)
+ 
+ pybind11_add_module(slaythespire bindings/slaythespire.cpp bindings/bindings-util.cpp ${sts_lightspeed_SOURCES})
+ target_include_directories(slaythespire PUBLIC include)
+@@ -34,3 +34,24 @@ target_link_directories(small-test PRIVATE json::nlohmann_json)
+ target_include_directories(small-test PUBLIC include)
+ target_include_directories(small-test PUBLIC json/include)
+ target_include_directories(small-test PUBLIC bindings)
++
++# ---- research additions (leak-free agent + frozen eval) ----
++set(STS_RESEARCH_DIR /home/user/sts/research CACHE PATH "research/ directory of the latioswang/sts checkout")
++add_library(stscore STATIC ${sts_lightspeed_SOURCES})
++target_include_directories(stscore PUBLIC include json/single_include)
++set_property(TARGET stscore PROPERTY POSITION_INDEPENDENT_CODE ON)
++# NOTE: sts_card_manager_use_fixed_list (fixed-size piles, ~10% faster) was tried and REVERTED:
++# piles can exceed any fixed capacity in degenerate rollouts (e.g. Dead Branch + Corruption) and the
++# Release library has asserts compiled out -> silent stack corruption (3/300 val games crashed).
++file(GLOB FAIR_SOURCES CONFIGURE_DEPENDS "${STS_RESEARCH_DIR}/cpp/*.cpp")
++add_executable(fair_eval ${STS_RESEARCH_DIR}/eval/eval_main.cpp ${FAIR_SOURCES})
++target_include_directories(fair_eval PUBLIC include ${STS_RESEARCH_DIR}/cpp ${STS_RESEARCH_DIR}/vf)
++target_link_libraries(fair_eval stscore pthread)
++
++# ---- real-game bridge (research/realgame) ----
++if(EXISTS "${STS_RESEARCH_DIR}/realgame/bridge_main.cpp")
++  file(GLOB BRIDGE_SOURCES CONFIGURE_DEPENDS "${STS_RESEARCH_DIR}/realgame/*.cpp")
++  add_executable(sts_bridge ${BRIDGE_SOURCES} ${FAIR_SOURCES})
++  target_include_directories(sts_bridge PUBLIC include ${STS_RESEARCH_DIR}/realgame ${STS_RESEARCH_DIR}/cpp ${STS_RESEARCH_DIR}/vf)
++  target_link_libraries(sts_bridge stscore pthread)
++endif()
+diff --git a/include/combat/BattleContext.h b/include/combat/BattleContext.h
+index 767bbcd..16302ad 100644
+--- a/include/combat/BattleContext.h
++++ b/include/combat/BattleContext.h
+@@ -135,6 +135,8 @@ namespace sts {
+         void setState(InputState state);
+         void addToTop(const Action &a);
+         void addToBot(const Action &a);
++        void addToTop(Action &&a);  // PERF: temporaries are moved into the queue instead of copied (same behaviour)
++        void addToBot(Action &&a);
+ 
+         void addToTopCard(CardQueueItem item);
+         void addToBotCard(CardQueueItem item);
+diff --git a/include/combat/Monster.h b/include/combat/Monster.h
+index efb4f41..1793f92 100644
+--- a/include/combat/Monster.h
++++ b/include/combat/Monster.h
+@@ -46,6 +46,7 @@ namespace sts {
+         bool halfDead = false;
+         bool escapeNext = false;
+         MMID moveHistory[2] = {MMID::INVALID, MMID::INVALID };
++        bool lastMoveWasRolled = false;  // true if moveHistory[0] came from rollMove (RNG), false if scripted via setMove
+ 
+         std::uint64_t statusBits = 0;
+         std::int8_t artifact = 0;
+diff --git a/include/game/GameContext.h b/include/game/GameContext.h
+index 04fceda..5a02ec9 100644
+--- a/include/game/GameContext.h
++++ b/include/game/GameContext.h
+@@ -149,7 +149,7 @@ namespace sts {
+ 
+         sts::Card noteForYourselfCard = Card(CardId::IRON_WAVE);
+ 
+-        static constexpr bool disableColosseum = true;
++        static constexpr bool disableColosseum = false;  // FIX: event is now implemented
+         static constexpr bool disableMatchAndKeep = true;
+         static constexpr bool disablePrismaticShard = true;
+         bool skipBattles = false;
+@@ -344,6 +344,7 @@ namespace sts {
+         void chooseTreasureRoomOption(bool openChest);
+ 
+         void regainControl();
++        void afterEscape();  // Smoke Bomb escape: no rewards
+     };
+ 
+ 
+diff --git a/include/sim/search/GameAction.h b/include/sim/search/GameAction.h
+index 978eb8a..29d5fb1 100644
+--- a/include/sim/search/GameAction.h
++++ b/include/sim/search/GameAction.h
+@@ -7,6 +7,7 @@
+ 
+ #include "sts_common.h"
+ 
++#include <functional>
+ #include <iostream>
+ #include <vector>
+ 
+@@ -54,6 +55,10 @@ namespace sts::search {
+ 
+     };
+ 
++    // research: sees every out-of-combat action before it runs, on any GameContext (the real-game bridge
++    // mirrors them to the game). Empty outside the bridge.
++    extern std::function<void(const sts::GameContext &, const GameAction &)> gameActionObserver;
++
+ 
+ 
+ 
+diff --git a/src/combat/BattleContext.cpp b/src/combat/BattleContext.cpp
+index 965faef..2a4bd1b 100644
+--- a/src/combat/BattleContext.cpp
++++ b/src/combat/BattleContext.cpp
+@@ -50,6 +50,7 @@ void BattleContext::init(const GameContext &gc, MonsterEncounter encounterToInit
+     potionCapacity = gc.potionCapacity;
+     potions = gc.potions;
+ 
++    player.cc = gc.cc;  // FIX: was never initialised -> Entropic Brew / Dead Branch used a garbage class pool
+     player.curHp = gc.curHp;
+     player.maxHp = gc.maxHp;
+     player.gold = gc.gold;
+@@ -294,6 +295,8 @@ void BattleContext::initRelics(const GameContext &gc) {
+                 if (r.data > 0) {
+                     for (int i = 0; i < monsters.monsterCount; ++i) {
+                         Monster &m = monsters.arr[i];
++                        if (m.idx == -1) continue;  // FIX: reserved (not yet spawned) slots are not monsters; giving them
++                                                    // 1 HP made them targetable and "killable" (monstersAlive went negative)
+                         m.curHp = 1;
+                     }
+                 }
+@@ -509,6 +512,8 @@ void BattleContext::exitBattle(GameContext &g) const {
+ 
+     if (outcome == Outcome::PLAYER_LOSS) {
+         g.outcome = GameOutcome::PLAYER_LOSS;
++    } else if (miscBits.test(1)) {
++        g.afterEscape();  // Smoke Bomb: straight back to the map, no rewards
+     } else {
+         // player victory
+         g.regainControl();
+@@ -656,6 +661,14 @@ void BattleContext::addToBot(const Action &a) {
+     actionQueue.pushBack(a);
+ }
+ 
++void BattleContext::addToTop(Action &&a) {  // PERF: move overload, no std::function copy
++    actionQueue.pushFront(std::move(a));
++}
++
++void BattleContext::addToBot(Action &&a) {  // PERF: move overload, no std::function copy
++    actionQueue.pushBack(std::move(a));
++}
++
+ // todo remove or replace other method that does this
+ void BattleContext::addToTopCard(CardQueueItem item) {
+     cardQueue.pushFront(item);
+@@ -1073,7 +1086,7 @@ void BattleContext::useAttackCard() {
+         }
+ 
+         case CardId::IRON_WAVE: {
+-            addToBot( Actions::GainBlock(calculateCardBlock(calculateCardBlock(up  ? 7 : 5))) );
++            addToBot( Actions::GainBlock(calculateCardBlock(up ? 7 : 5)) );  // FIX: block modifiers were applied twice
+             addToBot( Actions::AttackEnemy(t, calculateCardDamage(c, t, up ? 7 : 5)) );
+             break;
+         }
+@@ -1263,8 +1276,8 @@ void BattleContext::useSkillCard() {
+             break;
+ 
+         case CardId::DARK_SHACKLES:
+-            addToBot( Actions::DebuffEnemy<MS::STRENGTH>(t, up ? 15 : 9) );
+-            if (monsters.arr[t].hasStatus<MS::ARTIFACT>()) {
++            addToBot( Actions::DebuffEnemy<MS::STRENGTH>(t, up ? -15 : -9, false) );  // FIX: sign was positive (gave strength)
++            if (!monsters.arr[t].hasStatus<MS::ARTIFACT>()) {  // FIX: condition was inverted (real game: GainStrengthPower only if no Artifact)
+                 addToBot( Actions::BuffEnemy<MS::SHACKLED>(t, up ? 15 : 9) );
+             }
+             break;
+@@ -1279,7 +1292,7 @@ void BattleContext::useSkillCard() {
+             break;
+ 
+         case CardId::DISARM:
+-            addToBot( Actions::DebuffEnemy<MS::STRENGTH>(t, -2, false) );
++            addToBot( Actions::DebuffEnemy<MS::STRENGTH>(t, up ? -3 : -2, false) );  // FIX: upgrade value
+             break;
+ 
+         case CardId::DISCOVERY:
+@@ -1342,7 +1355,7 @@ void BattleContext::useSkillCard() {
+             bool hasAttack = false;
+             for (int i = 0; i < cards.cardsInHand; ++i) {
+                 if (cards.hand[i].getType() == CardType::ATTACK) {
+-                    hasAttack = false;
++                    hasAttack = true;  // FIX: was `false` -> card always drew
+                     break;
+                 }
+             }
+@@ -2240,6 +2253,9 @@ void BattleContext::drinkPotion(int idx, int target) {
+     const bool hasBark = player.hasRelic<R::SACRED_BARK>();
+     const Potion p = potions[idx];
+     discardPotion(idx);
++    if (player.hasRelic<R::TOY_ORNITHOPTER>()) {  // FIX: relic had no implementation
++        addToBot(Actions::HealPlayer(5));
++    }
+ 
+     // todo - dont need to add to bot because always will have nothing in actionQueue?
+ 
+@@ -2266,7 +2282,7 @@ void BattleContext::drinkPotion(int idx, int target) {
+ 
+ 
+         case Potion::BLOOD_POTION: {
+-            int healAmt = static_cast<int>((static_cast<float>(player.maxHp * (hasBark ? 20 : 40)) / 100.0f));
++            int healAmt = static_cast<int>((static_cast<float>(player.maxHp * (hasBark ? 40 : 20)) / 100.0f));  // FIX: was inverted
+             addToBot(Actions::HealPlayer(healAmt));
+             break;
+         }
+@@ -2396,7 +2412,13 @@ void BattleContext::drinkPotion(int idx, int target) {
+             break;
+ 
+         case Potion::SMOKE_BOMB:
+-            // todo
++            // FIX (was a no-op): escape the fight (not usable against bosses), forfeiting rewards
++            if (!isBossEncounter(encounter)) {
++                miscBits.set(1);  // escaped flag, read by exitBattle
++                cardQueue.clear();
++                actionQueue.clear();
++                outcome = Outcome::PLAYER_VICTORY;
++            }
+             break;
+ 
+         case Potion::SNECKO_OIL:
+diff --git a/src/combat/Monster.cpp b/src/combat/Monster.cpp
+index 95c005d..61cfc02 100644
+--- a/src/combat/Monster.cpp
++++ b/src/combat/Monster.cpp
+@@ -633,11 +633,13 @@ void Monster::rollMove(BattleContext &bc) {
+ 
+     miscInfo = miscInfoCopy;
+     setMove(move);
++    lastMoveWasRolled = true;
+ }
+ 
+ void Monster::setMove(MMID moveId) {
+     moveHistory[1] = moveHistory[0];
+     moveHistory[0] = moveId;
++    lastMoveWasRolled = false;
+ }
+ 
+ namespace sts {
+diff --git a/src/game/GameContext.cpp b/src/game/GameContext.cpp
+index fa10364..a61f11d 100644
+--- a/src/game/GameContext.cpp
++++ b/src/game/GameContext.cpp
+@@ -2210,6 +2210,15 @@ void GameContext::drinkPotion(Potion p) {
+ #endif
+             break;
+     }
++    if (hasRelic(RelicId::TOY_ORNITHOPTER)) {  // FIX: relic had no implementation
++        playerHeal(5);
++    }
++}
++
++void GameContext::afterEscape() {
++    // Smoke Bomb: the fight ends with no rewards; go straight back to the map
++    regainControlAction = returnToMapAction;
++    regainControl();
+ }
+ 
+ void GameContext::drinkPotionAtIdx(int idx) {
+@@ -2551,9 +2560,32 @@ void GameContext::chooseEventOption(int idx) {
+             break;
+         }
+ 
+-        case Event::COLOSSEUM: // todo
+-            regainControl();
++        case Event::COLOSSEUM: {  // FIX: was a stub
++            if (info.eventData == 0) {
++                // forced fight vs the slavers; afterwards return to this event for the second choice
++                regainControlAction = [](GameContext &gc) {
++                    gc.info.eventData = 1;
++                    gc.screenState = ScreenState::EVENT_SCREEN;
++                    gc.regainControlAction = returnToMapAction;
++                };
++                enterBattle(MonsterEncounter::COLOSSEUM_EVENT_SLAVERS);
++            } else if (idx == 0) {
++                regainControl();  // cowardice: leave
++            } else {
++                regainControlAction = [](GameContext &gc) {  // victory: Taskmaster + Nob for the big reward
++                    Rewards reward;
++                    reward.addGold(100);
++                    reward.addRelic(gc.returnRandomScreenlessRelic(RelicTier::RARE));
++                    reward.addRelic(gc.returnRandomScreenlessRelic(RelicTier::UNCOMMON));
++                    gc.addPotionRewards(reward);
++                    reward.addCardReward(gc.createCardReward(Room::EVENT));
++                    gc.openCombatRewardScreen(reward);
++                    gc.regainControlAction = returnToMapAction;
++                };
++                enterBattle(MonsterEncounter::COLOSSEUM_EVENT_NOBS);
++            }
+             break;
++        }
+ 
+         case Event::CURSED_TOME: {
+             int &phase = info.eventData;
+@@ -2662,6 +2694,7 @@ void GameContext::chooseEventOption(int idx) {
+                     break;
+ 
+                 case 1:
++                    loseGold(unfavorable ? 50 : 40);  // FIX: "Adjustments" costs the same as option 0
+                     deck.upgradeRandomCards(miscRng, 2);
+                     regainControl();
+                     break;
+@@ -2675,6 +2708,7 @@ void GameContext::chooseEventOption(int idx) {
+                     loseGold(unfavorable ? 75 : 60);
+                     deck.transformRandomCards(miscRng, 2); // TODO
+                     regainControl();
++                    break;  // FIX: fell through into case 4
+ 
+                 case 4:
+                     loseGold(unfavorable ? 110 : 90);
+@@ -2683,6 +2717,7 @@ void GameContext::chooseEventOption(int idx) {
+                         returnToMapAction(gc);
+                     };
+                     openCardSelectScreen(CardSelectScreenType::REMOVE, 1);
++                    break;  // FIX: fell through into case 5
+ 
+                 case 5:
+                     playerLoseHp(unfavorable ? 5 : 3);
+@@ -3081,7 +3116,9 @@ void GameContext::chooseEventOption(int idx) {
+                 enterBattle(MonsterEncounter::MUSHROOMS_EVENT);
+ 
+             } else if (idx == 1) {
+-                obtainGold(unfavorable ? 50 : 99);
++                // FIX: real game heals 25% max HP and adds Parasite (was +99 gold)
++                playerHeal(fractionMaxHp(0.25f));
++                deck.obtain(*this, CardId::PARASITE);
+                 regainControl();
+ 
+             } else {
+@@ -3102,8 +3139,7 @@ void GameContext::chooseEventOption(int idx) {
+                 enterBattle(MonsterEncounter::MYSTERIOUS_SPHERE_EVENT);
+ 
+             } else if (idx == 1) {
+-                obtainGold(unfavorable ? 50 : 99);
+-                regainControl();
++                regainControl();  // FIX: leaving gives nothing (was +99 gold)
+ 
+             } else {
+                 assert(false);
+@@ -3178,7 +3214,7 @@ void GameContext::chooseEventOption(int idx) {
+ 
+         case Event::SCRAP_OOZE:
+             if (idx == 0) {
+-                damagePlayer(unfavorable ? 5 : 3);
++                damagePlayer((unfavorable ? 5 : 3) + info.eventData);  // FIX: +1 per failed reach
+                 const int roll = miscRng.random(99);
+                 const int relicChance = info.eventData*10 + 25;
+                 if (roll >= 99 - relicChance) {
+@@ -3325,6 +3361,7 @@ void GameContext::chooseEventOption(int idx) {
+ 
+         case Event::THE_MAUSOLEUM: {
+             if (idx == 0) {
++                obtainRelic(returnRandomScreenlessRelic(returnRandomRelicTier(relicRng, act)));  // FIX: relic was missing
+                 auto result = miscRng.randomBoolean();
+                 if (result || unfavorable) {
+                     deck.obtain(*this, CardId::WRITHE);
+@@ -3375,17 +3412,20 @@ void GameContext::chooseEventOption(int idx) {
+             Potion pArr[3];
+             switch (idx) {
+                 case 0: {
++                    loseGold(20);  // FIX: potions were free
+                     pArr[0] = getRandomPotion(potionRng, cc);
+                     openCombatRewardScreen(Rewards(pArr, 1));
+                     break;
+                 }
+                 case 1: {
++                    loseGold(30);  // FIX
+                     pArr[0] = getRandomPotion(potionRng, cc);
+                     pArr[1] = getRandomPotion(potionRng, cc);
+                     openCombatRewardScreen(Rewards(pArr, 2));
+                     break;
+                 }
+                 case 2: {
++                    loseGold(40);  // FIX
+                     pArr[0] = getRandomPotion(potionRng, cc);
+                     pArr[1] = getRandomPotion(potionRng, cc);
+                     pArr[2] = getRandomPotion(potionRng, cc);
+diff --git a/src/sim/search/GameAction.cpp b/src/sim/search/GameAction.cpp
+index 8c977ee..fdfb075 100644
+--- a/src/sim/search/GameAction.cpp
++++ b/src/sim/search/GameAction.cpp
+@@ -413,7 +413,12 @@ void executeShopAction(GameContext &gc, const search::GameAction a) {
+     }
+ }
+ 
++std::function<void(const GameContext &, const search::GameAction &)> search::gameActionObserver;
++
+ void search::GameAction::execute(GameContext &gc) const {
++    if (gameActionObserver) {
++        gameActionObserver(gc, *this);
++    }
+ #ifdef sts_asserts
+     if (!isValidAction(gc)) {
+         std::cerr << "invalid game action taken: " << bits
+@@ -704,9 +709,11 @@ int search::GameAction::getValidEventSelectBits(const GameContext &gc) {
+ 
+         case Event::NEOW:
+         case Event::KNOWING_SKULL:
+-        case Event::THE_WOMAN_IN_BLUE:
+             return 0xF;
+ 
++        case Event::THE_WOMAN_IN_BLUE:  // FIX: options now cost 20/30/40 gold; leave always allowed
++            return 0x8 | (gc.gold >= 20 ? 0x1 : 0) | (gc.gold >= 30 ? 0x2 : 0) | (gc.gold >= 40 ? 0x4 : 0);
++
+         case Event::PLEADING_VAGRANT:
+             if (gc.gold >= 85) {
+                 return 0x7;

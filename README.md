@@ -125,3 +125,7 @@ ship inline as `JSON.parse(\`[...]\`)`) and replace the raw files.
 - **Archetype guides + boss-relic checklist**: Ironclad and Silent only.
   Defect / Watcher have data but no curated strategy notes — flag that
   in any consultation for those classes.
+
+## License
+
+The code and original writing are under the [MIT license](LICENSE). The game's content and the scraped data aren't: see [NOTICE.md](NOTICE.md).

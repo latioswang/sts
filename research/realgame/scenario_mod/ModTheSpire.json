@@ -1,0 +1,10 @@
+{
+  "modid": "bridgescenario",
+  "name": "Bridge Scenario",
+  "author_list": ["sts research"],
+  "description": "Test-only. Gives the player cards, relics and potions when the real-game bridge asks for them in mirror runs.",
+  "version": "0.1.0",
+  "sts_version": "11-30-2020",
+  "mts_version": "3.18.1",
+  "dependencies": ["basemod"]
+}

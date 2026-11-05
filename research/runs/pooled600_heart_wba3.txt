@@ -1,0 +1,2 @@
+pooled val,dev2,dev3,dev [heart]: n=600  heart_wba3 win=0.098 floor=45.65  heart_a4pot win=0.093 floor=45.59  dscore=+0.0045 dwin=+0.005 P(improve)=0.958
+KEEP
