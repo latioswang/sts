@@ -388,10 +388,17 @@ bool ActionSender::chooseCardByUuid(const std::string &uuid) {
     return false;
 }
 
-void ActionSender::confirmIfRequired() {
+void ActionSender::pressConfirm() {
     if (screenType() == "GRID" || screenType() == "HAND_SELECT") {
         if (hasCommand(state(), "confirm")) send("CONFIRM");
     }
+}
+
+void ActionSender::confirmIfRequired() {
+    // A grid with nothing picked isn't the one the pick was for: that one closed, and the card's action went on to open
+    // another. Meditate ends the turn, the draw shuffles, and Melange opens a scry. The scry waits for its own choice.
+    if (screenType() == "GRID" && gameState()["screen_state"].value("selected_cards", json::array()).empty()) return;
+    pressConfirm();
 }
 
 void ActionSender::applyCardSelect(const GameContext &gc, int index) {
@@ -482,7 +489,7 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                         chooseCardOnScreen(key, copy);
                     }
                     if (idx == CardSelectInfo::SCRY_DONE_IDX || idx + 1 >= bc.cardSelectInfo.pickCount) {
-                        confirmIfRequired();
+                        pressConfirm();  // this grid can be confirmed with nothing picked
                     }
                     break;
                 }

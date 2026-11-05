@@ -80,7 +80,8 @@ private:
     void chooseCardOnScreen(const std::string &key, int copy = 0);
     void chooseDrawPileCardOnScreen(const sts::BattleContext &bc, int drawIdx);
     [[nodiscard]] bool chooseCardByUuid(const std::string &uuid);
-    void confirmIfRequired();
+    void pressConfirm();
+    void confirmIfRequired();  // after a pick
 };
 
 }  // namespace realgame
