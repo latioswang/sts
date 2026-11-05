@@ -82,6 +82,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Nilry's Codex always offered Ironclad's cards | It offers the class's own | `9c03d07` |
 | code | Poison, Mark and Choke on an Intangible Nemesis did full damage | `Nemesis.damage` caps HP loss too | `6803eff` |
 | 7410, 33 | A new Eviscerate from Dead Branch or a potion ignored the turn's discards | Its `makeCopy` sets the cost for the turn, as Blood for Blood's does for the fight | `0bcad57` |
+| 10201, 30 | A Force Field from Dead Branch or a Discovery cost its full 4 | Its constructor counts the powers in `cardsPlayedThisCombat`, so a new one starts cheaper | `ea1602f` |
 | 9115, 18 | An Eviscerate kept in hand into the next turn stayed at the cost the discards had brought it to | `Eviscerate.atTurnStart` resets it, and `applyStartOfTurnCards` runs on the draw pile, hand and discard pile | `fd86474` |
 | 9019, 35 | A Necronomicon or Double Tap copy of Mind Blast counted the draw pile again, after Runic Cube had drawn from it | Only `applyPowers` sets its base damage, and that doesn't run on a copy, so the copy keeps the original's | `b9a895e` |
 | 9025, 29 | A card's copy played after the next queued card, as with Distilled Chaos under Duplication, and two copies of one card came in the wrong order | `addCardQueueItem` uses index 1 with the card being played still at index 0, so its copy comes next | `8aca7f5` |
