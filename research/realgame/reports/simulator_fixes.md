@@ -112,6 +112,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
+| 10305, 16 | Breaking the Guardian's Mode Shift changed its move at the hit, so Go for the Eyes on the same card gave no Weak | Only its queued `ChangeStateAction` sets the defensive move | `143b0d5` |
 | 1002, 4 | Red Slaver could Entangle repeatedly; threshold 50; A17 Scrape check wrong | `usedEntangle` is set; threshold 55; A17 checks `lastMove` alone | `aebf989` |
 | 1001, 16 | Hexaghost's Inferno only dealt damage | `BurnIncreaseAction` upgrades Burns in the discard and draw piles and adds three Burn+ | `495e4e9` |
 | 1002, 18 | A dying Mugger used no AI roll, which shifted later moves | `Mugger.die` calls `playDeathSfx`, which rolls `aiRng` | `191b7f1` |
