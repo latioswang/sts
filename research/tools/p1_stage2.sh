@@ -6,11 +6,13 @@
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 D=research/vf/data; SL=fs1206500n1000; MAIN=/home/user/sts_lightspeed_fid/build/fair_eval
-for w in 16 17 18 19 20 21 22; do n=poldata_p1_w${w}_z
+for w in 16 17 19 20 21 22; do n=poldata_p1_w${w}_z   # amendment 14:25 UTC: w18 optional (stalled; added below if stored)
   for i in $(seq 1 96); do c=$(python3 research/tools/data_sync.py ls 2>/dev/null | awk -v n=$n '$1==n{print $2}'); [ -n "$c" ] && break; echo "waiting for $n"; sleep 300; done
   python3 research/tools/data_sync.py pull $n && rm -rf /home/user/sts/research/vf/data/$n/_hf/.cache /root/.cache/huggingface/xet
   python3 research/vf/runstore.py unpack $D/$n/all $D/poldata_p1/all
 done
+c18=$(python3 research/tools/data_sync.py ls 2>/dev/null | awk '$1=="poldata_p1_w18_z"{print $2}')
+if [ -n "$c18" ]; then python3 research/tools/data_sync.py pull poldata_p1_w18_z && python3 research/vf/runstore.py unpack $D/poldata_p1_w18_z/all $D/poldata_p1/all; else echo "P1: poldata_p1_w18_z not stored -> trained on six sets (24,000 games)"; fi
 ls $D/poldata_p1/all | wc -l
 best=""; bce=9
 for h in 64 128 256; do
