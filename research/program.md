@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 12:20 UTC
+### Current state (update after every batch) — 2026-11-05 13:22 UTC
+- **13:22 UTC: P1 data 3/7 in the store** (`PUSH poldata_p1_w19_z / w20_z / w22_z DONE: 5 files` each; p1w20 4,000 games packed
+  146.4 MB verify OK; p1w22 146.1 MB) — workers p1w19, p1w20, p1w22 archived; p1w16–18, p1w21 finishing. p1_stage2.sh
+  restarted after its 2-hour stop (it waits; pulls/unpacks are idempotent). X1 ≈ 17:00.
 - **12:20 UTC:** P1 workers ≈ 2/3 through generation (p1w22: 27/40 chunks at 11:59, after one resumed 2-hour stop) — data
   ≈ 13:30–14:00; X1 ≈ 17:00. Both coordinator pipelines alive (runq restarted 12:05 after its 2-hour stop; p1_stage2.sh
   waiting). p1w18 log merged.
