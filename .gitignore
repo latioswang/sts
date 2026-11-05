@@ -9,3 +9,8 @@ research/queue.log
 research/.queue.lock
 research/queue.current
 research/queue.txt.tmp
+
+# Generated files
+__pycache__/
+gmon.out
+.DS_Store

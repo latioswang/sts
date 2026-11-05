@@ -13,11 +13,11 @@ The [progress log](PROGRESS.md) has the steps taken, the full results and what's
 |---|---|
 | Game launch and Communication Mod connection | Works |
 | Mirror mode, ascension 0 | 60 seeds played to the end of each run, all with no difference on their latest run |
-| Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference |
+| Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference. The Heart and the Shield and Spear were also forced onto floor 1 at ascensions 0 and 20, with no difference |
 | Mirror mode, ascension 20 | 27 of 28 seeds with items injected had no difference, and 2105 stopped after a Discovery. All 20 seeds without items had no difference, most ending early when the agent died |
 | Mirror mode, ascensions 5, 10, 15, 18 | All 28 seeds with items injected had no difference on their latest run |
 | Other classes' cards, inside Ironclad runs | 26 seeds each for Defect, Silent and Watcher. 5 differences found and fixed, and all 14 reruns had none |
-| Runs started as other classes | Just started. Use `--class DEFECT`, `THE_SILENT` or `WATCHER` |
+| Runs started as other classes | About 80 seeds each for Defect, Silent and Watcher, all with no difference on their latest run, at ascension 0 and at ten others. Use `--class DEFECT`, `THE_SILENT` or `WATCHER` |
 | Live mode | Three real runs: two wins and one loss |
 | Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
 | JSON to simulator converter | Passes the offline round trip |
