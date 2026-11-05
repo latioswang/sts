@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 06:30 UTC
+### Current state (update after every batch) — 2026-11-05 07:17 UTC
+- **07:17 UTC: Phase B20b pre-registered and queued** (A20 with less search: bosses x0.5; sims 400).
 - **06:30 UTC: Phase B20 closed — no keep; extra boss search does not help A20.** Pasted (pooled val,dev2,dev3, n=500 vs
   `a20_relic20` win 0.056 floor 28.93): `a20_bm15` win 0.038 floor 28.51 dscore −0.0260 P=0.033; `a20_bm2` win 0.030 floor
   28.38 dscore −0.0364 P=0.003; `a20_bm2x` (+compute, informational) win 0.026 floor 28.51 dscore −0.0378 P=0.005. Boss-floor
@@ -1551,6 +1552,13 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase B20b — less search on A20 (pre-registered 2026-11-05 07:17 UTC, before any of these games).** Why: B20's
++compute cell (bosses x2 at no cost elsewhere) lost 3 points (P=0.005), so either the search misbehaves at higher
+simulation counts or 500 is past the useful point at A20. Cells (pooled-500 vs `a20_relic20`; both use less compute, so
+both are keep candidates): `a20_bm05` (boss_mult=0.5: bosses at 250) and `a20_s400` (sims=400 everywhere). Predictions:
+`a20_bm05` keep LOW, `a20_s400` keep LOW; if both lose, 500 is near a local optimum and the B20 +compute loss stays
+unexplained (and worth a mechanism check: potion use / rollout horizon at high sims).
 
 **Phase B20 — A20 search budget moved to boss fights (pre-registered 2026-11-05 06:18 UTC, before any of these games).**
 Why: the A20 best (`a20_relic20`, pooled 500: 28 wins) dies at a boss in 186 of 472 losses (floor 16: 84, floor 33: 102;
