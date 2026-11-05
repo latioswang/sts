@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 00:16 UTC
+### Current state (update after every batch) — 2026-11-05 00:42 UTC
+- **00:42 UTC: Phase R8 — no keep** (`a20_r121` pooled 500: 3.6% vs 5.6%, P=0.009; fits pasted in "Phase R8 results");
+  R8b (scale-matched weights, one cell) pre-registered and queued.
 - **00:16 UTC: all R8 data in the store; workers archived.** Pasted: r8w10 `SV GEN rundata_a20_w10 DONE: 30000 files`, holdout
   file count 1000 (seeds 1000000–1000999), `PUSH rundata_a20_hold_z DONE: 2 files`, `PUSH rundata_a20_w10_k32_z DONE: 32
   files`, `PUSH rundata_a20_w10_z DONE: 31 files`; r8w12 `PUSH rundata_a20_w12_z DONE: 31 files`. Sessions r8w10, r8w12
@@ -1517,6 +1519,24 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R8 results (pasted 2026-11-05 00:42 UTC) and R8b (pre-registered 00:42 UTC, before any R8b game).**
+
+    VR2 id=102 runs=80100 hidden=256 best_epoch=1 holdout_rmse=0.3597 holdout_corr=0.537 predict_mean_rmse=0.4233
+    VR2 id=103 runs=332100 hidden=64 best_epoch=2 holdout_rmse=0.3384 holdout_corr=0.603 predict_mean_rmse=0.8362
+    VR2 id=104 runs=332100 hidden=256 best_epoch=1 holdout_rmse=0.3439 holdout_corr=0.587 predict_mean_rmse=0.8362
+    VR SELECT: vr_103 -> vr_121; VR GATE OK: 0.338425 < 0.836155 (also < the A20-only predict-mean 0.4233)
+    LEAKTEST checked=107 mismatches=0 PASS (A20 params + vr_model=121)
+    a20_r121 pooled val,dev2,dev3: n=500 win=0.036 floor=28.07 vs a20_relic20 win=0.056 floor=28.93
+             dscore=-0.0366 dwin=-0.020 P=0.009 -> discard (slices -0.037 / -0.041 / -0.033)
+
+Predictions: A20-only beats `vr_61`/`vr_81` on the A20 holdout — yes (0.345 vs 0.880 / 0.421); mixed beats A20-only — yes
+(0.338 vs 0.345); A20 keep (LOW–MED) — failed. The A20 win rate fell back to exactly the pre-relic best's 3.6%.
+Scale check (computed after the result, no outcome used): prediction SD over the 93,746 A20 holdout states — `vr_41` 0.4371
+(the model the A20 best was tuned with), `vr_61` 0.2667, `vr_81` 0.3399, `vr_121` 0.2740. With the same bonus 20, `vr_121`
+pulls ≈ 0.63x as hard as `vr_41`, i.e. both hooks were weakened. [INFERRED, post-hoc: it accommodates the result; the
+cell below tests whether it predicts.] **R8b:** `a20_r121s32` = A20 best + vr_model=121, vr_bonus=32, vr_relic_w=32
+(20 x 0.4371/0.2740 = 31.9; set from prediction spread only), pooled-500 rule vs `a20_relic20`. Prediction: keep LOW.
 
 **Phase R8 — an A20 run value (pre-registered 2026-11-04 20:16 UTC, before any A20 data exists).** Why: the A10-trained
 `vr_81` kept on A10 (R7, +5.3 val, +7.0 dev) but lost on A20 (pooled −1.6 win, every slice negative): the run value must

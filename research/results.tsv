@@ -492,3 +492,6 @@ bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase 
 186dc28	dev2.a20	100	0	0.030	26.76	0.5541	-0.0247	0.235	info	a20_r81: [a20 pooled500 slice] Phase R7: A20 best with the A10-trained run value vr_81 (cards + relics)
 186dc28	dev3.a20	100	0	0.030	25.68	0.5329	-0.0498	0.069	info	a20_r81: [a20 pooled500 slice] Phase R7: A20 best with the A10-trained run value vr_81 (cards + relics)
 78edf29	dev.a10	100	0	0.340	38.95	1.1037	+0.1116	0.952	info	a10_r81_dev: VERIFY: a10_r81 on dev vs a10_relic20_dev (replication of a a10 keep)
+758c5fa	val.a20	300	0	0.040	29.28	0.6133	-0.0366	0.038	discard	a20_r121: [a20 pooled500] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics) [vr_model=121] pooled dscore=-0.0366 dwin=-0.020 P(improve)=0.009
+758c5fa	dev2.a20	100	0	0.020	26.44	0.5380	-0.0408	0.041	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
+758c5fa	dev3.a20	100	0	0.040	26.06	0.5502	-0.0325	0.193	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
