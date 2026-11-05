@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 11:21 UTC
+### Current state (update after every batch) — 2026-11-05 12:20 UTC
+- **12:20 UTC:** P1 workers ≈ 2/3 through generation (p1w22: 27/40 chunks at 11:59, after one resumed 2-hour stop) — data
+  ≈ 13:30–14:00; X1 ≈ 17:00. Both coordinator pipelines alive (runq restarted 12:05 after its 2-hour stop; p1_stage2.sh
+  waiting). p1w18 log merged.
 - **11:21 UTC: P1 stage 2 pipeline tested and armed** (`research/tools/p1_stage2.sh`, standalone; waits for the seven
   `poldata_p1_w*_z` sets, ≈ 14:30 UTC). End-to-end smoke test on 20 fork games (pf_log, sims 200): trainer runs, side build
   (`research/tools/p1_side_build.sh`: copy of research/ with the candidate prior, own build dir on the fork) compiles, leak
