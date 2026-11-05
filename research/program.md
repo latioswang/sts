@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 16:34 UTC
+### Current state (update after every batch) — 2026-11-05 17:19 UTC
+- **17:19 UTC: hourly check.** X1: x1w15 done and merged (`SV GEN rundata_x1_w15 DONE: 30000 files`; k32 subsample 957,558 rows, packed 2566.3 MB -> 57.7 MB (44.5x), full 13007.0 MB -> 179.8 MB (72.4x), both verify OK and pushed); session archived. x1w14 at SV chunk 271/300 at 16:55 (ETA ~17:45 + pack/push); the coordinator queue waits on `rundata_x1_w14_k32_z`. P1 stage 2b: 8,004 training games unpacked, 2,931,776 decisions / 16,306,899 actions; val baselines uniform CE 0.2859, target entropy 0.2165; h64 training in epoch 1. p1w18 still awaits the owner in its own session (not needed for 2b).
 - **16:34 UTC: P1 stage-2 amendment 2 (before the full training run).** One-set trial (`poldata_p1_w16`, 4,000 games):
   `decisions=1459511 actions=8134094`; `ep 1 val_ce=0.2481 (uniform 0.2858, floor 0.2166, captured 54%) 606s` — already
   above v1 (49% captured after 8 epochs at 500-sim targets). Six sets ≈ 8.8M decisions: 8 epochs x 3 sizes would take > a
