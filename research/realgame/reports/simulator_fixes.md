@@ -89,6 +89,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2504, 36 | A Darkling killed by Thorns on its own turn revived a turn early | `Darkling.damage` queues a `SetMoveAction` that lands after its `RollMoveAction`, so the wait comes back | `766198c` |
 | 2417, 44 | A Parasite from Writhing Mass paid no Ceramic Fish gold | `AddCardToDeckAction` triggers `onObtainCard` during the fight, and the simulator's fight-end add was overwritten by the player's gold | `c1e59d6` |
 | 8054, 18 | After Vault, monsters that count their own turns moved a turn early, because the count came from the battle's turn number | Looter's `slashCount`, The Maw's `turnCount`, the Heart's `moveCount` and the like don't move on a turn the monster doesn't take | `db710c3` |
+| 8101, 33 | Mutagenic Strength always wore off, and Gremlin Visage's Weak always landed, with Clockwork Souvenir | Those relics go on top of the queue at battle start, so the later one acts first, and its Artifact can stop the Strength's loss. Visage's Weak is at the bottom, so the Artifact stops that too | `e869a20` |
 | 8201, 42 | Nightmare's copies came after every other power's cards at the start of a turn | Each `NightmarePower` takes its turn among the powers, in the order gained | `47b4456` |
 | 8305, 33 | A Bronze Orb taking the last card in the draw and discard piles got Stasis | `ApplyStasisAction` looks for two empty piles on every frame, so the next frame ends it before it applies the power, and the card stays in limbo for the rest of the fight | `35241d7` |
 | 8002, 25 | A Byrd's Flight and a Shelled Parasite's Plated Armor came off as the hit landed, so the rest of the card saw a stunned monster and Go for the Eyes gave no Weak | Both powers queue `ReducePowerAction` behind what's already queued, and `onRemove` queues the change of move behind that | `494aa45` |
@@ -179,6 +180,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
 | 1101, 22; 1103, 24 | Orrery's and Cauldron's cards in a shop rolled a 3% rare chance | `ShopRoom` sets `baseRareCardChance` to 9 | `3347784` |
 | code | Removing a card with all three bottles full, or removing a curse, left the bottles' indices stale; a removed Necronomicurse stayed gone | Found in [jdc5549/sts_lightspeed](https://github.com/jdc5549/sts_lightspeed)'s fix list; `onRemoveFromMasterDeck` adds a new Necronomicurse | `8bf1499` |
+| 8103, 11 | Omamori stopped a curse from Note For Yourself | The event adds the card itself and runs `onObtainCard`, and Omamori is in the obtain effects it doesn't use | `dfda16c` |
 | 8200, 0 | Neow's "lose your starting relic" looked for the class's starting relic by name | `NeowReward` takes whatever is in slot 0, which a boss relic can already hold | `0d65403` |
 | 7459, 0 | A map node on floor 8 or 14 that got no room counted as a monster at once, so the node to its right couldn't be one | It stays empty until `lastMinuteNodeChecker`, after every node has had its turn | `9fab0df` |
 
