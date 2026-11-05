@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 14:21 UTC
+### Current state (update after every batch) — 2026-11-05 14:22 UTC
+- **14:22 UTC: P1 amendment (before any training):** p1w18 declines to restart its runner without the owner confirming in its
+  own session (correct under its rules: a coordinator message is not owner authorization). Stage 2 now waits for the six
+  other sets (24,000 games) and includes `poldata_p1_w18_z` only if it is in the store by then; nothing else changes
+  (selection rule, evaluation slice fs1206500n1000, arms). p1_stage2.sh restarted with this change.
 - **14:21 UTC:** P1 data 4/7 stored (p1w17 `PUSH poldata_p1_w17_z DONE: 5 files`; session archived); p1w16 and p1w21 in their
   last chunks (≈ 35–40 min). **p1w18 stalled 12:07–14:20** at 15/40 chunks: its runner hit the 2-hour limit and it waited for
   a restart OK it already had (its task carries the owner's approval) — reminded by message; ≈ 3 h left after restart, so P1
