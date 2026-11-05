@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 01:26 UTC
+### Current state (update after every batch) — 2026-11-05 04:17 UTC
+- **04:17 UTC:** idle 01:26–04:16 (the session's worker process restarted; the 02:15 and 03:16 wakes were delivered at
+  04:16). Now pulling the A0 holdout `rundata` back (deleted locally on 11-03 for disk), packing it to shards (`rundata_z`)
+  and scoring `vr_41` / `vr_61` / `vr_81` / `vr_121` on it (informational; decides whether an A0 cell with `vr_121` is worth
+  pre-registering).
 - **01:26 UTC: Phase R9 closed — no keep.** `vr9srel` dscore −0.0046, dwin −0.003, P=0.343; `vr9srelg` dscore +0.0026, dwin
   +0.003, P=0.559 (vs `vr5relic20`) -> both discard. Predictions LOW–MED / LOW held (no effect either way). Shop relics are
   a small decision at A0 (few shops with two affordable relics) [INFERRED, LOW]. Runner idle.
