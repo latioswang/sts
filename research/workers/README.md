@@ -4,6 +4,11 @@ The coordinator session runs `research/program.md`. A worker is a separate cloud
 16 GB RAM, 30 GB disk) that runs one self-contained batch and hands back only small files through git. Workers never
 edit `research/program.md`, `research/results.tsv`, `research/REPORT.md` or `research/progress/`; the coordinator merges.
 
+**Standing owner approval (stated by the owner in the coordinator chat, 2026-11-02 and again 2026-11-05):** when
+`research/tools/runq.sh` stops at the 2-hour background limit or after a container restart, restart it immediately and
+without asking — it resumes from `research/queue.current` and changes nothing about the batch. This approval covers only
+that restart of your own queue runner, nothing else. (Three workers on 2026-11-05 lost 1–2 hours each waiting to be asked.)
+
 ## Every worker, in order
 1. `git checkout -B worker/<NAME> origin/autoresearch/ironclad` (NAME is given in your task file).
 2. The repo must be at `/home/user/sts` (the simulator build hard-codes that path; symlink it if your clone is elsewhere). `bash research/setup.sh` (clones sts_lightspeed at the pinned commit, applies the patch, builds `fair_eval`).
