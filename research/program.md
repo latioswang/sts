@@ -102,7 +102,16 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 06:18 UTC
+### Current state (update after every batch) — 2026-11-05 06:30 UTC
+- **06:30 UTC: Phase B20 closed — no keep; extra boss search does not help A20.** Pasted (pooled val,dev2,dev3, n=500 vs
+  `a20_relic20` win 0.056 floor 28.93): `a20_bm15` win 0.038 floor 28.51 dscore −0.0260 P=0.033; `a20_bm2` win 0.030 floor
+  28.38 dscore −0.0364 P=0.003; `a20_bm2x` (+compute, informational) win 0.026 floor 28.51 dscore −0.0378 P=0.005. Boss-floor
+  deaths: base 186, bm15 177, bm2 175, bm2x 184. Summed secs bm15 766, bm2 782, bm2x 1080 (= 1.38x bm2, matching the +47%
+  calibration); the base's logged 465 s is from an earlier, faster session (this session's calibration: 1.57 s/game vs the
+  base's recorded 0.93) so neutrality vs the base is shown only through the calibration. Predictions: bm15 LOW–MED (failed),
+  bm2 LOW (held), bm2x positive MED (failed: more boss search at no cost elsewhere still lost 3 points). Reading: at 500 sims
+  the A20 boss fights are not search-limited — the losses come from the deck/HP the run arrives with [INFERRED, MED]; the
+  extra-search result is unexplained (a pathology at high simulation counts is possible; not investigated). Runner idle.
 - **06:18 UTC: Phase B20 pre-registered and queued** (A20: search budget moved to boss fights, compute-neutral; boss fights
   are 39% of A20 losses and 47% of its search compute).
 - **05:38 UTC: Phase R10 closed — no keep.** `a0_r121` dscore +0.0014, dwin +0.000, P=0.505; `a0_r121s` (scale-matched)

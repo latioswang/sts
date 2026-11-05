@@ -146,6 +146,12 @@
    "label": "Phase R8: A20 run value — fit 0.880 -> 0.338 on the A20 holdout, card picks + relics no keep (pooled 500: 3.6% vs 5.6%; scale-matched 32: still negative)",
    "status": "done",
    "when": "2026-11-05 00:45"
+  },
+  {
+   "id": "B20",
+   "label": "A20 boss-search reallocation: no keep (compute-neutral x1.5 / x2 and +compute x2 all lose ~2–3 pts)",
+   "status": "done",
+   "when": "2026-11-05 06:30"
   }
  ],
  "phases": [
