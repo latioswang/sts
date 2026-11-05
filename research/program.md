@@ -102,7 +102,20 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 07:23 UTC
+### Current state (update after every batch) — 2026-11-05 07:49 UTC
+- **07:49 UTC: SELECTION BIAS CONFIRMED (A20 diagnostic, 1,000 fresh seeds 1,200,000–1,200,999, report only).** Pasted:
+
+      a20_relic20_fresh  fresh a20 n=1000 win=0.044 floor=28.88 score=0.6094±0.0119   (pooled-500 selection seeds: 0.056 / 28.93)
+      a20_vr2b20_fresh   fresh a20 n=1000 win=0.043 floor=28.27 score=0.5965±0.0116   (pooled: 0.036 / 28.60)
+      a20_bm2x_fresh     fresh a20 n=1000 win=0.045 floor=28.96 score=0.6120±0.0120   (pooled: 0.026 / 28.51)
+      paired: relic20 vs vr2b20 dscore +0.0128 dwin +0.001 P=0.975; relic20 vs bm2x dscore −0.0027 dwin −0.001 P=0.355
+
+  All three predictions held: `a20_relic20` 5.6% -> 4.4% on fresh seeds; the relic gain vs `a20_vr2b20` shrinks from +2.0 win
+  points to +0.1 (score +0.013 still P=0.975: the keep is real but is a floor gain); `a20_bm2x`, "−3.0 points, P=0.005" on
+  the selection seeds, is a dead heat on fresh seeds. **Consequence: every comparison against a best on the seeds that
+  selected it is biased against the challenger (and every kept number is inflated)** — on A20 by ≈ 1–3 win points; the A10
+  val -> test drop (38.7% -> 32.2%) has the same signature. Today's A20 discards B20/B20b/R8/R8b were judged against an
+  inflated base; their fresh-seed effects are unknown except `a20_bm2x` (≈ 0). Protocol amendment below.
 - **07:23 UTC: B20b closed (both lose: bm05 2.4%, s400 3.8% vs 5.6%); selection-bias diagnostic on 1,000 fresh A20 seeds
   pre-registered and queued** (report only).
 - **07:17 UTC: Phase B20b pre-registered and queued** (A20 with less search: bosses x0.5; sims 400).
