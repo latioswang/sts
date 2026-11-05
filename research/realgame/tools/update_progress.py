@@ -40,9 +40,9 @@ CLASS_LABELS = {"ironclad": "铁甲战士", "silent": "静默猎手", "defect": 
 # What each class still needs, in order, for the classes table.
 CLASS_NEXT = {
     "ironclad": "继续跑新种子，直到 300 局无差异",
-    "silent": "正在用该职业开局，目标 60 局",
-    "defect": "正在用该职业开局，目标 60 局",
-    "watcher": "正在用该职业开局，目标 60 局",
+    "silent": "专属遗物还没打够；继续跑新种子，直到 300 局无差异",
+    "defect": "专属遗物还没打够；继续跑新种子，直到 300 局无差异",
+    "watcher": "专属遗物还没打够；继续跑新种子，直到 300 局无差异",
 }
 FIELD_LABELS = {"plays": "打出", "upgraded": "升级后打出", "signatures": "情境", "in_hand": "在手牌回合", "runs": "局数", "uses": "使用", "fights": "战斗",
                 "visits": "遇到", "options_chosen": "选过的选项比例", "runs_to_floor": "到 17 层以上的局", "clean_distinct_seeds": "无差异的不同种子"}

@@ -283,7 +283,7 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 | `ReplayClient`, `tools/export_traces.py`, `tools/run_regression.py`, `regression_baseline.tsv` | The regression test: recordings stand in for the game |
 | `tools/coverage.py`, `tools/update_progress.py` | The coverage score, and a refresh of the test, the score and the dashboard's files |
 | `Scenario`, `scenario_mod/` | Scenario files and the test-only mod they apply through |
-| `scenario_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached, and list what has |
+| `scenario_plan.py`, `tools/coverage_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached or what the score says is short, and list what has |
 | `StateConverter` | Game JSON to simulator state |
 | `Live` | Live mode |
 | `CommJson`, `SelfTest` | Offline converter round trip |

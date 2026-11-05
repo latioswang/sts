@@ -111,7 +111,7 @@ Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
 
 | Category | Points | Target for each item |
 |---|---|---|
-| Cards | 35 | 10 plays, 5 upgraded, 8 different situations. Curses and statuses: 5 turns in hand |
+| Cards | 35 | 10 plays, 5 upgraded, 8 different situations. Curses, statuses and cards that can't be played: 5 turns in hand |
 | Relics | 15 | Held in 5 runs |
 | Potions | 5 | Used 5 times |
 | Monsters | 15 | 3 fights below ascension 17, and 3 from 17 up |
@@ -122,16 +122,16 @@ Measured on 2026-11-04 on this Mac, with `fidelity` at `729fa36`:
 
 The class target comes from the rule of three: with no failure in n independent runs, the chance of a failure per run is below 3/n at 95% confidence. So 60 clean runs bound it at 5%, and 300 at 1%. The other targets are judgment calls and can change. A situation is a combination of Strength, Weak, Frail, a Vulnerable or Weak target, a target with block, several monsters, an elite, a boss, and high ascension.
 
-On 2026-11-05 the score is 81.5.
+On 2026-11-05 the score is 95.0. About 1 of those points came from correcting the count rather than from new runs: 15 powers the game never applies and 3 cards that aren't in its library no longer count, and Reflex, Tactician and Deus Ex Machina, which can't be played, count in turns held.
 
 | Class | Cards played | Clean full runs | What's left |
 |---|---|---|---|
-| Ironclad | 75 of 75 | 116 | More new seeds, up to 300 |
-| Defect | 74 of 75, inside Ironclad runs | 0 | Start runs as Defect |
-| Silent | 73 of 75, inside Ironclad runs | 0 | Start runs as Silent |
-| Watcher | 74 of 75, inside Ironclad runs | 0 | Start runs as Watcher |
+| Ironclad | 75 of 75 | 221 | More new seeds, up to 300 |
+| Defect | 75 of 75 | 62 | Its relics, and new seeds up to 300 |
+| Silent | 73 of 73, and 2 that can't be played | 61 | Its relics, and new seeds up to 300 |
+| Watcher | 74 of 74, and 1 that can't be played | 62 | Its relics, and new seeds up to 300 |
 
-Until now every run started as Ironclad. Mirror mode can now start as any class, though the agent's choices outside combat are tuned for Ironclad. The card totals above leave out Discipline, Unraveling and Impulse, which aren't in the game's card library, but the score still counts them for now.
+Mirror mode starts as any class, though the agent's choices outside combat are tuned for Ironclad.
 
 A score of 100 means these targets were met. It doesn't prove the simulator matches everywhere.
 
@@ -169,8 +169,8 @@ Anything borrowed gets the same treatment as our own fixes: read it against the 
 
 ## What's next
 
-1. **Runs as the other classes.** Mirror mode can now start as any class (`--class`). Run them up to the targets in [Coverage and score](#coverage-and-score), and fix what they find.
-2. **What's still at zero in the coverage list.** Mostly other classes' relics and potions, which come with item 1, and the rest of the ascension levels.
+1. **What the score still says is short.** [`tools/coverage_plan.py`](tools/coverage_plan.py) gives each class its own relics, cards and potions in as many seeds as they're short, and `plans/plan_act4.tsv` puts act 4's fights on floor 1 at ascension 0 and 20. Run them, fix what they find, and repeat. Events can't be forced yet.
+2. **The other classes at each ascension.** Every class is playing the levels that had fewer than three runs to floor 17.
 3. **Empty Cage and Tiny House.** The agent never takes them, so they've only been compared with the game's code.
 4. **The floor 50 deaths** above.
 

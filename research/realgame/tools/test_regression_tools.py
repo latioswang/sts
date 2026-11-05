@@ -3,6 +3,7 @@
 import json
 import unittest
 
+from coverage import RunScan, Tally, without_unreachable
 from export_traces import find_note_card, find_scenario, seed_from_text, split_runs, state_items, strip_state
 from run_regression import Row, compare, kind_of, later_runs_got_further, mark_past_real_stop
 
@@ -15,6 +16,33 @@ def game_line(game_state: dict) -> str:
 
 def transcript(*entries: tuple) -> list[str]:
     return [json.dumps({"t": i, "dir": d, "line": line}) for i, (d, line) in enumerate(entries)]
+
+
+class UniverseTest(unittest.TestCase):
+    def test_what_no_run_can_reach_does_not_count(self) -> None:
+        universe = {"cards": {"Bash": {"class": "ironclad"}, "Impulse": {"class": "defect"}}, "powers": ["Winter", "Strength"], "relics": {"Anchor": None}}
+        reachable = without_unreachable(universe)
+        self.assertEqual(list(reachable["cards"]), ["Bash"])
+        self.assertEqual(reachable["powers"], ["Strength"])
+        self.assertEqual(reachable["relics"], {"Anchor": None})
+        self.assertIn("Impulse", universe["cards"])  # the cached copy stays as it was
+
+    def test_a_card_that_cant_be_played_counts_in_turns_held(self) -> None:
+        universe = {"cards": {"Reflex": {"class": "silent", "kind": "card"}, "Bash": {"class": "ironclad", "kind": "card"}},
+                    "relics": {}, "potions": [], "monsters": [], "events": [], "powers": []}
+        cards = Tally(universe).targets()["cards"]
+        self.assertEqual(list(cards["Reflex"]), ["in_hand"])
+        self.assertIn("plays", cards["Bash"])
+
+    def test_a_card_held_or_exhausted_on_draw_is_seen(self) -> None:
+        scan = RunScan("t", ["START", "WATCHER", "0", "1"], 0.0)
+        reflex = {"id": "Reflex", "uuid": "a", "type": "SKILL"}
+        deus = {"id": "DeusExMachina", "uuid": "b", "type": "SKILL"}
+        strike = {"id": "Strike_P", "uuid": "c", "type": "ATTACK"}
+        for turn in (1, 1, 2):
+            scan.scan_state({"floor": 3, "combat_state": {"turn": turn, "monsters": [], "player": {}, "hand": [reflex, strike], "exhaust_pile": [deus, strike]}})
+        held = [e[2] for e in scan.run["events"] if e[0] == "u"]
+        self.assertEqual(sorted(held), ["DeusExMachina", "Reflex", "Reflex"])  # per turn in hand, per fight once drawn
 
 
 class SeedTest(unittest.TestCase):

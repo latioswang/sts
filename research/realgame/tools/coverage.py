@@ -26,7 +26,7 @@ REALGAME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REALGAME)  # python3 -I leaves the script's folder off the path
 from coverage_report import FILLER_RELICS, game_universe  # noqa: E402
 
-CACHE_VERSION = 4
+CACHE_VERSION = 5
 
 # Targets. Below its target an item scores count/target, and a category is the mean of its items.
 # A card has to be played often enough, upgraded, and in different situations, since most card bugs need an interaction
@@ -36,7 +36,9 @@ CACHE_VERSION = 4
 # ascension pairs count towards this.
 CARD_PLAYS, CARD_UPGRADED, CARD_SIGNATURES = 10, 5, 8
 CARD_WEIGHTS = (0.5, 0.25, 0.25)
-UNPLAYABLE_IN_HAND = 5  # curses and statuses, counted in turns held
+UNPLAYABLE_IN_HAND = 5  # curses, statuses and the cards below, counted in turns held
+# Class cards that can't be played. Deus Ex Machina goes to the exhaust pile as it's drawn, so it counts once a fight.
+CARDS_NEVER_PLAYED = frozenset({"DeusExMachina", "Reflex", "Tactician"})
 RELIC_RUNS, POTION_USES, POWER_RUNS = 5, 5, 3
 MONSTER_FIGHTS = 3  # in each ascension band
 EVENT_VISITS = 3
@@ -52,6 +54,22 @@ COMPLETED_ROW_TOLERANCE = 3  # commands a mirror row can differ from a run by, f
 OK_REPLAY_STATUSES = {"completed", "trace_end", "passed", "pass", "ok"}
 CLASSES = ("ironclad", "silent", "defect", "watcher")
 JOBS = 4
+# What no run can reach, so it doesn't count against the score. Checked in the jar: the game never builds these powers (no
+# other class refers to them, or only reads their id), and these cards aren't in CardLibrary. One that does turn up in a
+# run is counted after all, since main adds every power it sees.
+UNREACHABLE_POWERS = frozenset({
+    "AngelForm", "Attack Burn", "CannotChangeStancePower", "Conserve", "GrowthPower", "Lightning Mastery", "NoSkills",
+    "Nullify Attack", "OmnisciencePower", "RechargingCore", "Skill Burn", "StrikeUp", "TimeMazePower", "Vault", "Winter",
+})
+UNREACHABLE_CARDS = frozenset({"Discipline", "Impulse", "Unraveling"})
+
+
+def without_unreachable(universe: dict) -> dict:
+    return {
+        **universe,
+        "cards": {c: info for c, info in universe["cards"].items() if c not in UNREACHABLE_CARDS},
+        "powers": [p for p in universe["powers"] if p not in UNREACHABLE_POWERS],
+    }
 
 
 def norm_label(text: str) -> str:
@@ -100,8 +118,11 @@ class RunScan:
                     power = re.sub(r"^TheBomb\d+$", "TheBomb", p["id"])  # each Bomb's id has a running number
                     self.once(("w", power), ["w", k, power])
             for c in combat.get("hand", ()):
-                if c.get("type") in ("CURSE", "STATUS"):
+                if c.get("type") in ("CURSE", "STATUS") or c.get("id") in CARDS_NEVER_PLAYED:
                     self.once(("u", floor, combat.get("turn"), c.get("uuid")), ["u", k, c.get("id")])
+            for c in combat.get("exhaust_pile", ()):
+                if c.get("id") in CARDS_NEVER_PLAYED:
+                    self.once(("u", floor, c.get("uuid")), ["u", k, c.get("id")])
         if gs.get("screen_type") == "EVENT":
             screen = gs.get("screen_state", {})
             eid = screen.get("event_id", "")
@@ -293,7 +314,7 @@ class Tally:
         """{category: {item: {field: (count, target, weight)}}}"""
         u, cards = self.universe, {}
         for cid, info in u["cards"].items():
-            if info["kind"] == "unplayable":
+            if info["kind"] == "unplayable" or cid in CARDS_NEVER_PLAYED:
                 cards[cid] = {"in_hand": (self.in_hand[cid], UNPLAYABLE_IN_HAND, 1.0)}
             else:
                 cards[cid] = {"plays": (self.plays[cid], CARD_PLAYS, CARD_WEIGHTS[0]),
@@ -477,7 +498,7 @@ def main() -> None:
     t_start = time.time()
     all_runs = load_runs(args.logs, JOBS)
     t_parsed = time.time()
-    universe = load_universe(args.jar, args.javap, args.logs)
+    universe = without_unreachable(load_universe(args.jar, args.javap, args.logs))
     universe["powers"] = sorted(set(universe["powers"]) | {e[2] for r in all_runs for e in r["events"] if e[0] == "w"})
     replay = load_replay(args.replay_results) if args.replay_results else None
     completed, live = load_clean_rows(args.logs)
