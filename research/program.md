@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 09:16 UTC
+### Current state (update after every batch) — 2026-11-05 09:24 UTC
+- **09:24 UTC: MILESTONE M-A10 CONFIRMED.** `a10_r81 test a10 n=500 crash=0 win=0.368 floor=38.03 score=1.1137±0.0313`:
+  184/500 = 36.8%, 95% Wilson CI [32.7%, 41.1%]; criterion (point estimate ≥ 35%, declared 08:53 before the run) met. Second
+  A10 test use (the first, `a10_relic20` 32.2%, did not confirm). Consistent with the fresh-slice 37.2% (1,000 seeds).
+  Speed measurement (train seeds 300100–300199, A0 best, 4 threads; timing only): sims 500 -> 110.2 s / 100 games, 83 wins,
+  floor 48.5; sims 50 -> 10.5 s, 62 wins, floor 44.6; sims 5 -> 1.8 s, 33 wins, floor 34.7 (search is ≈ 98% of game cost).
 - **09:16 UTC: honest levels of all four bests (fresh slices, report only):** A0 `vr5relic20` 80.4% (500; selection 84.7%);
   A10 `a10_r81` 37.2% (1,000; 44.0%); A20 `a20_r121s32f` 6.35% (2 x 1,000); Heart `heart_relic20` 12.7% Heart wins (1,000:
   `heart_relic20 fs1204500n1000 win=0.127 floor=48.05 score=1.0220 act4=0.606`; selection 15.0%). All three "below"

@@ -164,6 +164,12 @@
    "label": "Phase X1: exploration data for the run value (90,000 A0 games, 20% random card/relic picks), then pure-V vs KB+V",
    "status": "running",
    "when": ""
+  },
+  {
+   "id": "M-A10",
+   "label": "A10 ≥ 35% confirmed on test: a10_r81 184/500 = 36.8% [32.7, 41.1]",
+   "status": "done",
+   "when": "2026-11-05 09:24"
   }
  ],
  "phases": [
