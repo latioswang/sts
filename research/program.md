@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 00:45 UTC
+### Current state (update after every batch) — 2026-11-05 01:17 UTC
+- **01:17 UTC: Phase R9 pre-registered and queued** (run value on shop relics; two A0 cells vs `vr5relic20`).
 - **00:45 UTC: R8b — no keep; the A20 learned run value line is closed for now.** `pooled val,dev2,dev3 [act3]: n=500  a20_r121s32 win=0.050 floor=28.52  a20_relic20 win=0.056 floor=28.93  dscore=-0.0140 dwin=-0.006 P(improve)=0.204` (slices −0.011 / −0.019 /
   −0.017). Scale-matching moved the loss from −0.037 to ≈ −0.015 but not above zero: the weakened pull explains part of R8,
   not all. Prediction (LOW) held. A20 best stays `a20_relic20` (with the A0-trained `vr_41`). Runner idle.
@@ -1522,6 +1523,16 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R9 — the run value on shop relics (pre-registered 2026-11-05 01:17 UTC, before any of these games).** Why: the run
+value kept wherever it chose between *items* (boss relics on all four tracks, card picks) and lost where it replaced HP /
+removal rules (R6). Shop relics are an item choice made today by slot order (the first affordable relic is bought). Hook
+`vr_shop_relic` (default off; build: `repro_check vr5relic20 16` -> 0 of 16 differ; leak tests: 98 checked, 0 mismatches
+for both modes): among affordable shop relics, the one with the largest V gain with its price paid in gold; mode 1 always
+buys it (only the choice among relics changes), mode 2 buys only if the gain > 0 (otherwise the shop goes on to potions and
+cards). Cells (A0 val-300 vs `vr5relic20`, usual rules): `vr9srel` (mode 1), `vr9srelg` (mode 2). Scale note (no outcome
+used): prediction SD on the A10 holdout `vr_41` 0.3705, `vr_81` 0.3582 — same scale, so `a10_r81` had no scale mismatch; with
+R8b failing, the scale explanation is not pursued further. Predictions: `vr9srel` keep LOW–MED; `vr9srelg` keep LOW.
 
 **Phase R8 results (pasted 2026-11-05 00:42 UTC) and R8b (pre-registered 00:42 UTC, before any R8b game).**
 

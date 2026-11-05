@@ -808,6 +808,28 @@ void FairAgent::shop(GameContext &gc) {
         search::GameAction(RT::CARD_REMOVE).execute(gc);
         return;
     }
+    if (getp(P, "vr_shop_relic", 0) > 0 && getp(P, "shop_relic", 1) > 0) {
+        // Phase R9 vr_shop_relic: among affordable shop relics pick the one with the largest learned run-value gain
+        // (price paid in gold); 1 = always buy the best one (only the order changes), 2 = buy only if the gain > 0
+        const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        if (vrm.trained) {
+            const float v0 = vr::value(vrm, gc);
+            int pick = -1; float best = -1e30f;
+            for (int i = 0; i < 3; ++i) {
+                if (s.relicPrice(i) == -1 || gc.gold < s.relicPrice(i)) continue;
+                GameContext h = gc;
+                h.gold -= s.relicPrice(i);
+                RelicInstance ri; ri.id = s.relics[i]; ri.data = 0;
+                h.relics.add(ri);
+                const float v = vr::value(vrm, h);
+                if (v > best) { best = v; pick = i; }
+            }
+            if (pick >= 0 && (getp(P, "vr_shop_relic", 0) < 2 || best > v0)) {
+                search::GameAction(RT::RELIC, pick).execute(gc);
+                return;
+            }
+        }
+    } else
     for (int i = 0; i < 3; ++i) {
         if (s.relicPrice(i) != -1 && gc.gold >= s.relicPrice(i) && getp(P, "shop_relic", 1) > 0) {
             search::GameAction(RT::RELIC, i).execute(gc);
