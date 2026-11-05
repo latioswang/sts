@@ -612,7 +612,7 @@ transcript-20261104-213933.jsonl#0	game_nondeterminism	143
 transcript-20261104-213933.jsonl#1	past_real_stop	114	
 transcript-20261104-213933.jsonl#2	completed	624	
 transcript-20261104-214530.jsonl#0	completed	220	
-transcript-20261104-214530.jsonl#1	diverged	48	
+transcript-20261104-214530.jsonl#1	diverged	48	the card picked lands in the game's deck one state late, on the map; the same seed's later run (20261105-022011#0) passes
 transcript-20261104-214530.jsonl#2	completed	808	
 transcript-20261104-215504.jsonl#0	completed	20	
 transcript-20261104-215504.jsonl#1	trace_end	89	

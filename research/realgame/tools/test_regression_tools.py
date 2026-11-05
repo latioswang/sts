@@ -106,6 +106,18 @@ class ScenarioTest(unittest.TestCase):
         gs = {**self.state(deck, ["HolyWater"]), "class": "WATCHER"}
         self.assertEqual(state_items(gs), {"relic:HolyWater": 1})
 
+    def test_a_starter_a_relic_upgraded_is_still_the_starter(self) -> None:
+        deck = [{"id": "Strike_B"}, {"id": "Strike_B"}, {"id": "Strike_B", "upgrades": 1}, {"id": "Strike_B", "upgrades": 1}]
+        deck += [{"id": c} for c in ("Defend_B",) * 4 + ("Zap", "Dualcast", "Consume")]
+        gs = {**self.state(deck, ["Cracked Core", "Whetstone"]), "class": "DEFECT"}
+        self.assertEqual(state_items(gs), {"relic:Whetstone": 1, "card:Consume": 1})
+
+    def test_an_upgraded_copy_beyond_the_kit_is_an_item(self) -> None:
+        deck = [{"id": c} for c in ("Strike_B",) * 3] + [{"id": "Strike_B", "upgrades": 1}, {"id": "Strike_B", "upgrades": 1}]
+        deck += [{"id": c} for c in ("Defend_B",) * 4 + ("Zap", "Dualcast")]
+        gs = {**self.state(deck, ["Cracked Core"]), "class": "DEFECT"}
+        self.assertEqual(state_items(gs), {"card:Strike_B+1": 1})
+
     def test_no_state_call_after_start_means_no_scenario(self) -> None:
         self.assertEqual(find_scenario([("C", "START IRONCLAD 0 TK"), ("G", "{}"), ("C", "CHOOSE 0")], "TK", [], {}), ("", "none"))
 
