@@ -72,6 +72,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2110, 33 (A10) | Snecko Oil rolling a card's own cost reset a lower cost for the turn | `RandomizeHandCostAction` only assigns when the roll differs | `b83e4d4` |
 | 2115, 23 (A10) | A Blood for Blood from Nilry's Codex didn't count the fight's HP losses | `generateCardChoices` uses `makeCopy` | `729fa36` |
 | 2324, 1 | Hello World+ and Creative AI+ rolled each other's cards, because powers ran in a fixed order | Powers are sorted by priority, in the order gained within a priority | `780e3d0` |
+| 7335, 16 | A copy of Stack from Echo Form counted the discard pile again | `makeStatEquivalentCopy` keeps `baseBlock`, and only `applyPowers` works it out | `5b16c97` |
 | 7403, 1 | Hovering Kite did nothing | The first manual discard each turn gives 1 energy | `9c03d07` |
 | 7314, 35 | Nuclear Battery's Plasma paid nothing on turn 1 | `applyStartOfTurnOrbs` runs on turn 1 too | `9c03d07` |
 | code | Tingsha and Tough Bandages did nothing | Each manual discard queues 3 damage to a random enemy, or a flat 3 block | `9c03d07` |
