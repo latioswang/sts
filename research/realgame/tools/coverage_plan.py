@@ -6,11 +6,14 @@
 Each item goes to a seed of the class that owns it, in as many seeds as it's short, so a class's relics get tried with that
 class's cards. Items no class owns go to Ironclad, whose choices are the best tuned. Then run each file with
 `run_batch.sh mirror START COUNT --class CLASS --scenario_file FILE`.
+
+With --mix N it writes N passes of everything each class can hold instead, shuffled, whatever is short. Most differences in
+the first such runs came from relics and cards that rarely meet, so this looks for those.
 """
 import argparse
 import json
-import math
 import os
+import random
 import sys
 
 REALGAME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +29,9 @@ POTION_OWNERS = {"Ambrosia": "watcher", "GhostInAJar": "silent"}
 # Below these card scores a card goes in a third or second seed. A single seed adds a few plays at most.
 CARD_THREE_SEEDS_BELOW, CARD_TWO_SEEDS_BELOW = 0.5, 0.9
 GIVEN_CATEGORIES = ("relics", "cards", "potions")
+STARTING_RELICS = frozenset({"Burning Blood", "Ring of the Snake", "Cracked Core", "PureWater"})
+OTHER_CLASS_POTIONS = {c: frozenset(p for p, owner in POTION_OWNERS.items() if owner != c) for c in CLASSES}
+MIX_RELICS_PER_SEED, MIX_CARDS_PER_SEED, MIX_POTIONS_PER_SEED = 6, 6, 2
 
 
 def seeds_needed(category: str, item: dict) -> int:
@@ -68,17 +74,47 @@ def scenarios_for(need: dict[str, dict[str, int]]) -> list[str]:
     return scenarios
 
 
+def what_a_class_holds(items: dict, cls: str) -> tuple[list[str], list[str], list[str]]:
+    relics = [r for r, item in items["relics"].items() if item.get("class", "any") in (cls, "any") and r not in STARTING_RELICS]
+    cards = [c for c, item in items["cards"].items() if item.get("kind") != "unplayable" and item.get("class") in (cls, "colorless")]
+    potions = [p for p in items["potions"] if p not in OTHER_CLASS_POTIONS[cls]]
+    return relics, cards, potions
+
+
+def mix_scenarios(items: dict, cls: str, shuffle_seed: int, relics_per_seed: int = MIX_RELICS_PER_SEED,
+                  cards_per_seed: int = MIX_CARDS_PER_SEED, potions_per_seed: int = MIX_POTIONS_PER_SEED) -> list[str]:
+    """Everything the class can hold, in a shuffled order, a few items of each kind to a seed."""
+    rng = random.Random(f"{cls}:{shuffle_seed}")
+    relics, cards, potions = what_a_class_holds(items, cls)
+    for group in (relics, cards, potions):
+        group.sort()
+        rng.shuffle(group)
+    seeds = max(len(relics) // relics_per_seed, len(cards) // cards_per_seed, len(potions) // potions_per_seed) + 1
+    scenarios: list[str] = []
+    for i in range(seeds):
+        scenarios.extend(plan_scenarios(relics[i * relics_per_seed:(i + 1) * relics_per_seed],
+                                        cards[i * cards_per_seed:(i + 1) * cards_per_seed],
+                                        potions[i * potions_per_seed:(i + 1) * potions_per_seed],
+                                        relics_per_seed=relics_per_seed, cards_per_seed=cards_per_seed,
+                                        potions_per_seed=potions_per_seed, upgrade=i % 2 == 0))
+    return scenarios
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--coverage", default=os.path.join(REALGAME, "reports", "coverage.json"))
     parser.add_argument("--out", default=os.path.join(REALGAME, "plans"))
     parser.add_argument("--name", required=True, help="files are plan_<name>_<class>.tsv")
     parser.add_argument("--seed_start", type=int, required=True)
+    parser.add_argument("--mix", type=int, default=0, help="this many shuffled passes of everything, not what's short")
     args = parser.parse_args()
     with open(args.coverage) as f:
         items = json.load(f)["items"]
     for i, (cls, need) in enumerate(split_by_class(items).items()):
-        scenarios = scenarios_for(need)
+        if args.mix:
+            scenarios = [s for n in range(args.mix) for s in mix_scenarios(items, cls, n)]
+        else:
+            scenarios = scenarios_for(need)
         start = args.seed_start + i * CLASS_SEED_STEP
         if len(scenarios) > CLASS_SEED_STEP:
             sys.exit(f"{cls}: {len(scenarios)} seeds won't fit before the next class's")

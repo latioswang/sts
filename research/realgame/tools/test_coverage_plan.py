@@ -2,7 +2,7 @@
 """Tests for coverage_plan.py. Run with python3 tools/test_coverage_plan.py."""
 import unittest
 
-from coverage_plan import scenarios_for, seeds_needed, split_by_class
+from coverage_plan import mix_scenarios, scenarios_for, seeds_needed, split_by_class
 
 
 def card(cls: str, score: float) -> dict:
@@ -60,6 +60,34 @@ class ScenariosTest(unittest.TestCase):
 
     def test_nothing_short_means_no_seeds(self) -> None:
         self.assertEqual(scenarios_for({"relics": {}, "cards": {}, "potions": {}}), [])
+
+
+class MixTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.items = {
+            "relics": {"Anchor": {"class": "any"}, "Akabeko": {"class": "any"}, "Cracked Core": {"class": "defect"}, "FrozenCore": {"class": "defect"},
+                       "PureWater": {"class": "watcher"}, "Orrery": {"class": "any"}},
+            "cards": {"Zap": {"class": "defect", "kind": "card"}, "Bite": {"class": "colorless", "kind": "card"}, "Bash": {"class": "ironclad", "kind": "card"},
+                      "Injury": {"class": "curse", "kind": "unplayable"}},
+            "potions": {"Ambrosia": {}, "FairyPotion": {}, "GhostInAJar": {}},
+        }
+
+    def test_a_class_gets_what_it_can_hold_and_not_its_own_starter(self) -> None:
+        text = ";".join(mix_scenarios(self.items, "defect", 1))
+        for item in ("relic:Anchor", "relic:Akabeko", "relic:FrozenCore", "front:shop:Orrery", "card:Zap", "card:Bite", "potion:FairyPotion"):
+            self.assertIn(item, text)
+        for item in ("Cracked Core", "PureWater", "Bash", "Injury", "Ambrosia", "GhostInAJar"):
+            self.assertNotIn(item, text)
+
+    def test_every_item_comes_once_in_a_pass(self) -> None:
+        scenarios = mix_scenarios(self.items, "defect", 1, relics_per_seed=1, cards_per_seed=1)
+        self.assertEqual(sum(s.count("relic:Anchor") for s in scenarios), 1)
+        self.assertEqual(sum(s.count("card:Zap") for s in scenarios), 1)
+
+    def test_the_mix_changes_with_the_shuffle_but_repeats_for_the_same_one(self) -> None:
+        many = {**self.items, "relics": {f"R{i}": {"class": "any"} for i in range(40)}}
+        self.assertEqual(mix_scenarios(many, "defect", 1), mix_scenarios(many, "defect", 1))
+        self.assertNotEqual(mix_scenarios(many, "defect", 1), mix_scenarios(many, "defect", 2))
 
 
 if __name__ == "__main__":
