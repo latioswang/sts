@@ -102,7 +102,10 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 00:42 UTC
+### Current state (update after every batch) — 2026-11-05 00:45 UTC
+- **00:45 UTC: R8b — no keep; the A20 learned run value line is closed for now.** `pooled val,dev2,dev3 [act3]: n=500  a20_r121s32 win=0.050 floor=28.52  a20_relic20 win=0.056 floor=28.93  dscore=-0.0140 dwin=-0.006 P(improve)=0.204` (slices −0.011 / −0.019 /
+  −0.017). Scale-matching moved the loss from −0.037 to ≈ −0.015 but not above zero: the weakened pull explains part of R8,
+  not all. Prediction (LOW) held. A20 best stays `a20_relic20` (with the A0-trained `vr_41`). Runner idle.
 - **00:42 UTC: Phase R8 — no keep** (`a20_r121` pooled 500: 3.6% vs 5.6%, P=0.009; fits pasted in "Phase R8 results");
   R8b (scale-matched weights, one cell) pre-registered and queued.
 - **00:16 UTC: all R8 data in the store; workers archived.** Pasted: r8w10 `SV GEN rundata_a20_w10 DONE: 30000 files`, holdout

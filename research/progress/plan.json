@@ -143,9 +143,9 @@
   },
   {
    "id": "R8",
-   "label": "Phase R8: A20 run value from 90,000 A20 games (three workers, shard format)",
-   "status": "running",
-   "when": ""
+   "label": "Phase R8: A20 run value — fit 0.880 -> 0.338 on the A20 holdout, card picks + relics no keep (pooled 500: 3.6% vs 5.6%; scale-matched 32: still negative)",
+   "status": "done",
+   "when": "2026-11-05 00:45"
   }
  ],
  "phases": [
@@ -191,7 +191,6 @@
   }
  ],
  "next_up": [
-  "Phase R8 (running): A20-specific run value — A20 is the weakest track (5.6% vs 25%); the A10-trained model helped A10 (+5.3 val) but hurt A20, so A20 gets its own data.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
   "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",

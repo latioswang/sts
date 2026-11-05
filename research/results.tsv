@@ -495,3 +495,6 @@ bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase 
 758c5fa	val.a20	300	0	0.040	29.28	0.6133	-0.0366	0.038	discard	a20_r121: [a20 pooled500] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics) [vr_model=121] pooled dscore=-0.0366 dwin=-0.020 P(improve)=0.009
 758c5fa	dev2.a20	100	0	0.020	26.44	0.5380	-0.0408	0.041	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
 758c5fa	dev3.a20	100	0	0.040	26.06	0.5502	-0.0325	0.193	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
+7fff5d4	val.a20	300	0	0.057	29.73	0.6386	-0.0113	0.314	discard	a20_r121s32: [a20 pooled500] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32) [vr_model=121 vr_bonus=32 vr_relic_w=32] pooled dscore=-0.0140 dwin=-0.006 P(improve)=0.204
+7fff5d4	dev2.a20	100	0	0.030	27.06	0.5600	-0.0188	0.274	info	a20_r121s32: [a20 pooled500 slice] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32)
+7fff5d4	dev3.a20	100	0	0.050	26.35	0.5657	-0.0171	0.316	info	a20_r121s32: [a20 pooled500 slice] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32)
