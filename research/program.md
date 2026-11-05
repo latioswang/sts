@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 05:16 UTC
+### Current state (update after every batch) — 2026-11-05 05:28 UTC
+- **05:28 UTC: Phase R10 pre-registered and queued** (A0 with the mixed-data `vr_121`, inherited and scale-matched weights);
+  fresh-A0 fit table in "Phase R10".
 - **05:16 UTC:** `rundata` pulled (`PULL rundata DONE: 10000 files`) and packed (`PACK ... 4233.9 MB -> 58.2 MB (72.7x), verify
   OK`). Scoring on it OOM'd (rc 137) — `score_vr.py` now scores in 200k-row chunks (A10 holdout check reproduces 0.7093 /
   0.472). `rundata` is in-sample for `vr_81` / `vr_121` (their A0 subsample covers all 10k runs), so a fresh A0 holdout is
@@ -1534,6 +1536,22 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase R10 — the mixed-data run value on A0 (pre-registered 2026-11-05 05:28 UTC, before any of these games).** Fit on a
+fresh A0 holdout (1,000 games of the current A0 best, seeds 1,100,000–1,100,999, unused, in no model's training data;
+`rundata` was in-sample for `vr_81`/`vr_121`):
+
+    SCORE vr_41  on rundata_a0_fresh_z: runs=1000 states=166753 rmse=0.4277 corr=0.283 state_mean=1.845
+    SCORE vr_61  on rundata_a0_fresh_z: runs=1000 states=166753 rmse=0.4769 corr=0.146
+    SCORE vr_81  on rundata_a0_fresh_z: runs=1000 states=166753 rmse=1.6605 corr=0.041
+    SCORE vr_121 on rundata_a0_fresh_z: runs=1000 states=166753 rmse=0.4012 corr=0.328
+    prediction SD on these states: vr_41 0.2484, vr_61 0.2985, vr_121 0.1855
+
+The A0 best's model `vr_61` is the second-worst fit on the current agent's games (policy shift: it was trained on a weaker
+agent's runs); `vr_121` (A0 + A10 + A20 data) fits best. Cells (A0 val-300 vs `vr5relic20`, usual rules; leak test A0 params +
+vr_model=121: `LEAKTEST checked=98 mismatches=0 PASS`): `a0_r121` = A0 best + vr_model=121 (inherited weights: cards 40, relics 20); `a0_r121s` = + vr_bonus=64,
+vr_relic_w=32 (scale-matched: x 0.2985/0.1855 = 1.61, set from prediction spread only). Predictions: `a0_r121` keep LOW–MED;
+`a0_r121s` better than `a0_r121` LOW (R8b: scale matching did not rescue A20).
 
 **Phase R9 — the run value on shop relics (pre-registered 2026-11-05 01:17 UTC, before any of these games).** Why: the run
 value kept wherever it chose between *items* (boss relics on all four tracks, card picks) and lost where it replaced HP /
