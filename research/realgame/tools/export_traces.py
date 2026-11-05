@@ -21,8 +21,13 @@ import time
 from typing import Iterable, Iterator, Optional
 
 ALPHABET = "0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ"
-STARTER_DECK = collections.Counter({"Strike_R": 5, "Defend_R": 4, "Bash": 1})
-STARTER_RELICS = {"Burning Blood"}
+STARTER_DECKS = {
+    "IRONCLAD": collections.Counter({"Strike_R": 5, "Defend_R": 4, "Bash": 1}),
+    "THE_SILENT": collections.Counter({"Strike_G": 5, "Defend_G": 5, "Survivor": 1, "Neutralize": 1}),
+    "DEFECT": collections.Counter({"Strike_B": 4, "Defend_B": 4, "Zap": 1, "Dualcast": 1}),
+    "WATCHER": collections.Counter({"Strike_P": 4, "Defend_P": 4, "Eruption": 1, "Vigilance": 1}),
+}
+STARTER_RELICS = {"IRONCLAD": "Burning Blood", "THE_SILENT": "Ring of the Snake", "DEFECT": "Cracked Core", "WATCHER": "PureWater"}
 ASCENDERS_BANE_ASCENSION = 10
 START_LINE = re.compile(r"^START (\w+) (\d+) (\w+)$")
 # A transcript still being written may end in the middle of a run.
@@ -63,12 +68,13 @@ def card_key(card: dict) -> str:
 
 
 def state_items(gs: dict) -> collections.Counter:
-    """What the player has beyond a new Ironclad's starting kit, as scenario items."""
+    """What the player has beyond the class's starting kit, as scenario items."""
     items: collections.Counter = collections.Counter()
+    character = gs.get("class", "IRONCLAD")
     for relic in gs.get("relics", []):
-        if relic["id"] not in STARTER_RELICS:
+        if relic["id"] != STARTER_RELICS[character]:
             items["relic:" + relic["id"]] += 1
-    starter = STARTER_DECK.copy()
+    starter = STARTER_DECKS[character].copy()
     if gs.get("ascension_level", 0) >= ASCENDERS_BANE_ASCENSION:
         starter["AscendersBane"] += 1
     deck = collections.Counter(card_key(c) for c in gs.get("deck", [])) - starter

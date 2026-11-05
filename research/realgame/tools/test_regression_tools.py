@@ -96,6 +96,16 @@ class ScenarioTest(unittest.TestCase):
         self.assertEqual(state_items(self.state(deck, ["Burning Blood"], asc=10)), {})
         self.assertEqual(state_items(self.state(deck, ["Burning Blood"], asc=9)), {"card:AscendersBane": 1})
 
+    def test_each_class_has_its_own_kit(self) -> None:
+        deck = [{"id": c} for c in ("Strike_B",) * 4 + ("Defend_B",) * 4 + ("Zap", "Dualcast", "Consume")]
+        gs = {**self.state(deck, ["Cracked Core", "DataDisk"]), "class": "DEFECT"}
+        self.assertEqual(state_items(gs), {"relic:DataDisk": 1, "card:Consume": 1})
+
+    def test_a_boss_relic_in_place_of_the_starter_is_an_item(self) -> None:
+        deck = [{"id": c} for c in ("Strike_P",) * 4 + ("Defend_P",) * 4 + ("Eruption", "Vigilance")]
+        gs = {**self.state(deck, ["HolyWater"]), "class": "WATCHER"}
+        self.assertEqual(state_items(gs), {"relic:HolyWater": 1})
+
     def test_no_state_call_after_start_means_no_scenario(self) -> None:
         self.assertEqual(find_scenario([("C", "START IRONCLAD 0 TK"), ("G", "{}"), ("C", "CHOOSE 0")], "TK", [], {}), ("", "none"))
 
