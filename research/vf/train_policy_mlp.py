@@ -52,6 +52,7 @@ def main():
     D = len(states); print(f"decisions={D} actions={sum(len(t) for t in toks)}")
     S = torch.tensor(np.stack(states)); TOK = torch.tensor(np.concatenate(toks)); UP = torch.tensor(np.concatenate(ups))
     TF = torch.tensor(np.concatenate(tfs)); V = torch.tensor(np.concatenate(vis)); DEC = torch.tensor(np.concatenate(dec))
+    del states, toks, ups, tfs, vis, dec   # memory: the lists hold views of every raw file (~5 GB at 2.9M decisions)
     rng = np.random.RandomState(0); perm = rng.permutation(D); val_d = torch.tensor(np.sort(perm[: D // 5]))
     is_val = torch.isin(DEC, val_d)
     E = nn.Embedding(N_TOK, k); Eup = nn.Parameter(torch.zeros(k))
@@ -75,6 +76,14 @@ def main():
         logp = lg - m[DEC] - torch.log(z[DEC])
         return -(tgt * logp)[mask_actions].sum() / max(1, int(mask_actions.sum()))
 
+    def val_ce(chunk=200000):
+        # same value as ce(is_val), computed in decision chunks (memory only: the full-val forward needs ~6 GB at 3.3M actions)
+        tot = 0.0; n = 0
+        for j in range(0, len(val_d), chunk):
+            m = torch.isin(DEC, val_d[j:j + chunk]); c = int(m.sum())
+            if c: tot += float(ce(m)) * c; n += c
+        return tot / max(1, n)
+
     with torch.no_grad():
         unif = float((-(tgt * torch.log(1.0 / cnt[DEC])))[is_val].sum() / int(is_val.sum()))
         ent = float((-(tgt * torch.log(tgt.clamp_min(1e-9))))[is_val].sum() / int(is_val.sum()))
@@ -87,7 +96,7 @@ def main():
             dmask = torch.isin(DEC, order[i:i + bs_dec])
             loss = ce(dmask); opt.zero_grad(); loss.backward(); opt.step()
         with torch.no_grad():
-            lv = float(ce(is_val))
+            lv = val_ce()
         print(f"ep {ep+1:2d} val_ce={lv:.4f} (uniform {unif:.4f}, floor {ent:.4f}, captured {(unif-lv)/(unif-ent):.0%}) {time.time()-t0:.0f}s")
     export(a.out, E.weight.detach().numpy(), Eup.detach().numpy(), L1.weight.detach().numpy(), L1.bias.detach().numpy(),
            L2.weight.detach().numpy().ravel(), float(L2.bias.detach().numpy()[0]), k, H, trained=1)

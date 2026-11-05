@@ -5,12 +5,14 @@
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 D=research/vf/data; SL=fs1206500n1000; MAIN=/home/user/sts_lightspeed_fid/build/fair_eval
+if [ "${SKIP_UNPACK:-0}" != 1 ]; then
 rm -rf $D/poldata_p1 $D/poldata_p1_tmp; mkdir -p $D/poldata_p1/all
 for w in 16 17 19 20 21 22; do
   python3 research/vf/runstore.py unpack $D/poldata_p1_w${w}_z/all $D/poldata_p1_tmp/all > /dev/null
   ls $D/poldata_p1_tmp/all/pol_*.bin | sort | awk 'NR % 3 == 1' | xargs -I{} mv {} $D/poldata_p1/all/
   rm -rf $D/poldata_p1_tmp
 done
+fi
 echo "P1 training files: $(ls $D/poldata_p1/all | wc -l)"
 best=""; bce=9
 for h in 64 128; do
