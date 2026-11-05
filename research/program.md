@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 08:16 UTC
+### Current state (update after every batch) — 2026-11-05 08:19 UTC
+- **08:19 UTC: A20 KEEP under the fresh-slice rule — `a20_r121s32f`** (A20 best + vr_model=121, vr_bonus=32, vr_relic_w=32)
+  on fs1202000n1000: base `a20_relic20` win 0.046 floor 27.93 score 0.5926; challenger win 0.062 floor 28.31 score 0.6158;
+  dscore +0.0232, dwin +0.016, P=0.972 -> **new A20 best**. The same config was discarded as R8b on the selection seeds
+  (−0.014, P=0.204): a false discard caused by the inflated base. Prediction (LOW) failed. Replication on a second fresh
+  slice (fs1205500n1000, run.py vs `a20_relic20`, no promotion) queued first, then the best re-measurements.
 - **08:16 UTC:** first fresh-slice decision: `a20_bm15f` on fs1201000n1000 — base `a20_relic20` win 0.049 floor 28.48;
   challenger dscore −0.0131, dwin −0.010, P=0.097 -> discard (on the selection seeds it read −0.026 / −1.8 points: about half
   of that was the base's selection gain). `exp_fresh.sh` fixed (BrokenPipe from `head -1` killed the first attempt after the
