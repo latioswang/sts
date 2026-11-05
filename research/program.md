@@ -102,7 +102,11 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 09:27 UTC
+### Current state (update after every batch) — 2026-11-05 09:47 UTC
+- **09:47 UTC: Phase P1 pre-registered** (cheaper search via a better move prior; fidelity simulator; stage 1 here, stage 2
+  on seven new workers). `setup.sh` takes `STS_SIM=fidelity` (default stays legacy until X1 ends); fork pinned in
+  `research/patches/sts_lightspeed_fidelity.commit` (dfda16c327770b5d62f344eda1ef9cced3e01c17); `runstore.py` packs any
+  file pattern (`--glob 'pol_*.bin'`) and unpacks (round trip byte-identical).
 - **09:27 UTC: owner decision — finish X1 on the current simulator, then switch** the loop to the real-game-matched fork
   (`latioswang/sts_lightspeed` commit `dfda16c`, branch `fidelity`, pinned; relayed by the bridge session, confirmed by the
   owner in this chat: "finish X1 first"). Fork source cloned to `/home/user/sts_lightspeed_fid` at dfda16c; building it was
@@ -1606,6 +1610,24 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase P1 — cheaper search: a move prior that keeps strength at 50 simulations (owner-approved: "lets do all three",
+"approve, and allow worker budget" — up to 10 parallel workers; pre-registered 2026-11-05 09:47 UTC).** Why: the search is
+≈ 98% of game cost (A0, 100 games: 500 sims 110 s / 83 wins; 50 sims 10.5 s / 62; 5 sims 1.8 s / 33). Diagnostic on 200
+train games (seeds 400000+): 50 sims + the current prior 143 wins (71.5%), 50 sims without it 109 (54.5%), 500 sims without
+it 166 (83%) — the prior is worth +17 points at 50 sims, and an 11.5-point gap to 500 sims remains at 8.8x less time. The
+prior (v1: 298k decisions, 500-sim targets, root only) plateaued against 500-sim targets (v3 neutral). Two levers: how the
+prior is used (depth, exploration constant) and what it learns from (stronger, 2,000-sim targets). **Runs on the fidelity
+simulator** (fork `dfda16c`, built at `/home/user/sts_lightspeed_fid`; leak test 94 checked, 0 mismatches; 100 A0 games old
+sim 84 wins / floor 48.3 / 99 s vs fork 81 / 47.3 / 104 s, 0 aborted) — every P1 comparison has both arms on the fork.
+Stage 1 (this VM, now): at sims=50 on the fork, prior use `prior_mlp_depth` ∈ {0, 1, 2} x `prior_c` ∈ {1.0, 1.5, 3.0},
+200 train games each (seeds 400000–400199; tuning only, never a keep), plus the 500-sim best as the reference on the same
+seeds. Stage 2 (seven workers p1w16–p1w22, `research/workers/p1data.md`): 28,000 A0 games of the best on the fork with
+`pf_log=1 sims=2000`, seeds 3,000,000–3,603,999 (unused). Training: prior v4 (`train_policy_mlp.py`, hidden 64 / 128 / 256)
+on the 2,000-sim targets; each candidate compiled into a side build (consistency rule). Evaluation (fresh-slice rule, fork,
+both arms re-run): the 50-sim agent with the best stage-1 usage and prior v4 vs the same with prior v1, and vs the 500-sim
+best (the gap). Goal: the 50-sim agent within 3 points of the 500-sim best. Predictions: stage 1 closes ≥ 3 of the 11.5
+points (MED); prior v4 at 50 sims beats v1 at 50 sims (MED); within 3 points of 500 sims (LOW).
 
 **Phase X1 — exploration data for the run value (owner-approved direction "do that", 2026-11-05; pre-registered 09:15 UTC,
 before any of these games).** Why: V is trained on states the KB-guided agent reaches, so it has rarely seen the outcome of a

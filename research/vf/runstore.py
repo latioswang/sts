@@ -11,8 +11,9 @@ Readers use three calls that mirror what they did with the old layout, so result
 read(path) == np.fromfile(path, float32). Measured on 300 files: full rows 72.7x smaller, k32 subsamples 46.8x; zlib
 decompresses at ~500 MB/s.
 
-usage: runstore.py pack SRC_DIR DST_DIR [--per 1000]   (verifies every file round-trips before it returns)
-       runstore.py verify SRC_DIR DST_DIR               (byte-compare a shard dir against the per-file dir)
+usage: runstore.py pack SRC_DIR DST_DIR [--per 1000] [--glob 'pol_*.bin']   (verifies every file round-trips before it returns)
+       runstore.py verify SRC_DIR DST_DIR [--glob ..]   (byte-compare a shard dir against the per-file dir)
+       runstore.py unpack SHARD_DIR OUT_DIR              (write the packed files back out as plain files)
 """
 import argparse, glob, hashlib, os, shutil, sys, zlib
 import numpy as np
@@ -36,6 +37,26 @@ def _index(d):
 
 def is_sharded(d):
     return _index(d) is not None
+
+
+def list_files(d):
+    """All packed file paths of a shard dir (any name), sorted; old layout: every *.bin file."""
+    m = _index(d)
+    if m is None:
+        return sorted(glob.glob(os.path.join(d, "*.bin")))
+    return sorted(os.path.join(d, n) for n in m)
+
+
+def unpack(src, dst):
+    """Write every packed file of a shard dir back out as plain files (for readers that glob files, e.g. the policy
+    trainers); byte-identical by construction."""
+    os.makedirs(dst, exist_ok=True); n = 0
+    for v in list_files(src):
+        open(os.path.join(dst, os.path.basename(v)), "wb").write(read(v).tobytes()); n += 1
+    for side in ("counts.tsv", "ids_cache.tsv"):
+        if os.path.exists(os.path.join(src, side)):
+            shutil.copyfile(os.path.join(src, side), os.path.join(dst, side))
+    print(f"UNPACK {src} -> {dst}: {n} files")
 
 
 def list_runs(d):
@@ -74,8 +95,8 @@ def release():
     _cache.clear()
 
 
-def pack(src, dst, per=1000):
-    files = sorted(glob.glob(os.path.join(src, "run_*.bin")))
+def pack(src, dst, per=1000, pattern="run_*.bin"):
+    files = sorted(glob.glob(os.path.join(src, pattern)))
     if not files:
         sys.exit(f"pack: no run_*.bin under {src}")
     os.makedirs(dst, exist_ok=True)
@@ -92,14 +113,14 @@ def pack(src, dst, per=1000):
             shutil.copyfile(os.path.join(src, side), os.path.join(dst, side))
     tmp = os.path.join(dst, "index.tsv.tmp"); open(tmp, "w").write("".join(lines)); os.replace(tmp, tmp[:-4])
     _idx.pop(os.path.abspath(dst), None)
-    bad = verify(src, dst)
+    bad = verify(src, dst, pattern)
     print(f"PACK {src} -> {dst}: {len(files)} files, {(len(files) + per - 1) // per} shards, {raw / 1e6:.1f} MB -> "
           f"{comp / 1e6:.1f} MB ({raw / max(comp, 1):.1f}x), verify {'OK' if not bad else f'FAILED ({bad} files differ)'}")
     return bad
 
 
-def verify(src, dst):
-    files = sorted(glob.glob(os.path.join(src, "run_*.bin"))); virt = list_runs(dst)
+def verify(src, dst, pattern="run_*.bin"):
+    files = sorted(glob.glob(os.path.join(src, pattern))); virt = list_files(dst)
     if [os.path.basename(f) for f in files] != [os.path.basename(f) for f in virt]:
         return max(1, abs(len(files) - len(virt)))
     bad = 0
@@ -110,9 +131,11 @@ def verify(src, dst):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["pack", "verify"]); ap.add_argument("src"); ap.add_argument("dst")
-    ap.add_argument("--per", type=int, default=1000)
+    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["pack", "verify", "unpack"]); ap.add_argument("src"); ap.add_argument("dst")
+    ap.add_argument("--per", type=int, default=1000); ap.add_argument("--glob", default="run_*.bin", help="files to pack (e.g. 'pol_*.bin')")
     a = ap.parse_args()
     if a.cmd == "pack":
-        sys.exit(1 if pack(a.src, a.dst, a.per) else 0)
-    bad = verify(a.src, a.dst); print(f"VERIFY {a.src} vs {a.dst}: {'OK' if not bad else f'{bad} files differ'}"); sys.exit(1 if bad else 0)
+        sys.exit(1 if pack(a.src, a.dst, a.per, a.glob) else 0)
+    if a.cmd == "unpack":
+        unpack(a.src, a.dst); sys.exit(0)
+    bad = verify(a.src, a.dst, a.glob); print(f"VERIFY {a.src} vs {a.dst}: {'OK' if not bad else f'{bad} files differ'}"); sys.exit(1 if bad else 0)
