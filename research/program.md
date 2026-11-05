@@ -102,7 +102,12 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 10:01 UTC
+### Current state (update after every batch) — 2026-11-05 10:18 UTC
+- **10:18 UTC:** all 10 workers past their gates (X1: three repro_check `OK bit-identical`; P1, e.g. p1w16: `built fair_eval
+  with STS_SIM=fidelity (dfda16c ...)`, `LEAKTEST checked=94 mismatches=0 PASS`, 20 gate games 0 aborted); logs merged
+  (x1w15 not yet pushed; its session reports 20/300 chunks at 09:54, ≈ 7 h left). Correction: X1 data lands ≈ 17:00 UTC,
+  not 14:00 (A0 games at 500 sims are slower than the A20 rate I used). P1 data (2,000-sim targets, 4,000 games per worker)
+  ≈ 4–5 h.
 - **10:01 UTC: P1 stage 1 done (fidelity simulator, 200 train games, seeds 400000–400199, tuning only).** Wins / 200
   (wall): 500-sim best 159 (231 s); 50 sims: prior off 95 (≈ 20 s); depth 0: c1.0 112, c1.5 119, c3.0 112 (≈ 26 s);
   depth 1: 122, 122, 118 (≈ 48 s); depth 2: 124, 129, **133** (≈ 80 s). Same seeds on the legacy simulator this morning: 50
