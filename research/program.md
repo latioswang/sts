@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 22:58 UTC
+### Current state (update after every batch) — 2026-11-05 23:16 UTC
+- **23:16 UTC: hourly check.** P1 stage 3 question 2: `p3_v4s200 n=1000 crash=0 win=0.747 floor=47.49 score=1.6781±0.0179 811s` vs p3_ref500: dscore -0.0566, dwin -0.044, P 0.002 — gap 4.4 points at 0.41x the reference wall time (timings shared with X1 training). Prediction "within 3 points at 200 sims MED" failed (by 1.4). p3_v4s100 running. X1: vr_142 training since 22:42. p1w18 unchanged (awaits the owner).
 - **22:58 UTC: P1 stage 3, question 1 — prior v4 at 500 sims: discard.** On the fresh slice fs1207500n1000 (fidelity sim):
   `p3_ref500 n=1000 crash=0 win=0.791 floor=48.13 score=1.7347±0.0167 1981s` (prior v1); `p3_v4s500 n=1000 crash=0 win=0.797 floor=48.22 score=1.7426±0.0165 1766s` vs p3_ref500: dscore +0.0079, dwin +0.006, P(improve) 0.668 -> discard (below the 0.7 near-miss band; no extension). Prediction "keep MED" failed: at 500 sims the search already corrects most prior errors, so the better prior is worth ~0.6 points there vs 8.5 at 50 sims. The fork agent keeps prior v1 at 500 sims. Question 2 (v4 at 200 / 100 sims, report only) running. X1: vr_141 (exploration only, h256) holdout rmse 0.4762 corr 0.359 (worse than vr_140 0.4673 and vr_121 0.4631; best epoch 1 for both exploration-only models); vr_142 (exploration + all subsamples, h64) training since 22:42.
 - **22:10 UTC: P1 stage 2 result (fidelity sim, A0, fresh slice fs1206500n1000, 1,000 paired games each).**
