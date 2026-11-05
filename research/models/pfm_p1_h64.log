@@ -3,3 +3,5 @@ val baselines: uniform CE=0.2859  target entropy=0.2165
 ep  1 val_ce=0.2460 (uniform 0.2859, floor 0.2165, captured 58%) 1549s
 ep  2 val_ce=0.2451 (uniform 0.2859, floor 0.2165, captured 59%) 3107s
 ep  3 val_ce=0.2444 (uniform 0.2859, floor 0.2165, captured 60%) 4628s
+ep  4 val_ce=0.2441 (uniform 0.2859, floor 0.2165, captured 60%) 6128s
+exported research/models/pfm_p1_h64.inc
