@@ -153,7 +153,12 @@ void ActionSender::applyGameAction(const GameContext &gc, const GameAction &a) {
             break;
         case ScreenState::REST_ROOM: {
             static const char *const kOptions[] = {"rest", "smith", "recall", "lift", "toke", "dig"};
-            if (a.getIdx1() > 5) bridgeGap("REST", "simulator has no rest action, option 6");
+            constexpr int kLeave = 6;  // with no option left, such as Coffee Dripper and Fusion Hammer together
+            if (a.getIdx1() == kLeave) {
+                send("PROCEED");
+                break;
+            }
+            if (a.getIdx1() > kLeave) bridgeGap("REST", "simulator has no rest action, option " + std::to_string(a.getIdx1()));
             send(std::string("CHOOSE ") + kOptions[a.getIdx1()]);
             break;
         }
