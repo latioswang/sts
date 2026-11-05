@@ -84,6 +84,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 7410, 33 | A new Eviscerate from Dead Branch or a potion ignored the turn's discards | Its `makeCopy` sets the cost for the turn, as Blood for Blood's does for the fight | `0bcad57` |
 | 9115, 18 | An Eviscerate kept in hand into the next turn stayed at the cost the discards had brought it to | `Eviscerate.atTurnStart` resets it, and `applyStartOfTurnCards` runs on the draw pile, hand and discard pile | `fd86474` |
 | 9019, 35 | A Necronomicon or Double Tap copy of Mind Blast counted the draw pile again, after Runic Cube had drawn from it | Only `applyPowers` sets its base damage, and that doesn't run on a copy, so the copy keeps the original's | `b9a895e` |
+| 9025, 29 | A card's copy played after the next queued card, as with Distilled Chaos under Duplication, and two copies of one card came in the wrong order | `addCardQueueItem` uses index 1 with the card being played still at index 0, so its copy comes next | `8aca7f5` |
 | 7102, 16 | Random cards in combat were always Ironclad's, whatever the class | `returnTrulyRandomCardInCombat` reads the class's src pools, each in reverse, with no HEALING cards | `ffa2500` |
 | 6018, 16 (A8) | The Guardian's Vent Steam applied Vulnerable first, so Artifact stopped the wrong debuff | `useVentSteam` applies Weak, then Vulnerable | `7ab42f5` |
 | 2509, 29 | Smoke Bomb in the Colosseum's first fight went to the map | `Colosseum.reopen` offers the second choice however the fight ended | `a6cc442` |
