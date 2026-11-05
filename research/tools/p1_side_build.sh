@@ -7,7 +7,8 @@ set -euo pipefail
 TAG=$1; INC=$2
 R=/home/user/p1side/$TAG/research; F=/home/user/sts_lightspeed_fid
 rm -rf "$R"; mkdir -p "$R"
-for d in cpp eval vf; do cp -r /home/user/sts/research/$d "$R/"; done
+for d in cpp eval; do cp -r /home/user/sts/research/$d "$R/"; done
+mkdir -p "$R/vf" && find /home/user/sts/research/vf -maxdepth 1 -type f -exec cp {} "$R/vf/" \;   # code only: never research/vf/data (GBs)
 cp "$INC" "$R/cpp/pfm_weights.inc"
 mkdir -p "$F/build_$TAG" && cd "$F/build_$TAG"
 cmake .. -DCMAKE_BUILD_TYPE=Release -DSTS_RESEARCH_DIR="$R" -Dpybind11_DIR="$(python3 -c 'import pybind11;print(pybind11.get_cmake_dir())')" > cmake.log 2>&1

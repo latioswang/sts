@@ -102,7 +102,14 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 14:22 UTC
+### Current state (update after every batch) — 2026-11-05 16:32 UTC
+- **16:32 UTC: disk-full incident (≈ 15:38–16:20), no data lost.** P1 stage 2 pulled and unpacked six of the seven policy
+  sets (w18 not stored: trained on six as amended), but `p1_side_build.sh` copied `research/vf` *including*
+  `research/vf/data` into `/home/user/p1side/v4` (12 GB) and the volume filled; the three trainer runs had already failed
+  with empty logs (disk full at 15:38). Freed: `/home/user/p1side` (copies), the unpacked `poldata_p1` (rebuilt from the
+  local shard sets), the per-file `rundata` (4.1 GB; its byte-verified shard copy `rundata_z` stays), the Xet cache and
+  download bookkeeping -> 25 GB free. Fix: the side build copies only code (`research/vf` top-level files, never `data/`).
+  Re-running stage 2 by hand: one-set trial training to size memory/time before the six-set run.
 - **14:22 UTC: P1 amendment (before any training):** p1w18 declines to restart its runner without the owner confirming in its
   own session (correct under its rules: a coordinator message is not owner authorization). Stage 2 now waits for the six
   other sets (24,000 games) and includes `poldata_p1_w18_z` only if it is in the store by then; nothing else changes
