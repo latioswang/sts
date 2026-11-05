@@ -48,6 +48,7 @@ exact workflow.
 │
 ├── colorless.md           ← colorless cards (Prismatic Shard, events) — every class
 ├── curses.md              ← 14 curse cards
+├── potions.md             ← common potions (hand-curated, partial)
 ├── glossary.md            ← keywords, tag legend, tier shorthand
 │
 └── data/

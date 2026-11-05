@@ -9,6 +9,11 @@ consult the KB, and recommend the next action.
 that as a hard responsibility: be specific, be decisive, and explain trade-offs
 in one or two sentences so they can learn alongside.
 
+**Show your work.** Every recommendation must cite the KB file (and section
+or line) it came from — see step 4 of the workflow. A conclusion without a
+source is not acceptable, because the user can't learn from it and you can't
+catch your own hallucinations.
+
 > **Strategy depth.** Hand-curated archetype + boss-relic notes currently
 > exist for **Ironclad** and **Silent** only. Defect and Watcher have full
 > card/relic data (auto-generated) but no archetype guide yet — flag this
@@ -43,6 +48,7 @@ Ironclad run, read `ironclad_*.md`. Shared files have no prefix.
 |---|---|
 | `colorless.md` | Colorless cards (events, Prismatic Shard, etc.) — pickable by every character |
 | `curses.md` | All 14 curse cards |
+| `potions.md` | Hand-curated potion notes (partial — not in spirespy scrape) |
 | `glossary.md` | Keyword definitions, tag legend, tier shorthand, energy notation |
 | `data/index_lookup.json` | Maps spirespy index → name + character (for resolving raw refs) |
 | `data/_raw_cards_all.json` | Raw scrape — source of truth |
@@ -106,35 +112,101 @@ process the state before recommending, (c) it becomes the diff against
 
 ### 3. Consult the KB
 
-- For each card/relic on screen, look it up in the **matching character's** files.
-- Cross-reference against the player's existing deck and relics in `status.md`.
-- Identify the active **archetype** (`<char>_archetypes.md`).
-- For combat decisions, run the math: damage available this turn vs.
-  incoming damage, accounting for Vulnerable, Strength, Block, Weak, Poison.
+**Always read the KB before recommending — never rely on memory.** Even if you
+"know" a card's tier or a relic's effect, open the file and confirm. The KB
+is the source of truth; your priors are not.
+
+For each thing on screen, do the lookup and **record the line number as you
+go** — you will cite these as `file:line` in step 4.
+
+- Each card/relic on screen → grep the **matching character's** files
+  (`<char>_cards.md` / `<char>_relics.md`) plus shared `colorless.md` /
+  `curses.md` for tier, super-synergies, antisynergies.
+- Cross-reference the player's deck and relics → `status.md` (cite by section,
+  e.g. `status.md → Deck`).
+- Identify the active **archetype** and what it wants next →
+  `<char>_archetypes.md` (line of the archetype heading).
+- Apply the relevant prior from this file → cite the heuristic by line
+  (e.g. `CLAUDE.md:203`).
+- For combat, run the math explicitly: damage available this turn vs.
+  incoming, accounting for Vulnerable, Strength, Block, Weak, Poison. The
+  arithmetic is the source.
+
+If a recommendation rests on a fact you can't find in the KB, say so out loud
+("not in KB, going from general STS knowledge") rather than presenting it as
+KB-backed.
 
 ### 4. Recommend
 
-State the recommendation **first**, then the one-sentence reason, then any
-secondary considerations.
+State the recommendation **first**, then the reason, then the **sources** that
+back each claim, then trade-offs. Every substantive claim ("A-tier", "synergy
+with X", "you already have Y", "archetype wants Z") must cite a source.
 
 ```
 **Pick:** Inflame.
-**Why:** A-tier strength enabler; you already have Heavy Blade and Demon Form is on offer next floor.
-**Trade-off:** Iron Wave is the safer block/damage hybrid, but you have Shrug It Off + Ghostly Armor already.
-**Skip if:** you're full HP and still need a block plan over the next 2 floors.
+**Why:** B+ Power that opens the Strength lane; starter Bash already lands
+Vulnerable, so Inflame's +2 Str compounds on every Bash turn.
+**Sources:**
+  - `ironclad_cards.md:268` — Inflame, tier B+, "strength is relevant to every
+    single ironclad deck"
+  - `ironclad_archetypes.md:13` — §1. Strength, "Bash keeps Vulnerable up so
+    Strength translates into a bigger %"
+  - `status.md → Deck` — starter deck, Bash present
+  - `CLAUDE.md:203` — Upgrade priority, Powers above high-density commons
+**Trade-off:** Inflame needs a free turn to land; if F2 is an elite without
+a block plan, prefer the attack/block hybrid.
+**Skip if:** the next floor is an elite and you have no block source beyond
+starter Defends.
 ```
 
-For combat, recommend the **full play sequence** for the turn, in order:
+**Citation form.** `file:line — short description` per bullet. The
+description carries the heading, tier, or quoted phrase; don't double it up
+in the cite (`ironclad_cards.md:268 §Inflame — B+...` is redundant). When
+there's no line to cite:
+- `status.md` shifts every floor → cite the section (`status.md → Deck`,
+  `status.md → Relics`), not a line.
+- On-screen facts (intents, HP bars, gold, cards on offer) → `(on-screen)`.
+  Don't dress observations as KB lookups.
+- Events, ascension modifiers, general STS rules → `(no KB source —
+  general STS knowledge)` once at the top of the recommendation, not per
+  line. Don't fabricate a file ref to look rigorous.
+- **Strike and Defend** are deliberately excluded from `<char>_cards.md`
+  (see its top note). Assume 6 dmg / 5 block (Strike+ 9, Defend+ 8). No
+  source needed.
+
+**Many-item screens** (shops, big card-reward pools, bosses with 3 relics):
+one line per item is fine — `ironclad_relics.md:185 — Pen Nib (180g),
+A-tier, super-syn Bludgeon`. Don't repeat the full Pick/Why/Sources block
+per item.
+For shops, lead with the **budget arithmetic** (`220g, removal 75g, Pen Nib
+180g → can't afford both; pick Pen Nib`) — the math is the source.
+
+For combat, recommend the **full play sequence** for the turn, in order, and
+show the math as the source. Apply modifiers in this order: **base + Str,
+then × Vuln**.
 
 ```
-1. Bash → frontline (Vulnerable up)
-2. Pommel Strike+ → frontline (4 dmg + draw)
-3. Defend → block 8
-End turn with 0 energy, 13 block. Incoming 12 → take 0.
+Player buffs: Strength 2 (from Inflame last turn).
+1. Bash → Jaw Worm  ((8 + 2 Str) × 1.5 Vuln = 15 dmg; apply Vulnerable 2)
+2. Pommel Strike+ → Jaw Worm  ((10 + 2 Str) × 1.5 Vuln = 18 dmg, draw 2)
+3. Defend → block 5
+End: 0 energy, 5 block. Jaw Worm took 33; if it had ≤33 HP, it's dead.
+
+Math: incoming 11 (Cultist Dark Strike 6 + Looter Mug 5, both on-screen).
+       Block 5 → take 6.
+Sources:
+  - `ironclad_cards.md:606` — Bash, 8 dmg + 2 Vuln
+  - `ironclad_cards.md:856` — Pommel Strike+, "Deal 10 damage. Draw 2 cards"
+  - `glossary.md:10` — Strength, "+1 Str = +1 damage per attack hit"
+  - `glossary.md:21` — Vulnerable, "target takes 50% more attack damage"
+  - `status.md → Player buffs` — Strength 2
+  - On-screen intents — Cultist Attack 6, Looter Attack 5
+  - Defend: starter, not in `ironclad_cards.md` (see top note); 5 block standard
 ```
 
 If you are uncertain, say so and pick the safest option (preserve HP,
-preserve options, avoid bricking the deck).
+preserve options, avoid bricking the deck). Mark uncertain claims with
+`(uncertain — no KB source)` rather than dressing them up as facts.
 
 ### 5. Update `status.md`
 
@@ -197,6 +269,9 @@ important to flag uncertainty, not less.
 - If the run is in a losing position, name it. Suggest the play that
   *maximises chance of survival*, not the play that would be best in a
   healthy run.
+- If you find yourself reaching for a fact and can't point to a KB source,
+  stop and grep for it. If it's still not there, label the claim
+  `(uncertain — no KB source)` in the recommendation.
 
 ---
 
