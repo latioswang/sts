@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 08:53 UTC
+### Current state (update after every batch) — 2026-11-05 09:15 UTC
+- **09:15 UTC: Phase X1 pre-registered** (exploration data for V; three A0 workers starting).
 - **08:53 UTC: A10 best re-measured on a fresh slice:** `a10_r81` on fs1203500n1000: win 0.372 (372/1000; 95% Wilson CI
   [34.3%, 40.2%]), floor 37.42, score 1.1058 (selection-slice val 44.0%; prediction "below" held). **New M-A10 claim declared
   now, before any test game:** `a10_r81` meets the preconditions of the first claim (val 44.0% ≥ 35%, dev replication +0.112
@@ -1588,6 +1589,24 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Phase X1 — exploration data for the run value (owner-approved direction "do that", 2026-11-05; pre-registered 09:15 UTC,
+before any of these games).** Why: V is trained on states the KB-guided agent reaches, so it has rarely seen the outcome of a
+choice the KB avoids — and the decisions use exactly those counterfactual differences. Every pure-V replacement so far lost
+(Phase C `rvpick`, deck model as replacement −10 to −16, `vrb50_nobf` −0.090, R6 rest/removal). Hooks (default off; build:
+`repro_check` vr5relic20 / a10_r81 / a20_relic20: 0 of 16 differ each; leak tests with each on: 98 checked, 0 mismatches;
+`explore_eps=0.2` changes 18 of 20 games): `explore_eps` p (card rewards and boss relics picked uniformly at random with
+probability p; own seeded RNG; data generation only, never in an evaluated config), `vr_pure` 1 (card picks by V alone: the
+card with the largest V gain if > `vr_pure_margin`, default 0, else skip), `vr_pure_relic` 1 (boss relic = argmax V).
+Data: 90,000 A0 games of `vr5relic20` + explore_eps=0.2, seeds 2,000,000–2,089,999 (unused; the fresh-slice pool stays below
+2,000,000), three workers (`research/workers/x1data.md`), shards; exploration holdout = first 1,000 games of W=13.
+Training (same trainer, `--state-weights`): ids 140 / 141 = h=64 / h=256 on the exploration data only (16 states);
+142 / 143 = h=64 / h=256 on exploration + all A0 + A10 + A20 subsamples (6 states); scored on the exploration holdout (the
+selection target: counterfactual states) and on the fresh A0 holdout (on-policy); selection 140–143 -> `vr_151` by the
+exploration-holdout RMSE, gate. Evaluation (fresh-slice rule, A0, vs the then A0 best): `x1add` (vr_model=151, inherited
+weights), `x1pure` (vr_model=151, vr_pure=1, vr_pure_relic=1: no KB on cards and boss relics), control `x1pure61` (same
+with `vr_61`). Predictions: `x1add` keep LOW–MED; `x1pure` keep LOW; `x1pure` beats `x1pure61` (MED — the point of the
+exploration data).
 
 **Honest re-measurement of the current bests (pre-registered 2026-11-05 08:16 UTC; report only, no decision).** Slices
 allocated now: A0 `vr5relic20` on fs1203000n500; A10 `a10_r81` on fs1203500n1000; Heart `heart_relic20` on

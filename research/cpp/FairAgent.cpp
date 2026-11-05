@@ -534,6 +534,29 @@ float FairAgent::bfRelicValue(const GameContext &hyp, std::uint64_t seed) {
 int FairAgent::bossRelicChoice(const GameContext &gc) {
     // Runic Dome is allowed: the searcher hides intents (observation hash + move re-roll)
     // when the player holds it, so there is no hidden-info leak.
+    if (getp(P, "explore_eps", 0.0) > 0) {   // Phase X exploration (data generation only): a uniformly random boss relic
+        std::mt19937_64 er((agentSeed * 0xC2B2AE3D27D4EB4FULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 20) ^ 0xB0551ULL);
+        if (std::uniform_real_distribution<double>(0.0, 1.0)(er) < getp(P, "explore_eps", 0.0)) {
+            for (int t = 0; t < 8; ++t) {
+                const int k = std::uniform_int_distribution<int>(0, 2)(er);
+                if (gc.info.bossRelics[k] == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+                return k;
+            }
+        }
+    }
+    if (getp(P, "vr_pure_relic", 0) > 0 && vr::model(static_cast<int>(getp(P, "vr_model", 0))).trained) {
+        // Phase X vr_pure_relic: the boss relic with the highest learned run value (no KB)
+        const vr::Model &vm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        int pk = 3; float bv = -1e30f;
+        for (int i = 0; i < 3; ++i) {
+            const RelicId rr = gc.info.bossRelics[i];
+            if (rr == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+            GameContext hyp = gc; RelicInstance ri; ri.id = rr; ri.data = 0; hyp.relics.add(ri);
+            const float v = vr::value(vm, hyp);
+            if (v > bv) { bv = v; pk = i; }
+        }
+        if (pk < 3) return pk;
+    }
     int best = 3;  // 3 = skip
     double bestV = -1e18;
     // Phase R5: vr_relic_w x (learned run value with the relic - without it), added to the KB value on both relic paths (default off)
@@ -729,6 +752,19 @@ void FairAgent::cardRewards(GameContext &gc) {
             }
             bfLogOptions(gc, hyps, 0);
         }
+        if (getp(P, "explore_eps", 0.0) > 0) {
+            // Phase X: exploration for run-value data (data generation only, never in evaluation): with probability
+            // explore_eps the card reward is picked uniformly among the offered cards and skip; own RNG, so runs stay
+            // reproducible per seed; uses no hidden information
+            std::mt19937_64 er((agentSeed * 0x9E3779B97F4A7C15ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 20)
+                               ^ (static_cast<std::uint64_t>(rIdx) << 8) ^ 0xE4C1ULL);
+            if (std::uniform_real_distribution<double>(0.0, 1.0)(er) < getp(P, "explore_eps", 0.0)) {
+                const int n = r.cardRewards[rIdx].size();
+                const int k = std::uniform_int_distribution<int>(0, n)(er);   // k == n: skip
+                search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, k == n ? 5 : k).execute(gc);
+                continue;
+            }
+        }
         if (getp(P, "bf_pick", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) {
             // Phase C v3: take the card whose interventional value gain beats skipping by bf_margin
             const float vBase = bfValue(gc);
@@ -765,6 +801,21 @@ void FairAgent::cardRewards(GameContext &gc) {
                 hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
                 const float pw = rv::pWin(hyp);
                 if (pw > pBest) { pBest = pw; pick = i; }
+            }
+            search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
+            continue;
+        }
+        if (getp(P, "vr_pure", 0) > 0 && vr::model(static_cast<int>(getp(P, "vr_model", 0))).trained) {
+            // Phase X vr_pure: card picks by the learned run value alone (no KB): the card with the largest V gain,
+            // taken iff the gain > vr_pure_margin (default 0), else skip
+            const vr::Model &vm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+            const float v0 = vr::value(vm, gc);
+            int pick = -1; float best = v0 + static_cast<float>(getp(P, "vr_pure_margin", 0.0));
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                const float v = vr::value(vm, hyp);
+                if (v > best) { best = v; pick = i; }
             }
             search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
             continue;
