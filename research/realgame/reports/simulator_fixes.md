@@ -210,6 +210,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 7459, 0 | A map node on floor 8 or 14 that got no room counted as a monster at once, so the node to its right couldn't be one | It stays empty until `lastMinuteNodeChecker`, after every node has had its turn | `9fab0df` |
 | 9108, 25 | Face of Cleric did nothing after a Smoke Bomb escape, and ignored Magic Flower | `endBattle` calls `onVictory` however the fight ended, and the room is still in combat | `8571846` |
 | 9125, 29 | Peace Pipe's toke went back to the map at once and removed nothing | It waits on the grid for the card, as smithing does | `dc329ac` |
+| 10013, 40 | N'loth's Gift tripled rare chances in a shop, for its cards and for the reward Cauldron rolls and removes | `ShopRoom.getCardRarity` passes `useAlternation` false, so relics don't change the rates there | `0e6214d` |
 
 ## Ascension
 
