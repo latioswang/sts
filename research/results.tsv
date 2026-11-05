@@ -500,3 +500,4 @@ bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase 
 7fff5d4	dev3.a20	100	0	0.050	26.35	0.5657	-0.0171	0.316	info	a20_r121s32: [a20 pooled500 slice] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32)
 21aa685	val.a0	300	0	0.843	48.31	1.7907	-0.0046	0.343	discard	vr9srel: Phase R9: shop relic chosen by the run value (always buy the best) [vr_shop_relic=1]
 d2a02a9	val.a0	300	0	0.850	48.34	1.7978	+0.0026	0.559	discard	vr9srelg: Phase R9: shop relic by the run value, buy only if the gain > 0 [vr_shop_relic=2]
+d20ea17	val.a0	300	0	0.847	48.45	1.7967	+0.0014	0.505	discard	a0_r121: Phase R10: A0 best with the mixed-data run value vr_121 (inherited weights) [vr_model=121]
