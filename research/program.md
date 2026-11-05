@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 07:17 UTC
+### Current state (update after every batch) — 2026-11-05 07:23 UTC
+- **07:23 UTC: B20b closed (both lose: bm05 2.4%, s400 3.8% vs 5.6%); selection-bias diagnostic on 1,000 fresh A20 seeds
+  pre-registered and queued** (report only).
 - **07:17 UTC: Phase B20b pre-registered and queued** (A20 with less search: bosses x0.5; sims 400).
 - **06:30 UTC: Phase B20 closed — no keep; extra boss search does not help A20.** Pasted (pooled val,dev2,dev3, n=500 vs
   `a20_relic20` win 0.056 floor 28.93): `a20_bm15` win 0.038 floor 28.51 dscore −0.0260 P=0.033; `a20_bm2` win 0.030 floor
@@ -1552,6 +1554,14 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 (W=40), `vr5shop` (vr_shop=1), `vr5upg40` (W=40). Model: `vr_61` (the A0 model). Ports to other tracks only after an A0 keep.
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
+
+**Selection-bias diagnostic on A20 (pre-registered 2026-11-05 07:23 UTC, before any of these games; report only).** All
+five A20 search changes today lost 1.8–3.2 points vs `a20_relic20` on the pooled 500 (bm15 3.8%, bm2 3.0%, bm2x 2.6%,
+bm05 2.4%, s400 3.8% vs 5.6%), in both directions of compute — the pattern expected if `a20_relic20`'s 5.6% is inflated by
+having been selected on those same 500 seeds [INFERRED, MED]. New split `fresh` (seeds 1,200,000–1,200,999, unused; added
+to `research/eval/run.py`; diagnostic only, never used for a keep or discard). Runs at A20: `a20_relic20`, `a20_vr2b20` (the
+previous best), `a20_bm2x`. Predictions: `a20_relic20` on fresh < 5.6% (MED); the relic gain vs `a20_vr2b20` on fresh smaller
+than the pooled +2.0 points (MED); `a20_bm2x` within 1 point of `a20_relic20` on fresh (LOW–MED).
 
 **Phase B20b — less search on A20 (pre-registered 2026-11-05 07:17 UTC, before any of these games).** Why: B20's
 +compute cell (bosses x2 at no cost elsewhere) lost 3 points (P=0.005), so either the search misbehaves at higher

@@ -514,3 +514,6 @@ d20ea17	val.a0	300	0	0.847	48.45	1.7967	+0.0014	0.505	discard	a0_r121: Phase R10
 dd98f15	val.a20	300	0	0.027	28.63	0.5875	-0.0624	0.000	discard	a20_bm05: [a20 pooled500] Phase B20b: boss search x0.5 (less compute) [boss_mult=0.5] pooled dscore=-0.0560 dwin=-0.032 P(improve)=0.000
 dd98f15	dev2.a20	100	0	0.010	25.36	0.5071	-0.0718	0.000	info	a20_bm05: [a20 pooled500 slice] Phase B20b: boss search x0.5 (less compute)
 dd98f15	dev3.a20	100	0	0.030	27.15	0.5618	-0.0210	0.267	info	a20_bm05: [a20 pooled500 slice] Phase B20b: boss search x0.5 (less compute)
+2675042	val.a20	300	0	0.040	28.48	0.5976	-0.0522	0.002	discard	a20_s400: [a20 pooled500] Phase B20b: 400 simulations everywhere (less compute) [sims=400] pooled dscore=-0.0369 dwin=-0.018 P(improve)=0.006
+2675042	dev2.a20	100	0	0.040	27.36	0.5757	-0.0031	0.469	info	a20_s400: [a20 pooled500 slice] Phase B20b: 400 simulations everywhere (less compute)
+2675042	dev3.a20	100	0	0.030	26.96	0.5580	-0.0247	0.167	info	a20_s400: [a20 pooled500 slice] Phase B20b: 400 simulations everywhere (less compute)
