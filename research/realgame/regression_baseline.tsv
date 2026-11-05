@@ -1056,3 +1056,4 @@ transcript-20261105-183543.jsonl#2	completed	331
 transcript-20261105-183941.jsonl#0	diverged	6	left the run straight after a difference, so the transforms' obtain effects were lost in the room change; a rerun of 9618 would replace it
 transcript-20261105-183941.jsonl#1	completed	249	
 transcript-20261105-184119.jsonl#0	completed	673	
+transcript-20261106-025724.jsonl#1	diverged	536	scenario only: the plan gave Warped Tongs, so Accursed Blacksmith gave a second one the simulator's relic set can't hold
