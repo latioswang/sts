@@ -102,7 +102,17 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 09:47 UTC
+### Current state (update after every batch) — 2026-11-05 10:01 UTC
+- **10:01 UTC: P1 stage 1 done (fidelity simulator, 200 train games, seeds 400000–400199, tuning only).** Wins / 200
+  (wall): 500-sim best 159 (231 s); 50 sims: prior off 95 (≈ 20 s); depth 0: c1.0 112, c1.5 119, c3.0 112 (≈ 26 s);
+  depth 1: 122, 122, 118 (≈ 48 s); depth 2: 124, 129, **133** (≈ 80 s). Same seeds on the legacy simulator this morning: 50
+  sims prior off 109, prior depth 0 143; 500 sims prior off 166. Reading: the fork is a harder game, most at low search
+  (−14 / −24 wins at 50 sims, −7 at 500); the prior is still worth +24 wins at 50 sims on the fork; using it deeper helps
+  (+14 wins at depth 2, c 3.0) but costs ≈ 3x time, so at equal speed-up nothing is gained — at 8.9x faster (depth 0)
+  the gap to 500 sims is 20 points, at 2.8x faster (depth 2) 13 points. Prediction "stage 1 closes ≥ 3 of the gap" (MED):
+  held only at 3x the cost; at equal cost it failed. The gap is the prior's quality, so stage 2 (2,000-sim targets) is the
+  real test. Stage-2 configuration fixed now: prior v4 evaluated at sims=50 with depth 0 (the cheap setting) and depth 2
+  c 3.0.
 - **09:47 UTC: Phase P1 pre-registered** (cheaper search via a better move prior; fidelity simulator; stage 1 here, stage 2
   on seven new workers). `setup.sh` takes `STS_SIM=fidelity` (default stays legacy until X1 ends); fork pinned in
   `research/patches/sts_lightspeed_fidelity.commit` (dfda16c327770b5d62f344eda1ef9cced3e01c17); `runstore.py` packs any
