@@ -102,7 +102,13 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 16:32 UTC
+### Current state (update after every batch) — 2026-11-05 16:34 UTC
+- **16:34 UTC: P1 stage-2 amendment 2 (before the full training run).** One-set trial (`poldata_p1_w16`, 4,000 games):
+  `decisions=1459511 actions=8134094`; `ep 1 val_ce=0.2481 (uniform 0.2858, floor 0.2166, captured 54%) 606s` — already
+  above v1 (49% captured after 8 epochs at 500-sim targets). Six sets ≈ 8.8M decisions: 8 epochs x 3 sizes would take > a
+  day. Fixed now: training set = every 3rd game (sorted file list) of each of the six stored sets (≈ 8,000 games, ≈ 2.9M
+  decisions); prior v4 candidates hidden 64 and 128, 4 epochs each; selection, evaluation slice (fs1206500n1000) and arms
+  unchanged.
 - **16:32 UTC: disk-full incident (≈ 15:38–16:20), no data lost.** P1 stage 2 pulled and unpacked six of the seven policy
   sets (w18 not stored: trained on six as amended), but `p1_side_build.sh` copied `research/vf` *including*
   `research/vf/data` into `/home/user/p1side/v4` (12 GB) and the volume filled; the three trainer runs had already failed
