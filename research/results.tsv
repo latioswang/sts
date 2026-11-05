@@ -519,3 +519,4 @@ dd98f15	dev3.a20	100	0	0.030	27.15	0.5618	-0.0210	0.267	info	a20_bm05: [a20 pool
 2675042	dev3.a20	100	0	0.030	26.96	0.5580	-0.0247	0.167	info	a20_s400: [a20 pooled500 slice] Phase B20b: 400 simulations everywhere (less compute)
 0cd9a65	fs1201000n1000.a20	1000	0	0.039	28.31	0.5933	-0.0131	0.097	discard	a20_bm15f: [a20] re-test under the fresh-slice rule: compute-neutral boss search x1.5 (sims 405) [fresh slice; sims=405 boss_mult=1.5]
 c4cc1c7	fs1202000n1000.a20	1000	0	0.062	28.31	0.6158	+0.0232	0.972	keep	a20_r121s32f: [a20] re-test under the fresh-slice rule: vr_121 with scale-matched weights [fresh slice; vr_model=121 vr_bonus=32 vr_relic_w=32]
+b89d04b	fs1208500n500.a0	500	0	0.858	48.63	1.8115	+0.0294	0.908	keep	x1add: Phase X1: A0 best with the exploration-trained run value vr_151 (inherited weights) [fresh slice; vr_model=151]
