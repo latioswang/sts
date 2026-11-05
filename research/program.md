@@ -1573,6 +1573,11 @@ Cells (A0, each val-300 vs `vr3b40`, keep rule + near-miss extension rule as usu
 Predictions: each cell a keep LOW (boss relics: one decision per act, large stakes, the KB value already decent; shop
 cards: rarer than card rewards; upgrades: KB value is a weak prior, so the most room — LOW–MED).
 
+**Honest re-measurement of the current bests (pre-registered 2026-11-05 08:16 UTC; report only, no decision).** Slices
+allocated now: A0 `vr5relic20` on fs1203000n500; A10 `a10_r81` on fs1203500n1000; Heart `heart_relic20` on
+fs1204500n1000 (Heart win = Heart beaten). (A20 `a20_relic20`: 4.4% on the 1,000 `fresh` seeds, already measured.)
+Predictions: each below its selection-slice number — A0 < 84.7% (MED), A10 < 44.0% (HIGH), Heart < 15.0% (MED).
+
 **PROTOCOL AMENDMENT — fresh-slice keep rule (adopted 2026-11-05 07:50 UTC; applies to every keep decision from now on).**
 Problem (shown above): the bests were selected on the val/dev slices that every later challenger is compared on, so the
 base's score there is the maximum of many noisy tries — challengers lose by the selection gain (A20: ≈ 1–3 win points;
