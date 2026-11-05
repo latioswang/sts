@@ -25,7 +25,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Test-only: gives the player specific cards, relics and potions so mirror runs can reach things the agent rarely
@@ -40,6 +42,13 @@ import java.util.List;
  */
 @SpireInitializer
 public class BridgeScenario implements PostUpdateSubscriber {
+    private static final Map<String, String> STARTER_REPLACED_BY = new HashMap<>();
+    static {
+        STARTER_REPLACED_BY.put("Black Blood", "Burning Blood");
+        STARTER_REPLACED_BY.put("FrozenCore", "Cracked Core");
+        STARTER_REPLACED_BY.put("HolyWater", "PureWater");
+        STARTER_REPLACED_BY.put("Ring of the Serpent", "Ring of the Snake");
+    }
     private static final Path IN = Paths.get("bridge_scenario_in.txt");
     private static final Path OUT = Paths.get("bridge_scenario_out.txt");
     private static final Path OUT_TMP = Paths.get("bridge_scenario_out.tmp");
@@ -169,7 +178,13 @@ public class BridgeScenario implements PostUpdateSubscriber {
     private static void giveRelic(String id) {
         AbstractRelic relic = relicById(id);
         removeFromPools(id);
-        relic.makeCopy().instantObtain();
+        // BossRelicSelectScreen.relicObtainLogic puts these into slot 0, where the character's starting relic is.
+        String starter = STARTER_REPLACED_BY.get(id);
+        if (starter != null && AbstractDungeon.player.hasRelic(starter)) {
+            relic.makeCopy().instantObtain(AbstractDungeon.player, 0, true);
+        } else {
+            relic.makeCopy().instantObtain();
+        }
     }
 
     private static void giveCard(String id, int upgrades) {
