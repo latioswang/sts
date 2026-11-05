@@ -102,7 +102,14 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-05 10:18 UTC
+### Current state (update after every batch) — 2026-11-05 11:21 UTC
+- **11:21 UTC: P1 stage 2 pipeline tested and armed** (`research/tools/p1_stage2.sh`, standalone; waits for the seven
+  `poldata_p1_w*_z` sets, ≈ 14:30 UTC). End-to-end smoke test on 20 fork games (pf_log, sims 200): trainer runs, side build
+  (`research/tools/p1_side_build.sh`: copy of research/ with the candidate prior, own build dir on the fork) compiles, leak
+  test `checked=88 mismatches=0 PASS`, the side build plays different games (prior live), `research/cpp/pfm_weights.inc`
+  untouched. Pre-registered selection: prior v4 = the hidden size (64 / 128 / 256) with the lowest validation CE; evaluation
+  slice allocated now: fs1206500n1000 (all arms paired on it): ref 500 sims (v1), v1 vs v4 at sims 50 depth 0, v1 vs v4 at
+  sims 50 depth 2 c3.0. X1 runner waiting for its first shard set (≈ 17:00).
 - **10:18 UTC:** all 10 workers past their gates (X1: three repro_check `OK bit-identical`; P1, e.g. p1w16: `built fair_eval
   with STS_SIM=fidelity (dfda16c ...)`, `LEAKTEST checked=94 mismatches=0 PASS`, 20 gate games 0 aborted); logs merged
   (x1w15 not yet pushed; its session reports 20/300 chunks at 09:54, ≈ 7 h left). Correction: X1 data lands ≈ 17:00 UTC,
