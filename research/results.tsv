@@ -502,3 +502,6 @@ bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase 
 d2a02a9	val.a0	300	0	0.850	48.34	1.7978	+0.0026	0.559	discard	vr9srelg: Phase R9: shop relic by the run value, buy only if the gain > 0 [vr_shop_relic=2]
 d20ea17	val.a0	300	0	0.847	48.45	1.7967	+0.0014	0.505	discard	a0_r121: Phase R10: A0 best with the mixed-data run value vr_121 (inherited weights) [vr_model=121]
 0ea154d	val.a0	300	0	0.840	48.14	1.7839	-0.0113	0.340	discard	a0_r121s: Phase R10: A0 best with vr_121, scale-matched weights (cards 64, relics 32) [vr_model=121 vr_bonus=64 vr_relic_w=32]
+091e8cf	val.a20	300	0	0.037	29.37	0.6119	-0.0380	0.029	discard	a20_bm15: [a20 pooled500] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere) [sims=405 boss_mult=1.5] pooled dscore=-0.0260 dwin=-0.018 P(improve)=0.033
+091e8cf	dev2.a20	100	0	0.060	27.70	0.6020	+0.0231	0.785	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
+091e8cf	dev3.a20	100	0	0.020	26.73	0.5437	-0.0390	0.035	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
