@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F4 (starting on simulator 1b05bdc): V iteration 2 — 120,000 new games played by the current V-driven bests; retrain V on them plus the older data; test on every track. 1b05bdc levels: A0 83.1%, A10 43.4%, A20 4.0%, Heart 15.2%.",
+  "Phase F5 (running): let V decide shop purchases, upgrades, rest vs smith and card removal too (all five hooks, one combined arm per track), vs each track best on fresh slices.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -236,7 +236,8 @@
   "Phase F1: V retrained on 120,000 fork games (vr_171): most accurate V on every track's fork holdout; Heart best improved (pooled 2,000 games 13.1% -> 14.3% Heart wins, P 0.997); A0 tie; A10 / A20 small positive, not significant.",
   "Phase F2: more weight for the fork V — new best on every track: A0 +3.6 pts (84.0% on a second fresh slice), A10 +5.2 pts, A20 and Heart better floor / act-4 progress (Heart via V-only card and relic picks).",
   "Phase F3: A20 2.25x V weights (wins 3.2 -> 4.1%, 2,000 games, P 0.995) and A10 V-only card / relic picks (+5.2 pts, 44.0%) kept; A0 2.25x +1.4 pts not significant.",
-  "Simulator switch 2 (2026-11-06): fork 1b05bdc (28 more game fixes, ~40% less CPU); leak tests pass; bests on it: A0 83.1%, A10 43.4%, A20 4.0%, Heart 15.2% (all within the predicted ranges)."
+  "Simulator switch 2 (2026-11-06): fork 1b05bdc (28 more game fixes, ~40% less CPU); leak tests pass; bests on it: A0 83.1%, A10 43.4%, A20 4.0%, Heart 15.2% (all within the predicted ranges).",
+  "Phase F4: second V iteration on 1b05bdc (120,000 games from the V-driven bests): holdout RMSE 0.4379 -> 0.4280, no measurable play change on any track (4 discards)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
