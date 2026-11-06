@@ -1060,3 +1060,5 @@ transcript-20261106-025724.jsonl#1	diverged	536	scenario only: the plan gave War
 transcript-20261106-050900.jsonl#2	diverged	9	bridge timing: under Runic Dome it played Spot Weakness before the battle banner gave intents; fixed in 7445592, and the rerun of seed 10002 passes
 transcript-20261106-052925.jsonl#0	diverged	443	scenario only: the plan gave Bloody Idol, so Forgotten Altar kept Golden Idol and gave Circlet
 transcript-20261106-084127.jsonl#1	diverged	321	BaseMod fix: GiveOrbSlotOnChannel gave the Watcher an orb slot the unmodded game would not
+transcript-20261106-091750.jsonl#0	diverged	4	scenario only: the plan gave Neow's Lament, so Neow's blessing made a second one the simulator's relic set can't hold
+transcript-20261106-100537.jsonl#0	diverged	332	scenario only: the plan gave N'loth's Gift, so N'loth kept the offered relic and gave Circlet
