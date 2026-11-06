@@ -553,3 +553,4 @@ b3ed00c	fs1231000n1000.a0	1000	0	0.831	48.59	1.7837			report	fidb_f2a0w: [a0] si
 c65a20f	fs1233000n1000.a20	1000	0	0.040	29.09	0.6096			report	fidb_f3a20w: [a20] simulator switch: honest level of the a20 best f3a20w on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
 bf1245a	fs1234000n1000.a0	1000	0	0.152	49.29	1.0674			report	fidb_f2heartp: [heart] simulator switch: honest level of the heart best f2heartp on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
 47a8869	fs1235000n500.a0	500	0	0.828	48.34	1.7758	+0.0115	0.684	discard	f4a0: Phase F4: A0 best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
+4de7a5c	fs1235500n500.a10	500	0	0.430	39.24	1.1994	-0.0275	0.192	discard	f4a10: [a10] Phase F4: A10 best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
