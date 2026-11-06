@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-06 14:21 UTC
+### Current state (update after every batch) — 2026-11-06 14:28 UTC
+- **2026-11-06 14:28 UTC: F2 — `f2heartw` near miss; extension pre-registered (before any of its seeds).** `f1heart fs1221500n1000 win=0.129 floor=48.32 score=1.0288±0.0133 act4=0.613`; `f2heartw n=1000 crash=0 win=0.137 floor=48.54 score=1.0402±0.0135 act4=0.622` vs f1heart: dscore +0.0114, dwin +0.008, P 0.880 -> near miss. `ext_fresh.sh f2heartw fs1221500n1000` queued last.
 - **2026-11-06 14:21 UTC: hourly check.** `f2heartw` base: `f1heart fs1221500n1000 n=1000 win=0.129 floor=48.32 score=1.0288±0.0133 act4=0.613`; challenger arm running. Then f2a0p, f2heartp, the f2a20w extension. Runner alive (uptime 10 h). Routine prompt moved to F2.
 - **2026-11-06 13:57 UTC: F2 — `f2a20w` near miss; extension pre-registered (before any of its seeds).** `f2a20w fs1220500n1000 n=1000 crash=0 win=0.034 floor=28.11 score=0.5844±0.0110` vs a20_r121s32f: dscore +0.0054, dwin -0.002, P 0.728 -> near miss. `ext_fresh.sh f2a20w fs1220500n1000` queued at the end (one second 1,000-seed slice; keep iff pooled P >= 0.9 and second-slice dscore > 0).
 - **2026-11-06 13:48 UTC: F2 — `f2a10w` KEEP: new A10 best (fork).** `f2a10w fs1220000n500 n=500 crash=0 win=0.418 floor=39.87 score=1.1997±0.0313` vs a10_r81: dscore +0.0733, dwin +0.052, P 0.996 -> KEEP (vr_model=171, vr_bonus=30, vr_relic_w=30; same compute). Prediction "keep LOW" wrong. F1 had vr_171 at the old 20/20 weights at +0.4 points (pooled, P 0.711); at 1.5x, +5.2. Two of two weight arms kept so far: the fork V was under-weighted on both tracks.

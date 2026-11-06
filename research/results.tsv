@@ -536,3 +536,4 @@ c3a1592	fs1213000n1000.a0	1000	0	0.118	47.95	1.0130			report	fid_heart_relic20: 
 81028d3	fs1219500n500.a0	500	0	0.834	48.43	1.7836	+0.0537	0.982	keep	f2a0w: Phase F2: A0 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=60 vr_relic_w=30] [sim=fidelity]
 d9ae002	fs1220000n500.a10	500	0	0.418	39.87	1.1997	+0.0733	0.996	keep	f2a10w: [a10] Phase F2: A10 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=30 vr_relic_w=30] [sim=fidelity]
 9489636	fs1220500n1000.a20	1000	0	0.034	28.11	0.5844	+0.0054	0.728	discard	f2a20w: [a20] Phase F2: A20 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=48 vr_relic_w=48] [sim=fidelity]
+88514ca	fs1221500n1000.a0	1000	0	0.137	48.54	1.0402	+0.0114	0.880	discard	f2heartw: [heart] Phase F2: Heart best (vr_171) at 1.5x weights [fresh slice; vr_bonus=30 vr_relic_w=30] [sim=fidelity]
