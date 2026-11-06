@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 # Weights/binary consistency check: re-run the first COUNT games of a recorded experiment with the
 # current fair_eval binary and compare every column except timing against the stored TSV.
-# usage: repro_check.sh NAME [count=16]   (NAME must have research/runs/NAME.params and a val TSV)
+# usage: repro_check.sh NAME [count=16] [split=val]   (NAME must have research/runs/NAME.params and a val TSV)
 # Exit 0 = bit-identical, 1 = differs (the binary no longer reproduces the recorded best: stop and
 # find out why before trusting new paired comparisons).
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 NAME=${1:?experiment name}; COUNT=${2:-16}
 BIN=${FAIR_EVAL_BIN:-/home/user/sts_lightspeed/build/fair_eval}
-TSV=$(ls research/runs/"$NAME".val.a*.tsv | head -1)
+SPLIT=${3:-val}   # optional: a recorded split other than val (e.g. fs1210000n1000 for the fork gates, 2026-11-06)
+TSV=$(ls research/runs/"$NAME".$SPLIT.a*.tsv | head -1)
+S0=$(awk -F'\t' '$1 ~ /^[0-9]+$/ && (m == "" || $1 < m) {m = $1} END {print m}' "$TSV")   # lowest recorded seed
 ASC=$(echo "$TSV" | sed 's/.*\.a\([0-9]*\)\.tsv/\1/')
 ARGS=$(sed 's/^/--param /' "research/runs/$NAME.params" | tr '\n' ' ')
 OUT=$(mktemp)
-"$BIN" --agent fair --seed_start 200000 --count "$COUNT" --asc "$ASC" --threads 4 $ARGS > "$OUT"
+"$BIN" --agent fair --seed_start "$S0" --count "$COUNT" --asc "$ASC" --threads 4 $ARGS > "$OUT"
 python3 - "$TSV" "$OUT" "$COUNT" <<'PY'
 import sys
 ref, new, n = sys.argv[1], sys.argv[2], int(sys.argv[3])
