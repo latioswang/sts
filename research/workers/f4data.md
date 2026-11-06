@@ -1,7 +1,7 @@
 # Worker task: Phase F4 fork run data for V, iteration 2 (NAME = your worker name; TRACK, W and SEED below)
 
-Pre-registered in research/program.md ("Phase F4", 2026-11-06 16:4x UTC). The loop now runs on the **fidelity fork** (`setup.sh`
-defaults to it: `latioswang/sts_lightspeed` at `research/patches/sts_lightspeed_fidelity.commit`). Generate 30,000 games of
+Pre-registered in research/program.md ("Phase F4", 2026-11-06 16:4x UTC). The loop now runs on the **fidelity fork at 1b05bdc** (`setup.sh`
+defaults to it: `latioswang/sts_lightspeed` at `research/patches/sts_lightspeed_fidelity.commit`; GCC with LTO builds fine; if LTO fails, add `-DSTS_LTO=OFF`). Generate 30,000 games of
 run states on the fork with the current best of your TRACK plus exploration (`explore_eps=0.2`: each card reward and boss
 relic is, with probability 0.2, picked uniformly at random), keep 32 random states per run, pack both sets into compressed
 shards (`research/vf/runstore.py`) and push only the shard sets to the Hugging Face store (`research/data_store.json`; the

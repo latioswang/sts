@@ -551,3 +551,4 @@ e01753f	fs1229000n1000.a20	1000	0	0.044	28.64	0.6047	+0.0210	0.999	keep-candidat
 b3ed00c	fs1231000n1000.a0	1000	0	0.831	48.59	1.7837			report	fidb_f2a0w: [a0] simulator switch: honest level of the a0 best f2a0w on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
 4bdfe5d	fs1232000n1000.a10	1000	0	0.434	39.45	1.2075			report	fidb_f3a10p: [a10] simulator switch: honest level of the a10 best f3a10p on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
 c65a20f	fs1233000n1000.a20	1000	0	0.040	29.09	0.6096			report	fidb_f3a20w: [a20] simulator switch: honest level of the a20 best f3a20w on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
+bf1245a	fs1234000n1000.a0	1000	0	0.152	49.29	1.0674			report	fidb_f2heartp: [heart] simulator switch: honest level of the heart best f2heartp on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]

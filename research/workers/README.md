@@ -12,9 +12,10 @@ that restart of your own queue runner, nothing else. (Three workers on 2026-11-0
 ## Every worker, in order
 1. `git checkout -B worker/<NAME> origin/autoresearch/ironclad` (NAME is given in your task file).
 2. The repo must be at `/home/user/sts` (the simulator build hard-codes that path; symlink it if your clone is elsewhere). `bash research/setup.sh` (since 2026-11-06 it clones the **fidelity fork** `latioswang/sts_lightspeed` at the pinned commit and builds `fair_eval`; `STS_SIM=legacy` builds the old simulator).
-3. Bit-identity gate (fork; since 2026-11-06) — all three must print `OK bit-identical`, otherwise stop and report:
-   `research/tools/repro_check.sh fid_x1add 16 fs1210000n1000`, `research/tools/repro_check.sh fid_a10_r81 16 fs1211000n1000`,
-   `research/tools/repro_check.sh fid_a20_r121s32f 16 fs1212000n1000`.
+3. Bit-identity gate (fork 1b05bdc; since 2026-11-06 17:3x UTC) — all three must print `OK bit-identical`, otherwise stop and report:
+   `research/tools/repro_check.sh fidb_f2a0w 16 fs1231000n1000`, `research/tools/repro_check.sh fidb_f3a10p 16 fs1232000n1000`,
+   `research/tools/repro_check.sh fidb_f3a20w 16 fs1233000n1000`.
+   (The dfda16c gates `fid_x1add 16 fs1210000n1000` etc. apply only to a build at dfda16c.)
    (Legacy-simulator batches, `STS_SIM=legacy` only: `repro_check.sh mapd085 16`, `heart_bfrelic10 16`, `a20_restboss1 16`.)
 4. `export RESULTS_TSV=$PWD/research/results.d/<NAME>.tsv` in every shell that runs experiments, so result rows go to
    your own file. Write your notes (numbers pasted from tool output, never typed) to `research/workers/<NAME>.log.md`.
