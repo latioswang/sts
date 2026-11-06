@@ -564,3 +564,4 @@ e1e731c	fs1240000n1000.a0	999	1	0.152	49.00	1.0598	-0.0160	0.134	discard	f5heart
 9e184dc	fs1241500n500.a10	500	0	0.452	40.36	1.2434	-0.0178	0.149	discard	f6a10_nosrel: [a10] Phase F6: A10 best without one V hook (vr_shop_relic=0) [fresh slice; vr_shop_relic=0] [sim=fidelity-1b05bdc]
 2b69e18	fs1242000n500.a10	500	0	0.442	39.36	1.2138	-0.0453	0.015	discard	f6a10_noupg: [a10] Phase F6: A10 best without one V hook (vr_upg_w=0) [fresh slice; vr_upg_w=0] [sim=fidelity-1b05bdc]
 207653d	fs1242500n500.a10	500	0	0.478	40.49	1.2719	+0.0778	0.999	keep	f6a10_norest: [a10] Phase F6: A10 best without one V hook (vr_rest=0) [fresh slice; vr_rest=0] [sim=fidelity-1b05bdc]
+fbd6d4b	fs1243000n500.a10	500	0	0.464	40.41	1.2564	+0.0006	0.504	discard	f6a10_norm: [a10] Phase F6: A10 best without one V hook (vr_remove=0) [fresh slice; vr_remove=0] [sim=fidelity-1b05bdc]
