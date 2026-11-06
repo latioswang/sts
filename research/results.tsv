@@ -523,3 +523,4 @@ b89d04b	fs1208500n500.a0	500	0	0.858	48.63	1.8115	+0.0294	0.908	keep	x1add: Phas
 12a06d2	fs1209000n500.a0	500	0	0.826	48.25	1.7721	-0.0080	0.395	discard	x1pure: Phase X1: card picks and boss relics by vr_151 alone (no KB) [fresh slice; vr_model=151 vr_pure=1 vr_pure_relic=1]
 4159835	fs1209500n500.a0	500	0	0.796	48.22	1.7415	-0.0815	0.001	discard	x1pure61: Phase X1 control: card picks and boss relics by vr_61 alone (no KB) [fresh slice; vr_model=61 vr_pure=1 vr_pure_relic=1]
 bcf029c	fs1210000n1000.a0	1000	0	0.796	48.02	1.7377			report	fid_x1add: [a0] simulator switch: honest level of the a0 best x1add on the fidelity fork (report only) [sim=fidelity]
+a7ea6d0	fs1211000n1000.a10	1000	0	0.361	38.62	1.1182			report	fid_a10_r81: [a10] simulator switch: honest level of the a10 best a10_r81 on the fidelity fork (report only) [sim=fidelity]
