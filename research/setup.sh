@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Reproduce the simulator build used by research/ (sts_lightspeed + leak-free agent).
 # STS_SIM selects the simulator:
-#   legacy   (default until the switch): upstream gamerpuppy/sts_lightspeed at patches/sts_lightspeed.commit + the research patch
+#   legacy   (the loop's simulator until 2026-11-06): upstream gamerpuppy/sts_lightspeed at patches/sts_lightspeed.commit + the research patch
 #   fidelity : latioswang/sts_lightspeed (real-game-matched fork) pinned at patches/sts_lightspeed_fidelity.commit; the fork
 #              already carries the research patch, so nothing is applied on top; fair_eval is built from this research/ dir
 set -euo pipefail
 SIM=/home/user/sts_lightspeed
 HERE="$(cd "$(dirname "$0")" && pwd)"
-STS_SIM=${STS_SIM:-legacy}
+STS_SIM=${STS_SIM:-fidelity}   # loop switched to the fork 2026-11-06 (owner decision); results tagged via research/eval/sim.txt
 if [ ! -d "$SIM" ]; then
   if [ "$STS_SIM" = fidelity ]; then
     git clone --recurse-submodules https://github.com/latioswang/sts_lightspeed.git "$SIM"
