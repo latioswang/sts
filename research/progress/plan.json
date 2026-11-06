@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F3 (running): V weights past 1.5x (2.25x) on A0 / A10 / A20, and V-only card and relic picks on A10 / A20, each vs the track best on fresh slices.",
+  "Phase F3 (running): V weights at 2.25x (near misses on A0 / A20, extensions running) and V-only card and relic picks — kept on A10 (+5.2 pts, 44.0%); A20 V-only extension pending.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
