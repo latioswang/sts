@@ -30,6 +30,9 @@ POTION_OWNERS = {"Ambrosia": "watcher", "GhostInAJar": "silent"}
 CARD_THREE_SEEDS_BELOW, CARD_TWO_SEEDS_BELOW = 0.5, 0.9
 GIVEN_CATEGORIES = ("relics", "cards", "potions")
 STARTING_RELICS = frozenset({"Burning Blood", "Ring of the Snake", "Cracked Core", "PureWater"})
+# Relics only their own event gives. Held before that event, they make a state no real run reaches, and the mirror stops
+# there (see Known gaps in reports/simulator_fixes.md), so the shuffled passes leave them out.
+EVENT_ONLY_RELICS = frozenset({"Golden Idol", "Bloody Idol", "WarpedTongs"})
 OTHER_CLASS_POTIONS = {c: frozenset(p for p, owner in POTION_OWNERS.items() if owner != c) for c in CLASSES}
 MIX_RELICS_PER_SEED, MIX_CARDS_PER_SEED, MIX_POTIONS_PER_SEED = 6, 6, 2
 
@@ -75,7 +78,8 @@ def scenarios_for(need: dict[str, dict[str, int]]) -> list[str]:
 
 
 def what_a_class_holds(items: dict, cls: str) -> tuple[list[str], list[str], list[str]]:
-    relics = [r for r, item in items["relics"].items() if item.get("class", "any") in (cls, "any") and r not in STARTING_RELICS]
+    relics = [r for r, item in items["relics"].items()
+              if item.get("class", "any") in (cls, "any") and r not in STARTING_RELICS and r not in EVENT_ONLY_RELICS]
     cards = [c for c, item in items["cards"].items() if item.get("kind") != "unplayable" and item.get("class") in (cls, "colorless")]
     potions = [p for p in items["potions"] if p not in OTHER_CLASS_POTIONS[cls]]
     return relics, cards, potions
