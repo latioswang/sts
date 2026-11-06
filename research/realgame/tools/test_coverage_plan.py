@@ -80,7 +80,7 @@ class MixTest(unittest.TestCase):
             self.assertNotIn(item, text)
 
     def test_a_relic_only_its_event_gives_is_left_out(self) -> None:
-        given = ("Golden Idol", "WarpedTongs", "NeowsBlessing")
+        given = ("Golden Idol", "WarpedTongs", "NeowsBlessing", "Nloth's Gift")
         items = {**self.items, "relics": {**self.items["relics"], **{r: {"class": "any"} for r in given}}}
         text = ";".join(mix_scenarios(items, "defect", 1))
         for relic in given:

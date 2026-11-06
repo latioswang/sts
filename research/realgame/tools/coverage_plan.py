@@ -32,7 +32,7 @@ GIVEN_CATEGORIES = ("relics", "cards", "potions")
 STARTING_RELICS = frozenset({"Burning Blood", "Ring of the Snake", "Cracked Core", "PureWater"})
 # Relics only their own event (or Neow) gives. Held before that event, they make a state no real run reaches, and the mirror stops
 # there (see Known gaps in reports/simulator_fixes.md), so the shuffled passes leave them out.
-EVENT_ONLY_RELICS = frozenset({"Golden Idol", "Bloody Idol", "WarpedTongs", "NeowsBlessing"})
+EVENT_ONLY_RELICS = frozenset({"Golden Idol", "Bloody Idol", "WarpedTongs", "NeowsBlessing", "Nloth's Gift"})
 OTHER_CLASS_POTIONS = {c: frozenset(p for p, owner in POTION_OWNERS.items() if owner != c) for c in CLASSES}
 MIX_RELICS_PER_SEED, MIX_CARDS_PER_SEED, MIX_POTIONS_PER_SEED = 6, 6, 2
 
