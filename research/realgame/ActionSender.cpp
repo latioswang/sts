@@ -500,7 +500,9 @@ void ActionSender::applyCombatAction(const BattleContext &bc, const search::Acti
                 }
                 case CardSelectTask::OMNISCIENCE:
                     chooseDrawPileCardOnScreen(bc, idx);
-                    confirmIfRequired();
+                    // The one-card grid can close on the pick, and the chosen card may open a hand select at once, as
+                    // Purity does. A confirm then would answer that screen with nothing picked.
+                    if (screenType() == "GRID") confirmIfRequired();
                     break;
                 case CardSelectTask::ARMAMENTS:
                 case CardSelectTask::DUAL_WIELD:
