@@ -213,6 +213,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 9125, 29 | Peace Pipe's toke went back to the map at once and removed nothing | It waits on the grid for the card, as smithing does | `dc329ac` |
 | 10013, 40 | N'loth's Gift tripled rare chances in a shop, for its cards and for the reward Cauldron rolls and removes | `ShopRoom.getCardRarity` passes `useAlternation` false, so relics don't change the rates there | `0e6214d` |
 | 10614, 22 | With The Courier and Membership Card, a shop's purge took both discounts | `applyDiscount` sets the purge cost from its base each time, so only Membership Card's half counts | `9883187` |
+| 10700, 31 | Enchiridion rolled once too few between the Colosseum's two fights | `Colosseum.reopen` calls `preBattlePrep`, whose `atPreBattle` makes Enchiridion pick a Power with `cardRandomRng`; the second fight's start clears it | `907e9ad` |
 
 ## Ascension
 
