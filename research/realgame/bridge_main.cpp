@@ -126,6 +126,7 @@ int runReplay(const Args &args) {
             options.scenario = header.scenario;
             options.noteCard = header.noteCard;
             options.noteUpgrades = header.noteUpgrades;
+            options.baseModFixes = header.baseModFixes;
             options.replay = &game;
             Mirror mirror(game, options);
             const MirrorResult r = mirror.run();

@@ -74,6 +74,8 @@ ReplayClient::ReplayClient(const std::string &path) : data_(readAll(path)) {
             header_.scenarioSource = h.value("scenario_source", "");
             header_.noteCard = h.value("note_card", "");
             header_.noteUpgrades = h.value("note_upgrades", 0);
+            // Names are transcript-YYYYMMDD-HHMMSS.jsonl#<run>, so they sort by time.
+            header_.baseModFixes = header_.trace < "transcript-20261106-191204";
             headerRead = true;
             continue;
         }

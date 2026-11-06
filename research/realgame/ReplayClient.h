@@ -32,6 +32,9 @@ struct TraceHeader {
     std::string scenarioSource;  // none | mirror_log | plan | rebuilt, which may be missing items
     std::string noteCard;  // the game's id for the card Note For Yourself held, if the run took it
     int noteUpgrades = 0;
+    // The game ran with BaseMod's basemod-fixes setting on. launch_game.sh has turned it off at every start since
+    // 2026-11-06 19:12:04 +0800, so this is read from the transcript's name, which is the time its game started.
+    bool baseModFixes = false;
 };
 
 class ReplayClient : public CommClient {

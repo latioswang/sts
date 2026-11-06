@@ -610,6 +610,7 @@ MirrorResult Mirror::run() {
     if (!options_.replay) log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
     GameContext gc(options_.character, options_.seed, options_.ascension);
+    gc.baseModFixes = options_.baseModFixes;
     if (options_.replay) {
         if (const auto card = cardFromGameId(options_.noteCard)) gc.noteForYourselfCard = Card(*card, options_.noteUpgrades);
     } else {

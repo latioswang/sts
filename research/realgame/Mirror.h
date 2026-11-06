@@ -26,6 +26,7 @@ struct MirrorOptions {
     ReplayClient *replay = nullptr;
     std::string noteCard;  // replay only: the card Note For Yourself held in the recorded run
     int noteUpgrades = 0;
+    bool baseModFixes = false;  // replay only: the recorded game ran with BaseMod's fixes on, see TraceHeader
     // Takes the event option tried least so far instead of the agent's, so that the ones it never picks get compared too.
     bool exploreEvents = false;
     int neowOption = -1;  // with exploreEvents, takes this one at Neow, to reach a reward on a seed known to offer it
