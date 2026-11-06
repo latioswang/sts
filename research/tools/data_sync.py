@@ -98,7 +98,16 @@ def pull(names, data=DATA, repo=None):
     repo = repo or repo_id()
     for name in names:
         stage = os.path.join(data, name, "_hf")
-        snapshot_download(repo, repo_type="dataset", local_dir=stage, allow_patterns=[f"{name}/all/*/*"])
+        # 2026-11-06: list and fetch only this set (the store holds >10^5 files; snapshot_download walked all of them and hit
+        # rate limits / disconnects). Same files, same layout under stage/ as before.
+        from huggingface_hub import hf_hub_download
+        for f in set_files(name, repo):
+            for attempt in range(6):
+                try:
+                    hf_hub_download(repo, f, repo_type="dataset", local_dir=stage); break
+                except Exception as e:
+                    if attempt == 5: raise
+                    print(f"retry {f}: {type(e).__name__}", flush=True); time.sleep(10 * (attempt + 1))
         out = os.path.join(data, name, "all"); os.makedirs(out, exist_ok=True)
         got = glob.glob(os.path.join(stage, name, "all", "*", "*"))
         for f in got:
@@ -106,6 +115,26 @@ def pull(names, data=DATA, repo=None):
             if not os.path.lexists(dst):
                 os.symlink(os.path.realpath(f), dst)
         print(f"PULL {name} DONE: {len(got)} files linked into {out}")
+
+
+def set_files(name, repo):
+    """Files of one data set, listed from its own folder only (no full-store walk)."""
+    from huggingface_hub import HfApi
+    for attempt in range(6):
+        try:
+            return sorted(e.path for e in HfApi().list_repo_tree(repo, path_in_repo=f"{name}/all", recursive=True,
+                                                                repo_type="dataset") if not hasattr(e, "tree_id"))
+        except Exception as e:
+            if type(e).__name__ in ("EntryNotFoundError", "RepositoryNotFoundError") or "404" in str(e): return []
+            if attempt == 5: raise
+            time.sleep(10 * (attempt + 1))
+
+
+def has(name, repo=None):
+    """Exit 0 and print '<name>\t<n> files' if the set exists in the store, else exit 1 (cheap: one folder listing)."""
+    repo = repo or repo_id(); fs = set_files(name, repo)
+    if not fs: sys.exit(1)
+    print(f"{name}\t{len(fs)} files")
 
 
 def ls(repo=None):
@@ -252,7 +281,7 @@ def selftest(hosts=False):
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    if not a or a[0] not in ("push", "pull", "ls", "selftest"):
+    if not a or a[0] not in ("push", "pull", "ls", "has", "selftest"):
         sys.exit(__doc__)
     if a[0] == "push":
         push(a[1], dry="--dry-run" in a)
@@ -260,5 +289,7 @@ if __name__ == "__main__":
         pull(a[1:])
     elif a[0] == "ls":
         ls()
+    elif a[0] == "has":
+        has(a[1])
     else:
         selftest(hosts="--hosts" in a)
