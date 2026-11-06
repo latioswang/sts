@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-06 18:16 UTC
+### Current state (update after every batch) — 2026-11-06 19:17 UTC
+- **2026-11-06 19:17 UTC: hourly check.** f4w30 (A20) data done, merged: `SUBSAMPLE ... rundata_f4_w30_k32/all: 30000 runs, rows 2612228 -> 938348 (k=32)`; holdout 1000 files; `PACK ... rundata_f4_a20_hold_z/all: 1000 files, 1 shards, 232.2 MB -> 3.1 MB (76.1x), verify OK`; `PUSH rundata_f4_a20_hold_z DONE: 2 files`; `PACK ... rundata_f4_w30_k32_z/all: 30000 files, 30 shards, 2514.8 MB -> 44.9 MB (56.1x), verify OK`; `PUSH rundata_f4_w30_k32_z DONE: 32 files` (full set packing). f4w27 / f4w28 / f4w29 at 150/300 (~1.5–1.8 h left, per their sessions). **Coordinator container found restarted again** (uptime 0 at both the 18:15 and 19:15 wakes): while this session is idle between wakes the container appears to be reclaimed, killing the runner; the hourly routine restarts it and runq resumes the interrupted line, so the cost is at most one interrupted line per hour [INFERRED, MED]. Runner restarted 19:16.
 - **2026-11-06 18:16 UTC: hourly check.** All four F4 workers built 1b05bdc, passed the three fidb gates bit-identically and started their queues (17:19–17:24; merged). A container restart here at ~18:15 (uptime 0 min) stopped the coordinator runner while it waited for the first F4 set; restarted at 18:15 (resumed the interrupted wait line). Symlink and build intact.
 - **2026-11-06 17:14 UTC: re-baseline on 1b05bdc done; repro gates moved; F4 re-registered on 1b05bdc.**
   ```
