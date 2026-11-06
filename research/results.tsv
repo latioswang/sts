@@ -562,3 +562,4 @@ df498d6	fs1239000n1000.a20	1000	0	0.040	29.05	0.6089	+0.0160	0.928	keep	f5a20: [
 e1e731c	fs1240000n1000.a0	999	1	0.152	49.00	1.0598	-0.0160	0.134	discard	f5heart: [heart] Phase F5: Heart best + V on shop cards/relics, upgrades, rest, removal [fresh slice; vr_shop=1 vr_shop_relic=1 vr_upg_w=20 vr_rest=1 vr_remove=1] [sim=fidelity-1b05bdc]
 377fe77	fs1241000n500.a10	500	0	0.450	39.47	1.2240	-0.0244	0.105	discard	f6a10_noshop: [a10] Phase F6: A10 best without one V hook (vr_shop=0) [fresh slice; vr_shop=0] [sim=fidelity-1b05bdc]
 9e184dc	fs1241500n500.a10	500	0	0.452	40.36	1.2434	-0.0178	0.149	discard	f6a10_nosrel: [a10] Phase F6: A10 best without one V hook (vr_shop_relic=0) [fresh slice; vr_shop_relic=0] [sim=fidelity-1b05bdc]
+2b69e18	fs1242000n500.a10	500	0	0.442	39.36	1.2138	-0.0453	0.015	discard	f6a10_noupg: [a10] Phase F6: A10 best without one V hook (vr_upg_w=0) [fresh slice; vr_upg_w=0] [sim=fidelity-1b05bdc]
