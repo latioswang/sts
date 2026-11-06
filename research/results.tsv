@@ -528,3 +528,4 @@ ae348cc	fs1212000n1000.a20	1000	0	0.030	27.09	0.5607			report	fid_a20_r121s32f: 
 c3a1592	fs1213000n1000.a0	1000	0	0.118	47.95	1.0130			report	fid_heart_relic20: [heart] simulator switch: honest level of the heart best heart_relic20 on the fidelity fork (report only) [sim=fidelity]
 50b9f22	fs1214000n500.a0	500	0	0.810	48.42	1.7593	-0.0005	0.491	discard	f1a0: Phase F1: A0 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
 8e8ae73	fs1214500n500.a10	500	0	0.358	39.47	1.1320	+0.0175	0.730	discard	f1a10: [a10] Phase F1: A10 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
+0f4aeac	fs1215000n1000.a20	1000	0	0.036	27.40	0.5726	+0.0060	0.738	discard	f1a20: [a20] Phase F1: A20 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
