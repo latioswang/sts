@@ -526,3 +526,4 @@ bcf029c	fs1210000n1000.a0	1000	0	0.796	48.02	1.7377			report	fid_x1add: [a0] sim
 a7ea6d0	fs1211000n1000.a10	1000	0	0.361	38.62	1.1182			report	fid_a10_r81: [a10] simulator switch: honest level of the a10 best a10_r81 on the fidelity fork (report only) [sim=fidelity]
 ae348cc	fs1212000n1000.a20	1000	0	0.030	27.09	0.5607			report	fid_a20_r121s32f: [a20] simulator switch: honest level of the a20 best a20_r121s32f on the fidelity fork (report only) [sim=fidelity]
 c3a1592	fs1213000n1000.a0	1000	0	0.118	47.95	1.0130			report	fid_heart_relic20: [heart] simulator switch: honest level of the heart best heart_relic20 on the fidelity fork (report only) [sim=fidelity]
+50b9f22	fs1214000n500.a0	500	0	0.810	48.42	1.7593	-0.0005	0.491	discard	f1a0: Phase F1: A0 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
