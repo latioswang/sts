@@ -222,6 +222,8 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 10700, 31 | Enchiridion rolled once too few between the Colosseum's two fights | `Colosseum.reopen` calls `preBattlePrep`, whose `atPreBattle` makes Enchiridion pick a Power with `cardRandomRng`; the second fight's start clears it | `907e9ad` |
 | 11209, 40 | With Black Star, the Emerald Key's elite could still drop a potion | `AbstractRoom.addPotionToRewards` gives no potion once the room holds four items, and the key is one of them | `3654aef` |
 | 11207, 40 | A Smoke Bomb at that elite rolled its thrown-away potion as if the room held nothing | The room's list (gold, both relics, the key) is built before it is thrown away, so the four-item cap applies | `3654aef` |
+| 11708, 14 | Mushrooms gave Odd Mushroom to a player who already had it | `Mushrooms.buttonEffect` gives Circlet then, as Masked Bandits does for Red Mask | `b963584` |
+| code | Drug Dealer and Bonfire did the same for Mutagenic Strength and Spirit Poop | Both check `hasRelic` and give Circlet | `b963584` |
 | 11202, 9 | N'loth's Hungry Face with Matryoshka took the chest's relic and kept Matryoshka's | `AbstractChest.open` adds Matryoshka's relic first, and `removeOneRelicFromRewards` takes the first relic, so the chest's relic keeps its sapphire key | `7c44abd` |
 
 ## Ascension
