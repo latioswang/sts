@@ -640,6 +640,11 @@ MirrorResult Mirror::run() {
         if (options_.replay) playRecorded(gc);
         else if (options_.exploreEvents) playExploringEvents(gc, *agent);
         else agent->playout(gc);
+        // The agent gives up a battle it can't finish (an endless loop of free cards) and counts it as lost. The game
+        // is still in that battle, so the end of the run can't be compared.
+        if (agent && agent->stats.aborted) {
+            throw StopRun{"reached_limit", "BATTLE", "the agent gave up after too many moves", {}};
+        }
         finishRun(gc);
         result.status = "completed";
     } catch (const StopRun &stop) {
