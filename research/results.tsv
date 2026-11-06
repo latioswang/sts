@@ -522,3 +522,4 @@ c4cc1c7	fs1202000n1000.a20	1000	0	0.062	28.31	0.6158	+0.0232	0.972	keep	a20_r121
 b89d04b	fs1208500n500.a0	500	0	0.858	48.63	1.8115	+0.0294	0.908	keep	x1add: Phase X1: A0 best with the exploration-trained run value vr_151 (inherited weights) [fresh slice; vr_model=151]
 12a06d2	fs1209000n500.a0	500	0	0.826	48.25	1.7721	-0.0080	0.395	discard	x1pure: Phase X1: card picks and boss relics by vr_151 alone (no KB) [fresh slice; vr_model=151 vr_pure=1 vr_pure_relic=1]
 4159835	fs1209500n500.a0	500	0	0.796	48.22	1.7415	-0.0815	0.001	discard	x1pure61: Phase X1 control: card picks and boss relics by vr_61 alone (no KB) [fresh slice; vr_model=61 vr_pure=1 vr_pure_relic=1]
+bcf029c	fs1210000n1000.a0	1000	0	0.796	48.02	1.7377			report	fid_x1add: [a0] simulator switch: honest level of the a0 best x1add on the fidelity fork (report only) [sim=fidelity]
