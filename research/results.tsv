@@ -546,3 +546,4 @@ d7ada23	fs1226000n1000.a20	1000	0	0.037	28.29	0.5911	+0.0040	0.746	discard	f3a20
 112e257	fs1227000n500.a10	500	0	0.440	39.66	1.2176	+0.0702	0.987	keep	f3a10p: [a10] Phase F3: A10 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
 098b372	fs1227500n1000.a20	1000	0	0.039	28.48	0.5967	+0.0096	0.801	discard	f3a20p: [a20] Phase F3: A20 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
 e01753f	fs1229000n1000.a20	1000	0	0.044	28.64	0.6047	+0.0210	0.999	keep-candidate	f3a20w: [a20] fresh-slice extension of a near miss (fs1226000n1000 + fs1229000n1000 pooled P=0.995, second-slice dscore=+0.0210) [sim=fidelity]
+2678257	fs1230000n1000.a20	1000	0	0.035	28.53	0.5938	-0.0033	0.384	discard	f3a20p: [a20] fresh-slice extension of a near miss (fs1227500n1000 + fs1230000n1000 pooled P=0.668, second-slice dscore=-0.0033) [sim=fidelity]
