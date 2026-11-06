@@ -8,7 +8,8 @@ NAME=$1; S1=$2; TRACK=${TRACK:?}
 case "$TRACK" in a0|heart) ASC=0;; a10) ASC=10;; a20) ASC=20;; *) echo "unknown TRACK $TRACK" >&2; exit 1;; esac
 WINMODE=act3; [ "$TRACK" = heart ] && WINMODE=heart
 if [ "$TRACK" = a0 ]; then BESTF=research/best_name.txt; PARF=research/best_params.txt; else BESTF=research/best_${TRACK}_name.txt; PARF=research/best_${TRACK}_params.txt; fi
-BASE=$(cat "$BESTF"); N=${S1##*n}
+BASE=${BASE:-$(cat "$BESTF")}; N=${S1##*n}   # BASE env: judge against a fixed earlier base (two near misses on one base)
+[ "$BASE" != "$(cat "$BESTF")" ] && PARF=research/runs/$BASE.params
 NF=research/eval/fresh_next.txt
 if [ -n "${FRESH_SLICE:-}" ]; then S=$FRESH_SLICE; else S=$(cat "$NF"); echo $((S + N)) > "$NF"; fi
 S2=fs${S}n${N}
@@ -22,6 +23,7 @@ OUTP=$(python3 research/tools/pooled.py "$NAME" "$BASE" "$ASC" "$S1,$S2" "$WINMO
 P=$(echo "$OUTP" | sed -n 's/.*P(improve)=\([0-9.]*\).*/\1/p' | head -1)
 STATUS=discard
 if python3 -c "import sys; sys.exit(0 if float('$P')>=0.9 and float('$D2')>0 else 1)"; then
-  STATUS=keep; TRACK=$TRACK research/promote.sh "$NAME"; echo "KEEP (fresh-slice extension) -> new best $NAME ($TRACK)"
+  if [ "${NOPROMOTE:-0}" = 1 ]; then STATUS=keep-candidate; echo "KEEP-CANDIDATE (fresh-slice extension, not promoted): pooled P=$P second-slice dscore=$D2 pooled $(echo "$OUTP" | sed -n 's/.*\(dscore=[-+0-9.]*\).*/\1/p' | head -1)"
+  else STATUS=keep; TRACK=$TRACK research/promote.sh "$NAME"; echo "KEEP (fresh-slice extension) -> new best $NAME ($TRACK)"; fi
 else echo "DISCARD (fresh-slice extension: pooled P=$P, second-slice dscore=$D2)"; fi
 python3 research/eval/log.py "$NAME" "$S2" "$STATUS" "[$TRACK] fresh-slice extension of a near miss ($S1 + $S2 pooled P=$P, second-slice dscore=$D2)" --base "$BASE" --asc "$ASC" --winmode "$WINMODE" > /dev/null
