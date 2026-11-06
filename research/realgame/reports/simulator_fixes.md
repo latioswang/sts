@@ -112,6 +112,7 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 8305, 33 | A Bronze Orb taking the last card in the draw and discard piles got Stasis | `ApplyStasisAction` looks for two empty piles on every frame, so the next frame ends it before it applies the power, and the card stays in limbo for the rest of the fight | `35241d7` |
 | 8002, 25 | A Byrd's Flight and a Shelled Parasite's Plated Armor came off as the hit landed, so the rest of the card saw a stunned monster and Go for the Eyes gave no Weak | Both powers queue `ReducePowerAction` behind what's already queued, and `onRemove` queues the change of move behind that | `494aa45` |
 | 2321, 16 | Stack off the draw pile counted the discard pile when played, so Distilled Chaos gave one block too many | `PlayTopCardAction` runs `applyPowers` as it takes the card, before the cards ahead of it have landed | `800cfad`, on `other-classes` |
+| 11917, 21 | A Vault+ from Chrysalis+ under Master Reality stayed free for the whole combat | `Chrysalis.use` makes the card free before `MakeTempCardInDrawPileAction` upgrades it, and Vault's `upgradeBaseCost` sets the cost to 2, leaving only this turn's at 0. Metamorphosis does the same | `50269e2` |
 | 11625, 38 | Exhume brought back a Feed+ that Mummified Hand had made free at cost 0 | `ExhaustCardEffect.update` calls `resetAttributes` on an exhausted card, so its cost for the turn goes back to its cost, Snecko's 2 here | `6753b9f` |
 
 ## Monsters
