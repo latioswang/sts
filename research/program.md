@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-06 11:00 UTC
+### Current state (update after every batch) — 2026-11-06 11:16 UTC
+- **2026-11-06 11:16 UTC: hourly check.** F1 training: `vr_160` (fork only, h64) pooled 3,000-run holdout rmse 0.4565 corr 0.744, best_epoch 1, 88 s; `vr_161` (fork only, h256) 0.4595 / 0.741, best_epoch 1, 270 s (pooled numbers include between-track spread; selection uses the per-track mean). `vr_162` (fork + legacy, h64) training since 11:08 (RSS ~11 GB of 15). All F1 workers archived; no worker sessions active.
 - **2026-11-06 11:00 UTC: F1 data complete, references scored, training started.** Local batch: `PUSH rundata_f1_w23_k32_z DONE: 32 files` (after HF connection-reset retries); `PACK ... rundata_f1_w23_z/all: 30000 files, 30 shards, 13125.0 MB -> 181.5 MB (72.3x), verify OK`; `PUSH rundata_f1_w23_z DONE: 31 files`; `F1 W23 LOCAL DONE`. Queue: worker sets pulled (HF 429 retries, recovered), `rundata_f1_hold3` = 3,000 runs. Reference scores on the fork holdouts (rmse / corr; states A0 164,584, A10 123,179, A20 85,555):
   ```
   vr_151  A0 0.4660/0.373  A10 0.5668/0.508  A20 0.3178/0.496   mean rmse 0.4502
