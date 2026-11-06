@@ -23,5 +23,13 @@ fi
 # A run's end writes the character's file back, so the profile goes on again at each start.
 python3 -I "$(dirname "$0")/write_profile.py" "$RUN_DIR/preferences" > /dev/null
 
+# BaseMod's fixes change the game itself (an orb slot on a first channel, reward culling and more), so the game runs
+# without them, as an unmodded one would.
+BASEMOD_CONFIG="${STS_BASEMOD_CONFIG:-$HOME/Library/Preferences/ModTheSpire/BaseMod/basemod-config.properties}"
+mkdir -p "$(dirname "$BASEMOD_CONFIG")"
+touch "$BASEMOD_CONFIG"
+{ grep -v '^basemod-fixes=' "$BASEMOD_CONFIG" || true; echo "basemod-fixes=false"; } > "$BASEMOD_CONFIG.tmp"
+mv "$BASEMOD_CONFIG.tmp" "$BASEMOD_CONFIG"
+
 cd "$RUN_DIR"
 exec arch -x86_64 jre/bin/java -Xmx3G -jar "$MTS" --skip-launcher --skip-intro --mods "$MODS"
