@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F2 (running): more weight for the fork V (vr_171). Kept so far: A0 1.5x weights (+3.6 pts, P 0.98) and A10 1.5x (+5.2 pts, P 0.996); A20 near miss (extension queued); Heart and the V-only arms running.",
+  "Phase F3 (running): V weights past 1.5x (2.25x) on A0 / A10 / A20, and V-only card and relic picks on A10 / A20, each vs the track best on fresh slices.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -233,7 +233,8 @@
   "Phase S scaling grid (9 cells + control) and Phase S2 (leaf-distribution training).",
   "Phase X1: exploration data (90,000 A0 games with random card/relic picks) -> run value vr_151; new A0 best x1add (+2.0 pts, P 0.91); V-only picks now tie KB + V (-0.4) where the old V lost 7 points.",
   "Simulator switch (2026-11-06): loop moved to the real-game-matched fork; leak tests pass on all tracks; honest fork levels A0 79.6 / A10 36.1 / A20 3.0 / Heart 11.8% (legacy 85.1 / 37.2 / 6.35 / 12.7).",
-  "Phase F1: V retrained on 120,000 fork games (vr_171): most accurate V on every track's fork holdout; Heart best improved (pooled 2,000 games 13.1% -> 14.3% Heart wins, P 0.997); A0 tie; A10 / A20 small positive, not significant."
+  "Phase F1: V retrained on 120,000 fork games (vr_171): most accurate V on every track's fork holdout; Heart best improved (pooled 2,000 games 13.1% -> 14.3% Heart wins, P 0.997); A0 tie; A10 / A20 small positive, not significant.",
+  "Phase F2: more weight for the fork V — new best on every track: A0 +3.6 pts (84.0% on a second fresh slice), A10 +5.2 pts, A20 and Heart better floor / act-4 progress (Heart via V-only card and relic picks)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",

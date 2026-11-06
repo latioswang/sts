@@ -539,3 +539,4 @@ d9ae002	fs1220000n500.a10	500	0	0.418	39.87	1.1997	+0.0733	0.996	keep	f2a10w: [a
 88514ca	fs1221500n1000.a0	1000	0	0.137	48.54	1.0402	+0.0114	0.880	discard	f2heartw: [heart] Phase F2: Heart best (vr_171) at 1.5x weights [fresh slice; vr_bonus=30 vr_relic_w=30] [sim=fidelity]
 84e68f9	fs1222500n500.a0	500	0	0.824	48.32	1.7714	-0.0277	0.140	discard	f2a0p: Phase F2: A0 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_model=171 vr_pure=1 vr_pure_relic=1] [sim=fidelity]
 ecea57a	fs1223000n1000.a0	1000	0	0.138	48.94	1.0467	+0.0323	0.981	keep	f2heartp: [heart] Phase F2: Heart card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
+8739cfe	fs1224000n1000.a20	1000	0	0.031	28.09	0.5811	+0.0145	0.948	keep	f2a20w: [a20] fresh-slice extension of a near miss (fs1220500n1000 + fs1224000n1000 pooled P=0.950, second-slice dscore=+0.0145) [sim=fidelity]
