@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-06 17:14 UTC
+### Current state (update after every batch) — 2026-11-06 18:16 UTC
+- **2026-11-06 18:16 UTC: hourly check.** All four F4 workers built 1b05bdc, passed the three fidb gates bit-identically and started their queues (17:19–17:24; merged). A container restart here at ~18:15 (uptime 0 min) stopped the coordinator runner while it waited for the first F4 set; restarted at 18:15 (resumed the interrupted wait line). Symlink and build intact.
 - **2026-11-06 17:14 UTC: re-baseline on 1b05bdc done; repro gates moved; F4 re-registered on 1b05bdc.**
   ```
   fidb_f2a0w    fs1231000n1000 a0  n=1000 crash=0 win=0.831 floor=48.59 score=1.7837±0.0155 act4=0.000 442s
