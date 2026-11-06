@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase X1 (running): exploration data so V learns the outcomes of choices the KB avoids; then test V-only card and relic picks against KB + V on fresh slices.",
+  "Simulator switch (owner-decided): move the loop to the fidelity simulator (fork dfda16c), re-measure all four bests on fresh slices there, then decide whether to retrain V on fork data.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -230,7 +230,8 @@
   "Learned root move prior (+3.6) and interventional deck-value model (+4.0); M5 test 66.6%.",
   "Keys and Act 4; Heart track: act-4 shop potions, act-3 burning elite, act-3 ruby key, boss relics by simulated fights.",
   "Statistical hygiene: pre-registration, replication slices, pooled 500/600 rules, bit-identity checks.",
-  "Phase S scaling grid (9 cells + control) and Phase S2 (leaf-distribution training)."
+  "Phase S scaling grid (9 cells + control) and Phase S2 (leaf-distribution training).",
+  "Phase X1: exploration data (90,000 A0 games with random card/relic picks) -> run value vr_151; new A0 best x1add (+2.0 pts, P 0.91); V-only picks now tie KB + V (-0.4) where the old V lost 7 points."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
