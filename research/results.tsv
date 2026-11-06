@@ -534,3 +534,4 @@ c3a1592	fs1213000n1000.a0	1000	0	0.118	47.95	1.0130			report	fid_heart_relic20: 
 9e437ab	fs1217500n1000.a20	1000	0	0.033	27.69	0.5754	+0.0012	0.555	discard	f1a20: [a20] fresh-slice extension of a near miss (fs1215000n1000 + fs1217500n1000 pooled P=0.707, second-slice dscore=+0.0012) [sim=fidelity]
 40e3fa3	fs1218500n1000.a0	1000	0	0.153	47.53	1.0412	+0.0354	0.992	keep	f1heart: [heart] fresh-slice extension of a near miss (fs1216000n1000 + fs1218500n1000 pooled P=0.997, second-slice dscore=+0.0354) [sim=fidelity]
 81028d3	fs1219500n500.a0	500	0	0.834	48.43	1.7836	+0.0537	0.982	keep	f2a0w: Phase F2: A0 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=60 vr_relic_w=30] [sim=fidelity]
+d9ae002	fs1220000n500.a10	500	0	0.418	39.87	1.1997	+0.0733	0.996	keep	f2a10w: [a10] Phase F2: A10 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=30 vr_relic_w=30] [sim=fidelity]
