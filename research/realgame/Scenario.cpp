@@ -165,7 +165,14 @@ void applyScenarioToSimulator(GameContext &gc, const std::vector<ScenarioItem> &
                 break;
             }
             case ScenarioKind::Potion:
-                gc.obtainPotion(*potionFromGameId(item.id));
+                // The mod calls AbstractPlayer.obtainPotion, which has no Sozu check: the ways to get a potion in play do.
+                for (int i = 0; i < gc.potionCapacity; ++i) {
+                    if (gc.potions[i] == Potion::EMPTY_POTION_SLOT) {
+                        gc.potions[i] = *potionFromGameId(item.id);
+                        ++gc.potionCount;
+                        break;
+                    }
+                }
                 break;
             case ScenarioKind::PoolFront: {
                 const RelicId relic = *relicFromGameId(item.id);

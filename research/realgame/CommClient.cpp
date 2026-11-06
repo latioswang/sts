@@ -5,6 +5,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <chrono>
 #include <cstring>
 
@@ -30,6 +31,18 @@ bool intentsPending(const json &msg) {
         if (!m.value("is_gone", false) && m.value("intent", "") == "DEBUG") return true;
     }
     return false;
+}
+
+std::string fightWithHiddenIntents(const json &msg) {
+    if (!msg.contains("game_state") || !msg["game_state"].contains("combat_state")) return "";
+    const json &gs = msg["game_state"];
+    if (gs["combat_state"].value("turn", 0) != 1) return "";
+    const auto &relics = gs.value("relics", json::array());
+    const bool dome = std::any_of(relics.begin(), relics.end(), [](const json &r) { return r.value("id", "") == "Runic Dome"; });
+    if (!dome) return "";
+    std::string fight = std::to_string(gs.value("act", 0)) + ":" + std::to_string(gs.value("floor", 0));
+    for (const auto &m : gs["combat_state"]["monsters"]) fight += ":" + m.value("id", "");
+    return fight;
 }
 
 CommClient::CommClient(const std::string &socketPath) {
@@ -97,6 +110,11 @@ const json &CommClient::command(const std::string &cmd, double timeoutSec) {
     sendAndWait(cmd, timeoutSec);
     for (int i = 0; i < kMaxIntentWaits && intentsPending(last_); ++i) {
         sendAndWait("WAIT " + std::to_string(kIntentWaitFrames), timeoutSec);
+    }
+    const std::string fight = fightWithHiddenIntents(last_);
+    if (!fight.empty() && fight != hiddenIntentFightWaited_) {
+        hiddenIntentFightWaited_ = fight;
+        sendAndWait("WAIT " + std::to_string(kHiddenIntentWaitFrames), timeoutSec);
     }
     return last_;
 }

@@ -24,6 +24,10 @@ struct GameUnavailable : std::runtime_error {
 // placeholder intent DEBUG and a damage of -1.
 [[nodiscard]] bool intentsPending(const json &msg);
 
+// Runic Dome hides intents from the mod, the placeholder too, so intentsPending can't see them come. On the first turn of
+// a fight with the relic held this names the fight, and its start waits a fixed time instead. Empty otherwise.
+[[nodiscard]] std::string fightWithHiddenIntents(const json &msg);
+
 class CommClient {
 public:
     explicit CommClient(const std::string &socketPath);
@@ -46,6 +50,7 @@ public:
     static constexpr double kDefaultTimeoutSec = 90.0;
     static constexpr int kMaxIntentWaits = 20;
     static constexpr int kIntentWaitFrames = 5;
+    static constexpr int kHiddenIntentWaitFrames = 60;  // the placeholder has lasted up to 45 frames
 
 protected:
     CommClient() = default;  // for a stand-in that has no socket
@@ -56,6 +61,7 @@ protected:
 private:
     int fd_ = -1;
     std::string buffer_;
+    std::string hiddenIntentFightWaited_;  // the last fight fightWithHiddenIntents named, which has had its wait
 
     void sendLine(const std::string &line);
     void sendAndWait(const std::string &cmd, double timeoutSec);

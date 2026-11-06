@@ -538,6 +538,14 @@ bool Mirror::takeLeastTriedEventOption(GameContext &gc) {
     if (gc.curEvent == Event::MATCH_AND_KEEP) return false;  // its moves are pairs of cards, not options
     const auto actions = GameAction::getAllActionsInState(gc);
     if (actions.size() < 2) return false;
+    if (gc.curEvent == Event::NEOW && options_.neowOption >= 0) {
+        for (const auto &a : actions) {
+            if (a.getIdx1() == options_.neowOption) {
+                a.execute(gc);
+                return true;
+            }
+        }
+    }
 
     const std::string path = options_.logDir + "/event_options_tried.json";
     json tried = json::object();
@@ -602,6 +610,7 @@ MirrorResult Mirror::run() {
     if (!options_.replay) log_.open(options_.logDir + "/mirror-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
 
     GameContext gc(options_.character, options_.seed, options_.ascension);
+    gc.baseModFixes = options_.baseModFixes;
     if (options_.replay) {
         if (const auto card = cardFromGameId(options_.noteCard)) gc.noteForYourselfCard = Card(*card, options_.noteUpgrades);
     } else {
@@ -632,6 +641,11 @@ MirrorResult Mirror::run() {
         if (options_.replay) playRecorded(gc);
         else if (options_.exploreEvents) playExploringEvents(gc, *agent);
         else agent->playout(gc);
+        // The agent gives up a battle it can't finish (an endless loop of free cards) and counts it as lost. The game
+        // is still in that battle, so the end of the run can't be compared.
+        if (agent && agent->stats.aborted) {
+            throw StopRun{"reached_limit", "BATTLE", "the agent gave up after too many moves", {}};
+        }
         finishRun(gc);
         result.status = "completed";
     } catch (const StopRun &stop) {

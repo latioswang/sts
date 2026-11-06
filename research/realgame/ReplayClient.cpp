@@ -74,6 +74,8 @@ ReplayClient::ReplayClient(const std::string &path) : data_(readAll(path)) {
             header_.scenarioSource = h.value("scenario_source", "");
             header_.noteCard = h.value("note_card", "");
             header_.noteUpgrades = h.value("note_upgrades", 0);
+            // Names are transcript-YYYYMMDD-HHMMSS.jsonl#<run>, so they sort by time.
+            header_.baseModFixes = header_.trace < "transcript-20261106-191204";
             headerRead = true;
             continue;
         }
@@ -143,6 +145,10 @@ const json &ReplayClient::command(const std::string &cmd, double) {
         const std::size_t w = nextClient(next_);
         if (w >= events_.size() || !isWait(events_[w].text)) break;
         answer(w);
+    }
+    if (!fightWithHiddenIntents(last_).empty()) {  // CommClient::command's wait at such a fight's start, if recorded
+        const std::size_t w = nextClient(next_);
+        if (w < events_.size() && events_[w].text == "WAIT " + std::to_string(kHiddenIntentWaitFrames)) answer(w);
     }
     return last_;
 }

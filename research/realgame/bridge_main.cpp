@@ -35,6 +35,7 @@ struct Args {
     int maxFloor = 0;
     std::string scenarioFile;
     bool exploreEvents = false;
+    int neowOption = -1;
     std::string socketPath = "/tmp/sts_commrelay.sock";
     std::string researchDir;
     std::string logDir;
@@ -67,6 +68,7 @@ Args parseArgs(int argc, char **argv) {
         else if (a == "--max_floor") args.maxFloor = std::stoi(next());
         else if (a == "--scenario_file") args.scenarioFile = next();
         else if (a == "--explore_events") args.exploreEvents = true;
+        else if (a == "--neow_option") args.neowOption = std::stoi(next());
         else if (a == "--sock") args.socketPath = next();
         else if (a == "--research_dir") args.researchDir = next();
         else if (a == "--log_dir") args.logDir = next();
@@ -124,6 +126,7 @@ int runReplay(const Args &args) {
             options.scenario = header.scenario;
             options.noteCard = header.noteCard;
             options.noteUpgrades = header.noteUpgrades;
+            options.baseModFixes = header.baseModFixes;
             options.replay = &game;
             Mirror mirror(game, options);
             const MirrorResult r = mirror.run();
@@ -169,6 +172,7 @@ int runMirror(const Args &args) {
         options.ascension = args.ascension;
         options.maxFloor = args.maxFloor;
         options.exploreEvents = args.exploreEvents;
+        options.neowOption = args.neowOption;
         options.params = args.params;
         options.logDir = args.logDir;
         if (const auto it = scenarios.find(options.seed); it != scenarios.end()) options.scenario = it->second;

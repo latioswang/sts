@@ -79,6 +79,13 @@ class MixTest(unittest.TestCase):
         for item in ("Cracked Core", "PureWater", "Bash", "Injury", "Ambrosia", "GhostInAJar"):
             self.assertNotIn(item, text)
 
+    def test_a_relic_only_its_event_gives_is_left_out(self) -> None:
+        given = ("Golden Idol", "WarpedTongs", "NeowsBlessing", "Nloth's Gift")
+        items = {**self.items, "relics": {**self.items["relics"], **{r: {"class": "any"} for r in given}}}
+        text = ";".join(mix_scenarios(items, "defect", 1))
+        for relic in given:
+            self.assertNotIn(relic, text)
+
     def test_every_item_comes_once_in_a_pass(self) -> None:
         scenarios = mix_scenarios(self.items, "defect", 1, relics_per_seed=1, cards_per_seed=1)
         self.assertEqual(sum(s.count("relic:Anchor") for s in scenarios), 1)

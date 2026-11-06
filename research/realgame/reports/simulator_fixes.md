@@ -82,6 +82,17 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Nilry's Codex always offered Ironclad's cards | It offers the class's own | `9c03d07` |
 | code | Poison, Mark and Choke on an Intangible Nemesis did full damage | `Nemesis.damage` caps HP loss too | `6803eff` |
 | 7410, 33 | A new Eviscerate from Dead Branch or a potion ignored the turn's discards | Its `makeCopy` sets the cost for the turn, as Blood for Blood's does for the fight | `0bcad57` |
+| 10201, 30 | A Force Field from Dead Branch or a Discovery cost its full 4 | Its constructor counts the powers in `cardsPlayedThisCombat`, so a new one starts cheaper | `ea1602f` |
+| 10101, 41 | A Masterful Stab from Nilry's Codex or a Discovery cost 1 more for each hit taken already | Only Blood for Blood's `makeCopy` reads `damagedThisCombat`; Masterful Stab's is a plain new card | `b2b7ddc` |
+| 10000, 50 | A skill from Dead Branch or a Discovery under Corruption cost its full price after the turn | `ShowCardAndAddToHandEffect` runs `onCardDrawOrDiscard` first, and under Corruption that makes every skill in hand with a cost free for the fight | `09ab360` |
+| 9115, 18 | An Eviscerate kept in hand into the next turn stayed at the cost the discards had brought it to | `Eviscerate.atTurnStart` resets it, and `applyStartOfTurnCards` runs on the draw pile, hand and discard pile | `fd86474` |
+| 9019, 35 | A Necronomicon or Double Tap copy of Mind Blast counted the draw pile again, after Runic Cube had drawn from it | Only `applyPowers` sets its base damage, and that doesn't run on a copy, so the copy keeps the original's | `b9a895e` |
+| 10405, 37 | Mind Blast in hand counted Mark of Pain's Wounds before the game did | Its damage is the draw pile at the hand's last `applyPowers`, which a temp card added to the draw pile doesn't run; draws, discards, plays and power changes do | `33a9ff0` |
+| 10408, 33 | Necronomicon's copy of a Whirlwind Mayhem played took the turn's energy | `useCard` makes an X cost card in autoplay free once, and the copy is in autoplay; Whirlwind and Transmutation didn't check it | `446ab74` |
+| 9025, 29 | A card's copy played after the next queued card, as with Distilled Chaos under Duplication, and two copies of one card came in the wrong order | `addCardQueueItem` uses index 1 with the card being played still at index 0, so its copy comes next | `8aca7f5` |
+| 9120, 50 | Nilry's Codex always came before Stone Calendar, so it asked for a card in a fight the game had already ended | Relics act at the turn's end in the order gained, and Stone Calendar's damage can kill the last monster first | `89a12d4` |
+| 10723, 30 | Warped Tongs always picked from the hand after Pocketwatch's draw | The turn's post-draw relics act in the order gained, so with Warped Tongs first it picks before Pocketwatch's cards arrive | `50b3728` |
+| 10209, 19 | Playing a power with Storm and Hex put the Dazed in the draw pile from the wrong roll | Powers act on a card in the order gained, and Storm's Lightning can roll `cardRandomRng` before Hex's Dazed takes its spot | `d48ef2d` |
 | 7102, 16 | Random cards in combat were always Ironclad's, whatever the class | `returnTrulyRandomCardInCombat` reads the class's src pools, each in reverse, with no HEALING cards | `ffa2500` |
 | 6018, 16 (A8) | The Guardian's Vent Steam applied Vulnerable first, so Artifact stopped the wrong debuff | `useVentSteam` applies Weak, then Vulnerable | `7ab42f5` |
 | 2509, 29 | Smoke Bomb in the Colosseum's first fight went to the map | `Colosseum.reopen` offers the second choice however the fight ended | `a6cc442` |
@@ -89,16 +100,27 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2504, 36 | A Darkling killed by Thorns on its own turn revived a turn early | `Darkling.damage` queues a `SetMoveAction` that lands after its `RollMoveAction`, so the wait comes back | `766198c` |
 | 2417, 44 | A Parasite from Writhing Mass paid no Ceramic Fish gold | `AddCardToDeckAction` triggers `onObtainCard` during the fight, and the simulator's fight-end add was overwritten by the player's gold | `c1e59d6` |
 | 8054, 18 | After Vault, monsters that count their own turns moved a turn early, because the count came from the battle's turn number | Looter's `slashCount`, The Maw's `turnCount`, the Heart's `moveCount` and the like don't move on a turn the monster doesn't take | `db710c3` |
+| code | Hologram or Liquid Memories with a full hand moved the card to the end of the discard pile | `BetterDiscardPileToHandAction` leaves it where it is, and the pile's order decides the next shuffle | `aa5b858` |
+| code | Dead Branch and Dark Embrace acted after the last kill, and Dead Branch rolled `cardRandomRng` | Both check `areMonstersBasicallyDead` | `aa5b858` |
+| code | Innate cards beyond the first turn's draw were drawn before the battle-start relics' cards | `initializeDeck` uses `addToTurnStart`, which waits for the queue to empty | `aa5b858` |
+| code | Mummified Hand only checked the front of the card queue | It removes every queued card from its choices | `aa5b858` |
+| code | Constricted acted in the order gained, and No Draw came off after every other power unless Combust was played after it | `ConstrictedPower` has priority 105, so it acts last, and No Draw comes off in its own place in the order | `aa5b858` |
+| code | Equilibrium kept the hand without marking it retained, so Perseverance, Windmill Strike and Sands of Time got nothing | `EquilibriumPower` sets `retain` on each non-ethereal card, which runs `onRetained` | `aa5b858` |
 | 8101, 33 | Mutagenic Strength always wore off, and Gremlin Visage's Weak always landed, with Clockwork Souvenir | Those relics go on top of the queue at battle start, so the later one acts first, and its Artifact can stop the Strength's loss. Visage's Weak is at the bottom, so the Artifact stops that too | `e869a20` |
 | 8201, 42 | Nightmare's copies came after every other power's cards at the start of a turn | Each `NightmarePower` takes its turn among the powers, in the order gained | `47b4456` |
+| 9629, 33 | A card back from Stasis wasn't upgraded by Master Reality | It comes back through `MakeTempCardInHandAction`, whose constructor applies it | `9cd50f5` |
 | 8305, 33 | A Bronze Orb taking the last card in the draw and discard piles got Stasis | `ApplyStasisAction` looks for two empty piles on every frame, so the next frame ends it before it applies the power, and the card stays in limbo for the rest of the fight | `35241d7` |
 | 8002, 25 | A Byrd's Flight and a Shelled Parasite's Plated Armor came off as the hit landed, so the rest of the card saw a stunned monster and Go for the Eyes gave no Weak | Both powers queue `ReducePowerAction` behind what's already queued, and `onRemove` queues the change of move behind that | `494aa45` |
 | 2321, 16 | Stack off the draw pile counted the discard pile when played, so Distilled Chaos gave one block too many | `PlayTopCardAction` runs `applyPowers` as it takes the card, before the cards ahead of it have landed | `800cfad`, on `other-classes` |
+| 11625, 38 | Exhume brought back a Feed+ that Mummified Hand had made free at cost 0 | `ExhaustCardEffect.update` calls `resetAttributes` on an exhausted card, so its cost for the turn goes back to its cost, Snecko's 2 here | `6753b9f` |
 
 ## Monsters
 
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
+| 10305, 16 | Breaking the Guardian's Mode Shift changed its move at the hit, so Go for the Eyes on the same card gave no Weak | Only its queued `ChangeStateAction` sets the defensive move | `143b0d5` |
+| 10616, 16 | Damage during the Guardian's Twin Slam, from Static Discharge's Lightning or thorns, didn't count toward its next Mode Shift | Twin Slam's `ChangeStateAction` goes first and reopens the threshold; the power and the Reset Threshold come after the hits | `a8e63a5` |
+| 11505, 50 | Killing the Cultists while Awakened One was half dead ended the fight with a win | Its first death leaves it half dead until it rises, and `areMonstersBasicallyDead` doesn't count that as dying | `14fda87` |
 | 1002, 4 | Red Slaver could Entangle repeatedly; threshold 50; A17 Scrape check wrong | `usedEntangle` is set; threshold 55; A17 checks `lastMove` alone | `aebf989` |
 | 1001, 16 | Hexaghost's Inferno only dealt damage | `BurnIncreaseAction` upgrades Burns in the discard and draw piles and adds three Burn+ | `495e4e9` |
 | 1002, 18 | A dying Mugger used no AI roll, which shifted later moves | `Mugger.die` calls `playDeathSfx`, which rolls `aiRng` | `191b7f1` |
@@ -131,11 +153,19 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | 2116, 37 | A Darkling that went down kept its old debuff amounts, which came back with the next one | `powers.clear()` removes them, so Shockwave+ gives 5 Weak, not 6 | `c54860c` |
 | 2116, 50 | Combust did nothing while Awakened One was half dead with nothing else alive | `areMonstersBasicallyDead` only looks at `isDying` and `isEscaping` | `dad125b` |
 | 2103, 16 | The Guardian lost its Defensive Mode block when Combust crossed the threshold at the end of a turn | `ChangeStateAction` queues the block behind the queued monster start of turn | `dc6e79d` |
+| code | Lagavulin woke on the battle's third turn, and Hexaghost's Burn+ started by the battle's turn, so Vault moved both early | `idleCount` only moves on a turn it takes, and `burnUpgraded` is set by Inferno | `aa5b858` |
 
 ## Run and rewards
 
 | Seed, floor | Simulator did | The game does | Commit |
 |---|---|---|---|
+| 9610, 0 | Neow's curse with two transforms gave no curse | `NeowReward.update` rolls it at once, and its obtain effect lands after the picks and before the transformed cards | `aa5b858`, `9ec3e2c` |
+| code | Neow's curse with colorless cards rolled the curse first | `activate` rolls the cards from `cardRng`, and the curse comes after, in `update` | `aa5b858` |
+| code | Cursed Tome ignored books the player owned | `randomBook` offers the ones they lack, and Circlet with none left | `aa5b858` |
+| code | Omamori from Big Fish's box or Addict's robbery stopped that event's own curse | The curse's obtain effect is created first, as at The Mausoleum | `aa5b858` |
+| code | Drug Dealer's transform left out bottled cards | It opens on `getPurgeableCards`, unlike other events | `aa5b858` |
+| code | `getEvent`'s fallback to a shrine rolled the live `eventRng` | It uses the copy it was given, so the live stream doesn't move | `aa5b858` |
+| code | Max HP could go below 1 | `decreaseMaxHealth` stops at 1 | `aa5b858` |
 | 1000, 5; 1003, 7 | Match and Keep was off, which changed most shrine rolls | It is in the pool. Search can play it now, without seeing face-down cards | `2865777` |
 | 1004, 0 | Neow's "transform two cards" always added a curse | A curse comes only with the curse drawback | `341261d` |
 | 1010, 0 | Neow's max HP bonuses didn't heal | `increaseMaxHp(amount, true)` heals by the same amount | `21433d5` |
@@ -180,9 +210,21 @@ Rows with a seed were found by mirror mode and then checked against the game's b
 | code | Tiny House's gold left out Golden Idol | `addGoldToRewards` counts it | `b425da6` |
 | 1101, 22; 1103, 24 | Orrery's and Cauldron's cards in a shop rolled a 3% rare chance | `ShopRoom` sets `baseRareCardChance` to 9 | `3347784` |
 | code | Removing a card with all three bottles full, or removing a curse, left the bottles' indices stale; a removed Necronomicurse stayed gone | Found in [jdc5549/sts_lightspeed](https://github.com/jdc5549/sts_lightspeed)'s fix list; `onRemoveFromMasterDeck` adds a new Necronomicurse | `8bf1499` |
+| 9215, 34 | Transforming a colorless card picked from an alphabetical list, and Astrolabe didn't upgrade it | `srcColorlessCardPool` is `colorlessCardPool` backwards, and `transformCard` upgrades whatever it made | `7923664` |
 | 8103, 11 | Omamori stopped a curse from Note For Yourself | The event adds the card itself and runs `onObtainCard`, and Omamori is in the obtain effects it doesn't use | `dfda16c` |
 | 8200, 0 | Neow's "lose your starting relic" looked for the class's starting relic by name | `NeowReward` takes whatever is in slot 0, which a boss relic can already hold | `0d65403` |
+| 11306, 0 | Neow's damage drawback ignored Tungsten Rod | `NeowReward` deals it with `player.damage` as `HP_LOSS`, so Tungsten Rod takes one off | `6ddab85` |
 | 7459, 0 | A map node on floor 8 or 14 that got no room counted as a monster at once, so the node to its right couldn't be one | It stays empty until `lastMinuteNodeChecker`, after every node has had its turn | `9fab0df` |
+| 9108, 25 | Face of Cleric did nothing after a Smoke Bomb escape, and ignored Magic Flower | `endBattle` calls `onVictory` however the fight ended, and the room is still in combat | `8571846` |
+| 9125, 29 | Peace Pipe's toke went back to the map at once and removed nothing | It waits on the grid for the card, as smithing does | `dc329ac` |
+| 10013, 40 | N'loth's Gift tripled rare chances in a shop, for its cards and for the reward Cauldron rolls and removes | `ShopRoom.getCardRarity` passes `useAlternation` false, so relics don't change the rates there | `0e6214d` |
+| 10614, 22 | With The Courier and Membership Card, a shop's purge took both discounts | `applyDiscount` sets the purge cost from its base each time, so only Membership Card's half counts | `9883187` |
+| 10700, 31 | Enchiridion rolled once too few between the Colosseum's two fights | `Colosseum.reopen` calls `preBattlePrep`, whose `atPreBattle` makes Enchiridion pick a Power with `cardRandomRng`; the second fight's start clears it | `907e9ad` |
+| 11209, 40 | With Black Star, the Emerald Key's elite could still drop a potion | `AbstractRoom.addPotionToRewards` gives no potion once the room holds four items, and the key is one of them | `3654aef` |
+| 11207, 40 | A Smoke Bomb at that elite rolled its thrown-away potion as if the room held nothing | The room's list (gold, both relics, the key) is built before it is thrown away, so the four-item cap applies | `3654aef` |
+| 11708, 14 | Mushrooms gave Odd Mushroom to a player who already had it | `Mushrooms.buttonEffect` gives Circlet then, as Masked Bandits does for Red Mask | `b963584` |
+| code | Drug Dealer and Bonfire did the same for Mutagenic Strength and Spirit Poop | Both check `hasRelic` and give Circlet | `b963584` |
+| 11202, 9 | N'loth's Hungry Face with Matryoshka took the chest's relic and kept Matryoshka's | `AbstractChest.open` adds Matryoshka's relic first, and `removeOneRelicFromRewards` takes the first relic, so the chest's relic keeps its sapphire key | `7c44abd` |
 
 ## Ascension
 
@@ -211,6 +253,8 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **Secret Portal.** It joins act 3's events after 800 seconds of play. The simulator assumes it has, and the scenario mod holds the game's clock at that point during mirror runs.
 - **A curse's transform preview.** While a transform's confirm screen is up, `GridCardSelectScreen` changes its preview every 0.1 seconds, and a curse's preview rolls `cardRng` through `CardLibrary.getCurse`. The rolls depend on how long the screen stays up. Mirror mode takes the game's state after one.
 - **The time scale.** `STS_TIME_SCALE` speeds up the game's timers, but an action still takes at least a frame. When a minion leader dies with minions alive, the queue keeps running until the death animations end and `endBattle` clears it. At 5x those animations can end before a heal queued behind Reaper's effects runs. Seed 2123 reached the same state on floor 42 at both speeds, and HP afterwards was 76 at 5x and 86 at normal speed, which is what the simulator says. Rerun a difference like this at normal speed before believing it.
+- **The battle banner.** Monsters get their intents when `BattleStartEffect` finishes, so a card played before then that checks one, like Spot Weakness, sees none. The simulator gives intents at once, so mirror mode waits for the mod's `DEBUG` placeholder to go. Runic Dome hides the placeholder too, and there it waits a fixed 60 frames (`7445592`, seed 10002).
+- **Omniscience's grid.** It picks one card and can close on the pick, and a chosen Purity opens its hand select at once. The bridge's usual confirm after a pick then answered that screen with nothing picked (`da409d5`, seed 10715). Not yet confirmed on the game.
 
 ## Known gaps
 
@@ -219,5 +263,8 @@ Runs at ascension 0 can't show these. Rows marked "code" came from comparing eac
 - **Choices the agent doesn't have.** Search can only exhaust no cards with Purity and only pick one card with Forethought+. That limits its play, not the simulation.
 - **A potion reward with a full belt.** It stays on the screen in the game, so a player can discard a potion and take it. The simulator drops it. Making that action invalid breaks the agent, which expects to be able to choose it.
 - **Rare interactions not fixed yet.** Rampage with both Double Tap and Duplication (the third hit doesn't see the second's bonus). Relic trigger order on card play is fixed rather than in the order acquired, which only showed up with Shuriken, Orange Pellets and negative Strength.
+- **Found reading the bytecode, too rare to fix yet.** The Bomb fires before other end-of-turn powers, whatever the order gained, which shows with Combust. Start-of-turn relics run in a fixed order, which shows with Emotion Chip and Mercury Hourglass. Evolve's draw clears Scrape's draw history in the game. A stacked Hex gives as many Dazed as its amount, and no fight stacks it.
 - **Player powers kept as plain fields.** Powers in the simulator's status map now trigger in the game's order. Strength, Dexterity and a few others live outside that map, so their place in the order isn't modeled. No Draw before Combust is still handled on its own.
+- **BaseMod's fixes.** Communication Mod needs BaseMod, whose `basemod-fixes` setting is on by default and changes five things in the game the mirror plays: `GiveOrbSlotOnChannel`, `ConsistentEtherealPatch`, `FixUnnecessaryRewardCulling`, `FixBossRelicStarterUpgradesPatch` and `NoFadeLimbo`. The first gives a character with no orb slots a permanent one when it first channels, so a Watcher's Ball Lightning from Foreign Influence channeled where the unmodded game shows a thought bubble (seed 10719). The simulator follows the unmodded game, so since 2026-11-06 `launch_game.sh` writes `basemod-fixes=false` into `~/Library/Preferences/ModTheSpire/BaseMod/basemod-config.properties` (or `$STS_BASEMOD_CONFIG`) at each start, and the mirror's game is unmodded too. Recordings made before then had the five fixes on. `FixUnnecessaryRewardCulling` has since shown: it takes the four-item cap off a potion reward (seeds 11207 and 11209). So a replay of a recording whose transcript started before 2026-11-06 19:12:04 +0800, when the setting was first written, sets `GameContext.baseModFixes`, which drops the cap. The other four haven't been checked against the simulator, so a new difference after that date may come from one of them now being off.
+- **Holding an event's own relic when the event comes.** Only a scenario can do this, since these relics come from nowhere else. With Golden Idol the game gives Circlet instead, and the simulator works out the event's page from having the relic, so it expects the trap page (seed 9007). Accursed Blacksmith's Rummage gives a second Warped Tongs, which the simulator's relic set can't hold (seed 10219). Forgotten Altar with Bloody Idol already held keeps Golden Idol and gives Circlet, where the simulator swaps the idols (seed 10009). Neow's Lament given before Neow's own blessing makes two, which the relic set can't hold either (seed 10506). With N'loth's Gift already held, N'loth's trade keeps the offered relic and gives Circlet (seed 10521). Shuffled plans now leave these five relics out. Not worth modelling for a state no real run reaches.
 - **Empty Cage and Tiny House on the game.** The agent never picks them, so they've only been compared with the game's code. Empty Cage's automatic removal with two or fewer removable cards isn't in the simulator.

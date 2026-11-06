@@ -67,6 +67,18 @@ def card_key(card: dict) -> str:
     return card["id"] + (f"+{upgrades}" if upgrades else "")
 
 
+def cards_beyond(deck: list[dict], starter: collections.Counter) -> collections.Counter:
+    """The deck's cards that aren't the kit. Whetstone and War Paint upgrade starters on the spot, and those are still the kit."""
+    extras = collections.Counter(card_key(c) for c in deck) - starter
+    unfilled = starter - collections.Counter(c["id"] for c in deck if not c.get("upgrades", 0))
+    upgraded_starters: collections.Counter = collections.Counter()
+    for card in deck:
+        if card.get("upgrades", 0) and unfilled[card["id"]] > upgraded_starters[card["id"]]:
+            upgraded_starters[card["id"]] += 1
+            extras[card_key(card)] -= 1
+    return +extras
+
+
 def state_items(gs: dict) -> collections.Counter:
     """What the player has beyond the class's starting kit, as scenario items."""
     items: collections.Counter = collections.Counter()
@@ -77,8 +89,7 @@ def state_items(gs: dict) -> collections.Counter:
     starter = STARTER_DECKS[character].copy()
     if gs.get("ascension_level", 0) >= ASCENDERS_BANE_ASCENSION:
         starter["AscendersBane"] += 1
-    deck = collections.Counter(card_key(c) for c in gs.get("deck", [])) - starter
-    for key, count in deck.items():
+    for key, count in cards_beyond(gs.get("deck", []), starter).items():
         items["card:" + key] += count
     for potion in gs.get("potions", []):
         if potion["id"] != "Potion Slot":
