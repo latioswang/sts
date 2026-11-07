@@ -1045,6 +1045,61 @@ void FairAgent::cardSelect(GameContext &gc) {
     search::GameAction(bestI).execute(gc);
 }
 
+// ---------------- Phase F10: V on event choices ----------------
+// Re-seed every RNG stream of a game copy and reshuffle its relic pools: the copy's future is then a draw from the
+// player's belief, never the real pre-generated one (the real streams and pool orders are not read).
+static void reseedAllRngs(GameContext &g, std::mt19937_64 &r) {
+    g.aiRng = Random(r()); g.cardRandomRng = Random(r()); g.cardRng = Random(r()); g.eventRng = Random(r());
+    g.mathUtilRng = Random(r()); g.merchantRng = Random(r()); g.miscRng = Random(r()); g.monsterHpRng = Random(r());
+    g.monsterRng = Random(r()); g.neowRng = Random(r()); g.potionRng = Random(r()); g.relicRng = Random(r());
+    g.shuffleRng = Random(r()); g.treasureRng = Random(r());
+    // the relic pools are shuffled once at game start: their ORDER is hidden (the player knows only which relics are
+    // left), so a copy must not read it -> reshuffle every pool
+    std::shuffle(g.commonRelicPool.begin(), g.commonRelicPool.end(), r);
+    std::shuffle(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end(), r);
+    std::shuffle(g.rareRelicPool.begin(), g.rareRelicPool.end(), r);
+    std::shuffle(g.shopRelicPool.begin(), g.shopRelicPool.end(), r);
+    std::shuffle(g.bossRelicPool.begin(), g.bossRelicPool.end(), r);
+}
+
+// For each valid option: K copies (the same K seed sets for every option), re-seeded, option executed, rolled forward with
+// this agent's own out-of-combat policy through EVENT / CARD_SELECT screens, then V. Returns the index into
+// getAllActionsInState of the best mean V, or -1 to fall back (a copy reached BATTLE, the step cap, or the run ended).
+int FairAgent::vrEventChoice(const GameContext &gc, std::uint64_t decisionSeed) {
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    if (!vrm.trained) return -1;
+    const auto actions = search::GameAction::getAllActionsInState(gc);
+    if (actions.size() < 2) return -1;
+    const int K = std::max(1, static_cast<int>(getp(P, "vr_event_k", 4)));
+    // save everything a hypothetical step could touch
+    const bool savedHyp = inHyp; std::FILE *savedBf = bfLog; std::FILE *savedRv = rvLog;
+    const RunStats savedStats = stats; const std::mt19937_64 savedRng = rng; const std::uint64_t savedBfD = bfDecisions;
+    const double savedElite = eliteSimV;
+    inHyp = true; bfLog = nullptr; rvLog = nullptr;
+    int best = -1; double bestV = -1e300; bool ok = true;
+    for (size_t a = 0; a < actions.size() && ok; ++a) {
+        double sum = 0;
+        for (int k = 0; k < K && ok; ++k) {
+            std::mt19937_64 sr(decisionSeed * 0x9E3779B97F4A7C15ULL + 0xD1B54A32D192ED03ULL * (k + 1));
+            GameContext h = gc;
+            reseedAllRngs(h, sr);
+            actions[a].execute(h);
+            int steps = 0;
+            while (h.outcome == GameOutcome::UNDECIDED && steps < 20
+                   && (h.screenState == ScreenState::EVENT_SCREEN || h.screenState == ScreenState::CARD_SELECT)) {
+                stepOutOfCombat(h); ++steps;
+            }
+            if (h.outcome != GameOutcome::UNDECIDED || h.screenState == ScreenState::BATTLE
+                || h.screenState == ScreenState::EVENT_SCREEN || h.screenState == ScreenState::CARD_SELECT) { ok = false; break; }
+            sum += vr::value(vrm, h);
+        }
+        if (ok && sum / K > bestV) { bestV = sum / K; best = static_cast<int>(a); }
+    }
+    inHyp = savedHyp; bfLog = savedBf; rvLog = savedRv; stats = savedStats; rng = savedRng; bfDecisions = savedBfD;
+    eliteSimV = savedElite;
+    return ok ? best : -1;
+}
+
 void FairAgent::stepOutOfCombat(GameContext &gc) {
     using RT = search::GameAction::RewardsActionType;
     if (getp(P, "oc_potions", 0) > 0 && gc.screenState == ScreenState::MAP_SCREEN) {
@@ -1092,6 +1147,23 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             }
             break;
         case ScreenState::EVENT_SCREEN:
+            if (getp(P, "vr_event", 0) > 0 && !inHyp && gc.curEvent != Event::NEOW
+                && gc.curEvent != Event::MATCH_AND_KEEP && gc.curEvent != Event::DEAD_ADVENTURER) {
+                // Phase F10 vr_event (default off): V on event options; the decision seed comes from the agent seed, the
+                // floor and a counter (never the game RNG)
+                const std::uint64_t ds = (agentSeed * 0xA24BAED4963EE407ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 40) ^ evDecisions++;
+                const int ai = vrEventChoice(gc, ds);
+                if (getp(P, "ev_leaktest", 0) > 0) {
+                    // the choice must not depend on the real RNG streams: recompute on a duplicate whose real streams are
+                    // re-seeded arbitrarily
+                    GameContext dup = gc;
+                    std::mt19937_64 pr(ds ^ 0x5555AAAA5555AAAAULL);
+                    reseedAllRngs(dup, pr);
+                    const int bi = vrEventChoice(dup, ds);
+                    ++evLeakChecked; if (ai != bi) ++evLeakMism;
+                }
+                if (ai >= 0) { ++evUsed; search::GameAction::getAllActionsInState(gc)[ai].execute(gc); return; }
+            }
             if (gc.curEvent == Event::NEOW && getp(P, "neow_pol", 0) > 0) {
                 search::GameAction(neowChoice(gc)).execute(gc);
                 return;
@@ -1206,6 +1278,8 @@ void FairAgent::playout(GameContext &gc) {
         std::fflush(rvLog);
         rvRows.clear();
     }
+    if (getp(P, "ev_leaktest", 0) > 0)
+        std::fprintf(stderr, "EVLEAK checked=%d mismatches=%d used=%d\n", evLeakChecked, evLeakMism, evUsed);
 }
 
 }  // namespace fair

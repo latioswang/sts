@@ -51,6 +51,11 @@ private:
     std::vector<float> rvRows;
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;
+    // Phase F10 vr_event: V on event choices from re-seeded copies (see FairAgent.cpp vrEventChoice)
+    bool inHyp = false;                    // true while a hypothetical copy is rolled forward (vr_event off inside)
+    std::uint64_t evDecisions = 0;
+    int evLeakChecked = 0, evLeakMism = 0, evUsed = 0; // ev_leaktest counters (printed to stderr at the end of playout)
+    int vrEventChoice(const sts::GameContext &gc, std::uint64_t decisionSeed);
     double eliteSimV = std::numeric_limits<double>::quiet_NaN();  // elite_sim: simulated elite-node value for the current map decision
 
     void playBattle(sts::GameContext &gc);
