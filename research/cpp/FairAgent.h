@@ -49,6 +49,7 @@ private:
     std::FILE *bfLog = nullptr;            // Phase C v3 interventional fight logger (bf_log=1 + VF_LOG_DIR)
     std::uint64_t bfDecisions = 0;
     std::vector<float> rvRows;
+    int rvDim = 666;                       // row width of rvLog: rv::DIM (v1) or rv::DIM2 (Phase F14 rv_log2)
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;
     // Phase F10 vr_event: V on event choices from re-seeded copies (see FairAgent.cpp vrEventChoice)

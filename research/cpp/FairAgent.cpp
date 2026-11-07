@@ -41,9 +41,12 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
             if (pfLog) { const float hdr[2] = {-1.f, 2.f}; std::fwrite(hdr, sizeof(float), 2, pfLog); }  // format v2 marker
         }
     }
-    if (getp(P, "rv_log", 0) > 0) {
+    vr::g_keysMode = getp(P, "keys", 0) > 0 ? 1.f : 0.f;   // Phase F14: features-v2 V models read the agent's keys mode
+    if (getp(P, "rv_log", 0) > 0 || getp(P, "rv_log2", 0) > 0) {
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
-            const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";
+            // rv_log2 (Phase F14): features v2 rows (rv::DIM2 = 666 + 4 key features); rv_log: v1 rows, unchanged
+            rvDim = getp(P, "rv_log2", 0) > 0 ? rv::DIM2 : rv::DIM;
+            const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";  // v2 dirs carry a DIM670 marker file
             rvLog = std::fopen(path.c_str(), "ab");
         }
     }
@@ -1120,8 +1123,9 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             case ScreenState::MAP_SCREEN: case ScreenState::REWARDS: case ScreenState::SHOP_ROOM:
             case ScreenState::REST_ROOM: case ScreenState::EVENT_SCREEN: case ScreenState::BOSS_RELIC_REWARDS: {
                 const size_t off = rvRows.size();
-                rvRows.resize(off + rv::DIM);
+                rvRows.resize(off + rvDim);
                 rv::extract(gc, rvRows.data() + off);
+                if (rvDim == rv::DIM2) rv::extractKeys(gc, vr::g_keysMode, rvRows.data() + off + rv::DIM);
                 break;
             }
             default: break;
@@ -1272,8 +1276,8 @@ void FairAgent::playout(GameContext &gc) {
         const float win = gc.outcome == GameOutcome::PLAYER_VICTORY ? 1.f : 0.f;
         const float extra[4] = {win, static_cast<float>(gc.floorNum), static_cast<float>(gc.act),
                                 static_cast<float>(agentSeed % 10000000ULL)};
-        for (size_t off = 0; off < rvRows.size(); off += rv::DIM) {
-            std::fwrite(rvRows.data() + off, sizeof(float), rv::DIM, rvLog);
+        for (size_t off = 0; off < rvRows.size(); off += rvDim) {
+            std::fwrite(rvRows.data() + off, sizeof(float), rvDim, rvLog);
             std::fwrite(extra, sizeof(float), 4, rvLog);
         }
         std::fflush(rvLog);

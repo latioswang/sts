@@ -5,9 +5,11 @@ RandomState(run_id % 2**32) without replacement (all rows if a run has fewer). u
 import argparse, glob, os
 import numpy as np
 import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import runstore   # input: per-file or shards
-DIM, EXTRA = 666, 4
+EXTRA = 4
 ap = argparse.ArgumentParser(); ap.add_argument("inp"); ap.add_argument("out"); ap.add_argument("--k", type=int, default=32)
-a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); n = rows_in = rows_out = 0
+ap.add_argument("--dim", type=int, default=666, help="Phase F14: row feature width (670 for features v2; writes a DIM670 marker)")
+a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); n = rows_in = rows_out = 0; DIM = a.dim
+if DIM == 670: open(os.path.join(a.out, "DIM670"), "w").write("features v2 rows (666 + 4 key features)\n")
 counts = open(os.path.join(a.out, "counts.tsv"), "w")   # run_id <tab> original rows: lets the trainer restore per-state weights
 for f in runstore.list_runs(a.inp):
     x = runstore.read(f); x = x[: (x.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)

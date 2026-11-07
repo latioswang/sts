@@ -28,7 +28,7 @@ inline const Model &model(int n) {
     Model m;
     if (std::FILE *f = std::fopen(modelPath(n).c_str(), "r")) {
         int nl = 0, trained = 0;
-        if (std::fscanf(f, "%d %d %d", &m.dim, &nl, &trained) == 3 && m.dim == rv::DIM && nl > 0 && nl < 16) {
+        if (std::fscanf(f, "%d %d %d", &m.dim, &nl, &trained) == 3 && (m.dim == rv::DIM || m.dim == rv::DIM2) && nl > 0 && nl < 16) {
             bool ok = true;
             for (int l = 0; l < nl && ok; ++l) {
                 Layer L;
@@ -62,9 +62,13 @@ inline float predict(const Model &m, const float *x) {
     return a[0];
 }
 
+// Phase F14: keys mode of the running agent (set by FairAgent from param keys); used only by DIM2 (features v2) models
+inline float g_keysMode = 0.f;
+
 inline float value(const Model &m, const sts::GameContext &gc) {
-    float x[rv::DIM];
+    float x[rv::DIM2];
     rv::extract(gc, x);
+    if (m.dim == rv::DIM2) rv::extractKeys(gc, g_keysMode, x + rv::DIM);
     return predict(m, x);
 }
 
