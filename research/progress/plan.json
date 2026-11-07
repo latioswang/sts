@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F16 (running): confirm the Heart gain on 2,000 more fresh seeds, then one expert-iteration step of the keys-aware V (15,000 games with the new Heart best; models selected by ranking quality, not RMSE).",
+  "Phase F16 (running): the Heart gain is confirmed on 2,000 more fresh seeds (Heart kills 23.8% vs 17.8%, +6.0 pts); now one expert-iteration step of the keys-aware V (15,000 games with the new Heart best; models picked by ranking quality).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
