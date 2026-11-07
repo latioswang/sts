@@ -1125,7 +1125,23 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
                         h.curHp = std::min(gc.maxHp, gc.curHp + gc.fractionMaxHp(0.30f) + (gc.relics.has(RelicId::REGAL_PILLOW) ? 15 : 0));
                         const float vHeal = vr::value(vrm, h);
                         float vUpg = -1e30f;
-                        for (int i = 0; i < gc.deck.size(); ++i) {
+                        bool done = false;
+                        if (getp(P, "vr_rest", 0) >= 2) {
+                            // Phase F7 vr_rest=2: value the upgrade the smith screen would actually make (this agent's own
+                            // upgrade choice), not the max of V over every upgradeable card: the max over many noisy
+                            // estimates is biased upward against the single heal estimate (default off; logging off
+                            // inside the hypothetical so no spurious data rows)
+                            GameContext s = gc;
+                            search::GameAction(1).execute(s);
+                            if (s.screenState == ScreenState::CARD_SELECT && s.info.selectScreenType == CardSelectScreenType::UPGRADE) {
+                                std::FILE *savedLog = bfLog; bfLog = nullptr;
+                                cardSelect(s);
+                                bfLog = savedLog;
+                                vUpg = vr::value(vrm, s);
+                                done = true;
+                            }
+                        }
+                        for (int i = 0; !done && i < gc.deck.size(); ++i) {
                             if (!gc.deck.cards[i].canUpgrade()) continue;
                             GameContext u = gc; u.deck.upgrade(i);
                             vUpg = std::max(vUpg, vr::value(vrm, u));
