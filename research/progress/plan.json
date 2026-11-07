@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F9 (running): re-test cross-track parameter ports on the current simulator and agents — Heart gets the root move prior, A0 potion values and map discount; A10/A20 get A0's map discount and potion values; A0 gets the A10 elite-HP setting.",
+  "Phase F9 (running): re-test cross-track parameter ports on the current simulator and agents. So far: Heart move prior +0.9 score pts on 2,000 seeds but pooled P 0.79 (not kept); map discount 0.85 neutral on A10, slightly negative on A20. A0 elite-HP, potion-value ports and Heart map discount still running.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",

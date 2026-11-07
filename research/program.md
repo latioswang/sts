@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 05:14 UTC
+### Current state (update after every batch) — 2026-11-07 05:16 UTC
+- **2026-11-07 05:16 UTC: hourly check.** up 5 hours, 19 minutes; runner alive; `f9a0_ehp` running, then f9heart_pot, f9a10_pot, f9a20_pot, f9heart_mapd. Bests unchanged: A0 f6a0_upg, A10 f6a10_norest, A20 f7a20, Heart f6heart_upg. Crashes recorded so far on 1b05bdc: 1237071, 1240783, 1255890, 1264825, 1267057 (all Heart, same site). No workers.
 - **2026-11-07 05:14 UTC: F9 — `f9a20_mapd` discard.** vs f7a20 on fs1267500n1000: dscore −0.0068, dwin −0.003, P 0.115 → discard.
 - **2026-11-07 05:08 UTC: F9 — `f9heart_pmlp` extension: discard; fifth 1b05bdc crash.** Second slice fs1266500n1000 vs f6heart_upg (n=999, seed 1267057 crashed in both arms): dscore +0.0078, dwin +0.000, P 0.691. Pooled (n=1999): f9heart_pmlp win=0.178 floor=49.36 vs f6heart_upg win=0.175 floor=49.03, dscore +0.0086, dwin +0.003, P 0.794 → below 0.9 → discard. Both slices positive on score (+0.0093, +0.0078) but not on wins; the root move prior now looks neutral-to-slightly-positive on Heart rather than harmful (batch 51: −0.0059). **Crash for the fork owner: seed 1267057**, Heart track, f6heart_upg params + keys=1 chest_pol=1, reproduced under gdb: SIGSEGV in `CardManager::moveToDiscardPile` ← `onAfterUseCard` ← `executeActions` ← `FairSearcher::rollout` — same site as the other four (all Heart). It crashed in both arms (possibly before the two agents' play diverges — not checked) [inferred].
 - **2026-11-07 04:49 UTC: F9 — `f9a10_mapd` discard.** vs f6a10_norest on fs1266000n500: dscore +0.0053, dwin +0.004, P 0.648 → discard (below the near-miss band).
