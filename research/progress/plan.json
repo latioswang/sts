@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F6 (running): which of the five V hooks (shop cards, shop relics, upgrades, rest, removal) matter — leave-one-out on A10 / A20, single-hook adds on A0 / Heart. So far: on A10 dropping the rest hook gained +5.2 pts (new A10 best f6a10_norest); shop, shop-relic and upgrade hooks help on A10 and A20; removal neutral on A10, helps A20; A20 rest-hook removal is a near miss (P 0.80) under extension. A0 and Heart single adds next.",
+  "Phase F6 (running, Heart arms left): which of the five V hooks (shop cards, shop relics, upgrades, rest, removal) matter. Results: the rest hook hurts on all three tracks tested (removing it kept on A10 +5.2 pts and A20 +0.6 pts pooled; adding it on A0 −1.0 pt); shop and upgrade hooks help everywhere (A0 now keeps both: f6a0_upg, two keeps +1.8 pts each); shop relics help A10/A20, neutral on A0; removal helps A20, neutral A10, hurts A0. New bests: A0 f6a0_upg, A10 f6a10_norest, A20 f6a20_norest. Heart single adds running (~03:00 UTC done).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
