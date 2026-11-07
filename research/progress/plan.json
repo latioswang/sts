@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F17 (running): confirmation done — f16heart beats f15heart by +1.5 pts Heart wins / +0.02 score on 2,000 fresh seeds (the keep slice's +6.2 was mostly luck). Now expert-iteration step 3 (15,000 games with f16heart, retrain, select by ranking quality, arm).",
+  "Phase F20 (running): A20 expert iteration — 30,000 A20 games with the A20 best, an A20-only run value trained and selected by ranking quality (holdout correlation), then a fresh-slice test on A20. The Heart track's F17–F19 found no further gains (third V iteration, V-chosen ruby key, compute-neutral extra search at the Heart).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -256,6 +256,7 @@
   "Porting A0 keeps to the Heart track (none transferred).",
   "Learning the 8 deck-model head weights against the run score (CV corr 0.288 → 0.301).",
   "Speed micro-optimisation (1.03×; the remaining speed is architectural).",
-  "Phase P1: move prior v4 (2,000-sim targets) — +8.5 points at 50 sims but no gain at 500 sims (+0.6, P 0.67); with v4 the gap to 500 sims is 13.2 / 6.2 / 4.4 points at 50 / 100 / 200 sims (fidelity sim)."
+  "Phase P1: move prior v4 (2,000-sim targets) — +8.5 points at 50 sims but no gain at 500 sims (+0.6, P 0.67); with v4 the gap to 500 sims is 13.2 / 6.2 / 4.4 points at 50 / 100 / 200 sims (fidelity sim).",
+  "Heart F17–F19: third expert-iteration V (+0.9 pts pooled, P 0.71), V-chosen ruby key (−2.1 pts), compute-neutral 3× search at the Heart (+0.5 pts, P 0.41); keys cost only 1.6 pts of act-3 boss kills."
  ]
 }
