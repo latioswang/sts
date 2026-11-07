@@ -613,3 +613,4 @@ f72e5e5	fs1280000n2000.a20	2000	0	0.045	28.69	0.6071	+0.0139	0.954	measure	f7a20
 ce2ae6d	fs1284000n2000.a0	2000	0	0.164	48.98	1.0726	-0.0090	0.105	measure	f6heart_upg: Phase F13: re-measure f6heart_upg vs pre-F5 best f2heartp [heart] [sim=fidelity-1b05bdc]
 ee5172c	fs1286000n2000.a0	2000	0	0.165	48.73	1.0699	+0.0014	0.576	discard	f2heartp: [heart] fresh-slice extension of a near miss (fs1284000n2000 + fs1286000n2000 pooled P=0.849, second-slice dscore=+0.0014) [sim=fidelity-1b05bdc]
 89239d6	fs1288000n1000.a0	1000	0	0.222	46.05	1.0850	+0.0170	0.831	discard	f15heart: [heart] Phase F15: Heart best + features-v2 Heart V (vr_model=210) [fresh slice; vr_model=210] [sim=fidelity-1b05bdc]
+7955255	fs1289000n1000.a0	1000	0	0.132	46.55	1.0061	-0.0885	0.000	discard	f15heart_b: [heart] Phase F15: Heart best + features-v2 Heart V as a bonus (vr_model=210 vr_pure=0 vr_pure_relic=0) [fresh slice; vr_model=210 vr_pure=0 vr_pure_relic=0] [sim=fidelity-1b05bdc]
