@@ -591,3 +591,4 @@ d791aa4	fs1261500n1000.a20	1000	0	0.060	29.78	0.6428	+0.0068	0.748	discard	f8a20
 80e73d4	fs1262500n500.a0	500	0	0.824	47.98	1.7648	-0.0194	0.164	discard	f8a0: Phase F8: A0 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
 171ff29	fs1263000n1000.a20	1000	0	0.046	29.12	0.6162	+0.0089	0.853	discard	f8a20: [a20] fresh-slice extension of a near miss (fs1261500n1000 + fs1263000n1000 pooled P=0.871, second-slice dscore=+0.0089) [sim=fidelity-1b05bdc]
 dedaf2e	fs1264000n1000.a0	999	1	0.176	48.76	1.0818	+0.0001	0.500	discard	f8heart: [heart] Phase F8: Heart best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+150a6ab	fs1265000n1000.a0	1000	0	0.180	49.35	1.0964	+0.0093	0.728	discard	f9heart_pmlp: [heart] Phase F9: Heart best + root MLP move prior (port from A0) [fresh slice; prior_mlp=1 prior_mlp_depth=0] [sim=fidelity-1b05bdc]
