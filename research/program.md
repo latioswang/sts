@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 05:46 UTC
+### Current state (update after every batch) — 2026-11-07 05:53 UTC
+- **2026-11-07 05:53 UTC: F9 — `f9a20_pot` discard.** vs f7a20 on fs1270500n1000: dscore +0.0024, dwin +0.005, P 0.591 → discard. `f9heart_mapd` last.
 - **2026-11-07 05:46 UTC: F9 — `f9a10_pot` discard.** vs f6a10_norest on fs1270000n500: dscore +0.0120, dwin +0.016, P 0.683 → discard (just below the 0.7 near-miss band; no extension under the rule).
 - **2026-11-07 05:40 UTC: F9 — `f9heart_pot` discard.** vs f6heart_upg on fs1269000n1000: dscore −0.0214, dwin −0.009, P 0.056 → discard (A0's potion values hurt the Heart track).
 - **2026-11-07 05:22 UTC: F9 — `f9a0_ehp` discard.** vs f6a0_upg on fs1268500n500: dscore −0.0147, dwin −0.012, P 0.198 → discard.
