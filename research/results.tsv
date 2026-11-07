@@ -604,3 +604,4 @@ e329589	fs1271500n1000.a0	1000	0	0.161	49.05	1.0735	+0.0027	0.679	discard	f9hear
 9ccacb9	fs1273000n1000.a20	1000	0	0.046	29.36	0.6207	+0.0096	0.802	discard	f10a20: [a20] Phase F10: A20 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
 b4945b1	fs1274000n500.a10	500	0	0.454	40.59	1.2499	-0.0108	0.389	discard	f10a10: [a10] fresh-slice extension of a near miss (fs1272500n500 + fs1274000n500 pooled P=0.649, second-slice dscore=-0.0108) [sim=fidelity-1b05bdc]
 904f268	fs1274500n1000.a20	1000	0	0.035	28.72	0.5975	-0.0057	0.311	discard	f10a20: [a20] fresh-slice extension of a near miss (fs1273000n1000 + fs1274500n1000 pooled P=0.596, second-slice dscore=-0.0057) [sim=fidelity-1b05bdc]
+237dc70	fs1275500n500.a0	500	0	0.812	48.08	1.7547	-0.0035	0.444	discard	f10a0: Phase F10: A0 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]

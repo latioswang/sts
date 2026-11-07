@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 06:42 UTC
+### Current state (update after every batch) — 2026-11-07 06:48 UTC
+- **2026-11-07 06:48 UTC: F10 — `f10a0` discard.** vs f6a0_upg on fs1275500n500: dscore −0.0035, dwin +0.000, P 0.444 → discard. `f10heart` last.
 - **2026-11-07 06:42 UTC: F10 — `f10a20` extension: discard.** Second slice fs1274500n1000 vs f7a20: dscore −0.0057, dwin −0.006, P 0.311. Pooled (n=2000): f10a20 win=0.041 floor=29.04 vs f7a20 win=0.040 floor=28.99, dscore +0.0020, P 0.596 → discard. `f10a0` running.
 - **2026-11-07 06:37 UTC: F10 — `f10a10` extension: discard.** Second slice fs1274000n500 vs f6a10_norest: dscore −0.0108, dwin −0.014, P 0.389. Pooled (n=1000): f10a10 win=0.469 floor=40.43 vs win=0.467 floor=40.05, dscore +0.0094, P 0.649 → discard. The first slice's +0.0296 did not replicate (my MED prediction was wrong): the typical shrink of a near miss. `f10a20` extension running.
 - **2026-11-07 06:33 UTC: F10 — `f10a20` near miss; extension pre-registered (before its games).** vs f7a20 on fs1273000n1000: dscore +0.0096, dwin +0.008, P 0.802 → near miss. Queued right after the `f10a10` extension (now running) and before `f10a0`: `TRACK=a20 ext_fresh.sh f10a20 fs1273000n1000` — one never-used 1,000-seed slice vs f7a20, keep iff pooled P ≥ 0.9 and second-slice dscore > 0, promoted by the tool (no other A20 arm runs before it). Prediction: extension keep LOW-MED.
