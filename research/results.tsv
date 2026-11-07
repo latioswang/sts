@@ -570,3 +570,4 @@ fbd6d4b	fs1243000n500.a10	500	0	0.464	40.41	1.2564	+0.0006	0.504	discard	f6a10_n
 50bd609	fs1245500n1000.a20	1000	0	0.043	28.23	0.5957	-0.0125	0.069	discard	f6a20_noupg: [a20] Phase F6: A20 best without one V hook (vr_upg_w=0) [fresh slice; vr_upg_w=0] [sim=fidelity-1b05bdc]
 e1a6a16	fs1246500n1000.a20	1000	0	0.048	28.86	0.6128	+0.0083	0.801	discard	f6a20_norest: [a20] Phase F6: A20 best without one V hook (vr_rest=0) [fresh slice; vr_rest=0] [sim=fidelity-1b05bdc]
 6b23786	fs1247500n1000.a20	1000	0	0.051	28.89	0.6165	-0.0085	0.207	discard	f6a20_norm: [a20] Phase F6: A20 best without one V hook (vr_remove=0) [fresh slice; vr_remove=0] [sim=fidelity-1b05bdc]
+af947c1	fs1248500n1000.a20	1000	0	0.056	28.55	0.6147	+0.0100	0.835	keep-candidate	f6a20_norest: [a20] fresh-slice extension of a near miss (fs1246500n1000 + fs1248500n1000 pooled P=0.905, second-slice dscore=+0.0100) [sim=fidelity-1b05bdc]
