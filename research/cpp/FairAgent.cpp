@@ -1332,6 +1332,9 @@ int FairAgent::branchEval(GameContext &gc, int k, int M, std::FILE *out) {
         double sum = 0; int ok = 0;
         for (int m = 0; m < M; ++m) {
             GameContext h = s; FairAgent b = *this;
+            // GameContext holds the map in a shared_ptr and an act transition overwrites it in place: give each playout
+            // its own map, or one playout's next act corrupts the decision state and every other copy
+            h.map = std::make_shared<Map>(*s.map);
             std::mt19937_64 rr(agentSeed * 0xD6E8FEB86659FD93ULL + 0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(m + 1));
             reseedAllRngs(h, rr);
             b.playout(h);
