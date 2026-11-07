@@ -588,3 +588,4 @@ a9870b0	fs1258000n500.a10	500	0	0.464	40.23	1.2528	+0.0094	0.653	discard	f7a10: 
 014c815	fs1260000n1000.a0	1000	0	0.161	48.99	1.0704	-0.0217	0.040	discard	f7heart: [heart] Phase F7: Heart best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
 16dc37a	fs1261000n500.a10	500	0	0.454	39.87	1.2358	+0.0109	0.649	discard	f8a10: [a10] Phase F8: A10 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
 d791aa4	fs1261500n1000.a20	1000	0	0.060	29.78	0.6428	+0.0068	0.748	discard	f8a20: [a20] Phase F8: A20 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+80e73d4	fs1262500n500.a0	500	0	0.824	47.98	1.7648	-0.0194	0.164	discard	f8a0: Phase F8: A0 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]

@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 03:49 UTC
+### Current state (update after every batch) — 2026-11-07 03:57 UTC
+- **2026-11-07 03:57 UTC: F8 — `f8a0` discard.** vs f6a0_upg on fs1262500n500: dscore −0.0194, dwin −0.012, P 0.164 → discard. On A0 the KB card score helps upgrades (V alone loses 1.2 pts).
 - **2026-11-07 03:49 UTC: F8 — `f8a20` near miss; extension pre-registered (before its games).** `f7a20 fs1261500n1000 win=0.056 floor=29.64 score=0.6360±0.0128`; `f8a20 n=1000 crash=0 win=0.060 floor=29.78 score=0.6428±0.0130` vs f7a20: dscore +0.0068, dwin +0.004, P 0.748 → near miss. Queued after `f8a0` (running) and before `f8heart`: `TRACK=a20 ext_fresh.sh f8a20 fs1261500n1000` — one more never-used 1,000-seed slice vs f7a20 (the A20 best cannot change before it runs; the A0 and Heart arms touch other tracks), keep iff pooled P ≥ 0.9 and second-slice dscore > 0, promoted by the tool. Prediction: extension keep LOW-MED.
 - **2026-11-07 03:42 UTC: F8 — `f8a10` discard.** vs f6a10_norest on fs1261000n500: dscore +0.0109, dwin +0.002, P 0.649 → discard (below the near-miss band). V-only upgrades on A10: no measurable change.
 - **2026-11-07 03:38 UTC: timestamp correction.** The F7 and F8 pre-registration entries carried typed times (03:00, 03:40) instead of `date`; corrected to the commit times (F7 pre-registered in 63f3e39 at 02:54:48, before the rebuild and before the F7 runner started at 02:55:33; F8 pre-registered in a0abc97 at 03:36:23, before the F8 runner started at 03:36:37). Order of pre-registration → games was kept in both. F8 leak tests: 94 / 105 / 105 / 93 checked, 0 mismatches; `f8a10` running.
