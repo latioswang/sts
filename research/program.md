@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 05:22 UTC
+### Current state (update after every batch) — 2026-11-07 05:40 UTC
+- **2026-11-07 05:40 UTC: F9 — `f9heart_pot` discard.** vs f6heart_upg on fs1269000n1000: dscore −0.0214, dwin −0.009, P 0.056 → discard (A0's potion values hurt the Heart track).
 - **2026-11-07 05:22 UTC: F9 — `f9a0_ehp` discard.** vs f6a0_upg on fs1268500n500: dscore −0.0147, dwin −0.012, P 0.198 → discard.
 - **2026-11-07 05:16 UTC: hourly check.** up 5 hours, 19 minutes; runner alive; `f9a0_ehp` running, then f9heart_pot, f9a10_pot, f9a20_pot, f9heart_mapd. Bests unchanged: A0 f6a0_upg, A10 f6a10_norest, A20 f7a20, Heart f6heart_upg. Crashes recorded so far on 1b05bdc: 1237071, 1240783, 1255890, 1264825, 1267057 (all Heart, same site). No workers.
 - **2026-11-07 05:14 UTC: F9 — `f9a20_mapd` discard.** vs f7a20 on fs1267500n1000: dscore −0.0068, dwin −0.003, P 0.115 → discard.

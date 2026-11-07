@@ -596,3 +596,4 @@ dedaf2e	fs1264000n1000.a0	999	1	0.176	48.76	1.0818	+0.0001	0.500	discard	f8heart
 1bb915d	fs1266500n1000.a0	999	1	0.175	49.36	1.0907	+0.0078	0.691	discard	f9heart_pmlp: [heart] fresh-slice extension of a near miss (fs1265000n1000 + fs1266500n1000 pooled P=0.794, second-slice dscore=+0.0078) [sim=fidelity-1b05bdc]
 442f986	fs1267500n1000.a20	1000	0	0.047	29.56	0.6257	-0.0068	0.115	discard	f9a20_mapd: [a20] Phase F9: A20 best + map_discount=0.85 (port from A0) [fresh slice; map_discount=0.85] [sim=fidelity-1b05bdc]
 33c734c	fs1268500n500.a0	500	0	0.844	48.47	1.7944	-0.0147	0.198	discard	f9a0_ehp: Phase F9: A0 best + elite_hp=0.75 (port from A10) [fresh slice; elite_hp=0.75] [sim=fidelity-1b05bdc]
+711fde4	fs1269000n1000.a0	1000	0	0.161	48.46	1.0605	-0.0214	0.056	discard	f9heart_pot: [heart] Phase F9: Heart best + potion_v=8 potion_v_boss=4 (port from A0) [fresh slice; potion_v=8 potion_v_boss=4] [sim=fidelity-1b05bdc]
