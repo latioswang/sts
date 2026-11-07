@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F6 (Heart arms left, ~03:40 UTC): which of the five V hooks matter. Rest hook hurts on A0/A10/A20 (removing it kept on A10 +5.2 pts and A20; adding it on A0 −1.0 pt); shop-card hook helps on all four tracks (kept as an add on A0 and Heart); upgrade hook helps A0/A10/A20, Heart near miss under extension; shop relics help A10/A20, neutral A0, hurt Heart; removal helps A20, neutral A10, hurts A0. Bests: A0 f6a0_upg, A10 f6a10_norest, A20 f6a20_norest, Heart f6heart_shop. Next (F7, draft): fix the rest-site hook's selection bias (value the upgrade the agent would actually make, not the max of V over every card).",
+  "Phase F7 (running): V's rest-vs-smith choice without the selection bias (compare heal with the upgrade the agent would actually make, not the max of V over every card). A10 neutral (P 0.65); A20 kept, new best f7a20 (+1.1 pts, P 0.94); A0 and Heart arms running (~04:00 UTC).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -238,7 +238,8 @@
   "Phase F3: A20 2.25x V weights (wins 3.2 -> 4.1%, 2,000 games, P 0.995) and A10 V-only card / relic picks (+5.2 pts, 44.0%) kept; A0 2.25x +1.4 pts not significant.",
   "Simulator switch 2 (2026-11-06): fork 1b05bdc (28 more game fixes, ~40% less CPU); leak tests pass; bests on it: A0 83.1%, A10 43.4%, A20 4.0%, Heart 15.2% (all within the predicted ranges).",
   "Phase F4: second V iteration on 1b05bdc (120,000 games from the V-driven bests): holdout RMSE 0.4379 -> 0.4280, no measurable play change on any track (4 discards).",
-  "Phase F5: V also decides shop purchases, upgrades, rest vs smith and card removal — A10 +3.6 pts (45.4%, P 0.946) and A20 +0.86 floors kept; A0 -1.4 and Heart -1.6 discarded."
+  "Phase F5: V also decides shop purchases, upgrades, rest vs smith and card removal — A10 +3.6 pts (45.4%, P 0.946) and A20 +0.86 floors kept; A0 -1.4 and Heart -1.6 discarded.",
+  "Phase F6: which V hooks matter, 20 arms + 2 extensions — six keeps. Shop-card and upgrade V help on all four tracks; V at rest sites hurt on A0/A10/A20 (dropping it: A10 +5.2 pts, A20 kept on 2,000 seeds); shop relics and removal depend on the track. Bests: A0 f6a0_upg, A10 f6a10_norest, A20 f6a20_norest, Heart f6heart_upg."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
