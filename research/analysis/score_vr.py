@@ -11,7 +11,7 @@ for _ in range(nl):
     W = np.array(tok[p:p + i * o], float).reshape(o, i); p += i * o; b = np.array(tok[p:p + o], float); p += o; layers.append((W, b))
 fs = runstore.list_runs(sys.argv[2])
 arr = np.concatenate([runstore.read(f) for f in fs]).reshape(-1, DIM + EXTRA)   # float32 rows; scored in chunks (memory)
-y = np.minimum(arr[:, DIM + 1], 51).astype(np.float64) / 51 + arr[:, DIM]; pr = np.empty(len(arr))
+y = np.minimum(arr[:, DIM + 1], 51).astype(np.float64) / 51 + arr[:, DIM] * ((arr[:, DIM + 2] >= 4) if __import__('os').environ.get('VR_WINMODE', 'act3') == 'heart' else 1.0); pr = np.empty(len(arr))  # Phase F11 VR_WINMODE=heart
 for i in range(0, len(arr), 200000):
     a = arr[i:i + 200000, :DIM].astype(np.float64)
     for l, (W, b) in enumerate(layers):

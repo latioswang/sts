@@ -11,6 +11,11 @@ usage: train_vr2.py DATA_DIR --id N --runs R (--hidden H [--layers 2] [--k 16] |
 meta: rmse corr train_runs hidden layers params predict_mean_rmse"""
 import argparse, glob, os, time
 import numpy as np
+import os as _os
+# Phase F11: VR_WINMODE=heart -> a win counts only if the run reached act 4 (the Heart track's score, research/eval/run.py
+# winmode='heart'); default act3 = unchanged labels (bit-identical to every earlier model)
+def HEARTW(arr):
+    return (arr[:, DIM + 2] >= 4).astype(arr.dtype) if _os.environ.get("VR_WINMODE", "act3") == "heart" else 1.0
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 import sys; sys.path.insert(0, HERE); import runstore   # per-file or compressed-shard run dirs, same bytes
 DIM, EXTRA = 666, 4
@@ -77,7 +82,7 @@ def main():
         arr = arr[:o]
         arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
         X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
-        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
+        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM] * HEARTW(arr)).astype(np.float32)
         have = set(np.unique(run).tolist()) - hs
         first = [r for r in runs0[:-a.holdout].tolist() if r in have]; fs = set(first)
         rest = np.array(sorted(have - fs), dtype=np.int64); np.random.RandomState(23456).shuffle(rest)
@@ -86,7 +91,7 @@ def main():
         arr = np.concatenate([runstore.read(f) for f in files])
         arr = arr[: (arr.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
         X = arr[:, :DIM]; run = arr[:, DIM + 3].astype(np.int64)
-        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM]).astype(np.float32)
+        y = (np.minimum(arr[:, DIM + 1], 51) / 51 + arr[:, DIM] * HEARTW(arr)).astype(np.float32)
         runs = np.unique(run); rng = np.random.RandomState(12345); rng.shuffle(runs)
         hold = runs[-a.holdout:]; pool = runs[:-a.holdout][: a.runs]
     runstore.release()   # drop the decompressed-shard cache before fitting (no-op for per-file dirs)
