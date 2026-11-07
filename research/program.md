@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-06 23:58 UTC
+### Current state (update after every batch) — 2026-11-07 00:01 UTC
+- **2026-11-07 00:01 UTC: F6 — `f6a20_noupg` discard.** `f6a20_noupg n=1000 crash=0 win=0.043 floor=28.23 score=0.5957` vs f5a20 on fs1245500n1000: dscore −0.0125, dwin −0.004, P 0.069 → discard (the upgrade hook helps A20, as on A10). `f6a20_norest` now running — the independent check of the A10 rest-hook keep.
 - **2026-11-06 23:58 UTC: container restart mid `f6a20_noupg`.** The base half (`f5a20 fs1245500n1000 win=0.047 floor=28.67 score=0.6083±0.0121`, 1000 rows) had finished; the arm had not started. Runner restarted (owner-approved) with the interrupted line resumed on its already-allocated slice (`FRESH_SLICE=1245500`), so no slice is reused or wasted and the base is not re-run. Build trees survived the restart.
 - **2026-11-06 23:53 UTC: F6 — `f6a20_nosrel` discard.** `f6a20_nosrel n=1000 crash=0 win=0.041 floor=28.54 score=0.5997` vs f5a20 on fs1244500n1000: dscore −0.0091, dwin −0.003, P 0.033 → discard (the shop-relic hook helps A20).
 - **2026-11-06 23:48 UTC: F6 — `f6a20_noshop` discard.** `f6a20_noshop n=1000 crash=0 win=0.031 floor=28.37 score=0.5866` vs f5a20 on fs1243500n1000: dscore −0.0072, dwin −0.005, P 0.097 → discard (the shop hook helps A20 a little, as on A10).
