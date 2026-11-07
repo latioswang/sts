@@ -103,6 +103,7 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-07 17:16 UTC
+- **2026-11-07 18:01 UTC: F17 (b) data done, training.** 15,000 Heart games with f16heart + explore_eps=0.2; one crash: **seed 5288674** (chunk 36; gdb: SIGSEGV in `CardManager::moveToDiscardPile`, the known site; games.tsv kept). vr_230 (h64) on 255,595 runs: holdout corr 0.443, rmse 0.4386 (predict-mean 0.5345). vr_231 (h256) training; then selection by correlation → 232, then `f17_arm.sh`.
 - **2026-11-07 17:16 UTC: hourly check.** up 10 hours, 56 minutes; runner alive; F17 iteration-3 data 87/150 chunks (done ≈ 17:57). Bests unchanged (Heart f16heart). No workers.
 - **2026-11-07 16:22 UTC: F17 (a) confirmation — f16heart beats f15heart, much less than its keep slice showed.** fs1294000n2000: `f15heart win=0.238 floor=46.00 score=1.0994±0.0122 act4=0.521`; f16heart vs f15heart: dscore +0.0211, dwin **+0.015**, P 0.945. Predictions: dscore > 0 with P ≥ 0.9 MED-HIGH — yes (0.945); dwin ≥ +3 pts MED — no (+1.5). Reading: the F16 keep slice's +6.2 pts was mostly selection luck; the honest gain of iteration 2 is ≈ +1.5 pts Heart wins and +0.02 score [inferred]. Iteration 3 data generation running.
 - **2026-11-07 16:16 UTC: hourly check.** up 9 hours, 55 minutes; runner alive; F17 (a) confirmation running (f16heart vs f15heart, fs1294000n2000). Bests: A0 f6a0_upg, A10 f6a10_norest, A20 f7a20, Heart f16heart. No workers.
