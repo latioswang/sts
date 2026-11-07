@@ -578,3 +578,4 @@ d591e27	fs1251000n500.a0	500	0	0.854	48.56	1.8061	-0.0213	0.118	discard	f6a0_res
 f766576	fs1251500n500.a0	500	0	0.834	48.73	1.7894	-0.0385	0.027	discard	f6a0_rm: Phase F6: A0 best plus one V hook (vr_remove=1) [fresh slice; vr_remove=1] [sim=fidelity-1b05bdc]
 b3ac7bc	fs1252000n1000.a0	1000	0	0.170	49.44	1.0854	+0.0189	0.997	keep	f6heart_shop: [heart] Phase F6: Heart best plus one V hook (vr_shop=1) [fresh slice; vr_shop=1] [sim=fidelity-1b05bdc]
 d52f150	fs1253000n1000.a0	1000	0	0.160	48.80	1.0656	-0.0151	0.057	discard	f6heart_srel: [heart] Phase F6: Heart best plus one V hook (vr_shop_relic=1) [fresh slice; vr_shop_relic=1] [sim=fidelity-1b05bdc]
+475d58d	fs1254000n1000.a0	1000	0	0.165	48.74	1.0698	+0.0064	0.773	discard	f6heart_upg: [heart] Phase F6: Heart best plus one V hook (vr_upg_w=20) [fresh slice; vr_upg_w=20] [sim=fidelity-1b05bdc]
