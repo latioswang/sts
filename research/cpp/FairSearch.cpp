@@ -165,12 +165,26 @@ int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Act
         }
         return n;
     }
+#ifdef STS_PLAYABLE_HAND_MASK
+    // The simulator works out the targetable monsters and the playable cards in one pass each: the same answers as
+    // isTargetable and canUseOnAnyTarget one at a time.
+    const std::uint32_t targetable = bc.monsters.getTargetableMask();
+    const auto canTarget = [targetable](int t) { return (targetable >> t & 1u) != 0; };
+#else
+    const auto canTarget = [&bc](int t) { return bc.monsters.arr[t].isTargetable(); };
+#endif
     if (bc.isCardPlayAllowed()) {
+#ifdef STS_PLAYABLE_HAND_MASK
+        const std::uint32_t playableMask = bc.getPlayableHandMask(targetable);
+        const auto canPlay = [playableMask](int h, const CardInstance &) { return (playableMask >> h & 1u) != 0; };
+#else
+        const auto canPlay = [&bc](int, const CardInstance &c) { return c.canUseOnAnyTarget(bc); };
+#endif
         std::pair<int,int> playable[CardManager::MAX_HAND_SIZE];
         int np = 0;
         for (int h = 0; h < bc.cards.cardsInHand; ++h) {
             const auto &c = bc.cards.hand[h];
-            if (!c.canUseOnAnyTarget(bc)) continue;
+            if (!canPlay(h, c)) continue;
             if (h > 0) {
                 const auto &l = bc.cards.hand[h - 1];
                 const bool same = c.id == l.id && c.getUpgradeCount() == l.getUpgradeCount()
@@ -186,7 +200,7 @@ int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Act
             const auto &c = bc.cards.hand[h];
             if (c.requiresTarget()) {
                 for (int t = bc.monsters.monsterCount - 1; t >= 0; --t) {
-                    if (!bc.monsters.arr[t].isTargetable()) continue;
+                    if (!canTarget(t)) continue;
                     if (n < cap) out[n++] = search::Action(search::ActionType::CARD, h, t);
                 }
             } else if (n < cap) {
@@ -195,7 +209,11 @@ int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Act
         }
     }
     if (allowPotions) {
+#ifdef STS_PLAYABLE_HAND_MASK
+        const bool hasValidTarget = targetable != 0;
+#else
         const bool hasValidTarget = bc.monsters.getTargetableCount() > 0;
+#endif
         for (int pIdx = 0; pIdx < bc.potionCapacity; ++pIdx) {
             const auto p = bc.potions[pIdx];
             if (p == Potion::EMPTY_POTION_SLOT) continue;
@@ -204,7 +222,7 @@ int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Act
             if (!potionRequiresTarget(p)) { if (n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx); continue; }
             if (!hasValidTarget) { if (n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, -1); continue; }
             for (int t = 0; t < bc.monsters.monsterCount; ++t) {
-                if (bc.monsters.arr[t].isTargetable() && n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, t);
+                if (canTarget(t) && n < cap) out[n++] = search::Action(search::ActionType::POTION, pIdx, t);
             }
         }
     }
