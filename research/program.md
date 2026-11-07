@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 01:22 UTC
+### Current state (update after every batch) — 2026-11-07 01:41 UTC
+- **2026-11-07 01:41 UTC: F6 — `f6heart_srel` discard.** vs f6heart_shop on fs1253000n1000: dscore −0.0151, dwin −0.012, P 0.057 → discard (V on shop relics hurts the Heart track on top of V on shop cards; neutral on A0, helps A10/A20).
 - **2026-11-07 01:22 UTC: F6 — `f6heart_shop` KEEP: new Heart best (first Heart keep since f2heartp).** `f2heartp fs1252000n1000 win=0.152 floor=49.36 score=1.0665±0.0138 act4=0.684`; `f6heart_shop n=1000 crash=0 win=0.170 floor=49.44 score=1.0854±0.0143 act4=0.695` vs f2heartp: dscore +0.0189, dwin +0.018, P 0.997 → keep. V on shop cards now helps on all four tracks. Remaining Heart arms run on base f6heart_shop.
 - **2026-11-07 01:17 UTC: hourly check.** Up 1h19; runner alive, 5 fair_eval; `f6heart_shop` running (base f2heartp on fs1252000n1000: win=0.152 floor=49.36 score=1.0665±0.0138 act4=0.684). Bests: A0 f6a0_upg, A10 f6a10_norest, A20 f6a20_norest, Heart f2heartp. No new simulator crash; no workers.
 - **2026-11-07 00:55 UTC: F6 — `f6a0_rm` discard; A0 single adds done.** vs f6a0_upg on fs1251500n500: dscore −0.0385, dwin −0.032, P 0.027 → discard. V on card removal hurts A0 (it helped A20 a little, neutral on A10). A0 best after F6: `f6a0_upg` = f2a0w + vr_shop=1 + vr_upg_w=60. Heart arms next, on base f2heartp.
