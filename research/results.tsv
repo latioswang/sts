@@ -622,3 +622,4 @@ a1794de	fs1293000n1000.a0	1000	0	0.290	46.79	1.1623	+0.0731	1.000	keep	f16heart:
 2b44f3b	fs1297000n1000.a0	1000	0	0.259	46.27	1.1255	-0.0002	0.494	discard	f17heart: [heart] fresh-slice extension of a near miss (fs1296000n1000 + fs1297000n1000 pooled P=0.713, second-slice dscore=-0.0002) [sim=fidelity-1b05bdc]
 ef8346a	fs1298000n1000.a0	1000	0	0.273	46.80	1.1456	-0.0121	0.203	discard	f18heart_vkey: [heart] Phase F18: Heart best + V-chosen ruby-key recall (vr_key=1) [fresh slice; vr_key=1] [sim=fidelity-1b05bdc]
 54c42a0	fs1299000n1000.a0	1000	0	0.287	46.16	1.1487	-0.0038	0.413	discard	f19heart_hm: [heart] Phase F19: compute-neutral Heart search reallocation (sims=445 heart_mult=3.3708) [fresh slice; sims=445 heart_mult=3.3708] [sim=fidelity-1b05bdc]
+155480b	fs1300000n1000.a20	1000	0	0.034	28.14	0.5851	-0.0186	0.041	discard	f20a20: [a20] Phase F20: A20 best + A20 expert-iteration V (vr_model=242) [fresh slice; vr_model=242] [sim=fidelity-1b05bdc]
