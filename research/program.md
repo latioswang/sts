@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 09:30 UTC
+### Current state (update after every batch) — 2026-11-07 09:56 UTC
+- **2026-11-07 09:56 UTC: F13 — A0 re-measure.** fs1282000n2000: `f2a0w win=0.833 floor=48.65 score=1.7870±0.0109`; f6a0_upg vs f2a0w: dscore +0.0229, dwin +0.018, P 0.989. The A0 chain (F6: V on shop cards + V on upgrades) is +1.8 pts on 2,000 unbiased seeds (the two single-slice keeps claimed +1.8 and +1.8 = +3.6) — prediction ≥ +1 pt MED: yes.
 - **2026-11-07 09:30 UTC: F13 — A20 re-measure.** fs1280000n2000: `f3a20w win=0.041 floor=28.20 score=0.5932±0.0083`; `f7a20 win=0.045 floor=28.69 score=0.6071±0.0085`: dscore +0.0139, dwin +0.004, P 0.954. The A20 chain (F5 hooks → F6 rest off → F7 vr_rest=2) is +0.5 floors and +0.4 pts of wins on 2,000 unbiased seeds — prediction ≥ +0.5 pt LOW-MED: just under on wins (+0.4), real on score.
 - **2026-11-07 09:20 UTC: F13 — A10 re-measure.** fs1278000n2000: `f3a10p win=0.426 floor=39.17 score=1.1946±0.0161`; f6a10_norest vs f3a10p: dscore +0.0472, dwin +0.030, P 0.999. The F5→F6 A10 chain (V on shops/upgrades/removal, rest hook off) is a real +3.0 pts on 2,000 unbiased seeds (the single-slice keeps had claimed +3.6 then +5.2) — prediction ≥ +2 pts MED: yes.
 - **2026-11-07 09:16 UTC: hourly check.** up 2 hours, 55 minutes; runner alive; F13 A10 re-measure running (fs1278000n2000). Bests unchanged. No workers.
