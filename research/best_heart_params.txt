@@ -23,6 +23,7 @@ vr_model=171
 vr_pure=1
 vr_pure_relic=1
 vr_relic_w=20
+vr_shop=1
 w_burning_act3=3
 w_event=2
 w_monster=0.5
