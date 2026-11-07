@@ -600,3 +600,4 @@ dedaf2e	fs1264000n1000.a0	999	1	0.176	48.76	1.0818	+0.0001	0.500	discard	f8heart
 8c1a27e	fs1270000n500.a10	500	0	0.468	39.94	1.2512	+0.0120	0.683	discard	f9a10_pot: [a10] Phase F9: A10 best + potion_v=8 potion_v_boss=4 (port from A0) [fresh slice; potion_v=8 potion_v_boss=4] [sim=fidelity-1b05bdc]
 1195ac9	fs1270500n1000.a20	1000	0	0.045	29.55	0.6235	+0.0024	0.591	discard	f9a20_pot: [a20] Phase F9: A20 best + potion_v=8 (port from A0) [fresh slice; potion_v=8] [sim=fidelity-1b05bdc]
 e329589	fs1271500n1000.a0	1000	0	0.161	49.05	1.0735	+0.0027	0.679	discard	f9heart_mapd: [heart] Phase F9: Heart best + map_discount=0.85 (port from A0) [fresh slice; map_discount=0.85] [sim=fidelity-1b05bdc]
+9efc4b6	fs1272500n500.a10	500	0	0.484	40.27	1.2735	+0.0296	0.824	discard	f10a10: [a10] Phase F10: A10 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
