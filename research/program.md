@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-07 17:16 UTC
+### Current state (update after every batch) — 2026-11-07 18:16 UTC
+- **2026-11-07 18:16 UTC: hourly check.** up 11 hours, 56 minutes; runner alive; F17 arm on fs1296000n1000: base `f16heart win=0.271 floor=46.84 score=1.1462±0.0177 act4=0.556` done, f17heart (vr_model=232) running. Bests unchanged (Heart f16heart). No workers.
 - **2026-11-07 18:04 UTC: F17 (b) selection done; arm running.** On the F17 holdout (1,000 runs, 153,502 states): vr_230 h64 corr 0.443 rmse 0.4386; vr_231 h256 corr **0.446** rmse 0.4380; incumbent vr_222 corr 0.431 rmse 0.4471. Selection by correlation → vr_231 → vr_232. Prediction 'selected ≠ 222 MED' — yes, but the margin (+0.015 corr) is smaller than F16's (+0.033) [computed], consistent with diminishing returns. Leak test Heart best + vr_model=232: 93 checked, 0 mismatches. `f17heart` running vs f16heart.
 - **2026-11-07 18:01 UTC: F17 (b) data done, training.** 15,000 Heart games with f16heart + explore_eps=0.2; one crash: **seed 5288674** (chunk 36; gdb: SIGSEGV in `CardManager::moveToDiscardPile`, the known site; games.tsv kept). vr_230 (h64) on 255,595 runs: holdout corr 0.443, rmse 0.4386 (predict-mean 0.5345). vr_231 (h256) training; then selection by correlation → 232, then `f17_arm.sh`.
 - **2026-11-07 17:16 UTC: hourly check.** up 10 hours, 56 minutes; runner alive; F17 iteration-3 data 87/150 chunks (done ≈ 17:57). Bests unchanged (Heart f16heart). No workers.
