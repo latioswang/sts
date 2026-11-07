@@ -240,7 +240,7 @@ python3 -I research/realgame/tools/run_regression.py
 
 This checks the simulator against every recorded run, with no game running. It takes under a minute for about 600 runs, and exits 1 if anything got worse than `regression_baseline.tsv`. The game is only needed to collect new runs.
 
-It makes a recording from each run in the transcripts (`tools/export_traces.py`, kept in `traces/`, which is gitignored for now), then plays each one back through mirror mode with `sts_bridge replay`. The moves come from the recording rather than the agent, and the comparison is the same code as a real mirror run. Each legal action is tried against the recording, and the one that sends what was recorded is taken.
+It makes a recording from each run in the transcripts (`tools/export_traces.py`, kept in `traces/`, which is gitignored), then plays each one back through mirror mode with `sts_bridge replay`. The moves come from the recording rather than the agent, and the comparison is the same code as a real mirror run. Each legal action is tried against the recording, and the one that sends what was recorded is taken.
 
 | Result | Meaning |
 |---|---|
@@ -251,6 +251,19 @@ It makes a recording from each run in the transcripts (`tools/export_traces.py`,
 After fixing the simulator, run it before and after to see what the fix changed. Update the baseline with `--update_baseline` once the result is understood, since a run that now gets further raises the bar for later changes. Use `STS_BRIDGE` or `--bridge` to test another build.
 
 Recordings made since 2026-11-04 also hold the game's random streams, as `#` notes that the relay keeps out of the game's input. Older ones can't check those streams, and stop at a difference after a Discovery.
+
+### The recordings in git
+
+`recordings/` keeps every finished day's recordings as one archive, `<YYYYMMDD>.tar.zst`, so a fresh clone can run the regression without the game:
+
+```bash
+python3 -I research/realgame/tools/recordings.py unpack   # fills traces/ from the archives
+python3 -I research/realgame/tools/recordings.py check    # exits 1 if a finished day's runs aren't all archived
+```
+
+Each archive holds the day's runs uncompressed in one tar, compressed with zstd at `--ultra -22 --long=31`. Runs repeat each other's states, and compressing them together finds that, so an archive is about 3.4 times smaller than the same runs gzipped one by one. On 2026-11-05, 526 runs were 1.94 GB raw, 43 MB gzipped and 12.7 MB archived. Reading one needs zstd on the PATH and up to 2 GB of memory for the long window.
+
+`tools/update_progress.py` packs each day once the date has moved past it, and checks the archive against `traces/` before keeping it. An archive is never rewritten unless `pack --force` is given, so git keeps one copy of each. The raw transcripts in `logs/` stay out of git: they are about 12 GB, and they hold the game's own event text.
 
 ## Testing without the game
 
@@ -283,6 +296,7 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 | `ActionSender` | Simulator actions to mod commands, shared by both modes |
 | `Mirror` | Mirror mode |
 | `ReplayClient`, `tools/export_traces.py`, `tools/run_regression.py`, `regression_baseline.tsv` | The regression test: recordings stand in for the game |
+| `tools/recordings.py`, `recordings/` | One zstd archive of recordings per finished day, kept in git |
 | `tools/coverage.py`, `tools/update_progress.py` | The coverage score, and a refresh of the test, the score and the dashboard's files |
 | `Scenario`, `scenario_mod/` | Scenario files and the test-only mod they apply through |
 | `scenario_plan.py`, `tools/coverage_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached or what the score says is short, and list what has |

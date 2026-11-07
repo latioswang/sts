@@ -428,10 +428,15 @@ void Mirror::onCombatAction(const BattleContext &bc, const search::Action &a) {
     std::ostringstream desc;
     a.printDesc(desc, bc);
     Diffs d = battleDiffs(bc);
+    bool waited = false;
     for (int i = 0; i < kEffectWaits && anyHard(d); ++i) {
         waitForEffects();
+        waited = true;
         d = battleDiffs(bc);
     }
+    // The streams were read before the waits, while the game could still be rolling them: under Emotion Chip, each
+    // orb's passive at the start of a turn still lands after the mod reports the turn (seed 11802).
+    if (waited) updateGameRngs();
     for (const auto &[name, stream] : {std::pair<const char *, const Random *>{"aiRng", &bc.aiRng}, {"monsterHpRng", &bc.monsterHpRng},
                                        {"shuffleRng", &bc.shuffleRng}, {"cardRandomRng", &bc.cardRandomRng},
                                        {"miscRng", &bc.miscRng}, {"potionRng", &bc.potionRng}}) {

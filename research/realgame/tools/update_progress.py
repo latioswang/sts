@@ -3,8 +3,8 @@
 
     update_progress.py [--bridge PATH]
 
-It makes recordings from any new transcripts, replays them all, counts what they cover, and writes one CSV per chart to
-reports/dashboard/. reports/regression_history.tsv keeps one row per pass. Use the build with the most cards in it.
+It makes recordings from any new transcripts, archives each finished day's recordings for git (tools/recordings.py),
+replays them all, counts what they cover, and writes one CSV per chart to reports/dashboard/. reports/regression_history.tsv keeps one row per pass. Use the build with the most cards in it.
 Exits 1 if the regression test found anything worse, after writing everything else.
 """
 import argparse
@@ -138,6 +138,10 @@ def main() -> int:
     for repo in CLASS_REPOS:
         sources += ["--mirror_logs", os.path.join(repo, "logs"), "--plans", os.path.join(repo, "plans")]
     run_step([sys.executable, "-I", os.path.join(TOOLS, "export_traces.py"), *sources])
+    packed = run_step([sys.executable, "-I", os.path.join(TOOLS, "recordings.py"), "pack"])
+    # The archives are a copy for git; the dashboard doesn't need them, so a failure here is only reported.
+    if packed.returncode != 0 or packed.stdout.strip():
+        print(("archiving recordings failed: " if packed.returncode else "archived: ") + (packed.stdout + packed.stderr).strip())
     reg = regression(args.bridge)
     done = run_step([sys.executable, "-I", os.path.join(TOOLS, "coverage.py"), "--replay_results", RESULTS, "--estimate"])
     if done.returncode != 0:
