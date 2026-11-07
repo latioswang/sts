@@ -68,6 +68,8 @@ private:
     void cardRewards(sts::GameContext &gc);
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);
+    int vrKeyRecall(const sts::GameContext &gc, int alt);   // Phase F18 vr_key
+    long keyVrRecalls = 0;                                    // Phase F18: recalls chosen under vr_key
     int eventChoice(const sts::GameContext &gc) const;
     int bossRelicChoice(const sts::GameContext &gc);
     // bf_relic_w: value of a hypothetical run state for the boss-relic choice from K simulated fights of the next act

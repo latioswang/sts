@@ -1069,6 +1069,34 @@ static void reseedAllRngs(GameContext &g, std::mt19937_64 &r) {
 // For each valid option: K copies (the same K seed sets for every option), re-seeded, option executed, rolled forward with
 // this agent's own out-of-combat policy through EVENT / CARD_SELECT screens, then V. Returns the index into
 // getAllActionsInState of the best mean V, or -1 to fall back (a copy reached BATTLE, the step cap, or the run ended).
+// Phase F18 vr_key: 1 = RECALL (ruby key) has V >= V of the alternative rest-site action `alt` (0 rest, 1 smith with this
+// agent's own upgrade choice), 0 = take the alternative, -1 = no trained model. Each option runs on a copy whose real RNG
+// streams are re-seeded from the agent seed and floor (never the game RNG); logging and agent state are restored.
+int FairAgent::vrKeyRecall(const GameContext &gc, int alt) {
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    if (!vrm.trained) return -1;
+    if (alt < 0) return 1;
+    const bool savedHyp = inHyp; std::FILE *savedBf = bfLog; std::FILE *savedRv = rvLog;
+    const RunStats savedStats = stats; const std::mt19937_64 savedRng = rng; const std::uint64_t savedBfD = bfDecisions;
+    const double savedElite = eliteSimV;
+    inHyp = true; bfLog = nullptr; rvLog = nullptr;
+    const std::uint64_t ds = (agentSeed * 0xA24BAED4963EE407ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 40) ^ 0x4B4559ULL;
+    const int acts[2] = {2, alt};
+    double v[2] = {0, 0}; bool ok = true;
+    for (int j = 0; j < 2 && ok; ++j) {
+        std::mt19937_64 sr(ds * 0x9E3779B97F4A7C15ULL + 0xD1B54A32D192ED03ULL);
+        GameContext h = gc;
+        reseedAllRngs(h, sr);
+        search::GameAction(acts[j]).execute(h);
+        if (h.screenState == ScreenState::CARD_SELECT && h.info.selectScreenType == CardSelectScreenType::UPGRADE) cardSelect(h);
+        if (h.outcome != GameOutcome::UNDECIDED) { ok = false; break; }
+        v[j] = vr::value(vrm, h);
+    }
+    inHyp = savedHyp; bfLog = savedBf; rvLog = savedRv; stats = savedStats; rng = savedRng; bfDecisions = savedBfD;
+    eliteSimV = savedElite;
+    return ok ? (v[0] >= v[1] ? 1 : 0) : -1;
+}
+
 int FairAgent::vrEventChoice(const GameContext &gc, std::uint64_t decisionSeed) {
     const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
     if (!vrm.trained) return -1;
@@ -1186,9 +1214,20 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
                 // only above key_rest_hp_preboss (default never)
                 const int lastKeyAct = getp(P, "key_act3", 0) > 0 ? 3 : 2;
                 const double keyTh = preBoss ? getp(P, "key_rest_hp_preboss", 2.0) : getp(P, "key_rest_hp", 0.65);
-                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && hpf >= keyTh && gc.act <= lastKeyAct) {
-                    search::GameAction(2).execute(gc);  // RECALL: take the ruby key
-                    return;
+                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && gc.act <= lastKeyAct) {
+                    if (getp(P, "vr_key", 0) > 0) {
+                        // Phase F18 vr_key (default off): recall-or-not by the learned run value: V after RECALL vs V after
+                        // the rest/smith this rule would otherwise take (no HP threshold); -1 (no model) -> threshold rule
+                        const double th0 = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
+                        const bool heal0 = !gc.relics.has(RelicId::COFFEE_DRIPPER);
+                        const bool upg0 = !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0;
+                        const int alt = (heal0 && (hpf < th0 || !upg0)) ? 0 : (upg0 ? 1 : -1);
+                        const int r = vrKeyRecall(gc, alt);
+                        if (r == 1 || (r < 0 && hpf >= keyTh)) { ++keyVrRecalls; search::GameAction(2).execute(gc); return; }
+                    } else if (hpf >= keyTh) {
+                        search::GameAction(2).execute(gc);  // RECALL: take the ruby key
+                        return;
+                    }
                 }
                 const double th = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
                 const bool canHeal = !gc.relics.has(RelicId::COFFEE_DRIPPER);
