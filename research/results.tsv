@@ -607,3 +607,4 @@ b4945b1	fs1274000n500.a10	500	0	0.454	40.59	1.2499	-0.0108	0.389	discard	f10a10:
 237dc70	fs1275500n500.a0	500	0	0.812	48.08	1.7547	-0.0035	0.444	discard	f10a0: Phase F10: A0 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
 84e81f0	fs1276000n1000.a0	999	1	0.135	48.14	1.0299	-0.0458	0.001	discard	f10heart: [heart] Phase F10: Heart best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
 d3ecafd	fs1277000n1000.a0	1000	0	0.114	34.14	0.7646	-0.3263	0.000	discard	f11heart: [heart] Phase F11: Heart best + Heart-track V (vr_model=202) [fresh slice; vr_model=202] [sim=fidelity-1b05bdc]
+b9f55b7	fs1278000n2000.a10	2000	0	0.457	40.05	1.2418	+0.0472	0.999	measure	f6a10_norest: Phase F13: re-measure f6a10_norest vs pre-F5 best f3a10p [a10] [sim=fidelity-1b05bdc]
