@@ -584,3 +584,4 @@ a34c5af	fs1256000n1000.a0	1000	0	0.173	49.37	1.0879	+0.0158	0.975	keep-candidate
 c9a1d2a	fs1257000n1000.a0	1000	0	0.128	48.88	1.0355	-0.0315	0.010	discard	f6heart_rm: [heart] Phase F6: Heart best plus one V hook (vr_remove=1) [fresh slice; vr_remove=1] [sim=fidelity-1b05bdc]
 a9870b0	fs1258000n500.a10	500	0	0.464	40.23	1.2528	+0.0094	0.653	discard	f7a10: [a10] Phase F7: A10 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
 49ad22b	fs1258500n1000.a20	1000	0	0.048	28.14	0.5989	+0.0163	0.942	keep	f7a20: [a20] Phase F7: A20 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
+88106fd	fs1259500n500.a0	500	0	0.820	48.25	1.7661	-0.0161	0.201	discard	f7a0: Phase F7: A0 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
