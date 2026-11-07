@@ -102,6 +102,7 @@ static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &che
 int main(int argc, char **argv) {
     std::string agent = "fair";
     std::uint64_t seedStart = 1000; int count = 10; int asc = 0; int threads = 4; bool leak = false; bool inproc = false; bool leakDome = false;
+    int branchK = 0, branchM = 0;
     fair::Params P;
     for (int i = 1; i < argc; ++i) {
         std::string a = argv[i];
@@ -114,6 +115,7 @@ int main(int argc, char **argv) {
         else if (a == "--leaktest") leak = true;
         else if (a == "--leak_dome") { leak = true; leakDome = true; }
         else if (a == "--inproc") inproc = true;  // debug: no fork
+        else if (a == "--branch_eval") { branchK = std::stoi(next()); branchM = std::stoi(next()); }  // Phase F26 (offline measurement)
         else if (a == "--param") {
             auto kv = next(); auto eq = kv.find('=');
             P[kv.substr(0, eq)] = std::stod(kv.substr(eq + 1));
@@ -177,6 +179,22 @@ int main(int argc, char **argv) {
                 // agent's data loggers and std::cerr diagnostics would then corrupt the binary logs
                 if (!std::freopen("/dev/null", "w", stderr)) _exit(4);
                 alarm(900);           // hang guard -> counted as crash
+                if (branchM > 0) {
+                    // Phase F26: one branch-evaluation decision per seed (k = seed % branchK), rows to VF_LOG_DIR/branch_<seed>.bin
+                    const char *dir = std::getenv("VF_LOG_DIR");
+                    std::string path = std::string(dir ? dir : ".") + "/branch_" + std::to_string(seed) + ".bin";
+                    std::FILE *f = std::fopen(path.c_str(), "wb");
+                    if (!f) _exit(5);
+                    GameContext gc(CharacterClass::IRONCLAD, seed, asc);
+                    fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
+                    const int nOpt = a.branchEval(gc, static_cast<int>(seed % static_cast<std::uint64_t>(branchK)), branchM, f);
+                    std::fclose(f);
+                    char bl[128];
+                    int bn = std::snprintf(bl, sizeof bl, "%llu\tBRANCH\t%d\n", (unsigned long long)seed, nOpt);
+                    if (write(fds[1], bl, bn) != bn) _exit(3);
+                    close(fds[1]);
+                    _exit(0);
+                }
                 Row r = runOne(agent, seed, asc, P);
                 char line[512];
                 // columns: seed win floor act hp max_hp deck battles decisions aborted secs actions death_enc potions_left

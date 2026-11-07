@@ -1300,6 +1300,54 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
     legacy.stepOutOfCombatPolicy(gc);
 }
 
+int FairAgent::branchEval(GameContext &gc, int k, int M, std::FILE *out) {
+    int seen = 0, guard = 0;
+    while (gc.outcome == GameOutcome::UNDECIDED) {
+        if (++guard > 20000) return -1;
+        if (gc.screenState == ScreenState::BATTLE) { playBattle(gc); continue; }
+        if (gc.screenState == ScreenState::REWARDS) {
+            const auto &r = gc.info.rewardsContainer;
+            if (r.goldRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && r.cardRewardCount == 1
+                && !r.emeraldKey && !r.sapphireKey && seen++ == k) break;
+        }
+        stepOutOfCombat(gc);
+    }
+    if (gc.outcome != GameOutcome::UNDECIDED) return -1;
+    const auto &r = gc.info.rewardsContainer;
+    const int n = r.cardRewards[0].size();
+    int own = n;  // this agent's own choice at the screen (skip unless a card was added)
+    {
+        GameContext t = gc; FairAgent c = *this;
+        c.cardRewards(t);
+        if (t.deck.size() > gc.deck.size()) {
+            const CardId id = t.deck.cards[t.deck.size() - 1].getId();
+            for (int i = 0; i < n; ++i) if (r.cardRewards[0][i].getId() == id) { own = i; break; }
+        }
+    }
+    for (int o = 0; o <= n; ++o) {
+        GameContext s = gc;
+        search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
+        float x[rv::DIM];
+        rv::extract(s, x);
+        double sum = 0; int ok = 0;
+        for (int m = 0; m < M; ++m) {
+            GameContext h = s; FairAgent b = *this;
+            std::mt19937_64 rr(agentSeed * 0xD6E8FEB86659FD93ULL + 0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(m + 1));
+            reseedAllRngs(h, rr);
+            b.playout(h);
+            if (b.stats.aborted || h.outcome == GameOutcome::UNDECIDED) continue;
+            sum += std::min(h.floorNum, 51) / 51.0 + (h.outcome == GameOutcome::PLAYER_VICTORY ? 1.0 : 0.0);
+            ++ok;
+        }
+        const float tail[6] = {static_cast<float>(o), static_cast<float>(n), static_cast<float>(ok ? sum / ok : -1.0),
+                               static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f};
+        std::fwrite(x, sizeof(float), rv::DIM, out);
+        std::fwrite(tail, sizeof(float), 6, out);
+    }
+    std::fflush(out);
+    return n + 1;
+}
+
 void FairAgent::playout(GameContext &gc) {
     int guard = 0;
     while (gc.outcome == GameOutcome::UNDECIDED) {

@@ -34,6 +34,10 @@ public:
     FairAgent(const Params &params, std::uint64_t agentSeed);
     void playout(sts::GameContext &gc);
     RunStats stats;
+    // Phase F26 branch evaluation (offline measurement only; never called in play or evaluation): play to the k-th
+    // single-card-reward screen, then for each option (card i, or skip) write its run features (rv::DIM floats) and the mean
+    // score of M playouts by this agent from re-seeded copies (same seeds for every option); returns options written or -1
+    int branchEval(sts::GameContext &gc, int k, int M, std::FILE *out);
 
     // exposed for leak test
     SearchParams searchParamsFor(const sts::BattleContext &bc) const;
