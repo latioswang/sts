@@ -107,6 +107,7 @@ private:
     std::mt19937_64 rng;
     std::mt19937_64 logRng;  // leaf logger only: separate stream so logging never changes the search
     std::vector<Node> nodes;
+    std::vector<std::pair<int,int>> pathBuf;  // simulate()'s (node, edge) path, kept to avoid an allocation per simulation
     double vmin = 1e18, vmax = -1e18;
 
     int newNode(const sts::BattleContext &bc, int depth = 0);

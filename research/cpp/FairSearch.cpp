@@ -138,14 +138,31 @@ static inline bool potionAllowedHere(const BattleContext &bc, int pIdx, bool all
     return !(bc.potions[pIdx] == Potion::SMOKE_BOMB && isBossEncounter(bc.encounter));
 }
 
+// Lightspeed's legal actions for bc, in a node reused by each thread: once its edge list has grown, the rare
+// card-select states allocate nothing. Read the result before the next call on the same thread.
+static const search::BattleScumSearcher2::Node &genericNode(const BattleContext &bc) {
+    static thread_local std::unique_ptr<search::BattleScumSearcher2> dummy;
+    static thread_local search::BattleScumSearcher2::Node node;
+    if (!dummy) dummy = std::make_unique<search::BattleScumSearcher2>(bc);
+    node.edges.clear();
+    dummy->enumerateActionsForNode(node, bc);
+    return node;
+}
+
+static bool genericActionAllowed(const BattleContext &bc, const search::Action &a, bool allowPotions) {
+    return a.getActionType() != search::ActionType::POTION || potionAllowedHere(bc, a.getSourceIdx(), allowPotions);
+}
+
 // Allocation-free enumeration for the common PLAYER_NORMAL state. Mirrors lightspeed's
 // BattleScumSearcher2::enumerateCardActions/enumeratePotionActions exactly (same dedupe rule,
 // same play-order sort, same target order) so the search behaves identically, just faster.
 int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Action *out, int cap) {
     int n = 0;
     if (bc.inputState != InputState::PLAYER_NORMAL) {
-        auto v = enumerateActions(bc, allowPotions);  // rare: card-select states, use the generic path
-        for (auto &a : v) if (n < cap) out[n++] = a;
+        // rare: card-select states, use the generic path
+        for (const auto &e : genericNode(bc).edges) {
+            if (genericActionAllowed(bc, e.action, allowPotions) && n < cap) out[n++] = e.action;
+        }
         return n;
     }
     if (bc.isCardPlayAllowed()) {
@@ -197,16 +214,11 @@ int enumerateActionsInto(const BattleContext &bc, bool allowPotions, search::Act
 
 // Generic path: reuse lightspeed's action enumeration through a dummy searcher node.
 std::vector<search::Action> enumerateActions(const BattleContext &bc, bool allowPotions) {
-    static thread_local std::unique_ptr<search::BattleScumSearcher2> dummy;
-    if (!dummy) dummy = std::make_unique<search::BattleScumSearcher2>(bc);
-    search::BattleScumSearcher2::Node node;
-    dummy->enumerateActionsForNode(node, bc);
+    const auto &node = genericNode(bc);
     std::vector<search::Action> out;
     out.reserve(node.edges.size());
-    for (auto &e : node.edges) {
-        if (e.action.getActionType() == search::ActionType::POTION
-            && !potionAllowedHere(bc, e.action.getSourceIdx(), allowPotions)) continue;
-        out.push_back(e.action);
+    for (const auto &e : node.edges) {
+        if (genericActionAllowed(bc, e.action, allowPotions)) out.push_back(e.action);
     }
     return out;
 }
@@ -388,12 +400,15 @@ double FairSearcher::rollout(BattleContext &bc) {
             bilinearPriors(bc, acts, nActs, pri);
             for (int i = 0; i < nActs; ++i) pri[i] = static_cast<float>((1.0 - p.rollPriorEps) * pri[i] + p.rollPriorEps / nActs);
         }
-        auto wTot = [&](int i) { return wOf(acts[i]) * (usePri ? static_cast<double>(pri[i]) * nActs : 1.0); };
-        for (int i = 0; i < nActs; ++i) total += wTot(i);
+        double w[MAX_ACTIONS];
+        for (int i = 0; i < nActs; ++i) {
+            w[i] = wOf(acts[i]) * (usePri ? static_cast<double>(pri[i]) * nActs : 1.0);
+            total += w[i];
+        }
         double r = U(rng) * total;
         search::Action chosen = acts[nActs - 1];
         for (int i = 0; i < nActs; ++i) {
-            r -= wTot(i);
+            r -= w[i];
             if (r <= 0) { chosen = acts[i]; break; }
         }
         FAIR_TRACE_ACTION(chosen, bc, "roll");
@@ -437,7 +452,8 @@ void FairSearcher::simulate() {
     determinise(bc, rng, p.knownTop);
     FAIR_CHECK(bc, "determinise");
 
-    std::vector<std::pair<int,int>> path;  // (node, edge)
+    auto &path = pathBuf;  // (node, edge), reused across simulations
+    path.clear();
     int cur = rootIdx;
     double value;
     while (true) {
