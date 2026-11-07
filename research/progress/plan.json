@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F24 (running): confirming the F23 weight keeps on fresh 2,000-seed slices — the A20 keep did NOT replicate (−0.002, so f23a20 ≈ f7a20); A10 confirmation running; then one more 1.5× weight step on A10 and A20.",
+  "Phase F26 (running): a decision-level test of run-value models — at 1,600 A20 card rewards, every option is played out 8 times by the A20 best, so each model can be scored by how good the option it ranks first really is. Three phases showed that the usual holdout score does not predict play. Confirmed bests: A0 f6a0_upg, A10 f6a10_norest (f23a10 ≈ equal), A20 f24a20 (+0.003), Heart f16heart.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
