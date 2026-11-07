@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Phase F24 arm (pre-registered in program.md F23): the track's best with its three V weights another x1.5; leak test at the track's
+# Phase F24 arm (pre-registered in program.md F24): the track's best with its three V weights another x1.5; leak test at the track's
 # ascension, then the fresh-slice rule. usage: f23_one.sh TRACK NAME k=v [k=v ...]
 set -euo pipefail
 cd "$(dirname "$0")/../.."
