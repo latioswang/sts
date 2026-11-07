@@ -617,3 +617,4 @@ ee5172c	fs1286000n2000.a0	2000	0	0.165	48.73	1.0699	+0.0014	0.576	discard	f2hear
 f7191d1	fs1290000n1000.a0	1000	0	0.251	46.04	1.1116	+0.0458	0.992	keep-candidate	f15heart: [heart] fresh-slice extension of a near miss (fs1288000n1000 + fs1290000n1000 pooled P=0.990, second-slice dscore=+0.0458) [sim=fidelity-1b05bdc]
 702b278	fs1291000n2000.a0	1999	1	0.238	45.87	1.0961	+0.0058	0.663	measure	f15heart: Phase F13: re-measure f15heart vs pre-F5 best f6heart_upg [heart] [sim=fidelity-1b05bdc]
 a1794de	fs1293000n1000.a0	1000	0	0.290	46.79	1.1623	+0.0731	1.000	keep	f16heart: [heart] Phase F16: Heart best + expert-iteration keys-aware V (vr_model=222) [fresh slice; vr_model=222] [sim=fidelity-1b05bdc]
+0691583	fs1294000n2000.a0	2000	0	0.253	46.44	1.1204	+0.0211	0.945	measure	f16heart: Phase F13: re-measure f16heart vs pre-F5 best f15heart [heart] [sim=fidelity-1b05bdc]
