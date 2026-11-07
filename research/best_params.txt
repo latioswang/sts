@@ -23,6 +23,7 @@ vr_bonus=60
 vr_model=171
 vr_relic_w=30
 vr_shop=1
+vr_upg_w=60
 w_elite_act1=1
 w_event=2
 w_monster=0.5
