@@ -1,0 +1,2 @@
+sims=350
+boss_mult=2.8571
