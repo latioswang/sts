@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F11 (running): a Heart-track V. Every V so far learned from key-less runs where 'win' = beating the act-3 boss; a V trained on 15,000 Heart-track games with Heart labels (win only if the Heart dies) may fix the Heart agent's V-driven choices.",
+  "Phase F13 (running, measurement only): each track's current best vs its pre-F5 best on fresh 2,000-seed slices — how much the F5–F7 keep chain really gained, without selection bias.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -243,7 +243,8 @@
   "Phase F7: V's rest-vs-smith without the max-over-cards bias (value the upgrade the agent would actually make) — kept on A20 (+1.1 pts, new best f7a20), neutral on A10, still harmful on A0 and Heart.",
   "Phase F8: V alone choosing every upgrade — no keep (A20 +0.5 pts on 2,000 seeds, pooled P 0.871; A0 −1.2 pts; A10 and Heart neutral): the hand card score still adds information.",
   "Phase F9: cross-track parameter ports re-tested on the current simulator — no keep (the parameter differences between tracks are mostly track-specific).",
-  "Phase F10: V on event choices (leak-tested copies with fresh randomness; the event leak test caught and fixed a relic-pool-order leak) — neutral on A0/A10/A20, −2.9 pts on Heart."
+  "Phase F10: V on event choices (leak-tested copies with fresh randomness; the event leak test caught and fixed a relic-pool-order leak) — neutral on A0/A10/A20, −2.9 pts on Heart.",
+  "Phases F11/F12: a Heart-track V trained on 15,000 Heart games with Heart labels — beat the old V on the holdout but, driving card picks alone, collapsed the Heart agent (−0.33 score); more rows of the same runs did not help. Finding: V's features contain no key flags, so no V can see whether a Heart win is still possible (parked: features v2 + far more Heart runs)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
