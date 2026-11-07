@@ -1054,12 +1054,13 @@ static void reseedAllRngs(GameContext &g, std::mt19937_64 &r) {
     g.monsterRng = Random(r()); g.neowRng = Random(r()); g.potionRng = Random(r()); g.relicRng = Random(r());
     g.shuffleRng = Random(r()); g.treasureRng = Random(r());
     // the relic pools are shuffled once at game start: their ORDER is hidden (the player knows only which relics are
-    // left), so a copy must not read it -> reshuffle every pool
-    std::shuffle(g.commonRelicPool.begin(), g.commonRelicPool.end(), r);
-    std::shuffle(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end(), r);
-    std::shuffle(g.rareRelicPool.begin(), g.rareRelicPool.end(), r);
-    std::shuffle(g.shopRelicPool.begin(), g.shopRelicPool.end(), r);
-    std::shuffle(g.bossRelicPool.begin(), g.bossRelicPool.end(), r);
+    // left), so a copy must not read it -> sort every pool into a canonical order, then shuffle (shuffling the real order
+    // directly would still carry it into the copy)
+    std::sort(g.commonRelicPool.begin(), g.commonRelicPool.end()); std::shuffle(g.commonRelicPool.begin(), g.commonRelicPool.end(), r);
+    std::sort(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end()); std::shuffle(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end(), r);
+    std::sort(g.rareRelicPool.begin(), g.rareRelicPool.end()); std::shuffle(g.rareRelicPool.begin(), g.rareRelicPool.end(), r);
+    std::sort(g.shopRelicPool.begin(), g.shopRelicPool.end()); std::shuffle(g.shopRelicPool.begin(), g.shopRelicPool.end(), r);
+    std::sort(g.bossRelicPool.begin(), g.bossRelicPool.end()); std::shuffle(g.bossRelicPool.begin(), g.bossRelicPool.end(), r);
 }
 
 // For each valid option: K copies (the same K seed sets for every option), re-seeded, option executed, rolled forward with
