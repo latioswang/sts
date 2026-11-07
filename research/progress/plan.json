@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F8 (running): V alone chooses every upgrade (vr_upg_w → 1,000,000, the KB card score only breaks ties) on all four track bests.",
+  "Phase F8 (Heart arm left): V alone chooses every upgrade. A10 neutral (P 0.65), A0 −1.2 pts, A20 +0.5 pts on 2,000 seeds (pooled P 0.871, not kept). Next (F9, draft): re-test cross-track parameter ports on the current simulator and agents.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
