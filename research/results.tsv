@@ -620,3 +620,4 @@ a1794de	fs1293000n1000.a0	1000	0	0.290	46.79	1.1623	+0.0731	1.000	keep	f16heart:
 0691583	fs1294000n2000.a0	2000	0	0.253	46.44	1.1204	+0.0211	0.945	measure	f16heart: Phase F13: re-measure f16heart vs pre-F5 best f15heart [heart] [sim=fidelity-1b05bdc]
 9d41495	fs1296000n1000.a0	1000	0	0.286	46.91	1.1612	+0.0150	0.801	discard	f17heart: [heart] Phase F17: Heart best + expert-iteration keys-aware V (vr_model=232) [fresh slice; vr_model=232] [sim=fidelity-1b05bdc]
 2b44f3b	fs1297000n1000.a0	1000	0	0.259	46.27	1.1255	-0.0002	0.494	discard	f17heart: [heart] fresh-slice extension of a near miss (fs1296000n1000 + fs1297000n1000 pooled P=0.713, second-slice dscore=-0.0002) [sim=fidelity-1b05bdc]
+ef8346a	fs1298000n1000.a0	1000	0	0.273	46.80	1.1456	-0.0121	0.203	discard	f18heart_vkey: [heart] Phase F18: Heart best + V-chosen ruby-key recall (vr_key=1) [fresh slice; vr_key=1] [sim=fidelity-1b05bdc]
