@@ -1354,6 +1354,65 @@ int FairAgent::branchEval(GameContext &gc, int k, int M, std::FILE *out) {
     return n + 1;
 }
 
+int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *out) {
+    // Phase F33: split-half branch evaluation. Same playout seeds as branchEval for m < 8, so with M = 16 the first half
+    // reproduces the F26/F28/F31 labels and the second half is an independent re-measurement of every option.
+    int seen = 0, guard = 0;
+    while (gc.outcome == GameOutcome::UNDECIDED) {
+        if (++guard > 20000) return -1;
+        if (gc.screenState == ScreenState::BATTLE) { playBattle(gc); continue; }
+        if (kind == 1 && gc.screenState == ScreenState::REWARDS) {
+            const auto &r = gc.info.rewardsContainer;
+            if (r.goldRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && r.cardRewardCount == 1
+                && !r.emeraldKey && !r.sapphireKey && seen++ == k) break;
+        }
+        if (kind == 2 && gc.screenState == ScreenState::BOSS_RELIC_REWARDS && seen++ == k) break;
+        stepOutOfCombat(gc);
+    }
+    if (gc.outcome != GameOutcome::UNDECIDED) return -1;
+    int n = 0, own = 0;
+    if (kind == 1) {
+        const auto &r = gc.info.rewardsContainer;
+        n = r.cardRewards[0].size(); own = n;
+        GameContext t = gc; FairAgent c = *this;
+        c.cardRewards(t);
+        if (t.deck.size() > gc.deck.size()) {
+            const CardId id = t.deck.cards[t.deck.size() - 1].getId();
+            for (int i = 0; i < n; ++i) if (r.cardRewards[0][i].getId() == id) { own = i; break; }
+        }
+    } else {
+        n = 3;  // options 0..2 = the three boss relics, 3 = skip
+        FairAgent c = *this;
+        own = c.bossRelicChoice(gc);
+    }
+    for (int o = 0; o <= n; ++o) {
+        GameContext s = gc;
+        if (kind == 1) search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
+        else search::GameAction(o).execute(s);
+        float x[rv::DIM];
+        rv::extract(s, x);
+        double sum = 0, sa = 0, sb = 0; int ok = 0, oa = 0, ob = 0;
+        for (int m = 0; m < M; ++m) {
+            GameContext h = s; FairAgent b = *this;
+            h.map = std::make_shared<Map>(*s.map);  // own map per playout (see branchEval)
+            std::mt19937_64 rr(agentSeed * 0xD6E8FEB86659FD93ULL + 0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(m + 1));
+            reseedAllRngs(h, rr);
+            b.playout(h);
+            if (b.stats.aborted || h.outcome == GameOutcome::UNDECIDED) continue;
+            const double v = std::min(h.floorNum, 51) / 51.0 + (h.outcome == GameOutcome::PLAYER_VICTORY ? 1.0 : 0.0);
+            sum += v; ++ok;
+            if (2 * m < M) { sa += v; ++oa; } else { sb += v; ++ob; }
+        }
+        const float tail[8] = {static_cast<float>(o), static_cast<float>(n), static_cast<float>(ok ? sum / ok : -1.0),
+                               static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f,
+                               static_cast<float>(oa ? sa / oa : -1.0), static_cast<float>(ob ? sb / ob : -1.0)};
+        std::fwrite(x, sizeof(float), rv::DIM, out);
+        std::fwrite(tail, sizeof(float), 8, out);
+    }
+    std::fflush(out);
+    return n + 1;
+}
+
 void FairAgent::playout(GameContext &gc) {
     int guard = 0;
     while (gc.outcome == GameOutcome::UNDECIDED) {

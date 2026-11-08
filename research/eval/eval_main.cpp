@@ -102,7 +102,7 @@ static int leakTest(std::uint64_t seed, int asc, const fair::Params &P, int &che
 int main(int argc, char **argv) {
     std::string agent = "fair";
     std::uint64_t seedStart = 1000; int count = 10; int asc = 0; int threads = 4; bool leak = false; bool inproc = false; bool leakDome = false;
-    int branchK = 0, branchM = 0;
+    int branchK = 0, branchM = 0, branchKind = 0;
     fair::Params P;
     for (int i = 1; i < argc; ++i) {
         std::string a = argv[i];
@@ -116,6 +116,7 @@ int main(int argc, char **argv) {
         else if (a == "--leak_dome") { leak = true; leakDome = true; }
         else if (a == "--inproc") inproc = true;  // debug: no fork
         else if (a == "--branch_eval") { branchK = std::stoi(next()); branchM = std::stoi(next()); }  // Phase F26 (offline measurement)
+        else if (a == "--branch_kind") branchKind = std::stoi(next());  // Phase F33: 1 = card split-half, 2 = boss relic split-half
         else if (a == "--param") {
             auto kv = next(); auto eq = kv.find('=');
             P[kv.substr(0, eq)] = std::stod(kv.substr(eq + 1));
@@ -183,12 +184,14 @@ int main(int argc, char **argv) {
                 if (branchM > 0) {
                     // Phase F26: one branch-evaluation decision per seed (k = seed % branchK), rows to VF_LOG_DIR/branch_<seed>.bin
                     const char *dir = std::getenv("VF_LOG_DIR");
-                    std::string path = std::string(dir ? dir : ".") + "/branch_" + std::to_string(seed) + ".bin";
+                    // Phase F33: --branch_kind 1/2 writes split-half rows (8 tail floats) to split_<seed>.bin instead
+                    std::string path = std::string(dir ? dir : ".") + (branchKind > 0 ? "/split_" : "/branch_") + std::to_string(seed) + ".bin";
                     std::FILE *f = std::fopen(path.c_str(), "wb");
                     if (!f) _exit(5);
                     GameContext gc(CharacterClass::IRONCLAD, seed, asc);
                     fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
-                    const int nOpt = a.branchEval(gc, static_cast<int>(seed % static_cast<std::uint64_t>(branchK)), branchM, f);
+                    const int bk = static_cast<int>(seed % static_cast<std::uint64_t>(branchK));
+                    const int nOpt = branchKind > 0 ? a.branchEval2(gc, branchKind, bk, branchM, f) : a.branchEval(gc, bk, branchM, f);
                     std::fclose(f);
                     char bl[128];
                     int bn = std::snprintf(bl, sizeof bl, "%llu\tBRANCH\t%d\n", (unsigned long long)seed, nOpt);

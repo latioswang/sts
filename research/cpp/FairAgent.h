@@ -38,6 +38,9 @@ public:
     // single-card-reward screen, then for each option (card i, or skip) write its run features (rv::DIM floats) and the mean
     // score of M playouts by this agent from re-seeded copies (same seeds for every option); returns options written or -1
     int branchEval(sts::GameContext &gc, int k, int M, std::FILE *out);
+    // Phase F33 (offline measurement): kind 1 = card reward (as branchEval), kind 2 = boss relic screen; M playouts per option,
+    // rows of 666 features + 8 floats [opt, n, mean, ok, floor, own, meanA (m < M/2), meanB (m >= M/2)]
+    int branchEval2(sts::GameContext &gc, int kind, int k, int M, std::FILE *out);
 
     // exposed for leak test
     SearchParams searchParamsFor(const sts::BattleContext &bc) const;

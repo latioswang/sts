@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F32 (pre-registered): one decision-trained run value on A10 + A20 decisions together (41,600 seeds; the features include the ascension), scored on both held-out decision sets; a play test only if it beats the track's current value by > 2 SE. (F31: an A10-only decision value gained +0.0026 ± 0.0023 per decision on held-out A10 decisions, below the 2 SE bar, so no play test.)",
+  "Phase F33 (running): how much decision headroom is real — split-half branch playouts (pick on one half, score on the other) for card rewards and boss relics on A10 and A20 (3,200 fresh seeds, 6 workers + local); boss-relic decision training follows only if the honest headroom there is clearly positive. (F31/F32: decision-trained values for card rewards are saturated at about +0.003 per decision.)",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
