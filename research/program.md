@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 11:13 UTC
+### Current state (update after every batch) — 2026-11-08 11:16 UTC
+- **2026-11-08 11:16 UTC: hourly check — container restarted again** (up 3 minutes; third today); nothing running locally; F31 w4 set and held-out set intact. Workers w1–w3, w5–w8 still running (own ETAs to ≈ 12:30 UTC). Bests unchanged.
 - **2026-11-08 11:13 UTC: F31 workers.** f31w4 done (log merged): `F31 w4: 2400 branch, 0 crashed`; `PACK ... 2400 files, 3 shards, 24.1 MB -> 0.6 MB (42.0x), verify OK`; `PUSH branch_f31_w4_z DONE: 4 files`; pulled + unpacked. 7 to go.
 - **2026-11-08 10:17 UTC: hourly check — container restarted again** (up 1 minute); nothing was running locally; state intact (F31 held-out set 1,600 files, F28 sets, the 09:47 build with vr_model_card, fork symlink). F31 workers: no hand-back yet (own ETAs 11:50–12:30 UTC). Bests unchanged.
 - **2026-11-08 09:47 UTC: code (default off) — `vr_model_card`.** A separate run-value model id for card-reward picks only (both the vr_pure path and the vr_bonus path); every other V hook keeps `vr_model`; 0 = unchanged. Motivated by the F31 held-out result (vr_251 ties vr_171 at A10 card rewards, yet lost −0.015 in play → the loss is in the other hooks). Built; repro gates on all three tracks bit-identical; A20 best f29a20 16 seeds (fs1317500) identical in every column but secs. Not used by any test yet — any use will be pre-registered.
