@@ -117,7 +117,7 @@ To give runs particular cards, relics, potions, encounters or all three keys, bu
 
 ## Contributing
 
-Forks and pull requests are welcome, and so are questions and reports in [the issues](https://github.com/latioswang/sts/issues). Some things that would help:
+Forks and pull requests are welcome. Report a difference between the simulator and the game in [the simulator's issues](https://github.com/latioswang/sts_lightspeed/issues/new/choose), and problems with the bridge, the relay, the recordings or the agent in [this repository's issues](https://github.com/latioswang/sts/issues). Some things that would help:
 
 - **A difference you found.** Give the seed text, character, ascension and floor, and what the game and the simulator did. A Communication Mod transcript or a recording helps most.
 - **Other platforms.** On Linux the bridge and relay should need only the game's paths changed in `setup_game.sh` and `launch_game.sh`. Windows would also need the bridge's Unix socket (`CommClient.cpp`) and the bash scripts replaced. Nobody has tried either yet.
