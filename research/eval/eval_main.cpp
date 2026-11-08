@@ -143,6 +143,7 @@ int main(int argc, char **argv) {
     { auto it = P.find("bf_model"); fair::bf::model(static_cast<int>(it == P.end() ? 0 : it->second)); }
     { auto it = P.find("leaf_sv"); if (it != P.end() && it->second > 0) fair::sv::model(static_cast<int>(it->second)); }  // Phase S: preload before the fork
     { auto it = P.find("vr_model"); if (it != P.end() && it->second > 0) fair::vr::model(static_cast<int>(it->second)); }  // Phase R: preload before the fork
+    { auto it = P.find("vr_model_card"); if (it != P.end() && it->second > 0) fair::vr::model(static_cast<int>(it->second)); }  // Phase F31: preload
     // Process pool: each game runs in a forked child so simulator crashes
     // (known lightspeed bugs) are recorded as aborted=2 rows instead of
     // killing the whole eval. Paired comparisons exclude crashed seeds.

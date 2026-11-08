@@ -808,10 +808,13 @@ void FairAgent::cardRewards(GameContext &gc) {
             search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
             continue;
         }
-        if (getp(P, "vr_pure", 0) > 0 && vr::model(static_cast<int>(getp(P, "vr_model", 0))).trained) {
+        // Phase F31 vr_model_card (default off): a separate run-value model for card-reward picks only (a decision-trained V
+        // there, the regular V in every other hook); 0 = use vr_model
+        const int vrCardId = getp(P, "vr_model_card", 0) > 0 ? static_cast<int>(getp(P, "vr_model_card", 0)) : static_cast<int>(getp(P, "vr_model", 0));
+        if (getp(P, "vr_pure", 0) > 0 && vr::model(vrCardId).trained) {
             // Phase X vr_pure: card picks by the learned run value alone (no KB): the card with the largest V gain,
             // taken iff the gain > vr_pure_margin (default 0), else skip
-            const vr::Model &vm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+            const vr::Model &vm = vr::model(vrCardId);
             const float v0 = vr::value(vm, gc);
             int pick = -1; float best = v0 + static_cast<float>(getp(P, "vr_pure_margin", 0.0));
             for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
@@ -830,7 +833,7 @@ void FairAgent::cardRewards(GameContext &gc) {
         const double bfw = bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained ? getp(P, "bf_bonus", 0.0) : 0.0;
         const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
         // Phase R: vr_bonus x (learned run value with the card - without it), V ≈ E[min(floor,51)/51 + win]
-        const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        const vr::Model &vrm = vr::model(vrCardId);
         const double vrw = vrm.trained ? getp(P, "vr_bonus", 0.0) : 0.0;
         const float vrBase = vrw != 0.0 ? vr::value(vrm, gc) : 0.f;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
