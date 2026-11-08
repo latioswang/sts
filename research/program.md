@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 11:16 UTC
+### Current state (update after every batch) — 2026-11-08 11:30 UTC
+- **2026-11-08 11:30 UTC: F31 workers.** f31w6 done (log merged): `F31 w6: 2399 branch, 1 crashed`; `PACK ... 2400 files, 3 shards, 24.4 MB -> 0.6 MB (42.1x), verify OK`; `PUSH branch_f31_w6_z DONE: 4 files`; pulled + unpacked. Crash seed and gdb site requested from w6. In hand: w4, w6. 6 to go.
 - **2026-11-08 11:16 UTC: hourly check — container restarted again** (up 3 minutes; third today); nothing running locally; F31 w4 set and held-out set intact. Workers w1–w3, w5–w8 still running (own ETAs to ≈ 12:30 UTC). Bests unchanged.
 - **2026-11-08 11:13 UTC: F31 workers.** f31w4 done (log merged): `F31 w4: 2400 branch, 0 crashed`; `PACK ... 2400 files, 3 shards, 24.1 MB -> 0.6 MB (42.0x), verify OK`; `PUSH branch_f31_w4_z DONE: 4 files`; pulled + unpacked. 7 to go.
 - **2026-11-08 10:17 UTC: hourly check — container restarted again** (up 1 minute); nothing was running locally; state intact (F31 held-out set 1,600 files, F28 sets, the 09:47 build with vr_model_card, fork symlink). F31 workers: no hand-back yet (own ETAs 11:50–12:30 UTC). Bests unchanged.
