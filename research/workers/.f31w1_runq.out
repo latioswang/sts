@@ -5,3 +5,71 @@ F31 w1: 2400 branch, 0 crashed
 == 11:57:44 END rc=0: mkdir -p research/vf/data/branch_f31_w1 && VF_LOG_DIR=research/vf/data/branch_f31_w1 /home/user/sts_lightspeed/build/fair_eval --agent fair --seed_start 5440000 --count 2400 --asc 10 --threads 4 $(sed 's/^/--param /' research/best_a10_params.txt | tr '\n' ' ') --branch_eval 10 8 > research/vf/data/branch_f31_w1/summary.tsv && echo "F31 w1: $(grep -c BRANCH research/vf/data/branch_f31_w1/summary.tsv) branch, $(awk -F'\t' '$10==2' research/vf/data/branch_f31_w1/summary.tsv | wc -l) crashed"
 == 11:57:44 START: python3 research/vf/runstore.py pack research/vf/data/branch_f31_w1 research/vf/data/branch_f31_w1_z/all --glob 'branch_*.bin' && STS_PUSH_BATCH=3000 python3 research/tools/data_sync.py push branch_f31_w1_z
 PACK research/vf/data/branch_f31_w1 -> research/vf/data/branch_f31_w1_z/all: 2400 files, 3 shards, 24.3 MB -> 0.6 MB (42.1x), verify OK
+push branch_f31_w1_z: 4 files, 0 already in latioswang/sts-ironclad-data, 4 to upload
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[AProcessing Files (2 / 2)      : 100%|██████████|  478kB /  478kB, 47.1kB/s  
+New Data Upload               : 100%|██████████|  478kB /  478kB, 47.1kB/s  [A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+
+
+Validating                    : ██████████| 100%            [A[A[A[A
+
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            [A[A
+
+
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            [A[A[A
+
+
+
+Validating                    : ██████████| 100%            [A[A[A[AProcessing Files (2 / 2)      : 100%|██████████|  478kB /  478kB, 44.7kB/s  
+New Data Upload               : 100%|██████████|  478kB /  478kB, 44.7kB/s  
+Validating                    : ██████████| 100%            
+  ...31_w1_z/all/shard_00001.z: 100%|██████████|  240kB /  240kB            
+  ...31_w1_z/all/shard_00000.z: 100%|██████████|  238kB /  238kB            
+push branch_f31_w1_z: 4/4 files uploaded
+PUSH branch_f31_w1_z DONE: 4 files in latioswang/sts-ironclad-data
+== 12:07:24 END rc=0: python3 research/vf/runstore.py pack research/vf/data/branch_f31_w1 research/vf/data/branch_f31_w1_z/all --glob 'branch_*.bin' && STS_PUSH_BATCH=3000 python3 research/tools/data_sync.py push branch_f31_w1_z
+QUEUE EMPTY 12:07:24
