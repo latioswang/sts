@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 22:16 UTC
+### Current state (update after every batch) — 2026-11-08 23:16 UTC
+- **2026-11-08 23:16 UTC: hourly check.** F35: held-out A10 complete (baseline honest oracle +0.0141 ± 0.0073, replicating F34), held-out A20 524/800; ten data workers running (none pushed yet). Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
+
 - **2026-11-08 22:52 UTC: F35 held-out A10 set complete.** `F33 GEN research/vf/data/f35_hold_a10: 800/800 seeds done; 800 branch, 0 crashed, 78 no decision`. Baseline lines (no model yet — these replicate the F34 A10 map measurement on fresh seeds): `decisions=722 options=1686 mean_options=2.34`; `own            value@B=1.3351  vs own@B: +0.0000 ± 0.0000 (paired SE, n=722)`; `random         value@B=1.3135  vs own@B: -0.0216 ± 0.0062 (paired SE, n=722)`; `oracle_honest  value@B=1.3492  vs own@B: +0.0141 ± 0.0073 (paired SE, n=722)`; `map-DP feature argmax == own in 0.994 of decisions`. A20 held-out set running.
 
 - **2026-11-08 22:36 UTC: F35 operational.** The held-out job hit the 2 h background limit at 791/800 A10 seeds; resumed (owner-approved restart). Meanwhile, with no job running, the main build dir was rebuilt with the map_model hook: gates fidb_f2a0w / fidb_f3a10p / fidb_f3a20w 0 of 16 differ; 4 finished held-out seeds regenerated with the new binary are byte-identical, so the held-out set is consistent across the rebuild.
