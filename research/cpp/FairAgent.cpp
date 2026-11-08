@@ -739,6 +739,7 @@ int FairAgent::chooseMapX(const GameContext &gc) {
     for (auto &a : acts) {
         const int x = a.getIdx1();
         const double v = best[nextY][x] + (keyUnd ? kb[nextY][x] : 0.0) + 1e-6 * x;
+        mapNodeV[x] = v;  // F35 (read only by branchEval2 kind 5)
         if (v > bestV) { bestV = v; bestX = x; }
     }
     return bestX;
@@ -1355,6 +1356,33 @@ int FairAgent::branchEval(GameContext &gc, int k, int M, std::FILE *out) {
     return n + 1;
 }
 
+// Phase F35: path features of map node (x, y): destination room one-hot (shop, rest, event, elite, monster, treasure),
+// min and max count of each of those six room types over all paths from (x, y) to row 14, log(1 + number of paths)
+static void f35PathFeatures(const Map &m, int x0, int y0, float *f) {
+    float mn[15][7][6], mx[15][7][6], np_[15][7];
+    for (int y = 14; y >= y0; --y)
+        for (int x = 0; x < 7; ++x) {
+            const auto &n = m.getNode(x, y);
+            const int r = static_cast<int>(n.room);
+            for (int t = 0; t < 6; ++t) { mn[y][x][t] = 0; mx[y][x][t] = 0; }
+            np_[y][x] = 1;
+            if (y < 14 && n.edgeCount > 0) {
+                np_[y][x] = 0;
+                for (int t = 0; t < 6; ++t) { mn[y][x][t] = 1e9f; mx[y][x][t] = -1e9f; }
+                for (int i = 0; i < n.edgeCount; ++i) {
+                    const int e = n.edges[i];
+                    np_[y][x] += np_[y + 1][e];
+                    for (int t = 0; t < 6; ++t) { mn[y][x][t] = std::min(mn[y][x][t], mn[y + 1][e][t]); mx[y][x][t] = std::max(mx[y][x][t], mx[y + 1][e][t]); }
+                }
+            }
+            if (r >= 0 && r < 6) { mn[y][x][r] += 1; mx[y][x][r] += 1; }
+        }
+    const int r0 = static_cast<int>(m.getNode(x0, y0).room);
+    for (int t = 0; t < 6; ++t) f[t] = (r0 == t) ? 1.f : 0.f;
+    for (int t = 0; t < 6; ++t) { f[6 + t] = mn[y0][x0][t] / 5.f; f[12 + t] = mx[y0][x0][t] / 5.f; }
+    f[18] = std::log1p(np_[y0][x0]) / 5.f;
+}
+
 int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *out) {
     // Phase F33: split-half branch evaluation. Same playout seeds as branchEval for m < 8, so with M = 16 the first half
     // reproduces the F26/F28/F31 labels and the second half is an independent re-measurement of every option.
@@ -1370,7 +1398,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
         if (kind == 2 && gc.screenState == ScreenState::BOSS_RELIC_REWARDS && seen++ == k) break;
         // Phase F34: kind 3 = a map (path) choice with >= 2 legal next nodes, below the boss row; kind 4 = a rest site
         // where both rest and smith are possible
-        if (kind == 3 && gc.screenState == ScreenState::MAP_SCREEN && gc.curMapNodeY < 14
+        if ((kind == 3 || kind == 5) && gc.screenState == ScreenState::MAP_SCREEN && gc.curMapNodeY < 14
             && search::GameAction::getAllActionsInState(gc).size() >= 2 && seen++ == k) break;
         if (kind == 4 && gc.screenState == ScreenState::REST_ROOM && !gc.relics.has(RelicId::COFFEE_DRIPPER)
             && !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0 && seen++ == k) break;
@@ -1379,6 +1407,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
     if (gc.outcome != GameOutcome::UNDECIDED) return -1;
     int n = 0, own = 0;
     std::vector<search::GameAction> mapActs;
+    double dpV[7] = {0, 0, 0, 0, 0, 0, 0};
     if (kind == 1) {
         const auto &r = gc.info.rewardsContainer;
         n = r.cardRewards[0].size(); own = n;
@@ -1392,13 +1421,14 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
         n = 3;  // options 0..2 = the three boss relics, 3 = skip
         FairAgent c = *this;
         own = c.bossRelicChoice(gc);
-    } else if (kind == 3) {
+    } else if (kind == 3 || kind == 5) {
         mapActs = search::GameAction::getAllActionsInState(gc);  // option o = the o-th legal next node
         n = static_cast<int>(mapActs.size()) - 1;
         GameContext t = gc; FairAgent c = *this;
         c.stepOutOfCombat(t);  // the agent's own move from this map screen
         own = -1;
         for (int i = 0; i <= n; ++i) if (mapActs[i].getIdx1() == t.curMapNodeX) own = i;
+        for (int i = 0; i < 7; ++i) dpV[i] = c.mapNodeV[i];  // F35: the DP's value of each next node (as the agent computed it)
         // F34 diagnostic (opt-in, F34_ROOMS=<dir>): the room type of each option, for post-hoc analysis; changes nothing else
         if (const char *rd = std::getenv("F34_ROOMS")) {
             std::FILE *rf = std::fopen((std::string(rd) + "/rooms_" + std::to_string(gc.seed) + ".txt").c_str(), "w");
@@ -1418,10 +1448,15 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
     for (int o = 0; o <= n; ++o) {
         GameContext s = gc;
         if (kind == 1) search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
-        else if (kind == 3) mapActs[o].execute(s);
+        else if (kind == 3 || kind == 5) mapActs[o].execute(s);
         else search::GameAction(o).execute(s);
         float x[rv::DIM];
-        rv::extract(s, x);
+        rv::extract(kind == 5 ? gc : s, x);  // kind 5: the pre-move state (same for every option); options differ in path features
+        float pf[20] = {0};
+        if (kind == 5) {
+            f35PathFeatures(*gc.map, mapActs[o].getIdx1(), gc.curMapNodeY + 1, pf);
+            pf[19] = static_cast<float>(dpV[mapActs[o].getIdx1()]) / 10.f;
+        }
         double sum = 0, sa = 0, sb = 0; int ok = 0, oa = 0, ob = 0;
         for (int m = 0; m < M; ++m) {
             GameContext h = s; FairAgent b = *this;
@@ -1438,6 +1473,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
                                static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f,
                                static_cast<float>(oa ? sa / oa : -1.0), static_cast<float>(ob ? sb / ob : -1.0)};
         std::fwrite(x, sizeof(float), rv::DIM, out);
+        if (kind == 5) std::fwrite(pf, sizeof(float), 20, out);
         std::fwrite(tail, sizeof(float), 8, out);
     }
     std::fflush(out);

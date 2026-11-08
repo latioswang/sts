@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
                     // Phase F26: one branch-evaluation decision per seed (k = seed % branchK), rows to VF_LOG_DIR/branch_<seed>.bin
                     const char *dir = std::getenv("VF_LOG_DIR");
                     // Phase F33: --branch_kind 1/2 writes split-half rows (8 tail floats) to split_<seed>.bin instead
-                    std::string path = std::string(dir ? dir : ".") + (branchKind > 0 ? "/split_" : "/branch_") + std::to_string(seed) + ".bin";
+                    std::string path = std::string(dir ? dir : ".") + (branchKind == 5 ? "/path_" : branchKind > 0 ? "/split_" : "/branch_") + std::to_string(seed) + ".bin";
                     std::FILE *f = std::fopen(path.c_str(), "wb");
                     if (!f) _exit(5);
                     GameContext gc(CharacterClass::IRONCLAD, seed, asc);

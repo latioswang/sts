@@ -42,6 +42,7 @@ public:
     // Phase F33/F34 (offline measurement): kind 1 = card reward (as branchEval), kind 2 = boss relic screen, kind 3 = map path
     // choice (>= 2 next nodes), kind 4 = rest vs smith; M playouts per option,
     // rows of 666 features + 8 floats [opt, n, mean, ok, floor, own, meanA (m < M/2), meanB (m >= M/2)]
+    // kind 5 = the kind-3 map decision written as [666 pre-move run features | 20 path features | 8-float tail] rows (F35)
     int branchEval2(sts::GameContext &gc, int kind, int k, int M, std::FILE *out);
 
     // exposed for leak test
@@ -72,6 +73,7 @@ private:
     std::uint64_t evDecisions = 0;
     int evLeakChecked = 0, evLeakMism = 0, evUsed = 0; // ev_leaktest counters (printed to stderr at the end of playout)
     int vrEventChoice(const sts::GameContext &gc, std::uint64_t decisionSeed);
+    double mapNodeV[7] = {0, 0, 0, 0, 0, 0, 0};  // F35: the map DP's value of each next-row node at the last chooseMapX call
     double eliteSimV = std::numeric_limits<double>::quiet_NaN();  // elite_sim: simulated elite-node value for the current map decision
 
     double roomValue(const sts::GameContext &gc, sts::Room r) const;
