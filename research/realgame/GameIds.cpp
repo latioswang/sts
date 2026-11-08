@@ -1,4 +1,5 @@
 #include "GameIds.h"
+#include <stdexcept>
 
 #include "constants/MonsterEncounters.h"
 
