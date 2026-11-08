@@ -2,6 +2,7 @@
 //
 //   sts_bridge mirror --research_dir DIR --seed_start N --count K [--class C] [--max_floor F] [--asc A] [--explore_events] [--params FILE] [--param k=v ...]
 //   sts_bridge live --research_dir DIR --seed_start N --count K [--asc A] [--params FILE] [--param k=v ...]
+//                   [--pause_before_boss] [--pause_floor F] [--resume]   (--resume: --seed_start of the run in the game, --count 1)
 //   sts_bridge selftest --research_dir DIR --seed_start N --count K    (converter round trip, no game needed)
 //   sts_bridge replay --trace FILE [--trace FILE ...]    (checks recorded runs, no game needed; one JSON line per run)
 #include "CommClient.h"
@@ -13,6 +14,7 @@
 #include "SelfTest.h"
 
 #include "bf_mlp.h"
+#include "vr_mlp.h"
 #include "game/Game.h"
 
 #include <cstdlib>
@@ -35,6 +37,9 @@ struct Args {
     int maxFloor = 0;
     std::string scenarioFile;
     bool exploreEvents = false;
+    bool resume = false;
+    bool pauseBeforeBoss = false;
+    int pauseFloor = 0;
     int neowOption = -1;
     std::string socketPath = "/tmp/sts_commrelay.sock";
     std::string researchDir;
@@ -68,6 +73,9 @@ Args parseArgs(int argc, char **argv) {
         else if (a == "--max_floor") args.maxFloor = std::stoi(next());
         else if (a == "--scenario_file") args.scenarioFile = next();
         else if (a == "--explore_events") args.exploreEvents = true;
+        else if (a == "--resume") args.resume = true;
+        else if (a == "--pause_before_boss") args.pauseBeforeBoss = true;
+        else if (a == "--pause_floor") args.pauseFloor = std::stoi(next());
         else if (a == "--neow_option") args.neowOption = std::stoi(next());
         else if (a == "--sock") args.socketPath = next();
         else if (a == "--research_dir") args.researchDir = next();
@@ -99,9 +107,16 @@ Args parseArgs(int argc, char **argv) {
 void loadModelsOrDie(const Args &args) {
     setenv("BF_MODEL_DIR", (args.researchDir + "/models").c_str(), 1);
     setenv("SV_MODEL_DIR", (args.researchDir + "/models").c_str(), 0);
+    setenv("VR_MODEL_DIR", (args.researchDir + "/models").c_str(), 1);
     const int model = static_cast<int>(fair::getp(args.params, "bf_model", 0));
     if (model > 0 && !fair::bf::model(model).trained) {
         throw std::runtime_error("bf_model=" + std::to_string(model) + " did not load from " + args.researchDir + "/models");
+    }
+    for (const char *key : {"vr_model", "vr_model_card"}) {
+        const int vrModel = static_cast<int>(fair::getp(args.params, key, 0));
+        if (vrModel > 0 && !fair::vr::model(vrModel).trained) {
+            throw std::runtime_error(std::string(key) + "=" + std::to_string(vrModel) + " did not load from " + args.researchDir + "/models");
+        }
     }
 }
 
@@ -199,8 +214,9 @@ int runLive(const Args &args) {
     CommClient game(args.socketPath);
     game.refresh();
     std::ofstream results(args.logDir + "/live_results.jsonl", std::ios::app);
+    if (args.resume && args.count != 1) throw std::runtime_error("--resume picks up one run: use --count 1");
     for (int i = 0; i < args.count; ++i) {
-        if (game.last().value("in_game", false)) {
+        if (game.last().value("in_game", false) && !args.resume) {
             std::cerr << "leaving the current run first\n";
             returnToMainMenu(game);
         }
@@ -209,6 +225,9 @@ int runLive(const Args &args) {
         options.ascension = args.ascension;
         options.params = args.params;
         options.logDir = args.logDir;
+        options.resume = args.resume;
+        options.pauseBeforeBoss = args.pauseBeforeBoss;
+        options.pauseFloor = args.pauseFloor;
         Live live(game, options);
         const LiveResult r = live.run();
         json row{{"seed", r.seed}, {"seed_text", r.seedText}, {"status", r.status}, {"victory", r.victory}, {"score", r.score},
@@ -219,6 +238,7 @@ int runLive(const Args &args) {
         std::cout << r.seed << " (" << r.seedText << ") " << r.status << (r.victory ? " WIN" : " loss") << " floor " << r.floor
                   << " score " << r.score << " decisions " << r.decisions << " fallbacks " << r.fallbacks << " " << r.seconds << "s\n"
                   << std::flush;
+        if (r.status == "paused") break;  // the next run would play this one out to leave it
     }
     return 0;
 }
