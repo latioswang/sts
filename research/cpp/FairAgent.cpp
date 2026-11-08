@@ -1399,6 +1399,16 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
         c.stepOutOfCombat(t);  // the agent's own move from this map screen
         own = -1;
         for (int i = 0; i <= n; ++i) if (mapActs[i].getIdx1() == t.curMapNodeX) own = i;
+        // F34 diagnostic (opt-in, F34_ROOMS=<dir>): the room type of each option, for post-hoc analysis; changes nothing else
+        if (const char *rd = std::getenv("F34_ROOMS")) {
+            std::FILE *rf = std::fopen((std::string(rd) + "/rooms_" + std::to_string(gc.seed) + ".txt").c_str(), "w");
+            if (rf) {
+                std::fprintf(rf, "%d %d %d %d %d %d", gc.floorNum, gc.act, gc.curHp, gc.maxHp, own, n + 1);
+                for (int i = 0; i <= n; ++i)
+                    std::fprintf(rf, " %d", static_cast<int>(gc.map->getNode(mapActs[i].getIdx1(), gc.curMapNodeY + 1).room));
+                std::fprintf(rf, "\n"); std::fclose(rf);
+            }
+        }
     } else {
         n = 1;  // 0 = rest, 1 = smith (the playout agent picks the upgrade)
         GameContext t = gc; FairAgent c = *this;
