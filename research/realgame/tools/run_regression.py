@@ -175,8 +175,18 @@ def main() -> int:
                     help="a logs folder holding mirror_results.jsonl; default this checkout's and each sts_bridge_* one's")
     args = ap.parse_args()
 
-    if not args.skip_export:
+    # A fresh clone has the recordings (recordings.py unpack) but not the raw transcripts in logs/, which stay out of git.
+    transcripts = glob.glob(os.path.join(here, "logs", "transcript-*.jsonl"))
+    if not args.skip_export and transcripts:
         subprocess.run([sys.executable, "-I", os.path.join(here, "tools", "export_traces.py"), "--out", args.traces], check=True, stdout=subprocess.DEVNULL)
+    elif not args.skip_export:
+        print("no transcripts in logs/, so replaying the recordings already in traces/", file=sys.stderr)
+
+    if not os.path.isdir(args.traces) or not any(n.endswith(".trace.gz") for n in os.listdir(args.traces)):
+        sys.exit(f"no recordings in {args.traces}: fill it with  python3 -I {os.path.join(here, 'tools', 'recordings.py')} unpack")
+    if not os.path.exists(args.bridge):
+        sys.exit(f"no sts_bridge at {args.bridge}: build it (see USAGE.md) and pass --bridge or set STS_BRIDGE")
+    os.makedirs(os.path.dirname(os.path.abspath(args.results)), exist_ok=True)
 
     paths = sorted(os.path.join(args.traces, n) for n in os.listdir(args.traces) if n.endswith(".trace.gz") and args.only in n)
     started = time.time()
