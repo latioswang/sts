@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 13:17 UTC
+### Current state (update after every batch) — 2026-11-08 14:18 UTC
+- **2026-11-08 14:18 UTC: hourly check.** Container up 36 min (tracked runner holds it). Local w7b fill: 286 of 670 redone since 13:42 (≈ 7.9 seeds/min) → ≈ 384 left, ETA ≈ 15:05 UTC. f31w7: no PUSH line yet (own ETA 14:40). F31 data in hand: w1–w6, w8 + held-out set. Bests unchanged (A20 f29a20; A10 working f23a10; A0 f6a0_upg; Heart f16heart).
+
 - **2026-11-08 13:55 UTC: container lifetime — fix confirmed.** With the runner as a harness-tracked background task the container stayed up through an idle gap (uptime 13 min at 13:55; fill 105 → 219 redone in 13 min, ≈ 8.8 seeds/min). Detached setsid runners alone do not keep this container alive [inferred from 3 restarts at idle wakes]; future local queues run as tracked background tasks. w7b: ≈ 556 seeds left → ≈ 15:00 UTC.
 
 - **2026-11-08 13:42 UTC: container lifetime.** Seventh restart (uptime 0 at 13:42). Pattern: uptime 0 at the 12:58, 13:16 and 13:42 wakes; the last file writes before each restart are ≈ 5 min after the previous turn ended — this container appears to be reclaimed a few minutes after the session goes idle, so detached (setsid) local work only runs briefly per wake [inferred]. w7b fill: 105/728 redone. Runner now started as a harness-tracked background task to test whether that keeps the container alive; if not, hand w7b's remaining seeds to a worker.
