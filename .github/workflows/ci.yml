@@ -1,0 +1,88 @@
+# Tests for the research code and the real-game bridge. They never need the game: the bridge is checked by its offline
+# self-test and by replaying every recorded real-game run (research/realgame/README.md, "Regression test").
+#
+# The simulator is the fork latioswang/sts_lightspeed. Branches with research/patches/sts_lightspeed_fidelity.commit
+# (the research pin) are also built and self-tested at that pin. The regression always runs on the fork's master,
+# because regression_baseline.tsv was recorded there.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, claude/ironclad-strategy-kb-rHCI9]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  SELFTEST_SEEDS: "20"
+
+jobs:
+  python:
+    name: Python tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest and zstd
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q zstd
+          python -m pip install -q "pytest==8.3.3"
+      - name: Run the tests
+        run: python -m pytest -q research/realgame
+
+  bridge:
+    name: Bridge build, self-test and regression
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install zstd
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q zstd
+
+      - name: Build at the research pin
+        if: hashFiles('research/patches/sts_lightspeed_fidelity.commit') != ''
+        run: STS_SIM_DIR="$RUNNER_TEMP/sim-pin" STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+      - name: Self-test at the research pin
+        if: hashFiles('research/patches/sts_lightspeed_fidelity.commit') != ''
+        run: '"$RUNNER_TEMP/sim-pin/build/sts_bridge" selftest --research_dir research --seed_start 3000 --count "$SELFTEST_SEEDS"'
+
+      - name: Build at the fork's master
+        run: STS_SIM_DIR="$RUNNER_TEMP/sim-master" STS_SIM_BRANCH=master STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+      - name: Self-test at the fork's master
+        run: '"$RUNNER_TEMP/sim-master/build/sts_bridge" selftest --research_dir research --seed_start 3000 --count "$SELFTEST_SEEDS"'
+
+      - name: Restore the unpacked recordings
+        id: traces
+        uses: actions/cache@v4
+        with:
+          path: research/realgame/traces
+          key: traces-${{ hashFiles('research/realgame/recordings/*.tar.zst') }}
+      - name: Unpack the recordings
+        if: steps.traces.outputs.cache-hit != 'true'
+        run: python3 -I research/realgame/tools/recordings.py unpack
+      - name: Replay every recording
+        run: |
+          python3 -I research/realgame/tools/run_regression.py --skip_export --jobs "$(nproc)" \
+            --bridge "$RUNNER_TEMP/sim-master/build/sts_bridge" --results "$RUNNER_TEMP/replay_results.jsonl"
+      - name: Keep the replay results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-results
+          path: ${{ runner.temp }}/replay_results.jsonl
+          if-no-files-found: ignore
