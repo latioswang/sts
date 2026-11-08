@@ -265,6 +265,7 @@
   "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims.",
   "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions.",
   "F30: the A20-trained decision value vr_251 on A10 — −0.015 on 4,000 seeds (decision-trained values are track-specific).",
-  "F31: A10 decision-trained run value from 19,200 A10 seeds — +0.0026 ± 0.0023 per card-reward decision on 1,510 held-out A10 decisions (1.1 SE), below the pre-registered 2 SE bar; no play test."
+  "F31: A10 decision-trained run value from 19,200 A10 seeds — +0.0026 ± 0.0023 per card-reward decision on 1,510 held-out A10 decisions (1.1 SE), below the pre-registered 2 SE bar; no play test.",
+  "F32: one decision-trained run value on A10 + A20 decisions together (41,600 seeds) — ties the track-specific ones (A10 +0.0028 ± 0.0024 vs vr_171; A20 −0.0006 ± 0.0012 vs vr_251); card-reward decision training is saturated."
  ]
 }
