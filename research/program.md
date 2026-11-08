@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 23:16 UTC
+- **2026-11-08 23:19 UTC: F35 worker f35w3 done.** Log merged: `F33 GEN research/vf/data/f35_a20_w3: 4000/4000 seeds done; 4000 branch, 0 crashed, 678 no decision`; `PACK ... 4000 files, 4 shards, 21.4 MB -> 0.7 MB (31.1x), verify OK`; `PUSH f35_a20_w3_z DONE: 5 files`; gates OK; one resume after the 2 h limit; pulled + unpacked; archived.
+
 - **2026-11-08 23:16 UTC: hourly check.** F35: held-out A10 complete (baseline honest oracle +0.0141 ± 0.0073, replicating F34), held-out A20 524/800; ten data workers running (none pushed yet). Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
 
 - **2026-11-08 22:52 UTC: F35 held-out A10 set complete.** `F33 GEN research/vf/data/f35_hold_a10: 800/800 seeds done; 800 branch, 0 crashed, 78 no decision`. Baseline lines (no model yet — these replicate the F34 A10 map measurement on fresh seeds): `decisions=722 options=1686 mean_options=2.34`; `own            value@B=1.3351  vs own@B: +0.0000 ± 0.0000 (paired SE, n=722)`; `random         value@B=1.3135  vs own@B: -0.0216 ± 0.0062 (paired SE, n=722)`; `oracle_honest  value@B=1.3492  vs own@B: +0.0141 ± 0.0073 (paired SE, n=722)`; `map-DP feature argmax == own in 0.994 of decisions`. A20 held-out set running.
