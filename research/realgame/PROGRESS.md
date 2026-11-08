@@ -6,13 +6,14 @@ Making the [sts_lightspeed](https://github.com/gamerpuppy/sts_lightspeed) simula
 
 | What | Where |
 |---|---|
-| Simulator with the fixes | Branch `fidelity` of [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed/tree/fidelity) |
-| Bridge to the real game, mirror mode, live mode | `research/realgame/` on branch `realgame/bridge` of [latioswang/sts](https://github.com/latioswang/sts/tree/realgame/bridge) |
+| Simulator with the fixes | `master` of [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed). Fixes land on `fidelity` first |
+| Bridge to the real game, mirror mode, live mode | `research/realgame/` in [latioswang/sts](https://github.com/latioswang/sts/tree/HEAD/research/realgame), worked on in branch `realgame/bridge` |
+| How to use all of it | [`USAGE.md`](USAGE.md) here, and the simulator's [`USAGE.md`](https://github.com/latioswang/sts_lightspeed/blob/master/USAGE.md) |
 | Every fix, with the seed that found it and the game's rule | [`reports/simulator_fixes.md`](reports/simulator_fixes.md) |
 | Scenarios used for the runs below | [`plans/`](plans) |
 | Debugging scripts | [`tools/`](tools) |
 
-The research loop still builds upstream plus `research/patches/sts_lightspeed.patch`, so none of this changes its results until it switches.
+The research loop on `autoresearch/ironclad` builds a commit of the fork pinned in `research/patches/sts_lightspeed_fidelity.commit` there, so a fix changes its results only once that pin moves.
 
 ## What was done, in order
 
