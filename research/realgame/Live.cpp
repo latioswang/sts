@@ -2,6 +2,8 @@
 
 #include "game/Game.h"
 
+#include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <sstream>
 
@@ -296,12 +298,68 @@ void Live::fallback(const std::string &reason) {
     log_.flush();
     const json &msg = state();
     const std::string screen = screenType();
+    if (screen == "EVENT" && hasCommand(msg, "choose") && pickMatchGameCard()) return;
     if (screen == "CARD_REWARD" && hasCommand(msg, "skip")) send("SKIP");
     else if (hasCommand(msg, "confirm")) send("CONFIRM");
     else if (hasCommand(msg, "choose")) send("CHOOSE 0");
     else if (hasCommand(msg, "proceed")) send("PROCEED");
     else if (hasCommand(msg, "end")) send("END");
     else send("WAIT " + std::to_string(kWaitFrames));
+}
+
+// The pause point: the map, with nothing sent yet for the next node.
+bool Live::shouldPause() const {
+    if (screenType() != "MAP") return false;
+    const int floor = gameState().value("floor", 0);
+    if (floor == resumeFloor_) return false;
+    if (options_.pauseFloor > 0 && floor >= options_.pauseFloor) return true;
+    return options_.pauseBeforeBoss && gameState()["screen_state"].value("boss_available", false);
+}
+
+// Takes over the run in the game. The agent and the bridge keep no state between decisions that a fresh start on the
+// map would get wrong, apart from the map node, which the map screen shows. The game's seed is read only to make sure
+// the log being appended to is this run's; it never reaches the agent.
+void Live::beginResumedRun() {
+    if (!state().value("in_game", false)) throw StopRun{"resume", screenType(), "no run in progress to resume", {}};
+    const json &gs = gameState();
+    const auto gameSeed = static_cast<std::uint64_t>(gs.value("seed", static_cast<std::int64_t>(0)));
+    if (gameSeed != options_.seed) {
+        throw StopRun{"resume", screenType(), "the run in the game has seed " + SeedHelper::getString(gameSeed) + ", not " +
+                                                  SeedHelper::getString(options_.seed), {}};
+    }
+    floor_ = gs.value("floor", 0);
+    act_ = gs.value("act", 1);
+    const bool onMap = screenType() == "MAP";
+    // Only the map screen it resumes on is skipped: resumed elsewhere, this floor's map is still a pause point.
+    if (onMap) resumeFloor_ = floor_;
+    const json &ss = gs["screen_state"];
+    if (onMap && ss.value("first_node_chosen", false) && ss.contains("current_node")) {
+        runMemory_.nodeX = ss["current_node"]["x"].get<int>();
+        runMemory_.nodeY = ss["current_node"]["y"].get<int>();
+    }
+    log_ << json{{"t", "resume"}, {"floor", floor_}, {"act", act_}, {"screen", screenType()}, {"hp", gs.value("current_hp", 0)},
+                 {"gold", gs.value("gold", 0)}, {"on_map", onMap}}.dump() << "\n";
+    log_.flush();
+}
+
+// Match and Keep!'s card grid, which the simulator has no actions for. See MatchGame.h for the rule.
+bool Live::pickMatchGameCard() {
+    const json &gs = gameState();
+    const json &ss = gs["screen_state"];
+    if (ss.value("event_id", "") != "Match and Keep!" || ss["options"].size() < 2) return false;
+    const int floor = gs.value("floor", 0);
+    if (floor != matchGameFloor_) {
+        matchGameFloor_ = floor;
+        matchGame_ = MatchGameMemory{};
+    }
+    std::vector<std::string> labels;
+    for (const auto &o : ss["options"]) {
+        std::string label = o.value("label", "");
+        std::transform(label.begin(), label.end(), label.begin(), [](unsigned char c) { return std::tolower(c); });
+        labels.push_back(label);
+    }
+    send("CHOOSE " + std::to_string(matchGamePick(labels, matchGame_)));
+    return true;
 }
 
 // One command's worth of progress. Returns false when the run is over.
@@ -323,6 +381,14 @@ bool Live::step() {
         decideBattle();
         return true;
     }
+    if (shouldPause()) {
+        paused_ = true;
+        log_ << json{{"t", "pause"}, {"floor", floor_}, {"act", act_}, {"hp", gs.value("current_hp", 0)},
+                     {"max_hp", gs.value("max_hp", 0)}, {"gold", gs.value("gold", 0)},
+                     {"boss", gs.value("act_boss", "")}}.dump() << "\n";
+        log_.flush();
+        return false;
+    }
     if (advanceWithoutDecision()) return true;
     if (screen == "NONE") {
         send("WAIT " + std::to_string(kWaitFrames));
@@ -337,11 +403,13 @@ LiveResult Live::run() {
     result.seed = options_.seed;
     result.seedText = SeedHelper::getString(options_.seed);
     const auto t0 = std::chrono::steady_clock::now();
-    log_.open(options_.logDir + "/live-" + result.seedText + ".jsonl", std::ios::out | std::ios::trunc);
+    log_.open(options_.logDir + "/live-" + result.seedText + ".jsonl",
+              options_.resume ? std::ios::out | std::ios::app : std::ios::out | std::ios::trunc);
 
     result.status = "stalled";
     try {
-        send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
+        if (options_.resume) beginResumedRun();
+        else send("START IRONCLAD " + std::to_string(options_.ascension) + " " + result.seedText);
         std::string lastState;
         int repeats = 0;
         for (int i = 0; i < kMaxSteps; ++i) {
@@ -365,7 +433,7 @@ LiveResult Live::run() {
                 if (repeats > 0) fallback(gap.message);
             }
             if (!running) {
-                result.status = "finished";
+                result.status = paused_ ? "paused" : "finished";
                 break;
             }
         }
