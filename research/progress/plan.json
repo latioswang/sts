@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F29 (running): play test of the decision-trained run value vr_251 at A20 — first 4,000 fresh seeds +0.0034 score (P 0.78), now its pre-registered extension on 4,000 more. vr_251 (trained on 19,531 interventional A20 decisions from 22,400 seeds, 6 workers) is the first V to beat vr_171 on held-out decisions (+1.9 SE).",
+  "Phase F31 (running): A10 interventional decision data — 19,200 A10 seeds of branch playouts on 8 workers (≈ 3.5 h) plus a 1,600-seed held-out A10 decision set locally; then an A10 decision-trained run value, tested on the held-out decisions and, if clearly better, in a 4,000-seed A10 play test. (F29: the A20 decision-trained V vr_251 is the new A20 best, +0.004 on 8,000 seeds; F30: it does not transfer to A10, −0.015.)",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -251,7 +251,8 @@
   "Phase F16: confirmed the F15 Heart gain on 2,000 more seeds (+6.0 pts Heart kills), then one expert-iteration step of the keys-aware V — KEEP: new Heart best f16heart, Heart kills 29.0% vs 22.8% and act-4 reach up 7 pts (1,000 fresh seeds).",
   "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds).",
   "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis.",
-  "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions)."
+  "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions).",
+  "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
@@ -262,6 +263,7 @@
   "Phase P1: move prior v4 (2,000-sim targets) — +8.5 points at 50 sims but no gain at 500 sims (+0.6, P 0.67); with v4 the gap to 500 sims is 13.2 / 6.2 / 4.4 points at 50 / 100 / 200 sims (fidelity sim).",
   "Heart F17–F19: third expert-iteration V (+0.9 pts pooled, P 0.71), V-chosen ruby key (−2.1 pts), compute-neutral 3× search at the Heart (+0.5 pts, P 0.41); keys cost only 1.6 pts of act-3 boss kills.",
   "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims.",
-  "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions."
+  "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions.",
+  "F30: the A20-trained decision value vr_251 on A10 — −0.015 on 4,000 seeds (decision-trained values are track-specific)."
  ]
 }
