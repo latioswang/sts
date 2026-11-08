@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F28 (running): interventional decision data at A20 — 22,400 seeds of branch playouts (6 workers + this container, ≈ 3 h), then a run value trained to order the options of a decision the way their playouts do, tested on the F26 decisions. F26 showed this decision-level metric agrees with play (vr_171 > vr_240), and F27 showed no existing model beats vr_171 on it.",
+  "Phase F29 (running): play test of the decision-trained run value vr_251 at A20 — first 4,000 fresh seeds +0.0034 score (P 0.78), now its pre-registered extension on 4,000 more. vr_251 (trained on 19,531 interventional A20 decisions from 22,400 seeds, 6 workers) is the first V to beat vr_171 on held-out decisions (+1.9 SE).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -250,7 +250,8 @@
   "Phase F15: KEEP — new Heart best f15heart: a keys-aware V (sees ruby/emerald/sapphire keys, trained on Heart-labelled runs) making the card picks kills the Heart 7.2 pts more often on 2,000 fresh seeds (23.6% vs 16.4%), at the cost of more runs dying before act 4.",
   "Phase F16: confirmed the F15 Heart gain on 2,000 more seeds (+6.0 pts Heart kills), then one expert-iteration step of the keys-aware V — KEEP: new Heart best f16heart, Heart kills 29.0% vs 22.8% and act-4 reach up 7 pts (1,000 fresh seeds).",
   "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds).",
-  "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis."
+  "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis.",
+  "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
