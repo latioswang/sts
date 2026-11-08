@@ -1368,10 +1368,17 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
                 && !r.emeraldKey && !r.sapphireKey && seen++ == k) break;
         }
         if (kind == 2 && gc.screenState == ScreenState::BOSS_RELIC_REWARDS && seen++ == k) break;
+        // Phase F34: kind 3 = a map (path) choice with >= 2 legal next nodes, below the boss row; kind 4 = a rest site
+        // where both rest and smith are possible
+        if (kind == 3 && gc.screenState == ScreenState::MAP_SCREEN && gc.curMapNodeY < 14
+            && search::GameAction::getAllActionsInState(gc).size() >= 2 && seen++ == k) break;
+        if (kind == 4 && gc.screenState == ScreenState::REST_ROOM && !gc.relics.has(RelicId::COFFEE_DRIPPER)
+            && !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0 && seen++ == k) break;
         stepOutOfCombat(gc);
     }
     if (gc.outcome != GameOutcome::UNDECIDED) return -1;
     int n = 0, own = 0;
+    std::vector<search::GameAction> mapActs;
     if (kind == 1) {
         const auto &r = gc.info.rewardsContainer;
         n = r.cardRewards[0].size(); own = n;
@@ -1381,14 +1388,27 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
             const CardId id = t.deck.cards[t.deck.size() - 1].getId();
             for (int i = 0; i < n; ++i) if (r.cardRewards[0][i].getId() == id) { own = i; break; }
         }
-    } else {
+    } else if (kind == 2) {
         n = 3;  // options 0..2 = the three boss relics, 3 = skip
         FairAgent c = *this;
         own = c.bossRelicChoice(gc);
+    } else if (kind == 3) {
+        mapActs = search::GameAction::getAllActionsInState(gc);  // option o = the o-th legal next node
+        n = static_cast<int>(mapActs.size()) - 1;
+        GameContext t = gc; FairAgent c = *this;
+        c.stepOutOfCombat(t);  // the agent's own move from this map screen
+        own = -1;
+        for (int i = 0; i <= n; ++i) if (mapActs[i].getIdx1() == t.curMapNodeX) own = i;
+    } else {
+        n = 1;  // 0 = rest, 1 = smith (the playout agent picks the upgrade)
+        GameContext t = gc; FairAgent c = *this;
+        c.stepOutOfCombat(t);
+        own = t.screenState == ScreenState::CARD_SELECT ? 1 : 0;
     }
     for (int o = 0; o <= n; ++o) {
         GameContext s = gc;
         if (kind == 1) search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
+        else if (kind == 3) mapActs[o].execute(s);
         else search::GameAction(o).execute(s);
         float x[rv::DIM];
         rv::extract(s, x);
