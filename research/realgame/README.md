@@ -1,44 +1,72 @@
 # Real-game bridge
 
-Connects the research agent (`research/cpp/FairAgent`) to the real Slay the Spire through Communication Mod.
+Connects a Slay the Spire agent to the real game, to find out whether the simulator it learned in plays like the game. That led to 219 fixes to [sts_lightspeed](https://github.com/gamerpuppy/sts_lightspeed): 169 differences the game showed, and 50 found by reading the game's code. The fixed simulator is at [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed).
 
-- **Mirror mode** plays the agent inside `sts_lightspeed` on the game's seed, sends each action to the game, and stops at the first state difference. Every difference is a simulator bug or a bridge bug.
-- **Live mode** lets the agent play the real game. Each decision rebuilds a simulator state from the game's JSON, so a simulator difference cannot derail the run.
+- **Mirror mode** starts the same seed in the game and in the simulator. The agent picks each move in the simulator, the bridge sends it to the game, and the two states are compared after every move. The first difference stops the run: it is a simulator bug or a bridge bug.
+- **Live mode** lets the agent play the real game. Each decision rebuilds a simulator state from what the game shows, so a simulator difference can't derail the run, and the agent never sees anything a player couldn't.
+- **The replay test** plays every recorded run back through mirror mode with no game running. The game is only needed for new runs.
 
-## Status
+**[How to use it](USAGE.md)** · [Every fix](reports/simulator_fixes.md) · [Progress log](PROGRESS.md) · [The fixed simulator](https://github.com/latioswang/sts_lightspeed)
 
-The [progress log](PROGRESS.md) has the steps taken, the full results and what's next.
+## At a glance
 
-| Part | State |
+As of 2026-11-09, on the fork's `master` (`c1cf847`):
+
+| Measure | Result |
 |---|---|
-| Game launch and Communication Mod connection | Works |
-| Mirror mode, ascension 0 | 60 seeds played to the end of each run, all with no difference on their latest run |
-| Mirror mode, act 4 | Five seeds reached the Heart with all keys given (`keys:all`), with no difference. The Heart and the Shield and Spear were also forced onto floor 1 at ascensions 0 and 20, with no difference |
-| Mirror mode, ascension 20 | 27 of 28 seeds with items injected had no difference, and 2105 stopped after a Discovery. All 20 seeds without items had no difference, most ending early when the agent died |
-| Mirror mode, ascensions 5, 10, 15, 18 | All 28 seeds with items injected had no difference on their latest run |
-| Other classes' cards, inside Ironclad runs | 26 seeds each for Defect, Silent and Watcher. 5 differences found and fixed, and all 14 reruns had none |
-| Runs started as other classes | About 80 seeds each for Defect, Silent and Watcher, all with no difference on their latest run, at ascension 0 and at ten others. Use `--class DEFECT`, `THE_SILENT` or `WATCHER` |
-| Live mode | Three real runs: two wins and one loss |
-| Simulator fixes | [On a fork](reports/simulator_fixes.md); the research loop still builds upstream plus the patch |
-| JSON to simulator converter | Passes the offline round trip |
-| Agent hooks | Unset in research runs |
+| Runs recorded on the real game, 2026-11-02 to 2026-11-07 | 1,765, all four characters, every ascension from 0 to 20. They are [in git](#the-recordings-in-git), 41 MB |
+| Recorded moves replayed with the whole state compared | 754,533 |
+| Replay result | 1,466 reach the end with no difference. 251 stop early without a verdict, mostly at a Discovery the recording can't check (161), a move the bridge no longer sends (39), or a difference in a run whose test scenario had to be rebuilt (34). 48 are known failures, each with its reason in [`regression_baseline.tsv`](regression_baseline.tsv) |
+| Whole runs with no difference, on distinct seeds | Ironclad 422, Silent 248, Defect 249, Watcher 248 |
+| Act 4 | Seeds 1000 and 1004 replay through the Heart with no difference. In mirror runs on 2026-11-03, five seeds reached the Heart with all keys (`keys:all`), and the Heart and the Shield and Spear were forced onto floor 1 at ascensions 0 and 20, with no difference |
+| Fixes to the simulator | 219, of which 169 were found by a seed on the game and 50 by reading the game's code |
+| Coverage score | 99.7 of 100. Every card, relic, potion, monster, power and ascension met its target, and events are at 97%. See [Coverage and score](PROGRESS.md#coverage-and-score) |
+| Live mode | Four real runs: three wins and one loss |
+
+What gets compared after each move: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics and event, and in combat the player, the hand, draw and discard piles in order, the exhaust pile as a multiset, and each monster's HP, block, powers, move and intent damage. With the test mod in the game, the state of the game's 12 random streams is compared too, so a run stops at the first extra or missing roll and names the stream.
+
+```mermaid
+flowchart LR
+    G["Slay the Spire<br/>+ Communication Mod<br/>+ BridgeScenario test mod"] <-- "stdin / stdout" --> R["commrelay.py<br/>records every line"]
+    R <-- "Unix socket" --> B["sts_bridge<br/>mirror or live"]
+    B --- S["sts_lightspeed<br/>same seed"]
+    B --- A["agent<br/>research/cpp"]
+    R --> T["recordings/<br/>1,765 runs"]
+    T --> RE["run_regression.py<br/>no game needed"]
+    RE --- S
+```
+
+How it was built, in order, is in the [progress log](PROGRESS.md#what-was-done-in-order). In short: connect to the game through Communication Mod, match the game's profile to what the simulator assumes, play whole runs and fix every difference against the game's bytecode, force rare cards and relics into runs with a test mod, audit every ascension check, record every run and replay the recordings after each change, and finally list the simulator code no recorded run had reached and read it against the game.
+
+## Known issues
+
+- **Randomness no simulator can match:** Discovery's cards are rolled again on every frame, the Courier's replacement card and the end-of-turn exhaust order use unseeded randomness, Secret Portal waits for 800 seconds of play, and a curse's transform preview rolls while its screen is up. Mirror mode handles each one, and the [fix list](reports/simulator_fixes.md#differences-no-simulator-can-match) explains how.
+- **Known gaps in the simulator** are in the [fix list](reports/simulator_fixes.md#known-gaps). The largest: Silent, Defect and Watcher have had about 270 runs each against 953 for Ironclad, some trigger orders are still fixed rather than the game's, and stance isn't in Communication Mod's state.
+- **The agent outside combat is tuned for Ironclad**, so it plays the other characters poorly. Their runs are still checked move by move.
+- **Some event options have never been compared**, because the agent never picks them. `--explore_events` makes mirror mode take the least tried option instead.
+- **The setup scripts are for an Apple silicon Mac.** Linux should need only the game's paths changed, but nobody has tried. Windows would also need the bridge's Unix socket and the bash scripts replaced.
+- **Runs recorded before 2026-11-06 19:12** had BaseMod's gameplay fixes on. See the [fix list](reports/simulator_fixes.md#known-gaps).
+
+Forks, pull requests and reports of a difference are welcome: see [Contributing](USAGE.md#contributing).
 
 ## Which simulator
 
-`research/setup.sh` builds upstream plus `patches/sts_lightspeed.patch` by default, which is what the research loop uses. The bridge is meant to run against branch `fidelity` of [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed), which adds the fixes in [reports/simulator_fixes.md](reports/simulator_fixes.md):
+The bridge runs against the `master` branch of [latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed), which has every fix in [reports/simulator_fixes.md](reports/simulator_fixes.md). [USAGE.md](USAGE.md#build-the-bridge) builds it from two clones side by side. `research/setup.sh` can also do it, into a folder that doesn't exist yet:
 
 ```bash
-STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=fidelity STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=master STS_TARGETS="fair_eval sts_bridge" research/setup.sh
 ```
+
+Without `STS_SIM_BRANCH`, `setup.sh` builds upstream plus `patches/sts_lightspeed.patch`, the research baseline before the fixes. The research loop on `autoresearch/ironclad` pins its own fork commit in `research/patches/sts_lightspeed_fidelity.commit`.
 
 The fixes change simulation results, so research numbers from before them aren't comparable with runs after them. On the same 300 validation seeds with `best_params.txt` and `best_a20_params.txt`, on this Mac with `BF_MODEL_DIR` set:
 
-| Ascension | Baseline `e47bb63` | Fork | Paired difference, 95% |
+| Ascension | Baseline `e47bb63` | Fork, 2026-11-03 | Paired difference, 95% |
 |---|---|---|---|
 | 0 | 69.7% | 67.3% | -2.3% +- 5.8% |
 | 20 | 1.7% | 1.0% | -0.7% +- 1.8% |
 
-Neither difference is significant. Deaths on floor 50 at ascension 0 went from 20 to 36. The research record for the same seeds and parameters is 75.0% on Linux, and how much of that gap comes from the platform's random numbers hasn't been checked.
+Neither difference is significant. Deaths on floor 50 at ascension 0 went from 20 to 36. The research record for the same seeds and parameters is 75.0% on Linux, and how much of that gap comes from the platform's random numbers hasn't been checked. This comparison ran on 2026-11-03, before about 70 later fixes.
 
 ## Setup
 
@@ -73,7 +101,7 @@ Subscribing is not needed, and wouldn't help: ModTheSpire's Workshop search need
 **3. Build**
 
 ```bash
-STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=fidelity STS_TARGETS="fair_eval sts_bridge" research/setup.sh
+STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_SIM_BRANCH=master STS_TARGETS="fair_eval sts_bridge" research/setup.sh
 ```
 
 `setup.sh` still defaults to the cloud paths when `STS_SIM_DIR` is unset.
@@ -159,7 +187,7 @@ Each step goes in this order:
 2. Compare the states. Any hard difference stops the run.
 3. Send the agent's action.
 
-Compared: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics, event ID, and in combat the player, hand, draw and discard piles in order, the exhaust pile as a set, and each monster's HP, block, powers, move, and intent damage. With the test mod installed, the state of every random stream is compared too, so a run stops at the first extra or missing roll and names the stream.
+Compared: HP, gold, floor, act, boss, keys, relics, potions, deck, map, rewards, shop, boss relics, event ID, and in combat the player, hand, draw and discard piles in order, the exhaust pile as a multiset, and each monster's HP, block, powers, move, and intent damage. With the test mod installed, the state of the game's 12 random streams is compared too, so a run stops at the first extra or missing roll and names the stream.
 
 A *soft* difference means the comparison itself is unsure (for example a move byte missing from the table). It is logged but does not stop the run.
 
@@ -238,9 +266,9 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge live --research_dir research --se
 python3 -I research/realgame/tools/run_regression.py
 ```
 
-This checks the simulator against every recorded run, with no game running. It takes under a minute for about 600 runs, and exits 1 if anything got worse than `regression_baseline.tsv`. The game is only needed to collect new runs.
+This checks the simulator against every recorded run, with no game running. It takes a minute or two for the 1,765 runs on 4 cores, and exits 1 if anything got worse than `regression_baseline.tsv`. The game is only needed to collect new runs.
 
-It makes a recording from each run in the transcripts (`tools/export_traces.py`, kept in `traces/`, which is gitignored), then plays each one back through mirror mode with `sts_bridge replay`. The moves come from the recording rather than the agent, and the comparison is the same code as a real mirror run. Each legal action is tried against the recording, and the one that sends what was recorded is taken.
+It makes a recording from each run in the transcripts (`tools/export_traces.py`, kept in `traces/`, which is gitignored), then plays each one back. A fresh clone has no transcripts, since they stay out of git, so it replays what `tools/recordings.py unpack` put in `traces/`. Each recording is played back through mirror mode with `sts_bridge replay`. The moves come from the recording rather than the agent, and the comparison is the same code as a real mirror run. Each legal action is tried against the recording, and the one that sends what was recorded is taken.
 
 | Result | Meaning |
 |---|---|
@@ -288,6 +316,7 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 
 | File | Purpose |
 |---|---|
+| `USAGE.md` | How to use the bridge and the recordings, with or without the game |
 | `commrelay.py` | The process the mod launches; relays to a Unix socket and records the transcript |
 | `commctl.py` | Drive the game by hand |
 | `CommClient` | Bridge side of the socket |

@@ -9,6 +9,29 @@ The user (player) sends screenshots; Claude reads the screen, looks things up
 here, and recommends the next action. See [`CLAUDE.md`](CLAUDE.md) for the
 exact workflow.
 
+## Also here: an agent checked against the real game
+
+[`research/realgame/`](research/realgame) connects a Slay the Spire agent to
+the real game through Communication Mod, and checks the simulator it learned
+in move by move: same seed, same moves, whole state compared after each one.
+That led to 219 fixes to
+[sts_lightspeed](https://github.com/gamerpuppy/sts_lightspeed): 169
+differences the game showed, and 50 found by reading the game's code. The
+fixed simulator, with all four characters and up to twice upstream's speed
+as each builds by default, is
+[latioswang/sts_lightspeed](https://github.com/latioswang/sts_lightspeed).
+
+- 1,765 real runs, at every ascension from 0 to 20, are recorded in git and
+  replay through the simulator in a minute or two with no game running.
+- Whole runs with no difference, on distinct seeds: Ironclad 422, Silent 248,
+  Defect 249, Watcher 248.
+- Start with the [bridge README](research/realgame/README.md) and
+  [USAGE](research/realgame/USAGE.md). Every fix is in the
+  [fix list](research/realgame/reports/simulator_fixes.md), with the seed
+  that found it and the game's rule.
+
+Forks and contributions are welcome.
+
 ## Files
 
 ```
@@ -50,6 +73,8 @@ exact workflow.
 ├── curses.md              ← 14 curse cards
 ├── potions.md             ← common potions (hand-curated, partial)
 ├── glossary.md            ← keywords, tag legend, tier shorthand
+│
+├── research/              ← the agent, its evaluation, and the real-game bridge (research/realgame)
 │
 └── data/
     ├── ironclad_cards.json    ← clean per-character card data
