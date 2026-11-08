@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 17:15 UTC
+- **2026-11-08 17:17 UTC: F33 worker f33w1 done.** Log merged: `F33 GEN research/vf/data/f33_a10card_w1: 400/400 seeds done; 400 branch, 0 crashed, 24 no decision`; `PACK ... 400 files, 1 shards, 4.0 MB -> 0.1 MB (37.5x), verify OK`; `PUSH f33_a10card_w1_z DONE: 2 files`; gates bit-identical; pulled + unpacked; session archived. (A10 card analysis waits for f33w2.)
+
 - **2026-11-08 17:15 UTC: hourly check.** F33: A20 boss (H +0.0044 ± 0.0036) and A20 card (H −0.0093 ± 0.0041) complete — no decision headroom on A20; A10 card (f33w1, f33w2) and A10 boss second batches (f33w3, f33w4) running. main merged at aa2cf9a. Nothing runs locally. Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
 
 - **2026-11-08 16:59 UTC: F33 worker f33w3 first batch in.** Log merged: `F33 GEN research/vf/data/f33_a10boss_w3: 400/400 seeds done; 400 branch, 0 crashed, 90 no decision`; `PACK ... 400 files, 1 shards, 3.3 MB -> 0.1 MB (37.1x), verify OK`; `PUSH f33_a10boss_w3_z DONE: 2 files`; gates bit-identical; pulled + unpacked. Second batch f33_a10boss_w3b running. (A10 boss analysis waits for w3b and w4b.)
