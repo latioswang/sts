@@ -10,6 +10,7 @@
 #include "sim/search/GameAction.h"
 
 #include <array>
+#include <chrono>
 #include <fstream>
 #include <functional>
 #include <stdexcept>
@@ -70,6 +71,10 @@ protected:
     virtual void onCardRewardDeclined() {}
 
 private:
+    // When the game answered the last command sent inside a room, on any screen but the map.
+    std::chrono::steady_clock::time_point roomCommandAnswered_{};
+
+    void settleBeforeLeavingRoom();
     void applyEvent(const sts::GameContext &gc, int option);
     void applyMatchAndKeep(const sts::GameContext &gc, int first, int second);
     void chooseMatchCard(const std::vector<int> &faceDown, int position);
