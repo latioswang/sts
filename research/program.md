@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 03:38 UTC
+### Current state (update after every batch) — 2026-11-08 03:42 UTC
+- **2026-11-08 03:42 UTC: F28 workers.** f28w5 done (log merged): `F28 w5: 3199 branch, 1 crashed`; `PACK ... 3200 files, 4 shards, 29.8 MB -> 0.7 MB (42.5x), verify OK`; `PUSH branch_f28_w5_z DONE: 5 files`; pulled + unpacked (3,200 files; empty files are seeds whose run ended before their k-th card reward, not crashes). Crash seed and gdb site requested from w5. Pulled so far: w0, w1, w2, w5. Pending: w3, w4, w6 (w6 seeds done).
 - **2026-11-08 03:38 UTC: F28 workers.** f28w1 done (log merged): `F28 w1: 3200 branch, 0 crashed`; `PACK ... 3200 files, 4 shards, 29.9 MB -> 0.7 MB (42.4x), verify OK`; `PUSH branch_f28_w1_z DONE: 5 files`; pulled + unpacked here (3,200 files). w2 pulled + unpacked (3,200). w6 finished its seeds (`F28 w6: 3200 branch, 0 crashed`), pack/push pending. w3, w4, w5 still running.
 - **2026-11-08 03:16 UTC: F28 workers.** f28w2 done (its log merged): `F28 w2: 3200 branch, 0 crashed`; `PACK ... 3200 files, 4 shards, 29.9 MB -> 0.7 MB (42.4x), verify OK`; `PUSH branch_f28_w2_z DONE: 5 files`. Others at ≈ 03:14 UTC: w1 3,043, w3 2,912, w5 2,936 (1 crash), w6 2,834, w4 2,263 of 3,200 (w4 ETA ≈ 04:30). `data_sync.py ls` hangs here (> 8 min; HF itself answers in 0.6 s) — the per-set pull is used instead.
 - **2026-11-08 03:01 UTC: F28 local share done.** `F28 w0: 3200 branch, 0 crashed` (seeds 5,429,200–5,432,399; finished 03:01:04 UTC). Data not looked at; waiting for the six worker sets.
