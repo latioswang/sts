@@ -1,0 +1,5 @@
+leaf holdout: 50000 states; predict-mean RMSE 34.86
+sv_7: RMSE on leaf states 15.13  bias +2.81  corr 0.905
+sv_8: RMSE on leaf states 15.63  bias +2.78  corr 0.899
+sv_9: RMSE on leaf states 15.72  bias +3.05  corr 0.898
+sv_11: RMSE on leaf states 12.06  bias +0.06  corr 0.938

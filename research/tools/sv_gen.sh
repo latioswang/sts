@@ -5,7 +5,8 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 NAME=${1:?}; GAMES=${2:?}; CHUNK=${3:?}; SEED0=${4:?}
 BIN=${FAIR_EVAL_BIN:-/home/user/sts_lightspeed/build/fair_eval}
-ARGS=$(sed 's/^/--param /' research/best_params.txt | tr '\n' ' ')
+ASC=${ASC:-0}; PARF=${PARF:-research/best_params.txt}   # Phase R4: ASC=10 PARF=research/best_a10_params.txt (defaults unchanged)
+ARGS=$(sed 's/^/--param /' "$PARF" | tr '\n' ' ')
 OUT=research/vf/data/$NAME; mkdir -p "$OUT"
 CHUNKS=$(( (GAMES + CHUNK - 1) / CHUNK ))
 for ((k = 0; k < CHUNKS; k++)); do
@@ -14,7 +15,7 @@ for ((k = 0; k < CHUNKS; k++)); do
   rm -rf "$D"; mkdir -p "$D"
   S=$(( SEED0 + k * CHUNK )); N=$CHUNK; [ $(( S + N )) -gt $(( SEED0 + GAMES )) ] && N=$(( SEED0 + GAMES - S ))
   T0=$(date +%s)
-  VF_LOG_DIR=$D "$BIN" --agent fair --seed_start "$S" --count "$N" --asc 0 --threads 4 $ARGS ${LOGP:---param pf_log=1} > "$D/games.tsv"   # LOGP env: other loggers (Phase S2: --param leaf_log=1)
+  VF_LOG_DIR=$D "$BIN" --agent fair --seed_start "$S" --count "$N" --asc "$ASC" --threads 4 $ARGS ${LOGP:---param pf_log=1} > "$D/games.tsv"   # LOGP env: other loggers (Phase S2: --param leaf_log=1)
   touch "$D/.done"
   echo "sv chunk $k/$CHUNKS done: $N games, $(( $(date +%s) - T0 ))s, $(du -sh "$D" | cut -f1)"
 done

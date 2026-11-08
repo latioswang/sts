@@ -1,0 +1,2 @@
+fe28dfe	val.a0	300	0	0.487	43.05	1.3308	-0.3479	0.000	scaling	sv16: PHASE S S2 scale-up: 4x leaf data x 1e4 params: leaf value model sv_16, no rollouts, equal wall-clock (cost ratio 0.575, sims 870) vs mapd085
+3d0484f	val.a0	300	0	0.453	42.89	1.2944	-0.3843	0.000	scaling	sv17: PHASE S S2 scale-up: 4x leaf data x 3e4 params: leaf value model sv_17, no rollouts, equal wall-clock (cost ratio 1.415, sims 354) vs mapd085

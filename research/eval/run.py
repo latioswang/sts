@@ -13,7 +13,8 @@ BIN = os.environ.get("FAIR_EVAL_BIN", "/home/user/sts_lightspeed/build/fair_eval
 SPLITS = {"dev": (100000, 100), "val": (200000, 300), "test": (900000, 500), "smoke": (100000, 20),
           "dev2": (600000, 100), "dev3": (700000, 100),  # extra held-out replication slices (never tuned on)
           "val100": (200000, 100),  # first 100 val seeds: cheaper informational reads (Phase S fixed-simulation cells)
-          "train": (300000, 500), "train2": (400000, 500), "train3": (500000, 500)}  # train*: data generation only, never for keep/discard
+          "train": (300000, 500), "train2": (400000, 500), "train3": (500000, 500),
+          "fresh": (1200000, 1000)}  # fresh: diagnostic re-measurement of selected bests (selection bias); report only, never for keep/discard  # train*: data generation only, never for keep/discard
 COLS = ["seed", "win", "floor", "act", "hp", "max_hp", "deck", "battles", "decisions", "aborted", "secs", "actions",
         "death_enc", "potions_left"]
 REQUIRED = 11  # "actions" (phase 2), "death_enc" and "potions_left" (phase C v3) are optional diagnostic columns
@@ -106,7 +107,10 @@ def main():
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--winmode", default="act3", choices=["act3", "heart"])
     a = ap.parse_args()
-    start, count = SPLITS[a.split]
+    if a.split.startswith("fs"):   # fresh-slice protocol (2026-11-05): "fs<START>n<COUNT>", e.g. fs1201000n500
+        start, count = (int(x) for x in a.split[2:].split("n"))
+    else:
+        start, count = SPLITS[a.split]
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     out = os.path.join(ROOT, "runs", f"{a.name}.{a.split}.a{a.asc}.tsv")
     cmd = [BIN, "--agent", a.agent, "--seed_start", str(start), "--count", str(count),

@@ -1,0 +1,29 @@
+{
+  "repo_id": "latioswang/sts-ironclad-data",
+  "repo_type": "dataset",
+  "private": true,
+  "allowed_domains": [
+    "huggingface.co",
+    "cas-server.xethub.hf.co",
+    "us.aws.cdn.hf.co",
+    "s3.us-east-1.amazonaws.com",
+    "*.hf.co"
+  ],
+  "env": {"STS_DATA_REPO": "latioswang/sts-ironclad-data"},
+  "hf_hub_version": "2.4.0",
+  "xet": "used (hf_xet 1.8.0, default); selftest also passes with HF_HUB_DISABLE_XET=1. Set no Xet env var in the cloud.",
+  "verified": "2026-11-02T17:58:20Z selftest OK from a claude.ai cloud session in environment 'python' (Linux), not macOS",
+  "token": "network secret on the cloud environment: host huggingface.co only, header Authorization, prefix Bearer. No HF_TOKEN variable; the token never enters the VM and data_sync.py works without it.",
+  "hosts_observed": {
+    "how": "data_sync.py selftest --hosts and a split upload/download probe; an in-process CONNECT proxy records every https tunnel, Python (httpx2) and Rust (hf_xet) alike",
+    "xet_on_upload": ["huggingface.co", "cas-server.xethub.hf.co", "s3.us-east-1.amazonaws.com (1 of 6 uploads, cause unknown)"],
+    "xet_on_download": ["huggingface.co", "cas-server.xethub.hf.co", "us.aws.cdn.hf.co"],
+    "xet_off_upload": ["huggingface.co", "hf-hub-lfs-us-east-1.s3-accelerate.amazonaws.com"],
+    "xet_off_download": ["huggingface.co", "cdn-lfs-us-1.hf.co"]
+  },
+  "notes": [
+    "Environment 'python' currently has open network access, so allowed_domains only matters if it moves to Limited/Custom. Keep 'Allow package managers' ticked then.",
+    "*.hf.co guards against CDN host changes; HF publishes its current hosts at https://huggingface.co/.well-known/meta.json. If only Xet is used, the xet_off_* hosts are not needed.",
+    "The Hub's /commit endpoint can return 5xx after the commit landed (seen once as 502); push() re-lists and commits only what is missing."
+  ]
+}

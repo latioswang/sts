@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+"""Keep K random logged states per run (Phase R2): full run data at 10^5 runs (~43 GB) does not fit in RAM; train_vr2
+already samples 16 rows per run per epoch, so K=32 fixed rows per run lose little. Rows are chosen with
+RandomState(run_id % 2**32) without replacement (all rows if a run has fewer). usage: subsample_runs.py IN_DIR OUT_DIR [--k 32]"""
+import argparse, glob, os
+import numpy as np
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import runstore   # input: per-file or shards
+EXTRA = 4
+ap = argparse.ArgumentParser(); ap.add_argument("inp"); ap.add_argument("out"); ap.add_argument("--k", type=int, default=32)
+ap.add_argument("--dim", type=int, default=666, help="Phase F14: row feature width (670 for features v2; writes a DIM670 marker)")
+a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); n = rows_in = rows_out = 0; DIM = a.dim
+if DIM == 670: open(os.path.join(a.out, "DIM670"), "w").write("features v2 rows (666 + 4 key features)\n")
+counts = open(os.path.join(a.out, "counts.tsv"), "w")   # run_id <tab> original rows: lets the trainer restore per-state weights
+for f in runstore.list_runs(a.inp):
+    x = runstore.read(f); x = x[: (x.size // (DIM + EXTRA)) * (DIM + EXTRA)].reshape(-1, DIM + EXTRA)
+    if len(x) == 0: continue
+    rid = int(x[0, DIM + 3]); idx = np.arange(len(x))
+    if len(x) > a.k: idx = np.sort(np.random.RandomState(rid % (2 ** 32)).choice(len(x), a.k, replace=False))
+    x[idx].tofile(os.path.join(a.out, os.path.basename(f))); n += 1; rows_in += len(x); rows_out += len(idx)
+    counts.write(f"{rid}\t{len(x)}\n")
+counts.close()
+print(f"SUBSAMPLE {a.inp} -> {a.out}: {n} runs, rows {rows_in} -> {rows_out} (k={a.k})")

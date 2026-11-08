@@ -423,3 +423,218 @@ e09b561	val.a0	300	0	0.247	36.84	0.9690	-0.7097	0.000	scaling	sv6: PHASE S 1e5 r
 0d3ffac	val.a0	300	0	0.260	34.83	0.9429	-0.7358	0.000	scaling	sv3: PHASE S 1e4 rows x 1e6 params: leaf value model sv_3, no rollouts, equal wall-clock (cost ratio 39.313, sims 50) vs mapd085
 b7018e2	val.a0	300	0	0.047	24.63	0.5297	-1.1490	0.000	scaling	sv1_s500: PHASE S fixed-sims read: leaf model sv_1, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
 dae6d52	val.a0	300	0	0.283	34.68	0.9634	-0.7153	0.000	scaling	sv5_s500: PHASE S fixed-sims read: leaf model sv_5, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
+d538d34	val100.a0	98	2	0.357	39.20	1.1259	-0.5724	0.000	scaling	sv9_s500: PHASE S fixed-sims read: leaf model sv_9, no rollouts, sims 500 regardless of wall-clock (BUDGET SCALING, informational) vs mapd085
+a2418af	val.a0	300	0	0.420	41.30	1.2298	-0.4489	0.000	scaling	sv11: PHASE S S2 leaf-trained, all leaf rows x 1e4 params: leaf value model sv_11, no rollouts, equal wall-clock (cost ratio 0.730, sims 685) vs mapd085
+4e07fca	val.a0	300	0	0.300	39.02	1.0652	-0.6135	0.000	scaling	sv12: PHASE S S2 leaf-trained, all leaf rows x 1e5 params: leaf value model sv_12, no rollouts, equal wall-clock (cost ratio 5.734, sims 87) vs mapd085
+3f5e172	val.a0	300	0	0.730	47.36	1.6587	-0.0200	0.262	discard	vrb20: Phase R: card picks + 20 x learned run value gain (V with card - without), V = vr_10 [vr_model=10 vr_bonus=20]
+b4d6084	val.a0	300	0	0.777	47.31	1.7043	+0.0256	0.761	discard	vrb50: Phase R: card picks + 50 x learned run value gain, V = vr_10 [vr_model=10 vr_bonus=50]
+ebd8d4c	val.a0	300	0	0.727	46.02	1.6291	-0.0496	0.107	discard	vrb100: Phase R: card picks + 100 x learned run value gain, V = vr_10 [vr_model=10 vr_bonus=100]
+a663616	val.a0	300	0	0.697	45.51	1.5891	-0.0896	0.011	discard	vrb50_nobf: Phase R: run value gain (50x) replaces the deck-model bonus (bf_bonus 0) [vr_model=10 vr_bonus=50 bf_bonus=0]
+589ab21	dev.a0	100	0	0.740	46.48	1.6514	+0.0775	0.866	info	vrb50_dev: VERIFY: vrb50 on dev vs mapd085_dev (replication of a a0 keep)
+7538b72	val.a0	300	0	0.810	47.61	1.7436	+0.0649	0.978	keep	vr2b20: Phase R2: card picks + 20 x learned run value gain, V = vr_41 (selected from 10^5-run grid) [vr_model=41 vr_bonus=20]
+f752a59	val.a0	300	0	0.790	47.58	1.7229	-0.0207	0.238	discard	vr2b50: Phase R2: card picks + 50 x learned run value gain, V = vr_41 (selected from 10^5-run grid) [vr_model=41 vr_bonus=50]
+c66bb2a	val.a0	300	0	0.727	46.48	1.6381	-0.1055	0.002	discard	vr2b100: Phase R2: card picks + 100 x learned run value gain, V = vr_41 (selected from 10^5-run grid) [vr_model=41 vr_bonus=100]
+ddf92f2	dev.a0	100	0	0.690	46.33	1.5984	+0.0245	0.660	info	vr2b20_dev: VERIFY: vr2b20 on dev vs mapd085_dev (replication of a a0 keep)
+dfb53f4	val.a10	300	0	0.343	38.43	1.0968	+0.0707	0.979	keep	a10_vr2b20: [a10] port A0 keep: card picks + 20 x R2 run value (vr_41) [vr_model=41 vr_bonus=20]
+76b12cc	val.a20	300	0	0.043	29.31	0.6172	+0.0220	0.858	keep	a20_vr2b20: [a20 pooled500] port A0 keep: card picks + 20 x R2 run value (vr_41) [vr_model=41 vr_bonus=20] pooled dscore=+0.0312 dwin=+0.008 P(improve)=0.978
+76b12cc	dev2.a20	100	0	0.030	27.57	0.5700	+0.0412	0.895	info	a20_vr2b20: [a20 pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
+76b12cc	dev3.a20	100	0	0.020	27.50	0.5588	+0.0490	0.951	info	a20_vr2b20: [a20 pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
+9675a6f	val.a0	300	0	0.153	48.62	1.0599	+0.0499	0.977	keep	heart_vr2b20: [heart pooled500] port A0 keep: card picks + 20 x R2 run value (vr_41) [vr_model=41 vr_bonus=20] pooled dscore=+0.0513 dwin=+0.028 P(improve)=0.996
+9675a6f	dev2.a0	100	0	0.170	47.68	1.0551	+0.0396	0.846	info	heart_vr2b20: [heart pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
+9675a6f	dev3.a0	100	0	0.110	44.24	0.9396	+0.0669	0.968	info	heart_vr2b20: [heart pooled500 slice] port A0 keep: card picks + 20 x R2 run value (vr_41)
+87f5f70	dev.a10	100	0	0.270	35.56	0.9673	+0.0849	0.918	info	a10_vr2b20_dev: VERIFY: a10_vr2b20 on dev vs a10_bfbonus25_g1m_dev (replication of a a10 keep)
+f7c0ae0	val.a0	300	0	0.757	47.90	1.6958	-0.0478	0.052	discard	vr2b10: R2 run value: bonus 10 (vs 20 kept) [vr_bonus=10]
+672060c	val.a0	300	0	0.777	47.09	1.7000	-0.0436	0.031	discard	vr2b30: R2 run value: bonus 30 (vs 20 kept) [vr_bonus=30]
+70e79b2	val.a0	300	0	0.773	47.80	1.7107	-0.0329	0.153	discard	vr3b10: Phase R3: card picks + 10 x learned run value gain, V = vr_61 (selected from the 1.9e5-run grid) [vr_model=61 vr_bonus=10]
+ad03fb6	val.a0	300	0	0.787	47.82	1.7243	-0.0193	0.268	discard	vr3b20: Phase R3: card picks + 20 x learned run value gain, V = vr_61 (selected from the 1.9e5-run grid) [vr_model=61 vr_bonus=20]
+24b21d2	val.a0	300	0	0.823	48.11	1.7666	+0.0230	0.758	discard	vr3b40: Phase R3: card picks + 40 x learned run value gain, V = vr_61 (selected from the 1.9e5-run grid) [vr_model=61 vr_bonus=40]
+fd8c53a	dev.a0	100	0	0.750	47.74	1.6861	+0.0876	0.885	info	vr3b40_dev: VERIFY: vr3b40 on dev vs vr2b20_dev (replication of a a0 keep)
+fd8c53a	val.a0	300	0	0.823	48.11	1.7666	+0.0230	0.758	keep	vr3b40: near-miss extension KEEP (pooled 400 vs vr2b20, dev-alone +0.0876): R3 run value vr_61 at bonus 40. pooled dscore=+0.0392 dwin=+0.025 P(improve)=0.900
+6ce28ab	val.a10	300	0	0.353	38.96	1.1173	+0.0205	0.716	discard	a10_vr3b40: [a10] port A0 keep: card picks + 40 x R3 run value (vr_61) [vr_model=61 vr_bonus=40]
+37fc890	val.a20	300	0	0.047	29.32	0.6207	+0.0035	0.579	discard	a20_vr3b40: [a20 pooled500] port A0 keep: card picks + 40 x R3 run value (vr_61) [vr_model=61 vr_bonus=40] pooled dscore=+0.0037 dwin=+0.008 P(improve)=0.604
+37fc890	dev2.a20	100	0	0.050	27.02	0.5788	+0.0088	0.575	info	a20_vr3b40: [a20 pooled500 slice] port A0 keep: card picks + 40 x R3 run value (vr_61)
+37fc890	dev3.a20	100	0	0.030	26.96	0.5580	-0.0008	0.481	info	a20_vr3b40: [a20 pooled500 slice] port A0 keep: card picks + 40 x R3 run value (vr_61)
+3a7c39c	val.a0	300	0	0.117	48.04	1.0126	-0.0473	0.036	discard	heart_vr3b40: [heart pooled500] port A0 keep: card picks + 40 x R3 run value (vr_61) [vr_model=61 vr_bonus=40] pooled dscore=-0.0210 dwin=-0.030 P(improve)=0.148
+3a7c39c	dev2.a0	100	0	0.150	49.98	1.0800	+0.0249	0.696	info	heart_vr3b40: [heart pooled500 slice] port A0 keep: card picks + 40 x R3 run value (vr_61)
+3a7c39c	dev3.a0	100	0	0.090	46.16	0.9514	+0.0118	0.615	info	heart_vr3b40: [heart pooled500 slice] port A0 keep: card picks + 40 x R3 run value (vr_61)
+e656d88	dev.a10	100	0	0.300	38.00	1.0451	+0.0778	0.867	info	a10_vr3b40_dev: VERIFY: a10_vr3b40 on dev vs a10_vr2b20_dev (replication of a a10 keep)
+0387624	val.a10	300	0	0.353	38.80	1.1142	+0.0174	0.684	discard	a10_vr3b20: [a10] R3 run value (vr_61) at bonus 20 on A10 [vr_model=61 vr_bonus=20]
+e39f232	val.a20	300	0	0.027	28.57	0.5863	-0.0308	0.052	discard	a20_vr3b20: [a20 pooled500] R3 run value (vr_61) at bonus 20 on A20 [vr_model=61 vr_bonus=20] pooled dscore=-0.0253 dwin=-0.010 P(improve)=0.038
+e39f232	dev2.a20	100	0	0.040	27.31	0.5747	+0.0047	0.536	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
+e39f232	dev3.a20	100	0	0.010	26.03	0.5202	-0.0386	0.063	info	a20_vr3b20: [a20 pooled500 slice] R3 run value (vr_61) at bonus 20 on A20
+abdd280	val.a0	300	0	0.127	47.94	1.0201	-0.0398	0.051	discard	heart_vr3b20: [heart pooled500] R3 run value (vr_61) at bonus 20 on the Heart track [vr_model=61 vr_bonus=20] pooled dscore=-0.0347 dwin=-0.032 P(improve)=0.022
+abdd280	dev2.a0	100	0	0.140	47.71	1.0282	-0.0269	0.227	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track
+abdd280	dev3.a0	100	0	0.060	45.56	0.9122	-0.0275	0.249	info	heart_vr3b20: [heart pooled500 slice] R3 run value (vr_61) at bonus 20 on the Heart track
+25d54f0	val.a10	300	0	0.337	38.46	1.0908	-0.0059	0.437	discard	a10_vr4lb20: [a10] Phase R4-local: A10 card picks + 20 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=20]
+a671e8d	val.a10	300	0	0.370	38.97	1.1342	+0.0374	0.856	discard	a10_vr4lb40: [a10] Phase R4-local: A10 card picks + 40 x A10-trained run value (vr_82, 30k local A10 games) [vr_model=82 vr_bonus=40]
+338f726	dev.a10	100	0	0.260	37.11	0.9876	+0.0204	0.614	info	a10_vr4lb40_dev: VERIFY: a10_vr4lb40 on dev vs a10_vr2b20_dev (replication of a a10 keep)
+af7352c	val.a10	300	0	0.363	38.81	1.1243	+0.0275	0.785	discard	a10_vr4b20: [a10] Phase R4: A10 card picks + 20 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=20]
+7ce05c9	val.a10	300	0	0.347	38.92	1.1098	+0.0130	0.639	discard	a10_vr4b40: [a10] Phase R4: A10 card picks + 40 x A10-trained run value (vr_81) [vr_model=81 vr_bonus=40]
+c144212	dev.a10	100	0	0.260	36.82	0.9820	+0.0147	0.593	info	a10_vr4b20_dev: VERIFY: a10_vr4b20 on dev vs a10_vr2b20_dev (replication of a a10 keep)
+f5b62ff	val.a0	300	0	0.847	48.38	1.7952	+0.0286	0.951	keep	vr5relic20: Phase R5: boss relics KB + 20 x run value gain (vr_61) [vr_relic_w=20]
+d0f575a	val.a0	300	0	0.840	48.31	1.7872	-0.0080	0.000	discard	vr5relic40: Phase R5: boss relics KB + 40 x run value gain (vr_61) [vr_relic_w=40]
+d0f575a	val.a0	300	0	0.847	48.20	1.7918	-0.0035	0.417	discard	vr5shop: Phase R5: shop cards KB + vr_bonus x run value gain after paying (vr_61) [vr_shop=1]
+d0f575a	val.a0	300	0	0.847	48.46	1.7969	+0.0017	0.540	discard	vr5upg40: Phase R5: upgrades KB + 40 x run value gain (vr_61) [vr_upg_w=40]
+d0f575a	dev.a0	100	0	0.810	48.23	1.7557	+0.0696	0.983	info	vr5relic20_dev: VERIFY: vr5relic20 on dev vs vr3b40_dev (replication of a a0 keep)
+724966b	val.a10	300	0	0.387	39.69	1.1649	+0.0681	0.999	keep	a10_relic20: [a10] port A0 keep: boss relics + 20 x run value gain [vr_relic_w=20]
+c11cd34	val.a20	300	0	0.067	29.81	0.6499	+0.0327	0.996	keep	a20_relic20: [a20 pooled500] port A0 keep: boss relics + 20 x run value gain [vr_relic_w=20] pooled dscore=+0.0262 dwin=+0.020 P(improve)=0.999
+c11cd34	dev2.a20	100	0	0.040	27.52	0.5788	+0.0088	0.698	info	a20_relic20: [a20 pooled500 slice] port A0 keep: boss relics + 20 x run value gain
+c11cd34	dev3.a20	100	0	0.040	27.72	0.5827	+0.0239	0.942	info	a20_relic20: [a20 pooled500 slice] port A0 keep: boss relics + 20 x run value gain
+550d25a	val.a0	300	0	0.160	49.44	1.0801	+0.0203	0.927	keep	heart_relic20: [heart pooled500] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value) [vr_relic_w=20] pooled dscore=+0.0132 dwin=+0.002 P(improve)=0.904
+550d25a	dev2.a0	100	0	0.180	47.38	1.0598	+0.0047	0.609	info	heart_relic20: [heart pooled500 slice] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value)
+550d25a	dev3.a0	100	0	0.090	45.41	0.9402	+0.0006	0.516	info	heart_relic20: [heart pooled500 slice] port A0 keep: boss relics + 20 x run value gain (stacked on the bf relic value)
+8d1f31d	dev.a10	100	0	0.270	36.83	0.9922	+0.0249	0.735	info	a10_relic20_dev: VERIFY: a10_relic20 on dev vs a10_vr2b20_dev (replication of a a10 keep)
+1ee6871	val.a0	300	0	0.823	48.09	1.7662	-0.0290	0.089	discard	vr6rest: Phase R6: rest vs smith by the run value (vr_61) [vr_rest=1]
+ad52fa0	val.a0	300	0	0.800	47.93	1.7398	-0.0554	0.018	discard	vr6rm: Phase R6: card removal by the run value, curses first (vr_61) [vr_remove=1]
+bd4500d	val.a0	300	0	0.843	48.37	1.7918	-0.0034	0.000	discard	vr6relic10: Phase R6: boss relics KB + 10 x run value gain [vr_relic_w=10]
+215bad6	val.a10	300	0	0.440	39.95	1.2233	+0.0584	0.942	keep	a10_r81: [a10] Phase R7: A10 best with the A10-trained run value vr_81 (cards + relics) [vr_model=81]
+186dc28	val.a20	300	0	0.047	29.29	0.6200	-0.0299	0.088	discard	a20_r81: [a20 pooled500] Phase R7: A20 best with the A10-trained run value vr_81 (cards + relics) [vr_model=81] pooled dscore=-0.0328 dwin=-0.016 P(improve)=0.020
+186dc28	dev2.a20	100	0	0.030	26.76	0.5541	-0.0247	0.235	info	a20_r81: [a20 pooled500 slice] Phase R7: A20 best with the A10-trained run value vr_81 (cards + relics)
+186dc28	dev3.a20	100	0	0.030	25.68	0.5329	-0.0498	0.069	info	a20_r81: [a20 pooled500 slice] Phase R7: A20 best with the A10-trained run value vr_81 (cards + relics)
+78edf29	dev.a10	100	0	0.340	38.95	1.1037	+0.1116	0.952	info	a10_r81_dev: VERIFY: a10_r81 on dev vs a10_relic20_dev (replication of a a10 keep)
+758c5fa	val.a20	300	0	0.040	29.28	0.6133	-0.0366	0.038	discard	a20_r121: [a20 pooled500] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics) [vr_model=121] pooled dscore=-0.0366 dwin=-0.020 P(improve)=0.009
+758c5fa	dev2.a20	100	0	0.020	26.44	0.5380	-0.0408	0.041	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
+758c5fa	dev3.a20	100	0	0.040	26.06	0.5502	-0.0325	0.193	info	a20_r121: [a20 pooled500 slice] Phase R8: A20 best with the A20-trained run value vr_121 (cards + relics)
+7fff5d4	val.a20	300	0	0.057	29.73	0.6386	-0.0113	0.314	discard	a20_r121s32: [a20 pooled500] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32) [vr_model=121 vr_bonus=32 vr_relic_w=32] pooled dscore=-0.0140 dwin=-0.006 P(improve)=0.204
+7fff5d4	dev2.a20	100	0	0.030	27.06	0.5600	-0.0188	0.274	info	a20_r121s32: [a20 pooled500 slice] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32)
+7fff5d4	dev3.a20	100	0	0.050	26.35	0.5657	-0.0171	0.316	info	a20_r121s32: [a20 pooled500 slice] Phase R8b: vr_121 with scale-matched weights (bonus 32, relic 32)
+21aa685	val.a0	300	0	0.843	48.31	1.7907	-0.0046	0.343	discard	vr9srel: Phase R9: shop relic chosen by the run value (always buy the best) [vr_shop_relic=1]
+d2a02a9	val.a0	300	0	0.850	48.34	1.7978	+0.0026	0.559	discard	vr9srelg: Phase R9: shop relic by the run value, buy only if the gain > 0 [vr_shop_relic=2]
+d20ea17	val.a0	300	0	0.847	48.45	1.7967	+0.0014	0.505	discard	a0_r121: Phase R10: A0 best with the mixed-data run value vr_121 (inherited weights) [vr_model=121]
+0ea154d	val.a0	300	0	0.840	48.14	1.7839	-0.0113	0.340	discard	a0_r121s: Phase R10: A0 best with vr_121, scale-matched weights (cards 64, relics 32) [vr_model=121 vr_bonus=64 vr_relic_w=32]
+091e8cf	val.a20	300	0	0.037	29.37	0.6119	-0.0380	0.029	discard	a20_bm15: [a20 pooled500] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere) [sims=405 boss_mult=1.5] pooled dscore=-0.0260 dwin=-0.018 P(improve)=0.033
+091e8cf	dev2.a20	100	0	0.060	27.70	0.6020	+0.0231	0.785	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
+091e8cf	dev3.a20	100	0	0.020	26.73	0.5437	-0.0390	0.035	info	a20_bm15: [a20 pooled500 slice] Phase B20: compute-neutral boss search x1.5 (sims 405 elsewhere)
+2c6dfe2	val.a20	300	0	0.040	28.73	0.6025	-0.0474	0.004	discard	a20_bm2: [a20 pooled500] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere) [sims=340 boss_mult=2] pooled dscore=-0.0364 dwin=-0.026 P(improve)=0.003
+2c6dfe2	dev2.a20	100	0	0.010	28.25	0.5637	-0.0151	0.332	info	a20_bm2: [a20 pooled500 slice] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere)
+2c6dfe2	dev3.a20	100	0	0.020	27.47	0.5582	-0.0245	0.129	info	a20_bm2: [a20 pooled500 slice] Phase B20: compute-neutral boss search x2 (sims 340 elsewhere)
+843da7c	val.a20	300	0	0.023	29.47	0.6007	-0.0492	0.009	discard	a20_bm2x: [a20 pooled500] Phase B20 informational (+47% compute, not a keep candidate): boss search x2, sims 500 [sims=500 boss_mult=2] pooled dscore=-0.0378 dwin=-0.030 P(improve)=0.005
+843da7c	dev2.a20	100	0	0.020	27.39	0.5567	-0.0222	0.242	info	a20_bm2x: [a20 pooled500 slice] Phase B20 informational (+47% compute, not a keep candidate): boss search x2, sims 500
+843da7c	dev3.a20	100	0	0.040	26.75	0.5637	-0.0190	0.214	info	a20_bm2x: [a20 pooled500 slice] Phase B20 informational (+47% compute, not a keep candidate): boss search x2, sims 500
+dd98f15	val.a20	300	0	0.027	28.63	0.5875	-0.0624	0.000	discard	a20_bm05: [a20 pooled500] Phase B20b: boss search x0.5 (less compute) [boss_mult=0.5] pooled dscore=-0.0560 dwin=-0.032 P(improve)=0.000
+dd98f15	dev2.a20	100	0	0.010	25.36	0.5071	-0.0718	0.000	info	a20_bm05: [a20 pooled500 slice] Phase B20b: boss search x0.5 (less compute)
+dd98f15	dev3.a20	100	0	0.030	27.15	0.5618	-0.0210	0.267	info	a20_bm05: [a20 pooled500 slice] Phase B20b: boss search x0.5 (less compute)
+2675042	val.a20	300	0	0.040	28.48	0.5976	-0.0522	0.002	discard	a20_s400: [a20 pooled500] Phase B20b: 400 simulations everywhere (less compute) [sims=400] pooled dscore=-0.0369 dwin=-0.018 P(improve)=0.006
+2675042	dev2.a20	100	0	0.040	27.36	0.5757	-0.0031	0.469	info	a20_s400: [a20 pooled500 slice] Phase B20b: 400 simulations everywhere (less compute)
+2675042	dev3.a20	100	0	0.030	26.96	0.5580	-0.0247	0.167	info	a20_s400: [a20 pooled500 slice] Phase B20b: 400 simulations everywhere (less compute)
+0cd9a65	fs1201000n1000.a20	1000	0	0.039	28.31	0.5933	-0.0131	0.097	discard	a20_bm15f: [a20] re-test under the fresh-slice rule: compute-neutral boss search x1.5 (sims 405) [fresh slice; sims=405 boss_mult=1.5]
+c4cc1c7	fs1202000n1000.a20	1000	0	0.062	28.31	0.6158	+0.0232	0.972	keep	a20_r121s32f: [a20] re-test under the fresh-slice rule: vr_121 with scale-matched weights [fresh slice; vr_model=121 vr_bonus=32 vr_relic_w=32]
+b89d04b	fs1208500n500.a0	500	0	0.858	48.63	1.8115	+0.0294	0.908	keep	x1add: Phase X1: A0 best with the exploration-trained run value vr_151 (inherited weights) [fresh slice; vr_model=151]
+12a06d2	fs1209000n500.a0	500	0	0.826	48.25	1.7721	-0.0080	0.395	discard	x1pure: Phase X1: card picks and boss relics by vr_151 alone (no KB) [fresh slice; vr_model=151 vr_pure=1 vr_pure_relic=1]
+4159835	fs1209500n500.a0	500	0	0.796	48.22	1.7415	-0.0815	0.001	discard	x1pure61: Phase X1 control: card picks and boss relics by vr_61 alone (no KB) [fresh slice; vr_model=61 vr_pure=1 vr_pure_relic=1]
+bcf029c	fs1210000n1000.a0	1000	0	0.796	48.02	1.7377			report	fid_x1add: [a0] simulator switch: honest level of the a0 best x1add on the fidelity fork (report only) [sim=fidelity]
+a7ea6d0	fs1211000n1000.a10	1000	0	0.361	38.62	1.1182			report	fid_a10_r81: [a10] simulator switch: honest level of the a10 best a10_r81 on the fidelity fork (report only) [sim=fidelity]
+ae348cc	fs1212000n1000.a20	1000	0	0.030	27.09	0.5607			report	fid_a20_r121s32f: [a20] simulator switch: honest level of the a20 best a20_r121s32f on the fidelity fork (report only) [sim=fidelity]
+c3a1592	fs1213000n1000.a0	1000	0	0.118	47.95	1.0130			report	fid_heart_relic20: [heart] simulator switch: honest level of the heart best heart_relic20 on the fidelity fork (report only) [sim=fidelity]
+50b9f22	fs1214000n500.a0	500	0	0.810	48.42	1.7593	-0.0005	0.491	discard	f1a0: Phase F1: A0 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
+8e8ae73	fs1214500n500.a10	500	0	0.358	39.47	1.1320	+0.0175	0.730	discard	f1a10: [a10] Phase F1: A10 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
+0f4aeac	fs1215000n1000.a20	1000	0	0.036	27.40	0.5726	+0.0060	0.738	discard	f1a20: [a20] Phase F1: A20 best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
+2f1198e	fs1216000n1000.a0	1000	0	0.133	48.96	1.0447	+0.0138	0.858	discard	f1heart: [heart] Phase F1: Heart best with vr_171 (V retrained on fork data) [fresh slice; vr_model=171] [sim=fidelity]
+61ca734	fs1217000n500.a10	500	0	0.352	39.10	1.1186	+0.0052	0.574	discard	f1a10: [a10] fresh-slice extension of a near miss (fs1214500n500 + fs1217000n500 pooled P=0.711, second-slice dscore=+0.0052) [sim=fidelity]
+9e437ab	fs1217500n1000.a20	1000	0	0.033	27.69	0.5754	+0.0012	0.555	discard	f1a20: [a20] fresh-slice extension of a near miss (fs1215000n1000 + fs1217500n1000 pooled P=0.707, second-slice dscore=+0.0012) [sim=fidelity]
+40e3fa3	fs1218500n1000.a0	1000	0	0.153	47.53	1.0412	+0.0354	0.992	keep	f1heart: [heart] fresh-slice extension of a near miss (fs1216000n1000 + fs1218500n1000 pooled P=0.997, second-slice dscore=+0.0354) [sim=fidelity]
+81028d3	fs1219500n500.a0	500	0	0.834	48.43	1.7836	+0.0537	0.982	keep	f2a0w: Phase F2: A0 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=60 vr_relic_w=30] [sim=fidelity]
+d9ae002	fs1220000n500.a10	500	0	0.418	39.87	1.1997	+0.0733	0.996	keep	f2a10w: [a10] Phase F2: A10 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=30 vr_relic_w=30] [sim=fidelity]
+9489636	fs1220500n1000.a20	1000	0	0.034	28.11	0.5844	+0.0054	0.728	discard	f2a20w: [a20] Phase F2: A20 best with vr_171 at 1.5x weights [fresh slice; vr_model=171 vr_bonus=48 vr_relic_w=48] [sim=fidelity]
+88514ca	fs1221500n1000.a0	1000	0	0.137	48.54	1.0402	+0.0114	0.880	discard	f2heartw: [heart] Phase F2: Heart best (vr_171) at 1.5x weights [fresh slice; vr_bonus=30 vr_relic_w=30] [sim=fidelity]
+84e68f9	fs1222500n500.a0	500	0	0.824	48.32	1.7714	-0.0277	0.140	discard	f2a0p: Phase F2: A0 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_model=171 vr_pure=1 vr_pure_relic=1] [sim=fidelity]
+ecea57a	fs1223000n1000.a0	1000	0	0.138	48.94	1.0467	+0.0323	0.981	keep	f2heartp: [heart] Phase F2: Heart card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
+8739cfe	fs1224000n1000.a20	1000	0	0.031	28.09	0.5811	+0.0145	0.948	keep	f2a20w: [a20] fresh-slice extension of a near miss (fs1220500n1000 + fs1224000n1000 pooled P=0.950, second-slice dscore=+0.0145) [sim=fidelity]
+3e3a603	fs1225000n500.a0	500	0	0.844	48.44	1.7937	+0.0189	0.840	discard	f3a0w: Phase F3: A0 best at 2.25x V weights [fresh slice; vr_bonus=90 vr_relic_w=45] [sim=fidelity]
+ed027eb	fs1225500n500.a10	500	0	0.412	39.00	1.1768	+0.0227	0.855	discard	f3a10w: [a10] Phase F3: A10 best at 2.25x V weights [fresh slice; vr_bonus=45 vr_relic_w=45] [sim=fidelity]
+d7ada23	fs1226000n1000.a20	1000	0	0.037	28.29	0.5911	+0.0040	0.746	discard	f3a20w: [a20] Phase F3: A20 best at 2.25x V weights [fresh slice; vr_bonus=72 vr_relic_w=72] [sim=fidelity]
+112e257	fs1227000n500.a10	500	0	0.440	39.66	1.2176	+0.0702	0.987	keep	f3a10p: [a10] Phase F3: A10 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
+098b372	fs1227500n1000.a20	1000	0	0.039	28.48	0.5967	+0.0096	0.801	discard	f3a20p: [a20] Phase F3: A20 card picks and boss relics by vr_171 alone (no KB) [fresh slice; vr_pure=1 vr_pure_relic=1] [sim=fidelity]
+e01753f	fs1229000n1000.a20	1000	0	0.044	28.64	0.6047	+0.0210	0.999	keep-candidate	f3a20w: [a20] fresh-slice extension of a near miss (fs1226000n1000 + fs1229000n1000 pooled P=0.995, second-slice dscore=+0.0210) [sim=fidelity]
+2678257	fs1230000n1000.a20	1000	0	0.035	28.53	0.5938	-0.0033	0.384	discard	f3a20p: [a20] fresh-slice extension of a near miss (fs1227500n1000 + fs1230000n1000 pooled P=0.668, second-slice dscore=-0.0033) [sim=fidelity]
+26b33e3	fs1228500n500.a0	500	0	0.812	48.17	1.7565	+0.0095	0.689	discard	f3a0w: [a0] fresh-slice extension of a near miss (fs1225000n500 + fs1228500n500 pooled P=0.862, second-slice dscore=+0.0095) [sim=fidelity]
+b3ed00c	fs1231000n1000.a0	1000	0	0.831	48.59	1.7837			report	fidb_f2a0w: [a0] simulator switch: honest level of the a0 best f2a0w on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
+4bdfe5d	fs1232000n1000.a10	1000	0	0.434	39.45	1.2075			report	fidb_f3a10p: [a10] simulator switch: honest level of the a10 best f3a10p on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
+c65a20f	fs1233000n1000.a20	1000	0	0.040	29.09	0.6096			report	fidb_f3a20w: [a20] simulator switch: honest level of the a20 best f3a20w on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
+bf1245a	fs1234000n1000.a0	1000	0	0.152	49.29	1.0674			report	fidb_f2heartp: [heart] simulator switch: honest level of the heart best f2heartp on the fidelity fork 1b05bdc (report only) [sim=fidelity-1b05bdc]
+47a8869	fs1235000n500.a0	500	0	0.828	48.34	1.7758	+0.0115	0.684	discard	f4a0: Phase F4: A0 best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
+4de7a5c	fs1235500n500.a10	500	0	0.430	39.24	1.1994	-0.0275	0.192	discard	f4a10: [a10] Phase F4: A10 best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
+3849d9d	fs1236000n1000.a20	1000	0	0.032	28.14	0.5831	+0.0035	0.646	discard	f4a20: [a20] Phase F4: A20 best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
+1bdc2b7	fs1237000n1000.a0	1000	0	0.169	49.27	1.0841	+0.0076	0.678	discard	f4heart: [heart] Phase F4: Heart best with vr_191 (V iteration 2) [fresh slice; vr_model=191] [sim=fidelity-1b05bdc]
+aea094f	fs1238000n500.a0	500	0	0.840	48.86	1.7981	-0.0140	0.265	discard	f5a0: Phase F5: A0 best + V on shop cards/relics, upgrades, rest, removal [fresh slice; vr_shop=1 vr_shop_relic=1 vr_upg_w=60 vr_rest=1 vr_remove=1] [sim=fidelity-1b05bdc]
+8b7d057	fs1238500n500.a10	500	0	0.454	40.16	1.2414	+0.0522	0.946	keep	f5a10: [a10] Phase F5: A10 best + V on shop cards/relics, upgrades, rest, removal [fresh slice; vr_shop=1 vr_shop_relic=1 vr_upg_w=30 vr_rest=1 vr_remove=1] [sim=fidelity-1b05bdc]
+df498d6	fs1239000n1000.a20	1000	0	0.040	29.05	0.6089	+0.0160	0.928	keep	f5a20: [a20] Phase F5: A20 best + V on shop cards/relics, upgrades, rest, removal [fresh slice; vr_shop=1 vr_shop_relic=1 vr_upg_w=72 vr_rest=1 vr_remove=1] [sim=fidelity-1b05bdc]
+e1e731c	fs1240000n1000.a0	999	1	0.152	49.00	1.0598	-0.0160	0.134	discard	f5heart: [heart] Phase F5: Heart best + V on shop cards/relics, upgrades, rest, removal [fresh slice; vr_shop=1 vr_shop_relic=1 vr_upg_w=20 vr_rest=1 vr_remove=1] [sim=fidelity-1b05bdc]
+377fe77	fs1241000n500.a10	500	0	0.450	39.47	1.2240	-0.0244	0.105	discard	f6a10_noshop: [a10] Phase F6: A10 best without one V hook (vr_shop=0) [fresh slice; vr_shop=0] [sim=fidelity-1b05bdc]
+9e184dc	fs1241500n500.a10	500	0	0.452	40.36	1.2434	-0.0178	0.149	discard	f6a10_nosrel: [a10] Phase F6: A10 best without one V hook (vr_shop_relic=0) [fresh slice; vr_shop_relic=0] [sim=fidelity-1b05bdc]
+2b69e18	fs1242000n500.a10	500	0	0.442	39.36	1.2138	-0.0453	0.015	discard	f6a10_noupg: [a10] Phase F6: A10 best without one V hook (vr_upg_w=0) [fresh slice; vr_upg_w=0] [sim=fidelity-1b05bdc]
+207653d	fs1242500n500.a10	500	0	0.478	40.49	1.2719	+0.0778	0.999	keep	f6a10_norest: [a10] Phase F6: A10 best without one V hook (vr_rest=0) [fresh slice; vr_rest=0] [sim=fidelity-1b05bdc]
+fbd6d4b	fs1243000n500.a10	500	0	0.464	40.41	1.2564	+0.0006	0.504	discard	f6a10_norm: [a10] Phase F6: A10 best without one V hook (vr_remove=0) [fresh slice; vr_remove=0] [sim=fidelity-1b05bdc]
+8a78611	fs1243500n1000.a20	1000	0	0.031	28.37	0.5866	-0.0072	0.097	discard	f6a20_noshop: [a20] Phase F6: A20 best without one V hook (vr_shop=0) [fresh slice; vr_shop=0] [sim=fidelity-1b05bdc]
+5565bd4	fs1244500n1000.a20	1000	0	0.041	28.54	0.5997	-0.0091	0.033	discard	f6a20_nosrel: [a20] Phase F6: A20 best without one V hook (vr_shop_relic=0) [fresh slice; vr_shop_relic=0] [sim=fidelity-1b05bdc]
+50bd609	fs1245500n1000.a20	1000	0	0.043	28.23	0.5957	-0.0125	0.069	discard	f6a20_noupg: [a20] Phase F6: A20 best without one V hook (vr_upg_w=0) [fresh slice; vr_upg_w=0] [sim=fidelity-1b05bdc]
+e1a6a16	fs1246500n1000.a20	1000	0	0.048	28.86	0.6128	+0.0083	0.801	discard	f6a20_norest: [a20] Phase F6: A20 best without one V hook (vr_rest=0) [fresh slice; vr_rest=0] [sim=fidelity-1b05bdc]
+6b23786	fs1247500n1000.a20	1000	0	0.051	28.89	0.6165	-0.0085	0.207	discard	f6a20_norm: [a20] Phase F6: A20 best without one V hook (vr_remove=0) [fresh slice; vr_remove=0] [sim=fidelity-1b05bdc]
+af947c1	fs1248500n1000.a20	1000	0	0.056	28.55	0.6147	+0.0100	0.835	keep-candidate	f6a20_norest: [a20] fresh-slice extension of a near miss (fs1246500n1000 + fs1248500n1000 pooled P=0.905, second-slice dscore=+0.0100) [sim=fidelity-1b05bdc]
+d95ee5c	fs1249500n500.a0	500	0	0.838	48.29	1.7849	+0.0254	0.968	keep	f6a0_shop: Phase F6: A0 best plus one V hook (vr_shop=1) [fresh slice; vr_shop=1] [sim=fidelity-1b05bdc]
+f3d19ca	fs1250000n500.a0	500	0	0.848	48.49	1.7989	+0.0009	0.538	discard	f6a0_srel: Phase F6: A0 best plus one V hook (vr_shop_relic=1) [fresh slice; vr_shop_relic=1] [sim=fidelity-1b05bdc]
+d6d5698	fs1250500n500.a0	500	0	0.854	48.94	1.8136	+0.0268	0.949	keep	f6a0_upg: Phase F6: A0 best plus one V hook (vr_upg_w=60) [fresh slice; vr_upg_w=60] [sim=fidelity-1b05bdc]
+d591e27	fs1251000n500.a0	500	0	0.854	48.56	1.8061	-0.0213	0.118	discard	f6a0_rest: Phase F6: A0 best plus one V hook (vr_rest=1) [fresh slice; vr_rest=1] [sim=fidelity-1b05bdc]
+f766576	fs1251500n500.a0	500	0	0.834	48.73	1.7894	-0.0385	0.027	discard	f6a0_rm: Phase F6: A0 best plus one V hook (vr_remove=1) [fresh slice; vr_remove=1] [sim=fidelity-1b05bdc]
+b3ac7bc	fs1252000n1000.a0	1000	0	0.170	49.44	1.0854	+0.0189	0.997	keep	f6heart_shop: [heart] Phase F6: Heart best plus one V hook (vr_shop=1) [fresh slice; vr_shop=1] [sim=fidelity-1b05bdc]
+d52f150	fs1253000n1000.a0	1000	0	0.160	48.80	1.0656	-0.0151	0.057	discard	f6heart_srel: [heart] Phase F6: Heart best plus one V hook (vr_shop_relic=1) [fresh slice; vr_shop_relic=1] [sim=fidelity-1b05bdc]
+475d58d	fs1254000n1000.a0	1000	0	0.165	48.74	1.0698	+0.0064	0.773	discard	f6heart_upg: [heart] Phase F6: Heart best plus one V hook (vr_upg_w=20) [fresh slice; vr_upg_w=20] [sim=fidelity-1b05bdc]
+3d36686	fs1255000n1000.a0	999	1	0.168	47.98	1.0576	+0.0001	0.492	discard	f6heart_rest: [heart] Phase F6: Heart best plus one V hook (vr_rest=1) [fresh slice; vr_rest=1] [sim=fidelity-1b05bdc]
+a34c5af	fs1256000n1000.a0	1000	0	0.173	49.37	1.0879	+0.0158	0.975	keep-candidate	f6heart_upg: [heart] fresh-slice extension of a near miss (fs1254000n1000 + fs1256000n1000 pooled P=0.971, second-slice dscore=+0.0158) [sim=fidelity-1b05bdc]
+c9a1d2a	fs1257000n1000.a0	1000	0	0.128	48.88	1.0355	-0.0315	0.010	discard	f6heart_rm: [heart] Phase F6: Heart best plus one V hook (vr_remove=1) [fresh slice; vr_remove=1] [sim=fidelity-1b05bdc]
+a9870b0	fs1258000n500.a10	500	0	0.464	40.23	1.2528	+0.0094	0.653	discard	f7a10: [a10] Phase F7: A10 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
+49ad22b	fs1258500n1000.a20	1000	0	0.048	28.14	0.5989	+0.0163	0.942	keep	f7a20: [a20] Phase F7: A20 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
+88106fd	fs1259500n500.a0	500	0	0.820	48.25	1.7661	-0.0161	0.201	discard	f7a0: Phase F7: A0 best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
+014c815	fs1260000n1000.a0	1000	0	0.161	48.99	1.0704	-0.0217	0.040	discard	f7heart: [heart] Phase F7: Heart best + unbiased V rest-vs-smith (vr_rest=2) [fresh slice; vr_rest=2] [sim=fidelity-1b05bdc]
+16dc37a	fs1261000n500.a10	500	0	0.454	39.87	1.2358	+0.0109	0.649	discard	f8a10: [a10] Phase F8: A10 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+d791aa4	fs1261500n1000.a20	1000	0	0.060	29.78	0.6428	+0.0068	0.748	discard	f8a20: [a20] Phase F8: A20 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+80e73d4	fs1262500n500.a0	500	0	0.824	47.98	1.7648	-0.0194	0.164	discard	f8a0: Phase F8: A0 best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+171ff29	fs1263000n1000.a20	1000	0	0.046	29.12	0.6162	+0.0089	0.853	discard	f8a20: [a20] fresh-slice extension of a near miss (fs1261500n1000 + fs1263000n1000 pooled P=0.871, second-slice dscore=+0.0089) [sim=fidelity-1b05bdc]
+dedaf2e	fs1264000n1000.a0	999	1	0.176	48.76	1.0818	+0.0001	0.500	discard	f8heart: [heart] Phase F8: Heart best + V-only upgrades (vr_upg_w=1000000) [fresh slice; vr_upg_w=1000000] [sim=fidelity-1b05bdc]
+150a6ab	fs1265000n1000.a0	1000	0	0.180	49.35	1.0964	+0.0093	0.728	discard	f9heart_pmlp: [heart] Phase F9: Heart best + root MLP move prior (port from A0) [fresh slice; prior_mlp=1 prior_mlp_depth=0] [sim=fidelity-1b05bdc]
+44d3fb9	fs1266000n500.a10	500	0	0.476	41.14	1.2827	+0.0053	0.648	discard	f9a10_mapd: [a10] Phase F9: A10 best + map_discount=0.85 (port from A0) [fresh slice; map_discount=0.85] [sim=fidelity-1b05bdc]
+1bb915d	fs1266500n1000.a0	999	1	0.175	49.36	1.0907	+0.0078	0.691	discard	f9heart_pmlp: [heart] fresh-slice extension of a near miss (fs1265000n1000 + fs1266500n1000 pooled P=0.794, second-slice dscore=+0.0078) [sim=fidelity-1b05bdc]
+442f986	fs1267500n1000.a20	1000	0	0.047	29.56	0.6257	-0.0068	0.115	discard	f9a20_mapd: [a20] Phase F9: A20 best + map_discount=0.85 (port from A0) [fresh slice; map_discount=0.85] [sim=fidelity-1b05bdc]
+33c734c	fs1268500n500.a0	500	0	0.844	48.47	1.7944	-0.0147	0.198	discard	f9a0_ehp: Phase F9: A0 best + elite_hp=0.75 (port from A10) [fresh slice; elite_hp=0.75] [sim=fidelity-1b05bdc]
+711fde4	fs1269000n1000.a0	1000	0	0.161	48.46	1.0605	-0.0214	0.056	discard	f9heart_pot: [heart] Phase F9: Heart best + potion_v=8 potion_v_boss=4 (port from A0) [fresh slice; potion_v=8 potion_v_boss=4] [sim=fidelity-1b05bdc]
+8c1a27e	fs1270000n500.a10	500	0	0.468	39.94	1.2512	+0.0120	0.683	discard	f9a10_pot: [a10] Phase F9: A10 best + potion_v=8 potion_v_boss=4 (port from A0) [fresh slice; potion_v=8 potion_v_boss=4] [sim=fidelity-1b05bdc]
+1195ac9	fs1270500n1000.a20	1000	0	0.045	29.55	0.6235	+0.0024	0.591	discard	f9a20_pot: [a20] Phase F9: A20 best + potion_v=8 (port from A0) [fresh slice; potion_v=8] [sim=fidelity-1b05bdc]
+e329589	fs1271500n1000.a0	1000	0	0.161	49.05	1.0735	+0.0027	0.679	discard	f9heart_mapd: [heart] Phase F9: Heart best + map_discount=0.85 (port from A0) [fresh slice; map_discount=0.85] [sim=fidelity-1b05bdc]
+9efc4b6	fs1272500n500.a10	500	0	0.484	40.27	1.2735	+0.0296	0.824	discard	f10a10: [a10] Phase F10: A10 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
+9ccacb9	fs1273000n1000.a20	1000	0	0.046	29.36	0.6207	+0.0096	0.802	discard	f10a20: [a20] Phase F10: A20 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
+b4945b1	fs1274000n500.a10	500	0	0.454	40.59	1.2499	-0.0108	0.389	discard	f10a10: [a10] fresh-slice extension of a near miss (fs1272500n500 + fs1274000n500 pooled P=0.649, second-slice dscore=-0.0108) [sim=fidelity-1b05bdc]
+904f268	fs1274500n1000.a20	1000	0	0.035	28.72	0.5975	-0.0057	0.311	discard	f10a20: [a20] fresh-slice extension of a near miss (fs1273000n1000 + fs1274500n1000 pooled P=0.596, second-slice dscore=-0.0057) [sim=fidelity-1b05bdc]
+237dc70	fs1275500n500.a0	500	0	0.812	48.08	1.7547	-0.0035	0.444	discard	f10a0: Phase F10: A0 best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
+84e81f0	fs1276000n1000.a0	999	1	0.135	48.14	1.0299	-0.0458	0.001	discard	f10heart: [heart] Phase F10: Heart best + V on event choices (vr_event=1) [fresh slice; vr_event=1] [sim=fidelity-1b05bdc]
+d3ecafd	fs1277000n1000.a0	1000	0	0.114	34.14	0.7646	-0.3263	0.000	discard	f11heart: [heart] Phase F11: Heart best + Heart-track V (vr_model=202) [fresh slice; vr_model=202] [sim=fidelity-1b05bdc]
+b9f55b7	fs1278000n2000.a10	2000	0	0.457	40.05	1.2418	+0.0472	0.999	measure	f6a10_norest: Phase F13: re-measure f6a10_norest vs pre-F5 best f3a10p [a10] [sim=fidelity-1b05bdc]
+f72e5e5	fs1280000n2000.a20	2000	0	0.045	28.69	0.6071	+0.0139	0.954	measure	f7a20: Phase F13: re-measure f7a20 vs pre-F5 best f3a20w [a20] [sim=fidelity-1b05bdc]
+559b7af	fs1282000n2000.a0	2000	0	0.852	48.88	1.8099	+0.0229	0.989	measure	f6a0_upg: Phase F13: re-measure f6a0_upg vs pre-F5 best f2a0w [a0] [sim=fidelity-1b05bdc]
+ce2ae6d	fs1284000n2000.a0	2000	0	0.164	48.98	1.0726	-0.0090	0.105	measure	f6heart_upg: Phase F13: re-measure f6heart_upg vs pre-F5 best f2heartp [heart] [sim=fidelity-1b05bdc]
+ee5172c	fs1286000n2000.a0	2000	0	0.165	48.73	1.0699	+0.0014	0.576	discard	f2heartp: [heart] fresh-slice extension of a near miss (fs1284000n2000 + fs1286000n2000 pooled P=0.849, second-slice dscore=+0.0014) [sim=fidelity-1b05bdc]
+89239d6	fs1288000n1000.a0	1000	0	0.222	46.05	1.0850	+0.0170	0.831	discard	f15heart: [heart] Phase F15: Heart best + features-v2 Heart V (vr_model=210) [fresh slice; vr_model=210] [sim=fidelity-1b05bdc]
+7955255	fs1289000n1000.a0	1000	0	0.132	46.55	1.0061	-0.0885	0.000	discard	f15heart_b: [heart] Phase F15: Heart best + features-v2 Heart V as a bonus (vr_model=210 vr_pure=0 vr_pure_relic=0) [fresh slice; vr_model=210 vr_pure=0 vr_pure_relic=0] [sim=fidelity-1b05bdc]
+f7191d1	fs1290000n1000.a0	1000	0	0.251	46.04	1.1116	+0.0458	0.992	keep-candidate	f15heart: [heart] fresh-slice extension of a near miss (fs1288000n1000 + fs1290000n1000 pooled P=0.990, second-slice dscore=+0.0458) [sim=fidelity-1b05bdc]
+702b278	fs1291000n2000.a0	1999	1	0.238	45.87	1.0961	+0.0058	0.663	measure	f15heart: Phase F13: re-measure f15heart vs pre-F5 best f6heart_upg [heart] [sim=fidelity-1b05bdc]
+a1794de	fs1293000n1000.a0	1000	0	0.290	46.79	1.1623	+0.0731	1.000	keep	f16heart: [heart] Phase F16: Heart best + expert-iteration keys-aware V (vr_model=222) [fresh slice; vr_model=222] [sim=fidelity-1b05bdc]
+0691583	fs1294000n2000.a0	2000	0	0.253	46.44	1.1204	+0.0211	0.945	measure	f16heart: Phase F13: re-measure f16heart vs pre-F5 best f15heart [heart] [sim=fidelity-1b05bdc]
+9d41495	fs1296000n1000.a0	1000	0	0.286	46.91	1.1612	+0.0150	0.801	discard	f17heart: [heart] Phase F17: Heart best + expert-iteration keys-aware V (vr_model=232) [fresh slice; vr_model=232] [sim=fidelity-1b05bdc]
+2b44f3b	fs1297000n1000.a0	1000	0	0.259	46.27	1.1255	-0.0002	0.494	discard	f17heart: [heart] fresh-slice extension of a near miss (fs1296000n1000 + fs1297000n1000 pooled P=0.713, second-slice dscore=-0.0002) [sim=fidelity-1b05bdc]
+ef8346a	fs1298000n1000.a0	1000	0	0.273	46.80	1.1456	-0.0121	0.203	discard	f18heart_vkey: [heart] Phase F18: Heart best + V-chosen ruby-key recall (vr_key=1) [fresh slice; vr_key=1] [sim=fidelity-1b05bdc]
+54c42a0	fs1299000n1000.a0	1000	0	0.287	46.16	1.1487	-0.0038	0.413	discard	f19heart_hm: [heart] Phase F19: compute-neutral Heart search reallocation (sims=445 heart_mult=3.3708) [fresh slice; sims=445 heart_mult=3.3708] [sim=fidelity-1b05bdc]
+155480b	fs1300000n1000.a20	1000	0	0.034	28.14	0.5851	-0.0186	0.041	discard	f20a20: [a20] Phase F20: A20 best + A20 expert-iteration V (vr_model=242) [fresh slice; vr_model=242] [sim=fidelity-1b05bdc]
+65b7734	fs1301000n1000.a20	1000	0	0.030	28.51	0.5885	-0.0189	0.036	discard	f21a20: [a20] Phase F21: A20 best + vr_model=242 at 1.5x V weights (scale-matched to vr_171) [fresh slice; vr_model=242 vr_bonus=108 vr_relic_w=108 vr_upg_w=108] [sim=fidelity-1b05bdc]
+35caca9	fs1302000n1000.a20	1000	0	0.048	29.48	0.6250	+0.0063	0.747	discard	f22a20_bm: [a20] Phase F22: compute-neutral A20 boss search reallocation (sims=350 boss_mult=2.8571) [fresh slice; sims=350 boss_mult=2.8571] [sim=fidelity-1b05bdc]
+c8c50ba	fs1303000n1000.a20	1000	0	0.051	28.07	0.6004	+0.0103	0.911	keep	f23a20: [a20] Phase F23: a20 best with V weights x1.5 [fresh slice; vr_bonus=108 vr_relic_w=108 vr_upg_w=108] [sim=fidelity-1b05bdc]
+91dbc52	fs1304000n500.a10	500	0	0.492	40.16	1.2795	+0.0107	0.735	discard	f23a10: [a10] Phase F23: a10 best with V weights x1.5 [fresh slice; vr_bonus=45 vr_relic_w=45 vr_upg_w=45] [sim=fidelity-1b05bdc]
+9f9189c	fs1304500n500.a0	500	0	0.816	48.36	1.7643	-0.0058	0.392	discard	f23a0: Phase F23: a0 best with V weights x1.5 [fresh slice; vr_bonus=90 vr_relic_w=45 vr_upg_w=90] [sim=fidelity-1b05bdc]
+b119d7a	fs1305000n500.a10	500	0	0.504	40.58	1.2996	+0.0291	0.956	keep	f23a10: [a10] fresh-slice extension of a near miss (fs1304000n500 + fs1305000n500 pooled P=0.942, second-slice dscore=+0.0291) [sim=fidelity-1b05bdc]
+5ad50b0	fs1305500n2000.a20	2000	0	0.051	29.23	0.6227	-0.0024	0.345	measure	f23a20: Phase F24: confirm f23a20 vs f7a20 [a20] [sim=fidelity-1b05bdc]
+1e8445e	fs1307500n2000.a10	2000	0	0.454	39.93	1.2370	-0.0023	0.389	measure	f23a10: Phase F24: confirm f23a10 vs f6a10_norest [a10] [sim=fidelity-1b05bdc]
+c840001	fs1309500n1000.a20	1000	0	0.062	29.34	0.6360	+0.0188	0.985	keep	f24a20: [a20] Phase F24: a20 best with V weights another x1.5 [fresh slice; vr_bonus=162 vr_relic_w=162 vr_upg_w=162] [sim=fidelity-1b05bdc]
+e0084e9	fs1310500n500.a10	500	0	0.478	40.63	1.2747	+0.0124	0.759	discard	f24a10: [a10] Phase F24: a10 best with V weights another x1.5 [fresh slice; vr_bonus=68 vr_relic_w=68 vr_upg_w=68] [sim=fidelity-1b05bdc]
+5696f71	fs1311000n500.a10	500	0	0.442	39.86	1.2236	-0.0099	0.258	discard	f24a10: [a10] fresh-slice extension of a near miss (fs1310500n500 + fs1311000n500 pooled P=0.543, second-slice dscore=-0.0099) [sim=fidelity-1b05bdc]
+170ad6d	fs1311500n2000.a20	2000	0	0.048	29.01	0.6154	+0.0032	0.671	measure	f24a20: Phase F24: confirm f24a20 vs f7a20 [a20] [sim=fidelity-1b05bdc]
+4431186	fs1313500n4000.a20	4000	0	0.053	29.71	0.6349	+0.0034	0.776	discard	f29a20: [a20] Phase F29: A20 best + decision-trained V vr_251 (4,000-seed play test) [vr_model=251] [sim=fidelity-1b05bdc]
+accf8a7	fs1317500n4000.a20	4000	0	0.045	29.25	0.6176	+0.0050	0.853	keep	f29a20: [a20] fresh-slice extension of a near miss (fs1313500n4000 + fs1317500n4000 pooled P=0.911, second-slice dscore=+0.0050) [sim=fidelity-1b05bdc]
+eaeec43	fs1321500n4000.a10	4000	0	0.467	40.82	1.2669	-0.0154	0.049	discard	f30a10: [a10] Phase F30: A10 best + decision-trained V vr_251 (4,000-seed play test) [vr_model=251] [sim=fidelity-1b05bdc]

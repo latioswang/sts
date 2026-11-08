@@ -35,6 +35,13 @@ public:
     FairAgent(const Params &params, std::uint64_t agentSeed);
     void playout(sts::GameContext &gc);
     RunStats stats;
+    // Phase F26 branch evaluation (offline measurement only; never called in play or evaluation): play to the k-th
+    // single-card-reward screen, then for each option (card i, or skip) write its run features (rv::DIM floats) and the mean
+    // score of M playouts by this agent from re-seeded copies (same seeds for every option); returns options written or -1
+    int branchEval(sts::GameContext &gc, int k, int M, std::FILE *out);
+    // Phase F33 (offline measurement): kind 1 = card reward (as branchEval), kind 2 = boss relic screen; M playouts per option,
+    // rows of 666 features + 8 floats [opt, n, mean, ok, floor, own, meanA (m < M/2), meanB (m >= M/2)]
+    int branchEval2(sts::GameContext &gc, int kind, int k, int M, std::FILE *out);
 
     // exposed for leak test
     SearchParams searchParamsFor(const sts::BattleContext &bc) const;
@@ -56,8 +63,14 @@ private:
     std::FILE *bfLog = nullptr;            // Phase C v3 interventional fight logger (bf_log=1 + VF_LOG_DIR)
     std::uint64_t bfDecisions = 0;
     std::vector<float> rvRows;
+    int rvDim = 666;                       // row width of rvLog: rv::DIM (v1) or rv::DIM2 (Phase F14 rv_log2)
     std::vector<float> vfRows;             // buffered feature rows of the current battle
     std::uint64_t agentSeed = 0;
+    // Phase F10 vr_event: V on event choices from re-seeded copies (see FairAgent.cpp vrEventChoice)
+    bool inHyp = false;                    // true while a hypothetical copy is rolled forward (vr_event off inside)
+    std::uint64_t evDecisions = 0;
+    int evLeakChecked = 0, evLeakMism = 0, evUsed = 0; // ev_leaktest counters (printed to stderr at the end of playout)
+    int vrEventChoice(const sts::GameContext &gc, std::uint64_t decisionSeed);
     double eliteSimV = std::numeric_limits<double>::quiet_NaN();  // elite_sim: simulated elite-node value for the current map decision
 
     double roomValue(const sts::GameContext &gc, sts::Room r) const;
@@ -67,6 +80,8 @@ private:
     void cardRewards(sts::GameContext &gc);
     void shop(sts::GameContext &gc);
     void cardSelect(sts::GameContext &gc);
+    int vrKeyRecall(const sts::GameContext &gc, int alt);   // Phase F18 vr_key
+    long keyVrRecalls = 0;                                    // Phase F18: recalls chosen under vr_key
     int eventChoice(const sts::GameContext &gc) const;
     int bossRelicChoice(const sts::GameContext &gc);
     // bf_relic_w: value of a hypothetical run state for the boss-relic choice from K simulated fights of the next act

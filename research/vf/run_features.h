@@ -14,6 +14,10 @@ constexpr int N_ENC = 66;      // boss one-hot (MonsterEncounter index)
 constexpr int N_RELIC = 192;   // RelicId one-hot (enum has ~180 entries; bound-checked)
 constexpr int N_CARD = 384;    // CardId counts (enum has ~370 entries; bound-checked)
 constexpr int DIM = F_SCALAR + N_ENC + N_RELIC + N_CARD;  // 666
+// Phase F14 features v2: 4 key features appended AFTER the 666 (the v1 layout is the prefix): ruby / emerald / sapphire
+// held, and keys mode (1 when this agent pursues the keys / act 4, i.e. param keys > 0). Rows of runs without keys mode
+// are exactly the v1 row + 4 zeros.
+constexpr int DIM2 = DIM + 4;
 
 inline void extract(const sts::GameContext &gc, float *out) {
     using namespace sts;
@@ -59,6 +63,13 @@ inline void extract(const sts::GameContext &gc, float *out) {
         const int id = static_cast<int>(c.getId());
         if (id >= 0 && id < N_CARD) f[id] += c.isUpgraded() ? 0.5f : 0.34f;  // upgraded copies weigh more
     }
+}
+
+inline void extractKeys(const sts::GameContext &gc, float keysMode, float *out4) {
+    out4[0] = gc.hasKey(sts::Key::RUBY_KEY) ? 1.f : 0.f;
+    out4[1] = gc.hasKey(sts::Key::EMERALD_KEY) ? 1.f : 0.f;
+    out4[2] = gc.hasKey(sts::Key::SAPPHIRE_KEY) ? 1.f : 0.f;
+    out4[3] = keysMode;
 }
 
 }  // namespace rv

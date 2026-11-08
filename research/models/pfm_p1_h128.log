@@ -1,0 +1,7 @@
+decisions=2931776 actions=16306899
+val baselines: uniform CE=0.2859  target entropy=0.2165
+ep  1 val_ce=0.2449 (uniform 0.2859, floor 0.2165, captured 59%) 1500s
+ep  2 val_ce=0.2439 (uniform 0.2859, floor 0.2165, captured 61%) 2960s
+ep  3 val_ce=0.2435 (uniform 0.2859, floor 0.2165, captured 61%) 4481s
+ep  4 val_ce=0.2431 (uniform 0.2859, floor 0.2165, captured 62%) 6028s
+exported research/models/pfm_p1_h128.inc

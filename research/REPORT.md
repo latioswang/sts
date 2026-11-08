@@ -203,5 +203,8 @@ wall-clock, val 300 paired vs the A0 best; informational rows, nothing promoted)
 Interim conclusion: the learned value is real (≈ +0.38 score over a heuristic leaf at equal compute) and keeps
 improving with scale in fit, but at equal wall-clock on a CPU every cell is far below random rollouts, because a
 10⁵–10⁶-parameter leaf evaluation costs more than a rollout and the search loses simulations faster than the leaf
-gains accuracy. Fixed-simulation reads (value quality with the cost removed) are pending; the remaining two cells
-are budget-floored large-net points.
+gains accuracy. Fixed-simulation reads settled it: with inference cost removed, the best-fitting net (9×10⁵ parameters, 8.1×10⁵
+decisions) at 500 simulations scores −0.57 on the first 100 val seeds — the best leaf, but still far below random
+rollouts (the agent wins 35.7% vs 77.0% on those seeds). Phase S is closed by its pre-registered rule; a faster
+evaluator would recover only the inference penalty, not the gap. Phase S2 tests training on the states the search
+actually evaluates.

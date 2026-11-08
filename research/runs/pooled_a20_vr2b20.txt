@@ -1,0 +1,2 @@
+pooled val,dev2,dev3 [act3]: n=500  a20_vr2b20 win=0.036 floor=28.60  a20_restboss1 win=0.028 floor=27.41  dscore=+0.0312 dwin=+0.008 P(improve)=0.978
+KEEP

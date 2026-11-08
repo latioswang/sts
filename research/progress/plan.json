@@ -1,0 +1,271 @@
+{
+ "_comment": "Hand-maintained inputs of the progress page (research/tools/build_progress.py). Numbers shown on the page are computed from research/results.tsv and research/models/*.meta, never typed here.",
+ "targets": [
+  {
+   "label": "A0 win rate (test 500)",
+   "track": "a0_test",
+   "target": 50,
+   "note": "month intermediate target"
+  },
+  {
+   "label": "A0 win rate (val 300)",
+   "track": "a0",
+   "target": 70,
+   "note": "milestone M5"
+  },
+  {
+   "label": "A10 win rate (val 300)",
+   "track": "a10",
+   "target": 35,
+   "note": "month intermediate target"
+  },
+  {
+   "label": "A20 win rate (val 300)",
+   "track": "a20",
+   "target": 25,
+   "note": "month intermediate target"
+  },
+  {
+   "label": "Heart beaten, A0 with keys (val 300)",
+   "track": "heart",
+   "target": 20,
+   "note": "stepping stone to A20 Heart"
+  },
+  {
+   "label": "A20 Heart beaten",
+   "track": "a20heart",
+   "target": 15,
+   "note": "north star; track not started"
+  }
+ ],
+ "milestones": [
+  {
+   "id": "M0",
+   "label": "Leak-free agent beats the cheating lightspeed reference",
+   "status": "done",
+   "when": "2026-10-31"
+  },
+  {
+   "id": "M1/M2",
+   "label": "A0 val win ≥ 25% / 30%, first test runs",
+   "status": "done",
+   "when": "2026-11-01 00:31"
+  },
+  {
+   "id": "M3",
+   "label": "A0 test ≥ 35%, start the A10 track",
+   "status": "done",
+   "when": "2026-11-01 06:24"
+  },
+  {
+   "id": "M4",
+   "label": "A0 test ≥ 50% (chests opened: 54.6% test)",
+   "status": "done",
+   "when": "2026-11-01 06:24"
+  },
+  {
+   "id": "M5",
+   "label": "A0 val ≥ 70% → test 66.6% [62.4, 70.6]",
+   "status": "done",
+   "when": "2026-11-01 15:27"
+  },
+  {
+   "id": "Keys",
+   "label": "Keys and Act 4 playable, Heart track with its own best",
+   "status": "done",
+   "when": "2026-11-01 08:41"
+  },
+  {
+   "id": "S",
+   "label": "Phase S: learned leaf value vs rollouts (closed by its gate: -0.57 at best)",
+   "status": "done",
+   "when": "2026-11-02 12:13"
+  },
+  {
+   "id": "S2",
+   "label": "Phase S2: leaf value trained on tree leaves (-0.45 -> -0.35 with 4× data; line open)",
+   "status": "running",
+   "when": ""
+  },
+  {
+   "id": "R",
+   "label": "Phase R: learned run value — closed at stage 2, no keep (ridge beats nets; data-limited)",
+   "status": "done",
+   "when": "2026-11-02 17:38"
+  },
+  {
+   "id": "Bridge",
+   "label": "Real-game bridge via Communication Mod (separate thread, user's machine)",
+   "status": "running",
+   "when": ""
+  },
+  {
+   "id": "A10",
+   "label": "A10 ≥ 35% (now below)",
+   "status": "planned",
+   "when": ""
+  },
+  {
+   "id": "A20H",
+   "label": "A20 Heart track",
+   "status": "planned",
+   "when": ""
+  },
+  {
+   "id": "Store",
+   "label": "Shared data store (private Hugging Face dataset) for parallel workers",
+   "status": "done",
+   "when": "2026-11-02 18:05"
+  },
+  {
+   "id": "R2",
+   "label": "Phase R2: learned run value at 10^5 runs — first learned-value keep (vr2b20: +4.8 pts pooled 400)",
+   "status": "done",
+   "when": "2026-11-03 05:53"
+  },
+  {
+   "id": "R3",
+   "label": "Phase R3: run value at 1.7×10^5 runs — A0 keep vr3b40 (bonus 40), pooled 400 P=0.900",
+   "status": "done",
+   "when": "2026-11-03 21:49"
+  },
+  {
+   "id": "R4",
+   "label": "Phase R4: A10 run value — fit 0.709 -> 0.544 on the A10 holdout, card picks no keep (b20 pooled 400 P=0.802; three A10 near misses)",
+   "status": "done",
+   "when": "2026-11-04 16:50"
+  },
+  {
+   "id": "R5",
+   "label": "Phase R5: run value on boss relics — KEEP on all four tracks (A0 +2.3 val / +6.0 dev; A10 38.7% val; A20 5.6% pooled; Heart marginal). M-A10 test 32.2% [28.3, 36.4]: not confirmed",
+   "status": "done",
+   "when": "2026-11-04 17:46"
+  },
+  {
+   "id": "R8",
+   "label": "Phase R8: A20 run value — fit 0.880 -> 0.338 on the A20 holdout, card picks + relics no keep (pooled 500: 3.6% vs 5.6%; scale-matched 32: still negative)",
+   "status": "done",
+   "when": "2026-11-05 00:45"
+  },
+  {
+   "id": "B20",
+   "label": "A20 boss-search reallocation: no keep (compute-neutral x1.5 / x2 and +compute x2 all lose ~2–3 pts)",
+   "status": "done",
+   "when": "2026-11-05 06:30"
+  },
+  {
+   "id": "Fresh",
+   "label": "Selection bias found (A20 best 5.6% -> 4.4% on fresh seeds); keep rule now uses a never-used seed slice per decision (exp_fresh.sh)",
+   "status": "done",
+   "when": "2026-11-05 07:50"
+  },
+  {
+   "id": "X1",
+   "label": "Phase X1: exploration data for the run value (90,000 A0 games, 20% random card/relic picks), then pure-V vs KB+V",
+   "status": "running",
+   "when": ""
+  },
+  {
+   "id": "M-A10",
+   "label": "A10 ≥ 35% confirmed on test: a10_r81 184/500 = 36.8% [32.7, 41.1]",
+   "status": "done",
+   "when": "2026-11-05 09:24"
+  }
+ ],
+ "phases": [
+  {
+   "name": "Phases 1–2",
+   "status": "done",
+   "summary": "Leak-free MCTS, frozen harness and leak test, simulator root-cause fixes"
+  },
+  {
+   "name": "Phase A–B",
+   "status": "done",
+   "summary": "Feature extractors, loggers, trainer; learned root move prior kept (+3.6 pts)"
+  },
+  {
+   "name": "Phase C",
+   "status": "done",
+   "summary": "Interventional deck-value model (+4.0 pts), kept on every track"
+  },
+  {
+   "name": "Phase D",
+   "status": "running",
+   "summary": "A10, A20 and Heart tracks; Heart 8.2% → 12.0% pooled overnight"
+  },
+  {
+   "name": "Phase S",
+   "status": "closed",
+   "summary": "Learned leaf value replacing rollouts: fit scales, play does not (-0.57 at best)"
+  },
+  {
+   "name": "Phase S2",
+   "status": "running",
+   "summary": "Leaf value trained on the states the search evaluates: -0.45; 4x data next"
+  },
+  {
+   "name": "Phase R",
+   "status": "closed",
+   "summary": "Learned V(run) ≈ E[score]: ridge best (corr 0.34); card picks no keep; replacement −0.09"
+  },
+  {
+   "name": "Bridge",
+   "status": "running",
+   "summary": "Mirror-mode verification against the real game, then live play"
+  }
+ ],
+ "next_up": [
+  "Phase F33 (running): how much decision headroom is real — split-half branch playouts (pick on one half, score on the other) for card rewards and boss relics on A10 and A20 (3,200 fresh seeds, 6 workers + local); boss-relic decision training follows only if the honest headroom there is clearly positive. (F31/F32: decision-trained values for card rewards are saturated at about +0.003 per decision.)",
+  "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
+  "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
+  "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
+  "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
+  "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
+  "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
+ ],
+ "done": [
+  "Leak-free combat search: determinised MCTS, 500 simulations, leak test on every build.",
+  "Simulator root-cause fixes (potions, Dome intents, events, hangs, Neow's Lament); results re-baselined.",
+  "Treasure chests opened (+19.7 pts, the largest single gain).",
+  "Learned root move prior (+3.6) and interventional deck-value model (+4.0); M5 test 66.6%.",
+  "Keys and Act 4; Heart track: act-4 shop potions, act-3 burning elite, act-3 ruby key, boss relics by simulated fights.",
+  "Statistical hygiene: pre-registration, replication slices, pooled 500/600 rules, bit-identity checks.",
+  "Phase S scaling grid (9 cells + control) and Phase S2 (leaf-distribution training).",
+  "Phase X1: exploration data (90,000 A0 games with random card/relic picks) -> run value vr_151; new A0 best x1add (+2.0 pts, P 0.91); V-only picks now tie KB + V (-0.4) where the old V lost 7 points.",
+  "Simulator switch (2026-11-06): loop moved to the real-game-matched fork; leak tests pass on all tracks; honest fork levels A0 79.6 / A10 36.1 / A20 3.0 / Heart 11.8% (legacy 85.1 / 37.2 / 6.35 / 12.7).",
+  "Phase F1: V retrained on 120,000 fork games (vr_171): most accurate V on every track's fork holdout; Heart best improved (pooled 2,000 games 13.1% -> 14.3% Heart wins, P 0.997); A0 tie; A10 / A20 small positive, not significant.",
+  "Phase F2: more weight for the fork V — new best on every track: A0 +3.6 pts (84.0% on a second fresh slice), A10 +5.2 pts, A20 and Heart better floor / act-4 progress (Heart via V-only card and relic picks).",
+  "Phase F3: A20 2.25x V weights (wins 3.2 -> 4.1%, 2,000 games, P 0.995) and A10 V-only card / relic picks (+5.2 pts, 44.0%) kept; A0 2.25x +1.4 pts not significant.",
+  "Simulator switch 2 (2026-11-06): fork 1b05bdc (28 more game fixes, ~40% less CPU); leak tests pass; bests on it: A0 83.1%, A10 43.4%, A20 4.0%, Heart 15.2% (all within the predicted ranges).",
+  "Phase F4: second V iteration on 1b05bdc (120,000 games from the V-driven bests): holdout RMSE 0.4379 -> 0.4280, no measurable play change on any track (4 discards).",
+  "Phase F5: V also decides shop purchases, upgrades, rest vs smith and card removal — A10 +3.6 pts (45.4%, P 0.946) and A20 +0.86 floors kept; A0 -1.4 and Heart -1.6 discarded.",
+  "Phase F6: which V hooks matter, 20 arms + 2 extensions — six keeps. Shop-card and upgrade V help on all four tracks; V at rest sites hurt on A0/A10/A20 (dropping it: A10 +5.2 pts, A20 kept on 2,000 seeds); shop relics and removal depend on the track. Bests: A0 f6a0_upg, A10 f6a10_norest, A20 f6a20_norest, Heart f6heart_upg.",
+  "Phase F7: V's rest-vs-smith without the max-over-cards bias (value the upgrade the agent would actually make) — kept on A20 (+1.1 pts, new best f7a20), neutral on A10, still harmful on A0 and Heart.",
+  "Phase F8: V alone choosing every upgrade — no keep (A20 +0.5 pts on 2,000 seeds, pooled P 0.871; A0 −1.2 pts; A10 and Heart neutral): the hand card score still adds information.",
+  "Phase F9: cross-track parameter ports re-tested on the current simulator — no keep (the parameter differences between tracks are mostly track-specific).",
+  "Phase F10: V on event choices (leak-tested copies with fresh randomness; the event leak test caught and fixed a relic-pool-order leak) — neutral on A0/A10/A20, −2.9 pts on Heart.",
+  "Phases F11/F12: a Heart-track V trained on 15,000 Heart games with Heart labels — beat the old V on the holdout but, driving card picks alone, collapsed the Heart agent (−0.33 score); more rows of the same runs did not help. Finding: V's features contain no key flags, so no V can see whether a Heart win is still possible (parked: features v2 + far more Heart runs).",
+  "Phase F13 (measurement): current bests vs pre-F5 bests on 2,000 fresh seeds — A10 +3.0 pts, A0 +1.8, A20 +0.4 (all real, smaller than the single-slice keeps claimed); Heart −0.8 (the two Heart keeps did not hold).",
+  "Phase F14: Heart revert check (no revert: the two Heart agents are within noise on 4,000 seeds); a keys-aware Heart V trained on 255,000 runs moved Heart holdout correlation only 0.354 → 0.367 and was not selected (RMSE).",
+  "Phase F15: KEEP — new Heart best f15heart: a keys-aware V (sees ruby/emerald/sapphire keys, trained on Heart-labelled runs) making the card picks kills the Heart 7.2 pts more often on 2,000 fresh seeds (23.6% vs 16.4%), at the cost of more runs dying before act 4.",
+  "Phase F16: confirmed the F15 Heart gain on 2,000 more seeds (+6.0 pts Heart kills), then one expert-iteration step of the keys-aware V — KEEP: new Heart best f16heart, Heart kills 29.0% vs 22.8% and act-4 reach up 7 pts (1,000 fresh seeds).",
+  "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds).",
+  "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis.",
+  "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions).",
+  "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route."
+ ],
+ "closed": [
+  "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
+  "Boss-fight value shapes, simulated elite gate, Neow ranking (all tracks).",
+  "Porting A0 keeps to the Heart track (none transferred).",
+  "Learning the 8 deck-model head weights against the run score (CV corr 0.288 → 0.301).",
+  "Speed micro-optimisation (1.03×; the remaining speed is architectural).",
+  "Phase P1: move prior v4 (2,000-sim targets) — +8.5 points at 50 sims but no gain at 500 sims (+0.6, P 0.67); with v4 the gap to 500 sims is 13.2 / 6.2 / 4.4 points at 50 / 100 / 200 sims (fidelity sim).",
+  "Heart F17–F19: third expert-iteration V (+0.9 pts pooled, P 0.71), V-chosen ruby key (−2.1 pts), compute-neutral 3× search at the Heart (+0.5 pts, P 0.41); keys cost only 1.6 pts of act-3 boss kills.",
+  "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims.",
+  "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions.",
+  "F30: the A20-trained decision value vr_251 on A10 — −0.015 on 4,000 seeds (decision-trained values are track-specific).",
+  "F31: A10 decision-trained run value from 19,200 A10 seeds — +0.0026 ± 0.0023 per card-reward decision on 1,510 held-out A10 decisions (1.1 SE), below the pre-registered 2 SE bar; no play test.",
+  "F32: one decision-trained run value on A10 + A20 decisions together (41,600 seeds) — ties the track-specific ones (A10 +0.0028 ± 0.0024 vs vr_171; A20 −0.0006 ± 0.0012 vs vr_251); card-reward decision training is saturated."
+ ]
+}

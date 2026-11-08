@@ -1,0 +1,2 @@
+pooled val,dev2,dev3 [heart]: n=500  heart_relic20 win=0.150 floor=48.22  heart_vr2b20 win=0.148 floor=47.56  dscore=+0.0132 dwin=+0.002 P(improve)=0.904
+KEEP

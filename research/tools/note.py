@@ -5,7 +5,9 @@ usage: note.py NAME [NAME...]   ->  `NAME` 27.0% win, floor 35.4, +0.065 vs base
 import sys, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rows = {}
-for line in open(os.path.join(ROOT, "results.tsv")):
+import glob
+files = [os.path.join(ROOT, "results.tsv")] + sorted(glob.glob(os.path.join(ROOT, "results.d", "*.tsv")))
+for line in (l for p in files for l in open(p)):
     f = line.rstrip("\n").split("\t")
     if len(f) < 11 or not f[2].isdigit():
         continue

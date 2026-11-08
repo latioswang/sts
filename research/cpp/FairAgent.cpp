@@ -9,6 +9,7 @@
 #include "policy_features.h"
 #include "rv_mlp.h"
 #include "bf_mlp.h"
+#include "vr_mlp.h"
 #include <algorithm>
 #include <cmath>
 #include <numeric>
@@ -40,9 +41,12 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
             if (pfLog) { const float hdr[2] = {-1.f, 2.f}; std::fwrite(hdr, sizeof(float), 2, pfLog); }  // format v2 marker
         }
     }
-    if (getp(P, "rv_log", 0) > 0) {
+    vr::g_keysMode = getp(P, "keys", 0) > 0 ? 1.f : 0.f;   // Phase F14: features-v2 V models read the agent's keys mode
+    if (getp(P, "rv_log", 0) > 0 || getp(P, "rv_log2", 0) > 0) {
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
-            const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";
+            // rv_log2 (Phase F14): features v2 rows (rv::DIM2 = 666 + 4 key features); rv_log: v1 rows, unchanged
+            rvDim = getp(P, "rv_log2", 0) > 0 ? rv::DIM2 : rv::DIM;
+            const std::string path = std::string(dir) + "/run_" + std::to_string(agentSeed_) + ".bin";  // v2 dirs carry a DIM670 marker file
             rvLog = std::fopen(path.c_str(), "ab");
         }
     }
@@ -534,8 +538,35 @@ float FairAgent::bfRelicValue(const GameContext &hyp, std::uint64_t seed) {
 int FairAgent::bossRelicChoice(const GameContext &gc) {
     // Runic Dome is allowed: the searcher hides intents (observation hash + move re-roll)
     // when the player holds it, so there is no hidden-info leak.
+    if (getp(P, "explore_eps", 0.0) > 0) {   // Phase X exploration (data generation only): a uniformly random boss relic
+        std::mt19937_64 er((agentSeed * 0xC2B2AE3D27D4EB4FULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 20) ^ 0xB0551ULL);
+        if (std::uniform_real_distribution<double>(0.0, 1.0)(er) < getp(P, "explore_eps", 0.0)) {
+            for (int t = 0; t < 8; ++t) {
+                const int k = std::uniform_int_distribution<int>(0, 2)(er);
+                if (gc.info.bossRelics[k] == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+                return k;
+            }
+        }
+    }
+    if (getp(P, "vr_pure_relic", 0) > 0 && vr::model(static_cast<int>(getp(P, "vr_model", 0))).trained) {
+        // Phase X vr_pure_relic: the boss relic with the highest learned run value (no KB)
+        const vr::Model &vm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        int pk = 3; float bv = -1e30f;
+        for (int i = 0; i < 3; ++i) {
+            const RelicId rr = gc.info.bossRelics[i];
+            if (rr == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
+            GameContext hyp = gc; RelicInstance ri; ri.id = rr; ri.data = 0; hyp.relics.add(ri);
+            const float v = vr::value(vm, hyp);
+            if (v > bv) { bv = v; pk = i; }
+        }
+        if (pk < 3) return pk;
+    }
     int best = 3;  // 3 = skip
     double bestV = -1e18;
+    // Phase R5: vr_relic_w x (learned run value with the relic - without it), added to the KB value on both relic paths (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrRw = vrm.trained ? getp(P, "vr_relic_w", 0.0) : 0.0;
+    const float vr0 = vrRw != 0.0 ? vr::value(vrm, gc) : 0.f;
     const double relicW = getp(P, "bf_relic_w", 0.0);
     if (relicW > 0) {
         // KB tier value + bf_relic_w x (simulated next-act fight value with the relic - without it); the KB value
@@ -548,7 +579,8 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
             GameContext hyp = gc;
             RelicInstance ri; ri.id = r; ri.data = 0;
             hyp.relics.add(ri);
-            const double v = kbBossRelicValue(r) + relicW * (bfRelicValue(hyp, seed) - vSkip);
+            const double v = kbBossRelicValue(r) + relicW * (bfRelicValue(hyp, seed) - vSkip)
+                             + (vrRw != 0.0 ? vrRw * (vr::value(vrm, hyp) - vr0) : 0.0);
             if (v > bestV) { bestV = v; best = i; }
         }
         return best;
@@ -569,8 +601,14 @@ int FairAgent::bossRelicChoice(const GameContext &gc) {
     for (int i = 0; i < 3; ++i) {
         const RelicId r = gc.info.bossRelics[i];
         if (r == RelicId::RUNIC_DOME && getp(P, "allow_dome", 1) <= 0) continue;
-        const double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
-                                                    : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        double v = getp(P, "boss_pol", 0) > 0 ? kbBossRelicValue(r)
+                                              : -static_cast<double>(search::Expert::getBossRelicOrdering(r));
+        if (vrRw != 0.0) {
+            GameContext hyp = gc;
+            RelicInstance ri; ri.id = r; ri.data = 0;
+            hyp.relics.add(ri);
+            v += vrRw * (vr::value(vrm, hyp) - vr0);
+        }
         if (v > bestV) { bestV = v; best = i; }
     }
     return best;
@@ -718,6 +756,19 @@ void FairAgent::cardRewards(GameContext &gc) {
             }
             bfLogOptions(gc, hyps, 0);
         }
+        if (getp(P, "explore_eps", 0.0) > 0) {
+            // Phase X: exploration for run-value data (data generation only, never in evaluation): with probability
+            // explore_eps the card reward is picked uniformly among the offered cards and skip; own RNG, so runs stay
+            // reproducible per seed; uses no hidden information
+            std::mt19937_64 er((agentSeed * 0x9E3779B97F4A7C15ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 20)
+                               ^ (static_cast<std::uint64_t>(rIdx) << 8) ^ 0xE4C1ULL);
+            if (std::uniform_real_distribution<double>(0.0, 1.0)(er) < getp(P, "explore_eps", 0.0)) {
+                const int n = r.cardRewards[rIdx].size();
+                const int k = std::uniform_int_distribution<int>(0, n)(er);   // k == n: skip
+                search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, k == n ? 5 : k).execute(gc);
+                continue;
+            }
+        }
         if (getp(P, "bf_pick", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) {
             // Phase C v3: take the card whose interventional value gain beats skipping by bf_margin
             const float vBase = bfValue(gc);
@@ -758,18 +809,41 @@ void FairAgent::cardRewards(GameContext &gc) {
             search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
             continue;
         }
+        // Phase F31 vr_model_card (default off): a separate run-value model for card-reward picks only (a decision-trained V
+        // there, the regular V in every other hook); 0 = use vr_model
+        const int vrCardId = getp(P, "vr_model_card", 0) > 0 ? static_cast<int>(getp(P, "vr_model_card", 0)) : static_cast<int>(getp(P, "vr_model", 0));
+        if (getp(P, "vr_pure", 0) > 0 && vr::model(vrCardId).trained) {
+            // Phase X vr_pure: card picks by the learned run value alone (no KB): the card with the largest V gain,
+            // taken iff the gain > vr_pure_margin (default 0), else skip
+            const vr::Model &vm = vr::model(vrCardId);
+            const float v0 = vr::value(vm, gc);
+            int pick = -1; float best = v0 + static_cast<float>(getp(P, "vr_pure_margin", 0.0));
+            for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
+                GameContext hyp = gc;
+                hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
+                const float v = vr::value(vm, hyp);
+                if (v > best) { best = v; pick = i; }
+            }
+            search::GameAction(search::GameAction::RewardsActionType::CARD, rIdx, pick >= 0 ? pick : 5).execute(gc);
+            continue;
+        }
         int bestI = -1;
         double bestV = -1e18;
         // bf_bonus: the KB tiers keep the long-horizon prior; the interventional model adds a
         // deck-specific adjustment, bf_bonus x (predicted fight value with the card - without it)
         const double bfw = bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained ? getp(P, "bf_bonus", 0.0) : 0.0;
         const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
+        // Phase R: vr_bonus x (learned run value with the card - without it), V ≈ E[min(floor,51)/51 + win]
+        const vr::Model &vrm = vr::model(vrCardId);
+        const double vrw = vrm.trained ? getp(P, "vr_bonus", 0.0) : 0.0;
+        const float vrBase = vrw != 0.0 ? vr::value(vrm, gc) : 0.f;
         for (int i = 0; i < r.cardRewards[rIdx].size(); ++i) {
             double v = addValue(gc, r.cardRewards[rIdx][i]);
-            if (bfw != 0.0) {
+            if (bfw != 0.0 || vrw != 0.0) {
                 GameContext hyp = gc;
                 hyp.deck.obtainRaw(r.cardRewards[rIdx][i]);
-                v += bfw * (bfValue(hyp) - vBase);
+                if (bfw != 0.0) v += bfw * (bfValue(hyp) - vBase);
+                if (vrw != 0.0) v += vrw * (vr::value(vrm, hyp) - vrBase);
             }
             if (v > bestV) { bestV = v; bestI = i; }
         }
@@ -792,6 +866,28 @@ void FairAgent::shop(GameContext &gc) {
         search::GameAction(RT::CARD_REMOVE).execute(gc);
         return;
     }
+    if (getp(P, "vr_shop_relic", 0) > 0 && getp(P, "shop_relic", 1) > 0) {
+        // Phase R9 vr_shop_relic: among affordable shop relics pick the one with the largest learned run-value gain
+        // (price paid in gold); 1 = always buy the best one (only the order changes), 2 = buy only if the gain > 0
+        const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+        if (vrm.trained) {
+            const float v0 = vr::value(vrm, gc);
+            int pick = -1; float best = -1e30f;
+            for (int i = 0; i < 3; ++i) {
+                if (s.relicPrice(i) == -1 || gc.gold < s.relicPrice(i)) continue;
+                GameContext h = gc;
+                h.gold -= s.relicPrice(i);
+                RelicInstance ri; ri.id = s.relics[i]; ri.data = 0;
+                h.relics.add(ri);
+                const float v = vr::value(vrm, h);
+                if (v > best) { best = v; pick = i; }
+            }
+            if (pick >= 0 && (getp(P, "vr_shop_relic", 0) < 2 || best > v0)) {
+                search::GameAction(RT::RELIC, pick).execute(gc);
+                return;
+            }
+        }
+    } else
     for (int i = 0; i < 3; ++i) {
         if (s.relicPrice(i) != -1 && gc.gold >= s.relicPrice(i) && getp(P, "shop_relic", 1) > 0) {
             search::GameAction(RT::RELIC, i).execute(gc);
@@ -825,6 +921,10 @@ void FairAgent::shop(GameContext &gc) {
     int bestI = -1; double bestV = -1e18;
     const double bfw = (getp(P, "bf_shop", 0) > 0 && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_bonus", 0.0) : 0.0;
     const float vBase = bfw != 0.0 ? bfValue(gc) : 0.f;
+    // Phase R5 vr_shop: vr_bonus x (learned run value after buying - now), the price paid in gold (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrSw = (getp(P, "vr_shop", 0) > 0 && vrm.trained) ? getp(P, "vr_bonus", 0.0) : 0.0;
+    const float vrS0 = vrSw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < 7; ++i) {
         if (s.cardPrice(i) == -1 || gc.gold < s.cardPrice(i)) continue;
         double v = addValue(gc, s.cards[i]);
@@ -832,6 +932,12 @@ void FairAgent::shop(GameContext &gc) {
             GameContext hyp = gc;
             hyp.deck.obtainRaw(s.cards[i]);
             v += bfw * (bfValue(hyp) - vBase);
+        }
+        if (vrSw != 0.0) {
+            GameContext hyp = gc;
+            hyp.gold -= s.cardPrice(i);
+            hyp.deck.obtainRaw(s.cards[i]);
+            v += vrSw * (vr::value(vrm, hyp) - vrS0);
         }
         if (v > bestV) { bestV = v; bestI = i; }
     }
@@ -868,6 +974,21 @@ void FairAgent::cardSelect(GameContext &gc) {
             for (int j = 0; j < k; ++j) { bool ok; GameContext h = hypFor(idx[j], ok); if (ok) hyps.push_back(h); }
             if (!hyps.empty()) bfLogOptions(gc, hyps, isUpg ? 1 : 2);
         }
+        if (type == CardSelectScreenType::REMOVE && n > 0 && getp(P, "vr_remove", 0) > 0) {
+            // Phase R6 vr_remove: remove a curse if any, else the card whose removal gives the highest run value (default off)
+            const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+            if (vrm.trained) {
+                int bestI = -1; float bestV = -1e30f;
+                for (int i = 0; i < n; ++i) {
+                    if (gc.info.toSelectCards[i].card.getType() == CardType::CURSE) { bestI = i; break; }
+                    bool ok; GameContext h = hypFor(i, ok);
+                    if (!ok) continue;
+                    const float v = vr::value(vrm, h);
+                    if (v > bestV) { bestV = v; bestI = i; }
+                }
+                if (bestI >= 0) { search::GameAction(bestI).execute(gc); return; }
+            }
+        }
         if (bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained && n > 0
             && ((isUpg && getp(P, "bf_upgrade", 0) > 0) || (isRemove && getp(P, "bf_remove", 0) > 0))) {
             int bestI = -1; float bestV = -1e30f;
@@ -884,6 +1005,10 @@ void FairAgent::cardSelect(GameContext &gc) {
     const double upgW = (gc.info.selectScreenType == CardSelectScreenType::UPGRADE
                          && bf::model(static_cast<int>(getp(P, "bf_model", 0))).trained) ? getp(P, "bf_upg_bonus", 0.0) : 0.0;
     const float upgBase = upgW != 0.0 ? bfValue(gc) : 0.f;
+    // Phase R5 vr_upg_w: + w x (learned run value with the upgrade - without it) on upgrade screens (default off)
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    const double vrUw = (gc.info.selectScreenType == CardSelectScreenType::UPGRADE && vrm.trained) ? getp(P, "vr_upg_w", 0.0) : 0.0;
+    const float vrU0 = vrUw != 0.0 ? vr::value(vrm, gc) : 0.f;
     for (int i = 0; i < gc.info.toSelectCards.size(); ++i) {
         const auto &c = gc.info.toSelectCards[i].card;
         double v;
@@ -909,6 +1034,14 @@ void FairAgent::cardSelect(GameContext &gc) {
                         v += upgW * (bfValue(hyp) - upgBase);
                     }
                 }
+                if (vrUw != 0.0) {
+                    const int di = gc.info.toSelectCards[i].deckIdx;
+                    if (di >= 0 && di < gc.deck.size()) {
+                        GameContext hyp = gc;
+                        hyp.deck.upgrade(di);
+                        v += vrUw * (vr::value(vrm, hyp) - vrU0);
+                    }
+                }
                 break;
             default:
                 v = cardValue(c);
@@ -917,6 +1050,90 @@ void FairAgent::cardSelect(GameContext &gc) {
         if (v > bestV) { bestV = v; bestI = i; }
     }
     search::GameAction(bestI).execute(gc);
+}
+
+// ---------------- Phase F10: V on event choices ----------------
+// Re-seed every RNG stream of a game copy and reshuffle its relic pools: the copy's future is then a draw from the
+// player's belief, never the real pre-generated one (the real streams and pool orders are not read).
+static void reseedAllRngs(GameContext &g, std::mt19937_64 &r) {
+    g.aiRng = Random(r()); g.cardRandomRng = Random(r()); g.cardRng = Random(r()); g.eventRng = Random(r());
+    g.mathUtilRng = Random(r()); g.merchantRng = Random(r()); g.miscRng = Random(r()); g.monsterHpRng = Random(r());
+    g.monsterRng = Random(r()); g.neowRng = Random(r()); g.potionRng = Random(r()); g.relicRng = Random(r());
+    g.shuffleRng = Random(r()); g.treasureRng = Random(r());
+    // the relic pools are shuffled once at game start: their ORDER is hidden (the player knows only which relics are
+    // left), so a copy must not read it -> sort every pool into a canonical order, then shuffle (shuffling the real order
+    // directly would still carry it into the copy)
+    std::sort(g.commonRelicPool.begin(), g.commonRelicPool.end()); std::shuffle(g.commonRelicPool.begin(), g.commonRelicPool.end(), r);
+    std::sort(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end()); std::shuffle(g.uncommonRelicPool.begin(), g.uncommonRelicPool.end(), r);
+    std::sort(g.rareRelicPool.begin(), g.rareRelicPool.end()); std::shuffle(g.rareRelicPool.begin(), g.rareRelicPool.end(), r);
+    std::sort(g.shopRelicPool.begin(), g.shopRelicPool.end()); std::shuffle(g.shopRelicPool.begin(), g.shopRelicPool.end(), r);
+    std::sort(g.bossRelicPool.begin(), g.bossRelicPool.end()); std::shuffle(g.bossRelicPool.begin(), g.bossRelicPool.end(), r);
+}
+
+// For each valid option: K copies (the same K seed sets for every option), re-seeded, option executed, rolled forward with
+// this agent's own out-of-combat policy through EVENT / CARD_SELECT screens, then V. Returns the index into
+// getAllActionsInState of the best mean V, or -1 to fall back (a copy reached BATTLE, the step cap, or the run ended).
+// Phase F18 vr_key: 1 = RECALL (ruby key) has V >= V of the alternative rest-site action `alt` (0 rest, 1 smith with this
+// agent's own upgrade choice), 0 = take the alternative, -1 = no trained model. Each option runs on a copy whose real RNG
+// streams are re-seeded from the agent seed and floor (never the game RNG); logging and agent state are restored.
+int FairAgent::vrKeyRecall(const GameContext &gc, int alt) {
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    if (!vrm.trained) return -1;
+    if (alt < 0) return 1;
+    const bool savedHyp = inHyp; std::FILE *savedBf = bfLog; std::FILE *savedRv = rvLog;
+    const RunStats savedStats = stats; const std::mt19937_64 savedRng = rng; const std::uint64_t savedBfD = bfDecisions;
+    const double savedElite = eliteSimV;
+    inHyp = true; bfLog = nullptr; rvLog = nullptr;
+    const std::uint64_t ds = (agentSeed * 0xA24BAED4963EE407ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 40) ^ 0x4B4559ULL;
+    const int acts[2] = {2, alt};
+    double v[2] = {0, 0}; bool ok = true;
+    for (int j = 0; j < 2 && ok; ++j) {
+        std::mt19937_64 sr(ds * 0x9E3779B97F4A7C15ULL + 0xD1B54A32D192ED03ULL);
+        GameContext h = gc;
+        reseedAllRngs(h, sr);
+        search::GameAction(acts[j]).execute(h);
+        if (h.screenState == ScreenState::CARD_SELECT && h.info.selectScreenType == CardSelectScreenType::UPGRADE) cardSelect(h);
+        if (h.outcome != GameOutcome::UNDECIDED) { ok = false; break; }
+        v[j] = vr::value(vrm, h);
+    }
+    inHyp = savedHyp; bfLog = savedBf; rvLog = savedRv; stats = savedStats; rng = savedRng; bfDecisions = savedBfD;
+    eliteSimV = savedElite;
+    return ok ? (v[0] >= v[1] ? 1 : 0) : -1;
+}
+
+int FairAgent::vrEventChoice(const GameContext &gc, std::uint64_t decisionSeed) {
+    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+    if (!vrm.trained) return -1;
+    const auto actions = search::GameAction::getAllActionsInState(gc);
+    if (actions.size() < 2) return -1;
+    const int K = std::max(1, static_cast<int>(getp(P, "vr_event_k", 4)));
+    // save everything a hypothetical step could touch
+    const bool savedHyp = inHyp; std::FILE *savedBf = bfLog; std::FILE *savedRv = rvLog;
+    const RunStats savedStats = stats; const std::mt19937_64 savedRng = rng; const std::uint64_t savedBfD = bfDecisions;
+    const double savedElite = eliteSimV;
+    inHyp = true; bfLog = nullptr; rvLog = nullptr;
+    int best = -1; double bestV = -1e300; bool ok = true;
+    for (size_t a = 0; a < actions.size() && ok; ++a) {
+        double sum = 0;
+        for (int k = 0; k < K && ok; ++k) {
+            std::mt19937_64 sr(decisionSeed * 0x9E3779B97F4A7C15ULL + 0xD1B54A32D192ED03ULL * (k + 1));
+            GameContext h = gc;
+            reseedAllRngs(h, sr);
+            actions[a].execute(h);
+            int steps = 0;
+            while (h.outcome == GameOutcome::UNDECIDED && steps < 20
+                   && (h.screenState == ScreenState::EVENT_SCREEN || h.screenState == ScreenState::CARD_SELECT)) {
+                stepOutOfCombat(h); ++steps;
+            }
+            if (h.outcome != GameOutcome::UNDECIDED || h.screenState == ScreenState::BATTLE
+                || h.screenState == ScreenState::EVENT_SCREEN || h.screenState == ScreenState::CARD_SELECT) { ok = false; break; }
+            sum += vr::value(vrm, h);
+        }
+        if (ok && sum / K > bestV) { bestV = sum / K; best = static_cast<int>(a); }
+    }
+    inHyp = savedHyp; bfLog = savedBf; rvLog = savedRv; stats = savedStats; rng = savedRng; bfDecisions = savedBfD;
+    eliteSimV = savedElite;
+    return ok ? best : -1;
 }
 
 void FairAgent::stepOutOfCombat(GameContext &gc) {
@@ -938,8 +1155,9 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             case ScreenState::MAP_SCREEN: case ScreenState::REWARDS: case ScreenState::SHOP_ROOM:
             case ScreenState::REST_ROOM: case ScreenState::EVENT_SCREEN: case ScreenState::BOSS_RELIC_REWARDS: {
                 const size_t off = rvRows.size();
-                rvRows.resize(off + rv::DIM);
+                rvRows.resize(off + rvDim);
                 rv::extract(gc, rvRows.data() + off);
+                if (rvDim == rv::DIM2) rv::extractKeys(gc, vr::g_keysMode, rvRows.data() + off + rv::DIM);
                 break;
             }
             default: break;
@@ -966,6 +1184,23 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
             }
             break;
         case ScreenState::EVENT_SCREEN:
+            if (getp(P, "vr_event", 0) > 0 && !inHyp && gc.curEvent != Event::NEOW
+                && gc.curEvent != Event::MATCH_AND_KEEP && gc.curEvent != Event::DEAD_ADVENTURER) {
+                // Phase F10 vr_event (default off): V on event options; the decision seed comes from the agent seed, the
+                // floor and a counter (never the game RNG)
+                const std::uint64_t ds = (agentSeed * 0xA24BAED4963EE407ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 40) ^ evDecisions++;
+                const int ai = vrEventChoice(gc, ds);
+                if (getp(P, "ev_leaktest", 0) > 0) {
+                    // the choice must not depend on the real RNG streams: recompute on a duplicate whose real streams are
+                    // re-seeded arbitrarily
+                    GameContext dup = gc;
+                    std::mt19937_64 pr(ds ^ 0x5555AAAA5555AAAAULL);
+                    reseedAllRngs(dup, pr);
+                    const int bi = vrEventChoice(dup, ds);
+                    ++evLeakChecked; if (ai != bi) ++evLeakMism;
+                }
+                if (ai >= 0) { ++evUsed; search::GameAction::getAllActionsInState(gc)[ai].execute(gc); return; }
+            }
             if (gc.curEvent == Event::NEOW && getp(P, "neow_pol", 0) > 0) {
                 search::GameAction(neowChoice(gc)).execute(gc);
                 return;
@@ -983,13 +1218,58 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
                 // only above key_rest_hp_preboss (default never)
                 const int lastKeyAct = getp(P, "key_act3", 0) > 0 ? 3 : 2;
                 const double keyTh = preBoss ? getp(P, "key_rest_hp_preboss", 2.0) : getp(P, "key_rest_hp", 0.65);
-                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && hpf >= keyTh && gc.act <= lastKeyAct) {
-                    search::GameAction(2).execute(gc);  // RECALL: take the ruby key
-                    return;
+                if (getp(P, "keys", 0) > 0 && !gc.hasKey(Key::RUBY_KEY) && gc.act <= lastKeyAct) {
+                    if (getp(P, "vr_key", 0) > 0) {
+                        // Phase F18 vr_key (default off): recall-or-not by the learned run value: V after RECALL vs V after
+                        // the rest/smith this rule would otherwise take (no HP threshold); -1 (no model) -> threshold rule
+                        const double th0 = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
+                        const bool heal0 = !gc.relics.has(RelicId::COFFEE_DRIPPER);
+                        const bool upg0 = !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0;
+                        const int alt = (heal0 && (hpf < th0 || !upg0)) ? 0 : (upg0 ? 1 : -1);
+                        const int r = vrKeyRecall(gc, alt);
+                        if (r == 1 || (r < 0 && hpf >= keyTh)) { ++keyVrRecalls; search::GameAction(2).execute(gc); return; }
+                    } else if (hpf >= keyTh) {
+                        search::GameAction(2).execute(gc);  // RECALL: take the ruby key
+                        return;
+                    }
                 }
                 const double th = preBoss ? getp(P, "rest_boss_frac", 0.7) : getp(P, "rest_heal_frac", 0.5);
                 const bool canHeal = !gc.relics.has(RelicId::COFFEE_DRIPPER);
                 const bool canUpg = !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0;
+                if (getp(P, "vr_rest", 0) > 0 && canHeal && canUpg) {
+                    // Phase R6 vr_rest: rest vs smith by the learned run value: heal (30% max HP, +15 Regal Pillow) vs
+                    // the best single upgrade by V (default off)
+                    const vr::Model &vrm = vr::model(static_cast<int>(getp(P, "vr_model", 0)));
+                    if (vrm.trained) {
+                        GameContext h = gc;
+                        h.curHp = std::min(gc.maxHp, gc.curHp + gc.fractionMaxHp(0.30f) + (gc.relics.has(RelicId::REGAL_PILLOW) ? 15 : 0));
+                        const float vHeal = vr::value(vrm, h);
+                        float vUpg = -1e30f;
+                        bool done = false;
+                        if (getp(P, "vr_rest", 0) >= 2) {
+                            // Phase F7 vr_rest=2: value the upgrade the smith screen would actually make (this agent's own
+                            // upgrade choice), not the max of V over every upgradeable card: the max over many noisy
+                            // estimates is biased upward against the single heal estimate (default off; logging off
+                            // inside the hypothetical so no spurious data rows)
+                            GameContext s = gc;
+                            search::GameAction(1).execute(s);
+                            if (s.screenState == ScreenState::CARD_SELECT && s.info.selectScreenType == CardSelectScreenType::UPGRADE) {
+                                std::FILE *savedLog = bfLog; bfLog = nullptr;
+                                cardSelect(s);
+                                bfLog = savedLog;
+                                vUpg = vr::value(vrm, s);
+                                done = true;
+                            }
+                        }
+                        for (int i = 0; !done && i < gc.deck.size(); ++i) {
+                            if (!gc.deck.cards[i].canUpgrade()) continue;
+                            GameContext u = gc; u.deck.upgrade(i);
+                            vUpg = std::max(vUpg, vr::value(vrm, u));
+                        }
+                        search::GameAction(vHeal >= vUpg ? 0 : 1).execute(gc);
+                        return;
+                    }
+                }
                 if (canHeal && (hpf < th || !canUpg)) { search::GameAction(0).execute(gc); return; }
                 if (canUpg) { search::GameAction(1).execute(gc); return; }
             }
@@ -1024,6 +1304,116 @@ void FairAgent::stepOutOfCombat(GameContext &gc) {
     legacy.stepOutOfCombatPolicy(gc);
 }
 
+int FairAgent::branchEval(GameContext &gc, int k, int M, std::FILE *out) {
+    int seen = 0, guard = 0;
+    while (gc.outcome == GameOutcome::UNDECIDED) {
+        if (++guard > 20000) return -1;
+        if (gc.screenState == ScreenState::BATTLE) { playBattle(gc); continue; }
+        if (gc.screenState == ScreenState::REWARDS) {
+            const auto &r = gc.info.rewardsContainer;
+            if (r.goldRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && r.cardRewardCount == 1
+                && !r.emeraldKey && !r.sapphireKey && seen++ == k) break;
+        }
+        stepOutOfCombat(gc);
+    }
+    if (gc.outcome != GameOutcome::UNDECIDED) return -1;
+    const auto &r = gc.info.rewardsContainer;
+    const int n = r.cardRewards[0].size();
+    int own = n;  // this agent's own choice at the screen (skip unless a card was added)
+    {
+        GameContext t = gc; FairAgent c = *this;
+        c.cardRewards(t);
+        if (t.deck.size() > gc.deck.size()) {
+            const CardId id = t.deck.cards[t.deck.size() - 1].getId();
+            for (int i = 0; i < n; ++i) if (r.cardRewards[0][i].getId() == id) { own = i; break; }
+        }
+    }
+    for (int o = 0; o <= n; ++o) {
+        GameContext s = gc;
+        search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
+        float x[rv::DIM];
+        rv::extract(s, x);
+        double sum = 0; int ok = 0;
+        for (int m = 0; m < M; ++m) {
+            GameContext h = s; FairAgent b = *this;
+            // GameContext holds the map in a shared_ptr and an act transition overwrites it in place: give each playout
+            // its own map, or one playout's next act corrupts the decision state and every other copy
+            h.map = std::make_shared<Map>(*s.map);
+            std::mt19937_64 rr(agentSeed * 0xD6E8FEB86659FD93ULL + 0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(m + 1));
+            reseedAllRngs(h, rr);
+            b.playout(h);
+            if (b.stats.aborted || h.outcome == GameOutcome::UNDECIDED) continue;
+            sum += std::min(h.floorNum, 51) / 51.0 + (h.outcome == GameOutcome::PLAYER_VICTORY ? 1.0 : 0.0);
+            ++ok;
+        }
+        const float tail[6] = {static_cast<float>(o), static_cast<float>(n), static_cast<float>(ok ? sum / ok : -1.0),
+                               static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f};
+        std::fwrite(x, sizeof(float), rv::DIM, out);
+        std::fwrite(tail, sizeof(float), 6, out);
+    }
+    std::fflush(out);
+    return n + 1;
+}
+
+int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *out) {
+    // Phase F33: split-half branch evaluation. Same playout seeds as branchEval for m < 8, so with M = 16 the first half
+    // reproduces the F26/F28/F31 labels and the second half is an independent re-measurement of every option.
+    int seen = 0, guard = 0;
+    while (gc.outcome == GameOutcome::UNDECIDED) {
+        if (++guard > 20000) return -1;
+        if (gc.screenState == ScreenState::BATTLE) { playBattle(gc); continue; }
+        if (kind == 1 && gc.screenState == ScreenState::REWARDS) {
+            const auto &r = gc.info.rewardsContainer;
+            if (r.goldRewardCount == 0 && r.relicCount == 0 && r.potionCount == 0 && r.cardRewardCount == 1
+                && !r.emeraldKey && !r.sapphireKey && seen++ == k) break;
+        }
+        if (kind == 2 && gc.screenState == ScreenState::BOSS_RELIC_REWARDS && seen++ == k) break;
+        stepOutOfCombat(gc);
+    }
+    if (gc.outcome != GameOutcome::UNDECIDED) return -1;
+    int n = 0, own = 0;
+    if (kind == 1) {
+        const auto &r = gc.info.rewardsContainer;
+        n = r.cardRewards[0].size(); own = n;
+        GameContext t = gc; FairAgent c = *this;
+        c.cardRewards(t);
+        if (t.deck.size() > gc.deck.size()) {
+            const CardId id = t.deck.cards[t.deck.size() - 1].getId();
+            for (int i = 0; i < n; ++i) if (r.cardRewards[0][i].getId() == id) { own = i; break; }
+        }
+    } else {
+        n = 3;  // options 0..2 = the three boss relics, 3 = skip
+        FairAgent c = *this;
+        own = c.bossRelicChoice(gc);
+    }
+    for (int o = 0; o <= n; ++o) {
+        GameContext s = gc;
+        if (kind == 1) search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
+        else search::GameAction(o).execute(s);
+        float x[rv::DIM];
+        rv::extract(s, x);
+        double sum = 0, sa = 0, sb = 0; int ok = 0, oa = 0, ob = 0;
+        for (int m = 0; m < M; ++m) {
+            GameContext h = s; FairAgent b = *this;
+            h.map = std::make_shared<Map>(*s.map);  // own map per playout (see branchEval)
+            std::mt19937_64 rr(agentSeed * 0xD6E8FEB86659FD93ULL + 0x9E3779B97F4A7C15ULL * static_cast<std::uint64_t>(m + 1));
+            reseedAllRngs(h, rr);
+            b.playout(h);
+            if (b.stats.aborted || h.outcome == GameOutcome::UNDECIDED) continue;
+            const double v = std::min(h.floorNum, 51) / 51.0 + (h.outcome == GameOutcome::PLAYER_VICTORY ? 1.0 : 0.0);
+            sum += v; ++ok;
+            if (2 * m < M) { sa += v; ++oa; } else { sb += v; ++ob; }
+        }
+        const float tail[8] = {static_cast<float>(o), static_cast<float>(n), static_cast<float>(ok ? sum / ok : -1.0),
+                               static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f,
+                               static_cast<float>(oa ? sa / oa : -1.0), static_cast<float>(ob ? sb / ob : -1.0)};
+        std::fwrite(x, sizeof(float), rv::DIM, out);
+        std::fwrite(tail, sizeof(float), 8, out);
+    }
+    std::fflush(out);
+    return n + 1;
+}
+
 void FairAgent::playout(GameContext &gc) {
     int guard = 0;
     while (gc.outcome == GameOutcome::UNDECIDED) {
@@ -1039,13 +1429,15 @@ void FairAgent::playout(GameContext &gc) {
         const float win = gc.outcome == GameOutcome::PLAYER_VICTORY ? 1.f : 0.f;
         const float extra[4] = {win, static_cast<float>(gc.floorNum), static_cast<float>(gc.act),
                                 static_cast<float>(agentSeed % 10000000ULL)};
-        for (size_t off = 0; off < rvRows.size(); off += rv::DIM) {
-            std::fwrite(rvRows.data() + off, sizeof(float), rv::DIM, rvLog);
+        for (size_t off = 0; off < rvRows.size(); off += rvDim) {
+            std::fwrite(rvRows.data() + off, sizeof(float), rvDim, rvLog);
             std::fwrite(extra, sizeof(float), 4, rvLog);
         }
         std::fflush(rvLog);
         rvRows.clear();
     }
+    if (getp(P, "ev_leaktest", 0) > 0)
+        std::fprintf(stderr, "EVLEAK checked=%d mismatches=%d used=%d\n", evLeakChecked, evLeakMism, evUsed);
 }
 
 }  // namespace fair
