@@ -8,13 +8,13 @@ Every pick is SCORED ON THE HALF IT WAS NOT CHOSEN ON, so the oracle is honest:
 Models / own / random are scored on the mean of both halves' scores of their pick ((meanA + meanB) / 2 = mean when ok
 splits evenly) — they do not look at either half — and also on meanB alone for the like-for-like comparison with the
 honest oracle. Paired differences vs the agent's own pick, with paired SEs.
-usage: f33_split.py DIR [MODEL_ID ...]"""
+usage: f33_split.py DIR [DIR ...] [MODEL_ID ...]   (arguments that are integers are model ids)"""
 import glob, os, sys
 import numpy as np
-D, ids = sys.argv[1], [int(x) for x in sys.argv[2:]]
+Ds = [x for x in sys.argv[1:] if not x.isdigit()]; ids = [int(x) for x in sys.argv[1:] if x.isdigit()]
 W = 666 + 8
 decs = []
-for f in sorted(glob.glob(os.path.join(D, "split_*.bin"))):
+for f in sorted(f for D in Ds for f in glob.glob(os.path.join(D, "split_*.bin"))):
     a = np.fromfile(f, dtype=np.float32)
     if a.size == 0 or a.size % W: continue
     a = a.reshape(-1, W)
