@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 12:16 UTC
+- **2026-11-08 12:46 UTC: F31 workers.** f31w8 done (log merged): `F31 w8: 2399 branch, 1 crashed` (crash **seed 5458416**; site not yet traced — logged for the fork owner with the other F31 crashes); `PACK ... 2400 files, 3 shards, 24.3 MB -> 0.6 MB (42.1x), verify OK`; `PUSH branch_f31_w8_z DONE: 4 files`; gates bit-identical; pulled + unpacked; session archived. In hand: w1, w3, w4, w5, w6, w8. Left: w2 (fill), w7 (1,600) + w7b (800, local).
+
 - **2026-11-08 12:45 UTC: F31 workers.** f31w3 done (log merged): `F31 w3: 2400 branch, 0 crashed`; `PACK ... 2400 files, 3 shards, 24.4 MB -> 0.6 MB (41.9x), verify OK`; `PUSH branch_f31_w3_z DONE: 4 files`; gates bit-identical; one restart at 06:42 (line 1 5 h 54 min); pulled + unpacked; session archived. In hand: w1, w3, w4, w5, w6. Left: w2 (fill), w7 (1,600) + w7b (800, local), w8.
 
 - **2026-11-08 12:16 UTC: hourly check — container restarted again** (up 1 minute; fourth today); nothing running locally; F31 sets w1, w4, w6 (2,400 each) and the held-out set (1,600) intact. Workers w2, w3, w5, w7, w8 still running. Bests unchanged.
