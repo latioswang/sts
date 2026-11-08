@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 08:16 UTC
+### Current state (update after every batch) — 2026-11-08 09:15 UTC
+- **2026-11-08 09:15 UTC: hourly check.** up 4 hours, 24 minutes; runner alive; F31 local held-out set 1519/1,600, 0 crashed (≈ 10 min left); eight F31 workers running (own ETAs 11:50–12:30 UTC). Bests unchanged.
 - **2026-11-08 08:16 UTC: hourly check.** up 3 hours, 24 minutes; runner alive; F31 local held-out set 1017/1,600, 0 crashed. Workers (session summaries): f31w1 709 files at 08:14, ETA ≈ 11:50 UTC; f31w8 613 at 07:56, ≈ 4.4 h left. Bests unchanged (A20 f29a20).
 - **2026-11-08 07:15 UTC: hourly check.** up 2 hours, 24 minutes; runner alive; F31 local held-out set 520/1,600, 0 crashed (ETA ≈ 09:25 UTC); eight F31 workers running (started 06:25–06:28, ETA ≈ 11:15 UTC). Bests: A0 f6a0_upg, A10 f23a10, A20 f29a20, Heart f16heart.
 - **2026-11-08 06:34 UTC: F31 progress.** All eight workers passed the three repro gates and started their queues 06:25–06:28 UTC (logs on their branches). Local held-out set 183/1,600 at ≈ 8 decisions/min → ≈ 09:25 UTC; at that per-VM rate each worker's 2,400 seeds take ≈ 4.8 h (≈ 11:15 UTC), longer than the 3.5 h pre-registered estimate (A10 playouts are longer than assumed).
