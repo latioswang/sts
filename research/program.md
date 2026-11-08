@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 02:31 UTC
+### Current state (update after every batch) — 2026-11-08 03:01 UTC
+- **2026-11-08 03:01 UTC: F28 local share done.** `F28 w0: 3200 branch, 0 crashed` (seeds 5,429,200–5,432,399; finished 03:01:04 UTC). Data not looked at; waiting for the six worker sets.
 - **2026-11-08 02:31 UTC: F28 data progress.** Local w0 2,678/3,200, 0 crashed. Workers at 02:14 UTC: w1 2,009, w2 2,257, w3 1,930, w4 1,481, w5 ≈ 1,994, w6 1,881 of 3,200; crashes 0 except w5 (1). Slowest w4 at ≈ 13/min → ≈ 04:25 UTC.
 - **2026-11-08 02:16 UTC: hourly check.** up 19 hours, 56 minutes; runner alive; F28 local w0 2424/3,200, 0 crashed; workers last checked 01:44 (1,088–1,519/3,200; next worker check 02:31). Bests unchanged. 6 workers active.
 - **2026-11-08 01:49 UTC: F28 data progress.** Local w0 1,925/3,200, 0 crashed. Workers at their 01:44 UTC check (session summaries): w1 1,519, w2 past half (push ≈ 03:05), w3 1,438, w4 1,088, w5 ≈ 1,501 rows with 1 crash (one simulator crash ≈ 0.07%, within the normal rate; seed and site to be recorded from its hand-back), w6 1,414 of 3,200. w4 is the slowest (finish ≈ 04:00 UTC).
