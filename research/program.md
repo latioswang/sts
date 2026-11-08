@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 23:16 UTC
+- **2026-11-08 23:59 UTC: F35 workers f35w10 and f35w2 done.** Logs merged: `F33 GEN research/vf/data/f35_a10_w10: 2700/2700 seeds done; 2700 branch, 0 crashed, 231 no decision`, `PUSH f35_a10_w10_z DONE: 4 files`; `F33 GEN research/vf/data/f35_a20_w2: 4000/4000 seeds done; 4000 branch, 0 crashed, 707 no decision`, `PUSH f35_a20_w2_z DONE: 5 files`; gates bit-identical; each resumed once after the 2 h limit; pulled + unpacked; archived. In hand: A20 w1, w2, w3; A10 w7, w10; both held-out sets. Left: f35w4 (A20), f35w5, w6, w8, w9 (A10).
+
 - **2026-11-08 23:44 UTC: F35 worker f35w1 done.** Log merged: `F33 GEN research/vf/data/f35_a20_w1: 4000/4000 seeds done; 4000 branch, 0 crashed, 679 no decision`; `PACK ... 4000 files, 4 shards, 21.5 MB -> 0.7 MB (31.1x), verify OK`; `PUSH f35_a20_w1_z DONE: 5 files`; gates bit-identical; one resume after the 2 h limit; pulled + unpacked; archived. In hand: f35_a20_w1, _w3, f35_a10_w7 + both held-out sets.
 
 - **2026-11-08 23:44 UTC: F35 worker f35w7 done.** Log merged: `F33 GEN research/vf/data/f35_a10_w7: 2700/2700 seeds done; 2700 branch, 0 crashed, 225 no decision`; `PACK ... 2700 files, 3 shards, 16.0 MB -> 0.5 MB (31.1x), verify OK`; `PUSH f35_a10_w7_z DONE: 4 files`; gates bit-identical; one resume after the 2 h limit; pulled + unpacked; archived. In hand: f35_a20_w3, f35_a10_w7 + both held-out sets.
