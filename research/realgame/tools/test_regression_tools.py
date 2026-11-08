@@ -5,7 +5,8 @@ import unittest
 
 from coverage import RunScan, Tally, without_unreachable
 from export_traces import find_note_card, find_scenario, seed_from_text, split_runs, state_items, strip_state
-from run_regression import Row, compare, kind_of, later_runs_got_further, mark_past_real_stop
+from run_regression import (Row, compare, kind_of, later_runs_got_further, load_real_stops, mark_past_real_stop, merge_real,
+                            write_real_stops)
 
 STARTER = [{"id": "Strike_R"}] * 5 + [{"id": "Defend_R"}] * 4 + [{"id": "Bash"}]
 
@@ -188,6 +189,29 @@ class PastRealStopTest(unittest.TestCase):
         row = {"seed_text": "1YN", "status": "diverged", "commands_total": 800, "commands_replayed": 500}
         mark_past_real_stop([row], {"1YN": [(44, "unsupported_card"), (800, "diverged")]})
         self.assertEqual(row["status"], "diverged")
+
+
+class RealStopsFileTest(unittest.TestCase):
+    def test_round_trip_keeps_only_seeds_with_an_unsupported_card_stop(self):
+        import os
+        import tempfile
+        real = {"1YN": [(44, "unsupported_card"), (800, "diverged")], "2AB": [(90, "completed")]}
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "stops.tsv")
+            write_real_stops(path, real)
+            self.assertEqual(load_real_stops(path), {"1YN": [(44, "unsupported_card"), (800, "diverged")]})
+
+    def test_a_missing_file_is_empty(self):
+        self.assertEqual(load_real_stops("/nonexistent/stops.tsv"), {})
+
+    def test_merge_drops_duplicates(self):
+        merged = merge_real({"1YN": [(44, "unsupported_card")]}, {"1YN": [(44, "unsupported_card"), (800, "diverged")]})
+        self.assertEqual(merged, {"1YN": [(44, "unsupported_card"), (800, "diverged")]})
+
+    def test_the_file_alone_marks_a_run_past_the_stop(self):
+        row = {"seed_text": "1YN", "status": "diverged", "commands_total": 70, "commands_replayed": 47}
+        mark_past_real_stop([row], merge_real({}, {"1YN": [(44, "unsupported_card")]}))
+        self.assertEqual(row["status"], "past_real_stop")
 
 
 if __name__ == "__main__":
