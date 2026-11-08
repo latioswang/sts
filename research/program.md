@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 22:16 UTC
+- **2026-11-08 22:36 UTC: F35 operational.** The held-out job hit the 2 h background limit at 791/800 A10 seeds; resumed (owner-approved restart). Meanwhile, with no job running, the main build dir was rebuilt with the map_model hook: gates fidb_f2a0w / fidb_f3a10p / fidb_f3a20w 0 of 16 differ; 4 finished held-out seeds regenerated with the new binary are byte-identical, so the held-out set is consistent across the rebuild.
+
 - **2026-11-08 22:16 UTC: hourly check.** F35 data collection: ten workers running since 20:35 (none pushed yet; A20 ETA ≈ 00:00, A10 ≈ 02:00); local held-out A10 677/800, then A20. Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
 
 - **2026-11-08 21:17 UTC: hourly check.** F34 closed (path choice is the only out-of-combat decision with honest headroom: A20 +0.0141 ± 0.0049; A10 +0.0149 ± 0.0075, 1.99 SE). F35 (learned path-choice model) running: ten data workers since 20:35, local held-out A10 285/800 then A20; map_model hook committed (default off). Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
