@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 01:06 UTC
+### Current state (update after every batch) — 2026-11-08 01:15 UTC
+- **2026-11-08 01:15 UTC: hourly check.** up 18 hours, 55 minutes; runner alive; F28 local w0 1334/3,200, 0 crashed; workers checked 01:06 (all running, 0 crashes, ETA ≈ 03:20 UTC). Bests unchanged. 6 workers active.
 - **2026-11-08 01:06 UTC: F28 data progress.** Local w0 1,169/3,200, 0 crashed. Workers at their 00:44 UTC check (from their session summaries): w1 511, w2 548, w3 468, w4 348, w5 490, w6 479 of 3,200, all 0 crashes; w6 estimates done ≈ 03:20 UTC.
 - **2026-11-08 00:17 UTC: hourly check.** up 17 hours, 56 minutes; local F28 share 289/3,200 decisions, 0 crashed; workers f28w1–w6 all past their gates and running their 3,200-seed batches since ≈ 00:13 UTC (≈ 3 h); each asked to keep its own 20-minute keep-alive chain. Bests unchanged (confirmed: A0 f6a0_upg, A10 f6a10_norest, A20 f24a20, Heart f16heart).
 - **2026-11-08 00:02 UTC: F28 trainer committed before any F28 data is loaded.** `research/vf/train_dec.py` (as pre-registered: vr_171-shaped MLP initialised from vr_171; within-decision centred MSE on the playout means + λ·anchor to vr_171; 10% seed-hash decision split for early stopping on the F26 pick-value criterion, patience 5; lr 3e-4, batch 256 decisions, ≤ 40 epochs). Planned runs: vr_250 λ=0.1, vr_251 λ=1 on all F28 sets (w0–w6); then f26_branch.py on the F26 decisions with 171 250 251. Smoke-tested on 16 debug decisions (export format checked; model deleted).
