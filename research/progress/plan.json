@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F31 (running): A10 interventional decision data — 19,200 A10 seeds of branch playouts on 8 workers (≈ 3.5 h) plus a 1,600-seed held-out A10 decision set locally; then an A10 decision-trained run value, tested on the held-out decisions and, if clearly better, in a 4,000-seed A10 play test. (F29: the A20 decision-trained V vr_251 is the new A20 best, +0.004 on 8,000 seeds; F30: it does not transfer to A10, −0.015.)",
+  "Phase F32 (pre-registered): one decision-trained run value on A10 + A20 decisions together (41,600 seeds; the features include the ascension), scored on both held-out decision sets; a play test only if it beats the track's current value by > 2 SE. (F31: an A10-only decision value gained +0.0026 ± 0.0023 per decision on held-out A10 decisions, below the 2 SE bar, so no play test.)",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -264,6 +264,7 @@
   "Heart F17–F19: third expert-iteration V (+0.9 pts pooled, P 0.71), V-chosen ruby key (−2.1 pts), compute-neutral 3× search at the Heart (+0.5 pts, P 0.41); keys cost only 1.6 pts of act-3 boss kills.",
   "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims.",
   "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions.",
-  "F30: the A20-trained decision value vr_251 on A10 — −0.015 on 4,000 seeds (decision-trained values are track-specific)."
+  "F30: the A20-trained decision value vr_251 on A10 — −0.015 on 4,000 seeds (decision-trained values are track-specific).",
+  "F31: A10 decision-trained run value from 19,200 A10 seeds — +0.0026 ± 0.0023 per card-reward decision on 1,510 held-out A10 decisions (1.1 SE), below the pre-registered 2 SE bar; no play test."
  ]
 }
