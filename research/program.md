@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 20:15 UTC
+### Current state (update after every batch) — 2026-11-08 21:17 UTC
+- **2026-11-08 21:17 UTC: hourly check.** F34 closed (path choice is the only out-of-combat decision with honest headroom: A20 +0.0141 ± 0.0049; A10 +0.0149 ± 0.0075, 1.99 SE). F35 (learned path-choice model) running: ten data workers since 20:35, local held-out A10 285/800 then A20; map_model hook committed (default off). Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
+
 - **2026-11-08 21:04 UTC: F35 (e) hook implemented (default off), before any model exists.** `map_model=<id>` in `chooseMapX`: after the hand DP, choose the legal next node with the highest value of `research/models/pm_<id>.txt` on [666 run features of the current state | the same 20 path features as kind 5] (loader + scalar MLP in FairAgent.cpp; diagnostics `mapModelPicks/Changes`). Built in a separate dir (`build_f35`, so the running held-out job's binary is untouched): gates fidb_f2a0w / fidb_f3a10p / fidb_f3a20w 0 of 16 differ with map_model off; smoke with a throwaway model on 4 A20 seeds runs to completion and changes paths (floors 33/31/8/51 → 25/23/6/50 — a junk model, as expected). Before any play test: a C++-vs-Python agreement check (own picks of a kind-5 run with map_model set must equal f35_eval's argmax on the same files) and the leak test.
 
 - **2026-11-08 20:15 UTC: hourly check.** F34: rest sites show no headroom (A20 +0.0047 ± 0.0036, A10 +0.0039 ± 0.0067); **A20 map paths +0.0141 ± 0.0049 — the pre-registered rule is met** (first real decision headroom; post-hoc: state-dependent, no room-type bias). A10 map waits for f34w1 (ETA ≈ 20:25). Next: close F34, pre-register F35 (path-decision model). Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
