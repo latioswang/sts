@@ -19,7 +19,7 @@ parameters or simulator behaviour to make the run "nicer".
 | Item | Value |
 |---|---|
 | Name | `f6a0_upg`, the confirmed A0 best (`research/best_name.txt`) |
-| Params | `research/best_params.txt` on branch **`autoresearch/ironclad`** |
+| Params | `research/best_params.txt` on branch **`main`** (same as `autoresearch/ironclad`) |
 | Strength in the simulator | 85.2% wins on 2,000 fresh seeds (`results.tsv`, split `fs1282000n2000.a0`). The real game will differ: earlier live runs won 2 of 3 |
 | Models it loads | `research/models/vr_171.txt` (`vr_model=171`), `research/models/bf_g1.txt` (`bf_model=1`). The move prior (`prior_mlp=1`) is compiled in |
 | Simulator | fork `latioswang/sts_lightspeed` at **`1b05bdc`** (`research/eval/sim.txt` / the pin in `research/setup.sh` on `autoresearch/ironclad`) |
@@ -32,15 +32,13 @@ w_shop_rich=3`
 
 ## Three traps (checked from the cloud; verify on the Mac)
 
-1. **The code is split across two branches.**
-   - The bridge (`research/realgame/`) is only on the default branch `claude/ironclad-strategy-kb-rHCI9` (merged in PR #11).
-   - The agent there is old: its `research/cpp/FairAgent.cpp` has **no `vr_model` support** and there is no
-     `research/vf/vr_mlp.h`. A bridge built from the default branch would silently ignore `vr_model`, `vr_bonus`, `vr_relic_w`,
-     `vr_shop` and `vr_upg_w`, and play a different, weaker agent.
-   - So: build from **`autoresearch/ironclad`** with the bridge folder brought over:
-     `git checkout -B live-a0 origin/autoresearch/ironclad && git checkout origin/claude/ironclad-strategy-kb-rHCI9 -- research/realgame`.
-     The bridge sources may need small compile fixes against the newer `FairAgent` API. Keep any fix minimal and say what you
-     changed.
+1. **Use branch `main`.**
+   - Since the 2026-11-08 merge (`e6e916d`), `main` has both the bridge (`research/realgame/`) and the current agent
+     (`research/cpp`, `research/vf/vr_mlp.h`, the models).
+   - On GCC, `fair_eval` and `sts_bridge` build from it; it was not rebuilt on the Mac.
+   - The three repro gates are bit-identical, and `sts_bridge selftest` passes.
+   - The old default branch `claude/ironclad-strategy-kb-rHCI9` has the bridge but an **older agent without `vr_model`**.
+     Do not build from it: it would silently ignore the `vr_*` params and play a weaker agent.
 2. **`VR_MODEL_DIR` must be set.**
    - `research/vf/vr_mlp.h` defaults to the cloud path `/home/user/sts/research/models`.
    - The bridge sets `BF_MODEL_DIR` and `SV_MODEL_DIR` itself (`bridge_main.cpp`), but **not** `VR_MODEL_DIR`. On the Mac the
@@ -72,8 +70,8 @@ cmake .. -DCMAKE_BUILD_TYPE=Release -DSTS_RESEARCH_DIR=<repo>/research -Dpybind1
 make -j8 fair_eval sts_bridge
 ```
 
-(`autoresearch/ironclad`'s `research/setup.sh` has no `STS_SIM_DIR` / `STS_TARGETS` switches. Those are on the default
-branch's copy, so the plain cmake above is the simple route.)
+(On `main`, `research/setup.sh` also does this: `STS_SIM_DIR=$HOME/Projects/sts_lightspeed STS_TARGETS="fair_eval sts_bridge" research/setup.sh`
+builds from the pinned commit `1b05bdc`. Leave `STS_SIM_BRANCH` unset so the pin applies.)
 
 **Before the real run:**
 
@@ -140,7 +138,7 @@ decisions that mattered most and why, and every fallback or oddity seen.
 - **No hidden information.** The leak rule in `research/realgame/README.md` (live mode) stays as is. Don't add anything
   that reads the seed or the true draw order.
 - **No changes to agent or simulator behaviour.** The only code changes allowed: the pause flag, a model-load log line, and
-  compile fixes for the branch merge. Commit them to a local branch (e.g. `live-a0`). Push or open a PR only if the owner
+  compile fixes for the branch merge. Commit them to a local branch off `main` (e.g. `live-a0`). Push or open a PR only if the owner
   asks.
 - **Don't touch Steam.** Keep the game folder `~/.sts_realgame` and the profile that `setup_game.sh` wrote. Don't use the
   Steam install or cloud saves.
