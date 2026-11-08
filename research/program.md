@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 12:16 UTC
+- **2026-11-08 12:45 UTC: F31 workers.** f31w3 done (log merged): `F31 w3: 2400 branch, 0 crashed`; `PACK ... 2400 files, 3 shards, 24.4 MB -> 0.6 MB (41.9x), verify OK`; `PUSH branch_f31_w3_z DONE: 4 files`; gates bit-identical; one restart at 06:42 (line 1 5 h 54 min); pulled + unpacked; session archived. In hand: w1, w3, w4, w5, w6. Left: w2 (fill), w7 (1,600) + w7b (800, local), w8.
+
 - **2026-11-08 12:16 UTC: hourly check — container restarted again** (up 1 minute; fourth today); nothing running locally; F31 sets w1, w4, w6 (2,400 each) and the held-out set (1,600) intact. Workers w2, w3, w5, w7, w8 still running. Bests unchanged.
 - **2026-11-08 12:44 UTC: F31 w2 fill (operational, data unchanged).** f31w2's container restarted ≈ 12:40 UTC with 2,393/2,400 files written; its task file said to restart the line, which regenerates all 2,400 (≈ 6 h). Told it instead to stop and redo only seeds whose file is missing, empty or not a multiple of 2,688 bytes (one row; partial files from a killed or crashed child fail this; in-flight files can be empty, so all empty files are redone — ≈ 5% of seeds, measured on w1/w4/w5/w6: 120–153 empty, 0–1 bad size per 2,400). Deterministic per seed, so the result equals an uninterrupted run. Lesson for the next worker task files: make the generation line resumable (skip seeds with a valid file) instead of 'restart regenerates from scratch'.
 
