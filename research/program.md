@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-08 23:16 UTC
+- **2026-11-08 23:44 UTC: F35 worker f35w7 done.** Log merged: `F33 GEN research/vf/data/f35_a10_w7: 2700/2700 seeds done; 2700 branch, 0 crashed, 225 no decision`; `PACK ... 2700 files, 3 shards, 16.0 MB -> 0.5 MB (31.1x), verify OK`; `PUSH f35_a10_w7_z DONE: 4 files`; gates bit-identical; one resume after the 2 h limit; pulled + unpacked; archived. In hand: f35_a20_w3, f35_a10_w7 + both held-out sets.
+
 - **2026-11-08 23:36 UTC: F35 held-out A20 set complete** (container restarted ≈ 23:35 with 793/800 done; the resumable generator finished the rest): `F33 GEN research/vf/data/f35_hold_a20: 800/800 seeds done; 800 branch, 0 crashed, 145 no decision`. Baseline lines (no model yet): `decisions=655 options=1517 mean_options=2.32`; `own            value@B=0.7011  vs own@B: +0.0000 ± 0.0000 (paired SE, n=655)`; `random         value@B=0.6953  vs own@B: -0.0058 ± 0.0041 (paired SE, n=655)`; `oracle_honest  value@B=0.7262  vs own@B: +0.0251 ± 0.0052 (paired SE, n=655)`; `map-DP feature argmax == own in 1.000 of decisions`. Both held-out sets are in; training waits for the ten data sets.
 
 - **2026-11-08 23:19 UTC: F35 worker f35w3 done.** Log merged: `F33 GEN research/vf/data/f35_a20_w3: 4000/4000 seeds done; 4000 branch, 0 crashed, 678 no decision`; `PACK ... 4000 files, 4 shards, 21.4 MB -> 0.7 MB (31.1x), verify OK`; `PUSH f35_a20_w3_z DONE: 5 files`; gates OK; one resume after the 2 h limit; pulled + unpacked; archived.
