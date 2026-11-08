@@ -4,6 +4,7 @@
 #include "Scenario.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <sstream>
 
 using namespace sts;
@@ -20,6 +21,29 @@ namespace {
 
 constexpr int kMaxAlignSteps = 12;
 constexpr double kRoomChangeTimeoutSec = 180.0;
+// ShowCardAndObtainEffect puts its card in the deck after 0.5 s in Fast Mode, which write_profile.py turns on (2 s
+// without it). This adds a margin.
+constexpr double kCardEffectSec = 0.6;
+constexpr int kSettleWaitFrames = 30;
+constexpr int kMaxSettleWaits = 12;  // 1.5 s at the game's 240 fps cap
+
+bool isFiller(const std::string &command) {
+    return command.rfind("WAIT", 0) == 0 || command == "STATE";
+}
+
+// Rooms with no ShowCardAndObtainEffect: card rewards use FastCardObtainEffect (0.01 s), and a fight's
+// AddCardToDeckAction (Writhing Mass) lands turns before the fight can end. Every other room has one: events and Neow,
+// Cursed Key at a chest, Astrolabe at the boss chest, Dolly's Mirror from the merchant.
+bool roomWithoutCardEffects(const std::string &room) {
+    return room == "MonsterRoom" || room == "MonsterRoomElite" || room == "MonsterRoomBoss" || room == "RestRoom";
+}
+
+// STS_TIME_SCALE speeds up the game's clock (scenario_mod). run_batch.sh starts the game and the bridge with the same value.
+double timeScale() {
+    const char *text = std::getenv("STS_TIME_SCALE");
+    const double scale = text ? std::strtod(text, nullptr) : 1.0;
+    return scale > 0.0 ? scale : 1.0;
+}
 
 const char *screenStateName(ScreenState s) {
     switch (s) {
@@ -111,7 +135,28 @@ std::string ActionSender::screenType() const {
     return gameState().value("screen_type", "NONE");
 }
 
+// A card from an event or a relic reaches the deck through ShowCardAndObtainEffect, which Communication Mod doesn't wait
+// for. Choosing the next room runs nextRoomTransition, which drops every pending effect and the card with it: on seed
+// 5100, Cursed Key's curse from the floor 45 chest never arrived, since the next room came 0.19 s after the chest opened.
+// The answer to the room's last command came after the effect started, so the effect has had its time once that long
+// has passed since.
+void ActionSender::settleBeforeLeavingRoom() {
+    const std::string room = gameState().value("room_type", "");
+    if (roomWithoutCardEffects(room)) return;
+    const double needed = kCardEffectSec / timeScale();
+    const auto secondsSinceRoomCommand = [this] {
+        return std::chrono::duration<double>(std::chrono::steady_clock::now() - roomCommandAnswered_).count();
+    };
+    int waits = 0;
+    for (; waits < kMaxSettleWaits && secondsSinceRoomCommand() < needed; ++waits) {
+        game_.command("WAIT " + std::to_string(kSettleWaitFrames), kRoomChangeTimeoutSec);
+    }
+    if (waits > 0) log_ << json{{"t", "settle"}, {"step", step_}, {"room", room}, {"waits", waits}}.dump() << "\n";
+}
+
 void ActionSender::send(const std::string &command) {
+    const bool onMap = state().is_object() && screenType() == "MAP";  // nothing has been read before the run's first command
+    if (onMap && command.rfind("CHOOSE", 0) == 0) settleBeforeLeavingRoom();
     lastAction_ = command;
     log_ << json{{"t", "cmd"}, {"step", step_}, {"cmd", command}}.dump() << "\n";
     try {
@@ -119,6 +164,7 @@ void ActionSender::send(const std::string &command) {
     } catch (const CommandRejected &e) {
         throw StopRun{"bridge_gap", screenType(), std::string("mod rejected command: ") + e.what(), {}};
     }
+    if (!onMap && !isFiller(command)) roomCommandAnswered_ = std::chrono::steady_clock::now();
     if (state().value("in_game", false)) {
         floor_ = gameState().value("floor", floor_);
         act_ = gameState().value("act", act_);
