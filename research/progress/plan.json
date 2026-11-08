@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F26 (running): a decision-level test of run-value models — at 1,600 A20 card rewards, every option is played out 8 times by the A20 best, so each model can be scored by how good the option it ranks first really is. Three phases showed that the usual holdout score does not predict play. Confirmed bests: A0 f6a0_upg, A10 f6a10_norest (f23a10 ≈ equal), A20 f24a20 (+0.003), Heart f16heart.",
+  "Phase F28 (running): interventional decision data at A20 — 22,400 seeds of branch playouts (6 workers + this container, ≈ 3 h), then a run value trained to order the options of a decision the way their playouts do, tested on the F26 decisions. F26 showed this decision-level metric agrees with play (vr_171 > vr_240), and F27 showed no existing model beats vr_171 on it.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -249,7 +249,8 @@
   "Phase F14: Heart revert check (no revert: the two Heart agents are within noise on 4,000 seeds); a keys-aware Heart V trained on 255,000 runs moved Heart holdout correlation only 0.354 → 0.367 and was not selected (RMSE).",
   "Phase F15: KEEP — new Heart best f15heart: a keys-aware V (sees ruby/emerald/sapphire keys, trained on Heart-labelled runs) making the card picks kills the Heart 7.2 pts more often on 2,000 fresh seeds (23.6% vs 16.4%), at the cost of more runs dying before act 4.",
   "Phase F16: confirmed the F15 Heart gain on 2,000 more seeds (+6.0 pts Heart kills), then one expert-iteration step of the keys-aware V — KEEP: new Heart best f16heart, Heart kills 29.0% vs 22.8% and act-4 reach up 7 pts (1,000 fresh seeds).",
-  "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds)."
+  "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds).",
+  "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
@@ -259,6 +260,7 @@
   "Speed micro-optimisation (1.03×; the remaining speed is architectural).",
   "Phase P1: move prior v4 (2,000-sim targets) — +8.5 points at 50 sims but no gain at 500 sims (+0.6, P 0.67); with v4 the gap to 500 sims is 13.2 / 6.2 / 4.4 points at 50 / 100 / 200 sims (fidelity sim).",
   "Heart F17–F19: third expert-iteration V (+0.9 pts pooled, P 0.71), V-chosen ruby key (−2.1 pts), compute-neutral 3× search at the Heart (+0.5 pts, P 0.41); keys cost only 1.6 pts of act-3 boss kills.",
-  "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims."
+  "A20 run-value iteration (F20–F21): an A20-only V that ranks held-out states better (corr 0.608 vs 0.554) played worse at both 1× and 1.5× weight. Compute-neutral boss search reallocation on A20 (F22) could not be made neutral without cutting other fights to ~130 sims.",
+  "F27: selecting among the 91 existing run-value models by the decision-level metric — none beats vr_171 on held-out decisions."
  ]
 }
