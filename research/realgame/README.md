@@ -278,6 +278,8 @@ It makes a recording from each run in the transcripts (`tools/export_traces.py`,
 
 After fixing the simulator, run it before and after to see what the fix changed. Update the baseline with `--update_baseline` once the result is understood, since a run that now gets further raises the bar for later changes. Use `STS_BRIDGE` or `--bridge` to test another build.
 
+`--update_baseline` also rewrites `regression_real_stops.tsv`. That file keeps the real mirror runs of every seed that stopped on a card the simulator couldn't play, which the comparison needs: a replay that gets past such a stop counts as limited, not failed. Those runs are otherwise only in `logs/mirror_results.jsonl` on the machine that played them, so a fresh clone or CI reads them from this file. CI (`.github/workflows/ci.yml`) runs the regression, the Python tests and `sts_bridge selftest` on every pull request.
+
 Recordings made since 2026-11-04 also hold the game's random streams, as `#` notes that the relay keeps out of the game's input. Older ones can't check those streams, and stop at a difference after a Discovery.
 
 ### The recordings in git

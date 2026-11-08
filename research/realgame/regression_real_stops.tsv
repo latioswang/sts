@@ -1,0 +1,23 @@
+# seed_text	commands	status. Real mirror runs of seeds that stopped on a card the simulator couldn't play; written by run_regression.py --update_baseline
+1VR	189	unsupported_card
+1VR	760	completed
+1VS	74	unsupported_card
+1VS	730	completed
+1W0	280	unsupported_card
+1W0	859	completed
+1W1	113	unsupported_card
+1W1	872	completed
+1W8	173	unsupported_card
+1W8	590	completed
+1W9	112	unsupported_card
+1W9	430	completed
+1WC	49	unsupported_card
+1WC	354	completed
+1WF	95	unsupported_card
+1WF	947	completed
+1YN	44	unsupported_card
+1YN	460	completed
+1YP	65	unsupported_card
+1YP	759	completed
+1Z8	20	unsupported_card
+1Z8	849	completed
