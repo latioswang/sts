@@ -2,7 +2,7 @@
 """Checks the simulator against every recorded run, with no game running. Exits 1 if anything got worse.
 
     run_regression.py [--bridge PATH] [--traces DIR] [--jobs N] [--baseline FILE] [--results FILE]
-                      [--update_baseline] [--skip_export] [--only TEXT]
+                      [--update_baseline] [--skip_export] [--only TEXT] [--real_stops FILE]
 
 Each recording is played back through mirror mode (`sts_bridge replay`), and its result is compared with the baseline:
 
@@ -54,6 +54,41 @@ def real_results(directories: Iterable[str]) -> dict[str, list[tuple[int, str]]]
             if "seed_text" in row and "commands" in row:
                 found.setdefault(row["seed_text"], []).append((int(row["commands"]), row["status"]))
     return found
+
+
+def load_real_stops(path: str) -> dict[str, list[tuple[int, str]]]:
+    """The real runs kept in git for seeds that stopped on a card the simulator couldn't play (see write_real_stops)."""
+    found: dict[str, list[tuple[int, str]]] = {}
+    try:
+        with open(path) as f:
+            for line in f:
+                if not line.strip() or line.startswith("#"):
+                    continue
+                seed, commands, status = line.rstrip("\n").split("\t")
+                found.setdefault(seed, []).append((int(commands), status))
+    except OSError:
+        pass
+    return found
+
+
+def write_real_stops(path: str, real: dict[str, list[tuple[int, str]]]) -> None:
+    """Keeps every real run of each seed with a stop on an unsupported card. mark_past_real_stop needs them, and the
+    mirror results in logs/ stay out of git, so without this file a fresh clone (or CI) would judge those seeds differently."""
+    keep = {seed: sorted(set(runs)) for seed, runs in real.items() if any(status == "unsupported_card" for _, status in runs)}
+    with open(path, "w") as f:
+        f.write("# seed_text\tcommands\tstatus. Real mirror runs of seeds that stopped on a card the simulator couldn't play;"
+                " written by run_regression.py --update_baseline\n")
+        for seed in sorted(keep):
+            for commands, status in keep[seed]:
+                f.write(f"{seed}\t{commands}\t{status}\n")
+
+
+def merge_real(*sources: dict[str, list[tuple[int, str]]]) -> dict[str, list[tuple[int, str]]]:
+    merged: dict[str, set[tuple[int, str]]] = {}
+    for source in sources:
+        for seed, runs in source.items():
+            merged.setdefault(seed, set()).update(runs)
+    return {seed: sorted(runs) for seed, runs in merged.items()}
 
 
 def mark_past_real_stop(results: list[dict], real: dict[str, list[tuple[int, str]]]) -> None:
@@ -169,6 +204,8 @@ def main() -> int:
     ap.add_argument("--baseline", default=os.path.join(here, "regression_baseline.tsv"))
     ap.add_argument("--results", default=os.path.join(here, "logs", "replay_results.jsonl"))
     ap.add_argument("--update_baseline", action="store_true")
+    ap.add_argument("--real_stops", default=os.path.join(here, "regression_real_stops.tsv"),
+                    help="real runs kept in git for the seeds that stopped on an unsupported card; --update_baseline rewrites it")
     ap.add_argument("--skip_export", action="store_true", help="don't look for new transcripts first")
     ap.add_argument("--only", default="", help="only recordings whose file name contains this")
     ap.add_argument("--mirror_logs", action="append", default=None,
@@ -191,7 +228,8 @@ def main() -> int:
     if logs is None:
         logs = [os.path.join(os.path.dirname(os.path.abspath(args.traces)), "logs"), os.path.join(here, "logs")]
         logs += glob.glob(os.path.expanduser("~/Projects/sts_bridge_*/research/realgame/logs"))
-    mark_past_real_stop(results, real_results(sorted(set(logs))))
+    real = merge_real(real_results(sorted(set(logs))), load_real_stops(args.real_stops))
+    mark_past_real_stop(results, real)
 
     with open(args.results, "w") as f:
         for row in results:
@@ -220,7 +258,8 @@ def main() -> int:
 
     if args.update_baseline:
         write_baseline(args.baseline, results, baseline)
-        print(f"baseline written to {args.baseline}")
+        write_real_stops(args.real_stops, real)
+        print(f"baseline written to {args.baseline}, real stops to {args.real_stops}")
         return 0
     return 1 if worse else 0
 
