@@ -1,3 +1,5 @@
+#include <fstream>
+#include <map>
 #include "FairAgent.h"
 
 #include "combat/BattleContext.h"
@@ -690,6 +692,46 @@ double FairAgent::eliteSimValue(const GameContext &gc) {
     return (pwin + 1e-9 >= getp(P, "elite_sim_pwin", 0.67) && hpWin >= getp(P, "elite_sim_hp", 0.35)) ? hi : lo;
 }
 
+static void f35PathFeatures(const Map &m, int x0, int y0, float *f);  // defined below (Phase F35)
+
+// Phase F35 map_model: a path-choice MLP research/models/pm_<id>.txt (vr_mlp text format: "dim nlayers 1", then per layer
+// "in out", W [out][in], b), ReLU between layers; input = [666 run features of the current state | 20 path features]
+namespace {
+struct PmLayer { int in = 0, out = 0; std::vector<float> W, B; };
+const std::vector<PmLayer> &pathModel(int id) {
+    static std::map<int, std::vector<PmLayer>> cache;
+    auto it = cache.find(id);
+    if (it != cache.end()) return it->second;
+    std::vector<PmLayer> L;
+    const char *dir = std::getenv("VR_MODEL_DIR");
+    std::ifstream in(std::string(dir ? dir : "/home/user/sts/research/models") + "/pm_" + std::to_string(id) + ".txt");
+    int dim = 0, nl = 0, tr = 0;
+    if (in >> dim >> nl >> tr && dim == rv::DIM + 20) {
+        for (int l = 0; l < nl; ++l) {
+            PmLayer y; in >> y.in >> y.out; y.W.resize(static_cast<size_t>(y.in) * y.out); y.B.resize(y.out);
+            for (auto &w : y.W) in >> w;
+            for (auto &b : y.B) in >> b;
+            L.push_back(std::move(y));
+        }
+        if (!in) L.clear();
+    }
+    return cache.emplace(id, std::move(L)).first->second;
+}
+float pathModelValue(const std::vector<PmLayer> &L, const float *x) {
+    std::vector<float> h(x, x + L.front().in), o;
+    for (size_t l = 0; l < L.size(); ++l) {
+        o.assign(L[l].out, 0.f);
+        for (int j = 0; j < L[l].out; ++j) {
+            float a = L[l].B[j];
+            for (int i = 0; i < L[l].in; ++i) a += L[l].W[static_cast<size_t>(j) * L[l].in + i] * h[i];
+            o[j] = (l + 1 < L.size() && a < 0.f) ? 0.f : a;
+        }
+        h.swap(o);
+    }
+    return h[0];
+}
+}  // namespace
+
 int FairAgent::chooseMapX(const GameContext &gc) {
     const Map &m = *gc.map;
     eliteSimV = std::numeric_limits<double>::quiet_NaN();
@@ -739,8 +781,26 @@ int FairAgent::chooseMapX(const GameContext &gc) {
     for (auto &a : acts) {
         const int x = a.getIdx1();
         const double v = best[nextY][x] + (keyUnd ? kb[nextY][x] : 0.0) + 1e-6 * x;
-        mapNodeV[x] = v;  // F35 (read only by branchEval2 kind 5)
+        mapNodeV[x] = v;  // F35 (read only by branchEval2 kind 5 and map_model)
         if (v > bestV) { bestV = v; bestX = x; }
+    }
+    if (getp(P, "map_model", 0) > 0 && acts.size() >= 2) {
+        // Phase F35 map_model=<id> (default off): choose the legal next node with the highest learned path value
+        const auto &L = pathModel(static_cast<int>(getp(P, "map_model", 0)));
+        if (!L.empty()) {
+            float f[rv::DIM + 20];
+            rv::extract(gc, f);
+            double bm = -1e30; int bx = bestX;
+            for (auto &a : acts) {
+                const int x = a.getIdx1();
+                f35PathFeatures(m, x, nextY, f + rv::DIM);
+                f[rv::DIM + 19] = static_cast<float>(mapNodeV[x]) / 10.f;
+                const double pv = pathModelValue(L, f) + 1e-6 * x;
+                if (pv > bm) { bm = pv; bx = x; }
+            }
+            ++mapModelPicks; if (bx != bestX) ++mapModelChanges;
+            return bx;
+        }
     }
     return bestX;
 }
