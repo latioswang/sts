@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 07:15 UTC
+### Current state (update after every batch) — 2026-11-08 08:16 UTC
+- **2026-11-08 08:16 UTC: hourly check.** up 3 hours, 24 minutes; runner alive; F31 local held-out set 1017/1,600, 0 crashed. Workers (session summaries): f31w1 709 files at 08:14, ETA ≈ 11:50 UTC; f31w8 613 at 07:56, ≈ 4.4 h left. Bests unchanged (A20 f29a20).
 - **2026-11-08 07:15 UTC: hourly check.** up 2 hours, 24 minutes; runner alive; F31 local held-out set 520/1,600, 0 crashed (ETA ≈ 09:25 UTC); eight F31 workers running (started 06:25–06:28, ETA ≈ 11:15 UTC). Bests: A0 f6a0_upg, A10 f23a10, A20 f29a20, Heart f16heart.
 - **2026-11-08 06:34 UTC: F31 progress.** All eight workers passed the three repro gates and started their queues 06:25–06:28 UTC (logs on their branches). Local held-out set 183/1,600 at ≈ 8 decisions/min → ≈ 09:25 UTC; at that per-VM rate each worker's 2,400 seeds take ≈ 4.8 h (≈ 11:15 UTC), longer than the 3.5 h pre-registered estimate (A10 playouts are longer than assumed).
 - **2026-11-08 06:13 UTC: F31 workers spawned; local held-out set running.** f31w1 session_01USafwk6kAmxZwYDBVEjEGa, f31w2 session_01USafwjGuKVd87V4rXo4K34, f31w3 session_01USafwj5JKbK4mp9AivPSKH, f31w4 session_01USafwhAY2frQ89rT9RrXkH, f31w5 session_01USafwjNtjY6DVxJsChn2w7, f31w6 session_01USafwh6b9dUGzit7xjoPhk, f31w7 session_01USafwgBs8Tw4fiXbFQAWXb, f31w8 session_01USafwjbo7ukkcTeauiFrTm (tags ironclad-worker, f31; task research/workers/f31data.md; each reports to @parent when done). Local: f31_hold.sh (1,600 A10 seeds) since 06:12 UTC.
