@@ -8,6 +8,7 @@
 #include "Compare.h"
 #include "FairAgent.h"
 #include "GameIds.h"
+#include "MatchGame.h"
 #include "StateConverter.h"
 
 #include "sim/search/GameAction.h"
@@ -183,6 +184,54 @@ void checkScreen(const GameContext &gc, Counters &c) {
 
 }  // namespace
 
+// Live mode's rule for Match and Keep! (MatchGame.h), on screens like the ones the game shows.
+static int matchGameRuleFailures() {
+    const auto grid = [](std::vector<std::string> seen, int firstUnseen) {
+        for (int i = firstUnseen; i < 12; ++i) seen.push_back("card" + std::to_string(i));
+        return seen;
+    };
+    struct Case {
+        const char *what;
+        std::vector<std::string> labels;
+        int triesBefore;
+        std::string firstPickBefore;
+        int expect;
+        std::string firstPickAfter;
+    };
+    const std::vector<Case> cases{
+        {"first try turns up an unseen card", grid({}, 0), 0, "", 0, ""},
+        {"second pick takes another unseen card", grid({}, 1), 1, "", 0, ""},
+        {"no pair known: an unseen card", grid({"anger", "metallicize"}, 2), 1, "", 2, ""},
+        {"a known pair goes first", grid({"anger", "metallicize", "anger"}, 3), 1, "", 0, "anger"},
+        {"then its partner", grid({"metallicize", "anger"}, 3), 2, "anger", 1, "anger"},
+        {"a known curse pair is left alone", grid({"regret", "regret"}, 2), 1, "", 2, ""},
+        {"last try: a known card goes first", grid({"anger", "metallicize"}, 2), 4, "", 0, "anger"},
+        {"last try: then an unseen card", grid({"metallicize"}, 2), 5, "anger", 1, "anger"},
+    };
+    int failures = 0;
+    {
+        // The same first-pick screen asked twice (a refused command) is one try, so the last-try rule doesn't start early.
+        MatchGameMemory memory{"", 3, {}};
+        const auto labels = grid({"anger", "metallicize"}, 2);
+        matchGamePick(labels, memory);
+        matchGamePick(labels, memory);
+        if (memory.tries != 4) {
+            ++failures;
+            std::cout << "match game rule: a screen asked twice counted " << memory.tries - 3 << " tries\n";
+        }
+    }
+    for (const auto &c : cases) {
+        MatchGameMemory memory{c.firstPickBefore, c.triesBefore, {}};
+        const int got = matchGamePick(c.labels, memory);
+        if (got != c.expect || memory.firstPick != c.firstPickAfter) {
+            ++failures;
+            std::cout << "match game rule: " << c.what << ": picked " << got << " (" << memory.firstPick << "), expected "
+                      << c.expect << " (" << c.firstPickAfter << ")\n";
+        }
+    }
+    return failures;
+}
+
 int runSelfTest(const fair::Params &params, std::uint64_t seedStart, int count, int ascension) {
     Counters c;
     for (int i = 0; i < count; ++i) {
@@ -221,8 +270,10 @@ int runSelfTest(const fair::Params &params, std::uint64_t seedStart, int count, 
     if (!c.examples.empty()) std::cout << "examples:\n";
     for (const auto &e : c.examples) std::cout << "  " << e << "\n";
 
+    const int matchGameFailures = matchGameRuleFailures();
+    std::cout << "match game rule cases failed: " << matchGameFailures << "\n";
     const bool ok = c.battleActionMismatch == 0 && c.battleFieldMismatch == 0 && c.drawMultisetMismatch == 0 &&
-                    c.leakMismatch == 0 && c.screenHardMismatch == 0;
+                    c.leakMismatch == 0 && c.screenHardMismatch == 0 && matchGameFailures == 0;
     std::cout << (ok ? "SELFTEST PASS" : "SELFTEST FAIL") << "\n";
     return ok ? 0 : 1;
 }

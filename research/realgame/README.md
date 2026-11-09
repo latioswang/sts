@@ -139,6 +139,8 @@ game + Communication Mod  <-stdin/stdout->  commrelay.py  <-Unix socket->  sts_b
 
 The mod owns one child process for the life of the game. The relay is that process, which means the bridge can be rebuilt and restarted without restarting the game. It also records every protocol line to `logs/transcript-*.jsonl`.
 
+The relay serves one client at a time, and the newest wins. Running `commctl.py` while the bridge plays takes the game away from the bridge, so watch a running bridge through its log files instead.
+
 Drive the game by hand:
 
 ```bash
@@ -248,6 +250,14 @@ $HOME/Projects/sts_lightspeed/build/sts_bridge live --research_dir research --se
 
 `logs/live-<seed>.jsonl` has one line per decision: state summary, chosen action, simulations, root visits, each root action's visits and value, search time, and converter warnings. `t: "fallback"` lines mark decisions the agent could not make, which the bridge resolved with a simple rule. Those are the first cases to debug. Results go to `logs/live_results.jsonl`.
 
+Live mode leaves a run that is already in progress by playing it out, ending every turn until it is over. To stop a run and pick it up later instead:
+
+- `--pause_before_boss` stops on the map when the next node is the act boss (floors 15, 32 and 49), sending nothing more. The run's result row has status `paused`, and the batch ends there.
+- `--pause_floor F` stops on the first map screen from floor F on. It is meant for testing a resume.
+- `--resume` with `--count 1` and the run's own `--seed_start` takes over the run in the game instead of starting one, and appends to its log. It refuses a run with another seed. The agent keeps nothing between decisions that a resume on the map would lose, apart from the map node, which the map screen shows, and the bridge's own random streams, which start over. A resumed run doesn't pause again on the map screen it resumed on. Resume on the map, where a pause leaves the run: resumed elsewhere, the rest of that floor runs without the map node, an event's earlier choices or a fight's move history.
+
+The simulator has no actions for Match and Keep!'s card grid, so the fallback picks by rule (`MatchGame.h`). The rule takes a known pair first, and otherwise turns up a card not seen yet. On the last try it plays a known card first and looks for its partner among the cards not seen yet. It never picks a known curse on purpose. Simulated over the event's 6 pairs and 5 tries, it keeps about 1.2 good pairs, 0.3 Bash pairs and 0.05 curse pairs a visit. Always choosing the first card keeps 0.07 good pairs, because after the first try it flips the same two known cards every time.
+
 **Leak rule.** The converter never reads the run's seed; simulator RNG streams come from the bridge's own generator. The draw pile is reordered independently of its true order, except for cards the player knows are on top (Headbutt, Warcry), and the search re-shuffles it on every simulation anyway. The self-test checks this on every decision by reversing the JSON pile and requiring an identical result.
 
 **Known limits of a state rebuilt from JSON**
@@ -332,8 +342,8 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 | `Scenario`, `scenario_mod/` | Scenario files and the test-only mod they apply through |
 | `scenario_plan.py`, `tools/coverage_plan.py`, `coverage_report.py` | Plan scenarios from what hasn't been reached or what the score says is short, and list what has |
 | `StateConverter` | Game JSON to simulator state |
-| `Live` | Live mode |
-| `CommJson`, `SelfTest` | Offline converter round trip |
+| `Live`, `MatchGame.h` | Live mode, and its rule for Match and Keep! |
+| `CommJson`, `SelfTest` | Offline converter round trip, and the Match and Keep! rule's cases |
 | `report.py` | Divergence report |
 | `setup_game.sh`, `write_profile.py`, `launch_game.sh`, `run_batch.sh` | Game folder, profile, launch and batches |
 | `reports/` | Divergence reports and the list of simulator fixes |

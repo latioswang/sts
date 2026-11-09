@@ -4,6 +4,7 @@
 
 #include "ActionSender.h"
 #include "FairAgent.h"
+#include "MatchGame.h"
 #include "StateConverter.h"
 
 #include <cstdint>
@@ -17,12 +18,18 @@ struct LiveOptions {
     int ascension = 0;
     fair::Params params;
     std::string logDir;
+    // Pick up the run already in the game instead of starting one: no START command, and the run's log is appended to.
+    bool resume = false;
+    // Stop on the map, sending nothing more, when the next node is the act boss (or, with pauseFloor, from that floor
+    // on). A resumed run doesn't stop again on the floor it resumed on.
+    bool pauseBeforeBoss = false;
+    int pauseFloor = 0;
 };
 
 struct LiveResult {
     std::uint64_t seed = 0;
     std::string seedText;
-    std::string status;  // finished | stalled
+    std::string status;  // finished | stalled | paused
     std::string message;
     bool victory = false;
     int score = 0;
@@ -57,12 +64,19 @@ private:
     int fallbacks_ = 0;
     bool victory_ = false;
     int score_ = 0;
+    bool paused_ = false;
+    int resumeFloor_ = -1;
+    MatchGameMemory matchGame_;
+    int matchGameFloor_ = -1;
 
     bool step();
+    bool shouldPause() const;
+    void beginResumedRun();
     bool advanceWithoutDecision();
     void decideBattle();
     void decideOutOfCombat();
     void fallback(const std::string &reason);
+    bool pickMatchGameCard();
     void updateKnownTop(int drawPileSize);
 };
 
