@@ -659,3 +659,4 @@ ce01f0b	fs1362500n4000.a0	4000	0	0.279	46.88	1.1538	-0.0055	0.245	discard	f40hea
 e3f09a6	fs1370500n4000.a0	4000	0	0.845	48.76	1.8006	-0.0000	0.491	discard	f41a0_es550: [a0] Phase F41: early_stop=1 sims=550 (actions ratio 0.9460) [sim=fidelity-1b05bdc]
 e329553	fs1376500n2000.a20	2000	0	0.096	32.52	0.7312	+0.0484	1.000	owner-test	f42a20_2x: [a20] Phase F42 owner budget test: sims=1000 (actions ratio 2.1337) [sim=fidelity-1b05bdc]
 d222711	fs1374500n2000.a10	2000	0	0.550	42.73	1.3878	+0.0537	1.000	owner-test	f42a10_2x: [a10] Phase F42 owner budget test: sims=1100 (actions ratio 2.0130) [sim=fidelity-1b05bdc]
+d2b0486	fs1380500n2000.a0	2000	0	0.854	48.79	1.8106	+0.0364	1.000	owner-test	f42a0_2x: [a0] Phase F42 owner budget test: sims=1000 (actions ratio 2.0191) [sim=fidelity-1b05bdc]
