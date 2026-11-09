@@ -650,3 +650,4 @@ e6dcf25	fs1346500n1000.a10	1000	0	0.528	42.40	1.3593	+0.0762	1.000	scaling	f39a1
 20f784d	fs1346500n1000.a10	1000	0	0.575	43.22	1.4224	+0.1393	1.000	scaling	f39a10_s4x: [a10] Phase F39: compute-scaling diagnostic, track best at sims 2000 (4x search; never adopted) [sim=fidelity-1b05bdc]
 20f784d	fs1347500n1000.a0	999	1	0.307	47.82	1.1976	+0.0626	1.000	scaling	f39heart_s2x: [heart] Phase F39: compute-scaling diagnostic, track best at sims 1000 (2x search; never adopted) [sim=fidelity-1b05bdc]
 ce75bad	fs1347500n1000.a0	1000	0	0.325	48.59	1.2272	+0.0914	1.000	scaling	f39heart_s4x: [heart] Phase F39: compute-scaling diagnostic, track best at sims 2000 (4x search; never adopted) [sim=fidelity-1b05bdc]
+c4e31ee	fs1348500n4000.a10	4000	0	0.496	41.72	1.3146	+0.0169	0.952	keep	f40a10_es550: [a10] Phase F40: early_stop=1 + sims=550 (savings reinvested at equal compute; actions ratio 0.9658) [sim=fidelity-1b05bdc]
