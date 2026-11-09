@@ -76,10 +76,14 @@ vrmeta = metas("vr", ["rmse", "corr", "runs", "hidden", "layers", "params"])
 fit = {k: dict(rows=m["rows"], hidden=m["hidden"], params=m["params"], rmse=m["rmse"], flops=6 * m["params"] * m["rows"] * 20)
        for k, m in svmeta.items() if not m["leaf"] and k.isdigit() and int(k) <= 9}
 
-play, secs = {}, {}
+play, secs, scale = {}, {}, {}
 for r in rows:
     if len(r) >= 11 and r[9] == "scaling":
         n = r[10].split(":")[0]; m = re.search(r"sims (\d+)", r[10])
+        if n.startswith("f39"):  # F39 compute-scaling diagnostic: its own chart (track best at 2x / 4x search), not a leaf-value run
+            tm = re.match(r"f39(a10|a20|heart)_s(\d)x", n)
+            if tm: scale[n] = dict(track=tm.group(1), mult=int(tm.group(2)), sims=int(m.group(1)) if m else None, win=round(float(r[4]) * 100, 1), dscore=float(r[7]))
+            continue
         play[n] = dict(win=round(float(r[4]) * 100, 1), floor=float(r[5]), dscore=float(r[7]), sims=int(m.group(1)) if m else None, split=r[1])
 def mean_secs(path):
     v = [float(l.split("\t")[10]) for l in open(path) if l.split("\t")[0].isdigit() and len(l.split("\t")) > 10]
@@ -97,7 +101,7 @@ for cand in (f"pooled600_{heart_best}.txt", f"pooled_{heart_best}.txt"):
         m = re.search(re.escape(heart_best) + r" win=([0-9.]+)", open(f).read())
         if m: heart_pooled = float(m.group(1)); break
 
-data = dict(tracks=tracks, experiments=experiments, fit=fit, svmeta=svmeta, vrmeta=vrmeta, play=play, secs=secs,
+data = dict(tracks=tracks, experiments=experiments, fit=fit, svmeta=svmeta, vrmeta=vrmeta, play=play, secs=secs, scale=scale,
             base_secs=base_secs, heart_pooled=heart_pooled, hours_now=round((now - T0).total_seconds() / 3600, 1), pooled={})
 
 # ---- queue status

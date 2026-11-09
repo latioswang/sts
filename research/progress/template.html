@@ -256,8 +256,15 @@ svg.chart .bar { fill: var(--s1); } svg.chart .bar.s2 { fill: var(--s2); } svg.c
   </section>
 
   <section class="card">
-    <h2>Learned leaf value vs the current agent, every run</h2>
-    <div class="sub">Score difference against the current agent (0 = as strong; the current agent wins 75%). Bars are colored by what the network was trained on. Under each label: simulations per decision and wall-clock relative to the current agent.</div>
+    <h2>More search per move: what 2× and 4× simulations buy (diagnostic)</h2>
+    <div class="sub">Phase F39, 2026-11-09: each track's current best at 1,000 and 2,000 simulations per decision instead of 500, paired on one fresh 1,000-seed slice per track. Bars: run-score gain over the same agent at 500 simulations; labels: wins. Wall time grows about in proportion to the simulations. Measurement only — the search budget is the owner's decision; the equal-compute experiments (early stopping, tree reuse) build on it.</div>
+    <div class="legend"><span><i class="key-bar"></i>2× search (1,000 sims)</span><span><i class="key-bar s2"></i>4× search (2,000 sims)</span></div>
+    <div id="scalebars"></div>
+  </section>
+
+  <section class="card">
+    <h2>Closed (Phase S, 2026-11-02): learned leaf value vs the A0 agent of that day</h2>
+    <div class="sub">History, kept for reference: replacing the random rollouts at the search leaves with a learned value always lost. Score difference against the A0 agent of 2026-11-02 (0 = as strong; it won 75%). Bars are colored by what the network was trained on. Under each label: simulations per decision and wall-clock relative to that agent. The search still uses rollouts because of this result.</div>
     <div class="legend"><span><i class="key-bar"></i>trained on decision-start positions</span><span><i class="key-bar s2"></i>trained on tree-leaf positions</span><span><i class="key-bar muted"></i>hand-written leaf (control)</span></div>
     <div id="leafbars"></div>
   </section>
@@ -645,6 +652,30 @@ function genChart(box, o) {
     empty: vr.length ? '' : 'pending: data run in progress',
     series: Object.keys(byW).sort((a, b) => a - b).map(h => ({name: 'h=' + h, cls: sizeCls[h] || '', endLabel: p => 'h=' + h + ': ' + p.y.toFixed(3),
       pts: byW[h].sort((a, b) => a.runs - b.runs).map(m => ({x: Math.log10(m.runs), y: m.rmse, label: `vr${m.id} · h=${h} · ${m.runs.toLocaleString()} runs`, text: 'RMSE ' + m.rmse.toFixed(3) + ' · corr ' + m.corr.toFixed(2), desc: `${m.params.toLocaleString()} parameters`}))}))});
+})();
+
+// ---- F39: search scaling, grouped bars per track
+(function () {
+  const box = document.getElementById('scalebars');
+  const sc = DATA.scale || {};
+  const names = {a10: 'A10', a20: 'A20', heart: 'Heart'};
+  const tracks = ['a10', 'heart', 'a20'].filter(t => Object.values(sc).some(r => r.track === t));
+  if (!tracks.length) { box.textContent = 'no data'; return; }
+  const W = 1040, grp = 64, H = 40 + tracks.length * grp, lw = 120, x0 = 0, x1 = 0.16;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': 'Run-score gain from 2x and 4x search per decision, per track'});
+  const x = v => lw + ((v - x0) / (x1 - x0)) * (W - lw - 170);
+  [0, 0.05, 0.10, 0.15].forEach(v => { el('line', {x1: x(v), x2: x(v), y1: 10, y2: H - 24, class: v === 0 ? 'ref' : 'grid'}, svg); txt(svg, x(v), H - 8, '+' + v.toFixed(2), 'tick', 'middle'); });
+  tracks.forEach((t, i) => {
+    const y0 = 14 + i * grp;
+    txt(svg, lw - 12, y0 + 24, names[t], 'end-label', 'end');
+    [2, 4].forEach((m, j) => {
+      const r = Object.values(sc).find(q => q.track === t && q.mult === m); if (!r) return;
+      const yy = y0 + j * 24;
+      el('rect', {x: x(0), y: yy + 2, width: Math.max(2, x(r.dscore) - x(0)), height: 18, rx: 3, class: 'bar ' + (m === 4 ? 's2' : '')}, svg);
+      txt(svg, x(r.dscore) + 8, yy + 16, `+${r.dscore.toFixed(3)} · ${r.win.toFixed(1)}% wins · ${m}×`, 'tick', 'start');
+    });
+  });
+  box.appendChild(svg);
 })();
 
 // ---- learned leaf value: every play test as a bar
