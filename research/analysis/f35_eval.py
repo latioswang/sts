@@ -4,13 +4,15 @@ For each decision, a model's pick = argmax over the legal next nodes of pm_<id>(
 the agent's own pick on half B, with a paired SE. Also: random@B, the honest oracle (pick on half A, score on half B), and the
 map-DP value feature's own argmax (should equal own). Pre-registered arm rule: a track's best candidate is armed only if its
 pick@B − own@B > +2 SE on that track's held-out set.
-usage: f35_eval.py DIR [DIR ...] ID [ID ...]   (integer arguments are model ids)"""
+F38: --keys reads pathk_<seed>.bin (branch kind 6: input 690 = 666 run + 4 key + 20 path features; Heart labels).
+usage: f35_eval.py [--keys] DIR [DIR ...] ID [ID ...]   (integer arguments are model ids)"""
 import glob, os, sys
 import numpy as np
-Ds = [x for x in sys.argv[1:] if not x.isdigit()]; ids = [int(x) for x in sys.argv[1:] if x.isdigit()]
-IN, W = 686, 694
+KEYS = "--keys" in sys.argv[1:]
+Ds = [x for x in sys.argv[1:] if not x.isdigit() and x != "--keys"]; ids = [int(x) for x in sys.argv[1:] if x.isdigit()]
+IN, W = (690, 698) if KEYS else (686, 694)
 decs = []
-for f in sorted(f for D in Ds for f in glob.glob(os.path.join(D, "path_*.bin"))):
+for f in sorted(f for D in Ds for f in glob.glob(os.path.join(D, ("pathk_" if KEYS else "path_") + "*.bin"))):
     a = np.fromfile(f, dtype=np.float32)
     if a.size == 0 or a.size % W: continue
     a = a.reshape(-1, W)
@@ -40,7 +42,7 @@ def pr(name, v):
 pr("own", ownB)
 pr("random", np.array([b.mean() for b in B]))
 pr("oracle_honest", np.array([b[int(np.argmax(a))] for a, b in zip(A, B)]))
-dpk = [int(np.argmax(d[:, 685])) for d in decs]
+dpk = [int(np.argmax(d[:, IN - 1])) for d in decs]
 print(f"F35 map-DP feature argmax == own in {np.mean([p == o for p, o in zip(dpk, own)]):.3f} of decisions")
 for i in ids:
     L = load(i); pk = [int(np.argmax(V(L, d))) for d in decs]

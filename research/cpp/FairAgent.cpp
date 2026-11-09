@@ -706,7 +706,7 @@ const std::vector<PmLayer> &pathModel(int id) {
     const char *dir = std::getenv("VR_MODEL_DIR");
     std::ifstream in(std::string(dir ? dir : "/home/user/sts/research/models") + "/pm_" + std::to_string(id) + ".txt");
     int dim = 0, nl = 0, tr = 0;
-    if (in >> dim >> nl >> tr && dim == rv::DIM + 20) {
+    if (in >> dim >> nl >> tr && (dim == rv::DIM + 20 || dim == rv::DIM2 + 20)) {  // F38: DIM2 + 20 = with the 4 key features
         for (int l = 0; l < nl; ++l) {
             PmLayer y; in >> y.in >> y.out; y.W.resize(static_cast<size_t>(y.in) * y.out); y.B.resize(y.out);
             for (auto &w : y.W) in >> w;
@@ -788,13 +788,15 @@ int FairAgent::chooseMapX(const GameContext &gc) {
         // Phase F35 map_model=<id> (default off): choose the legal next node with the highest learned path value
         const auto &L = pathModel(static_cast<int>(getp(P, "map_model", 0)));
         if (!L.empty()) {
-            float f[rv::DIM + 20];
+            float f[rv::DIM2 + 20];
             rv::extract(gc, f);
+            const int R = L.front().in == rv::DIM2 + 20 ? rv::DIM2 : rv::DIM;  // F38: a 690-input model also reads the keys
+            if (R == rv::DIM2) rv::extractKeys(gc, getp(P, "keys", 0) > 0 ? 1.f : 0.f, f + rv::DIM);
             double bm = -1e30; int bx = bestX;
             for (auto &a : acts) {
                 const int x = a.getIdx1();
-                f35PathFeatures(m, x, nextY, f + rv::DIM);
-                f[rv::DIM + 19] = static_cast<float>(mapNodeV[x]) / 10.f;
+                f35PathFeatures(m, x, nextY, f + R);
+                f[R + 19] = static_cast<float>(mapNodeV[x]) / 10.f;
                 const double pv = pathModelValue(L, f) + 1e-6 * x;
                 if (pv > bm) { bm = pv; bx = x; }
             }
@@ -1458,7 +1460,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
         if (kind == 2 && gc.screenState == ScreenState::BOSS_RELIC_REWARDS && seen++ == k) break;
         // Phase F34: kind 3 = a map (path) choice with >= 2 legal next nodes, below the boss row; kind 4 = a rest site
         // where both rest and smith are possible
-        if ((kind == 3 || kind == 5) && gc.screenState == ScreenState::MAP_SCREEN && gc.curMapNodeY < 14
+        if ((kind == 3 || kind == 5 || kind == 6) && gc.screenState == ScreenState::MAP_SCREEN && gc.curMapNodeY < 14
             && search::GameAction::getAllActionsInState(gc).size() >= 2 && seen++ == k) break;
         if (kind == 4 && gc.screenState == ScreenState::REST_ROOM && !gc.relics.has(RelicId::COFFEE_DRIPPER)
             && !gc.relics.has(RelicId::FUSION_HAMMER) && gc.deck.getUpgradeableCount() > 0 && seen++ == k) break;
@@ -1481,7 +1483,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
         n = 3;  // options 0..2 = the three boss relics, 3 = skip
         FairAgent c = *this;
         own = c.bossRelicChoice(gc);
-    } else if (kind == 3 || kind == 5) {
+    } else if (kind == 3 || kind == 5 || kind == 6) {
         mapActs = search::GameAction::getAllActionsInState(gc);  // option o = the o-th legal next node
         n = static_cast<int>(mapActs.size()) - 1;
         GameContext t = gc; FairAgent c = *this;
@@ -1508,12 +1510,14 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
     for (int o = 0; o <= n; ++o) {
         GameContext s = gc;
         if (kind == 1) search::GameAction(search::GameAction::RewardsActionType::CARD, 0, o == n ? 5 : o).execute(s);
-        else if (kind == 3 || kind == 5) mapActs[o].execute(s);
+        else if (kind == 3 || kind == 5 || kind == 6) mapActs[o].execute(s);
         else search::GameAction(o).execute(s);
         float x[rv::DIM];
-        rv::extract(kind == 5 ? gc : s, x);  // kind 5: the pre-move state (same for every option); options differ in path features
+        rv::extract(kind >= 5 ? gc : s, x);  // kind 5/6: the pre-move state (same for every option); options differ in path features
+        float k4[4] = {0, 0, 0, 0};  // F38 kind 6: the key features of the pre-move state
+        if (kind == 6) rv::extractKeys(gc, getp(P, "keys", 0) > 0 ? 1.f : 0.f, k4);
         float pf[20] = {0};
-        if (kind == 5) {
+        if (kind >= 5) {
             f35PathFeatures(*gc.map, mapActs[o].getIdx1(), gc.curMapNodeY + 1, pf);
             pf[19] = static_cast<float>(dpV[mapActs[o].getIdx1()]) / 10.f;
         }
@@ -1525,7 +1529,9 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
             reseedAllRngs(h, rr);
             b.playout(h);
             if (b.stats.aborted || h.outcome == GameOutcome::UNDECIDED) continue;
-            const double v = std::min(h.floorNum, 51) / 51.0 + (h.outcome == GameOutcome::PLAYER_VICTORY ? 1.0 : 0.0);
+            // F38 kind 6 = the Heart label (run.py winmode heart): a victory counts only if the playout reached act 4
+            const bool won = h.outcome == GameOutcome::PLAYER_VICTORY && (kind != 6 || h.act >= 4);
+            const double v = std::min(h.floorNum, 51) / 51.0 + (won ? 1.0 : 0.0);
             sum += v; ++ok;
             if (2 * m < M) { sa += v; ++oa; } else { sb += v; ++ob; }
         }
@@ -1533,7 +1539,8 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
                                static_cast<float>(ok), static_cast<float>(gc.floorNum), o == own ? 1.f : 0.f,
                                static_cast<float>(oa ? sa / oa : -1.0), static_cast<float>(ob ? sb / ob : -1.0)};
         std::fwrite(x, sizeof(float), rv::DIM, out);
-        if (kind == 5) std::fwrite(pf, sizeof(float), 20, out);
+        if (kind == 6) std::fwrite(k4, sizeof(float), 4, out);
+        if (kind >= 5) std::fwrite(pf, sizeof(float), 20, out);
         std::fwrite(tail, sizeof(float), 8, out);
     }
     std::fflush(out);
