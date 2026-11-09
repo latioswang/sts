@@ -10,7 +10,9 @@ Model: MLP 686 -> H -> H -> 1 (ReLU), fresh init (seed 0). Loss per decision = m
 mean playout value of the option the model ranks first; patience 8, best state kept. Export: research/models/pm_<id>.txt in
 the vr_mlp text format (dim nlayers 1, then per layer: in out, W row-major [out][in], b) + .meta
 (val_pick val_pick_dp n_train_decisions hidden).
-usage: train_path.py --id N [--hidden 64] DIR [DIR ...]"""
+F38: --keys reads pathk_<seed>.bin (fair_eval --branch_kind 6): 666 run features + 4 key features + 20 path features + 8 tail
+floats per row (input 690), labelled with the Heart score.
+usage: train_path.py --id N [--hidden 64] [--keys] DIR [DIR ...]"""
 import argparse, glob, os, re
 import numpy as np
 
@@ -19,10 +21,19 @@ DIM, PF, TAIL, MAXO = 666, 20, 8, 7
 IN = DIM + PF
 
 
+PREFIX = "path_"
+
+
+def set_keys(on):
+    global DIM, IN, PREFIX
+    if on: DIM, PREFIX = 666 + 4, "pathk_"
+    IN = DIM + PF
+
+
 def load(dirs):
     X, Y, M, D, S = [], [], [], [], []
     for d in dirs:
-        for f in sorted(glob.glob(os.path.join(d, "path_*.bin"))):
+        for f in sorted(glob.glob(os.path.join(d, PREFIX + "*.bin"))):
             a = np.fromfile(f, dtype=np.float32)
             if a.size == 0 or a.size % (IN + TAIL): continue
             a = a.reshape(-1, IN + TAIL)
@@ -30,7 +41,7 @@ def load(dirs):
             n = len(a)
             x = np.zeros((MAXO, IN), np.float32); y = np.zeros(MAXO, np.float32); m = np.zeros(MAXO, np.float32)
             x[:n] = a[:, :IN]; y[:n] = a[:, IN + 2]; m[:n] = 1
-            X.append(x); Y.append(y); M.append(m); D.append(x[:, DIM + 19].copy()); S.append(int(re.search(r"path_(\d+)", f).group(1)))
+            X.append(x); Y.append(y); M.append(m); D.append(x[:, DIM + 19].copy()); S.append(int(re.search(PREFIX + r"(\d+)", f).group(1)))
     return np.stack(X), np.stack(Y), np.stack(M), np.stack(D), np.array(S)
 
 
@@ -39,8 +50,9 @@ def main():
     ap.add_argument("dirs", nargs="+"); ap.add_argument("--id", type=int, required=True)
     ap.add_argument("--hidden", type=int, default=64); ap.add_argument("--epochs", type=int, default=60)
     ap.add_argument("--patience", type=int, default=8); ap.add_argument("--lr", type=float, default=1e-3)
-    ap.add_argument("--batch", type=int, default=256)
+    ap.add_argument("--batch", type=int, default=256); ap.add_argument("--keys", action="store_true")
     a = ap.parse_args()
+    set_keys(a.keys)
     import torch, torch.nn as nn
     torch.manual_seed(0); torch.set_num_threads(4)
     X, Y, M, Dp, S = load(a.dirs)
