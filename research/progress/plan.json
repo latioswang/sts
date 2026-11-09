@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F36 (b): iterate the path-choice model on A20 — path data from the new A20 best on four workers (≈ 16,000 seeds), retrain (pm_4), held-out check (remaining honest headroom +0.014 ± 0.005 over the current model), then a 4,000-seed play test. When F36 closes, pre-register the next phase.",
+  "Phase F38 (pre-registered): (a) a second path-model iteration on A10 — 16,000 seeds of path data from the A10 best on four workers + an 800-seed held-out set, retrain (pm_5), play-test only if > +2 SE held-out; (b) a Heart path model that sees the keys — new data mode with 4 key features and Heart labels (win only if act 4 was reached), 12,000 Heart seeds + held-out on five workers, train pm_6 on Heart data, same arm and play rules.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -271,6 +271,7 @@
   "F32: one decision-trained run value on A10 + A20 decisions together (41,600 seeds) — ties the track-specific ones (A10 +0.0028 ± 0.0024 vs vr_171; A20 −0.0006 ± 0.0012 vs vr_251); card-reward decision training is saturated.",
   "F33: honest decision headroom (pick on one half of 16 playouts, score on the other) — card rewards A10 −0.020 ± 0.008, A20 −0.009 ± 0.004; boss relics A10 −0.007 ± 0.005, A20 +0.004 ± 0.004: the agent's own choices are at the 8-playout ceiling; the in-sample 'headroom' of F26–F32 was selection noise.",
   "F34: honest decision headroom at rest sites and map paths — rest sites none (A20 +0.005 ± 0.004, A10 +0.004 ± 0.007); map paths +0.014 ± 0.005 on A20 (real) and +0.015 ± 0.008 on A10 (just under 2 SE): path choice is the one out-of-combat decision with measurable room left.",
-  "F37: the A10/A20 path-choice model on A0 (tie, −0.002) and Heart (−0.008; act-4 reach 57% → 51%: the model never saw keys) — not adopted."
+  "F37: the A10/A20 path-choice model on A0 (tie, −0.002) and Heart (−0.008; act-4 reach 57% → 51%: the model never saw keys) — not adopted.",
+  "F36 (b): a second A20 path model (pm_4, 2x the data) — +0.0071 ± 0.0039 per decision held-out (1.8 SE), below the +2 SE bar, not play-tested; A20 best stays f35a20."
  ]
 }
