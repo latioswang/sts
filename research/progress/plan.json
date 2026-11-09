@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F40 (pre-registered): spend the combat search budget where it changes the move — stop a search early once the chosen move can no longer change (decisions provably identical), then reinvest the saved simulations at equal total compute. F39 showed more search is the strongest lever on every track (A10: 2× +4.6 pts wins, 4× +9.3).",
+  "Phase F40 (running): early stop + reinvested search at equal compute — A10 KEEP f40a10_es550 (+0.017 on 4,000 seeds, P 0.95, compute 0.97×; 2,000-seed confirmation running); A20 play test running; Heart next.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
