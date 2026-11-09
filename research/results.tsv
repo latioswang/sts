@@ -644,3 +644,5 @@ d56c278	fs1331500n4000.a10	4000	0	0.505	41.52	1.3195	+0.0614	1.000	keep	f35a10: 
 cb41004	fs1335500n2000.a10	2000	0	0.485	41.33	1.2959	+0.0262	0.909	measure	f35a10: Phase F24: confirm f35a10 vs f23a10 [a10] [sim=fidelity-1b05bdc]
 30049f2	fs1337500n4000.a0	4000	0	0.827	48.95	1.7867	-0.0017	0.427	discard	f37a0_pm3: [a0] Phase F37: track best + path-choice model pm_3 (4,000-seed play test) [map_model=3] [sim=fidelity-1b05bdc]
 7d89372	fs1341500n4000.a0	4000	0	0.235	47.92	1.1354	-0.0075	0.239	discard	f37heart_pm3: [heart] Phase F37: track best + path-choice model pm_3 (4,000-seed play test) [map_model=3] [sim=fidelity-1b05bdc]
+e95489f	fs1345500n1000.a20	1000	0	0.085	32.31	0.7168	+0.0514	1.000	scaling	f39a20_s2x: [a20] Phase F39: compute-scaling diagnostic, track best at sims 1000 (2x search; never adopted) [sim=fidelity-1b05bdc]
+e95489f	fs1345500n1000.a20	1000	0	0.093	33.18	0.7417	+0.0762	1.000	scaling	f39a20_s4x: [a20] Phase F39: compute-scaling diagnostic, track best at sims 2000 (4x search; never adopted) [sim=fidelity-1b05bdc]
