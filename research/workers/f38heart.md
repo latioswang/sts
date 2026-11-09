@@ -1,6 +1,6 @@
 # Worker task: Phase F38 (b) Heart path-decision data from the Heart best f16heart (branch kind 6: with key features and Heart labels) — NAME = your worker name
 
-Pre-registered in research/program.md ("Phase F38", 2026-11-09 05:47 UTC). The playing agent is research/best_heart_params.txt (f16heart, keys=1). Offline measurement mode (never used in play):
+Pre-registered in research/program.md ("Phase F38", 2026-11-09 05:40 UTC). The playing agent is research/best_heart_params.txt (f16heart, keys=1). Offline measurement mode (never used in play):
 `fair_eval --branch_eval 12 M --branch_kind 6` plays each seed by the Heart agent to its (seed mod 12)-th map choice with >= 2 legal
 next nodes, then plays every option out M times from re-seeded copies and writes `pathk_<seed>.bin` (rows of 666 run features +
 4 key features of the pre-move state + 20 path features + 8 tail floats; a playout's win counts only if it reached act 4).
