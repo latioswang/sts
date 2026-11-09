@@ -32,3 +32,4 @@ vr_upg_w=45
 w_event=2
 w_monster=0.5
 w_shop_rich=3
+map_model=3
