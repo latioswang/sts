@@ -563,7 +563,9 @@ search::Action FairSearcher::search() {
                 for (const auto &e : nodes[rootIdx].edges) {
                     if (e.n > n1) { n2 = n1; n1 = e.n; } else if (e.n > n2) n2 = e.n;
                 }
-                if (n1 - n2 > static_cast<std::int64_t>(p.simulations - i - 1)) break;
+                // F43 soft rule (esFrac < 1): stop earlier, at a small risk of a different pick; esFrac = 1 is exactly F40's test
+                if (p.esFrac >= 1.0 ? (n1 - n2 > static_cast<std::int64_t>(p.simulations - i - 1))
+                                    : (static_cast<double>(n1 - n2) > p.esFrac * static_cast<double>(p.simulations - i - 1))) break;
             }
         }
     }

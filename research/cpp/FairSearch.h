@@ -55,6 +55,7 @@ struct SearchParams {
     double rollPrior = 0.0;      // >0: rollout actions sampled from (1-eps)*bilinear prior + eps*uniform (learned fast rollout policy)
     double rollPriorEps = 0.25;
     bool earlyStop = false;      // F40: stop once the most-visited root edge cannot be overtaken by the remaining simulations (move provably unchanged; select_q = 0 only)
+    double esFrac = 1.0;         // F43: stop once the leader's visit lead exceeds esFrac x the simulations left (1 = F40's provably-safe rule)
     double selectQ = 0.0;        // final move: if > 0, pick the highest mean value among edges with n >= selectQ * max_n (robust child); 0 = most visits
     double cutWinFrac = 1.0;     // rollout-cutoff value: fraction of winBonus credited per enemy-HP fraction removed
     double cutHpFrac = 1.0;      // rollout-cutoff value: fraction of hpWeight*curHp credited

@@ -92,6 +92,7 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.priorTemp = getp(P, "prior_temp", 1.0);
     sp.selectQ = getp(P, "select_q", 0.0);
     sp.earlyStop = getp(P, "early_stop", 0) > 0;  // F40
+    sp.esFrac = getp(P, "es_frac", 1.0);  // F43
     sp.rollPrior = getp(P, "roll_prior", 0.0);
     sp.rollPriorEps = getp(P, "roll_prior_eps", 0.25);
     sp.lowHpPen = getp(P, "lowhp_pen", 0.0);
