@@ -103,6 +103,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
 ### Current state (update after every batch) — 2026-11-09 00:16 UTC
+- **2026-11-09 00:55 UTC: F35 worker f35w9 done — all ten data sets in.** Log merged: `F33 GEN research/vf/data/f35_a10_w9: 2700/2700 seeds done; 2700 branch, 0 crashed, 196 no decision`, `PUSH f35_a10_w9_z DONE: 4 files`; gates bit-identical; two resumes after the 2 h limit; pulled + unpacked; archived. Training pm_2 (A10) and pm_3 (all) now.
+
 - **2026-11-09 00:38 UTC: F35 workers f35w5, f35w6, f35w8 done.** Logs merged: `F33 GEN research/vf/data/f35_a10_w5: 2700/2700 seeds done; 2700 branch, 0 crashed, 227 no decision`; `F33 GEN research/vf/data/f35_a10_w6: 2700/2700 seeds done; 2700 branch, 0 crashed, 220 no decision`; `F33 GEN research/vf/data/f35_a10_w8: 2700/2700 seeds done; 2700 branch, 0 crashed, 237 no decision`; all `PUSH ... DONE: 4 files`; gates bit-identical; each resumed after the 2 h limit (w5 also after a container restart); pulled + unpacked; archived. (w5 noted that the crash count 'cannot detect a crash' — not so: a crashed per-seed child gets a 14-column row with column 10 = 2 from the harness, which the count catches.) Left: f35w9 (A10).
 
 - **2026-11-09 00:16 UTC: hourly check.** F35: all A20 data and both held-out sets in; **pm_1 (A20) +0.0133 ± 0.0048 vs own on held-out A20 (2.8 SE)**, C++/Python agreement 164/164, leak test PASS; play-test script `research/tools/f35_play.sh TRACK ID` committed before any play test. Waiting for the four A10 workers (f35w5, w6, w8, w9) → pm_2, pm_3 → arm decisions. Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
