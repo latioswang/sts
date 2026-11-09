@@ -553,7 +553,19 @@ search::Action FairSearcher::search() {
         // compute-proportional budget: cheaper simulations (e.g. rollout cutoff) buy more of them
         while (actionsExecuted < p.budgetActions) { simulate(); ++simulationsRun; }
     } else {
-        for (int i = 0; i < p.simulations; ++i) { simulate(); ++simulationsRun; }
+        const bool es = p.earlyStop && p.selectQ <= 0.0;
+        for (int i = 0; i < p.simulations; ++i) {
+            simulate(); ++simulationsRun;
+            if (es) {
+                // F40 safe early stop: the final pick is the first edge with the most visits; if the leader is ahead of the
+                // runner-up by more than the simulations left, no continuation can change the pick
+                std::int64_t n1 = -1, n2 = -1;
+                for (const auto &e : nodes[rootIdx].edges) {
+                    if (e.n > n1) { n2 = n1; n1 = e.n; } else if (e.n > n2) n2 = e.n;
+                }
+                if (n1 - n2 > static_cast<std::int64_t>(p.simulations - i - 1)) break;
+            }
+        }
     }
     const auto &edges = nodes[rootIdx].edges;
     int best = 0;
