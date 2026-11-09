@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F40 (running): early stop + reinvested search at equal compute — A10 KEEP f40a10_es550 (+0.017 on 4,000 seeds, P 0.95, compute 0.97×; 2,000-seed confirmation running); A20 play test running; Heart next.",
+  "Phase F40 (running): early stop + reinvested search at equal compute — A10 CONFIRMED (new A10 best f40a10_es550: +0.017 on 4,000 seeds, +0.039 on 2,000 more, ≈ +1.5 pts wins pooled); A20 near miss (+0.004, P 0.75) on its one extension; Heart (+5% search) play test running.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -254,7 +254,8 @@
   "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions).",
   "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route.",
   "F35: a learned path-choice model (state + destination room + reachable room counts + the hand map plan's own value) — new A20 best f35a20: +0.032 on 4,000 fresh seeds (P 1.000), confirmed +0.025 on 2,000 more (wins 5.3% → 6.7%); the first A20 gain from the path layer.",
-  "F36 (a): the path-choice model on A10 — new A10 best f35a10: +0.061 on 4,000 fresh seeds (wins 46.7% → 50.5%, P 1.000), confirmed +0.026 on 2,000 more (P 0.91); ≈ +3 points of wins pooled."
+  "F36 (a): the path-choice model on A10 — new A10 best f35a10: +0.061 on 4,000 fresh seeds (wins 46.7% → 50.5%, P 1.000), confirmed +0.026 on 2,000 more (P 0.91); ≈ +3 points of wins pooled.",
+  "F40 (A10): stop each combat search once the chosen move cannot change, spend the saved simulations on more search per decision at equal total compute — new A10 best f40a10_es550, confirmed (+0.039 on 2,000 fresh seeds, P 0.997)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
