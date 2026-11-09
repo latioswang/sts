@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F35 (pre-registered): a learned path-choice model. F34 found that choosing the next map node by playouts beats the agent's hand-written map plan by about +0.014 run score per path decision on A20 (and the same size, just under 2 SE, on A10). Plan: path-decision data with per-option path features, a small within-decision model, a held-out check, then a 4,000-seed play test only if the model clearly beats the agent's own path choices on held-out decisions.",
+  "Phase F36 (pre-registered): carry the learned path-choice model to A10 (a 4,000-seed play test of the joint model on the A10 best) and iterate it on A20 (path data from the new A20 best, a retrained model, a held-out check, then a play test). (F35: the path model raised A20 by +0.030 run score and +1.3 points of wins over 6,000 seeds, confirmed.)",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -252,7 +252,8 @@
   "F23: value-model weights ×1.5 — new A10 best f23a10 (+1.7 pts wins pooled over 1,000 seeds, P 0.94) and A20 f23a20 (P 0.91 on one slice; not replicated on 2,000 seeds).",
   "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis.",
   "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions).",
-  "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route."
+  "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route.",
+  "F35: a learned path-choice model (state + destination room + reachable room counts + the hand map plan's own value) — new A20 best f35a20: +0.032 on 4,000 fresh seeds (P 1.000), confirmed +0.025 on 2,000 more (wins 5.3% → 6.7%); the first A20 gain from the path layer."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",

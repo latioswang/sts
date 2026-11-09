@@ -639,3 +639,4 @@ e0084e9	fs1310500n500.a10	500	0	0.478	40.63	1.2747	+0.0124	0.759	discard	f24a10:
 accf8a7	fs1317500n4000.a20	4000	0	0.045	29.25	0.6176	+0.0050	0.853	keep	f29a20: [a20] fresh-slice extension of a near miss (fs1313500n4000 + fs1317500n4000 pooled P=0.911, second-slice dscore=+0.0050) [sim=fidelity-1b05bdc]
 eaeec43	fs1321500n4000.a10	4000	0	0.467	40.82	1.2669	-0.0154	0.049	discard	f30a10: [a10] Phase F30: A10 best + decision-trained V vr_251 (4,000-seed play test) [vr_model=251] [sim=fidelity-1b05bdc]
 238e414	fs1325500n4000.a20	4000	0	0.062	30.51	0.6595	+0.0320	1.000	keep	f35a20: [a20] Phase F35: track best + learned path-choice model pm_1 (4,000-seed play test) [map_model=1] [sim=fidelity-1b05bdc]
+568cb21	fs1329500n2000.a20	2000	0	0.067	30.54	0.6645	+0.0250	0.985	measure	f35a20: Phase F24: confirm f35a20 vs f29a20 [a20] [sim=fidelity-1b05bdc]
