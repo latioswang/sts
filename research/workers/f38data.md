@@ -1,6 +1,6 @@
 # Worker task: Phase F38 (a) path-decision data from the A10 best f35a10 (its path choices are made by the learned model pm_3) — NAME = your worker name
 
-Pre-registered in research/program.md ("Phase F38", 2026-11-09 05:47 UTC). Same tool and procedure as F35; the playing agent is research/best_a10_params.txt, which is f35a10 (map_model=3, model file research/models/pm_3.txt in the repo). Offline measurement mode (never used in play):
+Pre-registered in research/program.md ("Phase F38", 2026-11-09 05:40 UTC). Same tool and procedure as F35; the playing agent is research/best_a10_params.txt, which is f35a10 (map_model=3, model file research/models/pm_3.txt in the repo). Offline measurement mode (never used in play):
 `fair_eval --branch_eval 12 8 --branch_kind 5` plays each seed by the track's best agent to its (seed mod 12)-th map choice
 with >= 2 legal next nodes, then plays every option out 8 times from re-seeded copies and writes `path_<seed>.bin` (rows of
 666 run features of the pre-move state + 20 path features + 8 tail floats). Many seeds end with no decision (tail n = -1): normal.
