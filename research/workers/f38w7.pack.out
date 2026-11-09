@@ -1,0 +1,119 @@
+PACK research/vf/data/f38_heart_w2 -> research/vf/data/f38_heart_w2_z/all: 3000 files, 3 shards, 18.7 MB -> 0.6 MB (31.4x), verify OK
+push f38_heart_w2_z: 4 files, 0 already in latioswang/sts-ironclad-data, 4 to upload
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[AProcessing Files (0 / 3)      : 100%|█████████▉|  594kB /  594kB, 58.5kB/s  
+New Data Upload               : 100%|█████████▉|  594kB /  594kB, 58.5kB/s  [A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|█████████▉|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|█████████▉|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|█████████▉|  198kB /  198kB            [A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|██████████|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|██████████|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|██████████|  198kB /  198kB            [A[A[A[AProcessing Files (3 / 3)      : 100%|██████████|  594kB /  594kB, 54.5kB/s  
+New Data Upload               : 100%|██████████|  594kB /  594kB, 54.5kB/s  [A
+
+
+
+
+Validating                    :           |   0%            [A[A[A[A[A
+
+
+
+
+Validating                    :           |   0%            [A[A[A[A[A
+
+  ...rt_w2_z/all/shard_00000.z: 100%|██████████|  197kB /  197kB            [A[A
+
+
+  ...rt_w2_z/all/shard_00001.z: 100%|██████████|  198kB /  198kB            [A[A[A
+
+
+
+  ...rt_w2_z/all/shard_00002.z: 100%|██████████|  198kB /  198kB            [A[A[A[A
+
+
+
+
+Validating                    : ██████████| 100%            [A[A[A[A[AProcessing Files (3 / 3)      : 100%|██████████|  594kB /  594kB, 54.3kB/s  
+New Data Upload               : 100%|██████████|  594kB /  594kB, 54.3kB/s  
+Validating                    : ██████████| 100%            
+  ...rt_w2_z/all/shard_00000.z: 100%|██████████|  197kB /  197kB            
+  ...rt_w2_z/all/shard_00001.z: 100%|██████████|  198kB /  198kB            
+  ...rt_w2_z/all/shard_00002.z: 100%|██████████|  198kB /  198kB            
+push f38_heart_w2_z: commit got HTTP 502; retry 1/7 in 15s
+push f38_heart_w2_z: 4/4 files uploaded
+PUSH f38_heart_w2_z DONE: 4 files in latioswang/sts-ironclad-data
