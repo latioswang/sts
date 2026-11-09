@@ -253,7 +253,8 @@
   "F26: decision-level evaluation of run-value models by branch playouts (1,390 A20 card-reward decisions); it agrees with play where holdout correlation did not. A shared-map bug in the first run was found and fixed before any analysis.",
   "F28: interventional decision data at scale (22,400 A20 seeds of branch playouts, 6 workers + local) and a decision-trained run value (vr_251, +0.0019 ± 0.0010 per card-reward decision over vr_171 on held-out decisions).",
   "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route.",
-  "F35: a learned path-choice model (state + destination room + reachable room counts + the hand map plan's own value) — new A20 best f35a20: +0.032 on 4,000 fresh seeds (P 1.000), confirmed +0.025 on 2,000 more (wins 5.3% → 6.7%); the first A20 gain from the path layer."
+  "F35: a learned path-choice model (state + destination room + reachable room counts + the hand map plan's own value) — new A20 best f35a20: +0.032 on 4,000 fresh seeds (P 1.000), confirmed +0.025 on 2,000 more (wins 5.3% → 6.7%); the first A20 gain from the path layer.",
+  "F36 (a): the path-choice model on A10 — new A10 best f35a10: +0.061 on 4,000 fresh seeds (wins 46.7% → 50.5%, P 1.000), confirmed +0.026 on 2,000 more (P 0.91); ≈ +3 points of wins pooled."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",

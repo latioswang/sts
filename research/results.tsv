@@ -641,3 +641,4 @@ eaeec43	fs1321500n4000.a10	4000	0	0.467	40.82	1.2669	-0.0154	0.049	discard	f30a1
 238e414	fs1325500n4000.a20	4000	0	0.062	30.51	0.6595	+0.0320	1.000	keep	f35a20: [a20] Phase F35: track best + learned path-choice model pm_1 (4,000-seed play test) [map_model=1] [sim=fidelity-1b05bdc]
 568cb21	fs1329500n2000.a20	2000	0	0.067	30.54	0.6645	+0.0250	0.985	measure	f35a20: Phase F24: confirm f35a20 vs f29a20 [a20] [sim=fidelity-1b05bdc]
 d56c278	fs1331500n4000.a10	4000	0	0.505	41.52	1.3195	+0.0614	1.000	keep	f35a10: [a10] Phase F35: track best + learned path-choice model pm_3 (4,000-seed play test) [map_model=3] [sim=fidelity-1b05bdc]
+cb41004	fs1335500n2000.a10	2000	0	0.485	41.33	1.2959	+0.0262	0.909	measure	f35a10: Phase F24: confirm f35a10 vs f23a10 [a10] [sim=fidelity-1b05bdc]
