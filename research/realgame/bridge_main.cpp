@@ -14,7 +14,6 @@
 #include "SelfTest.h"
 
 #include "bf_mlp.h"
-#include "vr_mlp.h"
 #include "game/Game.h"
 
 #include <cstdlib>
@@ -107,16 +106,9 @@ Args parseArgs(int argc, char **argv) {
 void loadModelsOrDie(const Args &args) {
     setenv("BF_MODEL_DIR", (args.researchDir + "/models").c_str(), 1);
     setenv("SV_MODEL_DIR", (args.researchDir + "/models").c_str(), 0);
-    setenv("VR_MODEL_DIR", (args.researchDir + "/models").c_str(), 1);
     const int model = static_cast<int>(fair::getp(args.params, "bf_model", 0));
     if (model > 0 && !fair::bf::model(model).trained) {
         throw std::runtime_error("bf_model=" + std::to_string(model) + " did not load from " + args.researchDir + "/models");
-    }
-    for (const char *key : {"vr_model", "vr_model_card"}) {
-        const int vrModel = static_cast<int>(fair::getp(args.params, key, 0));
-        if (vrModel > 0 && !fair::vr::model(vrModel).trained) {
-            throw std::runtime_error(std::string(key) + "=" + std::to_string(vrModel) + " did not load from " + args.researchDir + "/models");
-        }
     }
 }
 

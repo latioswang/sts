@@ -320,7 +320,7 @@ python3 -m pytest research/realgame/test_report.py research/realgame/test_scenar
 ## Things to keep in mind
 
 - **Screen.** Keep the Mac awake and unlocked while a batch runs.
-- **Models.** `bf_model` and `vr_model` load from `research/models`. The bridge sets both paths itself and refuses to start if a model fails to load. `fair_eval` falls back to `/home/user/...` and silently plays untrained when the file is missing, so set `BF_MODEL_DIR` when running it on this Mac.
+- **Models.** `bf_model` loads from `research/models`. The bridge sets the path itself and refuses to start if the model fails to load. `fair_eval` falls back to `/home/user/...` and silently plays untrained when the file is missing, so set `BF_MODEL_DIR` when running it on this Mac.
 - **Agent randomness across platforms.** `std::default_random_engine` and `std` distributions differ between libc++ and libstdc++, so a given seed can play differently here than on the Linux cloud runs. The simulator's own RNG does not use them.
 - **Game saves.** `saves/IRONCLAD.autosave` in the game folder is base64 XORed with `key`. Decoding it shows the game's real relic pools and RNG counters, which is the quickest check when a pool looks wrong.
 
