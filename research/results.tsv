@@ -647,3 +647,5 @@ cb41004	fs1335500n2000.a10	2000	0	0.485	41.33	1.2959	+0.0262	0.909	measure	f35a1
 e95489f	fs1345500n1000.a20	1000	0	0.085	32.31	0.7168	+0.0514	1.000	scaling	f39a20_s2x: [a20] Phase F39: compute-scaling diagnostic, track best at sims 1000 (2x search; never adopted) [sim=fidelity-1b05bdc]
 e95489f	fs1345500n1000.a20	1000	0	0.093	33.18	0.7417	+0.0762	1.000	scaling	f39a20_s4x: [a20] Phase F39: compute-scaling diagnostic, track best at sims 2000 (4x search; never adopted) [sim=fidelity-1b05bdc]
 e6dcf25	fs1346500n1000.a10	1000	0	0.528	42.40	1.3593	+0.0762	1.000	scaling	f39a10_s2x: [a10] Phase F39: compute-scaling diagnostic, track best at sims 1000 (2x search; never adopted) [sim=fidelity-1b05bdc]
+20f784d	fs1346500n1000.a10	1000	0	0.575	43.22	1.4224	+0.1393	1.000	scaling	f39a10_s4x: [a10] Phase F39: compute-scaling diagnostic, track best at sims 2000 (4x search; never adopted) [sim=fidelity-1b05bdc]
+20f784d	fs1347500n1000.a0	999	1	0.307	47.82	1.1976	+0.0626	1.000	scaling	f39heart_s2x: [heart] Phase F39: compute-scaling diagnostic, track best at sims 1000 (2x search; never adopted) [sim=fidelity-1b05bdc]
