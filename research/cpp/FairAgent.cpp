@@ -12,6 +12,8 @@
 #include "rv_mlp.h"
 #include "bf_mlp.h"
 #include "vr_mlp.h"
+#include "trace.h"
+#include <sstream>
 #include <algorithm>
 #include <cmath>
 #include <numeric>
@@ -137,6 +139,7 @@ void FairAgent::playBattle(GameContext &gc) {
     bc.init(gc);
     ++stats.battles;
     stats.lastEncounter = static_cast<int>(bc.encounter);
+    if (trace::on(this)) std::fprintf(trace::g_f, "  FIGHT %s | %s\n", monsterEncounterStrings[static_cast<int>(bc.encounter)], trace::state(gc).c_str());
     if (getp(P, "cheat_combat", 0) > 0) {
         // DIAGNOSTIC ONLY (never a result): lightspeed's RNG-aware scum search.
         legacy.simulationCountBase = sp.simulations;
@@ -202,6 +205,7 @@ void FairAgent::playBattle(GameContext &gc) {
             putsOnTop = task == CardSelectTask::HEADBUTT || task == CardSelectTask::WARCRY;
         }
         if (onCombatAction) onCombatAction(bc, a, s);
+        if (trace::on(this)) { std::ostringstream os; a.printDesc(os, bc); trace::battleLine(bc, os.str()); }
         a.execute(bc);
         if (vfLog && bc.outcome != Outcome::UNDECIDED && !vfRows.empty()) {
             // label every row of this battle with its final outcome and flush
@@ -227,6 +231,7 @@ void FairAgent::playBattle(GameContext &gc) {
         }
         if (reuse) s.advance(a, bc);
     }
+    if (trace::on(this)) std::fprintf(trace::g_f, "  END FIGHT turn %d hp %d/%d%s\n", bc.turn, bc.player.curHp, bc.player.maxHp, bc.outcome == Outcome::PLAYER_LOSS ? " DIED" : "");
     bc.exitBattle(gc);
 }
 
@@ -1201,6 +1206,15 @@ int FairAgent::vrEventChoice(const GameContext &gc, std::uint64_t decisionSeed) 
 }
 
 void FairAgent::stepOutOfCombat(GameContext &gc) {
+    if (!trace::on(this)) { stepOutOfCombat0(gc); return; }
+    const auto before = gc.screenState;
+    trace::offer(gc);
+    const auto s0 = trace::snap(gc);
+    stepOutOfCombat0(gc);
+    trace::diff(s0, gc, before);
+}
+
+void FairAgent::stepOutOfCombat0(GameContext &gc) {
     using RT = search::GameAction::RewardsActionType;
     if (getp(P, "oc_potions", 0) > 0 && gc.screenState == ScreenState::MAP_SCREEN) {
         // potions that are strictly better used outside combat (never done before):
@@ -1549,6 +1563,7 @@ int FairAgent::branchEval2(GameContext &gc, int kind, int k, int M, std::FILE *o
 }
 
 void FairAgent::playout(GameContext &gc) {
+    if (trace::on(this)) std::fprintf(trace::g_f, "GAME seed %llu asc %d\n", static_cast<unsigned long long>(gc.seed), gc.ascension);
     int guard = 0;
     while (gc.outcome == GameOutcome::UNDECIDED) {
         if (++guard > 20000) { stats.aborted = true; break; }

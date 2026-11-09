@@ -51,6 +51,7 @@ public:
     // real-game bridge (research/realgame): one out-of-combat decision on a rebuilt state, and a view of each
     // combat action right before it runs on the real battle. Unset in research runs.
     void stepOutOfCombat(sts::GameContext &gc);
+    void stepOutOfCombat0(sts::GameContext &gc);  // the decision itself; stepOutOfCombat wraps it with the opt-in trace
     void playBattle(sts::GameContext &gc);
     std::function<void(const sts::BattleContext &, const sts::search::Action &, const FairSearcher &)> onCombatAction;
 

@@ -6,6 +6,7 @@
 //   seed  outcome(1 win/0 loss)  floor  act  hp  max_hp  deck  battles  decisions  aborted  seconds  actions
 // (actions = game actions executed inside search; diagnostic compute proxy, not used in scoring)
 #include "FairAgent.h"
+#include "trace.h"
 #include "../vf/sv_mlp.h"
 #include "bf_mlp.h"
 #include "vr_mlp.h"
@@ -48,7 +49,17 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
         // agent seed derived from run seed via an independent hash stream; it
         // carries no information about game RNG state.
         fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
+        // opt-in readable trace of this game (FAIR_TRACE=<dir>: one file per seed); never changes play
+        std::FILE *tf = nullptr;
+        if (const char *td = std::getenv("FAIR_TRACE")) {
+            tf = std::fopen((std::string(td) + "/game_" + std::to_string(seed) + ".txt").c_str(), "w");
+            fair::trace::g_f = tf; fair::trace::g_owner = &a;
+        }
         a.playout(gc);
+        if (tf) {
+            std::fprintf(tf, "RESULT %s floor %d act %d hp %d/%d\n", gc.outcome == GameOutcome::PLAYER_VICTORY ? "WIN" : "LOSS", gc.floorNum, gc.act, gc.curHp, gc.maxHp);
+            std::fclose(tf); fair::trace::g_f = nullptr; fair::trace::g_owner = nullptr;
+        }
         r.battles = a.stats.battles; r.decisions = a.stats.combatDecisions; r.aborted = a.stats.aborted; r.actions = a.stats.actions;
         r.lastEnc = a.stats.lastEncounter;
         static const char *kScreens[10] = {"INVALID", "EVENT", "REWARDS", "BOSS_RELIC", "CARD_SELECT", "MAP", "TREASURE", "REST", "SHOP", "BATTLE"};
