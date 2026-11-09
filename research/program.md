@@ -102,7 +102,9 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-08 23:16 UTC
+### Current state (update after every batch) — 2026-11-09 00:16 UTC
+- **2026-11-09 00:16 UTC: hourly check.** F35: all A20 data and both held-out sets in; **pm_1 (A20) +0.0133 ± 0.0048 vs own on held-out A20 (2.8 SE)**, C++/Python agreement 164/164, leak test PASS; play-test script `research/tools/f35_play.sh TRACK ID` committed before any play test. Waiting for the four A10 workers (f35w5, w6, w8, w9) → pm_2, pm_3 → arm decisions. Bests unchanged: A0 f6a0_upg, A10 working f23a10, A20 f29a20, Heart f16heart.
+
 - **2026-11-09 00:15 UTC: F35 pm_1 (A20 data only) trained and scored; checks for the A20 arm done.** `PATH data: decisions=13285 train=11937 val=1348 options=30930`; `PATH map-DP (own) pick on val: 0.6893`; `PATH id=1 val_pick=0.6987 (map-DP 0.6893)`. Held-out A20 (`f35_eval.py f35_hold_a20 1`, 655 decisions): own@B 0.7011; random −0.0058 ± 0.0041; honest oracle +0.0251 ± 0.0052; **pm_1 +0.0133 ± 0.0048 (2.8 SE)**; pm_1 picks own option 0.608. The A20 arm decision (better of pm_1 / pm_3, > +2 SE) waits for pm_3 (needs the A10 data). Pre-play checks with pm_1: C++-vs-Python agreement `F35 AGREE C++ map_model=1 own pick vs Python argmax pm_1: 164/164` (200 fresh A20 seeds 5,650,000+, measurement only); leak test A20 best + map_model=1 `LEAKTEST checked=105 mismatches=0 PASS`.
 
 - **2026-11-09 00:13 UTC: F35 worker f35w4 done — all A20 data in.** Log merged: `F33 GEN research/vf/data/f35_a20_w4: 4000/4000 seeds done; 4000 branch, 0 crashed, 651 no decision`, `PUSH f35_a20_w4_z DONE: 5 files`; gates bit-identical; one resume after the 2 h limit; pulled + unpacked; archived. pm_1 (A20 data only, pre-registered) trained now since its data are complete; the A20 arm decision waits for pm_3 (joint).
