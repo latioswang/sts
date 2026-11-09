@@ -85,6 +85,10 @@ for r in rows:
             if tm: scale[n] = dict(track=tm.group(1), mult=int(tm.group(2)), sims=int(m.group(1)) if m else None, win=round(float(r[4]) * 100, 1), dscore=float(r[7]))
             continue
         play[n] = dict(win=round(float(r[4]) * 100, 1), floor=float(r[5]), dscore=float(r[7]), sims=int(m.group(1)) if m else None, split=r[1])
+for r in rows:  # F42 (a) owner-approved 2x budget tests on each track's current best (2,000 fresh seeds)
+    if len(r) >= 11 and r[9] == "owner-test":
+        n = r[10].split(":")[0]; tm = re.match(r"f42(a0|a10|a20|heart)_2x$", n)
+        if tm: scale[n] = dict(track=tm.group(1), mult=2, f42=True, win=round(float(r[4]) * 100, 1), dscore=float(r[7]))
 def mean_secs(path):
     v = [float(l.split("\t")[10]) for l in open(path) if l.split("\t")[0].isdigit() and len(l.split("\t")) > 10]
     return round(sum(v) / len(v), 2) if v else None
