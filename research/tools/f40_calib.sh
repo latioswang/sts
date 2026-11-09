@@ -5,9 +5,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 TR=$1; X=$2; N=${3:-200}
-case $TR in a20) ASC=20; S0=1345500; BASE=research/runs/f35a20.fs1345500n1000.a20.tsv ;; a10) ASC=10; S0=1346500; BASE=research/runs/f35a10.fs1346500n1000.a10.tsv ;;
+case $TR in a0) ASC=0; S0=1337500; BASE=research/runs/f6a0_upg.fs1337500n4000.a0.tsv ;; a20) ASC=20; S0=1345500; BASE=research/runs/f35a20.fs1345500n1000.a20.tsv ;; a10) ASC=10; S0=1346500; BASE=research/runs/f35a10.fs1346500n1000.a10.tsv ;;
   heart) ASC=0; S0=1347500; BASE=research/runs/f16heart.fs1347500n1000.a0.tsv ;; *) echo "bad track"; exit 1 ;; esac
-P=$(sed 's/^/--param /' research/best_${TR}_params.txt | tr '\n' ' ')
+PF=research/best_${TR}_params.txt; [ $TR = a0 ] && PF=research/best_params.txt
+P=$(sed "s/^/--param /" $PF | tr '\n' ' ')
 OUT=$(mktemp)
 /home/user/sts_lightspeed/build/fair_eval --agent fair --seed_start $S0 --count $N --asc $ASC --threads 4 $P --param early_stop=1 --param sims=$X > $OUT
 python3 - "$TR" "$X" "$BASE" "$OUT" "$S0" "$N" <<'PY'

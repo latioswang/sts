@@ -654,3 +654,4 @@ c4e31ee	fs1348500n4000.a10	4000	0	0.496	41.72	1.3146	+0.0169	0.952	keep	f40a10_e
 857373a	fs1352500n2000.a10	2000	0	0.526	42.18	1.3530	+0.0390	0.997	measure	f40a10_es550: Phase F24: confirm f40a10_es550 vs f35a10 [a10] [sim=fidelity-1b05bdc]
 5e6db3a	fs1354500n4000.a20	4000	0	0.070	31.27	0.6820	+0.0040	0.747	discard	f40a20_es550: [a20] Phase F40: early_stop=1 + sims=550 (savings reinvested at equal compute; actions ratio 0.9405) [sim=fidelity-1b05bdc]
 9aac235	fs1358500n4000.a20	4000	0	0.069	30.98	0.6746	-0.0043	0.232	discard	f40a20_es550: [a20] fresh-slice extension of a near miss (fs1354500n4000 + fs1358500n4000 pooled P=0.473, second-slice dscore=-0.0043) [sim=fidelity-1b05bdc]
+ce01f0b	fs1362500n4000.a0	4000	0	0.279	46.88	1.1538	-0.0055	0.245	discard	f40heart_es525: [heart] Phase F40: early_stop=1 + sims=525 (savings reinvested at equal compute; actions ratio 0.9613) [sim=fidelity-1b05bdc]

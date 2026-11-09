@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F40 (running): early stop + reinvested search at equal compute — A10 CONFIRMED (new A10 best f40a10_es550: +0.017 on 4,000 seeds, +0.039 on 2,000 more, ≈ +1.5 pts wins pooled); A20 near miss (+0.004, P 0.75) on its one extension; Heart (+5% search) play test running.",
+  "Phase F41 (pre-registered): more search per decision at equal compute — keep the search tree between decisions within a fight (tree reuse) on A10, and early stop + reinvested search on A0.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -276,6 +276,7 @@
   "F36 (b): a second A20 path model (pm_4, 2x the data) — +0.0071 ± 0.0039 per decision held-out (1.8 SE), below the +2 SE bar, not play-tested; A20 best stays f35a20.",
   "F38 (a): a second A10 path model (pm_5, 10 data sets) — −0.0031 ± 0.0057 held-out; with pm_3 in charge the honest A10 path headroom is gone (−0.0048 ± 0.0074). Path-model iteration on A10/A20 is saturated at this playout budget.",
   "F38 (b): a keys-aware Heart path model (pm_6, 12,000 Heart seeds) — −0.0005 ± 0.0057 held-out, although the honest Heart path headroom is +0.0115 ± 0.0060; not captured with this much data.",
-  "F39 (diagnostic): 2× / 4× combat search vs the bests — A20 +0.051 / +0.076, A10 +0.076 / +0.139 (wins 48 → 53 → 58%), Heart +0.063 / +0.091 (Heart kills 27 → 31 → 33%). Not adopted: the search budget is the owner's decision."
+  "F39 (diagnostic): 2× / 4× combat search vs the bests — A20 +0.051 / +0.076, A10 +0.076 / +0.139 (wins 48 → 53 → 58%), Heart +0.063 / +0.091 (Heart kills 27 → 31 → 33%). Not adopted: the search budget is the owner's decision.",
+  "F40 on A20 and Heart: early stop + reinvested search — A20 a tie over 8,000 seeds, Heart −0.006 (only +5% search bought); not adopted. A10 kept and confirmed."
  ]
 }
