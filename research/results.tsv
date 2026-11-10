@@ -672,3 +672,4 @@ bffead2	fs1394500n2000.a20	2000	0	0.077	31.16	0.6866	+0.0228	0.996	keep	f43a20_s
 5bcdbe9	fs1398500n2000.a10	2000	0	0.566	43.12	1.4115	+0.0856	1.000	owner-test	f44a10_2x: [a10] Phase F42 owner budget test: sims=1900 (actions ratio 1.9284) [sim=fidelity-1b05bdc]
 c4319a3	fs1400500n2000.a10	2000	0	0.518	41.90	1.3401	-0.0016	0.449	discard	f44a10_sf: [a10] Phase F43: early_stop=1 es_frac=0.05 sims=1300 (actions ratio 0.9446) [sim=fidelity-1b05bdc]
 06769da	fs1402500n2000.a20	2000	0	0.065	30.93	0.6696	-0.0215	0.003	discard	f44a20_sf: [a20] Phase F43: early_stop=1 es_frac=0.05 sims=1450 (actions ratio 0.9389) [sim=fidelity-1b05bdc]
+f1abe63	fs1404500n2000.a0	2000	0	0.298	47.68	1.1870	+0.0410	1.000	keep	f45heart_sf: [heart] Phase F43: early_stop=1 es_frac=0.1 sims=775 (actions ratio 0.9609) [sim=fidelity-1b05bdc]
