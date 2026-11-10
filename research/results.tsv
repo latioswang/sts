@@ -667,3 +667,4 @@ feab46c	fs1384500n2000.a10	2000	0	0.526	41.82	1.3461	+0.0323	0.987	measure	f43a1
 67cb230	fs1388500n2000.a20	2000	0	0.070	31.24	0.6812	+0.0104	0.893	discard	f43a20_sf2: [a20] Phase F43: early_stop=1 es_frac=0.1 sims=1050 (actions ratio 0.9568) [sim=fidelity-1b05bdc]
 152bf68	fs1390500n2000.a0	1999	1	0.274	46.86	1.1486	+0.0000	0.508	discard	f43heart_sf: [heart] Phase F43: early_stop=1 es_frac=0.1 sims=700 (actions ratio 0.8614) [sim=fidelity-1b05bdc]
 33a3748	fs1392500n2000.a0	2000	0	0.845	48.76	1.8005	+0.0050	0.689	discard	f43a0_sf: [a0] Phase F43: early_stop=1 es_frac=0.1 sims=975 (actions ratio 0.9359) [sim=fidelity-1b05bdc]
+bffead2	fs1394500n2000.a20	2000	0	0.077	31.16	0.6866	+0.0228	0.996	keep	f43a20_sf2: [a20] fresh-slice extension of a near miss (fs1388500n2000 + fs1394500n2000 pooled P=0.997, second-slice dscore=+0.0228) [sim=fidelity-1b05bdc]
