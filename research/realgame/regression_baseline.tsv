@@ -16,7 +16,7 @@ transcript-20261102-221728.jsonl#12	trace_mismatch	115
 transcript-20261102-221728.jsonl#13	completed	106	
 transcript-20261102-221728.jsonl#14	completed	55	
 transcript-20261102-221728.jsonl#15	completed	44	
-transcript-20261102-221728.jsonl#16	diverged	48	not looked into
+transcript-20261102-221728.jsonl#16	diverged	48	game-side: same commands as the 9 other TT recordings, which meet Lagavulin at 138 HP like the simulator; this run's game rolled 110 (checked 2026-11-10)
 transcript-20261102-221728.jsonl#17	completed	45	
 transcript-20261102-221728.jsonl#18	completed	14	
 transcript-20261102-221728.jsonl#19	trace_mismatch	44	
@@ -180,7 +180,7 @@ transcript-20261103-073518.jsonl#0	completed	648
 transcript-20261103-073518.jsonl#1	completed	649	
 transcript-20261103-073518.jsonl#2	game_nondeterminism	335	
 transcript-20261103-073518.jsonl#3	trace_end	458	
-transcript-20261103-074533.jsonl#0	diverged	67	not looked into
+transcript-20261103-074533.jsonl#0	diverged	67	recording ends on PLAY Whirlwind with no game state after it, so the replay compares the simulator after the play with the game before it (checked 2026-11-10)
 transcript-20261103-074622.jsonl#0	completed	681	
 transcript-20261103-074622.jsonl#1	completed	482	
 transcript-20261103-074622.jsonl#2	game_nondeterminism	810	
@@ -473,8 +473,8 @@ transcript-20261103-183838.jsonl#1	completed	461
 transcript-20261103-184516.jsonl#0	completed	240	
 transcript-20261103-184645.jsonl#0	game_nondeterminism	856	
 transcript-20261103-185105.jsonl#0	completed	16	
-transcript-20261103-185105.jsonl#1	diverged	24	not looked into
-transcript-20261103-185105.jsonl#2	diverged	133	not looked into
+transcript-20261103-185105.jsonl#1	diverged	24	scenario only: the plan put Empty Cage (a boss relic) in the uncommon pool, Scrap Ooze gave it and the game opened its grid inside the event; the simulator's Scrap Ooze takes control back after obtainRelic, which no vanilla screenless relic can reach (checked 2026-11-10)
+transcript-20261103-185105.jsonl#2	diverged	133	recording ends on END with no game state after it (checked 2026-11-10)
 transcript-20261103-185242.jsonl#0	trace_end	515	
 transcript-20261103-190121.jsonl#0	game_nondeterminism	572	
 transcript-20261103-191251.jsonl#0	completed	899	
