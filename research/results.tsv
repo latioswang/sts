@@ -669,3 +669,4 @@ feab46c	fs1384500n2000.a10	2000	0	0.526	41.82	1.3461	+0.0323	0.987	measure	f43a1
 33a3748	fs1392500n2000.a0	2000	0	0.845	48.76	1.8005	+0.0050	0.689	discard	f43a0_sf: [a0] Phase F43: early_stop=1 es_frac=0.1 sims=975 (actions ratio 0.9359) [sim=fidelity-1b05bdc]
 bffead2	fs1394500n2000.a20	2000	0	0.077	31.16	0.6866	+0.0228	0.996	keep	f43a20_sf2: [a20] fresh-slice extension of a near miss (fs1388500n2000 + fs1394500n2000 pooled P=0.997, second-slice dscore=+0.0228) [sim=fidelity-1b05bdc]
 612f6f4	fs1396500n2000.a20	2000	0	0.081	31.61	0.6991	+0.0206	0.987	measure	f43a20_sf2: Phase F24: confirm f43a20_sf2 vs f35a20 [a20] [sim=fidelity-1b05bdc]
+5bcdbe9	fs1398500n2000.a10	2000	0	0.566	43.12	1.4115	+0.0856	1.000	owner-test	f44a10_2x: [a10] Phase F42 owner budget test: sims=1900 (actions ratio 1.9284) [sim=fidelity-1b05bdc]
