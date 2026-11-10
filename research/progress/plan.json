@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F42 (owner decisions 2026-11-09): (a) test the agent at twice the search budget on every track (A10 running; the owner decides afterwards); (b) replay audit of A10 losses — readable game logs, step-by-step viewer page, looking for decisions or simulator behaviour that are plainly wrong.",
+  "Phase F43 (pre-registered 2026-11-09 23:1x): soft early stop at equal compute — stop a combat search once the leading move is well ahead (es_frac 0.1), spend the saved simulations on close decisions. A10 kept and confirmed; A20 running; Heart and A0 next. The owner's 2x-budget test (F42 a) is done on all four tracks (+0.036 to +0.054 at 2x compute); the budget decision is the owner's.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -255,7 +255,9 @@
   "F29: new A20 best f29a20 — the decision-trained run value vr_251, +0.0042 run score pooled over 8,000 fresh seeds (P 0.91); the first gain from the decision-level route.",
   "F35: a learned path-choice model (state + destination room + reachable room counts + the hand map plan's own value) — new A20 best f35a20: +0.032 on 4,000 fresh seeds (P 1.000), confirmed +0.025 on 2,000 more (wins 5.3% → 6.7%); the first A20 gain from the path layer.",
   "F36 (a): the path-choice model on A10 — new A10 best f35a10: +0.061 on 4,000 fresh seeds (wins 46.7% → 50.5%, P 1.000), confirmed +0.026 on 2,000 more (P 0.91); ≈ +3 points of wins pooled.",
-  "F40 (A10): stop each combat search once the chosen move cannot change, spend the saved simulations on more search per decision at equal total compute — new A10 best f40a10_es550, confirmed (+0.039 on 2,000 fresh seeds, P 0.997)."
+  "F40 (A10): stop each combat search once the chosen move cannot change, spend the saved simulations on more search per decision at equal total compute — new A10 best f40a10_es550, confirmed (+0.039 on 2,000 fresh seeds, P 0.997).",
+  "F42 (a), owner test: each track's best at 2x search on 2,000 fresh seeds — A0 +0.036, A10 +0.054, A20 +0.048, Heart +0.045 (all P 1.000; not adopted, owner decides).",
+  "F43 (A10): soft early stop (es_frac 0.1, sims 950) at equal compute — new A10 best f43a10_sf: +0.051 on 2,000 fresh seeds (P 1.000), confirmed +0.032 on 2,000 more (P 0.987); wins ≈ 50% → 53–55%, about three quarters of the 2x-budget gain at no extra compute."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
