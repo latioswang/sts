@@ -673,3 +673,4 @@ bffead2	fs1394500n2000.a20	2000	0	0.077	31.16	0.6866	+0.0228	0.996	keep	f43a20_s
 c4319a3	fs1400500n2000.a10	2000	0	0.518	41.90	1.3401	-0.0016	0.449	discard	f44a10_sf: [a10] Phase F43: early_stop=1 es_frac=0.05 sims=1300 (actions ratio 0.9446) [sim=fidelity-1b05bdc]
 06769da	fs1402500n2000.a20	2000	0	0.065	30.93	0.6696	-0.0215	0.003	discard	f44a20_sf: [a20] Phase F43: early_stop=1 es_frac=0.05 sims=1450 (actions ratio 0.9389) [sim=fidelity-1b05bdc]
 f1abe63	fs1404500n2000.a0	2000	0	0.298	47.68	1.1870	+0.0410	1.000	keep	f45heart_sf: [heart] Phase F43: early_stop=1 es_frac=0.1 sims=775 (actions ratio 0.9609) [sim=fidelity-1b05bdc]
+3353388	fs1406500n2000.a0	2000	0	0.853	48.86	1.8111	+0.0144	0.928	keep	f45a0_sf: [a0] Phase F43: early_stop=1 es_frac=0.1 sims=1000 (actions ratio 0.9739) [sim=fidelity-1b05bdc]
