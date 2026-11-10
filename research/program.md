@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-10 09:16 UTC
+### Current state (update after every batch) — 2026-11-10 10:16 UTC
+- **2026-11-10 10:16 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running; no owner pushes.
 - **2026-11-10 09:16 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running; no owner pushes on the branch.
 - **2026-11-10 08:17 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running.
 - **2026-11-10 08:05 UTC: crash sites (f48heart_2x, Heart best at sims 1550), reproduced single-seed under gdb:** 1423469, 1423665, 1424418 → all SIGSEGV in `CardManager::moveToDiscardPile` (from `onAfterUseCard` during a search rollout) — the known class; added to the list for the fork owner. Rate: 3 / 2,000 at 2× search vs 0 / 2,000 at 1× on the same seeds — consistent with a per-rollout bug that more simulations hit more often [inferred]. No local work running; awaiting the owner (budget + next direction).
