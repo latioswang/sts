@@ -38,6 +38,9 @@ fi
 mkdir -p "$SIM/build" && cd "$SIM/build"
 EXTRA=(); { [ "$STS_SIM" = fidelity ] || [ -n "${STS_SIM_BRANCH:-}" ]; } && EXTRA=(-DSTS_RESEARCH_DIR="$HERE")
 # CMAKE_POLICY_VERSION_MINIMUM: the json submodule declares a CMake version that CMake >= 4 refuses.
+# STS_NATIVE=1 (2026-11-10, used by the cloud loop): -march=native for ≈ 7–8% speed; -ffp-contract=off keeps floating point
+# exactly as the portable build (no fused multiply-add), so results stay bit-identical (checked on all four cb0 gates).
+[ "${STS_NATIVE:-0}" = 1 ] && EXTRA+=(-DCMAKE_CXX_FLAGS_RELEASE="-O3 -DNDEBUG -march=native -ffp-contract=off")
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
   -Dpybind11_DIR="$("$PY" -c 'import pybind11;print(pybind11.get_cmake_dir())')" "${EXTRA[@]}"
 JOBS="$(nproc 2>/dev/null || sysctl -n hw.ncpu)"
