@@ -662,3 +662,4 @@ d222711	fs1374500n2000.a10	2000	0	0.550	42.73	1.3878	+0.0537	1.000	owner-test	f4
 d2b0486	fs1380500n2000.a0	2000	0	0.854	48.79	1.8106	+0.0364	1.000	owner-test	f42a0_2x: [a0] Phase F42 owner budget test: sims=1000 (actions ratio 2.0191) [sim=fidelity-1b05bdc]
 f3c46f8	fs1378500n2000.a0	2000	0	0.316	47.46	1.1988	+0.0449	1.000	owner-test	f42heart_2x: [heart] Phase F42 owner budget test: sims=1000 (actions ratio 2.0449) [sim=fidelity-1b05bdc]
 1104cdb	fs1382500n2000.a10	2000	0	0.549	42.47	1.3817	+0.0505	1.000	keep	f43a10_sf: [a10] Phase F43: early_stop=1 es_frac=0.1 sims=950 (actions ratio 0.9629) [sim=fidelity-1b05bdc]
+feab46c	fs1384500n2000.a10	2000	0	0.526	41.82	1.3461	+0.0323	0.987	measure	f43a10_sf: Phase F24: confirm f43a10_sf vs f40a10_es550 [a10] [sim=fidelity-1b05bdc]
