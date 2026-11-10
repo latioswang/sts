@@ -676,3 +676,4 @@ f1abe63	fs1404500n2000.a0	2000	0	0.298	47.68	1.1870	+0.0410	1.000	keep	f45heart_
 3353388	fs1406500n2000.a0	2000	0	0.853	48.86	1.8111	+0.0144	0.928	keep	f45a0_sf: [a0] Phase F43: early_stop=1 es_frac=0.1 sims=1000 (actions ratio 0.9739) [sim=fidelity-1b05bdc]
 3b5f1c8	fs1408500n2000.a0	2000	0	0.285	47.48	1.1695	+0.0297	0.995	measure	f45heart_sf: Phase F24: confirm f45heart_sf vs f16heart [heart] [sim=fidelity-1b05bdc]
 6f41ddf	fs1410500n2000.a0	2000	0	0.873	49.12	1.8360	+0.0155	0.933	measure	f45a0_sf: Phase F24: confirm f45a0_sf vs f6a0_upg [a0] [sim=fidelity-1b05bdc]
+e26bf63	fs1412500n2000.a10	2000	0	0.519	41.97	1.3420	-0.0024	0.425	discard	f46a10_f15: [a10] Phase F43: early_stop=1 es_frac=0.15 sims=800 (actions ratio 0.9916) [sim=fidelity-1b05bdc]
