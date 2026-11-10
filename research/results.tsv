@@ -685,3 +685,4 @@ edde504	fs1420500n2000.a0	2000	0	0.890	49.52	1.8615	+0.0520	1.000	owner-test	f48
 7adcbef	fs1422500n2000.a0	1997	3	0.327	48.39	1.2269	+0.0688	1.000	owner-test	f48heart_2x: [heart] Phase F42 owner budget test: sims=1550 (actions ratio 2.0002) [sim=fidelity-1b05bdc]
 ffffee5	test.a0	500	0	0.350	48.83	1.2562			MILESTONE	f49heart_test: [heart] F49: Heart milestone (Heart beaten >= 20%) — Heart best f45heart_sf at 2x search (sims 1550), owner decision: 2x for milestone scores [sim=fidelity-1b05bdc]
 7bbaac1	fs1424500n2000.a20	2000	0	0.080	31.22	0.6900			info	cb0_a20: [a20] Phase S3 re-baseline on fidelity-cb0390e: current best unchanged [sim=fidelity-cb0390e]
+e4df9e0	fs1426500n2000.a10	2000	0	0.525	42.07	1.3500			info	cb0_a10: [a10] Phase S3 re-baseline on fidelity-cb0390e: current best unchanged [sim=fidelity-cb0390e]
