@@ -221,7 +221,7 @@
   }
  ],
  "next_up": [
-  "Simulator (now also owned here): crash fixes merged into latioswang/sts_lightspeed master cb0390e; the loop moved to it and the four bests are being re-measured (Phase S3). Then F50: A20 boss fights — replay audit of A20 losses, then targeted experiments. Owner decisions: 2x search for milestone/final scores only.",
+  "Waiting for the owner on the next research direction (proposed: a worker-scale learning phase, 10x leaf-value data, with a stop rule). Simulator: crashes and two relic-order gaps fixed and merged (master 1b3b779); remaining README gaps deferred with reasons. The research build is 7-8% faster (-march=native, bit-identical).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -270,7 +270,8 @@
   "F46: es_frac 0.15 and 0.2 on A10 — no keep (−0.002, −0.024); 0.1 is the optimum. F47: first A20 Heart baseline — 0.3% Heart wins, act-4 reach 2.5% (A20 best + key settings); the key policy costs ≈ 4 floors at A20.",
   "F48 (owner information): 2x search on the soft-stop bests — A0 +0.052 (wins 84.8% → 89.0%), A10 +0.086 (50.4% → 56.6%), A20 +0.030 (7.6% → 9.1%), Heart +0.069 (27.9% → 32.7%); all P 1.000; none adopted.",
   "Simulator crash fixes (cb0390e): the post-victory action queue re-ran stale actions (the Heart-fight crash, 5 seeds) and Violence/Stasis overflowed on piles past 64 cards (1 seed); all known crash seeds now finish; 0 sanitizer errors in a 320-game sweep.",
-  "F49: Heart milestone confirmed on test — Heart best at 2x search 175/500 = 35.0% [30.9, 39.3] (target 20%)."
+  "F49: Heart milestone confirmed on test — Heart best at 2x search 175/500 = 35.0% [30.9, 39.3] (target 20%).",
+  "Simulator 2026-11-10: card-use relics (469ee23) and start-of-turn relics (c3e1b78) act in the order gained; the four uninvestigated real-game regression failures explained (none a simulator bug); every change checked against the 1,765 real-game recordings (no new failures)."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
