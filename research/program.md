@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-10 14:21 UTC
+### Current state (update after every batch) — 2026-11-10 15:19 UTC
+- **2026-11-10 15:19 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running; no owner pushes.
 - **2026-11-10 14:21 UTC: hourly check.** Owner active in chat (asked to reload hooks at ≈ 14:1x; answered: no tool reloads hooks, on-disk hook config reported) but no answer yet on the budget / next direction. Idle by design; no experiment running; no owner pushes.
 - **2026-11-10 13:23 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running; no owner pushes; progress page unchanged (version 212).
 - **2026-11-10 12:20 UTC: hourly check.** Idle by design: waiting for the owner (budget; next direction). No experiment running; no owner pushes; progress page unchanged (version 212).
