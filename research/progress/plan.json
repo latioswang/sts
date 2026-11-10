@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F48 (2026-11-10 06:1x, measurement only): 2x search on the new A20, Heart and A0 bests, so the owner's budget decision rests on the current agents (A10: +0.086). F46 closed (es_frac 0.1 is the optimum); F47: A20 Heart baseline 0.3% Heart wins, act-4 reach 2.5% — no A20-Heart track yet. Next research direction awaits the owner (remaining lines have low priors on the record).",
+  "Waiting for the owner: (1) the search budget — 2x search on the current bests adds A0 +0.052, A10 +0.086, A20 +0.030, Heart +0.069 (all P 1.000) at twice the time per game; (2) the next research direction — the equal-compute search settings are exhausted and the path-model line never armed, so remaining options are multi-hour and low-prior.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -261,7 +261,8 @@
   "F43 (A20): soft early stop (es_frac 0.1, sims 1050) at equal compute — new A20 best f43a20_sf2: +0.017 pooled over 4,000 fresh seeds (P 0.997), confirmed +0.021 on 2,000 more (P 0.987); wins ≈ 6.8% → 7.7%. Heart and A0: no gain (discarded).",
   "F44: es_frac 0.05 — no keep (A10 −0.002, A20 −0.022); 0.1 is the right setting. Owner test: 2x search on the F43 A10 best +0.086 (wins 50.4% → 56.6%, P 1.000; not adopted).",
   "F45: the soft early stop at correctly calibrated caps on Heart and A0 — new Heart best f45heart_sf (+0.041, confirmed +0.030; wins ≈ 27% → 29–30%, act-4 reach +3 pts) and new A0 best f45a0_sf (+0.014, confirmed +0.016; wins ≈ 85% → 86–87%). The soft stop is now confirmed on all four tracks at equal compute.",
-  "F46: es_frac 0.15 and 0.2 on A10 — no keep (−0.002, −0.024); 0.1 is the optimum. F47: first A20 Heart baseline — 0.3% Heart wins, act-4 reach 2.5% (A20 best + key settings); the key policy costs ≈ 4 floors at A20."
+  "F46: es_frac 0.15 and 0.2 on A10 — no keep (−0.002, −0.024); 0.1 is the optimum. F47: first A20 Heart baseline — 0.3% Heart wins, act-4 reach 2.5% (A20 best + key settings); the key policy costs ≈ 4 floors at A20.",
+  "F48 (owner information): 2x search on the soft-stop bests — A0 +0.052 (wins 84.8% → 89.0%), A10 +0.086 (50.4% → 56.6%), A20 +0.030 (7.6% → 9.1%), Heart +0.069 (27.9% → 32.7%); all P 1.000; none adopted."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
