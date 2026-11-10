@@ -681,3 +681,4 @@ e26bf63	fs1412500n2000.a10	2000	0	0.519	41.97	1.3420	-0.0024	0.425	discard	f46a1
 4f334d0	fs1416500n2000.a20	2000	0	0.003	27.08	0.5313			info	f47a20h_a: [a20heart] Phase F47 measurement: A20 best + Heart key settings at A20, Heart-win metric [sim=fidelity-1b05bdc]
 4f334d0	fs1416500n2000.a20	2000	0	0.003	22.97	0.4518	-0.0796	0.000	info	f47a20h_b: [a20heart] Phase F47 measurement: Heart best at A20, Heart-win metric [sim=fidelity-1b05bdc]
 82319e0	fs1418500n2000.a20	2000	0	0.091	31.82	0.7132	+0.0298	1.000	owner-test	f48a20_2x: [a20] Phase F42 owner budget test: sims=2100 (actions ratio 1.9658) [sim=fidelity-1b05bdc]
+edde504	fs1420500n2000.a0	2000	0	0.890	49.52	1.8615	+0.0520	1.000	owner-test	f48a0_2x: [a0] Phase F42 owner budget test: sims=2000 (actions ratio 1.8902) [sim=fidelity-1b05bdc]
