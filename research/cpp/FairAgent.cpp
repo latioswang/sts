@@ -800,8 +800,15 @@ int FairAgent::chooseMapX(const GameContext &gc) {
             const int R = L.front().in == rv::DIM2 + 20 ? rv::DIM2 : rv::DIM;  // F38: a 690-input model also reads the keys
             if (R == rv::DIM2) rv::extractKeys(gc, getp(P, "keys", 0) > 0 ? 1.f : 0.f, f + rv::DIM);
             double bm = -1e30; int bx = bestX;
+            // F51 elite_veto_hp (default 0 = off): below this HP fraction, an elite is never chosen while another node is legal
+            const double vetoHp = getp(P, "elite_veto_hp", 0.0);
+            bool veto = false;
+            if (vetoHp > 0 && static_cast<double>(gc.curHp) / gc.maxHp < vetoHp) {
+                for (auto &a : acts) veto |= m.getNode(a.getIdx1(), nextY).room != Room::ELITE;
+            }
             for (auto &a : acts) {
                 const int x = a.getIdx1();
+                if (veto && m.getNode(x, nextY).room == Room::ELITE) continue;
                 f35PathFeatures(m, x, nextY, f + R);
                 f[R + 19] = static_cast<float>(mapNodeV[x]) / 10.f;
                 const double pv = pathModelValue(L, f) + 1e-6 * x;
