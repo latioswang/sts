@@ -215,7 +215,7 @@
   }
  ],
  "next_up": [
-  "Phase F45 (pre-registered 2026-11-10 03:0x): re-test the soft early stop on Heart and A0 at correctly calibrated caps (the F43 arms there ran with 6-14% less search than allowed). F44 closed with no keep (es_frac 0.05 is worse than 0.1). Owner information: 2x search on top of the F43 A10 best still adds +0.086 (P 1.000) — the budget decision is the owner's.",
+  "Phase F46 (pre-registered 2026-11-10 05:1x): bracket the soft-stop setting from above on A10 (es_frac 0.15 and 0.2 vs the confirmed 0.1). The 2x search budget remains the owner's decision (2x still adds +0.086 on the A10 best).",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
@@ -259,7 +259,8 @@
   "F42 (a), owner test: each track's best at 2x search on 2,000 fresh seeds — A0 +0.036, A10 +0.054, A20 +0.048, Heart +0.045 (all P 1.000; not adopted, owner decides).",
   "F43 (A10): soft early stop (es_frac 0.1, sims 950) at equal compute — new A10 best f43a10_sf: +0.051 on 2,000 fresh seeds (P 1.000), confirmed +0.032 on 2,000 more (P 0.987); wins ≈ 50% → 53–55%, about three quarters of the 2x-budget gain at no extra compute.",
   "F43 (A20): soft early stop (es_frac 0.1, sims 1050) at equal compute — new A20 best f43a20_sf2: +0.017 pooled over 4,000 fresh seeds (P 0.997), confirmed +0.021 on 2,000 more (P 0.987); wins ≈ 6.8% → 7.7%. Heart and A0: no gain (discarded).",
-  "F44: es_frac 0.05 — no keep (A10 −0.002, A20 −0.022); 0.1 is the right setting. Owner test: 2x search on the F43 A10 best +0.086 (wins 50.4% → 56.6%, P 1.000; not adopted)."
+  "F44: es_frac 0.05 — no keep (A10 −0.002, A20 −0.022); 0.1 is the right setting. Owner test: 2x search on the F43 A10 best +0.086 (wins 50.4% → 56.6%, P 1.000; not adopted).",
+  "F45: the soft early stop at correctly calibrated caps on Heart and A0 — new Heart best f45heart_sf (+0.041, confirmed +0.030; wins ≈ 27% → 29–30%, act-4 reach +3 pts) and new A0 best f45a0_sf (+0.014, confirmed +0.016; wins ≈ 85% → 86–87%). The soft stop is now confirmed on all four tracks at equal compute."
  ],
  "closed": [
   "Learned leaf value replacing rollouts at equal wall-clock (Phase S; S2 pending its scale-up).",
