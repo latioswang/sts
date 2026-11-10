@@ -102,7 +102,8 @@ A worker clones this branch, rebuilds `fair_eval` with `research/setup.sh`, must
   11.22. Play tests `sv16`, then `sv17`, running on the worker. Worker incident: torch was missing (setup.sh did not
   install it); fixed in setup.sh (CPU wheel pinned to the coordinator's version).
 
-### Current state (update after every batch) — 2026-11-10 07:17 UTC
+### Current state (update after every batch) — 2026-11-10 07:24 UTC
+- **2026-11-10 07:24 UTC: hourly check.** F48 Heart 2× running. Progress page: the search-scaling chart now also shows the 2× tests on the soft-stop bests (F44 b / F48, yellow bars).
 - **2026-11-10 07:17 UTC: F48 A0 2× owner test** [sim=fidelity-1b05bdc]: `f45a0_sf	fs1420500n2000	a0	n=2000	crash=0	win=0.848	floor=49.06	score=1.8095±0.0102	act4=0.000	904s`; `f48a0_2x	fs1420500n2000	a0	n=2000	crash=0	win=0.890	floor=49.52	score=1.8615±0.0090	act4=0.000	1662s` → dscore=+0.0520 dwin=+0.043 P(improve)=1.000, actions ratio 1.8902 (owner-test, not promoted). Prediction '≥ F42's +0.036' held at A0 (as at A10). Heart 2× (f48heart_2x sims=1550) running.
 - **2026-11-10 06:39 UTC: F48 A20 2× owner test** [sim=fidelity-1b05bdc]: `f43a20_sf2	fs1418500n2000	a20	n=2000	crash=0	win=0.076	floor=31.03	score=0.6834±0.0100	act4=0.000	426s`; `f48a20_2x	fs1418500n2000	a20	n=2000	crash=0	win=0.091	floor=31.82	score=0.7132±0.0105	act4=0.000	814s` → dscore=+0.0298 dwin=+0.015 P(improve)=1.000, actions ratio 1.9658 (owner-test, not promoted). Prediction '≥ F42's +0.048' failed at A20: 2× on top of the soft-stop best buys less here (+0.030) — the soft stop already captured part of A20's budget gain [inferred, one slice each]. A0 2× running.
 - **2026-11-10 06:19 UTC: hourly check.** F48 A20 2× owner test running, then A0, then Heart. plan.json updated (F46/F47 done, F48 next). Owner silent since ≈ 21:1x yesterday; next research direction deferred to the owner (see F48 pre-registration).

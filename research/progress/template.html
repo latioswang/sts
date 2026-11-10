@@ -134,9 +134,9 @@ svg.chart .simlabel { fill: var(--muted); font-size: 10px; font-variant-numeric:
 .roadmap div b { color: var(--ink); font-weight: 500; }
 .key-dot.keep { background: var(--s1); } .key-dot.drop { background: var(--axis); }
 .key-bar { width: 14px; height: 8px; border-radius: 2px; background: var(--s1); display: inline-block; }
-.key-bar.s2 { background: var(--s2); } .key-bar.s3 { background: var(--s3); } .key-bar.muted { background: var(--axis); }
+.key-bar.s2 { background: var(--s2); } .key-bar.s3 { background: var(--s3); } .key-bar.s4 { background: var(--s4); } .key-bar.muted { background: var(--axis); }
 svg.chart .dot.drop { fill: var(--axis); stroke: var(--surface); }
-svg.chart .bar { fill: var(--s1); } svg.chart .bar.s2 { fill: var(--s2); } svg.chart .bar.muted { fill: var(--axis); } svg.chart .bar.s3 { fill: var(--s3); }
+svg.chart .bar { fill: var(--s1); } svg.chart .bar.s2 { fill: var(--s2); } svg.chart .bar.muted { fill: var(--axis); } svg.chart .bar.s3 { fill: var(--s3); } svg.chart .bar.s4 { fill: var(--s4); }
 @media (max-width: 560px) { .roadmap div { grid-template-columns: 1fr; gap: 2px; } }
 </style>
 
@@ -258,7 +258,7 @@ svg.chart .bar { fill: var(--s1); } svg.chart .bar.s2 { fill: var(--s2); } svg.c
   <section class="card">
     <h2>More search per move: what 2× and 4× simulations buy</h2>
     <div class="sub">Phase F39, 2026-11-09: each track's current best at 1,000 and 2,000 simulations per decision instead of 500, paired on one fresh 1,000-seed slice per track. Bars: run-score gain over the same agent at 500 simulations; labels: wins. Wall time grows about in proportion to the simulations. Measurement only — the search budget is the owner's decision; the equal-compute experiments (early stopping, tree reuse) build on it. Green bars: the owner-approved Phase F42 test (2026-11-09), each track's current best at 2× its simulations against itself on 2,000 fresh seeds — not adopted; the owner decides on the budget.</div>
-    <div class="legend"><span><i class="key-bar"></i>F39: 2× search</span><span><i class="key-bar s2"></i>F39: 4× search</span><span><i class="key-bar s3"></i>F42: 2× search on the current best (2,000 seeds)</span></div>
+    <div class="legend"><span><i class="key-bar"></i>F39: 2× search</span><span><i class="key-bar s2"></i>F39: 4× search</span><span><i class="key-bar s3"></i>F42: 2× search on the then-best (2,000 seeds)</span><span><i class="key-bar s4"></i>F44/F48: 2× search on the soft-stop best (2,000 seeds)</span></div>
     <div id="scalebars"></div>
   </section>
 
@@ -661,18 +661,18 @@ function genChart(box, o) {
   const names = {a0: 'A0', a10: 'A10', a20: 'A20', heart: 'Heart'};
   const tracks = ['a0', 'a10', 'heart', 'a20'].filter(t => Object.values(sc).some(r => r.track === t));
   if (!tracks.length) { box.textContent = 'no data'; return; }
-  const W = 1040, grp = 88, H = 40 + tracks.length * grp, lw = 120, x0 = 0, x1 = 0.16;
+  const W = 1040, grp = 112, H = 40 + tracks.length * grp, lw = 120, x0 = 0, x1 = 0.16;
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img', 'aria-label': 'Run-score gain from 2x and 4x search per decision, per track'});
   const x = v => lw + ((v - x0) / (x1 - x0)) * (W - lw - 170);
   [0, 0.05, 0.10, 0.15].forEach(v => { el('line', {x1: x(v), x2: x(v), y1: 10, y2: H - 24, class: v === 0 ? 'ref' : 'grid'}, svg); txt(svg, x(v), H - 8, '+' + v.toFixed(2), 'tick', 'middle'); });
   tracks.forEach((t, i) => {
     const y0 = 14 + i * grp;
-    txt(svg, lw - 12, y0 + 36, names[t], 'end-label', 'end');
-    [[2, false], [4, false], [2, true]].forEach(([m, f42], j) => {
-      const r = Object.values(sc).find(q => q.track === t && q.mult === m && !!q.f42 === f42); if (!r) return;
+    txt(svg, lw - 12, y0 + 48, names[t], 'end-label', 'end');
+    [[2, 'f39'], [4, 'f39'], [2, 'f42'], [2, 'f48']].forEach(([m, k], j) => {
+      const r = Object.values(sc).find(q => q.track === t && q.mult === m && (k === 'f42' ? !!q.f42 : k === 'f48' ? !!q.f48 : !q.f42 && !q.f48)); if (!r) return;
       const yy = y0 + j * 24;
-      el('rect', {x: x(0), y: yy + 2, width: Math.max(2, x(Math.max(0, r.dscore)) - x(0)), height: 18, rx: 3, class: 'bar ' + (f42 ? 's3' : m === 4 ? 's2' : '')}, svg);
-      txt(svg, x(Math.max(0, r.dscore)) + 8, yy + 16, `${r.dscore >= 0 ? '+' : ''}${r.dscore.toFixed(3)} · ${r.win.toFixed(1)}% wins · ${m}×${f42 ? ' (F42)' : ''}`, 'tick', 'start');
+      el('rect', {x: x(0), y: yy + 2, width: Math.max(2, x(Math.max(0, r.dscore)) - x(0)), height: 18, rx: 3, class: 'bar ' + (k === 'f42' ? 's3' : k === 'f48' ? 's4' : m === 4 ? 's2' : '')}, svg);
+      txt(svg, x(Math.max(0, r.dscore)) + 8, yy + 16, `${r.dscore >= 0 ? '+' : ''}${r.dscore.toFixed(3)} · ${r.win.toFixed(1)}% wins · ${m}×${k === 'f42' ? ' (F42)' : k === 'f48' ? ' (soft-stop best)' : ''}`, 'tick', 'start');
     });
   });
   box.appendChild(svg);
