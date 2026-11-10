@@ -170,6 +170,12 @@
    "label": "A10 ≥ 35% confirmed on test: a10_r81 184/500 = 36.8% [32.7, 41.1]",
    "status": "done",
    "when": "2026-11-05 09:24"
+  },
+  {
+   "id": "M-Heart",
+   "label": "Heart beaten ≥ 20% confirmed on test: Heart best at 2x search 175/500 = 35.0% [30.9, 39.3]",
+   "status": "done",
+   "when": "2026-11-10 18:0x"
   }
  ],
  "phases": [
