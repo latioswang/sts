@@ -221,11 +221,11 @@
   }
  ],
  "next_up": [
-  "Waiting for the owner on the next research direction (proposed: a worker-scale learning phase, 10x leaf-value data, with a stop rule). Simulator: crashes and two relic-order gaps fixed and merged (master 1b3b779); remaining README gaps deferred with reasons. The research build is 7-8% faster (-march=native, bit-identical).",
+  "F52 (owner chose option A, 2026-11-11): worker-scale leaf-value learning. Step 0 done: the learned leaf sv16 re-measured at -0.365 vs the current A0 best (gate -0.45 passed). Running: 10 workers generate 75,000 leaf-logged A0 games (~10x the S2 data); locally, an AlphaGo-style mixed leaf (half learned value, half rollout). Stop rule: if the model trained on 10x data does not beat -0.2 at equal wall-clock, the leaf-value line is closed for good.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
-  "Phase S2: 4× leaf data moved the best learned leaf from -0.45 to -0.35 (sv16); still far below rollouts. The next step is more leaf data, practical once workers share data.",
+  "Phase S2 result carried into F52: 4x leaf data moved the best learned leaf from -0.45 to -0.35; F52 tests whether 10x more reaches -0.2.",
   "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
   "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
  ],
