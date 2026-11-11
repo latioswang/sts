@@ -1,0 +1,4 @@
+PULL f52_f52w3_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w3_z/all
+PULL f52_f52w6_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w6_z/all
+CHECK f52_f52w3_z files=7500 rows=2524693 rem=0
+CHECK f52_f52w6_z files=7500 rows=2517895 rem=0
