@@ -14,3 +14,9 @@ deaths: Automaton:19 Awakened One:15 Champ:13 Donu And Deca:12 Time Eater:12 Col
 vs f45a0_sf: n=300	dscore=-0.3653	dwin=-0.287	P(improve)=0.000
 F43 a0: f52_mix05 (mix_sv=16 mix_lambda=0.5 sims=675) vs f45a0_sf on fs1436800n2000
 f45a0_sf	fs1436800n2000	a0	n=2000	crash=0	win=0.843	floor=48.60	score=1.7954±0.0108	act4=0.000	709s
+f52_mix05	fs1436800n2000	a0	n=2000	crash=0	win=0.826	floor=48.34	score=1.7739±0.0113	act4=0.000	786s
+deaths: Awakened One:59 Donu And Deca:36 Champ:34 Automaton:28 Collector:27 Hexaghost:20 Time Eater:18 Giant Head:11	potions_left_at_death=0.63
+vs f45a0_sf: n=2000	dscore=-0.0215	dwin=-0.017	P(improve)=0.034
+F43 compute: mean search actions ratio new/base = 0.6638
+F43 DISCARD (dscore=-0.0215 P=0.034 ratio=0.6638)
+== F52 step 0 done 2026-11-11 09:30:30 UTC
