@@ -1,1 +1,3 @@
 LEAKTEST checked=89 mismatches=0 PASS
+calib f52_sv54b: best: 11.29s  candidate: 6.47s  candidate/best = 0.573  (scale candidate sims by 1.745 for equal wall-clock)
+sims: 1725
