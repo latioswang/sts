@@ -1,3 +1,6 @@
 LEAKTEST checked=89 mismatches=0 PASS
 calib f52_sv54b: best: 11.29s  candidate: 6.47s  candidate/best = 0.573  (scale candidate sims by 1.745 for equal wall-clock)
 sims: 1725
+f45a0_sf	fs1439100n2000	a0	n=2000	crash=0	win=0.854	floor=48.64	score=1.8078±0.0106	act4=0.000	708s
+deaths: Awakened One:182 Time Eater:83 Champ:76 Collector:57 Automaton:57 Donu And Deca:53 Hexaghost:34 Gremlin Leader:17	potions_left_at_death=1.04
+vs f45a0_sf: n=2000	dscore=-0.2904	dwin=-0.238	P(improve)=0.000

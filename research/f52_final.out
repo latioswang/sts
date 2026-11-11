@@ -1,0 +1,18 @@
+PULL f52_f52w10_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w10_z/all
+PULL f52_f52w3b_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w3b_z/all
+PULL f52_f52w4b_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w4b_z/all
+PULL f52_f52w6b_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w6b_z/all
+CHECK f52_f52w1_z files=7500 rows=2522531 rem=0
+CHECK f52_f52w2_z files=7500 rows=2515387 rem=0
+CHECK f52_f52w3_z files=7500 rows=2524693 rem=0
+CHECK f52_f52w4_z files=7500 rows=2525349 rem=0
+CHECK f52_f52w5_z files=7500 rows=2526812 rem=0
+CHECK f52_f52w6_z files=7500 rows=2517895 rem=0
+CHECK f52_f52w7_z files=7500 rows=2521089 rem=0
+CHECK f52_f52w8_z files=7500 rows=2541937 rem=0
+CHECK f52_f52w9_z files=7500 rows=2514684 rem=0
+CHECK f52_f52w10_z files=7500 rows=2515674 rem=0
+CHECK f52_f52w3b_z files=7500 rows=2508055 rem=0
+CHECK f52_f52w4b_z files=7500 rows=2517205 rem=0
+CHECK f52_f52w6b_z files=7500 rows=2499580 rem=0
+CHECK TOTAL rows=32750891
