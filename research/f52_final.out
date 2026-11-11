@@ -16,3 +16,5 @@ CHECK f52_f52w3b_z files=7500 rows=2508055 rem=0
 CHECK f52_f52w4b_z files=7500 rows=2517205 rem=0
 CHECK f52_f52w6b_z files=7500 rows=2499580 rem=0
 CHECK TOTAL rows=32750891
+groups=390 files=97500 hold_files=1025 holdout_rows=200000 target mean=86.43 sd=33.28 (from 4 groups)
+SV id=55 rows=32404409 hidden=42 layers=2 params=10459 holdout_rmse=11.833 exported_rmse=11.833 predict_mean_rmse=33.311 exported /home/user/sts/research/models/sv_55.txt
