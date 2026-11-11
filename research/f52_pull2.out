@@ -1,0 +1,14 @@
+PULL f52_f52w1_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w1_z/all
+PULL f52_f52w2_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w2_z/all
+PULL f52_f52w4_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w4_z/all
+PULL f52_f52w5_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w5_z/all
+PULL f52_f52w7_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w7_z/all
+PULL f52_f52w8_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w8_z/all
+PULL f52_f52w9_z DONE: 31 files linked into /home/user/sts/research/vf/data/f52_f52w9_z/all
+CHECK f52_f52w1_z files=7500 rows=2522531 rem=0
+CHECK f52_f52w2_z files=7500 rows=2515387 rem=0
+CHECK f52_f52w4_z files=7500 rows=2525349 rem=0
+CHECK f52_f52w5_z files=7500 rows=2526812 rem=0
+CHECK f52_f52w7_z files=7500 rows=2521089 rem=0
+CHECK f52_f52w8_z files=7500 rows=2541937 rem=0
+CHECK f52_f52w9_z files=7500 rows=2514684 rem=0
