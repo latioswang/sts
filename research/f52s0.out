@@ -4,3 +4,13 @@ make: Leaving directory '/home/user/sts_lightspeed_fid2/build'
 repro_check research/runs/cb0_a0.fs1428500n2000.a0.tsv: 16 games compared, 0 differ -> OK bit-identical
 repro_check research/runs/cb0_a10.fs1426500n2000.a10.tsv: 16 games compared, 0 differ -> OK bit-identical
 repro_check research/runs/cb0_a20.fs1424500n2000.a20.tsv: 16 games compared, 0 differ -> OK bit-identical
+repro_check research/runs/cb0_heart.fs1430500n2000.a0.tsv: 16 games compared, 0 differ -> OK bit-identical
+LEAKTEST checked=96 mismatches=0 PASS
+calib sv16: best: 11.5s  candidate: 6.77s  candidate/best = 0.589  (scale candidate sims by 1.699 for equal wall-clock)
+calib mix05: best: 11.9s  candidate: 17.31s  candidate/best = 1.455  (scale candidate sims by 0.687 for equal wall-clock)
+sims: sv16 1675, mix05 675
+f45a0_sf	fs1436500n300	a0	n=300	crash=0	win=0.840	floor=48.35	score=1.7880±0.0287	act4=0.000	100s
+deaths: Automaton:19 Awakened One:15 Champ:13 Donu And Deca:12 Time Eater:12 Collector:12 Giant Head:6 Hexaghost:5	potions_left_at_death=0.96
+vs f45a0_sf: n=300	dscore=-0.3653	dwin=-0.287	P(improve)=0.000
+F43 a0: f52_mix05 (mix_sv=16 mix_lambda=0.5 sims=675) vs f45a0_sf on fs1436800n2000
+f45a0_sf	fs1436800n2000	a0	n=2000	crash=0	win=0.843	floor=48.60	score=1.7954±0.0108	act4=0.000	709s

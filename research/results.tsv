@@ -690,3 +690,4 @@ e4df9e0	fs1426500n2000.a10	2000	0	0.525	42.07	1.3500			info	cb0_a10: [a10] Phase
 4344024	fs1430500n2000.a0	2000	0	0.283	46.91	1.1586			info	cb0_heart: [heart] Phase S3 re-baseline on fidelity-cb0390e: current best unchanged [sim=fidelity-cb0390e]
 2fca8ab	fs1432500n2000.a20	2000	0	0.074	31.25	0.6858	+0.0019	0.766	discard	f51a20_veto: [a20] Phase F43: elite_veto_hp=0.5 (actions ratio 0.9962) [sim=fidelity-cb0390e]
 0912065	fs1434500n2000.a20	2000	0	0.070	31.50	0.6867	-0.0013	0.334	discard	f51a20_veto: [a20] fresh-slice extension of a near miss (fs1432500n2000 + fs1434500n2000 pooled P=0.571, second-slice dscore=-0.0013) [sim=fidelity-cb0390e]
+0836a70	fs1436500n300.a0	300	0	0.553	44.34	1.4227	-0.3653	0.000	scaling	f52_sv16: [a0] F52 step 0: re-baseline of the pure learned leaf sv_16 (rollout_turns=0) at equal wall-clock (sims 1675) vs f45a0_sf [sim=fidelity-1b3b779]
