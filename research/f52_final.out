@@ -18,3 +18,15 @@ CHECK f52_f52w6b_z files=7500 rows=2499580 rem=0
 CHECK TOTAL rows=32750891
 groups=390 files=97500 hold_files=1025 holdout_rows=200000 target mean=86.43 sd=33.28 (from 4 groups)
 SV id=55 rows=32404409 hidden=42 layers=2 params=10459 holdout_rmse=11.833 exported_rmse=11.833 predict_mean_rmse=33.311 exported /home/user/sts/research/models/sv_55.txt
+groups=390 files=97500 hold_files=1025 holdout_rows=200000 target mean=86.43 sd=33.28 (from 4 groups)
+SV id=56 rows=32404409 hidden=96 layers=2 params=29089 holdout_rmse=11.524 exported_rmse=11.524 predict_mean_rmse=33.311 exported /home/user/sts/research/models/sv_56.txt
+LEAKTEST checked=91 mismatches=0 PASS
+calib f52_sv55: best: 11.27s  candidate: 6.26s  candidate/best = 0.555  (scale candidate sims by 1.800 for equal wall-clock)
+sims: 1800
+f45a0_sf	fs1441100n300	a0	n=300	crash=0	win=0.853	floor=48.54	score=1.8052±0.0277	act4=0.000	103s
+deaths: Awakened One:29 Champ:15 Time Eater:13 Donu And Deca:10 Automaton:10 Collector:5 Hexaghost:4 Three Shapes:4	potions_left_at_death=0.92
+vs f45a0_sf: n=300	dscore=-0.3259	dwin=-0.267	P(improve)=0.000
+LEAKTEST checked=95 mismatches=0 PASS
+calib f52_sv56: best: 12.09s  candidate: 13.92s  candidate/best = 1.151  (scale candidate sims by 0.869 for equal wall-clock)
+sims: 850
+f45a0_sf	fs1441400n300	a0	n=300	crash=0	win=0.847	floor=48.80	score=1.8036±0.0273	act4=0.000	104s
