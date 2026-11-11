@@ -1,0 +1,2 @@
+groups=270 files=67500 hold_files=684 holdout_rows=200000 target mean=86.43 sd=33.28 (from 4 groups)
+ep  1 train_rows=22477652 holdout_rmse=12.373 (predict-mean 32.892) 101s
