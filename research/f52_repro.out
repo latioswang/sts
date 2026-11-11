@@ -1,0 +1,24 @@
+PULL leafdata DONE: 2500 files linked into /home/user/sts/research/vf/data/leafdata/all
+groups=10 files=2500 hold_files=17 holdout_rows=6022 target mean=79.80 sd=34.92 (from 4 groups)
+COMPARE research/models/sv_11.txt holdout_rmse=11.825
+ep  1 train_rows=809509 holdout_rmse=13.865 (predict-mean 34.159) 3s
+ep  2 train_rows=809509 holdout_rmse=13.475 (predict-mean 34.159) 5s
+ep  3 train_rows=809509 holdout_rmse=13.613 (predict-mean 34.159) 7s
+ep  4 train_rows=809509 holdout_rmse=13.234 (predict-mean 34.159) 9s
+ep  5 train_rows=809509 holdout_rmse=13.068 (predict-mean 34.159) 11s
+ep  6 train_rows=809509 holdout_rmse=12.582 (predict-mean 34.159) 13s
+ep  7 train_rows=809509 holdout_rmse=12.780 (predict-mean 34.159) 15s
+ep  8 train_rows=809509 holdout_rmse=12.676 (predict-mean 34.159) 18s
+ep  9 train_rows=809509 holdout_rmse=12.516 (predict-mean 34.159) 20s
+ep 10 train_rows=809509 holdout_rmse=12.780 (predict-mean 34.159) 23s
+ep 11 train_rows=809509 holdout_rmse=12.511 (predict-mean 34.159) 26s
+ep 12 train_rows=809509 holdout_rmse=12.862 (predict-mean 34.159) 29s
+ep 13 train_rows=809509 holdout_rmse=12.503 (predict-mean 34.159) 31s
+ep 14 train_rows=809509 holdout_rmse=12.594 (predict-mean 34.159) 33s
+ep 15 train_rows=809509 holdout_rmse=12.912 (predict-mean 34.159) 36s
+ep 16 train_rows=809509 holdout_rmse=12.575 (predict-mean 34.159) 38s
+ep 17 train_rows=809509 holdout_rmse=12.470 (predict-mean 34.159) 40s
+ep 18 train_rows=809509 holdout_rmse=12.642 (predict-mean 34.159) 42s
+ep 19 train_rows=809509 holdout_rmse=12.513 (predict-mean 34.159) 44s
+ep 20 train_rows=809509 holdout_rmse=12.465 (predict-mean 34.159) 47s
+SV id=52 rows=809509 hidden=42 layers=2 params=10459 holdout_rmse=12.465 exported_rmse=12.465 predict_mean_rmse=34.159 exported /home/user/sts/research/models/sv_52.txt
