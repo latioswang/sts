@@ -44,6 +44,8 @@ struct SearchParams {
     double lowHpThresh = 20.0;
     bool leafVf = false;         // rollout cutoff: use the learned MLP value instead of the heuristic
     int leafSv = 0;              // Phase S: rollout cutoff valued by runtime model research/models/sv_<id>.txt (0 = off)
+    int mixSv = 0;               // F52 (AlphaGo-style mixed leaf): new-leaf value = mixLambda*sv_<mixSv>(leaf) + (1-mixLambda)*rollout (0 = off)
+    double mixLambda = 0.0;
     std::FILE *leafLog = nullptr; // Phase S2 data: sampled tree-leaf states with the mean of leafLogK extra rollouts (never changes the search)
     double leafLogP = 0.0;        // probability a new leaf is logged
     int leafLogK = 8;             // rollouts averaged for the label

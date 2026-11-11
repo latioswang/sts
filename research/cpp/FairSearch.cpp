@@ -511,7 +511,13 @@ void FairSearcher::simulate() {
                 std::fwrite(row, sizeof(float), vf::DIM + 2, p.leafLog);
                 rng = savedRng; actionsExecuted = savedActs;
             }
-            value = terminal ? evaluate(bc) : rollout(bc);
+            if (terminal) value = evaluate(bc);
+            else if (p.mixSv > 0 && p.mixLambda > 0) {  // F52: mix the leaf model's estimate with one full rollout
+                const auto &sm = sv::model(p.mixSv);
+                const double v0 = sm.trained ? sv::value(sm, bc) : 0.0;
+                const double v1 = rollout(bc);
+                value = sm.trained ? p.mixLambda * v0 + (1.0 - p.mixLambda) * v1 : v1;
+            } else value = rollout(bc);
             if (child >= 0) { nodes[child].visits += 1; }
             break;
         }

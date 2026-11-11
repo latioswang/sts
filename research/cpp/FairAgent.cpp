@@ -77,6 +77,8 @@ FairAgent::FairAgent(const Params &params, std::uint64_t agentSeed_) : P(params)
     sp.cutWinFrac = getp(P, "cut_win_frac", 1.0);
     sp.leafVf = getp(P, "leaf_vf", 0) > 0;
     sp.leafSv = static_cast<int>(getp(P, "leaf_sv", 0));
+    sp.mixSv = static_cast<int>(getp(P, "mix_sv", 0));          // F52
+    sp.mixLambda = getp(P, "mix_lambda", 0.0);                    // F52
     if (getp(P, "leaf_log", 0) > 0) {  // Phase S2: tree-leaf states + mean of K rollouts (VF_LOG_DIR/leaf_<seed>.bin)
         if (const char *dir = std::getenv("VF_LOG_DIR")) {
             const std::string path = std::string(dir) + "/leaf_" + std::to_string(agentSeed_) + ".bin";
