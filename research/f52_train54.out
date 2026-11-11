@@ -1,2 +1,10 @@
 groups=270 files=67500 hold_files=684 holdout_rows=200000 target mean=86.43 sd=33.28 (from 4 groups)
 ep  1 train_rows=22477652 holdout_rmse=12.373 (predict-mean 32.892) 101s
+ep  2 train_rows=22477652 holdout_rmse=12.273 (predict-mean 32.892) 198s
+ep  3 train_rows=22477652 holdout_rmse=12.260 (predict-mean 32.892) 297s
+ep  4 train_rows=22477652 holdout_rmse=12.157 (predict-mean 32.892) 393s
+ep  5 train_rows=22477652 holdout_rmse=12.106 (predict-mean 32.892) 486s
+ep  6 train_rows=22477652 holdout_rmse=11.983 (predict-mean 32.892) 580s
+ep  7 train_rows=22477652 holdout_rmse=11.962 (predict-mean 32.892) 673s
+ep  8 train_rows=22477652 holdout_rmse=11.932 (predict-mean 32.892) 769s
+SV id=54 rows=22477652 hidden=42 layers=2 params=10459 holdout_rmse=11.932 exported_rmse=11.932 predict_mean_rmse=32.892 exported /home/user/sts/research/models/sv_54.txt
