@@ -1,0 +1,6 @@
+== F52 step 0 start 2026-11-11 08:59:27 UTC
+make[1]: Leaving directory '/home/user/sts_lightspeed_fid2/build'
+make: Leaving directory '/home/user/sts_lightspeed_fid2/build'
+repro_check research/runs/cb0_a0.fs1428500n2000.a0.tsv: 16 games compared, 0 differ -> OK bit-identical
+repro_check research/runs/cb0_a10.fs1426500n2000.a10.tsv: 16 games compared, 0 differ -> OK bit-identical
+repro_check research/runs/cb0_a20.fs1424500n2000.a20.tsv: 16 games compared, 0 differ -> OK bit-identical
