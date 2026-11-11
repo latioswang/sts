@@ -221,11 +221,11 @@
   }
  ],
  "next_up": [
-  "F52 (owner chose option A, 2026-11-11): worker-scale leaf-value learning. Step 0 done: the learned leaf sv16 re-measured at -0.365 vs the current A0 best (gate -0.45 passed). Running: 10 workers generate 75,000 leaf-logged A0 games (~10x the S2 data); locally, an AlphaGo-style mixed leaf (half learned value, half rollout). Stop rule: if the model trained on 10x data does not beat -0.2 at equal wall-clock, the leaf-value line is closed for good.",
+  "F52 finished (2026-11-11): the leaf-value line is closed. With ~10x data (32.4M rows from 97,500 games of the current agent) the learned position evaluator still loses to random play-outs by 0.30 score (62% vs 86% wins) on 2,000 new seeds; the agreed bar was 0.2. The AlphaGo-style mix of learned value and play-out added nothing either. Waiting for the owner on the next research direction.",
   "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
   "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
   "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
-  "Phase S2 result carried into F52: 4x leaf data moved the best learned leaf from -0.45 to -0.35; F52 tests whether 10x more reaches -0.2.",
+  "Leaf-value history: 0.8M rows -0.45, 3.2M rows -0.35, 22.5M rows -0.29, 32.4M rows -0.30 (bar -0.2): data stopped helping.",
   "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
   "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
  ],
@@ -294,6 +294,7 @@
   "F38 (b): a keys-aware Heart path model (pm_6, 12,000 Heart seeds) — −0.0005 ± 0.0057 held-out, although the honest Heart path headroom is +0.0115 ± 0.0060; not captured with this much data.",
   "F39 (diagnostic): 2× / 4× combat search vs the bests — A20 +0.051 / +0.076, A10 +0.076 / +0.139 (wins 48 → 53 → 58%), Heart +0.063 / +0.091 (Heart kills 27 → 31 → 33%). Not adopted: the search budget is the owner's decision.",
   "F40 on A20 and Heart: early stop + reinvested search — A20 a tie over 8,000 seeds, Heart −0.006 (only +5% search bought); not adopted. A10 kept and confirmed.",
-  "F41: tree reuse within a fight (A10, tie −0.0015) and early stop + reinvested search on A0 (exact tie) — not adopted."
+  "F41: tree reuse within a fight (A10, tie −0.0015) and early stop + reinvested search on A0 (exact tie) — not adopted.",
+  "Learned leaf value replacing play-outs (Phase S, S2, F52): closed 2026-11-11 by the owner-agreed stop rule; -0.30 at 10x data vs a bar of -0.2. Mixed leaf (AlphaGo-style) closed with it."
  ]
 }

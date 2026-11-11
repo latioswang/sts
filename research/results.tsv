@@ -697,3 +697,4 @@ e4df9e0	fs1426500n2000.a10	2000	0	0.525	42.07	1.3500			info	cb0_a10: [a10] Phase
 efcb103	fs1439100n2000.a0	2000	0	0.616	46.00	1.5175	-0.2904	0.000	scaling	f52_sv54b: [a0] F52: pure learned leaf sv_54 (rollout_turns=0) at equal wall-clock (sims 1725) vs f45a0_sf [sim=fidelity-1b3b779]
 a344a76	fs1441100n300.a0	300	0	0.587	45.52	1.4792	-0.3259	0.000	scaling	f52_sv55: [a0] F52: pure learned leaf sv_55 (rollout_turns=0) at equal wall-clock (sims 1800) vs f45a0_sf [sim=fidelity-1b3b779]
 c06a0d4	fs1441400n300.a0	300	0	0.613	45.32	1.5020	-0.3016	0.000	scaling	f52_sv56: [a0] F52: pure learned leaf sv_56 (rollout_turns=0) at equal wall-clock (sims 850) vs f45a0_sf [sim=fidelity-1b3b779]
+3ded9f7	fs1441700n2000.a0	2000	0	0.618	45.76	1.5148	-0.2975	0.000	scaling	f52_sv55b: [a0] F52: pure learned leaf sv_55 (rollout_turns=0) at equal wall-clock (sims 1725) vs f45a0_sf [sim=fidelity-1b3b779]
