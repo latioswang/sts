@@ -693,3 +693,4 @@ e4df9e0	fs1426500n2000.a10	2000	0	0.525	42.07	1.3500			info	cb0_a10: [a10] Phase
 0836a70	fs1436500n300.a0	300	0	0.553	44.34	1.4227	-0.3653	0.000	scaling	f52_sv16: [a0] F52 step 0: re-baseline of the pure learned leaf sv_16 (rollout_turns=0) at equal wall-clock (sims 1675) vs f45a0_sf [sim=fidelity-1b3b779]
 3df3e6e	fs1436800n2000.a0	2000	0	0.826	48.34	1.7739	-0.0215	0.034	discard	f52_mix05: [a0] Phase F43: mix_sv=16 mix_lambda=0.5 sims=675 (actions ratio 0.6638) [sim=fidelity-1b3b779]
 7cc8a85	fs1436800n2000.a0	2000	0	0.827	48.46	1.7771	-0.0183	0.049	info	f52_ctl675: [a0] F52 control: f45a0_sf at sims=675 (the mixed leaf's simulation count) [sim=fidelity-1b3b779]
+0334f57	fs1438800n300.a0	300	0	0.693	47.50	1.6246	-0.1922	0.000	scaling	f52_sv54: [a0] F52: pure learned leaf sv_54 (rollout_turns=0) at equal wall-clock (sims 1800) vs f45a0_sf [sim=fidelity-1b3b779]
