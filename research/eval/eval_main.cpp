@@ -191,7 +191,7 @@ int main(int argc, char **argv) {
                 // silence simulator spam WITHOUT closing fd 2: a closed fd 2 would be reused by the
                 // agent's data loggers and std::cerr diagnostics would then corrupt the binary logs
                 if (!std::freopen("/dev/null", "w", stderr)) _exit(4);
-                alarm(900);           // hang guard -> counted as crash
+                { const char *al = std::getenv("FAIR_ALARM"); alarm(al ? static_cast<unsigned>(std::atoi(al)) : 900u); }  // hang guard -> crash (FAIR_ALARM overrides; owner 2026-11-16)
                 if (branchM > 0) {
                     // Phase F26: one branch-evaluation decision per seed (k = seed % branchK), rows to VF_LOG_DIR/branch_<seed>.bin
                     const char *dir = std::getenv("VF_LOG_DIR");

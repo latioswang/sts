@@ -467,7 +467,7 @@ int FairSearcher::select(const Node &node) const {
 void FairSearcher::simulate() {
     BattleContext bc = *rootState;
     FAIR_CHECK(bc, "root");
-    determinise(bc, rng, p.knownTop);
+    if (!p.diagClair) determinise(bc, rng, p.knownTop);  // diag_clair: clairvoyant measurement only
     FAIR_CHECK(bc, "determinise");
 
     auto &path = pathBuf;  // (node, edge), reused across simulations

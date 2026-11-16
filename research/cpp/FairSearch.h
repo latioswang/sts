@@ -46,6 +46,7 @@ struct SearchParams {
     int leafSv = 0;              // Phase S: rollout cutoff valued by runtime model research/models/sv_<id>.txt (0 = off)
     int mixSv = 0;               // F52 (AlphaGo-style mixed leaf): new-leaf value = mixLambda*sv_<mixSv>(leaf) + (1-mixLambda)*rollout (0 = off)
     double mixLambda = 0.0;
+    int diagClair = 0;           // SOTA stage 0 (DIAGNOSTIC ONLY, never an agent result): 1 = skip determinise, search the TRUE hidden state
     std::FILE *leafLog = nullptr; // Phase S2 data: sampled tree-leaf states with the mean of leafLogK extra rollouts (never changes the search)
     double leafLogP = 0.0;        // probability a new leaf is logged
     int leafLogK = 8;             // rollouts averaged for the label
