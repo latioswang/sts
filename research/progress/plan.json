@@ -176,6 +176,12 @@
    "label": "Heart beaten ≥ 20% confirmed on test: Heart best at 2x search 175/500 = 35.0% [30.9, 39.3]",
    "status": "done",
    "when": "2026-11-10 18:0x"
+  },
+  {
+   "id": "SOTA-0",
+   "label": "Stage 0 of the state-of-the-art plan: split the gap (deck building vs fight piloting); verify the leader's numbers",
+   "status": "running",
+   "when": ""
   }
  ],
  "phases": [
@@ -221,7 +227,7 @@
   }
  ],
  "next_up": [
-  "2026-11-16: a plan to reach state of the art waits for the owner (research/breakthrough/PLAN.md, revision 2 after a red team). Stage 0 (8–9 working days, CPU only): measure how much of the gap is deck building and how much is fight piloting, using our own strategy with a near-perfect clairvoyant pilot at a real budget (measurement only, never an agent result), boss re-fights, and a free test of card-value tables on data already on disk. Then one route decision: learn fights and strategy with one network as the current fair leader did (needs a GPU), or rebuild our agent by measurement (CPU). Targets: Ascension 20 Act-3 win above 22% (the best fair specialised agent today: 21.9%) and Ascension 20 Heart above 8%. Estimated odds are low: about 10–14% for the first target. Nothing runs before the owner approves stage 0."
+  "2026-11-16: the owner approved stage 0 of the plan to reach state of the art (research/breakthrough/PLAN.md) and a starting GPU budget of USD 20 (vast.ai). Stage 0 measures how much of the gap is deck building and how much is fight piloting: our own strategy under a near-perfect clairvoyant pilot at a real budget (measurement only, never an agent result), fair search at 16x, boss re-fights, a free test of card-value tables, and a check that the leading published agent's 21.9% at Ascension 20 holds on unseen seeds. Targets: Ascension 20 Act-3 win above 22% and Ascension 20 Heart above 8%; win rate is the keep metric there."
  ],
  "done": [
   "Leak-free combat search: determinised MCTS, 500 simulations, leak test on every build.",
