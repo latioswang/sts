@@ -221,7 +221,7 @@
   }
  ],
  "next_up": [
-  "2026-11-16, owner decision: every earlier idea line is closed (list under 'closed'). A structured search for ground-breaking directions is running: (1) map of everything tried and of where the agent loses, (2) independent proposals from different angles, (3) adversarial checks of each proposal against the history, the code and the rules. No experiment runs until that report is in front of the owner."
+  "2026-11-16: a plan to reach state of the art is drafted and waits for the owner (research/breakthrough/PLAN.md). Stage 0 (one week, CPU only): split the gap between deck building and fight piloting with a 2×2 test that pairs a public strategy network and our own with a clairvoyant search and our fair search, plus ceiling measurements of our own search. Then: rebuild the strategy layer by measurement and let fights price the run; one learned strategy policy trained with the search in the loop; pilot upgrades; the Heart at Ascension 20. Targets: Ascension 20 Act-3 win above 22–27.5% (best fair specialised agent today: 21.9%) and Ascension 20 Heart above 8%. Nothing runs before the owner approves stage 0."
  ],
  "done": [
   "Leak-free combat search: determinised MCTS, 500 simulations, leak test on every build.",
