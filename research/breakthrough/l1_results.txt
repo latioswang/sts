@@ -1,0 +1,207 @@
+E5WRAP results begin
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 560.35.03","nproc":28,"mem_gb":62,"python":"Python 3.12.16","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":44}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":44}
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":27,"bench":"run: 668,998 steps/s with step_random (7030 episodes finished) run: 434,993 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":27}
+E5RESULT {"exp":"E5a-py-test_upgrade","rc":0}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 900000, "runs_expected": 32, "runs": 32, "won": 2, "win_rate": 0.0625, "se": 0.0428, "ci95_wilson": [0.0173, 0.2015], "floor": 33.22, "reached_act2": 0.75, "reached_act3": 0.4062, "timed_out": 0, "errors": 0, "sec_per_run": null}
+E5RESULT {"exp":"E5a-py-train_runs-eval","line":"/root/e5/ironclad-v1-enc3.pt: update 200: floor 34.9, reached A2 84% A3 47% A4 0%, won 15.6% of 32, the Heart 0.0% (0 timed out)"}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":66}
+E5RESULT {"exp":"E5d-lookahead-run","rc":1,"wall_s":195}
+E5RESULT {"exp":"E5d-freekeys-run","rc":0,"wall_s":66}
+E5RESULT {"exp":"phase","phase":"e5d_lookahead","rc":0,"seconds":261}
+E5RESULT {"exp":"E5b-speed-eager-gpu","util_mean":63.3,"mem_peak_mib":7879,"samples":28}
+E5RESULT {"exp": "E5b-speed-eager", "updates": 4, "steps": 1048576.0, "seconds": 133.6, "steps_per_s_median": 7927, "steps_per_s_max": 7954}
+E5RESULT {"exp":"E5b-speed-eager-run","rc":0,"wall_s":137}
+E5RESULT {"exp":"E5b-speed-fixed-gpu","util_mean":32.3,"mem_peak_mib":9485,"samples":62}
+E5RESULT {"exp": "E5b-speed-fixed", "updates": 2, "steps": 524288.0, "seconds": 286.3, "steps_per_s_median": 1831, "steps_per_s_max": 1831}
+E5RESULT {"exp":"E5b-speed-fixed-run","rc":1,"wall_s":307}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-gpu","util_mean":4.7,"mem_peak_mib":4583,"samples":12}
+E5RESULT {"exp": "E5b-speed-fixed_overlap", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-run","rc":1,"wall_s":56}
+E5RESULT {"exp": "E5b-projection", "best_cfg": "eager", "steps_per_s": 7927.0, "price_per_hour": 0.4, "gpu_hours_0.25B_steps": 8.8, "usd_0.25B_steps": 3.5, "gpu_hours_0.5B_steps": 17.5, "usd_0.5B_steps": 7.0, "gpu_hours_1.0B_steps": 35.0, "usd_1.0B_steps": 14.0, "gpu_hours_2.0B_steps": 70.1, "usd_2.0B_steps": 28.0}
+E5RESULT {"exp":"phase","phase":"e5b_speed","rc":0,"seconds":500}
+E5RESULT {"exp":"E5b-curve-gpu","util_mean":61.1,"mem_peak_mib":7897,"samples":689}
+E5RESULT {"exp": "E5b-curve", "updates": 100, "steps": 26214400.0, "seconds": 3343.0, "steps_per_s_median": 7840, "steps_per_s_max": 7907}
+E5RESULT {"exp": "E5b-curve-log", "update": 5.0, "steps": 1310720.0, "seconds": 169.9, "steps_per_s": 7713.93, "floor": 7.936, "reached_act2": 0.002, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 10.0, "steps": 2621440.0, "seconds": 337.8, "steps_per_s": 7760.42, "floor": 12.298, "reached_act2": 0.012, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 15.0, "steps": 3932160.0, "seconds": 505.5, "steps_per_s": 7810.78, "floor": 15.178, "reached_act2": 0.104, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 20.0, "steps": 5242880.0, "seconds": 673.5, "steps_per_s": 7809.28, "floor": 15.972, "reached_act2": 0.136, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 25.0, "steps": 6553600.0, "seconds": 840.5, "steps_per_s": 7826.83, "floor": 16.834, "reached_act2": 0.162, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 30.0, "steps": 7864320.0, "seconds": 1009.8, "steps_per_s": 7794.48, "floor": 17.376, "reached_act2": 0.194, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 35.0, "steps": 9175040.0, "seconds": 1177.3, "steps_per_s": 7781.46, "floor": 18.362, "reached_act2": 0.27, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 40.0, "steps": 10485760.0, "seconds": 1343.8, "steps_per_s": 7849.33, "floor": 19.896, "reached_act2": 0.382, "reached_act3": 0.0, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 45.0, "steps": 11796480.0, "seconds": 1511.4, "steps_per_s": 7846.5, "floor": 20.562, "reached_act2": 0.408, "reached_act3": 0.002, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 50.0, "steps": 13107200.0, "seconds": 1678.4, "steps_per_s": 7833.66, "floor": 22.664, "reached_act2": 0.54, "reached_act3": 0.008, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 55.0, "steps": 14417920.0, "seconds": 1846.4, "steps_per_s": 7825.42, "floor": 22.848, "reached_act2": 0.56, "reached_act3": 0.014, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 60.0, "steps": 15728640.0, "seconds": 2012.8, "steps_per_s": 7840.5, "floor": 23.52, "reached_act2": 0.6, "reached_act3": 0.022, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 65.0, "steps": 17039360.0, "seconds": 2179.1, "steps_per_s": 7880.82, "floor": 23.914, "reached_act2": 0.604, "reached_act3": 0.022, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 70.0, "steps": 18350080.0, "seconds": 2344.6, "steps_per_s": 7898.7, "floor": 24.43, "reached_act2": 0.618, "reached_act3": 0.014, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 75.0, "steps": 19660800.0, "seconds": 2511.0, "steps_per_s": 7898.51, "floor": 25.106, "reached_act2": 0.662, "reached_act3": 0.024, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 80.0, "steps": 20971520.0, "seconds": 2677.6, "steps_per_s": 7873.29, "floor": 24.866, "reached_act2": 0.658, "reached_act3": 0.022, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 85.0, "steps": 22282240.0, "seconds": 2843.1, "steps_per_s": 7891.71, "floor": 25.914, "reached_act2": 0.698, "reached_act3": 0.032, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 90.0, "steps": 23592960.0, "seconds": 3009.2, "steps_per_s": 7905.72, "floor": 26.246, "reached_act2": 0.722, "reached_act3": 0.034, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 95.0, "steps": 24903680.0, "seconds": 3175.8, "steps_per_s": 7879.21, "floor": 27.352, "reached_act2": 0.788, "reached_act3": 0.038, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-log", "update": 100.0, "steps": 26214400.0, "seconds": 3343.0, "steps_per_s": 7853.22, "floor": 26.956, "reached_act2": 0.75, "reached_act3": 0.044, "win_rate": 0.0}
+E5RESULT {"exp": "E5b-curve-eval", "update": "25", "steps": "6553600", "set": "runs", "runs": "256", "floor": "16.2109", "win_rate": "0", "reached_act3": "0"}
+E5RESULT {"exp": "E5b-curve-eval", "update": "50", "steps": "13107200", "set": "runs", "runs": "256", "floor": "25.168", "win_rate": "0", "reached_act3": "0.03125"}
+E5RESULT {"exp": "E5b-curve-eval", "update": "75", "steps": "19660800", "set": "runs", "runs": "256", "floor": "26.2734", "win_rate": "0", "reached_act3": "0.0195312"}
+E5RESULT {"exp": "E5b-curve-eval", "update": "100", "steps": "26214400", "set": "runs", "runs": "256", "floor": "28.8242", "win_rate": "0", "reached_act3": "0.0625"}
+E5RESULT {"exp":"E5b-curve-run","cfg":"eager","rc":0,"wall_s":3444}
+E5RESULT {"exp":"phase","phase":"e5b_curve","rc":1,"seconds":3444}
+E5RESULT {"exp":"total","wall_hours":1.21,"usd_at_price":"0.48"}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+E5WRAP LOG /root/e5/results/lookahead_a20.log
+    out.append(self.net(i, f, p)[1].float().cpu().numpy())
+               ^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/spire-engine/python/core/run_model.py", line 197, in forward
+    lg, v = fn(ints[rows], floats[rows], None if practice is None else practice[rows])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/spire-engine/python/core/run_model.py", line 228, in _combat
+    x, at = self._combat_encoded(ints, floats)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/spire-engine/python/core/run_model.py", line 225, in _combat_encoded
+    return self.out_norm(self._encode(tokens, pad, n_options)), at
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/spire-engine/python/core/fight_model.py", line 314, in _encode
+    y = self.encoder(tokens[rows, :length], src_key_padding_mask=pad[rows, :length])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/transformer.py", line 511, in forward
+    output = mod(
+             ^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/nn/modules/transformer.py", line 871, in forward
+    return torch._transformer_encoder_layer_fwd(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 158.00 MiB. GPU 0 has a total capacity of 23.54 GiB of which 13.02 GiB is free. Process 3532547 has 2.17 GiB memory in use. Process 3532546 has 1.53 GiB memory in use. Process 3532548 has 2.19 GiB memory in use. Process 3532545 has 1.53 GiB memory in use. Process 3532550 has 1.51 GiB memory in use. Process 3532549 has 1.53 GiB memory in use. 1.83 GiB allowed; Of the allocated memory 1.65 GiB is allocated by PyTorch, with 866.00 MiB al
+
+E5WRAP LOG /root/e5/results/freekeys_a20.log
+/root/e5/ironclad-v1-enc3.pt (update 200); search: top 4 + end turn, 8 copies, 1 turn(s), at most 30 moves, run value, potion value None, margin 0.0 + 0.0 SE; reward scale 1.000; 6 process(es)
+  runs[0]: 128 done, 31 s, won 0.0%
+  runs[3]: 128 done, 32 s, won 0.8%
+  runs[1]: 128 done, 33 s, won 0.0%
+  runs[2]: 128 done, 34 s, won 0.8%
+  runs[4]: 128 done, 34 s, won 0.0%
+  runs[5]: 128 done, 34 s, won 0.8%
+runs A20 greedy: won 2.5% of 1024 (the Heart 2.5%), floor 35.3, reached A2 78% A3 44% A4 20%, potions a run: hallway 0.46 elite 1.99 boss 2.11 (64 s)
+E5WRAP LOG /root/e5/results/train_e5-scratch.log
+upd    73    19.14M steps   7893/s (rollout  7.5s)  runs 72055  floor 24.6  reached A2 63% A3 2% A4 0% won 0%  pg -0.004 v 0.003 ent 0.48 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 16.1  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    74    19.40M steps   7896/s (rollout  7.5s)  runs 72731  floor 24.7  reached A2 65% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 14.2  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    75    19.66M steps   7899/s (rollout  7.5s)  runs 73430  floor 25.1  reached A2 66% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.48 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 78% HP lost 15.0  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+  eval A0: floor 26.3, reached A2 73% A3 2% A4 0%, won 0.0% (0 timed out, 23s)
+upd    76    19.92M steps   7890/s (rollout  7.6s)  runs 74088  floor 24.5  reached A2 63% A3 2% A4 0% won 0%  pg -0.004 v 0.003 ent 0.48 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 76% HP lost 15.2  rollout to_gpu 0.5 network 5.4 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    77    20.19M steps   7884/s (rollout  7.4s)  runs 74759  floor 24.9  reached A2 65% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.48 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 77% HP lost 14.7  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.8s  GPU GB trainer 6.7/7.2
+upd    78    20.45M steps   7883/s (rollout  7.5s)  runs 75424  floor 24.7  reached A2 65% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.48 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 78% HP lost 15.2  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.8s  GPU GB trainer 6.7/7.2
+upd    79    20.71M steps   7879/s (rollout  7.5s)  runs 76107  floor 25.0  reached A2 67% A3 1% A4 0% won 0%  pg -0.004 v 0.003 ent 0.48 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 76% HP lost 15.5  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    80    20.97M steps   7873/s (rollout  7.5s)  runs 76767  floor 24.9  reached A2 66% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.48 kl 0.006 ev 0.91 ep 4 lr 0.0001  practice 30% won 77% HP lost 15.2  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    81    21.23M steps   7873/s (rollout  7.5s)  runs 77449  floor 25.1  reached A2 69% A3 3% A4 0% won 0%  pg -0.004 v 0.003 ent 0.48 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 15.5  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    82    21.50M steps   7894/s (rollout  7.5s)  runs 78122  floor 25.2  reached A2 67% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.48 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 77% HP lost 15.4  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    83    21.76M steps   7895/s (rollout  7.5s)  runs 78774  floor 24.6  reached A2 66% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 76% HP lost 14.9  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    84    22.02M steps   7893/s (rollout  7.5s)  runs 79424  floor 25.6  reached A2 69% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 79% HP lost 14.4  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    85    22.28M steps   7892/s (rollout  7.5s)  runs 80057  floor 25.9  reached A2 70% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 14.5  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    86    22.54M steps   7896/s (rollout  7.5s)  runs 80695  floor 25.6  reached A2 71% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 80% HP lost 14.6  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    87    22.81M steps   7903/s (rollout  7.5s)  runs 81347  floor 25.6  reached A2 70% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 79% HP lost 14.0  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    88    23.07M steps   7904/s (rollout  7.5s)  runs 81992  floor 25.3  reached A2 69% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.47 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 75% HP lost 14.1  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    89    23.33M steps   7901/s (rollout  7.5s)  runs 82591  floor 25.9  reached A2 72% A3 4% A4 0% won 0%  pg -0.004 v 0.003 ent 0.46 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 80% HP lost 13.9  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    90    23.59M steps   7906/s (rollout  7.5s)  runs 83250  floor 26.2  reached A2 72% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 79% HP lost 14.2  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    91    23.86M steps   7890/s (rollout  7.4s)  runs 83878  floor 26.5  reached A2 72% A3 4% A4 0% won 0%  pg -0.005 v 0.003 ent 0.46 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 77% HP lost 15.2  rollout to_gpu 0.5 network 5.2 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    92    24.12M steps   7880/s (rollout  7.5s)  runs 84528  floor 26.4  reached A2 75% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.46 kl 0.007 ev 0.91 ep 4 lr 0.0001  practice 30% won 79% HP lost 14.9  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    93    24.38M steps   7884/s (rollout  7.5s)  runs 85129  floor 26.1  reached A2 72% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.46 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 79% HP lost 15.0  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.6/7.2
+upd    94    24.64M steps   7881/s (rollout  7.5s)  runs 85742  floor 27.3  reached A2 78% A3 5% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.007 ev 0.90 ep 4 lr 0.0001  practice 30% won 77% HP lost 13.8  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    95    24.90M steps   7879/s (rollout  7.5s)  runs 86322  floor 27.4  reached A2 79% A3 4% A4 0% won 0%  pg -0.006 v 0.003 ent 0.45 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 14.6  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    96    25.17M steps   7858/s (rollout  7.5s)  runs 86943  floor 27.3  reached A2 79% A3 2% A4 0% won 0%  pg -0.005 v 0.003 ent 0.44 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 15.4  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.9/7.2
+upd    97    25.43M steps   7854/s (rollout  7.6s)  runs 87539  floor 27.5  reached A2 77% A3 5% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 80% HP lost 13.9  rollout to_gpu 0.5 network 5.4 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.8/7.2
+upd    98    25.69M steps   7852/s (rollout  7.5s)  runs 88162  floor 27.4  reached A2 79% A3 4% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 78% HP lost 13.9  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd    99    25.95M steps   7853/s (rollout  7.5s)  runs 88786  floor 27.0  reached A2 77% A3 3% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.008 ev 0.90 ep 4 lr 0.0001  practice 30% won 77% HP lost 14.9  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+upd   100    26.21M steps   7853/s (rollout  7.5s)  runs 89380  floor 27.0  reached A2 75% A3 4% A4 0% won 0%  pg -0.005 v 0.003 ent 0.45 kl 0.008 ev 0.91 ep 4 lr 0.0001  practice 30% won 79% HP lost 13.7  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/7.2
+  eval A0: floor 28.8, reached A2 87% A3 6% A4 0%, won 0.0% (0 timed out, 31s)
+E5WRAP LOG /root/e5/results/train_e5-speed-eager.log
+starting from /root/e5/ironclad-v1-enc3.pt
+device cuda, 1,287,616 parameters, 2048 runs x 128 steps per update, run folder /root/e5/spire-engine/python/runs/e5-speed-eager
+upd     1     0.26M steps   8027/s (rollout  7.8s)  runs 50  floor 7.9  reached A2 0% A3 0% A4 0% won 0%  pg -0.003 v 0.072 ent 0.29 kl 0.007 ev 0.81 ep 4 lr 0.0001  practice 30% won 70% HP lost 16.9  rollout to_gpu 0.5 network 5.6 engine 0.4 observe 0.4 glue 0.8s  GPU GB trainer 6.5/6.6
+upd     2     0.52M steps   7954/s (rollout  7.5s)  runs 296  floor 14.6  reached A2 11% A3 0% A4 0% won 0%  pg -0.003 v 0.079 ent 0.26 kl 0.006 ev 0.92 ep 4 lr 0.0001  practice 30% won 70% HP lost 16.4  rollout to_gpu 0.5 network 5.3 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.7/6.8
+upd     3     0.79M steps   7927/s (rollout  7.4s)  runs 646  floor 22.6  reached A2 65% A3 1% A4 0% won 0%  pg -0.003 v 0.075 ent 0.26 kl 0.007 ev 0.95 ep 4 lr 0.0001  practice 30% won 70% HP lost 17.7  rollout to_gpu 0.5 network 5.2 engine 0.4 observe 0.4 glue 0.9s  GPU GB trainer 6.9/7.0
+upd     4     1.05M steps   7847/s (rollout  7.6s)  runs 995  floor 29.6  reached A2 86% A3 12% A4 0% won 1%  pg -0.004 v 0.078 ent 0.27 kl 0.007 ev 0.96 ep 4 lr 0.0001  practice 30% won 70% HP lost 17.3  rollout to_gpu 0.5 network 5.4 engine 0.4 observe 0.4 glue 0.8s  GPU GB trainer 7.0/7.2
+E5WRAP LOG /root/e5/results/train_e5-speed-fixed.log
+                            ^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 667, in inner_fn
+    outs = compiled_fn(args)
+           ^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 488, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/codecache.py", line 1478, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1008, in run
+    return compiled_fn(new_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 398, in deferred_cudagraphify
+    fn, out = cudagraphify(model, inputs, new_static_input_idxs, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 428, in cudagraphify
+    return manager.add_function(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2213, in add_function
+    return fn, fn(inputs)
+               ^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 1919, in run
+    out = self._run(new_inputs, function_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2021, in _run
+    self.apply_checkpoint_execution_state_in_allocator()
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2415, in apply_checkpoint_execution_state_in_allocator
+    torch._C._cuda_setCheckpointPoolState(
+RuntimeError: Expected curr_block->next == nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+E5WRAP LOG /root/e5/results/train_e5-speed-fixed_overlap.log
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 667, in inner_fn
+    outs = compiled_fn(args)
+           ^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 488, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/codecache.py", line 1478, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1008, in run
+    return compiled_fn(new_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 398, in deferred_cudagraphify
+    fn, out = cudagraphify(model, inputs, new_static_input_idxs, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 428, in cudagraphify
+    return manager.add_function(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2213, in add_function
+    return fn, fn(inputs)
+               ^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 1919, in run
+    out = self._run(new_inputs, function_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2021, in _run
+    self.apply_checkpoint_execution_state_in_allocator()
+  File "/root/e5/venv/lib/python3.12/site-packages/torch/_inductor/cudagraph_trees.py", line 2415, in apply_checkpoint_execution_state_in_allocator
+    torch._C._cuda_setCheckpointPoolState(
+RuntimeError: Expected curr_block->next == nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+
+E5WRAP LOG /root/e5/results/train_runs_eval.log
+/root/e5/ironclad-v1-enc3.pt: update 200: floor 34.9, reached A2 84% A3 47% A4 0%, won 15.6% of 32, the Heart 0.0% (0 timed out)
+E5WRAP summary end 2026-11-16T22:38:11Z

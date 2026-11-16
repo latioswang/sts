@@ -545,7 +545,7 @@ phase_e5d_lookahead() {
   [ -f "$CONV" ] || { log "no converted checkpoint: run e5a_py first"; return 1; }
   local procs=${E5D_PROCS:-6} t; t=$(date +%s)
   ( cd "$REPO" && timeout "${E5D_TIMEOUT:-150m}" "$PY" python/search/search_eval.py "$CONV" --set runs --ascension 20 --runs 1024 \
-      --procs "$procs" --seed-offset 600000 ) > "$RES/lookahead_a20.log" 2>&1
+      --procs "$procs" --seed-offset 600000 ${E5D_EXTRA:-} ) > "$RES/lookahead_a20.log" 2>&1
   result "$(printf '{"exp":"E5d-lookahead-run","rc":%s,"wall_s":%s}' "$?" "$(elapsed "$t")")"
   t=$(date +%s)
   ( cd "$REPO" && timeout "${E5D_TIMEOUT:-60m}" "$PY" python/search/search_eval.py "$CONV" --set runs --ascension 20 --runs 1024 \
