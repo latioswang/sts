@@ -1,1 +1,4 @@
 == 19:54 E2 on fs1443700n1000 K=16 K2=2
+s0_a20_e2	fs1443700n1000	a20	n=1000	crash=0	win=0.078	floor=31.50	score=0.6940±0.0141	act4=0.000	4568s
+deaths: Collector:86 Automaton:75 Awakened One:68 Hexaghost:59 Slavers:56 Champ:53 Donu And Deca:44 The Guardian:44	potions_left_at_death=0.19
+== 21:10 done; arrivals: 1922
