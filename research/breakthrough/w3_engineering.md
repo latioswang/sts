@@ -1,8 +1,6 @@
 # W3 — Engineering practice and automated discovery (stage 1, 2026-11-16)
 
-Tools: WebSearch and WebFetch were available. Every URL below was opened in this session unless marked `[snippet]` (seen only in a search result) or `[from memory, unverified]`. Project facts come from the sibling files `c1_combat_search.md` (c1) and `h1`-`h6_history.md` (h1-h6). Searches used generic terms only.
-
-Format per item: **What / Result / Mechanism / Needs / Transfer** (with confidence).
+Tools: WebSearch and WebFetch were available. Every URL below was opened in this session; claims without one are marked `[snippet]` (search result only), `[from memory, unverified]` or `[inferred]`. Project facts come from the sibling files `c1_combat_search.md` (c1) and `h1`-`h6_history.md` (h1-h6).
 
 ## 1. NNUE: efficiently updatable evaluation (chess, shogi)
 
@@ -17,7 +15,7 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 
 **Needs.** CPU only at play time; hundreds of millions to billions of labelled positions; a trainer (Stockfish uses a GPU trainer, but the net is small).
 
-**Transfer.** High relevance. The failed leaf network here is the opposite on all three parts: 204 dense aggregate features with no card identities (c1 §3), about 45% of a simulation per evaluation with heap allocation (c1 §4), and a target equal to the mean of 8 random rollouts, so its ceiling was the rollout's own judgment (h1). An NNUE-shaped network (one feature per card × pile × upgrade, relic, monster × intent; accumulator patched when a card moves; integer tail) should cost a few percent of a rollout, not half [inferred]. Cheapness: high confidence. A net win in strength: medium, because it depends on the target (item 9).
+**Transfer.** High relevance. The failed leaf network here is the opposite on all three parts: 204 dense aggregate features with no card identities (c1 §3), about 45% of a simulation per evaluation (c1 §4), and a target equal to the mean of 8 random rollouts, so its ceiling was the rollout's own judgment (h1). An NNUE-shaped network (one feature per card × pile × upgrade, relic, monster × intent; accumulator patched when a card moves; integer tail) should cost a few percent of a rollout [inferred]. Cheapness: high confidence. Net strength gain: medium; it depends on the target (item 9).
 
 ## 2. Cheap learned playout policies and mixed leaf evaluation (Go, before and in AlphaGo)
 
@@ -25,11 +23,11 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 
 **Result.** Coulom's Crazy Stone, one CPU, 15,500 simulations/s on 9×9: win rate against GNU Go rose from 38.2% to 68.2% by using learned patterns in simulations, and to 90.6% with patterns also pruning the tree (19×19: 0% → 37.5% with both) (https://www.remi-coulom.fr/Amsterdam2007/MMGoPatterns.pdf). AlphaGo's fast rollout policy was a linear softmax reaching 24.2% move-prediction accuracy at 2 µs per move; mixed evaluation (λ = 0.5) won ≥95% of games against variants using only the value network or only rollouts; tournament Elo 2890 mixed, 2416 rollouts only, 2177 value only (https://www.cs.princeton.edu/courses/archive/spring16/cos598F/Google-go-nature16.pdf, text and Extended Data Table 7).
 
-**Mechanism.** Playouts stay as cheap as before because "only light-weight features are kept" (Coulom §4.1), and weights are learned from game records (652 games sufficed). Value network and rollouts were complementary because the value net was trained on outcomes of strong self-play, not on rollout results.
+**Mechanism.** Playouts stay cheap because "only light-weight features are kept" (Coulom §4.1); weights are learned from game records (652 games sufficed). Value network and rollouts were complementary because the value net was trained on outcomes of strong self-play, not on rollout results.
 
 **Needs.** Logged decisions of the strong agent; a per-action weight that is a table lookup.
 
-**Transfer.** High relevance. Playouts are 87% of a simulation at roughly 0.4 µs per step (c1 §4), and random play cannot win boss fights (c1 §6.2). The one attempt at guided rollouts used the MLP prior, cost 2.43× per simulation and lost (h5); that failure was cost, not concept. The mixed leaf here gained nothing because its value was trained on rollout means (h1), unlike AlphaGo's. Caveat: a playout policy that predicts moves better does not always make the search stronger ("simulation balancing") [from memory, unverified], so weights must be tuned on playing strength. Confidence: medium-high.
+**Transfer.** High relevance. Playouts are 87% of a simulation at roughly 0.4 µs per step (c1 §4), and random play cannot win boss fights (c1 §6.2). The one attempt at guided rollouts used the MLP prior, cost 2.43× per simulation and lost (h5): a failure of cost, not concept. The mixed leaf here gained nothing because its value was trained on rollout means (h1). Caveat: a playout policy that predicts moves better does not always make search stronger [from memory, unverified], so weights must be tuned on playing strength. Confidence: medium-high.
 
 ## 3. Fishtest: sequential testing and the accumulation of small patches
 
@@ -39,7 +37,7 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 
 **Mechanism.** A generalised sequential probability ratio test stops as soon as the evidence suffices; results are scored on game *pairs* with a five-outcome model that "leads to a substantial saving of testing resources"; bounds are in normalised Elo (https://official-stockfish.github.io/docs/fishtest-wiki/Fishtest-Mathematics.html). Discipline: a short-time-control test, then a long one; one idea per test; never stop a test early (https://official-stockfish.github.io/docs/fishtest-wiki/Creating-my-first-test.html). Recent logs show bounds of 0-2 Elo `[snippet]`. Speed is priced: about 2.1 Elo per 1% speed-up (useful-data page).
 
-**Needs.** A cheap, fixed test and a lot of games.
+**Needs.** A cheap fixed test and many games.
 
 **Transfer.** Largely in place: paired seeds, pre-registration, P-values over 1,000-8,000 seeds (h2, h3). A sequential stop would cut test cost [inferred]; it is hygiene, not a breakthrough. The lesson is resolution: Stockfish resolves 1-2 Elo routinely, while here +0.004-0.008 needs 4,000-8,000 paired seeds (h3). Confidence: high for efficiency, low for a step change.
 
@@ -58,9 +56,9 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 
 ## 5. Paired seeds and noisy black-box optimisation
 
-**What.** Compare candidates on identical random scenarios. PEGASUS fixes start states and random sequences so a noisy objective becomes deterministic; paired tests improve optimisers, but fixed scenarios cause "overfitting", and adapting the number of trials per comparison speeds learning (https://www.jmlr.org/papers/v3/strens02a.html). Evolution strategies scale to over a thousand CPU workers because workers exchange only scalars via shared random seeds (https://arxiv.org/abs/1703.03864). CMA-ES is the standard choice for non-linear, non-convex continuous problems (https://arxiv.org/abs/1604.00772).
+**What.** Compare candidates on identical random scenarios. PEGASUS fixes start states and random sequences so a noisy objective becomes deterministic; paired tests improve optimisers, but fixed scenarios cause "overfitting", and adapting the number of trials per comparison speeds learning (https://www.jmlr.org/papers/v3/strens02a.html). Evolution strategies scale to over a thousand CPU workers that exchange only scalars via shared random seeds (https://arxiv.org/abs/1703.03864). CMA-ES targets non-linear, non-convex continuous problems (https://arxiv.org/abs/1604.00772).
 
-**Transfer.** Paired seeds are already standard here. Two additions follow from the sources: rotate seed sets to avoid overfitting to them, and allocate seeds adaptively. CMA-ES or evolution strategies suit the playout-policy table of item 2 (hundreds of weights, 40 cores). Confidence: medium.
+**Transfer.** Paired seeds are already standard here. Two additions: rotate seed sets to avoid overfitting, and allocate seeds adaptively. CMA-ES or evolution strategies suit the playout-policy table of item 2 (hundreds of weights, 40 cores). Confidence: medium.
 
 ## 6. Program discovery with language models and evolutionary search
 
@@ -70,10 +68,10 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 - *FunSearch*: evolves one function inside a human-written skeleton; record cap sets and better online bin-packing heuristics (https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/).
 - *AlphaEvolve*: evolves whole files of hundreds of lines; 4×4 complex matrix multiplication in 48 multiplications; a data-centre scheduling heuristic recovering 0.7% of fleet compute; 23% kernel speed-up. Its own comparison: FunSearch used "millions of LLM samples" on 10-20-line functions with evaluations of at most 20 minutes on one CPU; AlphaEvolve needs "thousands" with stronger models, rich feedback and an *evaluation cascade* (cheap tests first) (https://arxiv.org/html/2506.13131).
 - *Eureka*: reward code for robot learning; beats human rewards on 83% of 29 tasks, +52% on average, with 16 candidates per iteration, each scored by a GPU-simulated training run; removing the feedback summary costs 28.6% (https://arxiv.org/html/2310.12931).
-- *Sample efficiency*: ShinkaEvolve reports a state-of-the-art circle packing in 150 samples (https://arxiv.org/abs/2509.19349); EoH evolves a natural-language "thought" with the code (https://arxiv.org/abs/2401.02051).
-- *Games*: evidence is thin. A model-rewritten value function for a limited tree search in 2048 improved by 473 points per cycle over 30 cycles of 10 games, from a weak start (https://arxiv.org/html/2510.20205v1). In a 3v3 capture-the-flag game, evolved strategy code won the hardware round of a 2026 competition; the paper credits "hierarchical deep evaluation" replacing noisy few-game scores and adding champions to the opponent pool (https://arxiv.org/abs/2606.10389).
+- *Sample efficiency*: ShinkaEvolve reports a state-of-the-art circle packing in 150 samples (https://arxiv.org/abs/2509.19349).
+- *Games*: evidence is thin. A model-rewritten value function for a limited tree search in 2048 improved by 473 points per cycle over 30 cycles of 10 games, from a weak start (https://arxiv.org/html/2510.20205v1). In 3v3 capture-the-flag, evolved strategy code won the hardware round of a 2026 competition; the paper credits deep evaluation replacing noisy few-game scores and adding champions to the opponent pool (https://arxiv.org/abs/2606.10389).
 
-**Mechanism.** The evaluator removes wrong ideas; the skeleton confines the search to the part where ideas matter; diversity avoids early convergence.
+**Mechanism.** The evaluator removes wrong ideas; the skeleton confines search to where ideas matter; diversity avoids early convergence.
 
 **Needs.** A fast, automatic, low-noise score; thousands of model calls; no GPU.
 
@@ -105,12 +103,12 @@ Format per item: **What / Result / Mechanism / Needs / Transfer** (with confiden
 
 **Needs.** Offline search compute (unlimited here), storage, a student with enough capacity.
 
-**Transfer.** The principle is the unexploited core: no leaf target from real fight outcomes or deeper search was ever tried (h1), and the prior is distilled at the root only (c1 §3). Useful specifics: label states with the outcome of the 4×-budget agent, add auxiliary targets (HP lost, turns to kill, potions used), record all root action values, refresh old states by reanalysis. Not transferable: a searchless policy. Small students lose hundreds of Elo to their teacher, and the 50-200-simulation agents here already collapsed (h5). Confidence: medium-high for value and playout targets, low for replacing search.
+**Transfer.** The principle is the unexploited core: no leaf target from real fight outcomes or deeper search was tried (h1), and the prior is distilled at the root only (c1 §3). Useful specifics: label states with the outcome of the 4×-budget agent, add auxiliary targets (HP lost, turns to kill, potions used), record all root action values, refresh old states by reanalysis. Not transferable: a searchless policy. Small students lose hundreds of Elo to their teacher, and 50-200-simulation agents here collapsed (h5). Confidence: medium-high for value and playout targets, low for replacing search.
 
 ## 10. Where engines spend a fixed thinking budget
 
 **What and result.**
-- *Chess*: extend when the best move keeps changing or the score drops; stop early on forced or obvious moves (https://www.chessprogramming.org/Time_Management). Stockfish 16.1 added a small second network for positions that are "easily decided" (https://stockfishchess.org/blog/2024/stockfish-16-1/).
+- *Chess*: extend when the best move keeps changing or the score drops; stop early on forced or obvious moves (https://www.chessprogramming.org/Time_Management). Stockfish 16.1 added a small second network for easily decided positions (https://stockfishchess.org/blog/2024/stockfish-16-1/).
 - *Tree search with rollouts*: Baier and Winands tested early stop (STOP), extend-when-close (CLOSE) and extend-when-unstable (UNST) in five games. In 13×13 Go, STOP raised the win rate against GNU Go from 25.5% to 39.1% at equal total time and scored 63.7% against the previous best scheme; fixed time per move needed 63% more time for equal strength (https://dke.maastrichtuniversity.nl/m.winands/documents/time_management_for_monte_carlo_tree_search.pdf).
 - *Learned stopping*: 2.5× speed-up at equal strength, or 61% wins at equal average simulations (https://arxiv.org/abs/2012.07910); a virtual-expansion rule used under 50% of the search time in 9×9 Go at 71% against 75% wins (https://ar5iv.labs.arxiv.org/html/2210.12628).
 
