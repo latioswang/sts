@@ -1,0 +1,43 @@
+E5WRAP results begin
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 580.173.02","nproc":96,"mem_gb":188,"python":"Python 3.12.16","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":87}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":87}
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":28,"bench":"run: 548,000 steps/s with step_random (7030 episodes finished) run: 311,143 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":28}
+E5RESULT {"exp":"E5a-py-test_upgrade","rc":0}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 900000, "runs_expected": 32, "runs": 32, "won": 2, "win_rate": 0.0625, "se": 0.0428, "ci95_wilson": [0.0173, 0.2015], "floor": 33.22, "reached_act2": 0.75, "reached_act3": 0.4062, "timed_out": 0, "errors": 0, "sec_per_run": null}
+E5RESULT {"exp":"E5a-py-train_runs-eval","line":"/root/e5/ironclad-v1-enc3.pt: update 200: floor 34.9, reached A2 84% A3 47% A4 0%, won 15.6% of 32, the Heart 0.0% (0 timed out)"}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":40}
+E5RESULT {"exp":"E5d-lookahead-run","rc":0,"wall_s":657}
+E5RESULT {"exp":"E5d-freekeys-run","rc":0,"wall_s":49}
+E5RESULT {"exp":"phase","phase":"e5d_lookahead","rc":0,"seconds":706}
+E5RESULT {"exp":"total","wall_hours":0.24,"usd_at_price":"0.1"}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+E5WRAP LOG /root/e5/results/lookahead_a20.log
+/root/e5/ironclad-v1-enc3.pt (update 200); search: top 4 + end turn, 8 copies, 1 turn(s), at most 30 moves, run value, potion value None, margin 0.0 + 0.0 SE; reward scale 1.000; 3 process(es)
+  runs[0]: 128 done, 12 s, won 0.0%
+  runs[2]: 128 done, 12 s, won 0.0%
+  runs[1]: 128 done, 13 s, won 0.0%
+  runs[1]: 256 done, 20 s, won 19.1%
+  runs[0]: 256 done, 21 s, won 14.5%
+  runs[2]: 256 done, 21 s, won 11.7%
+runs A20 greedy: won 19.1% of 1024 (the Heart 0.0%), floor 35.7, reached A2 83% A3 46% A4 0%, potions a run: hallway 0.55 elite 1.85 boss 2.02 (47 s)
+  runs[1]: 128 done, 190 s, won 0.0%
+  runs[2]: 128 done, 193 s, won 0.0%
+  runs[0]: 128 done, 206 s, won 0.0%
+  runs[1]: 256 done, 339 s, won 7.0%
+  runs[2]: 256 done, 362 s, won 6.2%
+  runs[0]: 256 done, 377 s, won 7.4%
+runs A20 search: won 10.7% of 1024 (the Heart 0.0%), floor 31.4, reached A2 74% A3 37% A4 0%, potions a run: hallway 1.89 elite 2.09 boss 1.67 (609 s, 522 of a process's in the search; 262171 searches, 34 playouts and 1.9 moves each; changed the move 28.8%; best - network score p50 0.0000 p90 0.0834)
+E5WRAP LOG /root/e5/results/freekeys_a20.log
+/root/e5/ironclad-v1-enc3.pt (update 200); search: top 4 + end turn, 8 copies, 1 turn(s), at most 30 moves, run value, potion value None, margin 0.0 + 0.0 SE; reward scale 1.000; 3 process(es)
+  runs[0]: 128 done, 11 s, won 0.0%
+  runs[2]: 128 done, 12 s, won 0.0%
+  runs[1]: 128 done, 12 s, won 0.0%
+  runs[1]: 256 done, 21 s, won 1.6%
+  runs[0]: 256 done, 21 s, won 0.4%
+  runs[2]: 256 done, 21 s, won 0.8%
+runs A20 greedy: won 2.5% of 1024 (the Heart 2.5%), floor 35.4, reached A2 78% A3 44% A4 20%, potions a run: hallway 0.47 elite 1.99 boss 2.12 (47 s)
+E5WRAP LOG /root/e5/results/train_runs_eval.log
+/root/e5/ironclad-v1-enc3.pt: update 200: floor 34.9, reached A2 84% A3 47% A4 0%, won 15.6% of 32, the Heart 0.0% (0 timed out)
+E5WRAP summary end 2026-11-16T23:31:46Z
