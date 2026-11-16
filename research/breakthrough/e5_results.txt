@@ -1,0 +1,73 @@
+E5WRAP start 2026-11-16T18:03:34Z gpu=NVIDIA GeForce RTX 4090 cpus=28
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 560.35.03","nproc":28,"mem_gb":62,"python":"Python 3.11.10","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":50}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":50}
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":28,"bench":"run: 682,055 steps/s with step_random (7030 episodes finished) run: 426,034 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":28}
+E5RESULT {"exp":"E5a-wasm-meta","reply":"{\"mode\":\"meta\",\"meta\":{\"actions\":\"171\",\"character\":\"ironclad\",\"d\":\"128\",\"encoding_version\":\"1\",\"format\":\"sts-run-net\",\"git_commit\":\"9880f582c2ce53d4b34e2adaa639b249f4d784ca\",\"heads\":\"4\",\"layers\":\"6\",\"parameters\":\"1113228\",\"run_float_len\":\"2114\",\"run_int_len\":\"1081\",\"source\":\"dh12\",\"steps\":\"52428800\",\"update\":\"200\"},\"net\":{\"actions\":\"171\",\"character\":\"ironclad\",\"d\":\"128\",\"encoding
+E5RESULT {"exp":"E5a-wasm-replay","reply":"{\"mode\":\"replay\",\"ok\":true,\"steps\":562,\"outcome\":\"Won\",\"floor\":51,\"hp\":88,\"error\":null}\n"}
+E5RESULT {"exp":"E5a-wasm-pilot","runs_played":4,"seconds":23,"jobs":26,"eta_min_per_1024":4,"all_same":true}
+E5RESULT {"exp": "E5a-wasm", "asc": 20, "seed0": 300000, "runs_expected": 1024, "runs": 1024, "won": 219, "win_rate": 0.2139, "se": 0.0128, "ci95_wilson": [0.1898, 0.24], "floor": 35.77, "reached_act2": 0.832, "reached_act3": 0.46, "timed_out": 0, "errors": 1, "sec_per_run": 10.837, "claim": 0.219, "diff_pp": -0.51, "z": -0.4, "first_error": "not a legal action now: Combat { action: Choose { indices: [2, 3, 4] } }"}
+E5RESULT {"exp": "E5a-wasm", "asc": 20, "seed0": 900000, "runs_expected": 1024, "runs": 1024, "won": 191, "win_rate": 0.1865, "se": 0.0122, "ci95_wilson": [0.1639, 0.2115], "floor": 35.42, "reached_act2": 0.835, "reached_act3": 0.4551, "timed_out": 0, "errors": 0, "sec_per_run": 10.577}
+E5RESULT {"exp":"phase","phase":"e5a_wasm","rc":0,"seconds":952}
+E5RESULT {"exp":"E5a-py-test_upgrade","rc":0}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 300000, "runs_expected": 1024, "runs": 1024, "won": 232, "win_rate": 0.2266, "se": 0.0131, "ci95_wilson": [0.202, 0.2532], "floor": 36.27, "reached_act2": 0.8281, "reached_act3": 0.4805, "timed_out": 0, "errors": 0, "sec_per_run": null, "claim": 0.219, "diff_pp": 0.76, "z": 0.59}
+E5RESULT {"exp": "E5a-agree-wasm-vs-py-s300000", "seeds": 1024, "won_agree": 0.9307, "floor_equal": 0.5947, "won_both": 190, "won_only_a": 29, "won_only_b": 42}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 900000, "runs_expected": 1024, "runs": 1024, "won": 197, "win_rate": 0.1924, "se": 0.0123, "ci95_wilson": [0.1694, 0.2177], "floor": 35.73, "reached_act2": 0.8301, "reached_act3": 0.46, "timed_out": 0, "errors": 0, "sec_per_run": null}
+E5RESULT {"exp": "E5a-agree-wasm-vs-py-s900000", "seeds": 1024, "won_agree": 0.9219, "floor_equal": 0.6357, "won_both": 154, "won_only_a": 37, "won_only_b": 43}
+E5RESULT {"exp":"E5a-py-train_runs-eval","line":""}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":276}
+E5RESULT {"exp":"E5b-speed-eager-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-eager", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-eager-run","rc":1,"wall_s":1}
+E5RESULT {"exp":"E5b-speed-fixed-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed-run","rc":1,"wall_s":2}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed_overlap", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-run","rc":1,"wall_s":2}
+E5RESULT {"exp": "E5b-projection", "best_cfg": "", "steps_per_s": 0.0, "price_per_hour": 0.4, "gpu_hours_0.25B_steps": null, "usd_0.25B_steps": null, "gpu_hours_0.5B_steps": null, "usd_0.5B_steps": null, "gpu_hours_1.0B_steps": null, "usd_1.0B_steps": null, "gpu_hours_2.0B_steps": null, "usd_2.0B_steps": null}
+E5RESULT {"exp":"phase","phase":"e5b_speed","rc":0,"seconds":7}
+E5RESULT {"exp":"E5b-curve-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-curve", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-curve-run","cfg":"eager","rc":1,"wall_s":2}
+E5RESULT {"exp":"phase","phase":"e5b_curve","rc":0,"seconds":4}
+E5RESULT {"exp":"total","wall_hours":0.37,"usd_at_price":"0.15"}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+E5WRAP summary begin
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 560.35.03","nproc":28,"mem_gb":62,"python":"Python 3.11.10","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":50}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":50}
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":28,"bench":"run: 682,055 steps/s with step_random (7030 episodes finished) run: 426,034 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":28}
+E5RESULT {"exp":"E5a-wasm-meta","reply":"{\"mode\":\"meta\",\"meta\":{\"actions\":\"171\",\"character\":\"ironclad\",\"d\":\"128\",\"encoding_version\":\"1\",\"format\":\"sts-run-net\",\"git_commit\":\"9880f582c2ce53d4b34e2adaa639b249f4d784ca\",\"heads\":\"4\",\"layers\":\"6\",\"parameters\":\"1113228\",\"run_float_len\":\"2114\",\"run_int_len\":\"1081\",\"source\":\"dh12\",\"steps\":\"52428800\",\"update\":\"200\"},\"net\":{\"actions\":\"171\",\"character\":\"ironclad\",\"d\":\"128\",\"encoding
+E5RESULT {"exp":"E5a-wasm-replay","reply":"{\"mode\":\"replay\",\"ok\":true,\"steps\":562,\"outcome\":\"Won\",\"floor\":51,\"hp\":88,\"error\":null}\n"}
+E5RESULT {"exp":"E5a-wasm-pilot","runs_played":4,"seconds":23,"jobs":26,"eta_min_per_1024":4,"all_same":true}
+E5RESULT {"exp": "E5a-wasm", "asc": 20, "seed0": 300000, "runs_expected": 1024, "runs": 1024, "won": 219, "win_rate": 0.2139, "se": 0.0128, "ci95_wilson": [0.1898, 0.24], "floor": 35.77, "reached_act2": 0.832, "reached_act3": 0.46, "timed_out": 0, "errors": 1, "sec_per_run": 10.837, "claim": 0.219, "diff_pp": -0.51, "z": -0.4, "first_error": "not a legal action now: Combat { action: Choose { indices: [2, 3, 4] } }"}
+E5RESULT {"exp": "E5a-wasm", "asc": 20, "seed0": 900000, "runs_expected": 1024, "runs": 1024, "won": 191, "win_rate": 0.1865, "se": 0.0122, "ci95_wilson": [0.1639, 0.2115], "floor": 35.42, "reached_act2": 0.835, "reached_act3": 0.4551, "timed_out": 0, "errors": 0, "sec_per_run": 10.577}
+E5RESULT {"exp":"phase","phase":"e5a_wasm","rc":0,"seconds":952}
+E5RESULT {"exp":"E5a-py-test_upgrade","rc":0}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 300000, "runs_expected": 1024, "runs": 1024, "won": 232, "win_rate": 0.2266, "se": 0.0131, "ci95_wilson": [0.202, 0.2532], "floor": 36.27, "reached_act2": 0.8281, "reached_act3": 0.4805, "timed_out": 0, "errors": 0, "sec_per_run": null, "claim": 0.219, "diff_pp": 0.76, "z": 0.59}
+E5RESULT {"exp": "E5a-agree-wasm-vs-py-s300000", "seeds": 1024, "won_agree": 0.9307, "floor_equal": 0.5947, "won_both": 190, "won_only_a": 29, "won_only_b": 42}
+E5RESULT {"exp": "E5a-py-head", "asc": 20, "seed0": 900000, "runs_expected": 1024, "runs": 1024, "won": 197, "win_rate": 0.1924, "se": 0.0123, "ci95_wilson": [0.1694, 0.2177], "floor": 35.73, "reached_act2": 0.8301, "reached_act3": 0.46, "timed_out": 0, "errors": 0, "sec_per_run": null}
+E5RESULT {"exp": "E5a-agree-wasm-vs-py-s900000", "seeds": 1024, "won_agree": 0.9219, "floor_equal": 0.6357, "won_both": 154, "won_only_a": 37, "won_only_b": 43}
+E5RESULT {"exp":"E5a-py-train_runs-eval","line":""}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":276}
+E5RESULT {"exp":"E5b-speed-eager-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-eager", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-eager-run","rc":1,"wall_s":1}
+E5RESULT {"exp":"E5b-speed-fixed-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed-run","rc":1,"wall_s":2}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed_overlap", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-run","rc":1,"wall_s":2}
+E5RESULT {"exp": "E5b-projection", "best_cfg": "", "steps_per_s": 0.0, "price_per_hour": 0.4, "gpu_hours_0.25B_steps": null, "usd_0.25B_steps": null, "gpu_hours_0.5B_steps": null, "usd_0.5B_steps": null, "gpu_hours_1.0B_steps": null, "usd_1.0B_steps": null, "gpu_hours_2.0B_steps": null, "usd_2.0B_steps": null}
+E5RESULT {"exp":"phase","phase":"e5b_speed","rc":0,"seconds":7}
+E5RESULT {"exp":"E5b-curve-gpu","util_mean":0.0,"mem_peak_mib":39,"samples":1}
+E5RESULT {"exp": "E5b-curve", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-curve-run","cfg":"eager","rc":1,"wall_s":2}
+E5RESULT {"exp":"phase","phase":"e5b_curve","rc":0,"seconds":4}
+E5RESULT {"exp":"total","wall_hours":0.37,"usd_at_price":"0.15"}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+E5WRAP summary end 2026-11-16T18:25:35Z

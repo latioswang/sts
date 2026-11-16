@@ -95,6 +95,7 @@ def main():
         body = {"client_id": "me", "image": IMAGE, "env": {}, "disk": disk, "label": label, "runtype": "args",
                 "onstart": "bash", "args": ["-c", open(script).read()]}
         r = call("PUT", f"/asks/{offer}/", body)
+        r.pop("instance_api_key", None)
         print(json.dumps(r))
     elif cmd == "rent":   # rent GPU SCRIPT HOURS [DISK] [LABEL] [MIN_CPUS]: cheapest current offer outside CN/VN, retry the next on failure
         gpu, script, hours = a[1], a[2], float(a[3])
@@ -115,6 +116,7 @@ def main():
                 r = call("PUT", f"/asks/{x['id']}/", body)
             except urllib.error.HTTPError as e:
                 print(f"offer {x['id']} failed: {e.code} {e.read().decode()[:200]}"); continue
+            r.pop("instance_api_key", None)  # never print or log the instance-scoped key
             print(f"rented offer {x['id']} {x['gpu_name']} ${price:.3f}/h cpu={x.get('cpu_cores_effective')} {x.get('geolocation')}: {json.dumps(r)}")
             return
         sys.exit("no offer could be rented")
