@@ -1,6 +1,6 @@
 # x1 — spire-engine (jackybabes): how the 93 / 75 / 22% Ironclad agent was made
 
-Read at source on 2026-11-16, public HEAD (commit `420d17b`); files opened as raw text, nothing cloned or run. **[inferred]** = my deduction; **[unverified]** = could not be confirmed.
+Read on 2026-11-16 at public HEAD (commit `420d17b`); raw files opened, nothing cloned or run. **[inferred]** = my deduction; **[unverified]** = not confirmed.
 
 **Sources opened.** `B` = `https://raw.githubusercontent.com/jackybabes/spire-engine/420d17b19ec3dd112f3228c1d0770f78b9914bd5/`
 
@@ -19,7 +19,7 @@ Read at source on 2026-11-16, public HEAD (commit `420d17b`); files opened as ra
 | NET | `B/web/networks.json`; live copy `https://spire-viewer.pages.dev/networks.json` |
 | GH | `https://github.com/jackybabes/spire-engine` — `/commits/main/`, `/commit/c06714a…`, `/releases`, `/tags`, `/issues` |
 
-Two web searches found no write-up outside the repository [unverified beyond that]; the model cards and docstrings are the write-up. The `notes/*.md` files the code cites return 404.
+Two web searches found no write-up outside the repository; the model cards and docstrings are the write-up. The `notes/*.md` files the code cites return 404.
 
 ## 1. What it is and what it claims
 
@@ -63,7 +63,7 @@ Two web searches found no write-up outside the repository [unverified beyond tha
 
 **Value.** One head on the run token, "so it estimates how the whole run will go", in fights too. A second head scores practice fights during training only [RM].
 
-**Look-ahead** (code is public; not in the released browser model) [FS, SRS, SE]:
+**Look-ahead** (public code; not in the release) [FS, SRS, SE]:
 1. At a fight move outside a card selection, candidates are the policy's 4 likeliest legal moves plus ending the turn.
 2. Each is tried on 8 copies of the run in which "the draw pile is reshuffled (unless the player has Frozen Eye) and the fight's random streams are reseeded"; every candidate sees the same redraws.
 3. Each copy is played on by the network's own greedy moves until the player's next turn (1 turn, at most 30 moves) or the fight's end.
@@ -80,11 +80,11 @@ A per-potion bonus outside boss fights was added, since otherwise "the search dr
 2. Whole runs (ironclad-runs-1 to 13).
 3. Block and exhaust practice fights, because "the run network only took cards it already fought well with, so it never held such a deck and never learned to fight with one" [PR].
 4. Boss practice from winning human A20 boss fights (7 runs).
-5. "Habit rewards, a win reward of 3, learning-rate annealing and gamma 0.9995" (12 runs).
+5. Then "habit rewards, a win reward of 3, learning-rate annealing and gamma 0.9995" (12 runs).
 
 **Final run** (ironclad-runs-habits-12): ascension 20 only; 300 updates of 2,048 games × 128 steps; the release is update 200 = 52,428,800 steps, "about 1.6 hours" [IC] — about 9,100 steps a second [inferred]. Runs last "about a thousand decisions" [TR]. Total steps over the chain (about 35 named runs [inferred]) are not reported [unverified]; the README says "hundreds of thousands of runs" per network. Other characters' final runs alone: Silent 314.6M steps, Defect 157.3M, Watcher 943.7M [SI, DE, WA].
 
-**Hardware.** "One consumer GPU (an RTX 5070 Ti since 2026-10-18)", 16 GB, under WSL [IC, ARCH].
+**Hardware.** "one consumer GPU (an RTX 5070 Ti since 2026-10-18)", 16 GB, under WSL [IC, ARCH].
 
 **Reward** [IC, TR]:
 - progress: 0.02 a floor, 0.1 an act; a win: 3 ("3 lifted A20 from about 11% to 17%" [TR]);
@@ -93,7 +93,7 @@ A per-potion bonus outside boss fights was added, since otherwise "the search dr
 
 **Curriculum, restarts, human data.**
 - Practice fights are "30% of games; 60% of those are boss fights from winning human A20 runs" (the winner's deck, relics, potions, HP) [IC, HB]. Their return is 0.5 + 0.5 × HP share left [TR].
-- "A small cross-entropy pull towards human A20 winners' choices between fights" runs beside PPO (default weight 0.05, card rewards) [IC, TR]. The data is "Mega Crit's 2020 metrics dump"; it holds choices and decks, "fights are not recorded" [HR].
+- "a small cross-entropy pull towards human A20 winners' choices between fights" runs beside PPO (default weight 0.05, card rewards) [IC, TR]. The data is "Mega Crit's 2020 metrics dump": choices and decks; "Fights are not recorded" [HR].
 - Earlier runs widen the ascension range; the last trains at A20 only [TR, IC].
 - Exploration is policy sampling plus the entropy bonus; later work added more because "the networks put 90% or more on one option at 80% of Act 1's rewards" [TR].
 - Added after ironclad-v1: replaying lost practice fights, runs started from human boss states, a fight/deck split [TR].
@@ -113,10 +113,10 @@ Failed:
 - search as a training target: a soft target "raised the policy's entropy and lost"; the best move as cross-entropy "flattened the policy at once"; lifting clear wins "did too" [TR];
 - imitation without holding the rest of the policy: "won 22% of its runs instead of 80%" [PH]; forcing human winners' picks on the Defect "made its runs shorter, as its fights don't use those cards yet" [DE];
 - a fight network trained on practice fights alone "halved ironclad-v1's wins in whole runs" [TR];
-- card removal by rule at every shop: 81% → 46%, "it removed its best cards" [RP];
+- card removal by rule at every shop (an early checkpoint): 81% → 46%, "it removed its best cards" [RP];
 - later checkpoints were worse (updates 250 and 300 below 200) [IC].
 
-Known weaknesses: at A20 "most of its losses there are boss fights" [IC]; Silent: "its decks at the Act 1 boss are the main limit" [SI]; Defect: "its decks are the limit" [DE]. Inputs omit Double Tap-style repeats, changed costs in piles and Frozen Eye's draw order [NI].
+Known weaknesses: at A20 "most of its losses there are boss fights" [IC]; Silent: "Its decks at the Act 1 boss are the main limit" [SI]; Defect: "Its decks are the limit there" [DE]. Inputs omit Double Tap-style repeats, changed costs in piles and Frozen Eye's draw order [NI].
 
 ## 5. The simulator
 
@@ -132,14 +132,14 @@ Known weaknesses: at A20 "most of its losses there are boss fights" [IC]; Silent
 **(a) Replicating the recipe on our simulator.** Needed: a batched environment with fixed-size rows, a legal mask and the 171 slots; every non-combat screen as an option list; "as shown" card numbers and per-target damage; a reset-to-scenario call (deck, relics, potions, HP, encounter); habit counters; the human pipeline (`python/human/`, MIT, but tied to their engine's encoder). Shortest path [inferred]: expose their `sts.Envs` Python interface from our simulator and reuse `train_runs.py`.
 
 Compute, all [inferred] from the figures above:
-- One clean pass with the recipe known is roughly 0.5-1.3 billion steps, i.e. 5-40 GPU-hours on a 16 GB consumer card at 9-30k steps/s.
-- Their own path took six calendar days. Budget 100-200 GPU-hours for a first working replication, with a 4-8 core host beside the GPU (about 500-1,500 CPU-hours).
+- One clean pass with the recipe known: roughly 0.5-1.3 billion steps, 5-40 GPU-hours on a 16 GB consumer card at 9-30k steps/s.
+- Their own path took six calendar days. Budget 100-200 GPU-hours for a first working replication, plus a 4-8 core host (about 500-1,500 CPU-hours).
 - CPU-only is impractical. At about 600 positions/s per thread for inference [EW] and about 12 forward-equivalents per sample for four PPO epochs, a 4-vCPU learner manages about 200 steps/s: a month for 500M steps. Our ten machines could supply rollouts; the learner needs a GPU.
 
 **(b) Evaluating their agent against ours.**
 - *On their engine:* the weights are downloadable, but ironclad-v1 uses encoding 1 while public HEAD is encoding 3. The loader "refuses" a mismatch [ER], and such a network "runs only with the code it was released from" — a commit absent from the public history [SYN]. Options [inferred]: drive the release's own WebAssembly engine listed in NET; or convert through `upgrade_state` [RM] and first reproduce 21.9% on seeds 300,000-301,023.
 - *Our agent on their engine:* `sts-cli serve` gives JSON state and legal actions [README]; our search would need porting onto their cloneable `Run`.
-- *Their network on our engine:* needs their encoding reproduced exactly; any mismatch silently weakens it. Not recommended.
+- *Their network on our engine:* needs their encoding reproduced exactly; any mismatch silently weakens it.
 - *Cheapest fair comparison:* same win definition, each agent on its own engine, 1,024+ seeds, plus human-winner boss fights rebuilt with [HB].
 
 **(c) Worth copying, ranked.**
@@ -151,19 +151,19 @@ Compute, all [inferred] from the figures above:
 
 Not to copy: search-as-teacher losses; best-line (max) search; a fight network trained apart from runs; imitation without a keep loss; picking checkpoints on the evaluation seeds.
 
-**(d) Where our missing strength probably is.** Stated carefully:
+**(d) Where our missing strength probably is.**
 - A no-search 1M-parameter policy beats our search agent at every level (93 / 75 / 22 against 85 / 52 / 8), on a different simulator.
-- Their A20 rate roughly doubled (about 11% → 21.9%) through the win reward and out-of-combat habit rewards [TR, IC]; search in fights added about 6 points on top.
+- Their A20 rate roughly doubled (about 11% → 21.9%), mostly through the win reward and out-of-combat habit rewards [TR, IC]; search in fights added about 6 points on top.
 - Their fight-local experiments lost: a practice-only fight network halved wins, and unpriced search wasted potions.
-- So our gap is more likely in deck building, pathing and resource use, and in fights piloted for the fight rather than the run, than in tactical depth [inferred]: no ablation pairs a strong search with their deck policy.
+- So our gap is more likely in deck building, pathing and resource use, and in fights piloted for the fight rather than the run, than in tactical depth [inferred]; no ablation pairs a strong search with their deck policy.
 - A direct test: run our search on human-winner A20 boss fights. They report 69.0% greedy and 76.1% with look-ahead [IC]. If we match that, our deficit is strategic.
 
 ## 7. Doubts
 
-- Simulator results, self-reported, not independently replicated; the fidelity evidence is strong but the recordings are private.
-- The 1,024 evaluation seeds also chose the checkpoint ("update 200 was its best checkpoint at A20") and steered about 35 runs; expect a point or two of optimism [inferred].
+- Self-reported simulator results, not independently replicated; the fidelity evidence is strong but the recordings are private.
+- The 1,024 evaluation seeds also chose the checkpoint ("Update 200 was its best checkpoint at A20") and steered about 35 runs; expect a point or two of optimism [inferred].
 - Not pure self-play: the recipe uses human winners' choices and decks, and hand-written habit rewards.
-- A win is the Act 3 boss, not the Heart; the Ironclad never takes keys.
+- A win is the Act 3 boss, not the Heart; the Ironclad does not collect keys.
 - 27.5% was measured once on older code, with unstated settings and run count.
 - The headline cannot be reproduced from public HEAD without the encoding work in 6(b). Training logs and `args.json` are unpublished: habit weights, several hyper-parameters and the Ironclad's total steps are unknown.
 - The look-ahead clones the true run and reseeds the fight's streams; I did not audit whether every stream that affects its leaf values is redrawn [unverified].
