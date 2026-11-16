@@ -77,7 +77,7 @@ Format: name `commit` — mechanism: win rate after, dscore.
 
 Largest single keeps: chest1 +0.2703; c_etw02 +0.1866; pol1 +0.1745; wev15 +0.0937; a10_kbsyn +0.0915; f6a10_norest +0.0778; f2a10w +0.0733; f16heart +0.0731; a10_vr2b20 +0.0707; f3a10p +0.0702.
 
-Sum of first-measurement dscore over all promoted rows, four tracks [computed; heart_cur and the revoked heart_hm2 excluded]:
+Sum of first-measurement dscore over all promoted rows, four tracks [computed]. The 74 rows are 70 of the 72 `keep` rows (the mixed port heart_cur and the revoked heart_hm2 are left out), three keep-candidates that became bests (f3a20w, f6heart_upg, f15heart) and the rb3 simulator-fix re-baseline (+0.0244 against hallpot0).
 
 | Class | Rows | Sum | Share |
 |---|---|---|---|
@@ -120,13 +120,13 @@ The keep sum overstates what was banked. Net score movement is 1.4116 (A0) + 0.5
 
 - Saturated (noise-level, many tries): map weights, card heuristics, potions, rest rules, search constants, move-prior variants, V weights and retrains.
 - Reliably harmful: truncated rollouts with a heuristic leaf, hand-coded rollout biases, and any model that replaces the rules outright (bfpick -0.0661 to -0.2075; rvpick/cfpick -0.22 to -0.62).
-- Learned leaf value (23 `scaling` rows plus 2 in s2scale.tsv, all A0): always below rollouts, see section 4.
+- Learned leaf value (21 `scaling` rows plus 2 in s2scale.tsv, all A0): always below rollouts, see section 4.
 - Ports between tracks mostly fail: a10_potsave2 -0.0907, a10_mapd085 -0.0390 (P 0.011), a20_potv8 -0.0341, heart_wea1 -0.0248.
 
 ## 4. Reference and diagnostic rows
 
 - Cheating references use lightspeed's own search only: scum_cheat 2.0% dev, 0.8% test (fair0 0.4%). DIAG_cheatcombat (best policy + cheating lightspeed combat search): 9.6%, -0.2047, 16 crashes. No row gives our MCTS perfect information, so the value of hidden information is unbounded by the ledger [inferred].
-- Search scaling, never adopted. F39 (n 1000): A20 2x 8.5% (+0.0514), 4x 9.3% (+0.0762); A10 2x 52.8% (+0.0762), 4x 57.5% (+0.1393); Heart 2x 30.7% (+0.0626), 4x 32.5% (+0.0914). After early stop (F44/F48, n 2000): A0 89.0% (+0.0520), A10 56.6% (+0.0856), A20 9.1% (+0.0298), Heart 32.7% (+0.0688). Phase 1: INFO_sims1000 36.3% vs 30.0% (+0.0805).
+- Search scaling, never adopted. F39 (n 1000): A20 2x 8.5% (+0.0514), 4x 9.3% (+0.0762); A10 2x 52.8% (+0.0762), 4x 57.5% (+0.1393); Heart 2x 30.7% (+0.0626), 4x 32.5% (+0.0914). 2x again after early stop was adopted (F44/F48, n 2000): A0 89.0% (+0.0520), A10 56.6% (+0.0856), A20 9.1% (+0.0298), Heart 32.7% (+0.0688). Phase 1: INFO_sims1000 36.3% vs 30.0% (+0.0805).
 - Less search: f52_ctl675 (675 instead of 1000 sims) -0.0183; a20_s400 -0.0522 on val.
 - Learned leaf replacing rollouts at equal wall-clock (A0): heuristic-leaf control 11.7%; sv7 36.0%; sv11 42.0%; sv16 48.7%, all against 75.0%. F52: sv54 61.6%, sv55 61.8% (n 2000), -0.2904 and -0.2975 against the roughly 85% best. Mixed leaf at 675 sims 82.6% against the 675-sim control 82.7%.
 - Fork switch as a fidelity reference: A0 85.8% to 79.6%, A10 44.0% to 36.1%, A20 6.2% to 3.0%, Heart 16.0% to 11.8%.
@@ -138,13 +138,13 @@ The keep sum overstates what was banked. Net score movement is 1.4116 (A0) + 0.5
 - The A20 val batch a20_bm15 / bm2 / bm2x / bm05 / s400 is negative in every direction, including bm2x with +47% compute (pooled -0.0378, P 0.005), which contradicts F39/F42. In the same era a20_r121s32 read -0.0140 pooled on val and +0.0232 (P 0.972) on a fresh slice. Reading: the A20 val/dev seeds were exhausted by selection [inferred]; A20 val-era discards are unreliable.
 - Heart wins rose from about 16.5% to 23.8% with f15heart while the score moved +0.0058, because floor fell about 3. The score metric barely registers the north-star quantity.
 - "Pure V" (no KB) is a keep at A10 (+0.0702) and Heart (+0.0323), negative at A0 (-0.0080, -0.0277, -0.0815), a failed near miss at A20.
-- Expert iteration of V worked once (f16heart) and failed everywhere else: F4 (vr_191), F17 (vr_232), F20 (vr_242, -0.0186). f11heart (Heart-track V) collapsed to floor 34.14 (-0.3263).
+- Iterating V on the newer agent's games worked once (f16heart, "expert-iteration keys-aware V") and failed elsewhere: F4 "V iteration 2" (vr_191), F17 (vr_232; +0.0150, then -0.0002), F20 (vr_242, -0.0186). f11heart (Heart-track V) collapsed to floor 34.14 (-0.3263).
 - The path model is a keep at A10 and A20 and flat at A0 (-0.0017) and Heart (-0.0075).
-- V on the rest decision is harmful at A10 (removing it +0.0778), helpful at A20 in "unbiased" form (+0.0163), negative at A0 and Heart.
+- V on the rest decision is harmful at A10 (removing it +0.0778), helpful at A20 in "unbiased" form (+0.0163), flat or negative at A0 and Heart.
 - Early stop is not monotone: es_frac 0.1 kept on all tracks; 0.05 with more sims -0.0215 (P 0.003) at A20; 0.15 and 0.2 negative at A10.
 - Small slices mislead: sv54 69.3% on 300 seeds, 61.6% on 2,000; c_c15 +0.0176 then -0.0559 on retest; val 73.3% against test 66.6%.
 - REPORT cites a "4x-compute probe (+4.5 pts)" at A0; no such row exists in the ledger before F39.
-- Measured once, not followed up: a10_vr4lb40 (+0.0374, P 0.856), heart_kud_krw (pooled-600 +0.0123, P 0.806), spd_s650 (+0.0375 with 3 crashes).
+- Measured once, not followed up: a10_vr4lb40 (+0.0374, P 0.856; dev +0.0204), heart_kud_krw (pooled-600 +0.0123, P 0.806).
 
 ## 6. Hints of a big untested lever (all [inferred])
 

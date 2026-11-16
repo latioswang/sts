@@ -11,7 +11,7 @@ Tools: WebSearch and WebFetch were available. Every URL below was opened in this
 **Mechanism.** Three parts, all needed:
 - *Sparse entity features.* HalfKP has 40,960 features per side (king square × piece square × piece type × colour), about 30 active; an ordinary move changes a handful, a king move forces a refresh. The first-layer output ("accumulator") is kept on the search stack and patched by adding or subtracting a few weight columns; only the tiny dense tail (256×2→32→32→1) is computed per evaluation (https://github.com/official-stockfish/nnue-pytorch/blob/master/docs/nnue.md).
 - *Integer inference.* int8/int16 weights and SIMD, aimed at "million(s) of evaluations per second per thread" (same document). Stockfish's own data: disabling the incremental update roughly halves speed and costs −67.6 ± 9.5 Elo (https://official-stockfish.github.io/docs/stockfish-wiki/Useful-data.html).
-- *Targets from search, not from the old evaluation.* Trained on "evaluations of millions of positions at moderate search depth" (blog above); from Stockfish 14, on billions of positions evaluated by Leela Chess Zero, a far stronger evaluator (https://stockfishchess.org/blog/2021/stockfish-14/).
+- *Targets from search, not from the old evaluation.* Trained on "evaluations of millions of positions at moderate search depth" (blog above); from Stockfish 14, on billions of positions evaluated by Leela Chess Zero's large network (https://stockfishchess.org/blog/2021/stockfish-14/).
 
 **Needs.** CPU only at play time; millions (2020) to billions (2021) of labelled positions; Stockfish trains on a GPU, but the net is small.
 
