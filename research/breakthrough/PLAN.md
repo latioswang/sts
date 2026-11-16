@@ -1,8 +1,29 @@
-# Plan to reach state of the art — draft for the owner (2026-11-16)
+# Plan to reach state of the art — revision 2 (2026-11-16, after the red team)
 
-Status: a plan. Nothing below has been run. It is the synthesis of 22 research digests, four independent plans
-(`pA`–`pD`) and their four adversarial reviews, all in this folder. Numbers carry the file they come from;
-**[estimate]** marks my own numbers, which are low-confidence.
+Status: a plan. Nothing below has been run. It rests on 22 research digests, four independent plans (`pA`–`pD`),
+their four adversarial reviews, two source-level recipes (`x1`, `x2`) and two red-team reports on revision 1
+(`PLAN_redteam_feasibility.md`, `PLAN_redteam_evidence.md`), all in this folder. **[estimate]** marks numbers that
+are judgment, not measurement; all odds are low-confidence.
+
+## 0. What changed from revision 1, and why
+
+The red team was right on these points, and the plan is changed accordingly:
+- **Odds were about twice too high.** They counted the two recipes as new evidence although the reviewers already
+  had their headline results. Section 5 now uses numbers built from explicit factors.
+- **Finding 1 was overstated.** Of the clairvoyant agent's +33 points, half (16.7) is cleanly strategy on shared
+  seeds; a third sits in bundles that also changed the pilot; and 80% of the clean half is two rule sets tuned under
+  a pilot that sees the future. In our own data an elite in place of a rest costs −0.083.
+- **The 2×2 with the outside strategy network is dropped from stage 0.** It needs 6–12 days of porting, cannot be
+  verified, and its key cell is one-sided: a null would follow equally from co-adaptation, an engine change or a
+  port bug. A cheaper experiment with our own artefacts answers the same question (stage 0 below).
+- **Stage 1 (a) and (b) of revision 1 repeat two lines this project already measured** (deck values from simulated
+  fights; whole-run forks) as having almost no headroom with our pilot. Revision 1 did not say so.
+- **The learned route should not sit as a fallback.** It is the only route with a fair existence proof at the bar
+  and it works whichever half of the gap binds. It becomes one of two routes chosen after stage 0.
+- Effort, compute and money were low; gates had an undefined band exactly where the plan expects to land.
+
+Not accepted: switching to the learned route now. It needs a GPU and a choice of engine, both the owner's, and its
+estimated advantage (12–14% against 9%) is inside the estimate's own error.
 
 ## 1. What "state of the art" means (`s6_sts_sota_scoreboard.md`)
 
@@ -10,121 +31,97 @@ Status: a plan. Nothing below has been run. It is the synthesis of 22 research d
 |---|---|---|---|---|
 | Ascension 0 | 85.4% | 93.1% | — | — |
 | Ascension 10 | 52.5% | 75.2% | — | — |
-| Ascension 20, Act-3 win | 7.6% | 21.9% (27.5% with a look-ahead) | — | — |
-| Ascension 20, Heart | 0.3% | none for Ironclad; 8.0% for Watcher | 33.3% (language model, 60 runs, four characters) | 46–65%; best-documented 63% |
+| Ascension 20, Act-3 win | 7.6% | 21.9% (27.5% with a look-ahead, measured once) | — | — |
+| Ascension 20, Heart | 0.3% | no Ironclad figure; 8.0% for Watcher | 33.3% (language model, 60 runs, four characters) | 46–65% |
 
-- The fair specialised leader is `spire-engine`: one 1.07M-parameter network, PPO on whole runs, no search, a few
-  milliseconds per decision, its own simulator, self-reported (`x1`).
-- An Ironclad agent reports 50.1% at the Ascension 20 Heart in the real game, but its combat search reads the true
-  random state and draw order. It is not a fair comparator. It is built on the same simulator lineage as ours: its
-  base commit `7476a81` is an ancestor of our fork (checked 2026-11-16), and its strategy network is public (`x2`).
+The fair leader, `spire-engine`, is one 1.07M-parameter network that plays fights and everything else, trained by
+PPO on one consumer GPU, no search, its own simulator, self-reported, checkpoint chosen on its evaluation seeds
+(`x1`). A 50.1% Ironclad Heart agent exists but its search reads the true random state; it is not fair (`x2`).
 
-Defensible claims, in order of difficulty:
-1. **C1 — best fair specialised Ironclad agent:** Ascension 20 Act-3 win above 22% (above 27.5% to clear the
-   look-ahead figure) on a sealed set of 2,000 or more unseen seeds.
-2. **C2 — first fair Ironclad Heart figure above the best fair specialised Heart number:** Ascension 20 Heart above 8%.
-3. **C3 — best agent of any kind:** Ascension 20 Heart above 33%, with real-game runs.
+One bar per claim:
+- **C1:** Ascension 20 Act-3 win above 22% on at least 2,000 unseen seeds read once, at our 1× budget, with either a
+  run on the leader's own engine or real-game runs beside it.
+- **C2:** a fair Ironclad Ascension 20 Heart rate above 8%.
+- **C3:** Ascension 20 Heart above 33% with real-game runs. A direction, not a target.
 
 ## 2. What the research established
 
-1. **The strategy layer is a first-order lever.** With its pilot held fixed, the clairvoyant agent went from 16.8% to
-   50.1% at the Ascension 20 Heart almost entirely through out-of-combat changes: measured stage-value tables, a
-   boss-relic table (+3.3 points), rules from a human guide (+8.6), elite seeking (+4.8), fixes from loss traces.
-   More search stopped paying after 4× (`x2` §4). `spire-engine` credits most of its Ascension 20 gain (about 11% →
-   21.9%) to a win reward and out-of-combat "habit" rewards (`x1` §3).
-2. **The pilot is first-order too, and the two are co-adapted.** Hiding the true future cost Spire Mentor 23–33
-   points; a run policy wins with the pilot it was trained with and loses with another (`x2` part B). In our own
-   data, switching a rest to an elite costs −0.083 score at Ascension 20 with our pilot (`pA_review`).
-3. **Our fights do not see the run.** A fight is scored by 35 + HP + a flat potion credit; the run-value model is
-   never asked what a fight outcome is worth. The repair was planned on 2026-11-02 and never started
-   (`00_internal_map.md` §3 a). The first thing `x1` lists as worth copying is one run-level value used in fights.
-4. **Our closed leaf-value line tested one design:** a small network on 204 aggregate features regressing the mean of
-   random playouts. No system in the AlphaGo lineage trained a value that way (`s1`). Three outside projects also
-   failed with learned combat values (`w1`, `x2`); a policy-guided look-ahead scored by the run value did work
-   (+5.6 points, `x1`).
-5. **Never tried here** (`00_internal_map.md` §3): any reinforcement learning; privileged critics; run value as the
-   fight utility; a perfect-information ceiling of our own search; search above 4×; the same pilot on strong decks;
-   an objective for the Ascension 20 Heart; comparison with expert behaviour.
-6. **The score hides wins.** At Ascension 20 floor/51 + win is about nine-tenths floors (`h3`).
-7. **Every single-mechanism plan was rejected by its reviewer** as a main line (revised odds of C1: 9–15% each).
-   What all four reviews kept is the content of this plan.
+1. **Both halves matter and they are co-adapted.** Strategy changes under a strong pilot were worth at least 17
+   points in the clairvoyant agent; hiding the future cost another system 23–26 points (Slay the Spire 2,
+   Ascension 0); a run policy wins with the pilot it was trained with (`x2`). How much of our own gap is strategy
+   and how much is pilot has never been measured.
+2. **Our fights do not see the run.** A fight is scored by 35 + HP + a flat potion credit. Scoring it by the run
+   value was planned on 2026-11-02 and never started (`00_internal_map.md` §3 a).
+3. **Our closed leaf-value line tested one design**, a value regressed on random playouts, which no system in the
+   AlphaGo lineage used (`s1`). Learned combat values also failed in three outside projects (`w1`, `x2`).
+4. **Never tried here:** reinforcement learning of any kind, privileged critics, a network that plays fights with a
+   run-level value, a near-perfect-pilot ceiling at a real budget, an objective for the Ascension 20 Heart.
+5. **The score hides wins:** at Ascension 20 it is about nine-tenths floors (`h3`).
+6. **Every reviewed plan was rejected as a main line**, with 9–15% for C1.
 
-## 3. Thesis
+## 3. Stage 0 — split the gap with our own artefacts (8–9 working days, CPU, 45–95 core-hours)
 
-The missing strength is in both halves, and the cheapest large part is out of combat. It has to be earned against
-our own fair pilot, because strategy and pilot are co-adapted. So: first split the gap with artefacts that already
-exist; then rebuild the strategy layer by measurement and let fights price the run; then turn it into one learned
-policy improved with the fair search in the loop; then upgrade the pilot with the designs that worked in fair
-systems; then train for the Heart.
-
-## 4. Stages
-
-Gates are in win rate on fresh paired seeds (2,000 per slice, confirmed on a second slice), with the score as a
-guard. Compute is CPU-only unless stated. Money: about $1.5 per 4-vCPU box-hour at the rate this project has
-actually paid (`pD_review`); cloud list price is about one eighth of that.
-
-| Stage | What | Effort | Compute | Gate / kill |
-|---|---|---|---|---|
-| **0. Split the gap** (week 1) | (a) The 2×2 on common Ascension 20 seeds: {their public strategy network, our strategy} × {their clairvoyant search, our fair search}. (b) Triage: our own search with the true future at 1× and 4×, fair search at 16×, each boss arrival state re-fought 16 times. (c) Instruments: per-stage death table and boss win rate by entry HP, strategic trace, replicate seeds, sealed seed sets, an out-of-combat leak test that also re-rolls encounter lists. (d) Behaviour audit against expert statistics. | 5–7 days | ≈ 100–150 core-hours (≈ $40–60) | No gate. Readings choose the emphasis of stage 1 (table below). |
-| **1. Strategy by measurement, fights that price the run** (weeks 2–4) | (a) Stage-value tables: the causal effect of adding, upgrading or removing a card on each later fight, measured with our own pilot. (b) Whole-run forks on shared seeds for rare, heavy decisions: Neow, boss relics, elite routing, pre-boss rest, keys. (c) Rules from the knowledge base and from loss traces, each as its own paired test. (d) Fight end valued by the run-value model, starting with a known-answer test (in the last fight HP and potions are worth nothing). (e) Potion policy. | 15 days | ≈ 400 core-hours (≈ $150) | Go: Ascension 20 ≥ 15% and Ascension 10 ≥ 60%, confirmed. Kill: Ascension 20 < 11% after all five; then the pilot is the limit and stage 3 moves ahead of stage 2. |
-| **2. One learned strategy policy** (weeks 4–9) | Clone the stage-1 teacher into one network that scores every option on every screen; improve it by PPO on whole runs with our fair search playing every fight (reduced budget in training, full budget at gates), a critic that sees hidden information in training only, restarts from the states where runs die. | 25 days | ≈ 1,600 core-hours (≈ $600); a rented GPU is optional (≈ $50–200) | Go: Ascension 20 ≥ 20% on 4,000 seeds. Kill: two legs with no confirmed gain over the stage-1 teacher. |
-| **3. Pilot upgrades from fair systems** (weeks 6–11, overlaps) | (a) Root candidates compared on shared sampled futures, early stop kept. (b) Draw chance nodes with merged outcomes and widening. (c) A look-ahead guided by the stage-2 policy and scored by its run value. | 20 days | ≈ 800 core-hours (≈ $300) | Each alone on 2,000 + 2,000 seeds. **C1 is tested here: Ascension 20 ≥ 25% on the sealed set.** |
-| **4. The Heart at Ascension 20** (weeks 10–15) | Keys and Act 4 inside the policy; Heart-labelled objective; practice from Act-4 entry states. | 15 days | ≈ 2,500 core-hours (≈ $900) | **C2: Ascension 20 Heart > 8% on the sealed set**, then 20%. Kill: < 3% after two campaigns. |
-
-Total: about 15 weeks, 80 engineering days, 5,500 core-hours (≈ $2,000 at our rate) [estimate]. Reviewers found
-the architects' effort estimates about twofold low; these figures already include that.
-
-**How stage 0 steers stage 1** (read with care: every cell is measured through an existing pilot):
-
-| Reading of the 2×2 at Ascension 20 | Meaning | Consequence |
+| Item | What | Reading, fixed in advance |
 |---|---|---|
-| Their strategy with our fair search clears Act 3 at least twice as often as ours | The strategy lever works under our pilot | Stage 1 as written; their network is the benchmark our own must beat |
-| Their strategy with our fair search is no better than ours, and our strategy gains a lot from their search | Information and pilot bind | Stage 1 keeps (d) and (e); stage 3 comes before stage 2 |
-| Both | Both, multiplying | Order as written |
-| Neither, and clairvoyance at 4× stays under 15% | The gap is elsewhere | Stop and report |
+| **E1** | 1,000 common Ascension 20 seeds with our strategy and four pilots: fair 1× (exists), fair 16×, our search given the true future at 4×, and the simulator's own clairvoyant searcher at its design budget of 40,000 simulations (one parameter, `cheat_combat`; it has only ever run at 500). | Our decks under the near-perfect pilot win **20% or less: strategy binds. 40% or more: pilot and information bind. Between: both.** It is a lower bound, since our strategy is tuned to a weak pilot. |
+| **E2** | Each boss arrival state re-fought 16 times with both pilots. | Top-quartile arrival states under 76% at the act-2 boss with the fair pilot: no drafting policy reaches 25% with this pilot. |
+| **E3** | A per-card value table built from the fork data already on disk (37,700 decisions), scored on held-out decisions. Free. | Does not beat the agent's own picks: the measured-tables idea needs a new argument before any compute. |
+| **E4** | Instruments: per-stage death table, replicate seeds, sealed seed sets with a one-read rule, an out-of-combat leak test that re-rolls encounter lists, a longer hang guard. | — |
+| **E5** (needs the owner's resources) | Reproduce the leader on its own engine from its public code: does it pass 15% at Ascension 20 on seeds it did not select on? 5–40 GPU-hours. | Below 15%: the existence proof is weaker than claimed. |
+
+No clairvoyant result is ever reported as an agent result. Nothing in stage 0 stops the programme on the
+clairvoyant numbers alone: our search with the true future keeps its random playouts and is not a ceiling.
+
+## 4. After stage 0 — one route decision
+
+| | **Route L: learn it (the leader's recipe)** | **Route M: rebuild our agent by measurement** |
+|---|---|---|
+| What | One network for fights and strategy with one run-level value, PPO on whole runs with practice fights; then a look-ahead on top; then the Heart objective, which the leader never trained for the Ironclad. Start on the leader's own engine, where the code runs today and a claim is like for like. | In this order: (1) fights scored by the run value and a potion policy, each tested alone; (2) strategy rules and tables as bundles, re-measured after each pilot change; (3) one strategy network cloned from that teacher and improved by PPO with our fair search playing the fights; (4) root comparison on shared futures and draw chance nodes. |
+| Leads when | E1 says pilot and information bind, or both; and E5 reproduces. Works under either reading of E1. | E1 says strategy binds, and E5 fails or no GPU is available. |
+| Needs | A GPU (100–200 GPU-hours, ≈ $60–180, plus a host machine); 25–35 days before a meaningful run if moved to our simulator; the owner's ruling that a fight-playing network is not the closed line. Its tuning (about 35 runs, reward weights unpublished) must be rediscovered. | CPU only; 19–28 days for its first two steps; about 15 weeks and 5,500 core-hours in all (≈ $2,300–4,100 at what this project has actually paid). One large machine for synchronised PPO rounds. |
+| Main risk | Success is parity with a published agent; the bar may move in the meantime. | Stalls at 12–18%: with a fair pilot that loses 11–16% of max HP per ordinary fight, cautious strategy stays correct. |
+
+Gates on either route: paired win-rate gains per component at fixed 1× compute; 2,000 + 2,000 seeds for effects of
+two points or more and 8,000 per slice once the base rate nears 20%; a result between a go level and a kill level
+means one pre-declared extension and then the kill; sealed sets read once.
 
 ## 5. Odds
 
-All [estimate], low confidence. The four reviewers gave 9–15% for C1 to plans that lacked the two source-level
-recipes; those recipes are the reason these numbers are higher.
+All [estimate], low confidence, built from the factors in `PLAN_redteam_evidence.md`.
 
-| Outcome | Probability |
-|---|---|
-| Ascension 20 Act-3 ≥ 15% (double today) | 45% |
-| **C1**, Ascension 20 Act-3 ≥ 25% | 20% |
-| **C2**, Ascension 20 Heart > 8% | 15% |
-| Ascension 20 Heart ≥ 20% | 5% |
-| **C3**, Ascension 20 Heart > 33% | under 2% |
+| Outcome | Route M | Route L |
+|---|---|---|
+| Ascension 20 Act-3 ≥ 15% (double today) | 30% | similar |
+| **C1**, Ascension 20 Act-3 > 22% | 9–12% | 12–14% |
+| **C2**, Ascension 20 Heart > 8% | 3% | 3–5% |
+| Ascension 20 Heart ≥ 20% | 1% | 1% |
+| **C3** | 0.3% | 0.3% |
 
-Most likely failure: the strategy rebuild lifts Ascension 20 to 12–18% and stalls, because with a fair pilot that
-loses 11–16% of max HP per ordinary fight the cautious strategy remains correct, and the pilot upgrades give
-single points each.
-
-A different route exists if this one stalls: replicate the `spire-engine` recipe end to end on our simulator
-(entity-token transformer, PPO, practice fights, 100–200 GPU-hours ≈ $60–180, `x1` §6) and put our search on top.
-It is not the first choice because it discards the working agent and needs a GPU; it stays as the fallback.
+The leader was published a week ago and is on its third version; there is roughly an even chance that 22% is no
+longer the bar in fifteen weeks.
 
 ## 6. Owner decisions
 
-1. Approve stage 0 (one week, CPU only). Later stages are approved one at a time, on results.
-2. Choose the claim: C1 and C2 as the programme's targets, C3 as the direction (my recommendation).
-3. Win rate as the keep metric at Ascension 20 and for the Heart.
-4. Measurement-only use of clairvoyant search and of budgets up to 16×, never reported as agent results; cloning
-   and running the public MIT-licensed `sts-ironclad-agent` for the 2×2.
-5. Human knowledge in the strategy layer (guide rules, expert statistics), disclosed in any claim. Both leading
-   systems use it.
-6. The learned-evaluator line stays closed. Stage 3 (c) is a policy-guided look-ahead scored by a run value, not a
-   leaf network on rollouts; it will be put to the owner again before it starts.
-7. A GPU is not needed before stage 2 and is optional there.
+1. Approve stage 0 (E1–E4: 8–9 working days, CPU only). Later work is approved on its results.
+2. E5 and Route L need a GPU machine this session can reach, and network access to the leader's public repository.
+   Decide now whether that is on the table; without it only Route M exists.
+3. Which claim is the target. My recommendation: C1 and C2; C3 as a direction.
+4. Win rate as the keep metric at Ascension 20 and for the Heart.
+5. Measurement-only use of clairvoyant search and of 16× budgets; edits to the frozen harness for replicate seeds
+   and a longer hang guard.
+6. Whether human knowledge (guide rules, expert statistics, human winners' decks) may be used and disclosed. Both
+   leading systems use it.
+7. Whether a network that plays fights (Route L) is outside the closed leaf-value line.
 8. Still open: draft PRs #20 and #21; the f28w5 force-push question.
 
 ## 7. What this plan does not do
 
-Clairvoyant search as an agent; a value network trained on rollouts; a learned fight-outcome model in place of
-fights during training; search results as a training target for the policy; best-line (max) backup; imitation of
-mass human logs; a language model at decision time; further single-parameter tuning or budget moves between fights.
+Clairvoyant search as an agent; a value trained on rollouts; a learned fight-outcome model in place of fights during
+training; search results as a policy training target; best-line (max) backup; importing a strategy network trained
+against a clairvoyant pilot; a language model at decision time; further single-parameter tuning.
 
 ## 8. Files
 
-`00_internal_map.md` (tried / never tried), `s6` (scoreboard), `x1`, `x2` (the two leading recipes), `c1`, `c2`
-(the code as it is), `d1` (where runs end), `pA`–`pD` plans and `p?_review.md`, `h1`–`h7`, `r1`, `w1`–`w3`, `s1`–`s5`.
+`PLAN_redteam_feasibility.md`, `PLAN_redteam_evidence.md` (what was wrong with revision 1), `00_internal_map.md`
+(tried / never tried), `s6` (scoreboard), `x1`, `x2` (the two leading recipes), `c1`, `c2` (our code as it is), `d1`
+(where runs end), `pA`–`pD` and `p?_review.md`, `h1`–`h7`, `r1`, `w1`–`w3`, `s1`–`s5`.
