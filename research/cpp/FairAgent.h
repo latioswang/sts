@@ -53,6 +53,7 @@ public:
     void stepOutOfCombat(sts::GameContext &gc);
     void stepOutOfCombat0(sts::GameContext &gc);  // the decision itself; stepOutOfCombat wraps it with the opt-in trace
     void playBattle(sts::GameContext &gc);
+    void refightBoss(const sts::GameContext &gc, const sts::BattleContext &bc0);  // SOTA stage 0 E2, measurement only
     std::function<void(const sts::BattleContext &, const sts::search::Action &, const FairSearcher &)> onCombatAction;
 
 private:

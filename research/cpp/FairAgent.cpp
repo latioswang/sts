@@ -138,9 +138,50 @@ SearchParams FairAgent::searchParamsFor(const BattleContext &bc) const {
     return s;
 }
 
+static void reseedAllRngs(GameContext &g, std::mt19937_64 &r);
+
+// SOTA stage 0, E2 (MEASUREMENT ONLY; PLAN.md rev 2 §3): at every boss arrival, re-fight K copies of the run with every
+// RNG stream re-seeded (fresh hidden state) by the fair pilot, and K2 copies by lightspeed's clairvoyant searcher at
+// `diag_refight_cheat_sims`. One line per arrival to $FAIR_REFIGHT_DIR/refight_<agentSeed>.tsv. The copies have their own
+// map, no loggers and no recursion; this agent's own state is untouched, so the main line is unchanged.
+void FairAgent::refightBoss(const GameContext &gc, const BattleContext &bc0) {
+    const int K = static_cast<int>(getp(P, "diag_refight", 0)), K2 = static_cast<int>(getp(P, "diag_refight_cheat", 0));
+    const char *dir = std::getenv("FAIR_REFIGHT_DIR");
+    if (!dir || (K <= 0 && K2 <= 0)) return;
+    std::FILE *f = std::fopen((std::string(dir) + "/refight_" + std::to_string(agentSeed) + ".tsv").c_str(), "a");
+    if (!f) return;
+    const int pots = gc.potionCount;
+    double res[2][3] = {{0, 0, 0}, {0, 0, 0}};  // [pilot][wins, hp after win sum, n]
+    for (int pilot = 0; pilot < 2; ++pilot) {
+        const int n = pilot == 0 ? K : K2;
+        for (int k = 0; k < n; ++k) {
+            GameContext h = gc;
+            h.map = std::make_shared<Map>(*gc.map);
+            std::mt19937_64 rr((agentSeed * 0xD6E8FEB86659FD93ULL) ^ (static_cast<std::uint64_t>(gc.floorNum) << 32) ^
+                               (static_cast<std::uint64_t>(k + 1) * 0x9E3779B97F4A7C15ULL) ^ (pilot ? 0xC1EA7ULL : 0ULL));
+            reseedAllRngs(h, rr);
+            FairAgent c = *this;
+            c.vfLog = c.rvLog = c.pfLog = c.bfLog = nullptr; c.inHyp = true; c.onCombatAction = nullptr;
+            c.P.erase("diag_refight"); c.P.erase("diag_refight_cheat");
+            c.rng.seed(rr());
+            if (pilot == 1) { c.P["cheat_combat"] = 1; c.sp.simulations = static_cast<int>(getp(P, "diag_refight_cheat_sims", 40000)); }
+            c.playBattle(h);
+            const bool won = h.curHp > 0 && h.outcome != GameOutcome::PLAYER_LOSS;
+            res[pilot][0] += won; res[pilot][2] += 1;
+            if (won) res[pilot][1] += static_cast<double>(h.curHp) / std::max(1, h.maxHp);
+        }
+    }
+    std::fprintf(f, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%.0f\t%.0f\t%.4f\t%.0f\t%.0f\t%.4f\n", (unsigned long long)agentSeed, gc.floorNum,
+                 static_cast<int>(bc0.encounter), gc.curHp, gc.maxHp, static_cast<int>(gc.deck.size()), pots,
+                 static_cast<int>(gc.relics.size()),
+                 res[0][2], res[0][0], res[0][0] > 0 ? res[0][1] / res[0][0] : 0.0, res[1][2], res[1][0], res[1][0] > 0 ? res[1][1] / res[1][0] : 0.0);
+    std::fclose(f);
+}
+
 void FairAgent::playBattle(GameContext &gc) {
     BattleContext bc;
     bc.init(gc);
+    if (!inHyp && isBossEncounter(bc.encounter) && (getp(P, "diag_refight", 0) > 0 || getp(P, "diag_refight_cheat", 0) > 0)) refightBoss(gc, bc);
     ++stats.battles;
     stats.lastEncounter = static_cast<int>(bc.encounter);
     if (trace::on(this)) std::fprintf(trace::g_f, "  FIGHT %s | %s\n", monsterEncounterStrings[static_cast<int>(bc.encounter)], trace::state(gc).c_str());
