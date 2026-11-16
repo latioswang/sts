@@ -4,7 +4,7 @@ Written 2026-11-16 from the stage-1 material; nothing was built or run. Sources 
 
 ## 1. Thesis
 
-The missing strength has not been located: the record supports "the decks lose", "the pilot loses" and "the search cannot see past the turn" about equally, because none of the five measurements that would separate them was ever made (00 §3 rows j, k, l, u; d1 §6.6). A ten-day diagnostic programme of about 350 core-hours, built mostly on switches that already exist, will state in win-rate points how much of the gap belongs to decks, piloting, hidden information and luck, and a pre-registered table turns those numbers into one of three builds. Now is the time because every line is closed, the next step is a 3–4 month build, and choosing the wrong half costs about a hundred times what the measurements cost.
+The missing strength has not been located: the record supports "the decks lose", "the pilot loses" and "the search cannot see past the turn" about equally, because none of the five measurements that would separate them was ever made (00 §3 rows j, k, l, u; d1 §6.6). A ten-day diagnostic programme of about 350 core-hours, built mostly on switches that already exist, will state in win-rate points how much of the gap belongs to decks, piloting, hidden information and luck, and a pre-registered table turns those numbers into one of three builds. Now is the time because every line is closed and the next step is a build of about four months, while the measurements cost ten days and about $16 of compute.
 
 Evidence:
 
@@ -19,12 +19,12 @@ Evidence:
 
 ## 2. Target design
 
-The design is a function of the measurements. Three parts are fixed; the rest is chosen by the table.
+The design is a function of the measurements. Three parts are fixed; the table chooses the rest.
 
 **2.1 Fixed parts, needed by every branch.**
-- A diagnostic binary `research/diag/diag_main.cpp`. The harness is frozen, hard-codes the agent seed (eval_main.cpp:51) and kills games after 900 s (line 194), so nothing is added there.
-- A **fight bench**: saved fight-entry states (deck, relics, potions, HP, encounter, ascension) replayed many times with fresh hidden state. It becomes the first gate for any combat change and the restart source for any training.
-- A per-run JSON log in the public run-history layout (path, campfire choices, card choices and skips, purchases, removals, damage per fight), so agent and human runs are compared by one script.
+- A diagnostic binary, `research/diag/diag_main.cpp`. The harness is frozen, ties the agent seed to the run seed (eval_main.cpp:51) and kills games after 900 s (line 194), so nothing is added there.
+- A **fight bench**: saved fight-entry states (deck, relics, potions, HP, encounter, ascension) replayed many times with fresh hidden state. It is the first gate for any combat change and the restart source for any training.
+- A per-run log (path, rest-site choices, card picks and skips, purchases, removals, damage per fight), so agent and human runs go through one script.
 
 **2.2 Decision table.** Quantities (defined in §4): `C16` = clairvoyant search at 16× with today's strategy layer, a practical ceiling for combat-only work [inferred; not a strict bound]; `S64` = fair search at 64×; `Ref` = 1× agent's fight win rate on expert reference decks (Act-2 boss entered at 80% HP / the Heart), `Own` = the same on its own median decks; `Doomed` = share of fatal fights that win under 10% of replays at 16×; `G_deck`, `G_hp` = win-rate gain from gifted relics, removals and upgrades / from gifted HP. Thresholds are my proposals for pre-registration [estimate].
 
@@ -35,7 +35,7 @@ The design is a function of the measurements. Three parts are fixed; the rest is
 | `C16` ≥ 25% and `Ref` − `Own` ≥ 20 points | both, and they multiply | **Unified, staged**: strategy policy on today's engine, engine rebuilt behind the fight bench, policy retrained on the new engine |
 | `C16` < 15%, `Ref` − `Own` < 10, both gifts < +3 | the gap is elsewhere | one-week coverage and objective audit (h6 §6.1), then back to the owner |
 
-Modifiers. K-world search (§4, D1) ≥ +2 points at equal search actions: adopt it in any branch, since it is a legal agent. Seeds won at least once in 8 replicates ≥ 3 × the mean win rate: wins lie inside the agent's own decision noise, so reinforcement learning has near-field signal; under 1.7 ×: wins are seed-bound, and restarts plus a privileged critic become mandatory.
+Modifiers. If K-world search (D1) gains 2 points or more at equal search actions, it is adopted in any branch, since it is a legal agent. If the share of seeds won at least once in 8 replicates is at least 3 × the mean win rate, wins lie inside the agent's own decision noise and reinforcement learning has a nearby signal; under 1.7 ×, wins are seed-bound, and restarts plus a privileged critic become mandatory.
 
 **2.3 Most likely branch.** My prior: unified-staged 45%, strategy-first 30%, combat-first 20%, none 5% [estimate]. The first two share their first build, so 75% of the mass starts as below.
 
@@ -45,7 +45,7 @@ Modifiers. K-world search (§4, D1) ≥ +2 points at equal search actions: adopt
 - **Hidden information, training only.** (i) A privileged critic that sees the true upcoming card rewards, relic-pool order and next-act boss, while the actor sees legal inputs only (the largest single ablation in s2 §2: 22% → 82%). (ii) Clairvoyant and 16× search as the fight-outcome teacher for the HP-after-fight head. (iii) Returns averaged over replicate fights from saved entry states. An out-of-combat leak test (missing today, c2 §5) enforces the boundary.
 - **Search at play time.** Unchanged FairSearch at 1× first. Then the terminal value becomes the critic's value of the post-fight state (never tried, 00 §3 row a), read from a table over end-HP bucket × potions kept, filled once per fight.
 - **Combat engine, only if the table says so.** K-world or bucketed draw nodes so statistics survive the turn boundary (c1 §6.1), plus a sparse entity-level boundary value trained on realised outcomes of 16× and clairvoyant play from the fight bench. This needs the owner to reopen the evaluator line (§6).
-- **Play-time cost.** About 100 strategic decisions per run (c2 §6.4), each one trunk pass of ≈ 80 µs [inferred from s5 §2: 119k-parameter MLP 12.5–14.7 µs, 1.05M 196–222 µs] plus ≤ 25 option heads: ≈ 15 ms per run against 780–1,830 ms of search (c2 §5), 1–2%, paid by lowering `sims` under the existing equal-actions calibration. Terminal table: ≤ 64 batched passes per fight, ≈ 1 ms [estimate]. Engine: a decision is ≈ 1,000 simulations of ≈ 6 µs, 87% of it rollout (c1 §4); a boundary value of 1.5–5 µs (s5 §2) keeps 700–1,000 simulations, whereas a learned playout at 1.5 µs per action leaves about 120, so only a table-lookup playout is admissible (prior-guided rollouts lost at 2.43× cost, r1 §3).
+- **Play-time cost.** About 100 strategic decisions per run (c2 §6.4), each one trunk pass of ≈ 80 µs [inferred from s5 §2: 119k-parameter MLP 12.5–14.7 µs, 1.05M 196–222 µs] plus ≤ 25 option heads: ≈ 15 ms per run against 780–1,830 ms of search (c2 §5), 1–2%, paid by lowering `sims` under the existing equal-actions calibration. Terminal table: ≤ 64 batched passes per fight, ≈ 1 ms [estimate]. Engine: a decision is ≈ 1,000 simulations of ≈ 6 µs, 87% of it rollout (c1 §4); a boundary value of 1.5–5 µs (s5 §2) keeps 700–1,000 simulations, whereas a learned playout at 1.5 µs per action leaves about 120, so only a table-lookup playout is admissible (prior-guided rollouts lost at 2.43× cost, 00 §2).
 - **Reused:** simulator, FairSearch, harness, seed discipline, loggers, real-game bridge, the V and path models as warm-start critics.
 
 ## 3. Roadmap
@@ -72,7 +72,7 @@ Total: about 18 weeks, 75 engineering days, 7,000–9,000 core-hours ≈ $320–
 
 ## 4. First two weeks
 
-One binary, six experiments. "Exists" was checked in research/cpp and research/eval.
+One binary, eight experiments. "Exists" was checked in research/cpp and research/eval. Costs are [estimate] from the per-game times in c2 §5.
 
 | ID | Question | Code | Data | Cost | Readout |
 |---|---|---|---|---|---|
