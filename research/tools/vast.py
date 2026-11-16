@@ -15,7 +15,7 @@ usage:
   vast.py create OFFER_ID SCRIPT HOURS [DISK_GB] [LABEL]   rent and run SCRIPT (bash) in the default image
   vast.py status ID | logs ID [TAIL] | destroy ID
 """
-import json, sys, time, urllib.request
+import json, sys, time, urllib.error, urllib.request
 
 API = "https://console.vast.ai/api/v0"
 BASELINE_SPEND = 53.2921   # lifetime spend before any rental under this budget (read 2026-11-16 17:3x UTC)
@@ -51,13 +51,17 @@ def spend():
     return s, float(u.get("credit", 0.0)), inst
 
 
-def offers(gpu=None):
+def offer_list(gpu=None, limit=40):
     q = {"rentable": {"eq": True}, "verified": {"eq": True}, "num_gpus": {"eq": 1}, "reliability2": {"gt": 0.98},
          "inet_down": {"gt": 200}, "cpu_cores_effective": {"gt": 15}, "disk_space": {"gt": 60},
-         "order": [["dph_total", "asc"]], "type": "on-demand", "limit": 40}
+         "order": [["dph_total", "asc"]], "type": "on-demand", "limit": limit}
     if gpu:
         q["gpu_name"] = {"eq": gpu}
-    o = call("GET", "/bundles/", query={"q": json.dumps(q)}).get("offers", [])
+    return call("GET", "/bundles/", query={"q": json.dumps(q)}).get("offers", [])
+
+
+def offers(gpu=None):
+    o = offer_list(gpu)
     for x in o[:15]:
         print(f"{x['id']}\t{x['gpu_name']}\t${x['dph_total']:.3f}/h\tcpu={x.get('cpu_cores_effective')}\tram={round(x.get('cpu_ram', 0) / 1024)}GB"
               f"\tdisk={round(x.get('disk_space', 0))}GB\tcuda={x.get('cuda_max_good')}\trel={x.get('reliability2'):.3f}\t{x.get('geolocation')}")
@@ -81,9 +85,9 @@ def main():
         disk = int(a[4]) if len(a) > 4 else 60
         label = a[5] if len(a) > 5 else "sota-e5"
         s, _, inst = spend()
-        o = call("GET", f"/bundles/", query={"q": json.dumps({"id": {"eq": offer}})}).get("offers", [])
+        o = [x for x in offer_list(None, 1000) if int(x["id"]) == offer]   # the same query as `offers` (this endpoint applies hidden defaults)
         if not o:
-            sys.exit(f"offer {offer} not available")
+            sys.exit(f"offer {offer} not available")   # (a lookup by id alone returns nothing on this endpoint)
         price = float(o[0]["dph_total"])
         running = sum(float(i.get("dph_total", 0)) for i in inst if i.get("actual_status") not in ("exited", "stopped"))
         if s + (price + running) * hours > CAP:
@@ -92,6 +96,28 @@ def main():
                 "onstart": "bash", "args": ["-c", open(script).read()]}
         r = call("PUT", f"/asks/{offer}/", body)
         print(json.dumps(r))
+    elif cmd == "rent":   # rent GPU SCRIPT HOURS [DISK] [LABEL] [MIN_CPUS]: cheapest current offer outside CN/VN, retry the next on failure
+        gpu, script, hours = a[1], a[2], float(a[3])
+        disk = int(a[4]) if len(a) > 4 else 60
+        label = a[5] if len(a) > 5 else "sota-e5"
+        mincpu = float(a[6]) if len(a) > 6 else 24
+        s, _, inst = spend()
+        running = sum(float(i.get("dph_total", 0)) for i in inst if i.get("actual_status") not in ("exited", "stopped"))
+        cands = [x for x in offer_list(gpu, 60) if x.get("cpu_cores_effective", 0) >= mincpu
+                 and not any(t in str(x.get("geolocation")) for t in ("CN", "China", "VN", "Vietnam"))]
+        body = {"client_id": "me", "image": IMAGE, "env": {}, "disk": disk, "label": label, "runtype": "args",
+                "onstart": "bash", "args": ["-c", open(script).read()]}
+        for x in cands[:6]:
+            price = float(x["dph_total"])
+            if s + (price + running) * hours > CAP:
+                sys.exit(f"REFUSED by budget guard: spend ${s:.2f} + (${price:.3f} + running ${running:.3f})/h x {hours}h > cap ${CAP}")
+            try:
+                r = call("PUT", f"/asks/{x['id']}/", body)
+            except urllib.error.HTTPError as e:
+                print(f"offer {x['id']} failed: {e.code} {e.read().decode()[:200]}"); continue
+            print(f"rented offer {x['id']} {x['gpu_name']} ${price:.3f}/h cpu={x.get('cpu_cores_effective')} {x.get('geolocation')}: {json.dumps(r)}")
+            return
+        sys.exit("no offer could be rented")
     elif cmd == "status":
         i = call("GET", f"/instances/{int(a[1])}/", query={"owner": "me"})
         i = i.get("instances", i)
