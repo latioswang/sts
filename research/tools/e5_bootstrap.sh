@@ -537,6 +537,22 @@ phase_e5b_curve() {
   [ $rc -ne 0 ] && tail -25 "$RES/train_e5-scratch.log"
 }
 
+# Route L, step 1 (owner 2026-11-16): the leader's own look-ahead (python/search/search_eval.py) on the converted released
+# network, A20, 1,024 seeds it never saw (EVAL_SEED 300000 + offset 600000 = 900000+); plain greedy runs beside it as the
+# baseline on the same seeds. Then --free-keys --no-search: what its decks do at the Heart, keys' cost aside.
+phase_e5d_lookahead() {
+  PY=$(pick_python)
+  [ -f "$CONV" ] || { log "no converted checkpoint: run e5a_py first"; return 1; }
+  local procs=${E5D_PROCS:-6} t; t=$(date +%s)
+  ( cd "$REPO" && timeout "${E5D_TIMEOUT:-150m}" "$PY" python/search/search_eval.py "$CONV" --set runs --ascension 20 --runs 1024 \
+      --procs "$procs" --seed-offset 600000 ) > "$RES/lookahead_a20.log" 2>&1
+  result "$(printf '{"exp":"E5d-lookahead-run","rc":%s,"wall_s":%s}' "$?" "$(elapsed "$t")")"
+  t=$(date +%s)
+  ( cd "$REPO" && timeout "${E5D_TIMEOUT:-60m}" "$PY" python/search/search_eval.py "$CONV" --set runs --ascension 20 --runs 1024 \
+      --procs "$procs" --seed-offset 600000 --no-search --free-keys ) > "$RES/freekeys_a20.log" 2>&1
+  result "$(printf '{"exp":"E5d-freekeys-run","rc":%s,"wall_s":%s}' "$?" "$(elapsed "$t")")"
+}
+
 phase_pack() {
   local hours; hours=$("${PY:-python3}" -c "print(round($(elapsed "$T_START")/3600, 2))" 2>/dev/null || echo "?")
   result "$(printf '{"exp":"total","wall_hours":%s,"usd_at_price":"%s"}' "$hours" \
@@ -546,7 +562,7 @@ phase_pack() {
 
 # ---------------------------------------------------------------------------------------------
 PY=$(pick_python)
-for ph in setup build e5a_wasm e5a_py e5b_speed e5b_curve pack; do
+for ph in setup build e5a_wasm e5a_py e5d_lookahead e5b_speed e5b_curve pack; do
   phase_on "$ph" || continue
   [ "$ph" != setup ] && [ ! -f "$TOOLS/e5_wasm_eval.cjs" ] && write_tools
   log "=== phase $ph"
