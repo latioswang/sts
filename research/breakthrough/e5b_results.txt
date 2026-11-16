@@ -1,0 +1,128 @@
+E5WRAP results begin
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 610.57.04","nproc":32,"mem_gb":108,"python":"Python 3.11.10","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":33}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":33}
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":18,"bench":"run: 620,583 steps/s with step_random (7030 episodes finished) run: 485,313 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":18}
+E5RESULT {"exp":"E5b-speed-eager-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-eager", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-eager-run","rc":1,"wall_s":1}
+E5RESULT {"exp":"E5b-speed-fixed-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed-run","rc":1,"wall_s":2}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed_overlap", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-run","rc":1,"wall_s":1}
+E5RESULT {"exp": "E5b-projection", "best_cfg": "", "steps_per_s": 0.0, "price_per_hour": 0.4, "gpu_hours_0.25B_steps": null, "usd_0.25B_steps": null, "gpu_hours_0.5B_steps": null, "usd_0.5B_steps": null, "gpu_hours_1.0B_steps": null, "usd_1.0B_steps": null, "gpu_hours_2.0B_steps": null, "usd_2.0B_steps": null}
+E5RESULT {"exp":"phase","phase":"e5b_speed","rc":0,"seconds":5}
+E5RESULT {"exp":"E5b-curve-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-curve", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-curve-run","cfg":"eager","rc":1,"wall_s":1}
+E5RESULT {"exp":"phase","phase":"e5b_curve","rc":0,"seconds":2}
+E5RESULT {"exp":"total","wall_hours":0.02,"usd_at_price":"0.01"}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+E5WRAP python check
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+crates
+docs
+python
+target
+tools
+web
+torch 2.5.1+cu124 True 3.11.10 | packaged by conda-forge | (main, Oct 16 2024, 01:27:36) [GCC 13.3.0]
+E5WRAP LOG /root/e5/results/train_e5-scratch.log
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5WRAP LOG /root/e5/results/train_e5-speed-eager.log
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5WRAP LOG /root/e5/results/train_e5-speed-fixed.log
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5WRAP LOG /root/e5/results/train_e5-speed-fixed_overlap.log
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5WRAP last log lines
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_unknown_linux_gnu
+CFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-unknown-linux-gnu
+CFLAGS_x86_64-unknown-linux-gnu = None
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 610.57.04","nproc":32,"mem_gb":108,"python":"Python 3.11.10","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":33}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":33}
+[18:31:11] === phase build
+E5RESULT {"exp":"build","ok":true,"test_sts_rc":0,"encoding":"3","build_s":18,"bench":"run: 620,583 steps/s with step_random (7030 episodes finished) run: 485,313 steps/s with Python-chosen actions (0 won, 1823 lost) an episode that ended: {'act': 1, 'archetype_cards': {'block': 1, 'exhaust': 2, 'self-damage': 0, 'strength': 0}, 'ascension': 0, 'died_in': 'Large Slime', 'floor': 7, 'g"}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":18}
+[18:31:29] === phase e5b_speed
+E5RESULT {"exp":"E5b-speed-eager-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-eager", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-eager-run","rc":1,"wall_s":1}
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5RESULT {"exp":"E5b-speed-fixed-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed-run","rc":1,"wall_s":2}
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5RESULT {"exp":"E5b-speed-fixed_overlap-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-speed-fixed_overlap", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-speed-fixed_overlap-run","rc":1,"wall_s":1}
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5RESULT {"exp": "E5b-projection", "best_cfg": "", "steps_per_s": 0.0, "price_per_hour": 0.4, "gpu_hours_0.25B_steps": null, "usd_0.25B_steps": null, "gpu_hours_0.5B_steps": null, "usd_0.5B_steps": null, "gpu_hours_1.0B_steps": null, "usd_1.0B_steps": null, "gpu_hours_2.0B_steps": null, "usd_2.0B_steps": null}
+E5RESULT {"exp":"phase","phase":"e5b_speed","rc":0,"seconds":5}
+[18:31:34] === phase e5b_curve
+E5RESULT {"exp":"E5b-curve-gpu","util_mean":0.0,"mem_peak_mib":1,"samples":1}
+E5RESULT {"exp": "E5b-curve", "updates": 0, "steps": null, "seconds": null, "steps_per_s_median": null, "steps_per_s_max": null}
+E5RESULT {"exp":"E5b-curve-run","cfg":"eager","rc":1,"wall_s":1}
+Traceback (most recent call last):
+  File "/root/e5/spire-engine/python/training/train_runs.py", line 125, in <module>
+    import training.live_chart as live_chart
+  File "/root/e5/spire-engine/python/training/live_chart.py", line 430
+    f'<a href="/{urllib.parse.quote(r["name"])}/live.html"{" class=\"on\"" if r["name"] == current else ""}>{html.escape(r["name"])}</a>' for r in live)
+                                                                                                                                          ^^^
+SyntaxError: f-string expression part cannot include a backslash
+E5RESULT {"exp":"phase","phase":"e5b_curve","rc":0,"seconds":2}
+[18:31:36] === phase pack
+E5RESULT {"exp":"total","wall_hours":0.02,"usd_at_price":"0.01"}
+[18:31:36] packed /root/e5/e5_results.tgz
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+[18:31:36] done
+E5WRAP summary end 2026-11-16T18:31:37Z
