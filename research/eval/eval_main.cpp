@@ -48,7 +48,11 @@ static Row runOne(const std::string &agent, std::uint64_t seed, int asc, const f
     } else {
         // agent seed derived from run seed via an independent hash stream; it
         // carries no information about game RNG state.
-        fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345);
+        // FAIR_AGENT_SALT (owner 2026-11-16, SOTA stage 0 E4): replicate runs of one game seed with independent agent
+        // randomness; unset or 0 = the frozen derivation, bit-identical
+        const char *saltS = std::getenv("FAIR_AGENT_SALT");
+        const std::uint64_t salt = saltS ? std::strtoull(saltS, nullptr, 10) : 0ULL;
+        fair::FairAgent a(P, seed * 0x9E3779B97F4A7C15ULL + 12345 + salt * 0xD1B54A32D192ED03ULL);
         // opt-in readable trace of this game (FAIR_TRACE=<dir>: one file per seed); never changes play
         std::FILE *tf = nullptr;
         if (const char *td = std::getenv("FAIR_TRACE")) {
