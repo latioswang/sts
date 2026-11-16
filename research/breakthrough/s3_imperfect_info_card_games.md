@@ -81,21 +81,15 @@ A general variational form of oracle guiding exists (VLOG — https://mlantholog
 
 **5. Value nets must be trained on the states that play reaches.** In ReBeL's ablation a value net trained on random beliefs "fails to learn anything valuable" (ReBeL URL above). DeepStack's 175 core-years of solved random situations were replaced by self-play.
 
-**6. Search details that paid.** SPARTA's pruning and deviation threshold cut rollouts ~10× at no loss. Truncated rollouts with a Q bootstrap beat full rollouts. Running search for both Hanabi players was worse than for one (24.34 vs 24.48).
+**6. Search details that paid.** SPARTA's pruning and deviation threshold cut rollouts ~10× at no loss. Truncated rollouts with a Q bootstrap beat full rollouts.
 
-**7. When determinisation is sound.**
-- Long et al. measured that trick-taking games have high leaf correlation (0.8–1.0) and fast disambiguation (~0.6), the region where determinised search loses little against an equilibrium player; poker is the opposite — https://cdn.aaai.org/ojs/7562/7562-13-11092-1-2-20201228.pdf.
-- Cowling et al.: a single tree over information sets, re-sampled each iteration, beats one-tree-per-determinisation where deep search or strategy fusion matter, and is on a par in Dou Di Zhu, where seeing hidden cards helps only in a minority of deals — https://eprints.whiterose.ac.uk/75048/1/CowlingPowleyWhitehouse2012.pdf.
-- In single-agent planning, solving each sampled future separately is "hindsight optimisation"; the paper gives examples where it fails — https://mlanthology.org/aaai/2008/yoon2008aaai-probabilistic. Its value estimate is an upper bound [from memory, unverified].
+**7. When determinisation is sound.** "Strategy fusion" is the error of a search that plans a different action for each sampled world although the player cannot tell the worlds apart.
+- Long et al. measured that in trick-taking games sibling outcomes mostly agree (leaf correlation 0.8–1.0) and hidden cards are revealed quickly (disambiguation ~0.6). In that region determinised search loses little against an equilibrium player; poker is the opposite — https://cdn.aaai.org/ojs/7562/7562-13-11092-1-2-20201228.pdf.
+- Cowling et al.: a single tree over information sets, re-sampled each iteration, beats one tree per determinisation where deep search or strategy fusion matter. The two are on a par in Dou Di Zhu, where seeing hidden cards helps only in a minority of deals — https://eprints.whiterose.ac.uk/75048/1/CowlingPowleyWhitehouse2012.pdf.
+- In single-agent planning, solving each sampled future separately is "hindsight optimisation"; the paper gives examples where it fails — https://mlanthology.org/aaai/2008/yoon2008aaai-probabilistic. Its value estimate is an upper bound on the true value [snippet: https://arxiv.org/pdf/2406.17863].
 - A 2026 result: aggregating evaluations of several sampled states in one AlphaZero tree gains 136–291 Elo over the per-determinisation baseline — https://arxiv.org/abs/2605.24139.
 
-**8. Later found unnecessary.**
-- DeltaDou's inference and search (DouZero).
-- Neural nets and supercomputers in poker (Pluribus).
-- Exact beliefs and full rollouts (Learned Belief Search).
-- Generality (Student of Games loses to specialists).
-- Encoder choice: MLP, convolution, Deep Sets, attention and LSTM fall in one band in the Gin Rummy study.
-- Suphx's run-time adaptation was never deployed.
+**8. Later found unnecessary.** DeltaDou's inference and search (DouZero); neural nets and supercomputers in poker (Pluribus); exact beliefs and full rollouts (Learned Belief Search); generality (Student of Games); Suphx's run-time adaptation (never deployed); encoder choice (MLP, convolution, Deep Sets, attention and LSTM fall in one band in the Gin Rummy study).
 
 ## 3. Cheaper replications
 
@@ -105,10 +99,8 @@ A general variational form of oracle guiding exists (VLOG — https://mlantholog
 | DouZero+ — https://ar5iv.labs.arxiv.org/html/2204.02558 | 4 Xeon CPUs + 1 RTX 2080 Ti | top of Botzone (DouZero ~20th) | hidden-hand prediction head; "coach" net that only starts games from balanced deals |
 | DanZero (Guandan) — https://ar5iv.labs.arxiv.org/html/2210.17087 | 160 CPUs + 1 GPU, 30 days | ≥82% against eight rule bots, 60% against humans | DMC unchanged; 513-value state + 54-value action |
 | AlphaHoldem — https://pi.cs.tsinghua.edu.cn/lab/people/jlxing/zh/publication/featured02-aaai-2022/ | one PC, 3 days | beats Slumbot and DeepStack over 100,000 hands, 2.9 ms per decision | end-to-end actor-critic self-play, no regret minimisation, no search |
-| Pluribus | 12,400 core-hours | superhuman six-player poker | abstraction + cheap leaf continuation strategies |
-| Learned Belief Search | 47 s vs 215 s per game | 91% of the search gain | truncated rollouts + Q bootstrap |
 
-Common efficiency levers: Monte-Carlo targets, action features, train-time oracle information, start-state selection, and truncating rollouts with the policy's own value.
+Pluribus (12,400 core-hours) and Learned Belief Search (47 s against 215 s per game) from §1 belong here too. Common efficiency levers: Monte-Carlo targets, action features, train-time oracle information, start-state selection, and truncating rollouts with the policy's own value.
 
 ## 4. Design lessons for a Slay the Spire agent
 
@@ -144,7 +136,7 @@ Common efficiency levers: Monte-Carlo targets, action features, train-time oracl
 - Second: keep the present tree and use the net only at the turn boundary.
 - SPARTA-style rollouts with a neural policy do not fit the budget at play time. They fit offline, as the improvement step that generates training targets (the bridge recipe), and at play time only with a distilled, microsecond-scale rollout policy.
 - Adopt SPARTA's rule in any case: deviate from the policy's choice only when the search margin is statistically clear.
-- Pluribus's cheap alternative to a learned leaf: let each leaf take the best of a few fixed continuation policies (aggressive, defensive, default). In a single-player game each is a lower bound, so the maximum is safe [estimate: my reasoning, not a published result].
+- Pluribus's cheap alternative to a learned leaf: let each leaf take the best of a few fixed continuation policies (aggressive, defensive, default). In a single-player game each policy's value is a lower bound on the optimum, so the best of them is a tighter bound, up to sampling noise (my reasoning, not a published result).
 
 **Analogues.**
 
@@ -167,7 +159,7 @@ Common efficiency levers: Monte-Carlo targets, action features, train-time oracl
 
 **E0 — value of clairvoyance (diagnostic).** Run the current agent with the true draw order and enemy rolls in every simulation, against the fair agent, on Ascension 20 and Heart seeds.
 - Cost: 2 × 2,000 runs at ~1.4 core-seconds [project s5], under 2 core-hours.
-- Signal: the win-rate gap bounds what better belief handling or hindsight methods could recover at play time. A gap under about 5 points closes that line and points at evaluation quality. The earlier attempt left no usable number [project h6].
+- Signal: the win-rate gap bounds what better belief handling could recover at play time. A gap under about 5 points (my threshold) closes that line and points at evaluation quality. The earlier attempt left no usable number [project h6].
 
 **E1 — DMC value at the turn boundary, hard fights only.**
 - Data: a bank of pre-fight states (Ascension 20 act bosses, elites, Heart) from the agent's own runs.
