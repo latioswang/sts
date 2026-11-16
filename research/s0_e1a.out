@@ -2,3 +2,7 @@
 f43a20_sf2	fs1443700n1000	a20	n=1000	crash=0	win=0.078	floor=31.50	score=0.6940±0.0141	act4=0.000	224s
 deaths: Collector:86 Automaton:75 Awakened One:68 Hexaghost:59 Slavers:56 Champ:53 Donu And Deca:44 The Guardian:44	potions_left_at_death=0.19
 == 17:46 s0_a20_clair4 on fs1443700n1000
+s0_a20_clair4	fs1443700n1000	a20	n=1000	crash=0	win=0.248	floor=39.20	score=1.0118±0.0192	act4=0.000	869s
+deaths: Awakened One:114 Collector:66 Donu And Deca:63 Automaton:57 Slavers:39 Time Eater:39 Reptomancer:34 Champ:33	potions_left_at_death=0.31
+vs f43a20_sf2: n=1000	dscore=+0.3177	dwin=+0.170	P(improve)=1.000
+== 18:00 s0_a20_fair16 on fs1443700n1000
