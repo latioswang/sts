@@ -83,9 +83,9 @@
   },
   {
    "id": "S2",
-   "label": "Phase S2: leaf value trained on tree leaves (-0.45 -> -0.35 with 4× data; line open)",
-   "status": "running",
-   "when": ""
+   "label": "Phase S2 / F52: leaf value trained on tree leaves — closed by the owner-agreed stop rule (-0.30 at 10x data; bar -0.2)",
+   "status": "done",
+   "when": "2026-11-11 12:45"
   },
   {
    "id": "R",
@@ -161,9 +161,9 @@
   },
   {
    "id": "X1",
-   "label": "Phase X1: exploration data for the run value (90,000 A0 games, 20% random card/relic picks), then pure-V vs KB+V",
-   "status": "running",
-   "when": ""
+   "label": "Phase X1: exploration data for the run value (90,000 A0 games) — done: new A0 best x1add (+2.0 pts)",
+   "status": "done",
+   "when": "2026-11-05"
   },
   {
    "id": "M-A10",
@@ -206,8 +206,8 @@
   },
   {
    "name": "Phase S2",
-   "status": "running",
-   "summary": "Leaf value trained on the states the search evaluates: -0.45; 4x data next"
+   "status": "closed",
+   "summary": "Leaf value trained on the states the search evaluates: -0.45 -> -0.30 at 40x data; closed by the stop rule (F52)"
   },
   {
    "name": "Phase R",
@@ -221,13 +221,7 @@
   }
  ],
  "next_up": [
-  "F52 finished (2026-11-11): the leaf-value line is closed. With ~10x data (32.4M rows from 97,500 games of the current agent) the learned position evaluator still loses to random play-outs by 0.30 score (62% vs 86% wins) on 2,000 new seeds; the agreed bar was 0.2. The AlphaGo-style mix of learned value and play-out added nothing either. Waiting for the owner on the next research direction.",
-  "All keep decisions now on fresh seed slices (base re-run on each); next: re-measure every track's current best on a fresh slice to report honest numbers.",
-  "Phase R next: the run value on the remaining strategic decisions that were not tested (events, rest vs smith, path choice), and a fresh look at the A10 val split's selection bias (val 38.7% vs test 32.2%).",
-  "Data format: 1,000-run zlib shards instead of one file per run (measured 47–73x smaller; ~1,000x fewer files, which is what limits transfer speed and the Hub commit rate). After R4 training; switch only on a bit-identical retrain.",
-  "Leaf-value history: 0.8M rows -0.45, 3.2M rows -0.35, 22.5M rows -0.29, 32.4M rows -0.30 (bar -0.2): data stopped helping.",
-  "A10/A20 ports of A0 keeps (worker session a10ports): map discount 0.85, potion values, act-1 elite weight; the Heart track predicts most fail.",
-  "Heart: conversion in the Heart fight itself (keys are ≈ 96% complete). A20: parked until a structural idea for act-2 deck strength."
+  "2026-11-16, owner decision: every earlier idea line is closed (list under 'closed'). A structured search for ground-breaking directions is running: (1) map of everything tried and of where the agent loses, (2) independent proposals from different angles, (3) adversarial checks of each proposal against the history, the code and the rules. No experiment runs until that report is in front of the owner."
  ],
  "done": [
   "Leak-free combat search: determinised MCTS, 500 simulations, leak test on every build.",
@@ -295,6 +289,7 @@
   "F39 (diagnostic): 2× / 4× combat search vs the bests — A20 +0.051 / +0.076, A10 +0.076 / +0.139 (wins 48 → 53 → 58%), Heart +0.063 / +0.091 (Heart kills 27 → 31 → 33%). Not adopted: the search budget is the owner's decision.",
   "F40 on A20 and Heart: early stop + reinvested search — A20 a tie over 8,000 seeds, Heart −0.006 (only +5% search bought); not adopted. A10 kept and confirmed.",
   "F41: tree reuse within a fight (A10, tie −0.0015) and early stop + reinvested search on A0 (exact tie) — not adopted.",
-  "Learned leaf value replacing play-outs (Phase S, S2, F52): closed 2026-11-11 by the owner-agreed stop rule; -0.30 at 10x data vs a bar of -0.2. Mixed leaf (AlphaGo-style) closed with it."
+  "Learned leaf value replacing play-outs (Phase S, S2, F52): closed 2026-11-11 by the owner-agreed stop rule; -0.30 at 10x data vs a bar of -0.2. Mixed leaf (AlphaGo-style) closed with it.",
+  "Closed by the owner on 2026-11-16 (not refuted — parked so the next direction starts from a clean slate): the run value on the untested strategic decisions (events, rest vs smith, path choice) and the A10 val-split selection-bias re-look; the 1,000-run shard data format switch; further A10/A20 ports of A0 keeps; Heart-fight conversion tuning; the parked A20 act-2 deck-strength idea; re-measuring every best on a fresh slice."
  ]
 }
