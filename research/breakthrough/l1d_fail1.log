@@ -1,0 +1,30 @@
+E5WRAP start 2026-11-16T23:40:08Z gpu=NVIDIA GeForce RTX 4090 cpus=96
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+E5RESULT {"exp":"phase","phase":"setup","rc":1,"seconds":86}
+L1D BEGIN boss_only 23:45:55
+L1D END boss_only rc=1 23:45:57
+L1D BEGIN potion01 23:45:57
+L1D END potion01 rc=1 23:45:59
+L1D BEGIN eb_potion01 23:45:59
+L1D END eb_potion01 rc=1 23:46:00
+L1D BEGIN confirm_boss 23:46:00
+L1D END confirm_boss rc=1 23:46:02
+L1D BEGIN confirm_eb 23:46:02
+L1D END confirm_eb rc=1 23:46:04
+E5WRAP summary end 2026-11-16T23:46:04Z
+E5WRAP start 2026-11-17T00:01:06Z gpu=NVIDIA GeForce RTX 4090 cpus=96
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+hint: Use the `--clear` flag or set `UV_VENV_CLEAR=1` to replace the existing virtual environment
+E5RESULT {"exp":"phase","phase":"setup","rc":1,"seconds":58}
+L1D BEGIN boss_only 00:02:05
+L1D END boss_only rc=1 00:02:07
+L1D BEGIN potion01 00:02:07
+L1D END potion01 rc=1 00:02:09
+L1D BEGIN eb_potion01 00:02:09
+L1D END eb_potion01 rc=1 00:02:11
+L1D BEGIN confirm_boss 00:02:11
+L1D END confirm_boss rc=1 00:02:12
+L1D BEGIN confirm_eb 00:02:12
+L1D END confirm_eb rc=1 00:02:14
+E5WRAP summary end 2026-11-17T00:02:14Z
