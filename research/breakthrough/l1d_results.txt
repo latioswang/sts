@@ -1,0 +1,24 @@
+E5WRAP start 2026-11-17T00:34:54Z gpu=NVIDIA GeForce RTX 4090 cpus=24
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 595.91.07","nproc":24,"mem_gb":30,"python":"Python 3.12.16","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":20}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":20}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":12}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":17}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+L1D BEGIN boss_only 00:36:35
+L1D END boss_only rc=0 00:40:57
+L1D boss_only: runs A20 search: won 22.1% of 1024 (the Heart 0.0%), floor 37.0, reached A2 87% A3 51% A4 0%, potions a run: hallway 0.59 elite 1.95 boss 2.27 (261 s, 223 of a process's in the search; 75395 searches, 34 playouts and 2.5 moves each; changed the move 29.9%; best - network score p50 0.0000 p90 0.0863)
+L1D BEGIN potion01 00:40:57
+L1D END potion01 rc=0 00:48:09
+L1D potion01: runs A20 search: won 13.1% of 1024 (the Heart 0.0%), floor 32.4, reached A2 78% A3 38% A4 0%, potions a run: hallway 1.19 elite 1.78 boss 1.94 (430 s, 386 of a process's in the search; 275700 searches, 35 playouts and 1.9 moves each; changed the move 28.1%; best - network score p50 0.0000 p90 0.0814)
+L1D BEGIN eb_potion01 00:48:09
+L1D END eb_potion01 rc=0 00:53:43
+L1D eb_potion01: runs A20 search: won 17.7% of 1024 (the Heart 0.0%), floor 34.7, reached A2 81% A3 45% A4 0%, potions a run: hallway 0.69 elite 1.93 boss 2.17 (334 s, 294 of a process's in the search; 151431 searches, 34 playouts and 2.2 moves each; changed the move 28.6%; best - network score p50 0.0000 p90 0.0900)
+L1D BEGIN confirm_boss 00:53:43
+L1D END confirm_boss rc=0 00:58:25
+L1D confirm_boss: runs A20 greedy: won 18.5% of 1024 (the Heart 0.0%), floor 35.6, reached A2 82% A3 46% A4 0%, potions a run: hallway 0.58 elite 1.87 boss 2.15 (26 s)
+L1D confirm_boss: runs A20 search: won 18.9% of 1024 (the Heart 0.0%), floor 36.7, reached A2 84% A3 50% A4 0%, potions a run: hallway 0.58 elite 1.91 boss 2.34 (255 s, 216 of a process's in the search; 74769 searches, 34 playouts and 2.5 moves each; changed the move 29.7%; best - network score p50 0.0000 p90 0.0824)
+L1D BEGIN confirm_eb 00:58:26
+L1D END confirm_eb rc=0 01:03:43
+L1D confirm_eb: runs A20 search: won 17.3% of 1024 (the Heart 0.0%), floor 35.0, reached A2 80% A3 45% A4 0%, potions a run: hallway 0.77 elite 1.93 boss 2.23 (317 s, 278 of a process's in the search; 149573 searches, 34 playouts and 2.1 moves each; changed the move 28.4%; best - network score p50 0.0000 p90 0.0883)
+E5WRAP summary end 2026-11-17T01:03:43Z
