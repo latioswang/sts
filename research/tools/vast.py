@@ -104,7 +104,10 @@ def main():
         mincpu = float(a[6]) if len(a) > 6 else 24
         s, _, inst = spend()
         running = sum(float(i.get("dph_total", 0)) for i in inst if i.get("actual_status") not in ("exited", "stopped"))
-        cands = [x for x in offer_list(gpu, 60) if x.get("cpu_cores_effective", 0) >= mincpu
+        import os
+        excl = {int(v) for v in os.environ.get("VAST_EXCLUDE", "").replace(",", " ").split()}   # offers/hosts that failed before
+        cands = [x for x in offer_list(gpu, 60) if x.get("cpu_cores_effective", 0) >= mincpu and int(x["id"]) not in excl
+                 and int(x.get("machine_id", -1)) not in excl
                  and not any(t in str(x.get("geolocation")) for t in ("CN", "China", "VN", "Vietnam"))]
         body = {"client_id": "me", "image": IMAGE, "env": {}, "disk": disk, "label": label, "runtype": "args",
                 "onstart": "bash", "args": ["-c", open(script).read()]}
