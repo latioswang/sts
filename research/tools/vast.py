@@ -6,8 +6,10 @@ prints it. No SSH: a job is a self-contained bash script run as the container's 
 stdout is read through the logs API, and the container exits when the script ends (GPU billing stops; the
 stopped instance is then destroyed by `destroy`).
 
-Budget guard: spend is measured as the account's lifetime spend minus the baseline recorded before the first
-rental (BASELINE_SPEND). `create` refuses if spend + (offer price x requested hours) would exceed CAP.
+Budget guard (owner, 2026-11-20): only OUR spend counts against CAP: the itemised charges (`/charges/`, daily) of
+instances whose label starts with "sota", from BASELINE_DAY on. Other users of this shared account (e.g. labels
+"deflake-bundle", "rtm-pr66146-e2e") are reported but not counted. `create`/`rent` refuse if that spend + (offer price
++ running sota instances) x requested hours would exceed CAP. Account-wide spend since BASELINE_SPEND is still shown.
 
 usage:
   vast.py offers [GPU_NAME]                 cheapest verified single-GPU on-demand offers
@@ -19,6 +21,7 @@ import json, sys, time, urllib.error, urllib.request
 
 API = "https://console.vast.ai/api/v0"
 BASELINE_SPEND = 53.2921   # lifetime spend before any rental under this budget (read 2026-11-16 17:3x UTC)
+BASELINE_DAY = 1794787200    # 2026-11-16 00:00 UTC; no sota-* charge exists before it
 CAP = 20.0
 IMAGE = "pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel"
 
@@ -37,9 +40,25 @@ def call(method, path, body=None, query=None):
 import urllib.parse  # noqa: E402
 
 
+def charges_by_label():
+    q = {"select_filters": json.dumps({"day": {"gte": BASELINE_DAY, "lte": int(time.time()) + 86400}}), "limit": 500}
+    by = {}
+    while True:
+        d = call("GET", "/charges/", query=q)
+        for r in d.get("results") or []:
+            lab = str((r.get("metadata") or {}).get("label"))
+            by[lab] = by.get(lab, 0.0) + float(r.get("amount", 0.0))
+        if not d.get("next_token"):
+            return by
+        q["after_token"] = d["next_token"]
+
+
 def spend():
+    """(our sota-* spend since BASELINE_DAY, credit, instances, account-wide spend since BASELINE_SPEND, charges by label)"""
     u = call("GET", "/users/current/")
-    s = -float(u.get("total_spend", 0.0)) - BASELINE_SPEND
+    acct = -float(u.get("total_spend", 0.0)) - BASELINE_SPEND
+    by = charges_by_label()
+    s = sum(v for k, v in by.items() if k.startswith("sota"))
     inst = []
     params = {"select_filters": json.dumps({}), "order_by": json.dumps([{"col": "id", "dir": "asc"}]), "limit": 25}
     while True:   # the v0 list endpoint is gone (HTTP 410); v1 pages with next_token
@@ -48,7 +67,7 @@ def spend():
         if not d.get("next_token"):
             break
         params["after_token"] = d["next_token"]
-    return s, float(u.get("credit", 0.0)), inst
+    return s, float(u.get("credit", 0.0)), inst, acct, by
 
 
 def offer_list(gpu=None, limit=40):
@@ -75,8 +94,10 @@ def main():
     if cmd == "offers":
         offers(a[1] if len(a) > 1 else None)
     elif cmd == "spend":
-        s, credit, inst = spend()
-        print(f"spend since baseline ${s:.2f} of cap ${CAP:.2f}; credit ${credit:.2f}; instances {len(inst)}")
+        s, credit, inst, acct, by = spend()
+        other = {k: round(v, 2) for k, v in by.items() if not k.startswith("sota")}
+        print(f"sota spend ${s:.2f} of cap ${CAP:.2f}; credit ${credit:.2f}; instances {len(inst)};"
+              f" account-wide since baseline ${acct:.2f} (not ours: {other})")
         for i in inst:
             print(f"  id={i['id']} {i.get('gpu_name')} status={i.get('actual_status')} ${i.get('dph_total', 0):.3f}/h label={i.get('label')}"
                   f" up={round((time.time() - (i.get('start_date') or time.time())) / 3600, 2)}h")
@@ -84,12 +105,12 @@ def main():
         offer, script, hours = int(a[1]), a[2], float(a[3])
         disk = int(a[4]) if len(a) > 4 else 60
         label = a[5] if len(a) > 5 else "sota-e5"
-        s, _, inst = spend()
+        s, _, inst, _, _ = spend()
         o = [x for x in offer_list(None, 1000) if int(x["id"]) == offer]   # the same query as `offers` (this endpoint applies hidden defaults)
         if not o:
             sys.exit(f"offer {offer} not available")   # (a lookup by id alone returns nothing on this endpoint)
         price = float(o[0]["dph_total"])
-        running = sum(float(i.get("dph_total", 0)) for i in inst if i.get("actual_status") not in ("exited", "stopped"))
+        running = sum(float(i.get("dph_total", 0)) for i in inst if str(i.get("label")).startswith("sota") and i.get("actual_status") not in ("exited", "stopped"))
         if s + (price + running) * hours > CAP:
             sys.exit(f"REFUSED by budget guard: spend ${s:.2f} + (${price:.3f} + running ${running:.3f})/h x {hours}h > cap ${CAP}")
         body = {"client_id": "me", "image": IMAGE, "env": {}, "disk": disk, "label": label, "runtype": "args",
@@ -102,8 +123,8 @@ def main():
         disk = int(a[4]) if len(a) > 4 else 60
         label = a[5] if len(a) > 5 else "sota-e5"
         mincpu = float(a[6]) if len(a) > 6 else 24
-        s, _, inst = spend()
-        running = sum(float(i.get("dph_total", 0)) for i in inst if i.get("actual_status") not in ("exited", "stopped"))
+        s, _, inst, _, _ = spend()
+        running = sum(float(i.get("dph_total", 0)) for i in inst if str(i.get("label")).startswith("sota") and i.get("actual_status") not in ("exited", "stopped"))
         import os
         excl = {int(v) for v in os.environ.get("VAST_EXCLUDE", "").replace(",", " ").split()}   # offers/hosts that failed before
         cands = [x for x in offer_list(gpu, 60) if x.get("cpu_cores_effective", 0) >= mincpu and int(x["id"]) not in excl
