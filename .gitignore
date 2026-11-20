@@ -14,3 +14,4 @@ research/queue.txt.tmp
 __pycache__/
 gmon.out
 .DS_Store
+.claude/settings.local.json
