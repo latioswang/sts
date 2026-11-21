@@ -1,0 +1,82 @@
+L2WRAP start 2026-11-20T17:39:47Z gpu=NVIDIA GeForce RTX 4090 cpus=96
+E5RESULT {"exp":"env","gpu":"NVIDIA GeForce RTX 4090, 24564 MiB, 595.99.02","nproc":96,"mem_gb":188,"python":"Python 3.12.16","torch":"2.5.1+cu124","cuda_ok":true,"rustc":"rustc 1.100.0 (0ef1bc386 2026-11-09)","node":"v20.18.1","commit":"420d17b19ec3dd112f3228c1d0770f78b9914bd5","setup_s":63}
+E5RESULT {"exp":"phase","phase":"setup","rc":0,"seconds":63}
+E5RESULT {"exp":"phase","phase":"build","rc":0,"seconds":26}
+E5RESULT {"exp": "E5a-py-convert", "build_encoding": 3, "build_run_int_len": 1105, "build_run_float_len": 2508, "file_encoding": "1", "missing": [], "unexpected": [], "ok": true}
+E5RESULT {"exp":"phase","phase":"e5a_py","rc":0,"seconds":43}
+E5RESULT {"exp":"phase","phase":"pack","rc":0,"seconds":0}
+L2 TRAIN BEGIN 17:44:18 updates=1300
+L2 TRAIN u=25 steps=6553600 sps=8627.94 floor=35.024 A4=0 win=0.146 heart=0 keys=0.644
+L2 TRAIN u=50 steps=13107200 sps=8484.38 floor=35.912 A4=0 win=0.166 heart=0 keys=1.052
+L2 TRAIN u=75 steps=19660800 sps=8316.78 floor=34.856 A4=0 win=0.146 heart=0 keys=1.316
+L2 TRAIN u=100 steps=26214400 sps=8329.55 floor=34.828 A4=0 win=0.13 heart=0 keys=1.37
+L2 EVAL u=100 steps=26214400 runs=256 floor=36.8242 A3=0.476562 A4=0 win=0.144531 heart=0 keys=1.3125
+L2 TRAIN u=125 steps=32768000 sps=8325.55 floor=33.794 A4=0.048 win=0.08 heart=0.01 keys=1.71
+L2 TRAIN u=150 steps=39321600 sps=8444.13 floor=32.366 A4=0.042 win=0.046 heart=0.002 keys=2.276
+L2 TRAIN u=175 steps=45875200 sps=8387.64 floor=32.52 A4=0.03 win=0.032 heart=0.004 keys=2.246
+L2 TRAIN u=200 steps=52428800 sps=8390.64 floor=32.368 A4=0.046 win=0.032 heart=0.002 keys=2.244
+L2 EVAL u=200 steps=52428800 runs=256 floor=33.9336 A3=0.382812 A4=0.0742188 win=0.0351562 heart=0.00390625 keys=2.26172
+L2 TRAIN u=225 steps=58982400 sps=8351.21 floor=33.93 A4=0.064 win=0.036 heart=0.004 keys=2.224
+L2 TRAIN u=250 steps=65536000 sps=8469.3 floor=32.522 A4=0.03 win=0.026 heart=0.002 keys=2.204
+L2 TRAIN u=275 steps=72089600 sps=8352.68 floor=32.854 A4=0.05 win=0.038 heart=0.006 keys=2.26
+L2 TRAIN u=300 steps=78643200 sps=8339.36 floor=32.974 A4=0.056 win=0.04 heart=0.006 keys=2.178
+L2 EVAL u=300 steps=78643200 runs=256 floor=33.8047 A3=0.390625 A4=0.0429688 win=0.046875 heart=0.0117188 keys=2.14453
+L2 TRAIN u=325 steps=85196800 sps=8323.22 floor=33.484 A4=0.04 win=0.03 heart=0.008 keys=2.22
+L2 TRAIN u=350 steps=91750400 sps=8302.26 floor=31.978 A4=0.03 win=0.028 heart=0.002 keys=2.234
+L2 TRAIN u=375 steps=98304000 sps=8363.25 floor=32.728 A4=0.026 win=0.042 heart=0.004 keys=2.216
+L2 TRAIN u=400 steps=104857600 sps=8437.42 floor=32.804 A4=0.038 win=0.026 heart=0.004 keys=2.196
+L2 EVAL u=400 steps=104857600 runs=256 floor=34.5664 A3=0.359375 A4=0.0664062 win=0.0234375 heart=0.00390625 keys=2.25
+L2 TRAIN u=425 steps=111411200 sps=8418.02 floor=33.256 A4=0.038 win=0.034 heart=0.004 keys=2.202
+L2 TRAIN u=450 steps=117964800 sps=8386.97 floor=32.388 A4=0.04 win=0.036 heart=0.006 keys=2.16
+L2 TRAIN u=475 steps=124518400 sps=8326.28 floor=33.268 A4=0.026 win=0.032 heart=0 keys=2.194
+L2 TRAIN u=500 steps=131072000 sps=8379.58 floor=33.14 A4=0.036 win=0.032 heart=0 keys=2.176
+L2 EVAL u=500 steps=131072000 runs=256 floor=34.4531 A3=0.375 A4=0.0390625 win=0.046875 heart=0.0078125 keys=2.25391
+L2 TRAIN u=525 steps=137625600 sps=8433.26 floor=32.628 A4=0.022 win=0.03 heart=0.004 keys=2.208
+L2 TRAIN u=550 steps=144179200 sps=8324.08 floor=33.706 A4=0.04 win=0.062 heart=0.008 keys=2.176
+L2 TRAIN u=575 steps=150732800 sps=8356.99 floor=33.792 A4=0.04 win=0.042 heart=0 keys=2.178
+L2 TRAIN u=600 steps=157286400 sps=8367.92 floor=32.91 A4=0.032 win=0.032 heart=0.002 keys=2.198
+L2 EVAL u=600 steps=157286400 runs=256 floor=34.1523 A3=0.394531 A4=0.0195312 win=0.0195312 heart=0 keys=2.1875
+L2 TRAIN u=625 steps=163840000 sps=8922.03 floor=32.876 A4=0.038 win=0.032 heart=0.006 keys=2.154
+L2 TRAIN u=650 steps=170393600 sps=8424.17 floor=32.084 A4=0.042 win=0.018 heart=0 keys=2.198
+L2 TRAIN u=675 steps=176947200 sps=8359.11 floor=32.916 A4=0.046 win=0.024 heart=0.006 keys=2.246
+L2 TRAIN u=700 steps=183500800 sps=8295.12 floor=32.932 A4=0.032 win=0.014 heart=0.004 keys=2.246
+L2 EVAL u=700 steps=183500800 runs=256 floor=34.082 A3=0.363281 A4=0.0507812 win=0.0390625 heart=0.0078125 keys=2.24609
+L2 TRAIN u=725 steps=190054400 sps=8408.66 floor=32.916 A4=0.024 win=0.012 heart=0 keys=2.25
+L2 TRAIN u=750 steps=196608000 sps=8393.68 floor=32.362 A4=0.024 win=0.02 heart=0.002 keys=2.18
+L2 TRAIN u=775 steps=203161600 sps=8363.16 floor=31.978 A4=0.042 win=0.02 heart=0 keys=2.18
+L2 TRAIN u=800 steps=209715200 sps=8552.06 floor=33.122 A4=0.038 win=0.036 heart=0.006 keys=2.186
+L2 EVAL u=800 steps=209715200 runs=256 floor=33.9023 A3=0.375 A4=0.0429688 win=0.0273438 heart=0 keys=2.19922
+L2 TRAIN u=825 steps=216268800 sps=8337.31 floor=31.74 A4=0.03 win=0.03 heart=0 keys=2.232
+L2 TRAIN u=850 steps=222822400 sps=8190.59 floor=33.086 A4=0.03 win=0.032 heart=0.002 keys=2.234
+L2 TRAIN u=875 steps=229376000 sps=8123.6 floor=31.78 A4=0.018 win=0.014 heart=0.002 keys=2.208
+L2 TRAIN u=900 steps=235929600 sps=8580.85 floor=32.024 A4=0.026 win=0.02 heart=0.002 keys=2.18
+L2 EVAL u=900 steps=235929600 runs=256 floor=34.7617 A3=0.378906 A4=0.0546875 win=0.015625 heart=0.00390625 keys=2.27734
+L2 TRAIN u=925 steps=242483200 sps=8191.8 floor=31.126 A4=0.02 win=0.02 heart=0.002 keys=2.168
+L2 TRAIN u=950 steps=249036800 sps=8206.47 floor=31.04 A4=0.018 win=0.022 heart=0.002 keys=2.172
+L2 TRAIN u=975 steps=255590400 sps=8520.41 floor=31.546 A4=0.024 win=0.016 heart=0.002 keys=2.152
+L2 TRAIN u=1000 steps=262144000 sps=8331.83 floor=32.246 A4=0.03 win=0.03 heart=0.004 keys=2.176
+L2 EVAL u=1000 steps=262144000 runs=256 floor=34.4375 A3=0.394531 A4=0.0351562 win=0.0273438 heart=0 keys=2.19141
+L2 TRAIN u=1025 steps=268697600 sps=8328.91 floor=32.15 A4=0.03 win=0.042 heart=0.004 keys=2.188
+L2 TRAIN u=1050 steps=275251200 sps=8378.6 floor=31.014 A4=0.04 win=0.016 heart=0.004 keys=2.192
+L2 TRAIN u=1075 steps=281804800 sps=8810.15 floor=31.172 A4=0.022 win=0.02 heart=0.004 keys=2.196
+L2 TRAIN u=1100 steps=288358400 sps=8371.69 floor=30.356 A4=0.03 win=0.012 heart=0.002 keys=2.164
+L2 EVAL u=1100 steps=288358400 runs=256 floor=33.3125 A3=0.34375 A4=0.0507812 win=0.0273438 heart=0.00390625 keys=2.17188
+L2 TRAIN u=1125 steps=294912000 sps=8315.75 floor=31.782 A4=0.03 win=0.034 heart=0.004 keys=2.18
+L2 TRAIN u=1150 steps=301465600 sps=8044.13 floor=31.2 A4=0.03 win=0.02 heart=0.002 keys=2.142
+L2 TRAIN u=1175 steps=308019200 sps=8363.08 floor=32.258 A4=0.028 win=0.022 heart=0.002 keys=2.16
+L2 TRAIN u=1200 steps=314572800 sps=8286.62 floor=30.716 A4=0.014 win=0.008 heart=0 keys=2.188
+L2 EVAL u=1200 steps=314572800 runs=256 floor=34.3672 A3=0.375 A4=0.03125 win=0.0195312 heart=0 keys=2.21484
+L2 TRAIN u=1225 steps=321126400 sps=8280.72 floor=31.646 A4=0.026 win=0.028 heart=0.004 keys=2.182
+L2 TRAIN u=1250 steps=327680000 sps=8566.75 floor=31.986 A4=0.026 win=0.02 heart=0.002 keys=2.19
+L2 TRAIN u=1275 steps=334233600 sps=8146.83 floor=32.848 A4=0.016 win=0.026 heart=0.004 keys=2.134
+L2 TRAIN u=1300 steps=340787200 sps=8482.61 floor=32.468 A4=0.032 win=0.026 heart=0.002 keys=2.22
+L2 EVAL u=1300 steps=340787200 runs=256 floor=34.3984 A3=0.386719 A4=0.0390625 win=0.0234375 heart=0.00390625 keys=2.21094
+L2 TRAIN END rc=0 05:12:28
+L2 FINAL checkpoint python/runs/l2-heart/latest.pt
+L2 GATE BEGIN finetuned 05:12:28
+L2 GATE END finetuned rc=0 05:13:15
+L2 GATE finetuned: runs A20 greedy: won 2.3% of 1024 (the Heart 0.3%), floor 33.3, reached A2 81% A3 34% A4 3%, potions a run: hallway 2.29 elite 2.24 boss 2.22 (45 s)
+L2 GATE BEGIN baseline 05:13:15
+L2 GATE END baseline rc=0 05:14:12
+L2 GATE baseline: runs A20 greedy: won 20.9% of 1024 (the Heart 0.0%), floor 36.8, reached A2 83% A3 50% A4 0%, potions a run: hallway 0.55 elite 1.85 boss 2.18 (55 s)
+L2WRAP summary end 2026-11-21T05:14:12Z
